@@ -48,11 +48,7 @@ export function renderCareerBlock(block) {
       )
     }
     case 'numbered_list': {
-      return (
-        <ol key={id}>
-          {value.children.map((child) => renderCareerBlock(child))}
-        </ol>
-      )
+      return <ol key={id}>{value.children.map((child) => renderCareerBlock(child))}</ol>
     }
     case 'bulleted_list_item':
     case 'numbered_list_item':
@@ -67,8 +63,7 @@ export function renderCareerBlock(block) {
       return (
         <div key={id}>
           <label htmlFor={id}>
-            <input type="checkbox" id={id} defaultChecked={value.checked} />{' '}
-            <Text title={value.rich_text} />
+            <input type="checkbox" id={id} defaultChecked={value.checked} /> <Text title={value.rich_text} />
           </label>
         </div>
       )
@@ -91,8 +86,7 @@ export function renderCareerBlock(block) {
         </div>
       )
     case 'image': {
-      const src =
-        value.type === 'external' ? value.external.url : value.file.url
+      const src = value.type === 'external' ? value.external.url : value.file.url
       const caption = value.caption ? value.caption[0]?.plain_text : ''
       return (
         <figure key={id}>
@@ -115,9 +109,7 @@ export function renderCareerBlock(block) {
             paddingTop: '0.5rem',
             paddingBottom: '0.5rem',
             fontWeight: value.rich_text[0].annotations.bold ? 'bold' : 'normal',
-            fontStyle: value.rich_text[0].annotations.bold
-              ? 'italic'
-              : 'normal',
+            fontStyle: value.rich_text[0].annotations.bold ? 'italic' : 'normal',
           }}
         >
           {value.rich_text[0].plain_text}
@@ -125,10 +117,7 @@ export function renderCareerBlock(block) {
       )
     case 'code':
       return (
-        <pre
-          key={id}
-          className={[postStyles.pre, `language-${value.language}`]}
-        >
+        <pre key={id} className={[postStyles.pre, `language-${value.language}`]}>
           <code
             className={[postStyles.code_block, `language-${value.language}`]}
             key={id}
@@ -136,15 +125,14 @@ export function renderCareerBlock(block) {
               __html: highlight(
                 value.rich_text[0].plain_text,
                 languages[value.language] || languages.javascript,
-                value.language
+                value.language,
               ),
             }}
           />
         </pre>
       )
     case 'file': {
-      const srcFile =
-        value.type === 'external' ? value.external.url : value.file.url
+      const srcFile = value.type === 'external' ? value.external.url : value.file.url
       const splitSourceArray = srcFile.split('/')
       const lastElementInArray = splitSourceArray[splitSourceArray.length - 1]
       const captionFile = value.caption ? value.caption[0]?.plain_text : ''
@@ -163,12 +151,7 @@ export function renderCareerBlock(block) {
     case 'bookmark': {
       const href = value.url
       return (
-        <a
-          href={href}
-          target="_blank"
-          rel="noreferrer noopener"
-          className={postStyles.bookmark}
-        >
+        <a href={href} target="_blank" rel="noreferrer noopener" className={postStyles.bookmark}>
           {href}
         </a>
       )
@@ -178,8 +161,7 @@ export function renderCareerBlock(block) {
         <table key={id} className={postStyles.table}>
           <tbody>
             {block.children?.map((child, index) => {
-              const RowElement =
-                value.has_column_header && index === 0 ? 'th' : 'td'
+              const RowElement = value.has_column_header && index === 0 ? 'th' : 'td'
               return (
                 <tr key={child.id}>
                   {child.table_row?.cells?.map((cell, i) => (
@@ -202,11 +184,7 @@ export function renderCareerBlock(block) {
       )
     }
     case 'column': {
-      return (
-        <div key={id}>
-          {block.children.map((child) => renderCareerBlock(child))}
-        </div>
-      )
+      return <div key={id}>{block.children.map((child) => renderCareerBlock(child))}</div>
     }
     case 'callout':
       return (
@@ -239,9 +217,7 @@ export function renderCareerBlock(block) {
       // eslint-disable-next-line no-case-declarations
       const videoUrl = block.video?.external?.url ?? ''
       // eslint-disable-next-line no-case-declarations
-      const isSupportedVideoUrl = SUPPORTED_VIDEO_URLS.some((supported) =>
-        videoUrl.startsWith(supported)
-      )
+      const isSupportedVideoUrl = SUPPORTED_VIDEO_URLS.some((supported) => videoUrl.startsWith(supported))
       if (isSupportedVideoUrl) {
         return (
           <iframe
@@ -259,13 +235,9 @@ export function renderCareerBlock(block) {
           />
         )
       }
-      return `❌ Unsupported video url (${
-        type === 'unsupported' ? 'unsupported by Notion API' : type
-      })`
+      return `❌ Unsupported video url (${type === 'unsupported' ? 'unsupported by Notion API' : type})`
     default:
-      return `❌ Unsupported block (${
-        type === 'unsupported' ? 'unsupported by Notion API' : type
-      })`
+      return `❌ Unsupported block (${type === 'unsupported' ? 'unsupported by Notion API' : type})`
   }
 }
 
@@ -278,9 +250,5 @@ export function renderNestedList(blocks) {
   if (isNumberedList) {
     return <ol>{value.children.map((block) => renderCareerBlock(block))}</ol>
   }
-  return (
-    <ul className={postStyles.list}>
-      {value.children.map((block) => renderCareerBlock(block))}
-    </ul>
-  )
+  return <ul className={postStyles.list}>{value.children.map((block) => renderCareerBlock(block))}</ul>
 }

@@ -47,9 +47,7 @@ export function renderBlock(block) {
       )
     }
     case 'numbered_list': {
-      return (
-        <ol key={id}>{value.children.map((child) => renderBlock(child))}</ol>
-      )
+      return <ol key={id}>{value.children.map((child) => renderBlock(child))}</ol>
     }
     case 'bulleted_list_item':
     case 'numbered_list_item':
@@ -64,8 +62,7 @@ export function renderBlock(block) {
       return (
         <div key={id}>
           <label htmlFor={id}>
-            <input type="checkbox" id={id} defaultChecked={value.checked} />{' '}
-            <Text title={value.rich_text} />
+            <input type="checkbox" id={id} defaultChecked={value.checked} /> <Text title={value.rich_text} />
           </label>
         </div>
       )
@@ -88,8 +85,7 @@ export function renderBlock(block) {
         </div>
       )
     case 'image': {
-      const src =
-        value.type === 'external' ? value.external.url : value.file.url
+      const src = value.type === 'external' ? value.external.url : value.file.url
       const caption = value.caption ? value.caption[0]?.plain_text : ''
       return (
         <figure key={id}>
@@ -107,9 +103,7 @@ export function renderBlock(block) {
           className={styles.blockquote}
           style={{
             fontWeight: value.rich_text[0].annotations.bold ? 'bold' : 'normal',
-            fontStyle: value.rich_text[0].annotations.bold
-              ? 'italic'
-              : 'normal',
+            fontStyle: value.rich_text[0].annotations.bold ? 'italic' : 'normal',
           }}
         >
           {value.rich_text[0].plain_text}
@@ -125,15 +119,14 @@ export function renderBlock(block) {
               __html: highlight(
                 value.rich_text[0].plain_text,
                 languages[value.language] || languages.javascript,
-                value.language
+                value.language,
               ),
             }}
           />
         </pre>
       )
     case 'file': {
-      const srcFile =
-        value.type === 'external' ? value.external.url : value.file.url
+      const srcFile = value.type === 'external' ? value.external.url : value.file.url
       const splitSourceArray = srcFile.split('/')
       const lastElementInArray = splitSourceArray[splitSourceArray.length - 1]
       const captionFile = value.caption ? value.caption[0]?.plain_text : ''
@@ -152,12 +145,7 @@ export function renderBlock(block) {
     case 'bookmark': {
       const href = value.url
       return (
-        <a
-          href={href}
-          target="_blank"
-          rel="noreferrer noopener"
-          className={styles.bookmark}
-        >
+        <a href={href} target="_blank" rel="noreferrer noopener" className={styles.bookmark}>
           {href}
         </a>
       )
@@ -167,8 +155,7 @@ export function renderBlock(block) {
         <table key={id} className={styles.table}>
           <tbody>
             {block.children?.map((child, index) => {
-              const RowElement =
-                value.has_column_header && index === 0 ? 'th' : 'td'
+              const RowElement = value.has_column_header && index === 0 ? 'th' : 'td'
               return (
                 <tr key={child.id}>
                   {child.table_row?.cells?.map((cell, i) => (
@@ -191,9 +178,7 @@ export function renderBlock(block) {
       )
     }
     case 'column': {
-      return (
-        <div key={id}>{block.children.map((child) => renderBlock(child))}</div>
-      )
+      return <div key={id}>{block.children.map((child) => renderBlock(child))}</div>
     }
     case 'callout':
       return (
@@ -226,9 +211,7 @@ export function renderBlock(block) {
       // eslint-disable-next-line no-case-declarations
       const videoUrl = block.video?.external?.url ?? ''
       // eslint-disable-next-line no-case-declarations
-      const isSupportedVideoUrl = SUPPORTED_VIDEO_URLS.some((supported) =>
-        videoUrl.startsWith(supported)
-      )
+      const isSupportedVideoUrl = SUPPORTED_VIDEO_URLS.some((supported) => videoUrl.startsWith(supported))
       if (isSupportedVideoUrl) {
         return (
           <iframe
@@ -246,13 +229,9 @@ export function renderBlock(block) {
           />
         )
       }
-      return `❌ Unsupported video url (${
-        type === 'unsupported' ? 'unsupported by Notion API' : type
-      })`
+      return `❌ Unsupported video url (${type === 'unsupported' ? 'unsupported by Notion API' : type})`
     default:
-      return `❌ Unsupported block (${
-        type === 'unsupported' ? 'unsupported by Notion API' : type
-      })`
+      return `❌ Unsupported block (${type === 'unsupported' ? 'unsupported by Notion API' : type})`
   }
 }
 
@@ -265,9 +244,5 @@ export function renderNestedList(blocks) {
   if (isNumberedList) {
     return <ol>{value.children.map((block) => renderBlock(block))}</ol>
   }
-  return (
-    <ul className={styles.list}>
-      {value.children.map((block) => renderBlock(block))}
-    </ul>
-  )
+  return <ul className={styles.list}>{value.children.map((block) => renderBlock(block))}</ul>
 }

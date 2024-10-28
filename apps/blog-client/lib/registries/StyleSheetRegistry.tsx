@@ -8,12 +8,7 @@ export default function StyleSheetRegistry({ children }: PropsWithChildren) {
   useServerInsertedHTML(() => {
     // @ts-ignore
     const sheet = StyleSheet.getSheet()
-    return (
-      <style
-        dangerouslySetInnerHTML={{ __html: sheet.textContent }}
-        id={sheet.id}
-      />
-    )
+    return <style dangerouslySetInnerHTML={{ __html: sheet.textContent }} id={sheet.id} />
   })
   return <>{children}</>
 }

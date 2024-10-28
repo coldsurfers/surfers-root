@@ -1,15 +1,15 @@
-import { Fragment } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
+import { Fragment } from 'react'
 
 import { notFound } from 'next/navigation'
-import { getBlocks } from '../../../lib/notion'
-import Text from '../../../components/text'
 import { renderBlock } from '../../../components/notion/renderer'
+import Text from '../../../components/text'
+import { getBlocks } from '../../../lib/notion'
 import styles from '../../../styles/post.module.css'
 // prismjs
-import 'prismjs/themes/prism-tomorrow.css'
 import 'prismjs/components/prism-jsx'
+import 'prismjs/themes/prism-tomorrow.css'
 import {
   getBlogTechPageFromSlug,
   getBlogThoughtPageFromSlug,
@@ -21,17 +21,10 @@ import {
 export async function generateStaticParams() {
   const techPosts = await queryNotionBlogTechArticles()
   const thoughtPosts = await queryNotionBlogThoughtsArticles()
-  return [
-    ...techPosts.map((post) => ({ slug: post.slug })),
-    ...thoughtPosts.map((post) => ({ slug: post.slug })),
-  ]
+  return [...techPosts.map((post) => ({ slug: post.slug })), ...thoughtPosts.map((post) => ({ slug: post.slug }))]
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params?: { slug: string }
-}) {
+export async function generateMetadata({ params }: { params?: { slug: string } }) {
   // fetch data
   const page =
     (await getBlogTechPageFromSlug({ slug: params?.slug ?? '' })) ??

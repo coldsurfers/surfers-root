@@ -59,8 +59,7 @@ const queryNotionBlogArticles = (platform: 'techlog' | 'surflog') =>
   })
 
 export const queryNotionBlogTechArticles = queryNotionBlogArticles('techlog')
-export const queryNotionBlogThoughtsArticles =
-  queryNotionBlogArticles('surflog')
+export const queryNotionBlogThoughtsArticles = queryNotionBlogArticles('surflog')
 
 const getBlogPageFromSlug = (platform: 'techlog' | 'surflog') =>
   cache(async ({ slug }: { slug: string }) => {
