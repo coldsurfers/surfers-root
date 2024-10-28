@@ -1,0 +1,11 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /resume/
+
+# Host
+Host: https://blog.coldsurf.io
+
+# Sitemaps
+Sitemap: https://blog.coldsurf.io/sitemap.xml
+Sitemap: https://blog.coldsurf.io/server-sitemap.xml

@@ -1,0 +1,11 @@
+.row {
+    display: flex;
+}
+
+.row > div {
+    flex: 1;
+}
+
+.row > div:first-child {
+    flex: 0.5 !important;
+}
