@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "NODE_OPTIONS='--max-old-space-size=4096' next build",
     "compile": "npx graphql-codegen-esm --config ./gql/codegen.ts",
     "postcompile": "yarn lint:fix",
     "dev": "next dev",
@@ -11,6 +11,7 @@
     "lint:fix": "yarn lint --fix",
     "prepare": "husky install",
     "start": "next start",
+    "deploy": "pm2 start ecosystem.config.js",
     "watch": "graphql-codegen -w"
   },
   "dependencies": {
@@ -44,6 +45,7 @@
     "@types/react-dom": "*",
     "@types/react-native": "^0.70.8",
     "eslint": "*",
+    "pm2": "*",
     "prettier": "*",
     "strip-ansi": "^7.1.0",
     "ts-node": "^10.9.2"
