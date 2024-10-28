@@ -1588,9 +1588,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@coldsurfers/wamuseum-root@workspace:.":
+"@coldsurfers/root@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@coldsurfers/wamuseum-root@workspace:."
+  resolution: "@coldsurfers/root@workspace:."
   dependencies:
     "@prisma/client": "npm:5.21.1"
     "@types/node": "npm:*"
