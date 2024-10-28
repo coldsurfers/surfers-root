@@ -1,4 +1,48 @@
 {
-  "name": "wamuseum",
-  "packageManager": "yarn@4.2.2"
+  "name": "@coldsurfers/wamuseum-root",
+  "private": true,
+  "packageManager": "yarn@4.2.2",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "resolutions": {
+    "typescript": "5.4.2",
+    "@types/node": "20.12.0",
+    "@types/react": "18.2.67",
+    "@types/react-dom": "18.2.22",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "husky": "9.0.11",
+    "lint-staged": "15.2.2",
+    "eslint": "8.57.0"
+  },
+  "devDependencies": {
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "@typescript-eslint/eslint-plugin": "7.3.1",
+    "@typescript-eslint/parser": "7.3.1",
+    "@yarnpkg/sdks": "^3.2.0",
+    "eslint": "8.57.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-import": "2.29.1",
+    "eslint-plugin-prettier": "5.1.3",
+    "eslint-plugin-react": "7.34.1",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "husky": "*",
+    "lint-staged": "*",
+    "pm2": "5.4.2",
+    "prettier": "3.2.5",
+    "prisma": "5.21.1",
+    "react": "*",
+    "react-dom": "*",
+    "typescript": "*"
+  },
+  "dependencies": {
+    "@prisma/client": "5.21.1"
+  }
 }

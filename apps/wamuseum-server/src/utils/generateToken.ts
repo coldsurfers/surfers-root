@@ -1,0 +1,14 @@
+import dotenv from 'dotenv'
+import jwt from 'jsonwebtoken'
+import { FstvlLifeJwtPayload } from '../types'
+
+dotenv.config()
+
+const { JWT_SECRET: secret } = process.env
+
+export function generateToken(payload: FstvlLifeJwtPayload) {
+  if (!secret) {
+    throw new Error('no secret')
+  }
+  return jwt.sign(payload, secret)
+}

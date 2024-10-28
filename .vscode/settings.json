@@ -1,0 +1,15 @@
+{
+  "eslint.workingDirectories": ["apps", "packages"],
+  "eslint.validate": ["typescript", "javascript", "typescriptreact"],
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": false,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "prettier.configPath": ".prettierrc.json"
+}

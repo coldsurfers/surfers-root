@@ -1,0 +1,257 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "darwin-arm64", "rhel-openssl-1.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Event {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  Promoter   Promoter? @relation(fields: [promoterId], references: [id])
+  promoterId Int?
+}
+
+model UsersOnStaffs {
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  staff     Staff    @relation(fields: [staffId], references: [id])
+  staffId   String
+  createdAt DateTime @default(now())
+
+  @@id([userId, staffId])
+}
+
+model User {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  email        String  @unique
+  password     String?
+  passwordSalt String?
+
+  provider String
+
+  staffs UsersOnStaffs[]
+  subscribedConcerts UsersOnSubscribedConcerts[]
+  subscribedArtists UsersOnSubscribedArtists[]
+  subscribedVenues UsersOnSubscribedVenues[]
+
+  auth_token AuthToken[]
+}
+
+model AuthToken {
+  id            String   @id @default(uuid())
+  access_token  String   @db.Text
+  refresh_token String   @db.Text
+  user          User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id       String
+  created_at    DateTime @default(now())
+}
+
+model Venue {
+  id        String             @id @default(uuid())
+  name      String
+  lat       Float
+  lng       Float
+  geohash   String
+  concerts  ConcertsOnVenues[]
+  subscribedUsers UsersOnSubscribedVenues[]
+  createdAt DateTime           @default(now())
+}
+
+model Promoter {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  events Event[]
+}
+
+model Artist {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  name      String
+  artistProfileImage ArtistProfileImage[]
+
+  concerts ConcertsOnArtists[]
+  subscribedUsers UsersOnSubscribedArtists[]
+}
+
+model ArtistProfileImage {
+  id String @id @default(uuid())
+  imageURL String
+
+  artist Artist @relation(fields: [artistId], references: [id])
+  artistId String
+
+  createdAt DateTime @default(now())
+}
+
+model EmailAuthRequest {
+  id              String    @id @default(uuid())
+  email           String
+  authcode        String
+  authenticated   Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  authenticatedAt DateTime?
+}
+
+// admin
+model Staff {
+  id           String          @id @default(uuid())
+  created_at   DateTime        @default(now())
+  isAuthorized Boolean         @default(false)
+  users        UsersOnStaffs[]
+}
+
+model Concert {
+  id        String              @id @default(uuid())
+  artists   ConcertsOnArtists[]
+  title     String
+  venues    ConcertsOnVenues[]
+  date      DateTime?
+  posters   ConcertsOnPosters[]
+  tickets   ConcertsOnTickets[]
+  subscribedUsers UsersOnSubscribedConcerts[]
+  createdAt DateTime            @default(now())
+  updatedAt DateTime?
+  deletedAt DateTime?
+}
+
+model Poster {
+  id        String              @id @default(uuid())
+  imageURL  String
+  concerts  ConcertsOnPosters[]
+  createdAt DateTime            @default(now())
+}
+
+model TicketsOnPrices {
+  ticket    Ticket   @relation(fields: [ticketId], references: [id])
+  ticketId  String
+  price     Price    @relation(fields: [priceId], references: [id])
+  priceId   String
+  createdAt DateTime @default(now())
+
+  @@id([ticketId, priceId])
+}
+
+model Ticket {
+  id         String              @id @default(uuid())
+  concerts   ConcertsOnTickets[]
+  openDate   DateTime
+  seller     String
+  sellingURL String
+  createdAt  DateTime            @default(now())
+  prices     TicketsOnPrices[]
+}
+
+model Price {
+  id            String            @id @default(uuid())
+  title         String
+  price         Float
+  priceCurrency String
+  tickets       TicketsOnPrices[]
+  createdAt     DateTime          @default(now())
+}
+
+model ConcertsOnArtists {
+  concert   Concert  @relation(fields: [concertId], references: [id])
+  concertId String
+  artist    Artist   @relation(fields: [artistId], references: [id])
+  artistId  String
+  createdAt DateTime @default(now())
+
+  @@id([concertId, artistId])
+}
+
+model ConcertsOnVenues {
+  concert   Concert  @relation(fields: [concertId], references: [id])
+  concertId String
+  venue     Venue    @relation(fields: [venueId], references: [id])
+  venueId   String
+  createdAt DateTime @default(now())
+
+  @@id([concertId, venueId])
+}
+
+model ConcertsOnPosters {
+  concert   Concert  @relation(fields: [concertId], references: [id])
+  concertId String
+  poster    Poster   @relation(fields: [posterId], references: [id])
+  posterId  String
+  createdAt DateTime @default(now())
+
+  @@id([concertId, posterId])
+}
+
+model ConcertsOnTickets {
+  concert   Concert  @relation(fields: [concertId], references: [id])
+  concertId String
+  ticket    Ticket   @relation(fields: [ticketId], references: [id])
+  ticketId  String
+  createdAt DateTime @default(now())
+
+  @@id([concertId, ticketId])
+}
+
+model UsersOnSubscribedConcerts {
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  concert Concert @relation(fields: [concertId], references: [id])
+  concertId String
+  createdAt DateTime @default(now())
+
+  @@id([userId, concertId])
+}
+
+model UsersOnSubscribedArtists {
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  artist Artist @relation(fields: [artistId], references: [id])
+  artistId String
+  createdAt DateTime @default(now())
+
+  @@id([userId, artistId])
+}
+
+model UsersOnSubscribedVenues {
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  venue Venue @relation(fields: [venueId], references: [id])
+  venueId String
+  createdAt DateTime @default(now())
+
+  @@id([userId, venueId])
+}
+
+model Career {
+  id            String          @id @default(uuid())
+  company       String
+  startDate     DateTime
+  endDate       DateTime?
+  CareerChapter CareerChapter[]
+}
+
+model CareerChapter {
+  id                 String               @id @default(uuid())
+  title              String
+  careerId           String
+  Career             Career               @relation(fields: [careerId], references: [id])
+  CareerSmallChapter CareerSmallChapter[]
+  sortOrder          Int
+}
+
+model CareerSmallChapter {
+  id              String        @id @default(uuid())
+  description     String        @db.Text
+  CareerChapter   CareerChapter @relation(fields: [careerChapterId], references: [id])
+  careerChapterId String
+  sortOrder       Int
+}
