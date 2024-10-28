@@ -11,5 +11,5 @@ fastify.listen(
       return
     }
     console.log('server is running on', address)
-  }
+  },
 )
