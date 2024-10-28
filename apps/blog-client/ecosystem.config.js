@@ -6,6 +6,7 @@ module.exports = {
       cwd: '.next/standalone/apps/blog-client', // Set working directory to the standalone output
       env: {
         NODE_ENV: 'production',
+        PORT: 4000,
       },
     },
   ],
