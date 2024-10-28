@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "dist",
+    "noEmit": false,
+    "module": "CommonJS"
+  },
+  "include": ["vercel/**/*.ts", "src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

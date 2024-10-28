@@ -23,7 +23,9 @@
     "@types/react-native": "0.70.8",
     "react-native": "0.70.6",
     "react-native-web": "0.18.12",
-    "styled-components": "6.1.8"
+    "styled-components": "6.1.8",
+    "fastify": "5.0.0",
+    "zod": "3.23.8"
   },
   "devDependencies": {
     "@types/node": "*",

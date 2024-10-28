@@ -15,9 +15,9 @@
     "dev": "next dev",
     "lint": "next lint --fix",
     "start": "next start",
-    "prisma:generate": "yarn prisma generate --schema ./node_modules/@coldsurfers/prisma-schema/prisma/schema.prisma",
-    "prisma:db-push": "yarn prisma db push --schema ./node_modules/@coldsurfers/prisma-schema/prisma/schema.prisma",
-    "prisma:migrate": "yarn prisma migrate dev --schema ./node_modules/@coldsurfers/prisma-schema/prisma/schema.prisma"
+    "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma",
+    "prisma:db-push": "yarn prisma db push --schema ../../packages/prisma-schema/prisma/schema.prisma",
+    "prisma:migrate": "yarn prisma migrate dev --schema ../../packages/prisma-schema/prisma/schema.prisma"
   },
   "dependencies": {
     "@coldsurfers/cloudinary-utils": "workspace:*",

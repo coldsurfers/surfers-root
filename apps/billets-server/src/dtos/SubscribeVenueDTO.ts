@@ -1,0 +1,56 @@
+import { prisma } from '../prisma/connect'
+import { SubscribeVenueProps, SubscribeVenueSerialized } from './SubscribeVenueDTO.types'
+
+export default class SubscribeVenueDTO {
+  constructor(private readonly props: SubscribeVenueProps) {
+    this.props = props
+  }
+
+  static async findByVenueIdUserId(venueId: string, userId: string) {
+    const subscribedVenue = await prisma.usersOnSubscribedVenues.findFirst({
+      where: {
+        venueId,
+        userId,
+      },
+    })
+    if (!subscribedVenue) {
+      return null
+    }
+    return new SubscribeVenueDTO(subscribedVenue)
+  }
+
+  async subscribeVenue() {
+    if (!this.props.userId || !this.props.venueId) {
+      throw new Error('userId or venueId is required')
+    }
+    const data = await prisma.usersOnSubscribedVenues.create({
+      data: {
+        userId: this.props.userId,
+        venueId: this.props.venueId,
+      },
+    })
+    return new SubscribeVenueDTO(data)
+  }
+
+  async unsubscribeVenue() {
+    if (!this.props.userId || !this.props.venueId) {
+      throw new Error('userId or venueId is required')
+    }
+    const data = await prisma.usersOnSubscribedVenues.delete({
+      where: {
+        userId_venueId: {
+          userId: this.props.userId,
+          venueId: this.props.venueId,
+        },
+      },
+    })
+    return new SubscribeVenueDTO(data)
+  }
+
+  serialize(): SubscribeVenueSerialized {
+    return {
+      venueId: this.props.venueId ?? '',
+      userId: this.props.userId ?? '',
+    }
+  }
+}
