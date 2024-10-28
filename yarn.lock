@@ -2013,7 +2013,7 @@ __metadata:
     "@coldsurfers/hotsurf": "npm:0.3.3"
     "@coldsurfers/notion-utils": "npm:^1.0.1-rc.10"
     "@coldsurfers/ocean-road": "npm:1.11.1-rc.0"
-    "@coldsurfers/prisma-schema": "npm:0.3.1-rc.2"
+    "@coldsurfers/prisma-schema": "workspace:*"
     "@coldsurfers/shared-utils": "workspace:*"
     "@next/eslint-plugin-next": "npm:^13.4.16"
     "@notionhq/client": "npm:^2.2.3"
@@ -2139,15 +2139,6 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
   checksum: 10c0/9a299f319c557cff2e06c2682b4dde80199252a39a6135597b7ba70cd49633f444f2c876991934c8957afdbe8fbd8f079520bdf7bacc66e615282a76e71b9b3e
-  languageName: node
-  linkType: hard
-
-"@coldsurfers/prisma-schema@npm:0.3.1-rc.2":
-  version: 0.3.1-rc.2
-  resolution: "@coldsurfers/prisma-schema@npm:0.3.1-rc.2::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40coldsurfers%2Fprisma-schema%2F0.3.1-rc.2%2Ffe1f9bab0fbb885ef2bff7d8b2cc73e115e325cd"
-  peerDependencies:
-    "@prisma/client": ">=5"
-  checksum: 10c0/2afba887426c92b4ccf7984ce2f5c709bee4297bb9f905f7087ee89f3913d33a3f164976b0a9eaf542d3dfd21b9df73f796323c3071e3f98721252e018ac7c35
   languageName: node
   linkType: hard
 

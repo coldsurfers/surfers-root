@@ -46,7 +46,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@coldsurfers/prisma-schema": "0.3.1-rc.2",
+    "@coldsurfers/prisma-schema": "workspace:*",
     "@next/eslint-plugin-next": "^13.4.16",
     "@types/prismjs": "~1.26.3",
     "@types/react": "*",
