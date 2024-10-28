@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@coldsurfers/cloudinary-utils": "workspace:*",
-    "@coldsurfers/hotsurf": "0.3.3",
+    "@coldsurfers/hotsurf": "workspace:*",
     "@coldsurfers/notion-utils": "^1.0.1-rc.10",
     "@coldsurfers/ocean-road": "1.11.1-rc.0",
     "@coldsurfers/shared-utils": "workspace:*",

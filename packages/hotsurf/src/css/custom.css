@@ -1,0 +1,9 @@
+body {
+  background-color: white;
+  color: black;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
