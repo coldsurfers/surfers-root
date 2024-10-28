@@ -1,5 +1,5 @@
 {
-  "name": "@coldsurfers/wamuseum-root",
+  "name": "@coldsurfers/root",
   "private": true,
   "packageManager": "yarn@4.2.2",
   "workspaces": [
