@@ -1,0 +1,68 @@
+{
+  "name": "@coldsurfers/cloudinary-utils",
+  "version": "1.0.1-rc.1",
+  "main": "src/index.ts",
+  "source": "src/",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "require": "./src/index.ts"
+    }
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@coldsurfers/shared-utils": "workspace:*",
+    "@types/sha1": "^1.1.5",
+    "axios": "^1.6.3",
+    "eslint": "*",
+    "form-data": "^4.0.0",
+    "fs": "^0.0.1-security",
+    "prettier": "*",
+    "release-it": "^17.0.1",
+    "sha1": "^1.1.1",
+    "stream": "^0.0.2",
+    "typescript": "*",
+    "util": "^0.12.5"
+  },
+  "scripts": {
+    "prebuild": "yarn workspace @coldsurfers/shared-utils build",
+    "build": "rm -rf dist && tsc",
+    "prerelease": "yarn build",
+    "prerelease:rc": "yarn build",
+    "release": "release-it minor --ci",
+    "release:rc": "release-it --ci --preRelease=rc",
+    "lint": "eslint --cache \"src/**/*.{js,jsx,ts,tsx}\" --fix",
+    "lint:fix": "yarn lint --fix"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "release-it": {
+    "git": {
+      "commitMessage": "chore: release @coldsurfers/cloudinary-utils v${version}",
+      "tagName": "cloudinary-utils-v${version}"
+    },
+    "github": {
+      "release": true
+    },
+    "hooks": {
+      "after:git:release": "git reset --hard HEAD"
+    }
+  },
+  "peerDependencies": {
+    "axios": "^1.6.3",
+    "form-data": "^4.0.0",
+    "fs": "^0.0.1-security",
+    "sha1": "^1.1.1",
+    "stream": "^0.0.2",
+    "util": "^0.12.5"
+  },
+  "dependencies": {
+    "@coldsurfers/shared-utils": "workspace:*"
+  },
+  "packageManager": "yarn@4.2.2"
+}

@@ -20,11 +20,11 @@
     "prisma:migrate": "yarn prisma migrate dev --schema ./node_modules/@coldsurfers/prisma-schema/prisma/schema.prisma"
   },
   "dependencies": {
-    "@coldsurfers/cloudinary-utils": "1.0.1-rc.1",
+    "@coldsurfers/cloudinary-utils": "workspace:*",
     "@coldsurfers/hotsurf": "0.3.3",
     "@coldsurfers/notion-utils": "^1.0.1-rc.10",
     "@coldsurfers/ocean-road": "1.11.1-rc.0",
-    "@coldsurfers/shared-utils": "1.1.0",
+    "@coldsurfers/shared-utils": "workspace:*",
     "@notionhq/client": "^2.2.3",
     "@prisma/client": "^5.19.0",
     "axios": "^1.4.0",
