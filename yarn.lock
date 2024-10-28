@@ -1581,8 +1581,10 @@ __metadata:
   resolution: "@coldsurfers/prisma-schema@workspace:packages/prisma-schema"
   dependencies:
     "@prisma/client": "npm:*"
+    eslint: "npm:*"
     prisma: "npm:*"
     release-it: "npm:^17.2.1"
+    typescript: "npm:*"
   peerDependencies:
     "@prisma/client": ">=5"
   languageName: unknown

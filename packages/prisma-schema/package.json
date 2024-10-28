@@ -12,12 +12,15 @@
     "prerelease": "yarn generate && yarn build",
     "release": "release-it minor --ci",
     "prerelease:rc": "yarn generate && yarn build",
-    "release:rc": "release-it --ci --preRelease=rc"
+    "release:rc": "release-it --ci --preRelease=rc",
+    "lint": "eslint --cache \"src/**/*.{js,jsx,ts,tsx}\""
   },
   "devDependencies": {
     "@prisma/client": "*",
+    "eslint": "*",
     "prisma": "*",
-    "release-it": "^17.2.1"
+    "release-it": "^17.2.1",
+    "typescript": "*"
   },
   "peerDependencies": {
     "@prisma/client": ">=5"
