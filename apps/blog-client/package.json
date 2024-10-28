@@ -7,7 +7,7 @@
     "Adam Beleko <bossbele@larven.io> (https://github.com/BossBele)"
   ],
   "scripts": {
-    "build": "next build",
+    "build": "NODE_OPTIONS='--max-old-space-size=4096' next build",
     "postbuild": "next-sitemap",
     "predeploy": "yarn build && vercel",
     "deploy": "pm2 start ecosystem.config.js",
