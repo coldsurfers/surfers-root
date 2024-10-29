@@ -1,0 +1,57 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Description of what the lane does"
+  lane :code_sign_ios do
+    # 사이닝 인증서 및 프로파일 로드
+    match(
+      git_url: ENV['apple-auth-git-repo-url'],
+      storage_mode: ENV['storage-mode'],
+      type: ENV['type'],
+      app_identifier: ENV['bundle-id'],
+      readonly: true,
+      # keychain_name: ENV['MATCH_KEYCHAIN_NAME'],
+      # keychain_password: ENV['MATCH_KEYCHAIN_PASSWORD'],
+      verbose: true
+    )
+  end
+  lane :beta do
+    # add actions here: https://docs.fastlane.tools/actions
+    api_key = app_store_connect_api_key(
+      key_id: ENV['app-store-connect-api-key-id'],
+      issuer_id: ENV['issuer-id'],
+      key_filepath: ENV['key-file-path'],
+      duration: 1200,
+      in_house: false
+    )
+    # sync_code_signing(type: "appstore")
+    code_sign_ios()
+    increment_build_number(
+      build_number: latest_testflight_build_number(
+        api_key: api_key,
+        app_identifier: ENV['bundle-id']
+      ) + 1,
+      xcodeproj: "FstvlLifeApp.xcodeproj"
+    )
+    build_app(scheme: "FstvlLifeApp",
+              workspace: "FstvlLifeApp.xcworkspace")
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true
+    )
+  end
+end
