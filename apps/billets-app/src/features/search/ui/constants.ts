@@ -1,0 +1,1 @@
+export const SEARCH_ITEM_THUMBNAIL_SIZE = 62;

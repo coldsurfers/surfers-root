@@ -1,5 +1,5 @@
-import React, { memo } from 'react'
-import { StyleSheet, Text as RNText, TextProps } from 'react-native'
+import { memo } from 'react'
+import { Platform, Text as RNText, StyleSheet, TextProps } from 'react-native'
 
 interface Props extends TextProps {
   weight?: 'thin' | 'light' | 'regular' | 'medium' | 'bold'
@@ -22,24 +22,39 @@ const Text = ({ children, weight = 'regular', style, ...others }: Props) => {
 
 const styles = StyleSheet.create({
   thin: {
-    // fontFamily: 'NotoSansKR-Thin',
-    fontFamily: 'inherit',
+    fontFamily: Platform.select({
+      ios: 'NotoSansKR-Thin',
+      android: 'NotoSansKR-Thin',
+      default: 'inherit',
+    }),
   },
   light: {
-    // fontFamily: 'NotoSansKR-Light',
-    fontFamily: 'inherit',
+    fontFamily: Platform.select({
+      ios: 'NotoSansKR-Light',
+      android: 'NotoSansKR-Light',
+      default: 'inherit',
+    }),
   },
   regular: {
-    // fontFamily: 'NotoSansKR-Regular',
-    fontFamily: 'inherit',
+    fontFamily: Platform.select({
+      ios: 'NotoSansKR-Regular',
+      android: 'NotoSansKR-Regular',
+      default: 'inherit',
+    }),
   },
   medium: {
-    // fontFamily: 'NotoSansKR-Medium',
-    fontFamily: 'inherit',
+    fontFamily: Platform.select({
+      ios: 'NotoSansKR-Medium',
+      android: 'NotoSansKR-Medium',
+      default: 'inherit',
+    }),
   },
   bold: {
-    // fontFamily: 'NotoSansKR-Bold',
-    fontFamily: 'inherit',
+    fontFamily: Platform.select({
+      ios: 'NotoSansKR-Bold',
+      android: 'NotoSansKR-Bold',
+      default: 'inherit',
+    }),
   },
 })
 
