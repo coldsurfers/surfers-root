@@ -1,10 +1,10 @@
 'use client'
 
-import { Fragment, useEffect } from 'react'
 import Link from 'next/link'
+import { Fragment, useEffect } from 'react'
 // @ts-ignore
 import html2pdf from 'html2pdf.js'
-import { renderBlock } from '../../components/notion/renderer'
+import { renderBlock } from '../../features/notion/renderer/renderer'
 import postStyles from '../../styles/post.module.css'
 import ArticleCareer from './components/article.career'
 

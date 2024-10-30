@@ -1,9 +1,9 @@
 import { Text } from '@coldsurfers/hotsurf'
 import { PropsWithChildren, useContext } from 'react'
 import { StyleProp, TextStyle } from 'react-native'
-import { ThemeContext } from '../lib/registries/ThemeContextRegistry'
+import { ThemeContext } from '../../lib/registries/ThemeContextRegistry'
 
-const Paragraph = ({
+export const Paragraph = ({
   children,
   style,
   ...otherProps
@@ -20,5 +20,3 @@ const Paragraph = ({
     </Text>
   )
 }
-
-export default Paragraph

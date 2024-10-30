@@ -4,10 +4,10 @@ import Link from 'next/link'
 import { highlight, languages } from 'prismjs'
 
 import { Tweet } from 'react-tweet'
-import postCareerStyles from '../../styles/post.career.module.css'
-import postStyles from '../../styles/post.module.css'
-import SpotifyEmbed from '../embed'
-import Text from '../text'
+import postCareerStyles from '../../../styles/post.career.module.css'
+import postStyles from '../../../styles/post.module.css'
+import SpotifyEmbed from '../../spotify/spotify-embed/spotify-embed'
+import Text from './renderer.text'
 
 const SUPPORTED_VIDEO_URLS = ['https://www.youtube.com', 'https://youtube.com']
 
