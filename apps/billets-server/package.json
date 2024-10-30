@@ -42,7 +42,7 @@
     "ngeohash": "^0.6.3",
     "nodemailer": "^6.9.14",
     "nodemailer-smtp-transport": "^2.7.4",
-    "ts-pattern": "^5.3.1",
+    "ts-pattern": "*",
     "zod": "*"
   },
   "devDependencies": {
