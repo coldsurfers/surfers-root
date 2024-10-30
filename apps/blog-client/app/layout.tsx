@@ -1,5 +1,6 @@
 import Script from 'next/script'
 
+import { Header } from '@/ui/header'
 import '@coldsurfers/hotsurf/global.css'
 import { Noto_Sans_KR } from 'next/font/google'
 import { PropsWithChildren } from 'react'
@@ -7,6 +8,7 @@ import StyleSheetRegistry from '../lib/registries/StyleSheetRegistry'
 import StyledComponentsRegistry from '../lib/registries/StyledComponentsRegistry'
 import ThemeContextRegistry from '../lib/registries/ThemeContextRegistry'
 import '../styles/global.css'
+import styles from './index.module.css'
 
 const inter = Noto_Sans_KR({ subsets: ['latin'] })
 
@@ -52,7 +54,12 @@ export default function RootLayout({ children }: PropsWithChildren) {
         />
         <StyledComponentsRegistry>
           <StyleSheetRegistry>
-            <ThemeContextRegistry>{children}</ThemeContextRegistry>
+            <ThemeContextRegistry>
+              <main className={styles.container}>
+                <Header />
+                {children}
+              </main>
+            </ThemeContextRegistry>
           </StyleSheetRegistry>
         </StyledComponentsRegistry>
       </body>

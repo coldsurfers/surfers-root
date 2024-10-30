@@ -8,7 +8,9 @@
       "@/app": ["./app"],
       "@/app/*": ["./app/*"],
       "@/ui": ["./ui"],
-      "@/ui/*": ["./ui/*"]
+      "@/ui/*": ["./ui/*"],
+      "@/stores": ["./stores"],
+      "@/stores/*": ["./stores/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "ui/paragraph/paragraph.tsx"],
