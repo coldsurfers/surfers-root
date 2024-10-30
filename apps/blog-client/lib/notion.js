@@ -1,10 +1,5 @@
+import { getBlocks as getBlocksNotion, queryDetail, queryList, retrievePage } from '@coldsurfers/notion-utils'
 import { cache } from 'react'
-import {
-  queryDetail,
-  queryList,
-  retrievePage,
-  getBlocks as getBlocksNotion,
-} from '@coldsurfers/notion-utils'
 
 export const revalidate = 3600 // revalidate the data at most every hour
 
@@ -16,7 +11,7 @@ export const getAllPosts = cache(
       platform: 'techlog',
       direction: 'descending',
       timestamp: 'created_time',
-    })
+    }),
 )
 
 export const getPage = cache(async (pageId) => await retrievePage(pageId))
@@ -30,7 +25,7 @@ export const getPageFromSlug = cache(
           equals: slug,
         },
       },
-    })
+    }),
 )
 
 export const getBlocks = cache(
@@ -38,5 +33,5 @@ export const getBlocks = cache(
     await getBlocksNotion({
       blockId,
       withUploadCloudinary: true,
-    })
+    }),
 )

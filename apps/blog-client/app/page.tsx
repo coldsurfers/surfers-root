@@ -1,7 +1,4 @@
-import {
-  queryNotionBlogTechArticles,
-  queryNotionBlogThoughtsArticles,
-} from '../lib/utils'
+import { queryNotionBlogTechArticles, queryNotionBlogThoughtsArticles } from '../lib/utils'
 import PageClient from './page.client'
 
 const Page = async () => {

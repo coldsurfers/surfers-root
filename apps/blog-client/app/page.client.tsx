@@ -5,10 +5,7 @@ import styled from 'styled-components/native'
 import styledW from 'styled-components'
 import { useEffect, useState } from 'react'
 import styles from './index.module.css'
-import {
-  queryNotionBlogTechArticles,
-  queryNotionBlogThoughtsArticles,
-} from '../lib/utils'
+import { queryNotionBlogTechArticles, queryNotionBlogThoughtsArticles } from '../lib/utils'
 import Paragraph from '../components/Paragraph'
 import PostItem from '../features/posts/ui/PostItem'
 
@@ -73,32 +70,19 @@ export default function Page({
             Blog, ColdSurf
           </Paragraph>
           <Paragraph style={{ fontSize: 16, fontWeight: '400', marginTop: 12 }}>
-            🤘🏻 I follow Netflix Rockstar Principle. 🎉 I want to deliver the
-            maximum happiness to users by solving their problems with product.
-            📝 I regularly write technical or thought provoking articles to this
-            blog.
+            🤘🏻 I follow Netflix Rockstar Principle. 🎉 I want to deliver the maximum happiness to users by solving their
+            problems with product. 📝 I regularly write technical or thought provoking articles to this blog.
           </Paragraph>
-          <Link
-            href="/resume"
-            style={{ marginTop: 14, fontSize: 16, marginLeft: 'auto' }}
-          >
-            <Paragraph style={{ textDecorationLine: 'underline' }}>
-              Resume →
-            </Paragraph>
+          <Link href="/resume" style={{ marginTop: 14, fontSize: 16, marginLeft: 'auto' }}>
+            <Paragraph style={{ textDecorationLine: 'underline' }}>Resume →</Paragraph>
           </Link>
         </Header>
 
         <div style={{ display: 'flex', gap: 20 }}>
-          <div
-            onClick={() => setActiveTab('tech')}
-            style={{ cursor: 'pointer' }}
-          >
+          <div onClick={() => setActiveTab('tech')} style={{ cursor: 'pointer' }}>
             <Heading $isActive={activeTab === 'tech'}>TechLogs</Heading>
           </div>
-          <div
-            onClick={() => setActiveTab('thought')}
-            style={{ cursor: 'pointer' }}
-          >
+          <div onClick={() => setActiveTab('thought')} style={{ cursor: 'pointer' }}>
             <Heading $isActive={activeTab === 'thought'}>ThoughtLogs</Heading>
           </div>
         </div>

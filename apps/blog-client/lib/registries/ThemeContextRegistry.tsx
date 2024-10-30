@@ -19,9 +19,7 @@ const ThemeContextRegistry = ({ children }: PropsWithChildren) => {
   }
 
   useEffect(() => {
-    const prefersDark = window.matchMedia(
-      '(prefers-color-scheme: dark)'
-    ).matches
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
 
     if (prefersDark) {
       setTheme('dark')
@@ -44,9 +42,7 @@ const ThemeContextRegistry = ({ children }: PropsWithChildren) => {
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme: () => {} }}>
-      <ThemeProvider theme={theme === 'light' ? {} : {}}>
-        {children}
-      </ThemeProvider>
+      <ThemeProvider theme={theme === 'light' ? {} : {}}>{children}</ThemeProvider>
     </ThemeContext.Provider>
   )
 }

@@ -23,10 +23,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
     <html lang="en">
       <head>
         {/* google search console */}
-        <meta
-          name="google-site-verification"
-          content="t8pam4eI0ydfgF_W2Js3Q9bdfCsbvZA83PSE2JDh1ww"
-        />
+        <meta name="google-site-verification" content="t8pam4eI0ydfgF_W2Js3Q9bdfCsbvZA83PSE2JDh1ww" />
         {/* <!-- Google tag (gtag.js) --> */}
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-VDP9GWZWGR" />
         {process.env.NODE_ENV === 'production' && (
@@ -41,11 +38,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
           </Script>
         )}
         <link rel="icon" href="/favicon.ico" />
-        <link
-          rel="apple-touch-icon"
-          href="/apple-touch-icon.png"
-          type="image/png"
-        />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" type="image/png" />
       </head>
       <body className={inter.className}>
         <script

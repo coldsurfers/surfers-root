@@ -15,14 +15,7 @@ const Paragraph = ({
   }
   const { theme } = useContext(ThemeContext)
   return (
-    <Text
-      style={[
-        baseStyles,
-        style,
-        { color: theme === 'light' ? '#000000' : '#ffffff' },
-      ]}
-      {...otherProps}
-    >
+    <Text style={[baseStyles, style, { color: theme === 'light' ? '#000000' : '#ffffff' }]} {...otherProps}>
       {children}
     </Text>
   )

@@ -13,7 +13,7 @@
     "deploy": "pm2 start ecosystem.config.js",
     "deploy:prebuilt": "npx vercel build --prod && npx vercel deploy --prod --prebuilt",
     "dev": "next dev",
-    "lint": "next lint --fix",
+    "lint": "next lint --fix && prettier --write .",
     "start": "next start",
     "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "prisma:db-push": "yarn prisma db push --schema ../../packages/prisma-schema/prisma/schema.prisma",

@@ -24,11 +24,7 @@ export default function Text({ title }) {
           style={color !== 'default' ? { color } : {}}
           key={text.content}
         >
-          {text.link ? (
-            <a href={text.link.url}>{text.content}</a>
-          ) : (
-            text.content
-          )}
+          {text.link ? <a href={text.link.url}>{text.content}</a> : text.content}
         </span>
       )
     }
