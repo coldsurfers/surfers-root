@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { Fragment } from 'react'
 
 import { notFound } from 'next/navigation'
-import { renderBlock } from '../../../components/notion/renderer'
-import Text from '../../../components/text'
+import { renderBlock } from '../../../features/notion/renderer/renderer'
+import Text from '../../../features/notion/renderer/renderer.text'
 import { getBlocks } from '../../../lib/notion'
 import styles from '../../../styles/post.module.css'
 // prismjs

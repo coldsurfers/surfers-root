@@ -1,6 +1,6 @@
-import styles from '../styles/post.module.css'
+import styles from '../../../styles/post.module.css'
 
-export default function Text({ title }) {
+export function Text({ title }) {
   if (!title) {
     return null
   }

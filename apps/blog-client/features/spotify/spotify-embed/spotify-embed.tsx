@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-export default function SpotifyEmbed({ spotifyURL }) {
+export function SpotifyEmbed({ spotifyURL }: { spotifyURL: string }) {
   const [html, setHtml] = useState('')
   useEffect(() => {
     const fetchSpotifyOEmbed = async () => {

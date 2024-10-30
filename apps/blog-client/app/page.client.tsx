@@ -1,13 +1,13 @@
 'use client'
 
+import { PostItem } from '@/features'
+import { Paragraph } from '@/ui'
 import Link from 'next/link'
-import styled from 'styled-components/native'
-import styledW from 'styled-components'
 import { useEffect, useState } from 'react'
-import styles from './index.module.css'
+import styledW from 'styled-components'
+import styled from 'styled-components/native'
 import { queryNotionBlogTechArticles, queryNotionBlogThoughtsArticles } from '../lib/utils'
-import Paragraph from '../components/Paragraph'
-import PostItem from '../features/posts/ui/PostItem'
+import styles from './index.module.css'
 
 const Header = styled.Text`
   margin-top: 50px;
@@ -88,6 +88,7 @@ export default function Page({
         </div>
         <Posts>
           {(activeTab === 'tech' ? techPosts : thoughtsPosts).map((post) => (
+            // @ts-ignore
             <PostItem key={post.id} post={post} />
           ))}
         </Posts>

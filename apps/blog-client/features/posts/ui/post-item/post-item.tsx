@@ -1,7 +1,7 @@
+import { Text } from '@/features'
+import { Paragraph } from '@/ui'
 import Link from 'next/link'
 import styled from 'styled-components'
-import Paragraph from '../../../components/Paragraph'
-import Title from '../../../components/text'
 
 const Post = styled.li`
   display: flex;
@@ -28,7 +28,7 @@ const PostTitleLink = styled(Link)`
   }
 `
 
-export default function PostItem({
+export function PostItem({
   post,
 }: {
   post: {
@@ -36,9 +36,9 @@ export default function PostItem({
     createdTime: Date
     lastEditedTime: Date
     dateLocale: string
-    slug: any
-    title: any
-    status: any
+    slug: string
+    title: never
+    status: never
   }
 }) {
   return (
@@ -50,7 +50,7 @@ export default function PostItem({
             fontWeight: '500',
           }}
         >
-          <Title title={post.title} />
+          <Text title={post.title} />
         </Paragraph>
       </PostTitleLink>
       <DateLocale>{post.dateLocale}</DateLocale>
