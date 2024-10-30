@@ -2,9 +2,8 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { Fragment } from 'react'
 
+import { Text, renderBlock } from '@/features/notion'
 import { notFound } from 'next/navigation'
-import { renderBlock } from '../../../features/notion/renderer/renderer'
-import Text from '../../../features/notion/renderer/renderer.text'
 import { getBlocks } from '../../../lib/notion'
 import styles from '../../../styles/post.module.css'
 // prismjs
