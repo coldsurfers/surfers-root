@@ -12,5 +12,5 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.tsdk": "node_modules/typescript/lib",
   "prettier.configPath": ".prettierrc.json",
-  "conventionalCommits.scopes": ["blog-client"]
+  "conventionalCommits.scopes": ["blog-client", "common"]
 }
