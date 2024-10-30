@@ -39,7 +39,6 @@
   margin-inline-end: 0px;
 }
 
-
 .container img {
   width: 100%;
   height: auto;
@@ -220,7 +219,6 @@
     background: #000000;
   }
 }
-
 
 @media (max-width: 925px) {
   .container h1 {

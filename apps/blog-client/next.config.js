@@ -13,18 +13,9 @@ const nextConfig = {
       ...(config.resolve.alias || {}),
       // Transform all direct `react-native` imports to `react-native-web`
       'react-native$': 'react-native-web',
-      'styled-components': path.resolve(
-        __dirname,
-        '../../node_modules/styled-components'
-      ),
+      'styled-components': path.resolve(__dirname, '../../node_modules/styled-components'),
     }
-    config.resolve.extensions = [
-      '.web.js',
-      '.web.jsx',
-      '.web.ts',
-      '.web.tsx',
-      ...config.resolve.extensions,
-    ]
+    config.resolve.extensions = ['.web.js', '.web.jsx', '.web.ts', '.web.tsx', ...config.resolve.extensions]
 
     return config
   },
