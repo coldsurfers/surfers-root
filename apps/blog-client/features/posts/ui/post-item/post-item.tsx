@@ -1,33 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Text } from '@/features'
 import { Paragraph } from '@/ui'
-import Link from 'next/link'
-import styled from 'styled-components'
-
-const Post = styled.li`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`
-
-const DateLocale = styled(Paragraph)`
-  opacity: 0.65;
-`
-
-const PostTitleLink = styled(Link)`
-  flex: 1;
-  margin: 0;
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  margin-right: 1rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-  a {
-    color: inherit;
-  }
-`
+import {
+  StyledPostItemContainer,
+  StyledPostItemDateLocale,
+  StyledPostItemPostTitleLink,
+  StyledPostItemWriterAvatar,
+  StyledPostItemWriterContainer,
+  StyledPostItemWriterText,
+} from './post-item.styled'
 
 export function PostItem({
   post,
@@ -40,11 +21,19 @@ export function PostItem({
     slug: any
     title: any
     status: any
+    writer: {
+      object: 'user'
+      id: string
+      name: string
+      avatar_url: string
+      type: 'person'
+      person: unknown
+    } | null
   }
 }) {
   return (
-    <Post key={post.id}>
-      <PostTitleLink href={`/article/${post.slug}`}>
+    <StyledPostItemContainer key={post.id}>
+      <StyledPostItemPostTitleLink href={`/article/${post.slug}`}>
         <Paragraph
           style={{
             fontSize: 18,
@@ -53,8 +42,14 @@ export function PostItem({
         >
           <Text title={post.title} />
         </Paragraph>
-      </PostTitleLink>
-      <DateLocale>{post.dateLocale}</DateLocale>
-    </Post>
+      </StyledPostItemPostTitleLink>
+      {post.writer && (
+        <StyledPostItemWriterContainer>
+          <StyledPostItemWriterAvatar src={post.writer?.avatar_url} />
+          <StyledPostItemWriterText>{post.writer?.name}</StyledPostItemWriterText>
+        </StyledPostItemWriterContainer>
+      )}
+      <StyledPostItemDateLocale>{post.dateLocale}</StyledPostItemDateLocale>
+    </StyledPostItemContainer>
   )
 }

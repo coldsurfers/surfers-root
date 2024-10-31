@@ -40,6 +40,8 @@ const queryNotionBlogArticles = (platform: 'techlog' | 'surflog') =>
       const title = post.properties?.Name?.title
       // @ts-ignore
       const postStatus = post.properties.Status.status.name
+      // @ts-ignore
+      const writer = post.properties?.Writer.people.at(0) ?? null
       return {
         id: post.id,
         createdTime,
@@ -52,6 +54,7 @@ const queryNotionBlogArticles = (platform: 'techlog' | 'surflog') =>
         slug,
         title,
         status: postStatus,
+        writer,
       }
     })
 
