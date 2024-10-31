@@ -142,7 +142,12 @@ export default function Home() {
           </Link>
         </div>
         <div style={{ flex: 1, borderRadius: 8 }}>
-          <TopImage src="/live-party.webp" alt="live-party" width={500} height={500} />
+          <TopImage
+            src="https://coldsurf-aws-s3-bucket.s3.ap-northeast-2.amazonaws.com/billets/static/coldsurf-io/static-images/live-party.webp"
+            alt="live-party"
+            width={500}
+            height={500}
+          />
         </div>
       </Top>
       <ScrollContainer onWheel={handleWheelScroll} onMouseDown={handleDragScroll}>
