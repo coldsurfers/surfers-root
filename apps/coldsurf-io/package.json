@@ -1,0 +1,50 @@
+{
+  "name": "@coldsurfers/about-coldsurf",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "next build",
+    "create:env:ci": "yarn ts-node ./libs/createDotEnv.ts",
+    "dev": "next dev",
+    "lint": "next lint --fix && prettier --write .",
+    "start": "next start",
+    "codegen": "npx openapi-typescript https://api.billets.coldsurf.io/docs/json -o types/api.d.ts --alphabetize && prettier --write src/types/api.d.ts"
+  },
+  "dependencies": {
+    "@coldsurfers/hotsurf": "0.3.10",
+    "@coldsurfers/ocean-road": "1.5.1-rc.4",
+    "@react-oauth/google": "^0.12.1",
+    "@tanstack/react-query": "^5.59.15",
+    "@tosspayments/payment-widget-sdk": "^0.10.2",
+    "axios": "^1.6.2",
+    "date-fns": "^4.1.0",
+    "nanoid": "^5.0.4",
+    "next": "14.1.0",
+    "next-auth": "beta",
+    "openapi-fetch": "^0.12.2",
+    "react": "*",
+    "react-dom": "*",
+    "react-hook-form": "^7.48.2",
+    "react-native": "*",
+    "react-native-web": "*",
+    "react-spinners": "^0.13.7",
+    "styled-components": "6.1.8",
+    "zod": "*",
+    "zustand": "*"
+  },
+  "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.12.1",
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "autoprefixer": "^10.4.17",
+    "eslint": "*",
+    "postcss": "^8.4.35",
+    "prettier": "*",
+    "prettier-plugin-tailwindcss": "^0.5.11",
+    "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
+    "typescript": "*",
+    "typescript-plugin-css-modules": "^5.0.2"
+  },
+  "packageManager": "yarn@4.2.2"
+}
