@@ -11,8 +11,10 @@ import {
 } from './post-item.styled'
 
 export function PostItem({
+  postType,
   post,
 }: {
+  postType: 'techlog' | 'surflog'
   post: {
     id: string
     createdTime: Date
@@ -33,7 +35,7 @@ export function PostItem({
 }) {
   return (
     <StyledPostItemContainer key={post.id}>
-      <StyledPostItemPostTitleLink href={`/article/${post.slug}`}>
+      <StyledPostItemPostTitleLink href={`/${postType}/${post.slug}`}>
         <Paragraph
           style={{
             fontSize: 18,
