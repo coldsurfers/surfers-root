@@ -3,16 +3,39 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/features": ["./features"],
-      "@/features/*": ["./features/*"],
-      "@/app": ["./app"],
-      "@/app/*": ["./app/*"],
-      "@/ui": ["./ui"],
-      "@/ui/*": ["./ui/*"],
-      "@/stores": ["./stores"],
-      "@/stores/*": ["./stores/*"]
+      "@/features": [
+        "./features"
+      ],
+      "@/features/*": [
+        "./features/*"
+      ],
+      "@/app": [
+        "./app"
+      ],
+      "@/app/*": [
+        "./app/*"
+      ],
+      "@/ui": [
+        "./ui"
+      ],
+      "@/ui/*": [
+        "./ui/*"
+      ],
+      "@/stores": [
+        "./stores"
+      ],
+      "@/stores/*": [
+        "./stores/*"
+      ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "ui/paragraph/paragraph.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
