@@ -13,6 +13,7 @@
   "dependencies": {
     "@coldsurfers/hotsurf": "workspace:*",
     "@coldsurfers/ocean-road": "1.5.1-rc.4",
+    "@lukemorales/query-key-factory": "*",
     "@react-oauth/google": "^0.12.1",
     "@tanstack/react-query": "*",
     "@tosspayments/payment-widget-sdk": "^0.10.2",
