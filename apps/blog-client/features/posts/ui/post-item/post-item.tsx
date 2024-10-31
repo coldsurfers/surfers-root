@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Text } from '@/features'
 import { Paragraph } from '@/ui'
 import Link from 'next/link'
@@ -36,9 +37,9 @@ export function PostItem({
     createdTime: Date
     lastEditedTime: Date
     dateLocale: string
-    slug: string
-    title: never
-    status: never
+    slug: any
+    title: any
+    status: any
   }
 }) {
   return (
