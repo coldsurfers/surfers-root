@@ -15,12 +15,13 @@ export const SurflogPageClient = ({
     slug: any
     title: any
     status: any
+    writer: any
   }[]
 }) => {
   return (
     <PostListContainer>
       {logs.map((post) => (
-        <PostItem key={post.id} post={post} />
+        <PostItem key={post.id} post={post} postType="surflog" />
       ))}
     </PostListContainer>
   )

@@ -57,13 +57,13 @@ export default function Page({
         <h1>Latest Surflogs</h1>
         <Posts>
           {latestThoughtPosts.map((post) => (
-            <PostItem key={post.id} post={post} />
+            <PostItem key={post.id} post={post} postType="surflog" />
           ))}
         </Posts>
         <h1>Latest Techlogs</h1>
         <Posts>
           {latestTechPosts.map((post) => (
-            <PostItem key={post.id} post={post} />
+            <PostItem key={post.id} post={post} postType="techlog" />
           ))}
         </Posts>
       </div>

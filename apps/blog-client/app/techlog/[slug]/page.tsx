@@ -10,10 +10,10 @@ import 'prismjs/components/prism-jsx'
 import 'prismjs/themes/prism-tomorrow.css'
 import { Fragment } from 'react'
 import {
-  getBlogTechPageFromSlug,
-  getBlogThoughtPageFromSlug,
-  queryNotionBlogTechArticles,
-  queryNotionBlogThoughtsArticles,
+    getBlogTechPageFromSlug,
+    getBlogThoughtPageFromSlug,
+    queryNotionBlogTechArticles,
+    queryNotionBlogThoughtsArticles,
 } from '../../../lib/utils'
 
 // Return a list of `params` to populate the [slug] dynamic segment
@@ -44,9 +44,7 @@ export async function generateMetadata({ params }: { params?: { slug: string } }
 }
 
 export default async function Page({ params }: { params?: { slug: string } }) {
-  const page =
-    (await getBlogTechPageFromSlug({ slug: params?.slug ?? '' })) ??
-    (await getBlogThoughtPageFromSlug({ slug: params?.slug ?? '' }))
+  const page = await getBlogTechPageFromSlug({ slug: params?.slug ?? '' })
 
   if (!page) {
     notFound()
