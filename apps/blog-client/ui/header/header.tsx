@@ -20,15 +20,14 @@ export const Header = () => {
     const handleRouteChange = (pathname: string) => {
       if (pathname.startsWith('/surflog')) {
         setActiveTab('surflog')
-      }
-      if (pathname.startsWith('/techlog')) {
+      } else if (pathname.startsWith('/techlog')) {
         setActiveTab('techlog')
-      }
-      if (pathname === '/') {
+      } else if (pathname === '/') {
         setActiveTab('main')
-      }
-      if (pathname === '/writers') {
+      } else if (pathname.startsWith('/writers')) {
         setActiveTab('writers')
+      } else {
+        setActiveTab(null)
       }
     }
 
