@@ -1,5 +1,5 @@
 {
-  "name": "@coldsurfers/about-coldsurf",
+  "name": "@coldsurfers/coldsurf-io",
   "version": "1.0.0",
   "scripts": {
     "build": "next build",
