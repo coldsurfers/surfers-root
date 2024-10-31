@@ -1,10 +1,14 @@
 'use client'
 
 import { useUIStore } from '@/stores'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useEffect } from 'react'
 import { useShallow } from 'zustand/shallow'
 import { StyledHeaderContainer, StyledHeaderHeading } from './header.styled'
 
 export const Header = () => {
+  const pathname = usePathname()
   const { activeTab, setActiveTab } = useUIStore(
     useShallow((state) => ({
       activeTab: state.activeTab,
@@ -12,17 +16,38 @@ export const Header = () => {
     })),
   )
 
+  useEffect(() => {
+    const handleRouteChange = (pathname: string) => {
+      if (pathname.startsWith('/surflog')) {
+        setActiveTab('surflog')
+      } else if (pathname.startsWith('/techlog')) {
+        setActiveTab('techlog')
+      } else if (pathname === '/') {
+        setActiveTab('main')
+      } else if (pathname.startsWith('/writers')) {
+        setActiveTab('writers')
+      } else {
+        setActiveTab(null)
+      }
+    }
+
+    handleRouteChange(pathname)
+  }, [pathname, setActiveTab])
+
   return (
     <StyledHeaderContainer>
-      <div onClick={() => setActiveTab('main')} style={{ cursor: 'pointer' }}>
-        <StyledHeaderHeading $isActive={activeTab === 'main'}>Main</StyledHeaderHeading>
-      </div>
-      <div onClick={() => setActiveTab('surflog')} style={{ cursor: 'pointer' }}>
+      <Link href="/">
+        <StyledHeaderHeading $isActive={activeTab === 'main' || pathname === '/'}>Main</StyledHeaderHeading>
+      </Link>
+      <Link href="/surflog">
         <StyledHeaderHeading $isActive={activeTab === 'surflog'}>Surflogs</StyledHeaderHeading>
-      </div>
-      <div onClick={() => setActiveTab('techlog')} style={{ cursor: 'pointer' }}>
+      </Link>
+      <Link href="/techlog">
         <StyledHeaderHeading $isActive={activeTab === 'techlog'}>Techlogs</StyledHeaderHeading>
-      </div>
+      </Link>
+      <Link href="/writers">
+        <StyledHeaderHeading $isActive={activeTab === 'writers'}>Writers</StyledHeaderHeading>
+      </Link>
     </StyledHeaderContainer>
   )
 }
