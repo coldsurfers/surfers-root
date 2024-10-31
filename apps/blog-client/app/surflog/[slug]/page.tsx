@@ -6,15 +6,15 @@ import { notFound } from 'next/navigation'
 import { getBlocks } from '../../../lib/notion'
 import styles from '../../../styles/post.module.css'
 // prismjs
-import 'prismjs/components/prism-jsx'
-import 'prismjs/themes/prism-tomorrow.css'
-import { Fragment } from 'react'
 import {
   getBlogTechPageFromSlug,
   getBlogThoughtPageFromSlug,
   queryNotionBlogTechArticles,
   queryNotionBlogThoughtsArticles,
-} from '../../../lib/utils'
+} from '@/lib/utils'
+import 'prismjs/components/prism-jsx'
+import 'prismjs/themes/prism-tomorrow.css'
+import { Fragment } from 'react'
 
 // Return a list of `params` to populate the [slug] dynamic segment
 export async function generateStaticParams() {

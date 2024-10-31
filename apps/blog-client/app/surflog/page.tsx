@@ -1,4 +1,4 @@
-import { queryNotionBlogThoughtsArticles } from 'lib/utils'
+import { queryNotionBlogThoughtsArticles } from '@/lib/utils'
 import { SurflogPageClient } from './page.client'
 
 async function initPage() {

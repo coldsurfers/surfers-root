@@ -1,5 +1,5 @@
 import { cache } from 'react'
-import notionInstance, { notionDatabaseIds } from './notionInstance'
+import notionInstance, { notionDatabaseIds } from '../notionInstance'
 
 const queryNotionBlogArticles = (platform: 'techlog' | 'surflog') =>
   cache(async () => {

@@ -1,10 +1,10 @@
 'use client'
 
 import { PostItem } from '@/features'
+import { queryNotionBlogTechArticles, queryNotionBlogThoughtsArticles } from '@/lib/utils'
 import { Paragraph } from '@/ui'
 import styledW from 'styled-components'
 import styled from 'styled-components/native'
-import { queryNotionBlogTechArticles, queryNotionBlogThoughtsArticles } from '../lib/utils'
 
 const Header = styled.Text`
   margin-top: 50px;
