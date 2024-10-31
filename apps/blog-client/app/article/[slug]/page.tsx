@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { Fragment } from 'react'
 
 import { Text, renderBlock } from '@/features/notion'
 import { notFound } from 'next/navigation'
@@ -9,6 +8,7 @@ import styles from '../../../styles/post.module.css'
 // prismjs
 import 'prismjs/components/prism-jsx'
 import 'prismjs/themes/prism-tomorrow.css'
+import { Fragment } from 'react'
 import {
   getBlogTechPageFromSlug,
   getBlogThoughtPageFromSlug,

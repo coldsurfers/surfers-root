@@ -1,13 +1,10 @@
 'use client'
 
 import { PostItem } from '@/features'
-import { useUIStore } from '@/stores'
 import { Paragraph } from '@/ui'
 import Link from 'next/link'
 import styledW from 'styled-components'
 import styled from 'styled-components/native'
-import { match } from 'ts-pattern'
-import { useShallow } from 'zustand/shallow'
 import { queryNotionBlogTechArticles, queryNotionBlogThoughtsArticles } from '../lib/utils'
 
 const Header = styled.Text`
@@ -33,7 +30,8 @@ export default function Page({
   techPosts: Awaited<ReturnType<typeof queryNotionBlogTechArticles>>
   thoughtsPosts: Awaited<ReturnType<typeof queryNotionBlogThoughtsArticles>>
 }) {
-  const activeTab = useUIStore(useShallow((state) => state.activeTab))
+  const latestTechPosts = techPosts.slice(0, 5)
+  const latestThoughtPosts = thoughtsPosts.slice(0, 5)
 
   return (
     <div>
@@ -55,29 +53,20 @@ export default function Page({
         </Link>
       </Header>
 
-      <Posts>
-        {match(activeTab)
-          .with('main', () => {
-            const latestTechPosts = techPosts.slice(0, 5)
-            const latestThoughtPosts = thoughtsPosts.slice(0, 5)
-
-            return (
-              <div>
-                <h1>Latest Surflogs</h1>
-                {latestThoughtPosts.map((post) => (
-                  // @ts-ignore
-                  <PostItem key={post.id} post={post} />
-                ))}
-                <h1>Latest Techlogs</h1>
-                {latestTechPosts.map((post) => (
-                  // @ts-ignore
-                  <PostItem key={post.id} post={post} />
-                ))}
-              </div>
-            )
-          })
-          .otherwise(() => null)}
-      </Posts>
+      <div>
+        <h1>Latest Surflogs</h1>
+        <Posts>
+          {latestThoughtPosts.map((post) => (
+            <PostItem key={post.id} post={post} />
+          ))}
+        </Posts>
+        <h1>Latest Techlogs</h1>
+        <Posts>
+          {latestTechPosts.map((post) => (
+            <PostItem key={post.id} post={post} />
+          ))}
+        </Posts>
+      </div>
     </div>
   )
 }
