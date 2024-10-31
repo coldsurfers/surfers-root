@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { useStore } from 'zustand'
-import { AuthStore } from '../../stores/authStore'
-import { AuthStoreContext } from './AuthStoreRegistry'
+import { AuthStore } from '../../../stores/authStore'
+import { AuthStoreContext } from './auth-store-registry'
 
 // eslint-disable-next-line no-unused-vars
 export const useAuthStore = <T>(selector: (store: AuthStore) => T): T => {

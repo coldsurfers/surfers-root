@@ -1,3 +1,4 @@
+import { AuthStoreProvider, RegistryProvider, StyleSheetRegistry, StyledComponentsRegistry } from '@/libs/registries'
 import '@coldsurfers/hotsurf/global-light-only.css'
 import type { Metadata } from 'next'
 import { Noto_Sans as notoSans } from 'next/font/google'
@@ -5,10 +6,6 @@ import { cookies } from 'next/headers'
 import { ReactNode } from 'react'
 import LayoutWrapper from '../components/LayoutWrapper'
 import { COOKIES } from '../libs/constants'
-import { AuthStoreProvider } from '../registry/AuthStoreRegistry/AuthStoreRegistry'
-import RegistryProvider from '../registry/RegistryProvider'
-import StyleSheetRegistry from '../registry/StyleSheetRegistry'
-import StyledComponentsRegistry from '../registry/StyledComponentsRegistry'
 
 const notoSansFont = notoSans({ subsets: ['latin'] })
 
