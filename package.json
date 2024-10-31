@@ -8,7 +8,8 @@
     "packages/*"
   ],
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "deploy:blog": "yarn workspace @coldsurfers/blog-client deploy"
   },
   "resolutions": {
     "typescript": "5.4.2",
