@@ -2,12 +2,11 @@
 
 import { PropsWithChildren } from 'react'
 import styled from 'styled-components'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { LoginModal } from './LoginModal'
-import Footer from './Footer'
-import { useLoginModalStore } from '../stores/loginModalStore'
 import Header from '../features/layout/Header'
 import { HEADER_HEIGHT } from '../features/layout/Header.constants'
+import { useLoginModalStore } from '../stores/loginModalStore'
+import Footer from './Footer'
+import { LoginModal } from './LoginModal'
 
 const Container = styled.div`
   display: flex;
@@ -23,8 +22,6 @@ const ChildrenWrapper = styled.div`
   padding-top: ${HEADER_HEIGHT};
 `
 
-export const queryClient = new QueryClient({})
-
 export default function LayoutWrapper({
   children,
 }: PropsWithChildren<{
@@ -33,15 +30,11 @@ export default function LayoutWrapper({
 }>) {
   const { isOpen, close } = useLoginModalStore()
   return (
-    <>
-      <QueryClientProvider client={queryClient}>
-        <Container>
-          <Header />
-          <ChildrenWrapper>{children}</ChildrenWrapper>
-          <Footer />
-          <LoginModal isOpen={isOpen} onClickBackground={close} />
-        </Container>
-      </QueryClientProvider>
-    </>
+    <Container>
+      <Header />
+      <ChildrenWrapper>{children}</ChildrenWrapper>
+      <Footer />
+      <LoginModal isOpen={isOpen} onClickBackground={close} />
+    </Container>
   )
 }
