@@ -2691,11 +2691,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@coldsurfers/about-coldsurf@workspace:apps/coldsurf-io"
   dependencies:
-    "@coldsurfers/hotsurf": "npm:0.3.10"
+    "@coldsurfers/hotsurf": "workspace:*"
     "@coldsurfers/ocean-road": "npm:1.5.1-rc.4"
     "@react-oauth/google": "npm:^0.12.1"
-    "@tanstack/eslint-plugin-query": "npm:^5.12.1"
-    "@tanstack/react-query": "npm:^5.59.15"
+    "@tanstack/react-query": "npm:*"
     "@tosspayments/payment-widget-sdk": "npm:^0.10.2"
     "@types/node": "npm:*"
     "@types/react": "npm:*"
@@ -2708,6 +2707,7 @@ __metadata:
     next: "npm:14.1.0"
     next-auth: "npm:beta"
     openapi-fetch: "npm:^0.12.2"
+    pm2: "npm:*"
     postcss: "npm:^8.4.35"
     prettier: "npm:*"
     prettier-plugin-tailwindcss: "npm:^0.5.11"
@@ -2754,7 +2754,7 @@ __metadata:
     "@react-navigation/native": "npm:^6.1.9"
     "@react-navigation/native-stack": "npm:^6.9.17"
     "@tanstack/eslint-plugin-query": "npm:^5.58.1"
-    "@tanstack/react-query": "npm:^5.56.2"
+    "@tanstack/react-query": "npm:*"
     "@types/react": "npm:^18.2.6"
     "@types/react-test-renderer": "npm:^18.0.0"
     "@typescript-eslint/eslint-plugin": "npm:^5.29.0"
@@ -2938,7 +2938,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@coldsurfers/hotsurf@npm:0.3.10, @coldsurfers/hotsurf@workspace:*, @coldsurfers/hotsurf@workspace:packages/hotsurf":
+"@coldsurfers/hotsurf@workspace:*, @coldsurfers/hotsurf@workspace:packages/hotsurf":
   version: 0.0.0-use.local
   resolution: "@coldsurfers/hotsurf@workspace:packages/hotsurf"
   dependencies:
@@ -3030,6 +3030,7 @@ __metadata:
   resolution: "@coldsurfers/root@workspace:."
   dependencies:
     "@prisma/client": "npm:5.21.1"
+    "@tanstack/eslint-plugin-query": "npm:^5.12.1"
     "@types/node": "npm:*"
     "@types/react": "npm:*"
     "@types/react-dom": "npm:*"
@@ -7205,21 +7206,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.59.16":
-  version: 5.59.16
-  resolution: "@tanstack/query-core@npm:5.59.16"
-  checksum: 10c0/487a1ac0df5e02ca4ea5bf3b9ee0010ac7fe0856a36fa7bd10947598d3f0ba356c91aa21b123729b26f2116f05b8b69cd8fb17681c24cdd586de17b6fe021521
+"@tanstack/query-core@npm:5.56.2":
+  version: 5.56.2
+  resolution: "@tanstack/query-core@npm:5.56.2"
+  checksum: 10c0/54ff55f02b01f6ba089f4965bfd46f430c18ce7e11d874de04c4d58cc8f698598b41e1c017ba029d08ae75e321e546b26f1ea7f788474db265eeba46e780f2f6
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.56.2, @tanstack/react-query@npm:^5.59.15":
-  version: 5.59.16
-  resolution: "@tanstack/react-query@npm:5.59.16"
+"@tanstack/react-query@npm:5.56.2":
+  version: 5.56.2
+  resolution: "@tanstack/react-query@npm:5.56.2"
   dependencies:
-    "@tanstack/query-core": "npm:5.59.16"
+    "@tanstack/query-core": "npm:5.56.2"
   peerDependencies:
     react: ^18 || ^19
-  checksum: 10c0/82acf170d2d169ad18081e4dc52bdcec3b92bd1b134bb704ab6949937a59fd4d7d4ddb1172dd7fdbd1667a2d2e0ffa118e68bde5f53972649b8e55bd0e87244c
+  checksum: 10c0/6e883b4ca1948f990215b7bce194251faf13a79c6ecf3f3c660af6c6788ed113ab629cefdafb496dfb04866f12dd48d7314e936b75c881b6749127b6496ac8fd
   languageName: node
   linkType: hard
 

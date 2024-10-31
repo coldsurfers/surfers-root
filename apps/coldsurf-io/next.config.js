@@ -4,11 +4,11 @@
 const path = require('path')
 
 const nextConfig = {
-  // output: 'standalone',
   experimental: {
     externalDir: true,
     // outputFileTracingRoot: path.join(__dirname, '../../'),
   },
+  output: 'standalone',
   webpack: (config) => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
