@@ -76,10 +76,6 @@ export default function Page({
               </div>
             )
           })
-          // @ts-ignore
-          .with('techlog', () => techPosts.map((post) => <PostItem key={post.id} post={post} />))
-          // @ts-ignore
-          .with('surflog', () => thoughtsPosts.map((post) => <PostItem key={post.id} post={post} />))
           .otherwise(() => null)}
       </Posts>
     </div>
