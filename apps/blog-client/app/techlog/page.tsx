@@ -1,4 +1,4 @@
-import { queryNotionBlogTechArticles } from 'lib/utils'
+import { queryNotionBlogTechArticles } from '@/lib/utils'
 import { TechlogPageClient } from './page.client'
 
 async function initPage() {
