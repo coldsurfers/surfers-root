@@ -23,7 +23,7 @@ module.exports = {
     sourceType: 'module',
     tsconfigRootDir: __dirname,
   },
-  plugins: ['@typescript-eslint', 'prettier'],
+  plugins: ['@typescript-eslint', 'prettier', '@tanstack/query'],
   rules: {
     'no-console': 'off',
     'no-continue': 'off',
