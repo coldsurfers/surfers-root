@@ -1,7 +1,7 @@
 'use client'
 
+import { renderCareerBlock } from '@/features/notion'
 import { Fragment } from 'react'
-import { renderCareerBlock } from '../../../features/notion/renderer/renderer.career'
 import postStyles from '../../../styles/post.module.css'
 
 const ArticleCareer = ({ careerBlocks }: { careerBlocks: never[] }) => (

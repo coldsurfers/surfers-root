@@ -2,7 +2,6 @@
 
 import { PostItem } from '@/features'
 import { Paragraph } from '@/ui'
-import Link from 'next/link'
 import styledW from 'styled-components'
 import styled from 'styled-components/native'
 import { queryNotionBlogTechArticles, queryNotionBlogThoughtsArticles } from '../lib/utils'
@@ -48,9 +47,6 @@ export default function Page({
           🤘🏻 I follow Netflix Rockstar Principle. 🎉 I want to deliver the maximum happiness to users by solving their
           problems with product. 📝 I regularly write technical or thought provoking articles to this blog.
         </Paragraph>
-        <Link href="/resume" style={{ marginTop: 14, fontSize: 16, marginLeft: 'auto' }}>
-          <Paragraph style={{ textDecorationLine: 'underline' }}>Resume →</Paragraph>
-        </Link>
       </Header>
 
       <div>
