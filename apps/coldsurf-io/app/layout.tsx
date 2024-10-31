@@ -1,4 +1,10 @@
-import { AuthStoreProvider, RegistryProvider, StyleSheetRegistry, StyledComponentsRegistry } from '@/libs/registries'
+import {
+  AuthStoreProvider,
+  QueryClientRegistry,
+  RegistryProvider,
+  StyleSheetRegistry,
+  StyledComponentsRegistry,
+} from '@/libs/registries'
 import '@coldsurfers/hotsurf/global-light-only.css'
 import type { Metadata } from 'next'
 import { Noto_Sans as notoSans } from 'next/font/google'
@@ -23,7 +29,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       <body className={[notoSansFont.className].join(' ')}>
         <RegistryProvider registries={[StyledComponentsRegistry, StyleSheetRegistry]}>
           <AuthStoreProvider accessToken={accessToken} refreshToken={refreshToken}>
-            <LayoutWrapper>{children}</LayoutWrapper>
+            <QueryClientRegistry>
+              <LayoutWrapper>{children}</LayoutWrapper>
+            </QueryClientRegistry>
           </AuthStoreProvider>
         </RegistryProvider>
       </body>
