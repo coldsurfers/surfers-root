@@ -7,7 +7,13 @@
         "name": "next"
       },
       { "name": "typescript-plugin-css-modules" }
-    ]
+    ],
+    "paths": {
+      "@/libs": ["./libs"],
+      "@/libs/*": ["./libs/*"],
+      "@/features": ["./features"],
+      "@/features/*": ["./features/*"]
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "libs/createDotEnv.ts"],
   "exclude": ["node_modules"]

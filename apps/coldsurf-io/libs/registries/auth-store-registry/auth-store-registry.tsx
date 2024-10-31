@@ -1,9 +1,9 @@
 'use client'
 
-import { type ReactNode, createContext, useRef } from 'react'
+import { createContext, useRef, type ReactNode } from 'react'
 
 import { StoreApi } from 'zustand'
-import { type AuthStore, createAuthStore } from '../../stores/authStore'
+import { createAuthStore, type AuthStore } from '../../../stores/authStore'
 
 export const AuthStoreContext = createContext<StoreApi<AuthStore>>(null!)
 
