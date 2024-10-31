@@ -41,11 +41,10 @@ export default function Page({
             fontWeight: 'bold',
           }}
         >
-          Blog, ColdSurf
+          Blog, COLDSURF
         </Paragraph>
         <Paragraph style={{ fontSize: 16, fontWeight: '400', marginTop: 12 }}>
-          🤘🏻 I follow Netflix Rockstar Principle. 🎉 I want to deliver the maximum happiness to users by solving their
-          problems with product. 📝 I regularly write technical or thought provoking articles to this blog.
+          {`Hello, this is COLDSURF blog.\nWe want to make creative, attractive and flexible stuffs. 🎉\nSurflog is about thought provoking ideas. 🗯️\nTechlog is about software engineering articles. 🧑🏻‍💻👩🏻‍💻`}
         </Paragraph>
       </Header>
 
