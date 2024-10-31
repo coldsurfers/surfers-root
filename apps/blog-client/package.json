@@ -8,9 +8,8 @@
   ],
   "scripts": {
     "build": "NODE_OPTIONS='--max-old-space-size=4096' next build",
-    "postbuild": "next-sitemap",
-    "predeploy": "yarn build && vercel",
-    "deploy": "pm2 start ecosystem.config.js",
+    "sitemap": "next-sitemap",
+    "deploy": "yarn sitemap && pm2 start ecosystem.config.js",
     "deploy:prebuilt": "npx vercel build --prod && npx vercel deploy --prod --prebuilt",
     "dev": "next dev",
     "lint": "next lint --fix && prettier --write .",
