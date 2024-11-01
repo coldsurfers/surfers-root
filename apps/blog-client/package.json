@@ -14,6 +14,7 @@
     "dev": "next dev",
     "lint:fix": "next lint --fix && prettier --write .",
     "start": "next start",
+    "start:standalone": "cp -r public .next/standalone/apps/blog-client/public && cp -r .next/static .next/standalone/apps/blog-client/.next/static && node .next/standalone/apps/blog-client/server.js",
     "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "prisma:db-push": "yarn prisma db push --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "prisma:migrate": "yarn prisma migrate dev --schema ../../packages/prisma-schema/prisma/schema.prisma"
