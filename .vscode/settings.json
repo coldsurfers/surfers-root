@@ -16,6 +16,7 @@
     "blog-client",
     "common",
     "coldsurf-io",
-    "billets-server"
+    "billets-server",
+    "wamuseum-server"
   ]
 }
