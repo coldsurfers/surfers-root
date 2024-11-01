@@ -29,7 +29,7 @@
     "@fastify/swagger-ui": "^5.0.1",
     "@prisma/client": "*",
     "@vercel/node": "^2.9.0",
-    "axios": "^1.7.7",
+    "axios": "*",
     "crypto-js": "4.2.0",
     "date-fns": "^4.1.0",
     "dotenv": "^16.0.3",

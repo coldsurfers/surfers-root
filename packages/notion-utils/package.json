@@ -1,6 +1,6 @@
 {
-  "name": "@coldsurfers/cloudinary-utils",
-  "version": "1.0.1-rc.1",
+  "name": "@coldsurfers/notion-utils",
+  "version": "1.0.1-rc.10",
   "main": "src/index.ts",
   "source": "src/",
   "files": [
@@ -15,36 +15,39 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@coldsurfers/shared-utils": "workspace:*",
+    "@notionhq/client": "*",
     "@types/sha1": "^1.1.5",
     "axios": "*",
     "eslint": "*",
     "form-data": "^4.0.0",
-    "fs": "^0.0.1-security",
     "prettier": "*",
     "release-it": "*",
     "sha1": "^1.1.1",
-    "stream": "^0.0.2",
-    "typescript": "*",
-    "util": "^0.12.5"
+    "typescript": "*"
+  },
+  "peerDependencies": {
+    "@notionhq/client": "*",
+    "axios": "*",
+    "form-data": "^4.0.0",
+    "sha1": "^1.1.1"
   },
   "scripts": {
-    "prebuild": "yarn workspace @coldsurfers/shared-utils build",
-    "build": "rm -rf dist && tsc",
+    "prebuild": "yarn workspace @coldsurfers/cloudinary-utils build && yarn workspace @coldsurfers/shared-utils build",
+    "build": "rm -rf dist && tsc --project ./tsconfig.build.json",
     "prerelease": "yarn build",
     "prerelease:rc": "yarn build",
     "release": "release-it minor --ci",
     "release:rc": "release-it --ci --preRelease=rc",
-    "lint": "eslint --cache \"src/**/*.{js,jsx,ts,tsx}\" --fix",
-    "lint:fix": "yarn lint --fix"
+    "lint": "eslint --cache \"src/**/*.{js,jsx,ts,tsx}\"",
+    "lint:fix": "yarn lint --fix && prettier --write ."
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
   "release-it": {
     "git": {
-      "commitMessage": "chore: release @coldsurfers/cloudinary-utils v${version}",
-      "tagName": "cloudinary-utils-v${version}"
+      "commitMessage": "chore: release @coldsurfers/notion-utils v${version}",
+      "tagName": "notion-utils-v${version}"
     },
     "github": {
       "release": true
@@ -53,16 +56,8 @@
       "after:git:release": "git reset --hard HEAD"
     }
   },
-  "peerDependencies": {
-    "axios": "*",
-    "form-data": "^4.0.0",
-    "fs": "^0.0.1-security",
-    "sha1": "^1.1.1",
-    "stream": "^0.0.2",
-    "util": "^0.12.5"
-  },
   "dependencies": {
-    "@coldsurfers/shared-utils": "workspace:*"
-  },
-  "packageManager": "yarn@4.2.2"
+    "@coldsurfers/cloudinary-utils": "1.0.1-rc.0",
+    "@coldsurfers/shared-utils": "1.1.0"
+  }
 }
