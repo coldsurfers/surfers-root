@@ -1,15 +1,7 @@
-import {
-  Context,
-  createContext,
-  PropsWithChildren,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
-import colorDesignTokens from '@coldsurfers/design-tokens/dist/json/color/variables.json'
 import darkColorDesignTokens from '@coldsurfers/design-tokens/dist/json/color/variables-dark.json'
 import lightColorDesignTokens from '@coldsurfers/design-tokens/dist/json/color/variables-light.json'
+import colorDesignTokens from '@coldsurfers/design-tokens/dist/json/color/variables.json'
+import { Context, createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from 'react'
 
 export type ColorScheme = 'light' | 'dark' | 'userPreference'
 
@@ -45,11 +37,14 @@ const cssVar = (name: string) => `var(--${name})`
 
 const darkColorKeys = Object.keys(darkColorDesignTokens)
 
-export const themeVariables = darkColorKeys.reduce((prev, curr) => {
-  const next = prev
-  next[curr as keyof DarkColorDesignTokens] = cssVar(curr)
-  return next
-}, {} as Record<keyof DarkColorDesignTokens, string>)
+export const themeVariables = darkColorKeys.reduce(
+  (prev, curr) => {
+    const next = prev
+    next[curr as keyof DarkColorDesignTokens] = cssVar(curr)
+    return next
+  },
+  {} as Record<keyof DarkColorDesignTokens, string>,
+)
 
 const themeToStyles = (theme: Theme) => {
   let styles = ''
@@ -58,16 +53,12 @@ const themeToStyles = (theme: Theme) => {
   })
   if (theme.name === 'darkMode') {
     Object.keys(darkColorDesignTokens).forEach((key) => {
-      styles += `  --${key}: ${
-        darkColorDesignTokens[key as keyof typeof darkColorDesignTokens]
-      };\n`
+      styles += `  --${key}: ${darkColorDesignTokens[key as keyof typeof darkColorDesignTokens]};\n`
     })
   }
   if (theme.name === 'lightMode') {
     Object.keys(lightColorDesignTokens).forEach((key) => {
-      styles += `  --${key}: ${
-        lightColorDesignTokens[key as keyof typeof lightColorDesignTokens]
-      };\n`
+      styles += `  --${key}: ${lightColorDesignTokens[key as keyof typeof lightColorDesignTokens]};\n`
     })
   }
 
@@ -101,16 +92,11 @@ const ColorSchemeProvider = ({
   useEffect(() => {
     setTheme(getTheme(colorScheme))
     if (colorScheme === 'userPreference' && window.matchMedia) {
-      window
-        .matchMedia('(prefers-color-scheme: dark)')
-        .addListener(handlePrefChange)
-      return () =>
-        window
-          .matchMedia('(prefers-color-scheme: dark)')
-          .removeListener(handlePrefChange)
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(handlePrefChange)
+      return () => window.matchMedia('(prefers-color-scheme: dark)').removeListener(handlePrefChange)
     }
     return undefined
-  }, [colorScheme])
+  }, [colorScheme, handlePrefChange])
 
   return (
     <ThemeContext.Provider value={theme}>

@@ -1,7 +1,9 @@
+'use client'
+
 import { Text } from '@coldsurfers/hotsurf'
-import { PropsWithChildren, useContext } from 'react'
+import { useColorScheme } from '@coldsurfers/ocean-road'
+import { PropsWithChildren } from 'react'
 import { StyleProp, TextStyle } from 'react-native'
-import { ThemeContext } from '../../lib/registries/ThemeContextRegistry'
 
 export const Paragraph = ({
   children,
@@ -13,9 +15,9 @@ export const Paragraph = ({
   const baseStyles: StyleProp<TextStyle> = {
     fontFamily: 'Noto Sans KR',
   }
-  const { theme } = useContext(ThemeContext)
+  const theme = useColorScheme()
   return (
-    <Text style={[baseStyles, style, { color: theme === 'light' ? '#000000' : '#ffffff' }]} {...otherProps}>
+    <Text style={[baseStyles, style, { color: theme.name === 'lightMode' ? '#000000' : '#ffffff' }]} {...otherProps}>
       {children}
     </Text>
   )
