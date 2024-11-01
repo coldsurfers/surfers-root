@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  coldsurf-io:
+    build:
+      context: .
+      dockerfile: Dockerfile.coldsurf-io
+      args:
+        GITHUB_TOKEN: '${GITHUB_TOKEN}'
+    image: coldsurf-io
+    env_file:
+      - apps/coldsurf-io/.env
+    ports:
+      - '4001:4001'
+    # volumes:
+    #   - .:/app
