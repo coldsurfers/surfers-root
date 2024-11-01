@@ -2,7 +2,7 @@ import { fastify } from './server'
 
 fastify.listen(
   {
-    port: 3001,
+    port: process.env.PORT ? +process.env.PORT : 3001,
     host: '0.0.0.0',
   },
   (err, address) => {

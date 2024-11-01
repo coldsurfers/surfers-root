@@ -40,6 +40,19 @@ services:
       - ../apps/wamuseum-client/.env
     ports:
       - '4002:4002'
+  billets-server:
+    platform: linux/amd64
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.billets-server
+      args:
+        GITHUB_TOKEN: '${GITHUB_TOKEN}'
+        PORT: 3001
+    image: '${ECR_REMOTE_HOST}/coldsurf/billets-server:latest'
+    env_file:
+      - ../apps/billets-server/.env
+    ports:
+      - '3001:3001'
     # restart: unless-stopped
   # coldsurf-io-nginx:
   #   platform: linux/amd64
