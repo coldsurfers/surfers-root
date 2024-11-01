@@ -1,12 +1,11 @@
 import Script from 'next/script'
 
+import { OceanRoadThemeRegistry } from '@/lib'
 import { Header } from '@/ui/header'
-import '@coldsurfers/hotsurf/global.css'
 import { Noto_Sans_KR } from 'next/font/google'
 import { PropsWithChildren } from 'react'
 import StyleSheetRegistry from '../lib/registries/StyleSheetRegistry'
 import StyledComponentsRegistry from '../lib/registries/StyledComponentsRegistry'
-import ThemeContextRegistry from '../lib/registries/ThemeContextRegistry'
 import '../styles/global.css'
 import styles from './index.module.css'
 
@@ -54,12 +53,12 @@ export default function RootLayout({ children }: PropsWithChildren) {
         />
         <StyledComponentsRegistry>
           <StyleSheetRegistry>
-            <ThemeContextRegistry>
+            <OceanRoadThemeRegistry>
               <main className={styles.container}>
                 <Header />
                 {children}
               </main>
-            </ThemeContextRegistry>
+            </OceanRoadThemeRegistry>
           </StyleSheetRegistry>
         </StyledComponentsRegistry>
       </body>
