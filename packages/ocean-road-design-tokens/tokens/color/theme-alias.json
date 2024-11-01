@@ -1,0 +1,65 @@
+{
+    "color": {
+        "background": {
+            "1": {
+                "value": "{oc.white}",
+                "darkValue": "{oc.black}",
+                "comment": "background color 1"
+            },
+            "2": {
+                "value": "{oc.gray.1}",
+                "darkValue": "{oc.gray.9}",
+                "comment": "background color 2"
+            },
+            "3": {
+                "value": "{oc.gray.2}",
+                "darkValue": "{oc.gray.8}",
+                "comment": "background color 3"
+            },
+            "4": {
+                "value": "{oc.gray.3}",
+                "darkValue": "{oc.gray.7}",
+                "comment": "background color 3"
+            },
+            "5": {
+                "value": "{oc.gray.4}",
+                "darkValue": "{oc.gray.6}",
+                "comment": "background color 3"
+            }
+        },
+        "foreground": {
+            "1": {
+                "value": "{oc.gray.9}",
+                "darkValue": "{oc.gray.1}",
+                "comment": "foreground color 1"
+            },
+            "2": {
+                "value": "{oc.gray.8}",
+                "darkValue": "{oc.gray.2}",
+                "comment": "foreground color 2"
+            },
+            "3": {
+                "value": "{oc.gray.7}",
+                "darkValue": "{oc.gray.3}",
+                "comment": "foreground color 3"
+            },
+            "4": {
+                "value": "{oc.gray.6}",
+                "darkValue": "{oc.gray.4}",
+                "comment": "foreground color 4"
+            }
+        },
+        "border": {
+            "1": {
+                "value": "{oc.gray.1}",
+                "darkValue": "{oc.gray.7}",
+                "comment": "border color 1"
+            },
+            "2": {
+                "value": "{oc.gray.2}",
+                "darkValue": "{oc.gray.6}",
+                "comment": "border color 2"
+            }
+        }
+    }
+}
