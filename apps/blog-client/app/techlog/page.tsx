@@ -1,10 +1,10 @@
-import { queryNotionBlogTechArticles } from '@/lib/utils'
+import { queryLogs } from '@/lib/utils'
 import { TechlogPageClient } from './page.client'
 
 export const revalidate = 3600
 
 async function initPage() {
-  return await await queryNotionBlogTechArticles()
+  return await await queryLogs('techlog')
 }
 
 export default async function TechlogPage() {

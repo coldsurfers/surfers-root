@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation'
 import { getBlocks } from '../../../lib/notion'
 import styles from '../../../styles/post.module.css'
 // prismjs
-import { getBlogThoughtPageFromSlug, queryNotionBlogThoughtsArticles } from '@/lib/utils'
+import { getBlogThoughtPageFromSlug, queryLogs } from '@/lib/utils'
 import 'prismjs/components/prism-jsx'
 import 'prismjs/themes/prism-tomorrow.css'
 import { Fragment } from 'react'
@@ -15,8 +15,8 @@ export const revalidate = 3600
 
 // Return a list of `params` to populate the [slug] dynamic segment
 export async function generateStaticParams() {
-  const thoughtPosts = await queryNotionBlogThoughtsArticles()
-  return thoughtPosts.map((post) => ({ slug: post.slug }))
+  const logs = await queryLogs('surflog')
+  return logs.map((post) => ({ slug: post.slug }))
 }
 
 export async function generateMetadata({ params }: { params?: { slug: string } }) {
