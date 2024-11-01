@@ -8,7 +8,7 @@ services:
       dockerfile: ./docker/Dockerfile.coldsurf-io
       args:
         GITHUB_TOKEN: '${GITHUB_TOKEN}'
-    image: '${ECR_REMOTE_HOST}/coldsurf/coldsurf-io:latest'
+    # image: '${ECR_REMOTE_HOST}/coldsurf/coldsurf-io:latest'
     env_file:
       - ../apps/coldsurf-io/.env
     ports:
@@ -17,11 +17,13 @@ services:
       - ../apps/coldsurf-io:/surfers-root/apps/coldsurf-io
     restart: unless-stopped
   nginx:
+    platform: linux/amd64
     build:
       context: ../
       dockerfile: ./docker/Dockerfile.coldsurf-io
       args:
         GITHUB_TOKEN: '${GITHUB_TOKEN}'
+    image: '${ECR_REMOTE_HOST}/coldsurf/coldsurf-io:latest'
     ports:
       - '80:80' # Nginx 포트
     depends_on:
