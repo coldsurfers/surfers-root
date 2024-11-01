@@ -1,12 +1,11 @@
 import Head from 'next/head'
-import Link from 'next/link'
 
 import { Text, renderBlock } from '@/features/notion'
 import { notFound } from 'next/navigation'
 import { getBlocks } from '../../../lib/notion'
-import styles from '../../../styles/post.module.css'
 // prismjs
 import { getTechlogDetail, queryLogs } from '@/lib/utils'
+import { CommonBack } from '@/ui'
 import 'prismjs/components/prism-jsx'
 import 'prismjs/themes/prism-tomorrow.css'
 import { Fragment } from 'react'
@@ -54,49 +53,22 @@ export default async function Page({ params }: { params?: { slug: string } }) {
     <div>
       <Head>
         {/* @ts-ignore */}
-        <title>{page.properties.Title?.title[0].plain_text}</title>
+        <title>{page.properties.Name.title.at(0)?.plain_text}</title>
       </Head>
 
-      <article className={styles.container}>
-        <h1 className={styles.name}>
+      <article>
+        <h1>
           {/* @ts-ignore */}
-          <Text title={page.properties.Title?.title} />
+          <Text title={page.properties?.Name.title} />
         </h1>
         <section>
           {blocks.map((block) => (
             // @ts-ignore
             <Fragment key={block.id}>{renderBlock(block)}</Fragment>
           ))}
-          <Link href="/" className={styles.back}>
-            ← Go home
-          </Link>
+          <CommonBack />
         </section>
       </article>
     </div>
   )
 }
-
-// export const getStaticPaths = async () => {
-//   const database = await getDatabase(databaseId);
-//   return {
-//     paths: database.map((page) => {
-//       const slug = page.properties.Slug?.formula?.string;
-//       return ({ params: { id: page.id, slug } });
-//     }),
-//     fallback: true,
-//   };
-// };
-
-// export const getStaticProps = async (context) => {
-//   const { slug } = context.params;
-//   const page = await getPage(id);
-//   const blocks = await getBlocks(id);
-
-//   return {
-//     props: {
-//       page,
-//       blocks,
-//     },
-//     revalidate: 1,
-//   };
-// };
