@@ -15,20 +15,8 @@ COPY ./apps/coldsurf-io ./apps/coldsurf-io
 WORKDIR /surfers-root/apps/coldsurf-io
 RUN yarn install
 RUN yarn workspace @coldsurfers/coldsurf-io build
+RUN cp -r public .next/standalone/apps/coldsurf-io/public
+RUN cp -r .next/static .next/standalone/apps/coldsurf-io/.next/static
 
-EXPOSE 4001
-CMD ["yarn", "start"]
-
-FROM nginx:alpine
-WORKDIR /surfers-root
-ARG GITHUB_TOKEN
-ENV GITHUB_TOKEN=${GITHUB_TOKEN}
-
-COPY --from=builder /surfers-root ./
-COPY ./docker/nginx.conf /etc/nginx/sites-available/default
-
-# RUN yarn workspace @coldsurfers/coldsurf-io start
-# Nginx 포트 노출
-EXPOSE 80
-# CMD ["yarn", "start:coldsurf-io"]
-
+EXPOSE 3000
+CMD ["node", ".next/standalone/apps/coldsurf-io/server.js"]
