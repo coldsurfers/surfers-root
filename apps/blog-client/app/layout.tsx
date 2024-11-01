@@ -1,13 +1,12 @@
 import Script from 'next/script'
 
 import { OceanRoadThemeRegistry } from '@/lib'
-import { Header } from '@/ui/header'
+import { Header, PageLayout } from '@/ui'
 import { Noto_Sans_KR } from 'next/font/google'
 import { PropsWithChildren } from 'react'
 import StyleSheetRegistry from '../lib/registries/StyleSheetRegistry'
 import StyledComponentsRegistry from '../lib/registries/StyledComponentsRegistry'
 import '../styles/global.css'
-import styles from './index.module.css'
 
 const inter = Noto_Sans_KR({ subsets: ['latin'] })
 
@@ -54,10 +53,10 @@ export default function RootLayout({ children }: PropsWithChildren) {
         <StyledComponentsRegistry>
           <StyleSheetRegistry>
             <OceanRoadThemeRegistry>
-              <main className={styles.container}>
+              <PageLayout>
                 <Header />
                 {children}
-              </main>
+              </PageLayout>
             </OceanRoadThemeRegistry>
           </StyleSheetRegistry>
         </StyledComponentsRegistry>
