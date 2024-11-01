@@ -18,5 +18,5 @@ RUN yarn workspace @coldsurfers/coldsurf-io build
 RUN cp -r public .next/standalone/apps/coldsurf-io/public
 RUN cp -r .next/static .next/standalone/apps/coldsurf-io/.next/static
 
-EXPOSE 3000
+# EXPOSE 3000
 CMD ["node", ".next/standalone/apps/coldsurf-io/server.js"]
