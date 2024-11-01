@@ -16,16 +16,26 @@ services:
     volumes:
       - ../apps/coldsurf-io:/surfers-root/apps/coldsurf-io
     restart: unless-stopped
-  blog-client:
-    platform: linux/amd64
+  nginx:
     build:
       context: ../
-      dockerfile: ./docker/Dockerfile.blog-client
+      dockerfile: ./docker/Dockerfile.coldsurf-io
       args:
         GITHUB_TOKEN: '${GITHUB_TOKEN}'
-    image: '${ECR_REMOTE_HOST}/coldsurf/blog-client:latest'
-    env_file:
-      - ../apps/blog-client/.env
     ports:
-      - '4000:4000'
-    restart: unless-stopped
+      - '80:80' # Nginx 포트
+    depends_on:
+      - coldsurf-io
+  # blog-client:
+  #   platform: linux/amd64
+  #   build:
+  #     context: ../
+  #     dockerfile: ./docker/Dockerfile.blog-client
+  #     args:
+  #       GITHUB_TOKEN: '${GITHUB_TOKEN}'
+  #   image: '${ECR_REMOTE_HOST}/coldsurf/blog-client:latest'
+  #   env_file:
+  #     - ../apps/blog-client/.env
+  #   ports:
+  #     - '4000:4000'
+  #   restart: unless-stopped

@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "prepare": "husky install",
-    "deploy:blog": "yarn workspace @coldsurfers/blog-client deploy"
+    "deploy:blog": "yarn workspace @coldsurfers/blog-client deploy",
+    "start:coldsurf-io": "yarn workspace @coldsurfers/coldsurf-io start"
   },
   "resolutions": {
     "typescript": "5.4.2",
