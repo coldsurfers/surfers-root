@@ -27,6 +27,19 @@ services:
       - ../apps/blog-client/.env
     ports:
       - '4000:4000'
+  wamuseum-client:
+    platform: linux/amd64
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.wamuseum-client
+      args:
+        GITHUB_TOKEN: '${GITHUB_TOKEN}'
+        PORT: 4002
+    image: '${ECR_REMOTE_HOST}/coldsurf/wamuseum-client:latest'
+    env_file:
+      - ../apps/wamuseum-client/.env
+    ports:
+      - '4002:4002'
     # restart: unless-stopped
   # coldsurf-io-nginx:
   #   platform: linux/amd64
