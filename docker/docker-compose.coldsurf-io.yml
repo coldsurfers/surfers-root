@@ -8,19 +8,20 @@ services:
       dockerfile: ./docker/Dockerfile.coldsurf-io
       args:
         GITHUB_TOKEN: '${GITHUB_TOKEN}'
+        PORT: 4001
     image: '${ECR_REMOTE_HOST}/coldsurf/coldsurf-io:latest'
     env_file:
       - ../apps/coldsurf-io/.env
     ports:
-      - '3000:3000'
-    restart: unless-stopped
-  coldsurf-io-nginx:
-    platform: linux/amd64
-    build:
-      context: ../
-      dockerfile: ./docker/Dockerfile.nginx
-      args:
-        GITHUB_TOKEN: '${GITHUB_TOKEN}'
-    image: '${ECR_REMOTE_HOST}/coldsurf/coldsurf-io-nginx:latest'
-    ports:
       - '4001:4001'
+    # restart: unless-stopped
+  # coldsurf-io-nginx:
+  #   platform: linux/amd64
+  #   build:
+  #     context: ../
+  #     dockerfile: ./docker/Dockerfile.nginx
+  #     args:
+  #       GITHUB_TOKEN: '${GITHUB_TOKEN}'
+  #   image: '${ECR_REMOTE_HOST}/coldsurf/coldsurf-io-nginx:latest'
+  #   ports:
+  #     - '4001:4001'

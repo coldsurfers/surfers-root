@@ -13,10 +13,12 @@ COPY ./packages ./packages
 COPY ./apps/coldsurf-io ./apps/coldsurf-io
 
 WORKDIR /surfers-root/apps/coldsurf-io
+ARG PORT
+ENV PORT=${PORT}
 RUN yarn install
 RUN yarn workspace @coldsurfers/coldsurf-io build
 RUN cp -r public .next/standalone/apps/coldsurf-io/public
 RUN cp -r .next/static .next/standalone/apps/coldsurf-io/.next/static
 
-# EXPOSE 3000
+EXPOSE ${PORT}
 CMD ["node", ".next/standalone/apps/coldsurf-io/server.js"]
