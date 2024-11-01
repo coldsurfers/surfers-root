@@ -2764,7 +2764,7 @@ __metadata:
   resolution: "@coldsurfers/billets-server@workspace:apps/billets-server"
   dependencies:
     "@coldsurfers/prisma-schema": "workspace:*"
-    "@coldsurfers/zod-schema": "npm:^0.1.1-rc.1"
+    "@coldsurfers/zod-schema": "workspace:*"
     "@commitlint/cli": "npm:^17.4.2"
     "@commitlint/config-conventional": "npm:^17.4.2"
     "@fastify/cors": "npm:^10.0.1"
@@ -3074,7 +3074,7 @@ __metadata:
   dependencies:
     "@apollo/client": "npm:^3.10.4"
     "@coldsurfers/hotsurf": "workspace:*"
-    "@coldsurfers/zod-schema": "npm:^0.1.1-rc.0"
+    "@coldsurfers/zod-schema": "workspace:*"
     "@graphql-codegen/cli": "npm:2.16.1"
     "@graphql-codegen/client-preset": "npm:^4.2.6"
     "@graphql-typed-document-node/core": "npm:^3.2.0"
@@ -3116,7 +3116,7 @@ __metadata:
     "@aws-sdk/client-s3": "npm:^3.254.0"
     "@aws-sdk/s3-presigned-post": "npm:^3.254.0"
     "@coldsurfers/prisma-schema": "workspace:*"
-    "@coldsurfers/zod-schema": "npm:^0.1.1-rc.1"
+    "@coldsurfers/zod-schema": "workspace:*"
     "@commitlint/cli": "npm:^17.3.0"
     "@commitlint/config-conventional": "npm:^17.3.0"
     "@fastify/cors": "npm:10.0.0"
@@ -3155,14 +3155,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@coldsurfers/zod-schema@npm:^0.1.1-rc.0, @coldsurfers/zod-schema@npm:^0.1.1-rc.1":
-  version: 0.1.1-rc.1
-  resolution: "@coldsurfers/zod-schema@npm:0.1.1-rc.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40coldsurfers%2Fzod-schema%2F0.1.1-rc.1%2Fe1e6199f06b78f3818dcb498a11da30d12af965d"
+"@coldsurfers/zod-schema@workspace:*, @coldsurfers/zod-schema@workspace:packages/zod-schema":
+  version: 0.0.0-use.local
+  resolution: "@coldsurfers/zod-schema@workspace:packages/zod-schema"
+  dependencies:
+    release-it: "npm:*"
+    typescript: "npm:*"
+    zod: "npm:*"
   peerDependencies:
     zod: ">= 3.0.0"
-  checksum: 10c0/ecb995031d2b190da554571c6ebe868cb2895bcc47e688964fa498c018f0c7fbff4fb8d44f09238c76d97c20dd5725c34534420ef8700970eb81d16e2f6c58d8
-  languageName: node
-  linkType: hard
+  languageName: unknown
+  linkType: soft
 
 "@commitlint/cli@npm:^17.3.0, @commitlint/cli@npm:^17.4.2":
   version: 17.8.1
