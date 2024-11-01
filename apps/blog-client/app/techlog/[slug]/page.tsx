@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation'
 import { getBlocks } from '../../../lib/notion'
 import styles from '../../../styles/post.module.css'
 // prismjs
-import { getBlogTechPageFromSlug, queryNotionBlogTechArticles } from '@/lib/utils'
+import { getBlogTechPageFromSlug, queryLogs } from '@/lib/utils'
 import 'prismjs/components/prism-jsx'
 import 'prismjs/themes/prism-tomorrow.css'
 import { Fragment } from 'react'
@@ -15,7 +15,7 @@ export const revalidate = 3600
 
 // Return a list of `params` to populate the [slug] dynamic segment
 export async function generateStaticParams() {
-  const techPosts = await queryNotionBlogTechArticles()
+  const techPosts = await queryLogs('techlog')
   return techPosts.map((post) => ({ slug: post.slug }))
 }
 
