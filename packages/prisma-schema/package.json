@@ -19,7 +19,7 @@
     "@prisma/client": "*",
     "eslint": "*",
     "prisma": "*",
-    "release-it": "^17.2.1",
+    "release-it": "*",
     "typescript": "*"
   },
   "peerDependencies": {
