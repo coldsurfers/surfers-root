@@ -6,28 +6,22 @@ import { notFound } from 'next/navigation'
 import { getBlocks } from '../../../lib/notion'
 import styles from '../../../styles/post.module.css'
 // prismjs
-import {
-  getBlogTechPageFromSlug,
-  getBlogThoughtPageFromSlug,
-  queryNotionBlogTechArticles,
-  queryNotionBlogThoughtsArticles,
-} from '@/lib/utils'
+import { getTechlogDetail, queryLogs } from '@/lib/utils'
 import 'prismjs/components/prism-jsx'
 import 'prismjs/themes/prism-tomorrow.css'
 import { Fragment } from 'react'
 
+export const revalidate = 3600
+
 // Return a list of `params` to populate the [slug] dynamic segment
 export async function generateStaticParams() {
-  const techPosts = await queryNotionBlogTechArticles()
-  const thoughtPosts = await queryNotionBlogThoughtsArticles()
-  return [...techPosts.map((post) => ({ slug: post.slug })), ...thoughtPosts.map((post) => ({ slug: post.slug }))]
+  const techPosts = await queryLogs('techlog')
+  return techPosts.map((post) => ({ slug: post.slug }))
 }
 
 export async function generateMetadata({ params }: { params?: { slug: string } }) {
   // fetch data
-  const page =
-    (await getBlogTechPageFromSlug({ slug: params?.slug ?? '' })) ??
-    (await getBlogThoughtPageFromSlug({ slug: params?.slug ?? '' }))
+  const page = await getTechlogDetail({ slug: params?.slug ?? '' })
 
   if (!page) {
     return {
@@ -44,7 +38,7 @@ export async function generateMetadata({ params }: { params?: { slug: string } }
 }
 
 export default async function Page({ params }: { params?: { slug: string } }) {
-  const page = await getBlogTechPageFromSlug({ slug: params?.slug ?? '' })
+  const page = await getTechlogDetail({ slug: params?.slug ?? '' })
 
   if (!page) {
     notFound()

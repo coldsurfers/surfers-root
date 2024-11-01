@@ -1,7 +1,7 @@
 'use client'
 
 import { PostItem } from '@/features'
-import { queryNotionBlogTechArticles, queryNotionBlogThoughtsArticles } from '@/lib/utils'
+import { queryLogs } from '@/lib/utils'
 import { Paragraph } from '@/ui'
 import styledW from 'styled-components'
 import styled from 'styled-components/native'
@@ -23,14 +23,14 @@ const Posts = styledW.ol`
 `
 
 export default function Page({
-  techPosts,
-  thoughtsPosts,
+  techlogs,
+  surflogs,
 }: {
-  techPosts: Awaited<ReturnType<typeof queryNotionBlogTechArticles>>
-  thoughtsPosts: Awaited<ReturnType<typeof queryNotionBlogThoughtsArticles>>
+  techlogs: Awaited<ReturnType<typeof queryLogs>>
+  surflogs: Awaited<ReturnType<typeof queryLogs>>
 }) {
-  const latestTechPosts = techPosts.slice(0, 5)
-  const latestThoughtPosts = thoughtsPosts.slice(0, 5)
+  const latestTechlogs = techlogs.slice(0, 5)
+  const latestSurflogs = surflogs.slice(0, 5)
 
   return (
     <div>
@@ -51,13 +51,13 @@ export default function Page({
       <div>
         <h1>Latest Surflogs</h1>
         <Posts>
-          {latestThoughtPosts.map((post) => (
+          {latestSurflogs.map((post) => (
             <PostItem key={post.id} post={post} postType="surflog" />
           ))}
         </Posts>
         <h1>Latest Techlogs</h1>
         <Posts>
-          {latestTechPosts.map((post) => (
+          {latestTechlogs.map((post) => (
             <PostItem key={post.id} post={post} postType="techlog" />
           ))}
         </Posts>

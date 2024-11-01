@@ -2,6 +2,8 @@ import { getBlocks } from '../../lib/notion'
 import { queryNotionResumePage } from './fetchers'
 import PageClient from './page.client'
 
+export const revalidate = 3600
+
 async function getPageData() {
   const promises = [
     queryNotionResumePage('Career'),
