@@ -11,7 +11,13 @@ COPY package.json ./package.json
 COPY yarn.lock ./yarn.lock
 COPY .yarnrc.yml ./.yarnrc.yml
 COPY ./tsconfig.base.json ./tsconfig.base.json
-COPY ./packages ./packages
+COPY ./packages/cloudinary-utils ./packages/cloudinary-utils
+COPY ./packages/hotsurf ./packages/hotsurf
+COPY ./packages/notion-utils ./packages/notion-utils
+COPY ./packages/ocean-road ./packages/ocean-road
+COPY ./packages/ocean-road-design-tokens ./packages/ocean-road-design-tokens
+COPY ./packages/shared-utils ./packages/shared-utils
+COPY ./packages/prisma-schema ./packages/prisma-schema
 COPY ./apps/blog-client ./apps/blog-client
 
 WORKDIR /surfers-root/apps/blog-client
