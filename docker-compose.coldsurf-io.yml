@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   coldsurf-io:
+    platform: linux/amd64
     build:
       context: .
       dockerfile: Dockerfile.coldsurf-io
