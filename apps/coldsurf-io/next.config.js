@@ -8,7 +8,7 @@ const nextConfig = {
     externalDir: true,
     // outputFileTracingRoot: path.join(__dirname, '../../'),
   },
-  output: 'standalone',
+  // output: 'standalone',
   webpack: (config) => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
