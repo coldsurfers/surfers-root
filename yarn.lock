@@ -2847,22 +2847,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@coldsurfers/cloudinary-utils@npm:1.0.1-rc.0":
-  version: 1.0.1-rc.0
-  resolution: "@coldsurfers/cloudinary-utils@npm:1.0.1-rc.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40coldsurfers%2Fcloudinary-utils%2F1.0.1-rc.0%2Fc26e0f09d355a409738814b97b0e082917dc2522"
-  dependencies:
-    "@coldsurfers/shared-utils": "npm:1.0.0"
-  peerDependencies:
-    axios: ^1.6.3
-    form-data: ^4.0.0
-    fs: ^0.0.1-security
-    sha1: ^1.1.1
-    stream: ^0.0.2
-    util: ^0.12.5
-  checksum: 10c0/9a00283f434ef704812b7ecf33b1d518cde4ab7e49fff91e3e0abe39ad49c0a344e152c1740f6de34cb9a062390745b73de4a22786fcab535fcf36e9e01a3bf7
-  languageName: node
-  linkType: hard
-
 "@coldsurfers/cloudinary-utils@workspace:*, @coldsurfers/cloudinary-utils@workspace:packages/cloudinary-utils":
   version: 0.0.0-use.local
   resolution: "@coldsurfers/cloudinary-utils@workspace:packages/cloudinary-utils"
@@ -2972,8 +2956,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@coldsurfers/notion-utils@workspace:packages/notion-utils"
   dependencies:
-    "@coldsurfers/cloudinary-utils": "npm:1.0.1-rc.0"
-    "@coldsurfers/shared-utils": "npm:1.1.0"
+    "@coldsurfers/cloudinary-utils": "workspace:*"
+    "@coldsurfers/shared-utils": "workspace:*"
     "@notionhq/client": "npm:*"
     "@types/sha1": "npm:^1.1.5"
     axios: "npm:*"
@@ -3064,14 +3048,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@coldsurfers/shared-utils@npm:1.0.0":
-  version: 1.0.0
-  resolution: "@coldsurfers/shared-utils@npm:1.0.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40coldsurfers%2Fshared-utils%2F1.0.0%2F45a4e1f48ef1ab29c228aee99f266976cc2094ac"
-  checksum: 10c0/03b9e82a962102c8ba65596891d05db3d753fa0dd8a0e60284e67db37389bdd2c1306e4451fa0d0b742c347d0d5c59ff12101d64e75c6c1b668123a3ed20c7d1
-  languageName: node
-  linkType: hard
-
-"@coldsurfers/shared-utils@npm:1.1.0, @coldsurfers/shared-utils@workspace:*, @coldsurfers/shared-utils@workspace:packages/shared-utils":
+"@coldsurfers/shared-utils@workspace:*, @coldsurfers/shared-utils@workspace:packages/shared-utils":
   version: 0.0.0-use.local
   resolution: "@coldsurfers/shared-utils@workspace:packages/shared-utils"
   dependencies:
