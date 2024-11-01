@@ -1,0 +1,53 @@
+# Node modules directories
+node_modules
+**/node_modules
+
+# Yarn & npm lock files (if not needed)
+# yarn.lock
+# package-lock.json
+
+# Build outputs
+dist
+**/dist
+build
+out
+.next
+**/.next
+coverage
+
+# Logs
+logs
+*.log
+
+# IDE and editor directories
+.vscode
+.idea
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore docker-compose files if not needed
+docker-compose.yml
+docker-compose.override.yml
+
+# Ignore the local environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore Git and other version control directories
+.git
+.gitignore
+.hg
+.hgignore
+.svn
