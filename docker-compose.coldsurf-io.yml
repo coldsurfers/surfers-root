@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile.coldsurf-io
       args:
         GITHUB_TOKEN: '${GITHUB_TOKEN}'
-    image: coldsurf-io
+    image: '${ECR_REMOTE_HOST}/coldsurf/coldsurf-io:latest'
     env_file:
       - apps/coldsurf-io/.env
     ports:
