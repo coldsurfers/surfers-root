@@ -8,36 +8,19 @@ services:
       dockerfile: ./docker/Dockerfile.coldsurf-io
       args:
         GITHUB_TOKEN: '${GITHUB_TOKEN}'
-    # image: '${ECR_REMOTE_HOST}/coldsurf/coldsurf-io:latest'
+    image: '${ECR_REMOTE_HOST}/coldsurf/coldsurf-io:latest'
     env_file:
       - ../apps/coldsurf-io/.env
     ports:
-      - '4001:4001'
-    volumes:
-      - ../apps/coldsurf-io:/surfers-root/apps/coldsurf-io
+      - '3000:3000'
     restart: unless-stopped
-  nginx:
+  coldsurf-io-nginx:
     platform: linux/amd64
     build:
       context: ../
-      dockerfile: ./docker/Dockerfile.coldsurf-io
+      dockerfile: ./docker/Dockerfile.nginx
       args:
         GITHUB_TOKEN: '${GITHUB_TOKEN}'
-    image: '${ECR_REMOTE_HOST}/coldsurf/coldsurf-io:latest'
+    image: '${ECR_REMOTE_HOST}/coldsurf/coldsurf-io-nginx:latest'
     ports:
-      - '80:80' # Nginx 포트
-    depends_on:
-      - coldsurf-io
-  # blog-client:
-  #   platform: linux/amd64
-  #   build:
-  #     context: ../
-  #     dockerfile: ./docker/Dockerfile.blog-client
-  #     args:
-  #       GITHUB_TOKEN: '${GITHUB_TOKEN}'
-  #   image: '${ECR_REMOTE_HOST}/coldsurf/blog-client:latest'
-  #   env_file:
-  #     - ../apps/blog-client/.env
-  #   ports:
-  #     - '4000:4000'
-  #   restart: unless-stopped
+      - '4001:4001'
