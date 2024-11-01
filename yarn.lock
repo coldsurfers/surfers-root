@@ -3144,7 +3144,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@coldsurfers/design-tokens@workspace:packages/ocean-road-design-tokens"
   dependencies:
+    eslint: "npm:*"
     open-color: "npm:^1.9.1"
+    prettier: "npm:*"
     release-it: "npm:*"
     style-dictionary: "npm:^3.7.2"
     ts-node: "npm:^10.9.1"
