@@ -17,6 +17,7 @@ fastify.register(
       typeDefs,
       resolvers,
       plugins: [fastifyApolloDrainPlugin(fastify)],
+      introspection: process.env.NODE_ENV === 'development',
     })
     await apollo.start()
     await fastify.register(cors, {
