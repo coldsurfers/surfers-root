@@ -13,5 +13,6 @@ services:
       - apps/coldsurf-io/.env
     ports:
       - '4001:4001'
+    restart: unless-stopped
     # volumes:
     #   - .:/app
