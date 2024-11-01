@@ -1,0 +1,33 @@
+FROM node:20.16.0-alpine AS builder
+WORKDIR /surfers-root
+ARG GITHUB_TOKEN
+ENV GITHUB_TOKEN=${GITHUB_TOKEN}
+
+RUN corepack enable
+
+COPY package.json ./package.json
+COPY yarn.lock ./yarn.lock
+COPY .yarnrc.yml ./.yarnrc.yml
+COPY ./tsconfig.base.json ./tsconfig.base.json
+COPY ./packages/prisma-schema ./packages/prisma-schema
+COPY ./packages/zod-schema ./packages/zod-schema
+COPY ./apps/wamuseum-server ./apps/wamuseum-server
+
+WORKDIR /surfers-root/apps/wamuseum-server
+ARG PORT
+ENV PORT=${PORT}
+RUN yarn install
+RUN yarn workspace @coldsurfers/wamuseum-server prisma:generate
+RUN yarn workspace @coldsurfers/wamuseum-server build
+
+FROM node:20.16.0-alpine
+WORKDIR /surfers-root
+ARG PORT
+ENV PORT=${PORT}
+
+COPY --from=builder /surfers-root/apps/wamuseum-server/dist ./apps/wamuseum-server/dist
+# COPY --from=builder /surfers-root/apps/wamuseum-server/node_modules ./apps/wamuseum-server/node_modules
+COPY --from=builder /surfers-root/node_modules ./node_modules
+
+EXPOSE ${PORT}
+CMD ["node", "apps/wamuseum-server/dist/src/start-server.js"]

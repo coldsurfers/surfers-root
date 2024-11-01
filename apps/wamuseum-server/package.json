@@ -27,7 +27,7 @@
     "@aws-sdk/s3-presigned-post": "^3.254.0",
     "@coldsurfers/prisma-schema": "workspace:*",
     "@coldsurfers/zod-schema": "workspace:*",
-    "@fastify/cors": "10.0.0",
+    "@fastify/cors": "*",
     "@prisma/client": "5.21.1",
     "@vercel/node": "^2.8.2",
     "@yarnpkg/pnpify": "^4.1.3",
