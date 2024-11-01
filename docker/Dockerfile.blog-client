@@ -2,6 +2,8 @@ FROM node:20.16.0-alpine AS builder
 WORKDIR /surfers-root
 ARG GITHUB_TOKEN
 ENV GITHUB_TOKEN=${GITHUB_TOKEN}
+ARG PORT
+ENV PORT=${PORT}
 
 RUN corepack enable
 
@@ -12,13 +14,17 @@ COPY ./tsconfig.base.json ./tsconfig.base.json
 COPY ./packages ./packages
 COPY ./apps/blog-client ./apps/blog-client
 
-WORKDIR /surfers-root/apps/blog-client
-ARG PORT
-ENV PORT=${PORT}
 RUN yarn install
 RUN yarn workspace @coldsurfers/blog-client build
 RUN cp -r public .next/standalone/apps/blog-client/public
 RUN cp -r .next/static .next/standalone/apps/blog-client/.next/static
+
+FROM node:20.16.0-alpine
+WORKDIR /surfers-root
+ARG PORT
+ENV PORT=${PORT}
+
+COPY --from=builder /surfers-root/apps/blog-client/.next .next
 
 EXPOSE ${PORT}
 CMD ["node", ".next/standalone/apps/blog-client/server.js"]
