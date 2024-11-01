@@ -13,6 +13,8 @@ services:
       - ../apps/coldsurf-io/.env
     ports:
       - '4001:4001'
+    volumes:
+      - ../apps/coldsurf-io:/surfers-root/apps/coldsurf-io
     restart: unless-stopped
   blog-client:
     platform: linux/amd64
