@@ -22,7 +22,7 @@
     "@coldsurfers/cloudinary-utils": "workspace:*",
     "@coldsurfers/hotsurf": "workspace:*",
     "@coldsurfers/notion-utils": "workspace:*",
-    "@coldsurfers/ocean-road": "1.11.1-rc.0",
+    "@coldsurfers/ocean-road": "workspace:*",
     "@coldsurfers/shared-utils": "workspace:*",
     "@notionhq/client": "*",
     "@prisma/client": "^5.19.0",
