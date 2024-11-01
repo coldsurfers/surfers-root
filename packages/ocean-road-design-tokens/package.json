@@ -8,6 +8,8 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "eslint": "*",
+    "prettier": "*",
     "release-it": "*",
     "style-dictionary": "^3.7.2",
     "ts-node": "^10.9.1",
@@ -22,7 +24,8 @@
     "prerelease": "yarn build",
     "prerelease:rc": "yarn build",
     "release": "release-it minor --ci",
-    "release:rc": "release-it --ci --preRelease=rc"
+    "release:rc": "release-it --ci --preRelease=rc",
+    "lint:fix": "eslint './**/*.{ts,tsx}' --cache --ignore-pattern 'dist/*' && prettier --write ."
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
