@@ -12,5 +12,10 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.tsdk": "node_modules/typescript/lib",
   "prettier.configPath": ".prettierrc.json",
-  "conventionalCommits.scopes": ["blog-client", "common", "coldsurf-io"]
+  "conventionalCommits.scopes": [
+    "blog-client",
+    "common",
+    "coldsurf-io",
+    "billets-server"
+  ]
 }
