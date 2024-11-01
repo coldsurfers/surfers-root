@@ -7,7 +7,7 @@ const nextConfig = {
   experimental: {
     externalDir: true,
   },
-  // output: 'standalone',
+  output: 'standalone',
   webpack: (config) => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
