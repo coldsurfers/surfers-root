@@ -14,5 +14,16 @@ services:
     ports:
       - '4001:4001'
     restart: unless-stopped
-    # volumes:
-    #   - .:/app
+  blog-client:
+    platform: linux/amd64
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.blog-client
+      args:
+        GITHUB_TOKEN: '${GITHUB_TOKEN}'
+    image: '${ECR_REMOTE_HOST}/coldsurf/blog-client:latest'
+    env_file:
+      - ../apps/blog-client/.env
+    ports:
+      - '4000:4000'
+    restart: unless-stopped
