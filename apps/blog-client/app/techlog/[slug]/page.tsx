@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation'
 import { getBlocks } from '../../../lib/notion'
 import styles from '../../../styles/post.module.css'
 // prismjs
-import { getBlogTechPageFromSlug, queryLogs } from '@/lib/utils'
+import { getTechlogDetail, queryLogs } from '@/lib/utils'
 import 'prismjs/components/prism-jsx'
 import 'prismjs/themes/prism-tomorrow.css'
 import { Fragment } from 'react'
@@ -21,7 +21,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params?: { slug: string } }) {
   // fetch data
-  const page = await getBlogTechPageFromSlug({ slug: params?.slug ?? '' })
+  const page = await getTechlogDetail({ slug: params?.slug ?? '' })
 
   if (!page) {
     return {
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: { params?: { slug: string } }
 }
 
 export default async function Page({ params }: { params?: { slug: string } }) {
-  const page = await getBlogTechPageFromSlug({ slug: params?.slug ?? '' })
+  const page = await getTechlogDetail({ slug: params?.slug ?? '' })
 
   if (!page) {
     notFound()

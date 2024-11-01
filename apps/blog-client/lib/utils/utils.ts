@@ -1,7 +1,7 @@
 import { cache } from 'react'
 import notionInstance, { notionDatabaseIds } from '../notionInstance'
 
-const getBlogPageFromSlug = (platform: 'techlog' | 'surflog') =>
+const getLogDetail = (platform: 'techlog' | 'surflog') =>
   cache(async ({ slug }: { slug: string }) => {
     const res = await notionInstance.databases.query({
       database_id: notionDatabaseIds.blog ?? '',
@@ -36,8 +36,8 @@ const getBlogPageFromSlug = (platform: 'techlog' | 'surflog') =>
     return null
   })
 
-export const getBlogTechPageFromSlug = getBlogPageFromSlug('techlog')
-export const getBlogThoughtPageFromSlug = getBlogPageFromSlug('surflog')
+export const getTechlogDetail = getLogDetail('techlog')
+export const getSurflogDetail = getLogDetail('surflog')
 
 export const queryLogs = cache(async (platform: 'techlog' | 'surflog') => {
   const result = await notionInstance.databases.query({
