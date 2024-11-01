@@ -4,13 +4,13 @@ services:
   coldsurf-io:
     platform: linux/amd64
     build:
-      context: .
-      dockerfile: Dockerfile.coldsurf-io
+      context: ../
+      dockerfile: ./docker/Dockerfile.coldsurf-io
       args:
         GITHUB_TOKEN: '${GITHUB_TOKEN}'
     image: '${ECR_REMOTE_HOST}/coldsurf/coldsurf-io:latest'
     env_file:
-      - apps/coldsurf-io/.env
+      - ../apps/coldsurf-io/.env
     ports:
       - '4001:4001'
     restart: unless-stopped
