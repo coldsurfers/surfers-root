@@ -20,5 +20,12 @@ RUN yarn workspace @coldsurfers/wamuseum-client build
 RUN cp -r public .next/standalone/apps/wamuseum-client/public
 RUN cp -r .next/static .next/standalone/apps/wamuseum-client/.next/static
 
+FROM node:20.16.0-alpine
+WORKDIR /surfers-root
+ARG PORT
+ENV PORT=${PORT}
+
+COPY --from=builder /surfers-root/apps/wamuseum-client/.next .next
+
 EXPOSE ${PORT}
 CMD ["node", ".next/standalone/apps/wamuseum-client/server.js"]
