@@ -1,24 +1,29 @@
 'use client'
 
-import { Text } from '@coldsurfers/hotsurf'
-import { useColorScheme } from '@coldsurfers/ocean-road'
-import { PropsWithChildren } from 'react'
-import { StyleProp, TextStyle } from 'react-native'
+import variables from '@coldsurfers/design-tokens/dist/js/color/semantic/variables'
+import styled from '@emotion/styled'
+import { CSSProperties, PropsWithChildren } from 'react'
+
+const ParagraphContainer = styled.p`
+  color: ${variables.color.foreground[1]};
+  white-space: pre-wrap;
+`
 
 export const Paragraph = ({
   children,
   style,
   ...otherProps
 }: PropsWithChildren<{
-  style?: StyleProp<TextStyle>
+  style?: CSSProperties
 }>) => {
-  const baseStyles: StyleProp<TextStyle> = {
-    fontFamily: 'Noto Sans KR',
-  }
-  const theme = useColorScheme()
   return (
-    <Text style={[baseStyles, style, { color: theme.name === 'lightMode' ? '#000000' : '#ffffff' }]} {...otherProps}>
+    <ParagraphContainer
+      style={{
+        ...style,
+      }}
+      {...otherProps}
+    >
       {children}
-    </Text>
+    </ParagraphContainer>
   )
 }

@@ -2,19 +2,14 @@
 
 import { PostItem } from '@/features'
 import { queryLogs } from '@/lib/utils'
-import { Paragraph } from '@/ui'
-import styledW from 'styled-components'
-import styled from 'styled-components/native'
+import styled from '@emotion/styled'
 
-const Header = styled.Text`
-  margin-top: 50px;
-  margin-bottom: 50px;
-
+const Header = styled.header`
   display: flex;
   flex-direction: column;
 `
 
-const Posts = styledW.ol`
+const Posts = styled.ol`
   list-style: none;
   margin: 0;
   padding: 0;
@@ -35,17 +30,10 @@ export default function Page({
   return (
     <div>
       <Header>
-        <Paragraph
-          style={{
-            fontSize: 32,
-            fontWeight: 'bold',
-          }}
-        >
-          Blog, COLDSURF
-        </Paragraph>
-        <Paragraph style={{ fontSize: 16, fontWeight: '400', marginTop: 12 }}>
+        <h1>Blog, COLDSURF</h1>
+        <p style={{ fontSize: 16, fontWeight: '400' }}>
           {`Hello, this is COLDSURF blog.\nWe want to make creative, attractive and flexible stuffs. 🎉\nSurflog is about thought provoking ideas. 🗯️\nTechlog is about software engineering articles. 🧑🏻‍💻👩🏻‍💻`}
-        </Paragraph>
+        </p>
       </Header>
 
       <div>

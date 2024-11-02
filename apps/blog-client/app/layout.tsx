@@ -4,11 +4,9 @@ import { OceanRoadThemeRegistry } from '@/lib'
 import { Header, PageLayout } from '@/ui'
 import { Noto_Sans_KR } from 'next/font/google'
 import { PropsWithChildren } from 'react'
-import StyleSheetRegistry from '../lib/registries/StyleSheetRegistry'
 import StyledComponentsRegistry from '../lib/registries/StyledComponentsRegistry'
-import '../styles/global.css'
 
-const inter = Noto_Sans_KR({ subsets: ['latin'] })
+const notoSansKR = Noto_Sans_KR({ subsets: ['latin'] })
 
 const metaTitle = 'Blog | Coldsurf'
 const metaDescription = 'blog, about software techs and tech industry.'
@@ -40,7 +38,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" type="image/png" />
       </head>
-      <body className={inter.className}>
+      <body className={notoSansKR.className}>
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -51,14 +49,12 @@ export default function RootLayout({ children }: PropsWithChildren) {
           }}
         />
         <StyledComponentsRegistry>
-          <StyleSheetRegistry>
-            <OceanRoadThemeRegistry>
-              <PageLayout>
-                <Header />
-                {children}
-              </PageLayout>
-            </OceanRoadThemeRegistry>
-          </StyleSheetRegistry>
+          <OceanRoadThemeRegistry>
+            <PageLayout>
+              <Header />
+              {children}
+            </PageLayout>
+          </OceanRoadThemeRegistry>
         </StyledComponentsRegistry>
       </body>
     </html>

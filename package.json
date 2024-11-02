@@ -35,7 +35,10 @@
     "axios": "1.6.3",
     "release-it": "17.2.1",
     "@notionhq/client": "2.2.14",
-    "@fastify/cors": "10.0.1"
+    "@fastify/cors": "10.0.1",
+    "@emotion/css": "11.10.6",
+    "@emotion/react": "11.10.6",
+    "@emotion/styled": "11.10.6"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.12.1",

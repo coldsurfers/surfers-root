@@ -69,6 +69,11 @@
           "destination": "color/variables-theme.d.ts",
           "format": "typescript/module-declarations",
           "filter": "darkColorFilter"
+        },
+        {
+          "destination": "color/semantic/variables.ts",
+          "format": "semanticColorCssVars",
+          "filter": "darkColorFilter"
         }
       ]
     }

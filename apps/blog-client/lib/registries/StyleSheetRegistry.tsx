@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native'
 
 export default function StyleSheetRegistry({ children }: PropsWithChildren) {
   useServerInsertedHTML(() => {
-    // @ts-ignore
+    // @ts-expect-error
     const sheet = StyleSheet.getSheet()
     return <style dangerouslySetInnerHTML={{ __html: sheet.textContent }} id={sheet.id} />
   })

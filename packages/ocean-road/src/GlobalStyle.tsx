@@ -1,3 +1,4 @@
+import variables from '@coldsurfers/design-tokens/dist/js/color/semantic/variables'
 import { Global, css } from '@emotion/react'
 
 export default function GlobalStyle() {
@@ -8,35 +9,27 @@ export default function GlobalStyle() {
         body {
           padding: 0;
           margin: 0;
-          font-family:
-            -apple-system,
-            BlinkMacSystemFont,
-            Segoe UI,
-            Roboto,
-            Oxygen,
-            Ubuntu,
-            Cantarell,
-            Fira Sans,
-            Droid Sans,
-            Helvetica Neue,
-            sans-serif;
         }
 
         body {
           background-color: white;
-          color: black;
+          color: ${variables.color.foreground[1]};
+          white-space: pre-wrap;
         }
 
         @media (prefers-color-scheme: dark) {
           body {
             background-color: rgb(24, 24, 31);
-            color: rgb(238, 238, 238);
           }
         }
 
         a {
-          color: #2563eb;
+          color: inherit;
           text-decoration: none;
+        }
+
+        p {
+          margin: unset;
         }
 
         * {
