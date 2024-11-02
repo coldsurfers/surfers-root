@@ -104,11 +104,12 @@ const ColorSchemeProvider = ({
         dangerouslySetInnerHTML={{
           __html:
             colorScheme === 'userPreference'
-              ? `@media(prefers-color-scheme: dark) {
+              ? `${selector} {
+${themeToStyles(lightModeTheme)}
+}\n@media(prefers-color-scheme: dark) {
   ${selector} {
-${themeToStyles(darkModeTheme)} }
-}\n${selector}{
-${themeToStyles(theme)} }
+${themeToStyles(darkModeTheme)}
+  }
 }`
               : `${selector} {
 ${themeToStyles(theme)} }`,
