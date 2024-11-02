@@ -97,3 +97,28 @@ export const queryLogs = cache(async (platform: 'techlog' | 'surflog') => {
 
   return posts
 })
+
+export const generatePDF = async () => {
+  // Set options for html2pdf
+  const options = {
+    margin: 1,
+    filename: 'website_screenshot.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+    pagebreak: { mode: 'avoid-all' },
+  }
+
+  // Select the element to capture
+  const element = document.body
+
+  // @ts-expect-error
+  const { default: html2pdf } = await import('html2pdf.js')
+  // Generate PDF
+  html2pdf()
+    .from(element)
+    .set({
+      ...options,
+    })
+    .save()
+}
