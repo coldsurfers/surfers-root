@@ -107,6 +107,8 @@ const ColorSchemeProvider = ({
               ? `@media(prefers-color-scheme: dark) {
   ${selector} {
 ${themeToStyles(darkModeTheme)} }
+}\n${selector}{
+${themeToStyles(theme)} }
 }`
               : `${selector} {
 ${themeToStyles(theme)} }`,

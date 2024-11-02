@@ -1,9 +1,9 @@
+import fs from 'fs'
+import path from 'path'
 import StyleDictionary from 'style-dictionary'
 import { Dictionary } from 'style-dictionary/types/Dictionary'
 import { FormatterArguments } from 'style-dictionary/types/Format'
 import { parseOCJSON } from './utils/open-color'
-import fs from 'fs'
-import path from 'path'
 
 type Format = 'css/variables' | 'json/flat' | 'javascript/module'
 
@@ -45,6 +45,28 @@ StyleDictionary.registerFormat({
 StyleDictionary.registerFormat({
   name: 'darkColorJsModule',
   formatter: darkColorWrapper(`javascript/module`),
+})
+
+StyleDictionary.registerFormat({
+  name: 'semanticColorCssVars',
+  formatter: (args) => {
+    const { dictionary } = args
+    // Convert the tokens into a nested structure with CSS variable references
+    const tokens = JSON.stringify(
+      dictionary.tokens,
+      (key, value) => {
+        console.log(value)
+        if (value && value.value) {
+          return `var(--${value.path.join('-')})` // CSS variable reference format
+        }
+        return value
+      },
+      2, // Indentation for pretty-printing
+    )
+
+    // Wrap in JavaScript module syntax
+    return `const variables = ${tokens} as const;\n\nexport default variables`
+  },
 })
 
 StyleDictionary.registerFilter({
