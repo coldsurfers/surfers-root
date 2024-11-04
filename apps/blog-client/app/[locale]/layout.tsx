@@ -2,9 +2,12 @@ import Script from 'next/script'
 
 import { OceanRoadThemeRegistry } from '@/lib'
 import { PageLayout } from '@/ui'
+import { redirect, routing } from 'i18n/routing'
+import { NextIntlClientProvider } from 'next-intl'
+import { getMessages } from 'next-intl/server'
 import { Noto_Sans_KR } from 'next/font/google'
 import { PropsWithChildren } from 'react'
-import StyledComponentsRegistry from '../lib/registries/StyledComponentsRegistry'
+import StyledComponentsRegistry from '../../lib/registries/StyledComponentsRegistry'
 
 const notoSansKR = Noto_Sans_KR({ subsets: ['latin'] })
 
@@ -16,9 +19,24 @@ export const metadata = {
   description: metaDescription,
 }
 
-export default function RootLayout({ children }: PropsWithChildren) {
+export default async function RootLayout({
+  children,
+  params: { locale },
+}: PropsWithChildren<{
+  params: { locale: string }
+}>) {
+  // Ensure that the incoming `locale` is valid
+  if (!routing.locales.includes(locale as never)) {
+    redirect({ href: '/', locale: 'en' })
+    // notFound()
+  }
+
+  // Providing all messages to the client
+  // side is the easiest way to get started
+  const messages = await getMessages()
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <head>
         {/* google search console */}
         <meta name="google-site-verification" content="t8pam4eI0ydfgF_W2Js3Q9bdfCsbvZA83PSE2JDh1ww" />
@@ -48,11 +66,13 @@ export default function RootLayout({ children }: PropsWithChildren) {
           `,
           }}
         />
-        <StyledComponentsRegistry>
-          <OceanRoadThemeRegistry>
-            <PageLayout>{children}</PageLayout>
-          </OceanRoadThemeRegistry>
-        </StyledComponentsRegistry>
+        <NextIntlClientProvider messages={messages}>
+          <StyledComponentsRegistry>
+            <OceanRoadThemeRegistry>
+              <PageLayout>{children}</PageLayout>
+            </OceanRoadThemeRegistry>
+          </StyledComponentsRegistry>
+        </NextIntlClientProvider>
       </body>
     </html>
   )
