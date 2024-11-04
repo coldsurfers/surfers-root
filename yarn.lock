@@ -3099,7 +3099,10 @@ __metadata:
   resolution: "@coldsurfers/coldsurf-io@workspace:apps/coldsurf-io"
   dependencies:
     "@coldsurfers/hotsurf": "workspace:*"
-    "@coldsurfers/ocean-road": "npm:1.5.1-rc.4"
+    "@coldsurfers/ocean-road": "workspace:*"
+    "@emotion/css": "npm:*"
+    "@emotion/react": "npm:*"
+    "@emotion/styled": "npm:*"
     "@lukemorales/query-key-factory": "npm:*"
     "@react-oauth/google": "npm:^0.12.1"
     "@tanstack/react-query": "npm:*"
@@ -3135,15 +3138,6 @@ __metadata:
     zustand: "npm:*"
   languageName: unknown
   linkType: soft
-
-"@coldsurfers/design-tokens@npm:1.10.0":
-  version: 1.10.0
-  resolution: "@coldsurfers/design-tokens@npm:1.10.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40coldsurfers%2Fdesign-tokens%2F1.10.0%2F5de0ababed32a75c695afe2c506266568a9431fe"
-  dependencies:
-    open-color: "npm:^1.9.1"
-  checksum: 10c0/0f88e4cad81acda2441db1c74996279d6abf3e4c4c45a61eb5f1f986dc29df6f049c47cb1b1c65ae376b78cf59464a3f284a1d303bf90f4d5e741621beedca17
-  languageName: node
-  linkType: hard
 
 "@coldsurfers/design-tokens@workspace:*, @coldsurfers/design-tokens@workspace:packages/ocean-road-design-tokens":
   version: 0.0.0-use.local
@@ -3209,21 +3203,6 @@ __metadata:
     sha1: ^1.1.1
   languageName: unknown
   linkType: soft
-
-"@coldsurfers/ocean-road@npm:1.5.1-rc.4":
-  version: 1.5.1-rc.4
-  resolution: "@coldsurfers/ocean-road@npm:1.5.1-rc.4::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40coldsurfers%2Focean-road%2F1.5.1-rc.4%2F1fdda4c202431757e90521518a8db558ee57318f"
-  dependencies:
-    "@coldsurfers/design-tokens": "npm:1.10.0"
-  peerDependencies:
-    "@emotion/css": ^11.10.6
-    "@emotion/react": ^11.10.6
-    "@emotion/styled": ^11.10.6
-    react: ^18.2.0
-    react-dom: ^18.2.0
-  checksum: 10c0/712ffbe86215f78bb17d975089397c198726fb1e0e6581fb1dcf1cc4319d22f97177a8d7f146fdf302bd5a5bde95ede37e880560bb1a1ef30dd92bf84794c3b8
-  languageName: node
-  linkType: hard
 
 "@coldsurfers/ocean-road@workspace:*, @coldsurfers/ocean-road@workspace:packages/ocean-road":
   version: 0.0.0-use.local
