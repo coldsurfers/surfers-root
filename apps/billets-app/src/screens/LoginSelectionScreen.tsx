@@ -1,3 +1,4 @@
+import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import appleAuth from '@invertase/react-native-apple-authentication'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import { Button, IconButton, Spinner, palette } from 'fstvllife-design-system'
@@ -9,7 +10,6 @@ import { AuthContext } from '../lib/contexts/AuthContext'
 import { ToastVisibleContext, ToastVisibleContextProvider } from '../lib/contexts/ToastVisibleContext'
 import decodeJwt from '../lib/decodeJwt'
 import useSignInMutation from '../lib/hooks/mutations/useSignInMutation'
-import palettes from '../lib/palettes'
 import { useLoginSelectionScreenNavigation } from './LoginSelectionScreen.hooks'
 
 const GOOGLE_COLOR = '#4284F3'
@@ -140,7 +140,7 @@ const LoginSelectionScreen = () => {
             style={[
               styles.loginButton,
               {
-                backgroundColor: palettes.lightblue[300],
+                backgroundColor: color.oc.cyan[8].value,
               },
             ]}
             onPress={onPressEmailLogin}
