@@ -1,8 +1,9 @@
-import { Button } from '@coldsurfers/hotsurf'
+import variables from '@coldsurfers/design-tokens/dist/js/color/semantic/variables'
+import { Button } from '@coldsurfers/ocean-road'
+import styled from '@emotion/styled'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import styled from 'styled-components'
 import { BILLETS_APP_URL } from '../billets/billets.constants'
 import { HEADER_HEIGHT } from './Header.constants'
 
@@ -12,7 +13,7 @@ const HeaderContainer = styled.div<{ $animation: 'show' | 'hide' }>`
   height: ${HEADER_HEIGHT};
   padding: 0 40px;
 
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: ${variables.color.background[2]};
   z-index: 99;
 
   position: fixed;
@@ -86,7 +87,7 @@ const ModalContainer = styled.div<{ $isOpen: boolean }>`
 `
 
 const ModalPaper = styled.div`
-  background: white;
+  background: ${variables.color.background[2]};
   border-radius: 8px;
   padding: 20px;
   width: 90%;
@@ -96,6 +97,10 @@ const ModalPaper = styled.div`
 
 const ModalContent = styled.div`
   margin: 10px 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 `
 
 const ModalFooter = styled.div`
@@ -117,23 +122,24 @@ export function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
   }, [isOpen])
 
   return (
-    <ModalContainer $isOpen={isOpen} style={{ overflowY: 'auto' }}>
+    <ModalContainer onClick={onClose} $isOpen={isOpen} style={{ overflowY: 'auto' }}>
       {isOpen && (
-        <ModalPaper>
-          {/* <ModalHeader>Menu</ModalHeader> */}
+        <ModalPaper onClick={(e) => e.stopPropagation()}>
           <ModalContent>
-            <Link href="/about" onClick={onClose}>
+            <Link href="/about" onClick={onClose} style={{ alignSelf: 'flex-start' }}>
               <p>About</p>
             </Link>
-            <Link href="/blog" onClick={onClose}>
+            <Link href="/blog" onClick={onClose} style={{ alignSelf: 'flex-start' }}>
               <p>Blog</p>
             </Link>
             <Link href={BILLETS_APP_URL} onClick={onClose}>
-              <Button text="Get Billets app" color="pink" />
+              <Button theme="pink">Get Billets app</Button>
             </Link>
           </ModalContent>
           <ModalFooter>
-            <Button text="Close" color="transparent" onPress={onClose} />
+            <Button theme="transparent" onClick={onClose}>
+              Close
+            </Button>
           </ModalFooter>
         </ModalPaper>
       )}
@@ -184,11 +190,13 @@ export default function Header() {
             <HeaderMenuText>Blog</HeaderMenuText>
           </HeaderMenuContainer>
           <Link href={BILLETS_APP_URL}>
-            <Button text="Get Billets app" color="pink" />
+            <Button theme="pink">Get Billets app</Button>
           </Link>
         </WebMenuContainer>
         <MobileMenuContainer>
-          <Button text="🍔" color="transparentDarkGray" onPress={() => setIsModalOpen(true)} />
+          <Button theme="transparentDarkGray" onClick={() => setIsModalOpen(true)}>
+            🍔
+          </Button>
         </MobileMenuContainer>
       </HeaderContainer>
       <ModalMenu isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
