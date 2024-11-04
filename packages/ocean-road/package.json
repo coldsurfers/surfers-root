@@ -3,6 +3,7 @@
   "version": "1.11.1-rc.0",
   "license": "MIT",
   "main": "src/index.ts",
+  "react-native": "src/index.ts",
   "module": "src/index.ts",
   "source": "src/",
   "types": "src/index.d.ts",
@@ -18,6 +19,10 @@
     "./*.css": {
       "import": "./src/css/*.css",
       "require": "./src/css/*.css"
+    },
+    "./native": {
+      "import": "./src/native/index.ts",
+      "require": "./src/native/index.ts"
     }
   },
   "scripts": {
@@ -30,7 +35,8 @@
     "release:rc": "release-it --ci --preRelease=rc"
   },
   "dependencies": {
-    "@coldsurfers/design-tokens": "workspace:*"
+    "@coldsurfers/design-tokens": "workspace:*",
+    "@emotion/native": "^11.11.0"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.18.6",

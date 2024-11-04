@@ -1,16 +1,16 @@
-import React, {useContext} from 'react';
-import {palette} from 'fstvllife-design-system';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import LoginStackNavigation from './LoginStackNavigation';
-import MainTabNavigation from './MainTabNavigation';
-import {AuthContext} from '../lib/contexts/AuthContext';
-import {MainStackNavigationParamList} from './MainStackNavigation.types';
-import ConcertStackNavigation from './ConcertStackNavigation';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { palette } from 'fstvllife-design-system'
+import React, { useContext } from 'react'
+import { AuthContext } from '../lib/contexts/AuthContext'
+import ConcertStackNavigation from './ConcertStackNavigation'
+import LoginStackNavigation from './LoginStackNavigation'
+import { MainStackNavigationParamList } from './MainStackNavigation.types'
+import MainTabNavigation from './MainTabNavigation'
 
-const MainStack = createNativeStackNavigator<MainStackNavigationParamList>();
+const MainStack = createNativeStackNavigator<MainStackNavigationParamList>()
 
 const MainStackNavigation = () => {
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext)
   return (
     <MainStack.Navigator
       screenOptions={{
@@ -18,7 +18,8 @@ const MainStackNavigation = () => {
         contentStyle: {
           backgroundColor: palette.white,
         },
-      }}>
+      }}
+    >
       <MainStack.Screen name="MainTabScreen" component={MainTabNavigation} />
       <MainStack.Screen
         name="ConcertStackScreen"
@@ -31,11 +32,11 @@ const MainStackNavigation = () => {
         <MainStack.Screen
           name="LoginStackScreen"
           component={LoginStackNavigation}
-          options={{presentation: 'fullScreenModal'}}
+          options={{ presentation: 'fullScreenModal' }}
         />
       )}
     </MainStack.Navigator>
-  );
-};
+  )
+}
 
-export default MainStackNavigation;
+export default MainStackNavigation

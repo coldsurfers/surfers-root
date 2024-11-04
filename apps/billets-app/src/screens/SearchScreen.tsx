@@ -1,4 +1,4 @@
-import { Text, TextInput } from '@coldsurfers/hotsurf'
+import { Text, TextInput } from '@coldsurfers/ocean-road/native'
 import { useDebounce } from '@uidotdev/usehooks'
 import format from 'date-fns/format'
 import { useCallback, useMemo, useState } from 'react'
