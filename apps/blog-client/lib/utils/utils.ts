@@ -2,7 +2,7 @@ import { cache } from 'react'
 import notionInstance, { notionDatabaseIds } from '../notionInstance'
 
 const getLogDetail = (platform: 'techlog' | 'surflog') =>
-  cache(async ({ slug }: { slug: string }) => {
+  cache(async ({ slug, lang }: { slug: string; lang: 'ko' | 'en' }) => {
     const res = await notionInstance.databases.query({
       database_id: notionDatabaseIds.blog ?? '',
       filter: {
@@ -28,6 +28,14 @@ const getLogDetail = (platform: 'techlog' | 'surflog') =>
             },
           },
         ],
+        or: [
+          {
+            property: 'lang',
+            multi_select: {
+              contains: lang,
+            },
+          },
+        ],
       },
     })
     if (res.results.length) {
@@ -39,12 +47,12 @@ const getLogDetail = (platform: 'techlog' | 'surflog') =>
 export const getTechlogDetail = getLogDetail('techlog')
 export const getSurflogDetail = getLogDetail('surflog')
 
-export const queryLogs = cache(async (platform: 'techlog' | 'surflog') => {
+export const queryLogs = cache(async (platform: 'techlog' | 'surflog', lang: 'ko' | 'en') => {
   const result = await notionInstance.databases.query({
     database_id: notionDatabaseIds.blog ?? '',
     sorts: [
       {
-        timestamp: 'created_time',
+        property: 'Publish date',
         direction: 'descending',
       },
     ],
@@ -62,13 +70,19 @@ export const queryLogs = cache(async (platform: 'techlog' | 'surflog') => {
             contains: platform,
           },
         },
+        {
+          property: 'lang',
+          multi_select: {
+            contains: lang,
+          },
+        },
       ],
     },
   })
 
   const posts = result?.results?.map((post) => {
     // @ts-ignore
-    const createdTime = new Date(post.created_time)
+    const createdTime = new Date(post.properties?.['Publish date']?.date?.start ?? post.created_time)
     // @ts-ignore
     const lastEditedTime = new Date(post.last_edited_time)
     // @ts-ignore

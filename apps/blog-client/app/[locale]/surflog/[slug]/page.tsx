@@ -6,6 +6,8 @@ import { getBlocks } from '../../../../lib/notion'
 // prismjs
 import { getSurflogDetail, queryLogs } from '@/lib/utils'
 import { CommonBack } from '@/ui'
+import { routing } from 'i18n/routing'
+import { PageProps } from 'i18n/types'
 import 'prismjs/components/prism-jsx'
 import 'prismjs/themes/prism-tomorrow.css'
 import { Fragment } from 'react'
@@ -14,13 +16,15 @@ export const revalidate = 3600
 
 // Return a list of `params` to populate the [slug] dynamic segment
 export async function generateStaticParams() {
-  const logs = await queryLogs('surflog')
-  return logs.map((post) => ({ slug: post.slug }))
+  const locales = routing.locales.map((locale) => ({ locale }))
+  const promises = locales.map(async (locale) => await queryLogs('surflog', locale.locale))
+  const result = await promises
+  return result.flat()
 }
 
-export async function generateMetadata({ params }: { params?: { slug: string } }) {
+export async function generateMetadata({ params }: PageProps<{ slug: string }>) {
   // fetch data
-  const page = await getSurflogDetail({ slug: params?.slug ?? '' })
+  const page = await getSurflogDetail({ slug: params?.slug ?? '', lang: params.locale })
 
   if (!page) {
     return {
@@ -36,8 +40,8 @@ export async function generateMetadata({ params }: { params?: { slug: string } }
   }
 }
 
-export default async function Page({ params }: { params?: { slug: string } }) {
-  const page = await getSurflogDetail({ slug: params?.slug ?? '' })
+export default async function Page({ params }: PageProps<{ slug: string }>) {
+  const page = await getSurflogDetail({ slug: params?.slug ?? '', lang: params.locale })
   if (!page) {
     notFound()
   }

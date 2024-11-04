@@ -3,12 +3,12 @@ import { SurflogPageClient } from './page.client'
 
 export const revalidate = 3600
 
-async function initPage() {
-  return await await queryLogs('surflog')
+async function initPage(locale: 'ko' | 'en') {
+  return await await queryLogs('surflog', locale)
 }
 
-export default async function SurflogPage() {
-  const logs = await initPage()
+export default async function SurflogPage({ params }: { params: { locale: 'ko' | 'en' } }) {
+  const logs = await initPage(params.locale)
 
   return <SurflogPageClient logs={logs} />
 }
