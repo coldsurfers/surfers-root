@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { babel } = require('@rollup/plugin-babel')
 const { nodeResolve } = require('@rollup/plugin-node-resolve')
 const peerDepsExternal = require('rollup-plugin-peer-deps-external')
@@ -28,10 +28,7 @@ const config = {
     babel({
       extensions,
       babelHelpers: 'bundled',
-      presets: [
-        '@babel/preset-typescript',
-        ['@babel/preset-react', { runtime: 'automatic' }],
-      ],
+      presets: ['@babel/preset-typescript', ['@babel/preset-react', { runtime: 'automatic' }]],
     }),
     css(),
     json(),
