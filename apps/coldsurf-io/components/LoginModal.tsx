@@ -1,6 +1,7 @@
 'use client'
 
-import { Button, Modal } from '@coldsurfers/hotsurf'
+import { Modal } from '@coldsurfers/hotsurf'
+import { Button } from '@coldsurfers/ocean-road'
 import { GestureResponderEvent } from 'react-native'
 import styled from 'styled-components'
 
@@ -35,7 +36,7 @@ export function LoginModal({ isOpen = false, onClickGoogleLogin, onClickBackgrou
     <Modal visible={isOpen} onPressBackground={onClickBackground}>
       <ModalInner>
         <ModalTitle>ColdSurf Store</ModalTitle>
-        <Button text="Google Login" onPress={onClickGoogleLogin} />
+        <Button onClick={onClickGoogleLogin}>Google Login</Button>
       </ModalInner>
     </Modal>
   )

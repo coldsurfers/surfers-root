@@ -1,7 +1,7 @@
 import Script from 'next/script'
 
 import { OceanRoadThemeRegistry } from '@/lib'
-import { Header, PageLayout } from '@/ui'
+import { PageLayout } from '@/ui'
 import { Noto_Sans_KR } from 'next/font/google'
 import { PropsWithChildren } from 'react'
 import StyledComponentsRegistry from '../lib/registries/StyledComponentsRegistry'
@@ -50,10 +50,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
         />
         <StyledComponentsRegistry>
           <OceanRoadThemeRegistry>
-            <PageLayout>
-              <Header />
-              {children}
-            </PageLayout>
+            <PageLayout>{children}</PageLayout>
           </OceanRoadThemeRegistry>
         </StyledComponentsRegistry>
       </body>
