@@ -1,8 +1,8 @@
-import { forwardRef } from 'react'
+import { ButtonHTMLAttributes, forwardRef } from 'react'
 import { StyledButton, StyledButtonText } from './button.styled'
 import { ButtonProps } from './button.types'
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = forwardRef<HTMLButtonElement, ButtonProps & ButtonHTMLAttributes<HTMLButtonElement>>(
   ({ theme = 'indigo', children, ...otherProps }, ref) => {
     return (
       <StyledButton ref={ref} colorTheme={theme} {...otherProps}>

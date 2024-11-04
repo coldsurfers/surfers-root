@@ -1,9 +1,9 @@
-import {Text} from '@coldsurfers/hotsurf';
-import {View} from 'react-native';
-import palettes from '../../../lib/palettes';
-import {SEARCH_ITEM_THUMBNAIL_SIZE} from './constants';
+import { Text } from '@coldsurfers/ocean-road/native'
+import { View } from 'react-native'
+import palettes from '../../../lib/palettes'
+import { SEARCH_ITEM_THUMBNAIL_SIZE } from './constants'
 
-export default function SearchItemTextThumbnail({text}: {text: string}) {
+export default function SearchItemTextThumbnail({ text }: { text: string }) {
   return (
     <View
       style={{
@@ -13,10 +13,11 @@ export default function SearchItemTextThumbnail({text}: {text: string}) {
         backgroundColor: palettes.lightblue['300'],
         alignItems: 'center',
         justifyContent: 'center',
-      }}>
-      <Text weight="bold" style={{color: palettes.white}}>
+      }}
+    >
+      <Text weight="bold" style={{ color: palettes.white }}>
         {text}
       </Text>
     </View>
-  );
+  )
 }

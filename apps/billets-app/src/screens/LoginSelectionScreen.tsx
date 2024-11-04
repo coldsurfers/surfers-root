@@ -1,14 +1,15 @@
+import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import appleAuth from '@invertase/react-native-apple-authentication'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import { Button, IconButton, Spinner, palette } from 'fstvllife-design-system'
 import React, { useCallback, useContext } from 'react'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { GOOGLE_SIGNIN_OPTIONS } from '../lib/constants'
 import { AuthContext } from '../lib/contexts/AuthContext'
 import { ToastVisibleContext, ToastVisibleContextProvider } from '../lib/contexts/ToastVisibleContext'
 import decodeJwt from '../lib/decodeJwt'
 import useSignInMutation from '../lib/hooks/mutations/useSignInMutation'
-import palettes from '../lib/palettes'
 import { useLoginSelectionScreenNavigation } from './LoginSelectionScreen.hooks'
 
 const GOOGLE_COLOR = '#4284F3'
@@ -126,7 +127,7 @@ const LoginSelectionScreen = () => {
 
   return (
     <>
-      <SafeAreaView style={styles.wrapper}>
+      <SafeAreaView edges={['bottom']} style={styles.wrapper}>
         <IconButton
           onPress={onPressBackButton}
           color="transparentDarkGray"
@@ -139,7 +140,7 @@ const LoginSelectionScreen = () => {
             style={[
               styles.loginButton,
               {
-                backgroundColor: palettes.lightblue[300],
+                backgroundColor: color.oc.cyan[8].value,
               },
             ]}
             onPress={onPressEmailLogin}

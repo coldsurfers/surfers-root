@@ -1,10 +1,10 @@
-import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import HomeScreen from '../screens/HomeScreen';
-import LocationSelectionScreen from '../screens/LocationSelectionScreen';
-import {HomeStackParam} from './HomeStackNavigation.types';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import React from 'react'
+import HomeScreen from '../screens/HomeScreen'
+import LocationSelectionScreen from '../screens/LocationSelectionScreen'
+import { HomeStackParam } from './HomeStackNavigation.types'
 
-const HomeStack = createNativeStackNavigator<HomeStackParam>();
+const HomeStack = createNativeStackNavigator<HomeStackParam>()
 
 const HomeStackNavigation = () => {
   return (
@@ -25,7 +25,7 @@ const HomeStackNavigation = () => {
         }}
       />
     </HomeStack.Navigator>
-  );
-};
+  )
+}
 
-export default HomeStackNavigation;
+export default HomeStackNavigation

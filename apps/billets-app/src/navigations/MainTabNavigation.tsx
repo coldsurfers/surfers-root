@@ -1,18 +1,15 @@
-import React from 'react';
-import {
-  BottomTabBarProps,
-  createBottomTabNavigator,
-} from '@react-navigation/bottom-tabs';
-import MyStackNavigation from './MyStackNavigation';
-import {TabBar} from '../components/TabBar';
-import SearchStackNavigation from './SearchStackNavigation';
-import HomeStackNavigation from './HomeStackNavigation';
-import {StackScreens} from '../lib/navigations';
-import {MainTabNavigationParamList} from './MainTabNavigation.types';
+import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import React from 'react'
+import { TabBar } from '../components/TabBar'
+import { StackScreens } from '../lib/navigations'
+import HomeStackNavigation from './HomeStackNavigation'
+import { MainTabNavigationParamList } from './MainTabNavigation.types'
+import MyStackNavigation from './MyStackNavigation'
+import SearchStackNavigation from './SearchStackNavigation'
 
-const Tab = createBottomTabNavigator<MainTabNavigationParamList>();
+const Tab = createBottomTabNavigator<MainTabNavigationParamList>()
 
-const renderTabBar = (props: BottomTabBarProps) => <TabBar {...props} />;
+const renderTabBar = (props: BottomTabBarProps) => <TabBar {...props} />
 
 const MainTabNavigation = () => {
   return (
@@ -98,7 +95,7 @@ const MainTabNavigation = () => {
         component={CommunityNavigation}
       /> */}
     </Tab.Navigator>
-  );
-};
+  )
+}
 
-export default MainTabNavigation;
+export default MainTabNavigation
