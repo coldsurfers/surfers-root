@@ -1,26 +1,20 @@
-import {
-  SectionList,
-  SectionListData,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import palettes from '../lib/palettes';
-import {Text, TextInput} from '@coldsurfers/hotsurf';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {useLocationSelectionScreenNavigation} from './LocationSelectionScreen.hooks';
-import {useUserCurrentLocationStore} from '../lib/stores/userCurrentLocationStore';
-import {LatLng} from '../types/LatLng';
-import {useCallback, useMemo, useState} from 'react';
+import { Text, TextInput } from '@coldsurfers/ocean-road/native'
+import { useCallback, useMemo, useState } from 'react'
+import { SectionList, SectionListData, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import palettes from '../lib/palettes'
+import { useUserCurrentLocationStore } from '../lib/stores/userCurrentLocationStore'
+import { LatLng } from '../types/LatLng'
+import { useLocationSelectionScreenNavigation } from './LocationSelectionScreen.hooks'
 
 const sections: ReadonlyArray<
   SectionListData<
     {
-      city: string;
-      latLng: LatLng;
+      city: string
+      latLng: LatLng
     },
     {
-      country: string;
+      country: string
     }
   >
 > = [
@@ -55,55 +49,46 @@ const sections: ReadonlyArray<
       },
     ],
   },
-];
+]
 
 const LocationSelectionScreen = () => {
-  const navigation = useLocationSelectionScreenNavigation();
-  const setUserCurrentLocation = useUserCurrentLocationStore(
-    state => state.setUserCurrentLocation,
-  );
-  const [searchKeyword, setSearchKeyword] = useState('');
+  const navigation = useLocationSelectionScreenNavigation()
+  const setUserCurrentLocation = useUserCurrentLocationStore((state) => state.setUserCurrentLocation)
+  const [searchKeyword, setSearchKeyword] = useState('')
 
   const searchedSections = useMemo(() => {
     return sections.filter(
-      section =>
+      (section) =>
         section.country.toLowerCase().includes(searchKeyword.toLowerCase()) ||
-        section.data.some(item =>
-          item.city.toLowerCase().includes(searchKeyword.toLowerCase()),
-        ),
-    );
-  }, [searchKeyword]);
+        section.data.some((item) => item.city.toLowerCase().includes(searchKeyword.toLowerCase())),
+    )
+  }, [searchKeyword])
 
   const renderSectionHeader = useCallback(
-    (info: {
-      section: SectionListData<
-        {city: string; latLng: LatLng},
-        {country: string}
-      >;
-    }) => {
+    (info: { section: SectionListData<{ city: string; latLng: LatLng }, { country: string }> }) => {
       return (
         <View>
           <Text style={styles.sectionHeader}>{info.section.country}</Text>
         </View>
-      );
+      )
     },
     [],
-  );
+  )
 
   const renderItem = useCallback(
-    (info: {item: {city: string; latLng: LatLng}}) => {
+    (info: { item: { city: string; latLng: LatLng } }) => {
       const onPress = () => {
-        setUserCurrentLocation(info.item.latLng);
-        navigation.goBack();
-      };
+        setUserCurrentLocation(info.item.latLng)
+        navigation.goBack()
+      }
       return (
         <TouchableOpacity onPress={onPress}>
           <Text style={styles.itemText}>{info.item.city}</Text>
         </TouchableOpacity>
-      );
+      )
     },
     [navigation, setUserCurrentLocation],
-  );
+  )
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -121,8 +106,8 @@ const LocationSelectionScreen = () => {
         contentContainerStyle={styles.listContainer}
       />
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -130,13 +115,13 @@ const styles = StyleSheet.create({
     backgroundColor: palettes.gray['200'],
     paddingHorizontal: 12,
   },
-  listWrapper: {flex: 1},
+  listWrapper: { flex: 1 },
   listContainer: {
     flexGrow: 1,
     paddingTop: 24,
   },
-  sectionHeader: {fontSize: 18, fontWeight: '500'},
-  itemText: {fontSize: 16},
-});
+  sectionHeader: { fontSize: 18, fontWeight: '500' },
+  itemText: { fontSize: 16 },
+})
 
-export default LocationSelectionScreen;
+export default LocationSelectionScreen
