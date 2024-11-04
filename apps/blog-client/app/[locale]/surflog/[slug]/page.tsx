@@ -2,7 +2,7 @@ import Head from 'next/head'
 
 import { Text, renderBlock } from '@/features/notion'
 import { notFound } from 'next/navigation'
-import { getBlocks } from '../../../lib/notion'
+import { getBlocks } from '../../../../lib/notion'
 // prismjs
 import { getSurflogDetail, queryLogs } from '@/lib/utils'
 import { CommonBack } from '@/ui'
@@ -38,7 +38,6 @@ export async function generateMetadata({ params }: { params?: { slug: string } }
 
 export default async function Page({ params }: { params?: { slug: string } }) {
   const page = await getSurflogDetail({ slug: params?.slug ?? '' })
-
   if (!page) {
     notFound()
   }

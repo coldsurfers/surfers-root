@@ -3,7 +3,7 @@
 import { generatePDF } from '@/lib'
 import Link from 'next/link'
 import { Fragment, useEffect } from 'react'
-import { renderBlock } from '../../features/notion/renderer/renderer'
+import { renderBlock } from '../../../features/notion/renderer/renderer'
 import postStyles from '../../styles/post.module.css'
 import ArticleCareer from './components/article.career'
 

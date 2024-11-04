@@ -1,4 +1,4 @@
-import { getBlocks } from '../../lib/notion'
+import { getBlocks } from '../../../lib/notion'
 import { queryNotionResumePage } from './fetchers'
 import PageClient from './page.client'
 

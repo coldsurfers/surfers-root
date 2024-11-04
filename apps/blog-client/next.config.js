@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /** @type {import('next').NextConfig} */
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path')
+const createNextIntlPlugin = require('next-intl/plugin')
+
+const withNextIntl = createNextIntlPlugin()
 
 const nextConfig = {
   experimental: {
@@ -22,6 +25,10 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  // i18n: {
+  //   locales: ['en', 'ko'],
+  //   defaultLocale: 'en',
+  // },
 }
 
-module.exports = nextConfig
+module.exports = withNextIntl(nextConfig)

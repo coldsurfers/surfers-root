@@ -2,7 +2,7 @@ import Head from 'next/head'
 
 import { Text, renderBlock } from '@/features/notion'
 import { notFound } from 'next/navigation'
-import { getBlocks } from '../../../lib/notion'
+import { getBlocks } from '../../../../lib/notion'
 // prismjs
 import { getTechlogDetail, queryLogs } from '@/lib/utils'
 import { CommonBack } from '@/ui'

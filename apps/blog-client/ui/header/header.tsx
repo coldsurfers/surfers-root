@@ -1,8 +1,7 @@
 'use client'
 
 import { useUIStore } from '@/stores'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { Link, usePathname } from 'i18n/routing'
 import { useEffect } from 'react'
 import { useShallow } from 'zustand/shallow'
 import { StyledHeaderContainer, StyledHeaderHeading } from './header.styled'
