@@ -3,9 +3,9 @@ import PageClient from './page.client'
 
 export const revalidate = 3600
 
-const Page = async () => {
-  const techlogs = await queryLogs('techlog')
-  const surflogs = await queryLogs('surflog')
+const Page = async ({ params }: { params: { locale: 'ko' | 'en' } }) => {
+  const techlogs = await queryLogs('techlog', params.locale)
+  const surflogs = await queryLogs('surflog', params.locale)
   return <PageClient techlogs={techlogs} surflogs={surflogs} />
 }
 

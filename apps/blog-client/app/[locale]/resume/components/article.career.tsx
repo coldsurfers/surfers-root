@@ -2,7 +2,7 @@
 
 import { renderCareerBlock } from '@/features/notion'
 import { Fragment } from 'react'
-import postStyles from '../../../styles/post.module.css'
+import postStyles from '../../../../styles/post.module.css'
 
 const ArticleCareer = ({ careerBlocks }: { careerBlocks: never[] }) => (
   <article className={postStyles.container}>

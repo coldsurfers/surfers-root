@@ -2,7 +2,7 @@
 
 import { Paragraph } from '@/ui'
 import { UserObjectResponse } from '@notionhq/client/build/src/api-endpoints'
-import Link from 'next/link'
+import { Link } from 'i18n/routing'
 import { StyledWritersPageHeader } from './page.styled'
 
 export function WritersPageClient({ users }: { users: UserObjectResponse[] }) {
