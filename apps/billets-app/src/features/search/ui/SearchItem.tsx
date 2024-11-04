@@ -1,8 +1,8 @@
-import {ReactNode} from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {match} from 'ts-pattern';
-import palettes from '../../../lib/palettes';
-import {Text} from '@coldsurfers/hotsurf';
+import { Text } from '@coldsurfers/ocean-road/native'
+import { ReactNode } from 'react'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { match } from 'ts-pattern'
+import palettes from '../../../lib/palettes'
 
 export default function SearchItem({
   type,
@@ -12,12 +12,12 @@ export default function SearchItem({
   description,
   onPress,
 }: {
-  type: 'artist' | 'venue' | 'concert';
-  thumbnail: ReactNode;
-  title: string;
-  subtitle: string;
-  description?: string;
-  onPress?: () => void;
+  type: 'artist' | 'venue' | 'concert'
+  thumbnail: ReactNode
+  title: string
+  subtitle: string
+  description?: string
+  onPress?: () => void
 }) {
   return match(type)
     .with('artist', () => (
@@ -25,7 +25,7 @@ export default function SearchItem({
         {thumbnail}
         <View style={styles.itemInnerRight}>
           <Text weight="bold">{title}</Text>
-          <Text weight="medium" style={{color: palettes.gray['800']}}>
+          <Text weight="medium" style={{ color: palettes.gray['800'] }}>
             {subtitle}
           </Text>
         </View>
@@ -37,12 +37,12 @@ export default function SearchItem({
           {thumbnail}
           <View style={styles.itemInnerRight}>
             <Text weight="bold">{title}</Text>
-            <Text weight="medium" style={{color: palettes.gray['800']}}>
+            <Text weight="medium" style={{ color: palettes.gray['800'] }}>
               {subtitle}
             </Text>
           </View>
         </TouchableOpacity>
-      );
+      )
     })
     .with('concert', () => {
       return (
@@ -50,17 +50,17 @@ export default function SearchItem({
           {thumbnail}
           <View style={styles.itemInnerRight}>
             <Text weight="bold">{title}</Text>
-            <Text weight="medium" style={{color: palettes.lightblue['500']}}>
+            <Text weight="medium" style={{ color: palettes.lightblue['500'] }}>
               {subtitle}
             </Text>
-            <Text weight="medium" style={{color: palettes.gray['800']}}>
+            <Text weight="medium" style={{ color: palettes.gray['800'] }}>
               {description}
             </Text>
           </View>
         </TouchableOpacity>
-      );
+      )
     })
-    .otherwise(() => null);
+    .otherwise(() => null)
 }
 
 const styles = StyleSheet.create({
@@ -72,4 +72,4 @@ const styles = StyleSheet.create({
   itemInnerRight: {
     marginLeft: 8,
   },
-});
+})

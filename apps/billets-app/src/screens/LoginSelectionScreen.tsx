@@ -2,7 +2,8 @@ import appleAuth from '@invertase/react-native-apple-authentication'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import { Button, IconButton, Spinner, palette } from 'fstvllife-design-system'
 import React, { useCallback, useContext } from 'react'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { GOOGLE_SIGNIN_OPTIONS } from '../lib/constants'
 import { AuthContext } from '../lib/contexts/AuthContext'
 import { ToastVisibleContext, ToastVisibleContextProvider } from '../lib/contexts/ToastVisibleContext'
@@ -126,7 +127,7 @@ const LoginSelectionScreen = () => {
 
   return (
     <>
-      <SafeAreaView style={styles.wrapper}>
+      <SafeAreaView edges={['bottom']} style={styles.wrapper}>
         <IconButton
           onPress={onPressBackButton}
           color="transparentDarkGray"
