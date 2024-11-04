@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const typescript = require('rollup-plugin-typescript2')
 
 module.exports = {
