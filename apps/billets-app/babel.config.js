@@ -10,7 +10,8 @@ module.exports = {
       {
         root: ['.'],
         alias: {
-          react: path.resolve(__dirname, '../../node_modules/react'),
+          'react': path.resolve(__dirname, '../../node_modules/react'),
+          '@coldsurfers/ocean-road/native': path.resolve(__dirname, '../../packages/ocean-road/src/native/index.ts'),
         },
       },
     ],

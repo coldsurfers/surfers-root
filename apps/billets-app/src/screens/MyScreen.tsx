@@ -1,81 +1,71 @@
-import {Button, palette, Spinner, Text} from 'fstvllife-design-system';
-import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {
-  Alert,
-  Pressable,
-  SectionList,
-  SectionListData,
-  SectionListRenderItem,
-  StyleSheet,
-  View,
-} from 'react-native';
-import {AuthContext} from '../lib/contexts/AuthContext';
-import palettes from '../lib/palettes';
-import {useMyScreenNavigation} from './MyScreen.hooks';
-import {match} from 'ts-pattern';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import SubscribedConcertList from '../features/subscribe-concert/ui/SubscribedConcertList';
+import { Button } from '@coldsurfers/ocean-road/native'
+import { palette, Spinner, Text } from 'fstvllife-design-system'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { Alert, Pressable, SectionList, SectionListData, SectionListRenderItem, StyleSheet, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { match } from 'ts-pattern'
+import SubscribedConcertList from '../features/subscribe-concert/ui/SubscribedConcertList'
+import { AuthContext } from '../lib/contexts/AuthContext'
+import palettes from '../lib/palettes'
+import { useMyScreenNavigation } from './MyScreen.hooks'
 
 const ListHeaderComponent = () => {
   return (
     <View style={styles.listHeader}>
       <Text style={styles.listHeaderText}>프로필</Text>
     </View>
-  );
-};
+  )
+}
 
 const MyScreen = () => {
-  const navigation = useMyScreenNavigation();
-  const {user, logout, isLoading} = useContext(AuthContext);
+  const navigation = useMyScreenNavigation()
+  const { user, logout, isLoading } = useContext(AuthContext)
   const [settingSections, setSettingSections] = useState<
     Array<
       SectionListData<
         {
-          title: string;
-          onPress: () => void;
+          title: string
+          onPress: () => void
         },
         {
-          title: 'profile' | 'account' | 'saved';
-          uiTitle: string;
+          title: 'profile' | 'account' | 'saved'
+          uiTitle: string
         }
       >
     >
-  >([]);
+  >([])
   const onPressLoginButton = useCallback(() => {
     navigation.navigate('LoginStackScreen', {
       screen: 'LoginSelectionScreen',
       params: {},
-    });
-  }, [navigation]);
+    })
+  }, [navigation])
   const onPressSubscribedConcertListItem = useCallback(
     (concertId: string) => {
       navigation.navigate('ConcertStackScreen', {
         screen: 'ConcertDetailScreen',
-        params: {concertId},
-      });
+        params: { concertId },
+      })
     },
     [navigation],
-  );
+  )
 
-  const renderSectionHeader = useCallback(
-    (info: {section: {title: string; uiTitle: string}}) => {
-      return (
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionHeaderText}>{info.section.uiTitle}</Text>
-        </View>
-      );
-    },
-    [],
-  );
+  const renderSectionHeader = useCallback((info: { section: { title: string; uiTitle: string } }) => {
+    return (
+      <View style={styles.sectionHeader}>
+        <Text style={styles.sectionHeaderText}>{info.section.uiTitle}</Text>
+      </View>
+    )
+  }, [])
 
   const renderItem: SectionListRenderItem<
-    {title: string; onPress: () => void},
+    { title: string; onPress: () => void },
     {
-      title: 'profile' | 'account' | 'saved';
-      uiTitle: string;
+      title: 'profile' | 'account' | 'saved'
+      uiTitle: string
     }
   > = useCallback(
-    info => {
+    (info) => {
       return match(info.section.title)
         .with('profile', () => {
           return (
@@ -85,52 +75,44 @@ const MyScreen = () => {
                   {info.item.title[0]}
                 </Text>
               </View>
-              <Pressable
-                onPress={info.item.onPress}
-                style={styles.profileItemText}>
+              <Pressable onPress={info.item.onPress} style={styles.profileItemText}>
                 <Text style={styles.itemText}>{info.item.title}</Text>
               </Pressable>
             </View>
-          );
+          )
         })
         .with('account', () => {
           return (
-            <View style={{paddingHorizontal: 16}}>
-              <Button
-                text={info.item.title}
-                onPress={info.item.onPress}
-                style={styles.accountItem}
-              />
+            <View style={{ paddingHorizontal: 16 }}>
+              <Button onPress={info.item.onPress} style={styles.accountItem}>
+                {info.item.title}
+              </Button>
             </View>
-          );
+          )
         })
         .with('saved', () => {
-          return (
-            <SubscribedConcertList
-              onPressItem={onPressSubscribedConcertListItem}
-            />
-          );
+          return <SubscribedConcertList onPressItem={onPressSubscribedConcertListItem} />
         })
-        .exhaustive();
+        .exhaustive()
     },
     [onPressSubscribedConcertListItem],
-  );
+  )
 
   useEffect(() => {
     if (!user) {
-      return;
+      return
     }
 
     setSettingSections([
       {
         title: 'profile',
         uiTitle: '🙂 마이 프로필',
-        data: [{title: user.email.split('@')[0], onPress: () => {}}],
+        data: [{ title: user.email.split('@')[0], onPress: () => {} }],
       },
       {
         title: 'saved',
         uiTitle: '❣️ 찜한 공연',
-        data: [{title: user.email.split('@')[0], onPress: () => {}}],
+        data: [{ title: user.email.split('@')[0], onPress: () => {} }],
       },
       {
         title: 'account',
@@ -147,28 +129,28 @@ const MyScreen = () => {
                 {
                   text: '로그아웃',
                   onPress: async () => {
-                    await logout();
+                    await logout()
                     navigation.navigate('HomeStackScreen', {
                       screen: 'HomeScreen',
                       params: {},
-                    });
-                    setSettingSections([]);
+                    })
+                    setSettingSections([])
                   },
                 },
-              ]);
+              ])
             },
           },
         ],
       },
-    ]);
-  }, [logout, navigation, user]);
+    ])
+  }, [logout, navigation, user])
 
   if (isLoading) {
     return (
       <View style={styles.wrapper}>
         <Spinner />
       </View>
-    );
+    )
   }
 
   return user ? (
@@ -188,16 +170,13 @@ const MyScreen = () => {
       <Text weight="bold" style={styles.loginText}>
         {`🎉\n예정된 많은\n공연을\n놓치지 마세요`}
       </Text>
-      <Text
-        style={styles.loginSubText}>{`로그인 후 찜하기를 사용해보세요`}</Text>
-      <Button
-        style={styles.loginButton}
-        onPress={onPressLoginButton}
-        text="로그인 / 회원가입"
-      />
+      <Text style={styles.loginSubText}>{`로그인 후 찜하기를 사용해보세요`}</Text>
+      <Button style={styles.loginButton} onPress={onPressLoginButton}>
+        로그인 / 회원가입
+      </Button>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -222,18 +201,18 @@ const styles = StyleSheet.create({
   listHeader: {
     alignItems: 'center',
   },
-  listHeaderText: {fontSize: 16},
-  sectionHeaderText: {fontSize: 16, fontWeight: '500'},
+  listHeaderText: { fontSize: 16 },
+  sectionHeaderText: { fontSize: 16, fontWeight: '500' },
   item: {
     paddingVertical: 4,
   },
-  itemText: {fontWeight: '700', fontSize: 18},
-  sectionList: {backgroundColor: palettes.gray['100']},
+  itemText: { fontWeight: '700', fontSize: 18 },
+  sectionList: { backgroundColor: palettes.gray['100'] },
   loginButton: {
     backgroundColor: palettes.lightblue[500],
     marginTop: 16,
   },
-  loginText: {fontSize: 24, textAlign: 'center'},
+  loginText: { fontSize: 24, textAlign: 'center' },
   loginSubText: {
     fontSize: 16,
     textAlign: 'center',
@@ -269,6 +248,6 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 16,
   },
-});
+})
 
-export default MyScreen;
+export default MyScreen
