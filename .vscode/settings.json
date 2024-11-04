@@ -18,6 +18,7 @@
     "coldsurf-io",
     "billets-server",
     "wamuseum-server",
-    "ocean-road"
+    "ocean-road",
+    "billets-app"
   ]
 }
