@@ -2,7 +2,7 @@
 
 import { BILLETS_APP_URL } from '@/features/billets'
 import { RecentList } from '@/ui'
-import { Button } from '@coldsurfers/hotsurf'
+import { Button } from '@coldsurfers/ocean-road'
 import Link from 'next/link'
 import { StyledHomeMainTitle, StyledHomeTop, StyledHomeTopImage, StyledHomeWrapper } from './page.styled'
 
@@ -18,7 +18,7 @@ export function HomePageClient() {
           <StyledHomeMainTitle>Billets</StyledHomeMainTitle>
           <StyledHomeMainTitle>{'예정된\n많은 공연을\n놓치지 마세요 🎉'}</StyledHomeMainTitle>
           <Link href={BILLETS_APP_URL} style={{ display: 'inline-block' }}>
-            <Button text="Get Billets app" color="pink" />
+            <Button theme="pink">Get Billets app</Button>
           </Link>
         </div>
         <div style={{ flex: 1, borderRadius: 8 }}>
