@@ -12,7 +12,10 @@
   },
   "dependencies": {
     "@coldsurfers/hotsurf": "workspace:*",
-    "@coldsurfers/ocean-road": "1.5.1-rc.4",
+    "@coldsurfers/ocean-road": "workspace:*",
+    "@emotion/css": "*",
+    "@emotion/react": "*",
+    "@emotion/styled": "*",
     "@lukemorales/query-key-factory": "*",
     "@react-oauth/google": "^0.12.1",
     "@tanstack/react-query": "*",

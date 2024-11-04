@@ -1,5 +1,5 @@
+import styled from '@emotion/styled'
 import Image from 'next/image'
-import styled from 'styled-components'
 
 export const StyledHomeMainTitle = styled.h1`
   font-size: 48px;
