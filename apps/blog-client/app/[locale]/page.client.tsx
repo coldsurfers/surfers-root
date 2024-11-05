@@ -33,10 +33,7 @@ export default function Page({
     <div>
       <Header>
         <h1>Blog, COLDSURF</h1>
-        <p style={{ fontSize: 16, fontWeight: '400' }}>
-          {/* {`Hello, this is COLDSURF blog.\nWe want to make creative, attractive and flexible stuffs. 🎉\nSurflog is about thought provoking ideas. 🗯️\nTechlog is about software engineering articles. 🧑🏻‍💻👩🏻‍💻`} */}
-          {t('MainPage.about')}
-        </p>
+        <p style={{ fontSize: 16, fontWeight: '400' }}>{t('MainPage.about')}</p>
       </Header>
 
       <div>

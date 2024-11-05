@@ -2,10 +2,11 @@ import Script from 'next/script'
 
 import { OceanRoadThemeRegistry } from '@/lib'
 import { PageLayout } from '@/ui'
-import { redirect, routing } from 'i18n/routing'
+import { routing } from 'i18n/routing'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, setRequestLocale } from 'next-intl/server'
 import { Noto_Sans_KR } from 'next/font/google'
+import { notFound } from 'next/navigation'
 import { PropsWithChildren } from 'react'
 import StyledComponentsRegistry from '../../lib/registries/StyledComponentsRegistry'
 
@@ -27,8 +28,8 @@ export default async function RootLayout({
 }>) {
   // Ensure that the incoming `locale` is valid
   if (!routing.locales.includes(locale as never)) {
-    redirect({ href: '/', locale: 'en' })
-    // notFound()
+    // redirect({ href: '/', locale: 'en' })
+    notFound()
   }
 
   setRequestLocale(locale)
