@@ -4,7 +4,7 @@ import { OceanRoadThemeRegistry } from '@/lib'
 import { PageLayout } from '@/ui'
 import { redirect, routing } from 'i18n/routing'
 import { NextIntlClientProvider } from 'next-intl'
-import { getMessages } from 'next-intl/server'
+import { getMessages, setRequestLocale } from 'next-intl/server'
 import { Noto_Sans_KR } from 'next/font/google'
 import { PropsWithChildren } from 'react'
 import StyledComponentsRegistry from '../../lib/registries/StyledComponentsRegistry'
@@ -30,6 +30,8 @@ export default async function RootLayout({
     redirect({ href: '/', locale: 'en' })
     // notFound()
   }
+
+  setRequestLocale(locale)
 
   // Providing all messages to the client
   // side is the easiest way to get started

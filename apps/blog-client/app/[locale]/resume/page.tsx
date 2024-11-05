@@ -1,9 +1,15 @@
+import { routing } from 'i18n/routing'
 import { AppLocale, PageProps } from 'i18n/types'
+import { setRequestLocale } from 'next-intl/server'
 import { getBlocks } from '../../../lib/notion'
 import { queryNotionResumePage } from './fetchers'
 import PageClient from './page.client'
 
 export const revalidate = 3600
+
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }))
+}
 
 async function getPageData(locale: AppLocale) {
   const promises = [
@@ -26,6 +32,7 @@ export async function generateMetadata() {
 }
 
 const ResumePage = async ({ params }: PageProps) => {
+  setRequestLocale(params.locale)
   const [careerResult, musicCareerResult, sideProjectCareerResult] = await getPageData(params.locale)
   const careerPage = careerResult.results.at(0)
   const musicCareerPage = musicCareerResult.results.at(0)
