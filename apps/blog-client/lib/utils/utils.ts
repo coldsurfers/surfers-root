@@ -27,8 +27,6 @@ const getLogDetail = (platform: 'techlog' | 'surflog') =>
               contains: platform,
             },
           },
-        ],
-        or: [
           {
             property: 'lang',
             multi_select: {
