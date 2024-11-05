@@ -1,5 +1,10 @@
 {
   "MainPage": {
     "about": "Hello, this is COLDSURF blog.\nWe want to make creative, attractive and flexible stuffs. 🎉\nSurflog is about thought provoking ideas. 🗯️\nTechlog is about software engineering articles. 🧑🏻‍💻👩🏻‍💻"
+  },
+  "WritersPage": {
+    "paul": {
+      "about": "🤘🏻 I follow Netflix Rockstar Principle.\n🎉 I want to deliver the maximum happiness to users by solving their problems with product.\n📝 I regularly write technical or thought provoking articles to this blog."
+    }
   }
 }
