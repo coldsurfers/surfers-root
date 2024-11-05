@@ -1,14 +1,15 @@
+import { AppLocale, PageProps } from 'i18n/types'
 import { getBlocks } from '../../../lib/notion'
 import { queryNotionResumePage } from './fetchers'
 import PageClient from './page.client'
 
 export const revalidate = 3600
 
-async function getPageData() {
+async function getPageData(locale: AppLocale) {
   const promises = [
-    queryNotionResumePage('Career'),
-    queryNotionResumePage('Music Career'),
-    queryNotionResumePage('Side Project Career'),
+    queryNotionResumePage('Career', locale),
+    queryNotionResumePage('Music Career', locale),
+    queryNotionResumePage('Side Project Career', locale),
   ]
   const [careerResult, musicCareerResult, sideProjectCareerResult] = await Promise.all(promises)
   return [careerResult, musicCareerResult, sideProjectCareerResult]
@@ -24,8 +25,8 @@ export async function generateMetadata() {
   }
 }
 
-const ResumePage = async () => {
-  const [careerResult, musicCareerResult, sideProjectCareerResult] = await getPageData()
+const ResumePage = async ({ params }: PageProps) => {
+  const [careerResult, musicCareerResult, sideProjectCareerResult] = await getPageData(params.locale)
   const careerPage = careerResult.results.at(0)
   const musicCareerPage = musicCareerResult.results.at(0)
   const sideProjectCareerPage = sideProjectCareerResult.results.at(0)

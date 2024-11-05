@@ -18,8 +18,8 @@ export const revalidate = 3600
 export async function generateStaticParams() {
   const locales = routing.locales.map((locale) => ({ locale }))
   const promises = locales.map(async (locale) => await queryLogs('surflog', locale.locale))
-  const result = await promises
-  return result.flat()
+  const result = (await Promise.all(promises)).flat()
+  return result.map((value) => ({ slug: value.slug, locale: value.lang }))
 }
 
 export async function generateMetadata({ params }: PageProps<{ slug: string }>) {

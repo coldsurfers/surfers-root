@@ -106,6 +106,7 @@ export const queryLogs = cache(async (platform: 'techlog' | 'surflog', lang: 'ko
       title,
       status: postStatus,
       writer,
+      lang,
     }
   })
 
