@@ -35,7 +35,14 @@ export function PostItem({
 }) {
   return (
     <StyledPostItemContainer key={post.id}>
-      <StyledPostItemPostTitleLink href={`/${postType}/${post.slug}`}>
+      <StyledPostItemPostTitleLink
+        href={{
+          pathname: postType === 'surflog' ? '/surflog/[slug]' : '/techlog/[slug]',
+          params: {
+            slug: post.slug,
+          },
+        }}
+      >
         <Paragraph
           style={{
             fontSize: 18,

@@ -7,7 +7,7 @@
     "Adam Beleko <bossbele@larven.io> (https://github.com/BossBele)"
   ],
   "scripts": {
-    "build": "next build && yarn sitemap",
+    "build": "next build",
     "sitemap": "next-sitemap",
     "deploy": "yarn sitemap && pm2 start ecosystem.config.js",
     "deploy:prebuilt": "npx vercel build --prod && npx vercel deploy --prod --prebuilt",
@@ -38,7 +38,6 @@
     "html2pdf.js": "^0.10.2",
     "next": "14.2.3",
     "next-intl": "^3.24.0",
-    "next-sitemap": "^4.2.3",
     "prisma": "^5.19.0",
     "prismjs": "1.29.0",
     "react": "*",

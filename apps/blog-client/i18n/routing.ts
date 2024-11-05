@@ -7,8 +7,17 @@ export const routing = defineRouting({
 
   // Used when no locale matches
   defaultLocale: 'en',
+  pathnames: {
+    '/': '/',
+    '/surflog': '/surflog',
+    '/techlog': '/techlog',
+    '/surflog/[slug]': '/surflog/[slug]',
+    '/techlog/[slug]': '/techlog/[slug]',
+    '/writers': '/writers',
+    '/resume': '/resume',
+  },
 })
 
 // Lightweight wrappers around Next.js' navigation APIs
 // that will consider the routing configuration
-export const { Link, redirect, usePathname, useRouter } = createNavigation(routing)
+export const { Link, redirect, usePathname, useRouter, getPathname } = createNavigation(routing)
