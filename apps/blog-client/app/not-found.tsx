@@ -1,3 +1,9 @@
-export default function Custom404() {
-  return <h1>Not Found</h1>
+'use client'
+
+import { permanentRedirect, usePathname } from 'next/navigation'
+
+export default function NotFound() {
+  const pathname = usePathname()
+
+  permanentRedirect(`/en/${pathname}`)
 }

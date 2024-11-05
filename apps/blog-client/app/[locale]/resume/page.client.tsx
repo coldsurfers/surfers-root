@@ -1,11 +1,19 @@
 'use client'
 
+import { renderBlock } from '@/features/notion'
 import { generatePDF } from '@/lib'
+import variables from '@coldsurfers/design-tokens/dist/js/color/variables'
+import styled from '@emotion/styled'
 import Link from 'next/link'
 import { Fragment, useEffect } from 'react'
-import { renderBlock } from '../../features/notion/renderer/renderer'
-import postStyles from '../../styles/post.module.css'
+import postStyles from '../../../styles/post.module.css'
 import ArticleCareer from './components/article.career'
+
+const Wrapper = styled.div`
+  a {
+    color: ${variables.oc.blue[5].value};
+  }
+`
 
 const shouldGeneratePDF = process.env.NODE_ENV === 'development'
 
@@ -32,7 +40,7 @@ export default function ResumePage({
   }, [])
 
   return (
-    <div>
+    <Wrapper>
       <ArticleCareer careerBlocks={careerBlocks} />
 
       <article className={postStyles.container}>
@@ -51,6 +59,6 @@ export default function ResumePage({
           </Link>
         </article>
       )}
-    </div>
+    </Wrapper>
   )
 }

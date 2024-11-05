@@ -3,6 +3,7 @@
 import { PostItem } from '@/features'
 import { queryLogs } from '@/lib/utils'
 import styled from '@emotion/styled'
+import { useTranslations } from 'next-intl'
 
 const Header = styled.header`
   display: flex;
@@ -26,14 +27,13 @@ export default function Page({
 }) {
   const latestTechlogs = techlogs.slice(0, 5)
   const latestSurflogs = surflogs.slice(0, 5)
+  const t = useTranslations()
 
   return (
     <div>
       <Header>
         <h1>Blog, COLDSURF</h1>
-        <p style={{ fontSize: 16, fontWeight: '400' }}>
-          {`Hello, this is COLDSURF blog.\nWe want to make creative, attractive and flexible stuffs. 🎉\nSurflog is about thought provoking ideas. 🗯️\nTechlog is about software engineering articles. 🧑🏻‍💻👩🏻‍💻`}
-        </p>
+        <p style={{ fontSize: 16, fontWeight: '400' }}>{t('MainPage.about')}</p>
       </Header>
 
       <div>

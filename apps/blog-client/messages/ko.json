@@ -1,0 +1,10 @@
+{
+  "MainPage": {
+    "about": "반갑습니다, COLDSURF blog에 오신것을 환영합니다.\n저희는 창의적이고 매력적이며 유연한 것들을 만들고 있습니다. 🎉\nSurflog는 thought provoking idea에 관한 아티클입니다. 🗯️\nTechlog는 software engineering에 관한 아티클이 많습니다. 🧑🏻‍💻👩🏻‍💻"
+  },
+  "WritersPage": {
+    "paul": {
+      "about": "🤘🏻 저는 Netflix Rockstar Principle을 따르고 있습니다.\n🎉 프로덕트를 통해서 사용자들의 문제를 해결하면서 사용자들에게 행복감을 전달하고 싶습니다.\n📝 종종 이 블로그에 기술적이거나 thought provoking한 아이디어를 글로 표현합니다."
+    }
+  }
+}
