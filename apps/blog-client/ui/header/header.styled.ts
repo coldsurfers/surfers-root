@@ -1,4 +1,4 @@
-import variables from '@coldsurfers/design-tokens/dist/js/color/semantic/variables'
+import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import styled from '@emotion/styled'
 
 export const StyledHeaderHeading = styled.p<{ $isActive: boolean }>`
@@ -8,7 +8,7 @@ export const StyledHeaderHeading = styled.p<{ $isActive: boolean }>`
   opacity: 0.6;
   letter-spacing: 0.5px;
   font-weight: bold;
-  border-bottom: ${({ $isActive }) => ($isActive ? `2px ${variables.color.border[2]} solid` : '0px')};
+  border-bottom: ${({ $isActive }) => ($isActive ? `2px ${color.oc.blue[5].value} solid` : '0px')};
 `
 
 export const StyledHeaderContainer = styled.div`
