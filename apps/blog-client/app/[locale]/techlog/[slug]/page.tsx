@@ -8,6 +8,7 @@ import { getTechlogDetail, queryLogs } from '@/lib/utils'
 import { CommonBack } from '@/ui'
 import { routing } from 'i18n/routing'
 import { PageProps } from 'i18n/types'
+import { setRequestLocale } from 'next-intl/server'
 import 'prismjs/components/prism-jsx'
 import 'prismjs/themes/prism-tomorrow.css'
 import { Fragment } from 'react'
@@ -41,6 +42,7 @@ export async function generateMetadata({ params }: PageProps<{ slug: string }>) 
 }
 
 export default async function Page({ params }: PageProps<{ slug: string }>) {
+  setRequestLocale(params.locale)
   const page = await getTechlogDetail({ slug: params?.slug ?? '', lang: params.locale })
 
   if (!page) {
