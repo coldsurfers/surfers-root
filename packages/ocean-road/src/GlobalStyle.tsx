@@ -1,4 +1,5 @@
 import variables from '@coldsurfers/design-tokens/dist/js/color/semantic/variables'
+import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import { Global, css } from '@emotion/react'
 
 export default function GlobalStyle() {
@@ -24,7 +25,7 @@ export default function GlobalStyle() {
         }
 
         a {
-          color: inherit;
+          color: ${color.oc.blue[5].value};
           text-decoration: none;
         }
 
