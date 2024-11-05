@@ -1,13 +1,9 @@
 'use client'
 
-import Error from 'next/error'
+import { permanentRedirect, usePathname } from 'next/navigation'
 
 export default function NotFound() {
-  return (
-    <html lang="en">
-      <body>
-        <Error statusCode={404} />
-      </body>
-    </html>
-  )
+  const pathname = usePathname()
+
+  permanentRedirect(`/en/${pathname}`)
 }
