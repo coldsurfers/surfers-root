@@ -16,4 +16,11 @@ export const StyledHeaderContainer = styled.div`
   flex-direction: row;
   gap: 20px;
   padding: 48px 0px 0px 0px;
+
+  overflow-x: scroll;
+  scrollbar-width: none; /* For Firefox */
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `
