@@ -1,9 +1,9 @@
 const breakpoints = {
-  small: 576,
-  medium: 768,
-  large: 992,
+  'small': 576,
+  'medium': 768,
+  'large': 992,
   'x-large': 1200,
   'xx-large': 1400,
-}
+} as const
 
 export default breakpoints
