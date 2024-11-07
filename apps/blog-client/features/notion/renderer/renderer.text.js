@@ -62,7 +62,7 @@ export function Text({ title }) {
               }}
             >
               <img src={icon_url} style={{ width: 20, height: 20 }} />
-              <p
+              <span
                 style={{
                   marginTop: 0,
                   marginBottom: 0,
@@ -71,8 +71,8 @@ export function Text({ title }) {
                 }}
               >
                 {link_provider}
-              </p>
-              <p
+              </span>
+              <span
                 style={{
                   marginTop: 0,
                   marginBottom: 0,
@@ -80,7 +80,7 @@ export function Text({ title }) {
                 }}
               >
                 {linkTitle}
-              </p>
+              </span>
             </span>
           </a>
         </span>
