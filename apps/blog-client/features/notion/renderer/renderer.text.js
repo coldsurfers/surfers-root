@@ -1,4 +1,11 @@
+'use client'
+
+import styled from '@emotion/styled'
 import styles from '../../../styles/post.module.css'
+
+const TextSpan = styled.span`
+  line-height: 1.7;
+`
 
 export function Text({ title }) {
   if (!title) {
@@ -13,7 +20,7 @@ export function Text({ title }) {
     } = value
     if (type === 'text') {
       return (
-        <span
+        <TextSpan
           className={[
             bold ? styles.bold : '',
             code ? styles.code : '',
@@ -25,7 +32,7 @@ export function Text({ title }) {
           key={text.content}
         >
           {text.link ? <a href={text.link.url}>{text.content}</a> : text.content}
-        </span>
+        </TextSpan>
       )
     }
 
@@ -35,7 +42,7 @@ export function Text({ title }) {
         const { link_preview } = mention
         const { url } = link_preview
         return (
-          <span
+          <TextSpan
             className={[
               bold ? styles.bold : '',
               code ? styles.code : '',
@@ -47,14 +54,14 @@ export function Text({ title }) {
             key={`${title}`}
           >
             <a href={url} style={{ textDecoration: 'none' }}>
-              <span
+              <TextSpan
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
                   alignItems: 'center',
                 }}
               >
-                <span
+                <TextSpan
                   style={{
                     marginTop: 0,
                     marginBottom: 0,
@@ -62,10 +69,10 @@ export function Text({ title }) {
                   }}
                 >
                   {url}
-                </span>
-              </span>
+                </TextSpan>
+              </TextSpan>
             </a>
-          </span>
+          </TextSpan>
         )
       }
       if (type === 'link_mention') {
@@ -81,7 +88,7 @@ export function Text({ title }) {
           title: linkTitle, // "Cunningham"
         } = link_mention
         return (
-          <span
+          <TextSpan
             className={[
               bold ? styles.bold : '',
               code ? styles.code : '',
@@ -93,7 +100,7 @@ export function Text({ title }) {
             key={`${title}`}
           >
             <a href={href} style={{ textDecoration: 'none' }}>
-              <span
+              <TextSpan
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
@@ -101,7 +108,7 @@ export function Text({ title }) {
                 }}
               >
                 <img src={icon_url} style={{ width: 20, height: 20 }} />
-                <span
+                <TextSpan
                   style={{
                     marginTop: 0,
                     marginBottom: 0,
@@ -110,8 +117,8 @@ export function Text({ title }) {
                   }}
                 >
                   {link_provider}
-                </span>
-                <span
+                </TextSpan>
+                <TextSpan
                   style={{
                     marginTop: 0,
                     marginBottom: 0,
@@ -119,10 +126,10 @@ export function Text({ title }) {
                   }}
                 >
                   {linkTitle}
-                </span>
-              </span>
+                </TextSpan>
+              </TextSpan>
             </a>
-          </span>
+          </TextSpan>
         )
       }
       return null

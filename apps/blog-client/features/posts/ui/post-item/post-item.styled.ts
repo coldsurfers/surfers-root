@@ -1,19 +1,39 @@
 import { Paragraph } from '@/ui/paragraph'
-import { Link } from 'i18n/routing'
-import styled from 'styled-components'
-import nativeStyled from 'styled-components/native'
+import { media } from '@coldsurfers/ocean-road'
+import { css } from '@emotion/react'
+import styled from '@emotion/styled'
 
 export const StyledPostItemContainer = styled.li`
   display: flex;
   flex-direction: row;
   align-items: center;
+  ${media.medium(css`
+    flex-direction: column;
+    align-items: flex-start;
+
+    margin-bottom: 2rem;
+  `)}
 `
 
-export const StyledPostItemDateLocale = nativeStyled(Paragraph)`
+export const StyledPostSubContentContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  ${media.medium(css`
+    margin-left: auto;
+    margin-top: 1rem;
+  `)}
+`
+
+export const StyledPostItemDateLocale = styled(Paragraph)`
   opacity: 0.65;
+  ${media.medium(css`
+    font-size: 14px;
+  `)}
 `
 
-export const StyledPostItemPostTitleLink = styled(Link)`
+export const StyledPostItemPostTitleContainer = styled.div`
   flex: 1;
   margin: 0;
   padding-top: 0.75rem;
@@ -26,6 +46,20 @@ export const StyledPostItemPostTitleLink = styled(Link)`
   a {
     color: inherit;
   }
+
+  ${media.medium(css`
+    margin-right: unset;
+    width: 100%;
+  `)}
+`
+
+export const StyledPostItemTitleText = styled(Paragraph)`
+  font-size: 18px;
+  font-weight: 500;
+
+  ${media.medium(css`
+    font-size: 16px;
+  `)}
 `
 
 export const StyledPostItemWriterContainer = styled.div`
@@ -34,7 +68,11 @@ export const StyledPostItemWriterContainer = styled.div`
   margin-right: 12px;
 `
 
-export const StyledPostItemWriterText = nativeStyled(Paragraph)``
+export const StyledPostItemWriterText = styled(Paragraph)`
+  ${media.medium(css`
+    font-size: 14px;
+  `)}
+`
 export const StyledPostItemWriterAvatar = styled.img`
   width: 20px;
   height: 20px;
