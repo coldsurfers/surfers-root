@@ -147,6 +147,10 @@
   flex: 1;
 }
 
+.row > div:first-child {
+  flex: 0.5;
+}
+
 .row > div > p {
   margin-block-start: 0.25em;
   margin-block-end: 0.25em;
