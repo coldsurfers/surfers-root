@@ -17,7 +17,7 @@ export function renderBlock(block) {
   switch (type) {
     case 'paragraph':
       return (
-        <p key={id}>
+        <p key={id} style={{ margin: '0.25rem 0px' }}>
           <Text title={value.rich_text} />
         </p>
       )
