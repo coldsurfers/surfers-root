@@ -114,10 +114,10 @@ export const queryLogs = cache(async (platform: 'techlog' | 'surflog', lang: 'ko
 export const generatePDF = async () => {
   // Set options for html2pdf
   const options = {
-    margin: 1,
+    margin: 0.5,
     filename: 'website_screenshot.pdf',
     image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2 },
+    html2canvas: { scale: 1.5 },
     jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
     pagebreak: { mode: 'avoid-all' },
   }
