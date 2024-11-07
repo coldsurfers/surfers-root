@@ -1,13 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Text } from '@/features'
-import { Paragraph } from '@/ui'
+import { Link } from 'i18n/routing'
 import {
   StyledPostItemContainer,
   StyledPostItemDateLocale,
-  StyledPostItemPostTitleLink,
+  StyledPostItemPostTitleContainer,
+  StyledPostItemTitleText,
   StyledPostItemWriterAvatar,
   StyledPostItemWriterContainer,
   StyledPostItemWriterText,
+  StyledPostSubContentContainer,
 } from './post-item.styled'
 
 export function PostItem({
@@ -34,31 +36,30 @@ export function PostItem({
   }
 }) {
   return (
-    <StyledPostItemContainer key={post.id}>
-      <StyledPostItemPostTitleLink
-        href={{
-          pathname: postType === 'surflog' ? '/surflog/[slug]' : '/techlog/[slug]',
-          params: {
-            slug: post.slug,
-          },
-        }}
-      >
-        <Paragraph
-          style={{
-            fontSize: 18,
-            fontWeight: '500',
-          }}
-        >
-          <Text title={post.title} />
-        </Paragraph>
-      </StyledPostItemPostTitleLink>
-      {post.writer && (
-        <StyledPostItemWriterContainer>
-          <StyledPostItemWriterAvatar src={post.writer?.avatar_url} />
-          <StyledPostItemWriterText>{post.writer?.name}</StyledPostItemWriterText>
-        </StyledPostItemWriterContainer>
-      )}
-      <StyledPostItemDateLocale>{post.dateLocale}</StyledPostItemDateLocale>
-    </StyledPostItemContainer>
+    <Link
+      href={{
+        pathname: postType === 'surflog' ? '/surflog/[slug]' : '/techlog/[slug]',
+        params: {
+          slug: post.slug,
+        },
+      }}
+    >
+      <StyledPostItemContainer>
+        <StyledPostItemPostTitleContainer>
+          <StyledPostItemTitleText>
+            <Text title={post.title} />
+          </StyledPostItemTitleText>
+        </StyledPostItemPostTitleContainer>
+        <StyledPostSubContentContainer>
+          {post.writer && (
+            <StyledPostItemWriterContainer>
+              <StyledPostItemWriterAvatar src={post.writer?.avatar_url} />
+              <StyledPostItemWriterText>{post.writer?.name}</StyledPostItemWriterText>
+            </StyledPostItemWriterContainer>
+          )}
+          <StyledPostItemDateLocale>{post.dateLocale}</StyledPostItemDateLocale>
+        </StyledPostSubContentContainer>
+      </StyledPostItemContainer>
+    </Link>
   )
 }
