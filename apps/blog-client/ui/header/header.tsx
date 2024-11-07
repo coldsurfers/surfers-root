@@ -17,16 +17,21 @@ export const Header = () => {
 
   useEffect(() => {
     const handleRouteChange = (pathname: string) => {
-      if (pathname.startsWith('/surflog')) {
-        setActiveTab('surflog')
-      } else if (pathname.startsWith('/techlog')) {
-        setActiveTab('techlog')
-      } else if (pathname === '/') {
-        setActiveTab('main')
-      } else if (pathname.startsWith('/writers')) {
-        setActiveTab('writers')
-      } else {
-        setActiveTab(null)
+      switch (true) {
+        case pathname === '/':
+          setActiveTab('main')
+          break
+        case pathname.startsWith('/surflog'):
+          setActiveTab('surflog')
+          break
+        case pathname.startsWith('/techlog'):
+          setActiveTab('techlog')
+          break
+        case pathname.startsWith('/writers'):
+          setActiveTab('writers')
+          break
+        default:
+          setActiveTab(null)
       }
     }
 
