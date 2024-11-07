@@ -1,6 +1,6 @@
 'use client'
 
-import { renderCareerBlock } from '@/features/notion'
+import { renderBlock } from '@/features/notion'
 import { Fragment } from 'react'
 import postStyles from '../../../../styles/post.module.css'
 
@@ -9,7 +9,7 @@ const ArticleCareer = ({ careerBlocks }: { careerBlocks: never[] }) => (
     <section>
       {careerBlocks.map((block) => (
         // @ts-ignore
-        <Fragment key={block.id}>{renderCareerBlock(block)}</Fragment>
+        <Fragment key={block.id}>{renderBlock(block)}</Fragment>
       ))}
     </section>
   </article>
