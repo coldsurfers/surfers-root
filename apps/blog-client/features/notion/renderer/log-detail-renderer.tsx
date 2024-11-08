@@ -6,7 +6,7 @@ import { media } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 // prismjs
-import 'prismjs/components/prism-jsx'
+// import 'prismjs/components/prism-jsx'
 import 'prismjs/themes/prism-tomorrow.css'
 import { Fragment } from 'react'
 
