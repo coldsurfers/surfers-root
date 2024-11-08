@@ -56,6 +56,18 @@ const Li = styled.li`
   `)}
 `
 
+const StyledFigure = styled.figure`
+  margin-block-start: 0;
+  margin-block-end: 0;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+`
+
+const StyledImg = styled.img`
+  width: 100%;
+  height: auto;
+`
+
 const SUPPORTED_VIDEO_URLS = ['https://www.youtube.com', 'https://youtube.com']
 
 export function renderBlock(block) {
@@ -136,10 +148,10 @@ export function renderBlock(block) {
       const src = value.type === 'external' ? value.external.url : value.file.url
       const caption = value.caption ? value.caption[0]?.plain_text : ''
       return (
-        <figure key={id}>
-          <img src={src} alt={caption} />
+        <StyledFigure key={id}>
+          <StyledImg src={src} alt={caption} />
           {caption && <figcaption>{caption}</figcaption>}
-        </figure>
+        </StyledFigure>
       )
     }
     case 'divider':
