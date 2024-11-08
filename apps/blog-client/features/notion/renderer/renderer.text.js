@@ -1,10 +1,16 @@
 'use client'
 
+import { media } from '@coldsurfers/ocean-road'
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import styles from '../../../styles/post.module.css'
 
 const TextSpan = styled.span`
   line-height: 1.7;
+
+  ${media.medium(css`
+    line-height: 1.6;
+  `)}
 `
 
 export function Text({ title }) {

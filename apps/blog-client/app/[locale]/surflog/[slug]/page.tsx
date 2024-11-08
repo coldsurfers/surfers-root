@@ -1,17 +1,13 @@
 import Head from 'next/head'
 
-import { Text, renderBlock } from '@/features/notion'
 import { notFound } from 'next/navigation'
 import { getBlocks } from '../../../../lib/notion'
 // prismjs
 import { getSurflogDetail, queryLogs } from '@/lib/utils'
-import { CommonBack } from '@/ui'
 import { routing } from 'i18n/routing'
 import { PageProps } from 'i18n/types'
 import { setRequestLocale } from 'next-intl/server'
-import 'prismjs/components/prism-jsx'
-import 'prismjs/themes/prism-tomorrow.css'
-import { Fragment } from 'react'
+import { SurflogSlugPageClient } from './page.client'
 
 export const revalidate = 3600
 
@@ -61,19 +57,8 @@ export default async function Page({ params }: PageProps<{ slug: string }>) {
         <title>{page.properties.Name.title.at(0)?.plain_text}</title>
       </Head>
 
-      <article>
-        <h1>
-          {/* @ts-ignore */}
-          <Text title={page.properties?.Name.title} />
-        </h1>
-        <section>
-          {blocks.map((block) => (
-            // @ts-ignore
-            <Fragment key={block.id}>{renderBlock(block)}</Fragment>
-          ))}
-          <CommonBack />
-        </section>
-      </article>
+      {/* @ts-expect-error */}
+      <SurflogSlugPageClient pageTitle={page.properties?.Name.title ?? ''} pageBlocks={blocks} />
     </div>
   )
 }

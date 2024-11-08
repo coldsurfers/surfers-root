@@ -28,6 +28,7 @@ export const StyledPostSubContentContainer = styled.div`
 
 export const StyledPostItemDateLocale = styled(Paragraph)`
   opacity: 0.65;
+  margin: unset;
   ${media.medium(css`
     font-size: 14px;
   `)}
@@ -57,6 +58,8 @@ export const StyledPostItemTitleText = styled(Paragraph)`
   font-size: 18px;
   font-weight: 500;
 
+  margin: unset;
+
   ${media.medium(css`
     font-size: 16px;
   `)}
@@ -69,6 +72,7 @@ export const StyledPostItemWriterContainer = styled.div`
 `
 
 export const StyledPostItemWriterText = styled(Paragraph)`
+  margin: unset;
   ${media.medium(css`
     font-size: 14px;
   `)}
