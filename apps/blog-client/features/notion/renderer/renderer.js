@@ -4,6 +4,14 @@ import { Fragment } from 'react'
 
 import Link from 'next/link'
 import { highlight, languages } from 'prismjs'
+import 'prismjs/components/prism-bash'
+import 'prismjs/components/prism-javascript'
+import 'prismjs/components/prism-json'
+import 'prismjs/components/prism-jsx'
+import 'prismjs/components/prism-tsx'
+import 'prismjs/components/prism-typescript'
+
+import 'prismjs/themes/prism-tomorrow.css'
 
 import { SpotifyEmbed } from '@/features/spotify'
 import { media } from '@coldsurfers/ocean-road'
@@ -151,10 +159,9 @@ export function renderBlock(block) {
       )
     case 'code':
       return (
-        <pre key={id} className={[styles.pre, `language-${value.language}`]}>
+        <pre key={id} className={`language-${value.language}`}>
           <code
-            className={[styles.code_block, `language-${value.language}`]}
-            key={id}
+            className={`language-${value.language}`}
             dangerouslySetInnerHTML={{
               __html: highlight(
                 value.rich_text[0].plain_text,
