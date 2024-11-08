@@ -29,16 +29,8 @@ export default function GlobalStyle() {
           text-decoration: none;
         }
 
-        p {
-          margin: unset;
-        }
-
         * {
           box-sizing: border-box;
-        }
-
-        h1 {
-          font-weight: 800;
         }
       `}
     />

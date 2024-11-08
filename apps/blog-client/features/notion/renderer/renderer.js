@@ -1,12 +1,52 @@
+'use client'
+
 import { Fragment } from 'react'
 
 import Link from 'next/link'
 import { highlight, languages } from 'prismjs'
 
 import { SpotifyEmbed } from '@/features/spotify'
+import { media } from '@coldsurfers/ocean-road'
+import { css } from '@emotion/react'
+import styled from '@emotion/styled'
 import { Tweet } from 'react-tweet'
 import styles from '../../../styles/post.module.css'
 import { Text } from './renderer.text'
+
+const Paragraph = styled.p`
+  margin: 0.75rem 0px;
+  font-size: 16px;
+
+  ${media.medium(css`
+    font-size: 14px;
+  `)}
+`
+
+const Heading1 = styled.h1`
+  ${media.medium(css`
+    font-size: 1.25rem;
+  `)}
+`
+
+const Heading2 = styled.h2`
+  ${media.medium(css`
+    font-size: 1.15rem;
+  `)}
+`
+
+const Heading3 = styled.h3`
+  ${media.medium(css`
+    font-size: 1.05rem;
+  `)}
+`
+
+const Li = styled.li`
+  font-size: 16px;
+
+  ${media.medium(css`
+    font-size: 14px;
+  `)}
+`
 
 const SUPPORTED_VIDEO_URLS = ['https://www.youtube.com', 'https://youtube.com']
 
@@ -17,27 +57,27 @@ export function renderBlock(block) {
   switch (type) {
     case 'paragraph':
       return (
-        <p key={id} style={{ margin: '0.25rem 0px' }}>
+        <Paragraph key={id}>
           <Text title={value.rich_text} />
-        </p>
+        </Paragraph>
       )
     case 'heading_1':
       return (
-        <h1 key={id}>
+        <Heading1 key={id}>
           <Text title={value.rich_text} />
-        </h1>
+        </Heading1>
       )
     case 'heading_2':
       return (
-        <h2 key={id}>
+        <Heading2 key={id}>
           <Text title={value.rich_text} />
-        </h2>
+        </Heading2>
       )
     case 'heading_3':
       return (
-        <h3 key={id}>
+        <Heading3 key={id}>
           <Text title={value.rich_text} />
-        </h3>
+        </Heading3>
       )
     case 'bulleted_list': {
       return (
@@ -52,11 +92,11 @@ export function renderBlock(block) {
     case 'bulleted_list_item':
     case 'numbered_list_item':
       return (
-        <li key={id}>
+        <Li key={id}>
           <Text title={value.rich_text} />
           {/* eslint-disable-next-line no-use-before-define */}
           {!!block.children && renderNestedList(block)}
-        </li>
+        </Li>
       )
     case 'to_do':
       return (
