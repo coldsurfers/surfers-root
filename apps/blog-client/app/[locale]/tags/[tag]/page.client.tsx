@@ -3,10 +3,13 @@
 
 import { PostItem } from '@/features'
 import { PostListContainer } from '@/ui'
+import { StyledTagDetailPageTitle } from './page.styled'
 
 export const TagDetailPageClient = ({
+  tag,
   logs,
 }: {
+  tag: string
   logs: {
     id: string
     createdTime: Date
@@ -20,10 +23,13 @@ export const TagDetailPageClient = ({
   }[]
 }) => {
   return (
-    <PostListContainer>
-      {logs.map((post) => (
-        <PostItem key={post.id} post={post} postType={post.platform} />
-      ))}
-    </PostListContainer>
+    <>
+      <StyledTagDetailPageTitle as="h1">#{tag}</StyledTagDetailPageTitle>
+      <PostListContainer>
+        {logs.map((post) => (
+          <PostItem key={post.id} post={post} postType={post.platform} />
+        ))}
+      </PostListContainer>
+    </>
   )
 }
