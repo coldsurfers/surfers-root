@@ -1,5 +1,6 @@
 import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import { cache } from 'react'
+import { match } from 'ts-pattern'
 import notionInstance, { notionDatabaseIds } from '../notionInstance'
 
 const getLogDetail = (platform: 'techlog' | 'surflog') =>
@@ -111,6 +112,30 @@ export const queryLogs = cache(async (platform: 'techlog' | 'surflog', lang: 'ko
 
   return posts
 })
+
+export const queryProperties = (propertyName: 'tags') =>
+  cache(async () => {
+    const response = await notionInstance.databases.query({
+      database_id: notionDatabaseIds.blog ?? '',
+    })
+    return match(propertyName)
+      .with('tags', () => {
+        const tags = response.results
+          .map((result) => {
+            const page = result as PageObjectResponse
+            if (page.properties.tags.type === 'multi_select') {
+              return page.properties.tags.multi_select
+            }
+            return null
+          })
+          .filter((value) => value !== null)
+          .flat()
+        return tags
+      })
+      .exhaustive()
+  })
+
+export const getTags = queryProperties('tags')
 
 export const generatePDF = async () => {
   // Set options for html2pdf
