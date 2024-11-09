@@ -17,5 +17,5 @@ export default async function TagDetailPage({
   ]
   const result = (await Promise.all(promises)).flat()
 
-  return <TagDetailPageClient logs={result} />
+  return <TagDetailPageClient tag={decodedTag} logs={result} />
 }
