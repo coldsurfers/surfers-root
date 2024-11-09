@@ -15,6 +15,7 @@ export const routing = defineRouting({
     '/techlog/[slug]': '/techlog/[slug]',
     '/writers': '/writers',
     '/resume': '/resume',
+    '/tags': '/tags',
     '/tags/[tag]': '/tags/[tag]',
   },
 })
