@@ -123,6 +123,7 @@ export const queryLogs = cache(
         status: postStatus,
         writer,
         lang,
+        platform,
       }
     })
 

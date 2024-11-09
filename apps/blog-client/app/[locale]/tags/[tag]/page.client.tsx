@@ -16,12 +16,13 @@ export const TagDetailPageClient = ({
     title: any
     status: any
     writer: any
+    platform: 'techlog' | 'surflog'
   }[]
 }) => {
   return (
     <PostListContainer>
       {logs.map((post) => (
-        <PostItem key={post.id} post={post} postType="surflog" />
+        <PostItem key={post.id} post={post} postType={post.platform} />
       ))}
     </PostListContainer>
   )
