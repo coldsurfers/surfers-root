@@ -130,7 +130,8 @@ export const queryProperties = (propertyName: 'tags') =>
           })
           .filter((value) => value !== null)
           .flat()
-        return tags
+        // id 값으로  중복  제거
+        return Array.from(new Map(tags.map((value) => [value.id, value])).values())
       })
       .exhaustive()
   })
