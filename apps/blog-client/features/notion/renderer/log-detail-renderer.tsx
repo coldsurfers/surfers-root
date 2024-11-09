@@ -7,6 +7,7 @@ import { media } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
+import { Link } from 'i18n/routing'
 import { Fragment } from 'react'
 
 const Heading1 = styled.h1`
@@ -50,9 +51,17 @@ export const LogDetailRenderer = ({
       <StyledSectionTagList>
         {tags.map((tag) => {
           return (
-            <StyledTagItem key={tag.name} color={tag.color}>
-              #{tag.name}
-            </StyledTagItem>
+            <Link
+              key={tag.name}
+              href={{
+                pathname: '/tags/[tag]',
+                params: {
+                  tag: tag.name,
+                },
+              }}
+            >
+              <StyledTagItem color={tag.color}>#{tag.name}</StyledTagItem>
+            </Link>
           )
         })}
       </StyledSectionTagList>
