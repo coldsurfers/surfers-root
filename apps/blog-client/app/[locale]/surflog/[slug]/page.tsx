@@ -47,6 +47,14 @@ export default async function Page({ params }: PageProps<{ slug: string }>) {
 
   const titlePlainText = page.properties.Name.type === 'title' ? page.properties.Name.title.at(0)?.plain_text : null
   const pageTitle = page.properties.Name.type === 'title' ? page.properties.Name.title : null
+  const tags =
+    page.properties.tags.type === 'multi_select'
+      ? page.properties.tags.multi_select.map((value) => ({
+          name: value.name,
+          color: value.color,
+        }))
+      : []
+  console.log(tags)
 
   if (!blocks) {
     return <div />
@@ -57,7 +65,7 @@ export default async function Page({ params }: PageProps<{ slug: string }>) {
       <Head>
         <title>{titlePlainText}</title>
       </Head>
-      <SurflogSlugPageClient pageTitle={pageTitle} pageBlocks={blocks} />
+      <SurflogSlugPageClient pageTitle={pageTitle} pageBlocks={blocks} tags={tags} />
     </div>
   )
 }
