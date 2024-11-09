@@ -1,6 +1,8 @@
 'use client'
 
-import { StyledTagPageTitle } from './page.styled'
+import { TagItem } from '@/features'
+import { Link } from 'i18n/routing'
+import { StyledSectionTagList, StyledTagPageTitle } from './page.styled'
 
 export const TagsPageClient = ({
   tags,
@@ -11,5 +13,26 @@ export const TagsPageClient = ({
     color: string
   }[]
 }) => {
-  return <StyledTagPageTitle as="h1">Tags</StyledTagPageTitle>
+  return (
+    <>
+      <StyledTagPageTitle as="h1">Tags</StyledTagPageTitle>
+      <StyledSectionTagList>
+        {tags.map((tag) => {
+          return (
+            <Link
+              key={tag.id}
+              href={{
+                pathname: '/tags/[tag]',
+                params: {
+                  tag: tag.name,
+                },
+              }}
+            >
+              <TagItem {...tag} />
+            </Link>
+          )
+        })}
+      </StyledSectionTagList>
+    </>
+  )
 }
