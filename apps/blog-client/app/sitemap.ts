@@ -1,4 +1,4 @@
-import { queryLogs } from '@/lib/utils'
+import { getTags, queryLogs } from '@/lib/utils'
 import { getPathname, routing } from 'i18n/routing'
 import { MetadataRoute } from 'next'
 
@@ -11,6 +11,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const surflogSlugs = (await Promise.all(surflogPromises)).flat().map((value) => ({ slug: value.slug }))
   const techlogPromises = locales.map(async (locale) => await queryLogs('techlog', locale.locale))
   const techlogSlugs = (await Promise.all(techlogPromises)).flat().map((value) => ({ slug: value.slug }))
+  const allTags = await getTags()
+  const allTagsByLocales = locales
+    .map((locale) => {
+      return allTags.map((tag) => {
+        return {
+          tag: tag.name,
+          locale: locale.locale,
+        }
+      })
+    })
+    .flat()
+
   // Adapt this as necessary
   return [
     getEntry('/'),
@@ -29,6 +41,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         pathname: '/techlog/[slug]',
         params: {
           slug,
+        },
+      })
+    }),
+    getEntry('/tags'),
+    ...allTagsByLocales.map(({ tag }) => {
+      return getEntry({
+        pathname: '/tags/[tag]',
+        params: {
+          tag,
         },
       })
     }),

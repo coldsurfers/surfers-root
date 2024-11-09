@@ -22,15 +22,14 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<{ slug: string }>) {
   // fetch data
   const page = await getTechlogDetail({ slug: params.slug ?? '', lang: params.locale })
+  const pageTitle = page?.properties.Name.type === 'title' ? page.properties.Name.title.at(0)?.plain_text : ''
 
-  if (!page) {
+  if (!page || !pageTitle) {
     return {
       title: 'Blog, ColdSurf',
     }
   }
 
-  // @ts-ignore
-  const pageTitle = page.properties.Name.title.at(0)?.plain_text
   return {
     title: `${pageTitle} | Blog, ColdSurf`,
     description: `${pageTitle}`,
@@ -47,6 +46,17 @@ export default async function Page({ params }: PageProps<{ slug: string }>) {
 
   const blocks = await getBlocks(page?.id)
 
+  const titlePlainText = page.properties.Name.type === 'title' ? page.properties.Name.title.at(0)?.plain_text : null
+  const pageTitle = page.properties.Name.type === 'title' ? page.properties.Name.title : null
+  const tags =
+    page.properties.tags.type === 'multi_select'
+      ? page.properties.tags.multi_select.map((value) => ({
+          name: value.name,
+          color: value.color,
+        }))
+      : []
+  console.log(tags)
+
   if (!blocks) {
     return <div />
   }
@@ -54,12 +64,10 @@ export default async function Page({ params }: PageProps<{ slug: string }>) {
   return (
     <div>
       <Head>
-        {/* @ts-ignore */}
-        <title>{page.properties.Name.title.at(0)?.plain_text}</title>
+        <title>{titlePlainText}</title>
       </Head>
 
-      {/* @ts-expect-error */}
-      <TechlogSlugPageClient pageTitle={page.properties?.Name.title ?? ''} pageBlocks={blocks} />
+      <TechlogSlugPageClient pageTitle={pageTitle} pageBlocks={blocks} tags={tags} />
     </div>
   )
 }
