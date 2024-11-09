@@ -1,8 +1,9 @@
+import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import { cache } from 'react'
 import notionInstance, { notionDatabaseIds } from '../notionInstance'
 
 const getLogDetail = (platform: 'techlog' | 'surflog') =>
-  cache(async ({ slug, lang }: { slug: string; lang: 'ko' | 'en' }) => {
+  cache(async ({ slug, lang }: { slug: string; lang: 'ko' | 'en' }): Promise<PageObjectResponse | null> => {
     const res = await notionInstance.databases.query({
       database_id: notionDatabaseIds.blog ?? '',
       filter: {
@@ -37,7 +38,7 @@ const getLogDetail = (platform: 'techlog' | 'surflog') =>
       },
     })
     if (res.results.length) {
-      return res.results[0]
+      return res.results[0] as PageObjectResponse
     }
     return null
   })

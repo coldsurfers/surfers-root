@@ -5,6 +5,7 @@ import { CommonBack } from '@/ui'
 import { media } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
+import { RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
 import { Fragment } from 'react'
 
 const Heading1 = styled.h1`
@@ -13,11 +14,16 @@ const Heading1 = styled.h1`
   `)}
 `
 
-export const LogDetailRenderer = ({ pageTitle, pageBlocks }: { pageBlocks: never[]; pageTitle: string }) => {
+export const LogDetailRenderer = ({
+  pageTitle,
+  pageBlocks,
+}: {
+  pageBlocks: never[]
+  pageTitle: RichTextItemResponse[] | null
+}) => {
   return (
     <article>
       <Heading1>
-        {/* @ts-ignore */}
         <Text title={pageTitle} />
       </Heading1>
       <section>
