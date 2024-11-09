@@ -54,7 +54,6 @@ export default async function Page({ params }: PageProps<{ slug: string }>) {
           color: value.color,
         }))
       : []
-  console.log(tags)
 
   if (!blocks) {
     return <div />
