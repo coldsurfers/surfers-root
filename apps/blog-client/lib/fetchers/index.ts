@@ -50,3 +50,17 @@ export const fetchGetResume = async (filters: { locale: AppLocale }) => {
   }
   return json
 }
+
+export const fetchGetTags = async () => {
+  const response = await fetch(`${BASE_URL}/api/tags`, {
+    method: 'GET',
+  })
+  const json = (await response.json()) as {
+    tags: {
+      id: string
+      name: string
+      color: string
+    }[]
+  }
+  return json
+}
