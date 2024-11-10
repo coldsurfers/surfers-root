@@ -3,11 +3,11 @@ import Head from 'next/head'
 import { notFound } from 'next/navigation'
 import { getBlocks } from '../../../../lib/notion'
 // prismjs
+import { LogDetailRenderer } from '@/features'
 import { getSurflogDetail, queryLogs } from '@/lib/utils'
 import { routing } from 'i18n/routing'
 import { PageProps } from 'i18n/types'
 import { setRequestLocale } from 'next-intl/server'
-import { SurflogSlugPageClient } from './page.client'
 
 export const revalidate = 3600
 
@@ -64,7 +64,7 @@ export default async function Page({ params }: PageProps<{ slug: string }>) {
       <Head>
         <title>{titlePlainText}</title>
       </Head>
-      <SurflogSlugPageClient pageTitle={pageTitle} pageBlocks={blocks} tags={tags} />
+      <LogDetailRenderer pageTitle={pageTitle} pageBlocks={blocks} tags={tags} />
     </div>
   )
 }

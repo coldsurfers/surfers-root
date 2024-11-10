@@ -1,8 +1,9 @@
 import { getTags, queryLogs } from '@/lib'
+import { PostItem, PostListContainer } from '@/ui'
 import { routing } from 'i18n/routing'
 import { PageProps } from 'i18n/types'
 import { setRequestLocale } from 'next-intl/server'
-import { TagDetailPageClient } from './page.client'
+import { StyledTagDetailPageTitle } from './page.styled'
 
 export async function generateStaticParams() {
   const locales = routing.locales.map((locale) => ({ locale }))
@@ -32,7 +33,16 @@ export default async function TagDetailPage({
     queryLogs('surflog', locale, { tag: decodedTag }),
     queryLogs('techlog', locale, { tag: decodedTag }),
   ]
-  const result = (await Promise.all(promises)).flat()
+  const logs = (await Promise.all(promises)).flat()
 
-  return <TagDetailPageClient tag={decodedTag} logs={result} />
+  return (
+    <>
+      <StyledTagDetailPageTitle as="h1">#{tag}</StyledTagDetailPageTitle>
+      <PostListContainer>
+        {logs.map((post) => (
+          <PostItem key={post.id} {...post} />
+        ))}
+      </PostListContainer>
+    </>
+  )
 }
