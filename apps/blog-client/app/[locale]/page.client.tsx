@@ -1,10 +1,11 @@
 'use client'
 
-import { queryLogs } from '@/lib/utils'
+import { useGetLogsQuery } from '@/lib/react-query'
 import { Paragraph, PostItem } from '@/ui'
 import { media } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
+import { AppLocale } from 'i18n/types'
 import { useTranslations } from 'next-intl'
 
 const Header = styled.header`
@@ -35,15 +36,17 @@ const About = styled(Paragraph)`
   `)}
 `
 
-export default function Page({
-  techlogs,
-  surflogs,
-}: {
-  techlogs: Awaited<ReturnType<typeof queryLogs>>
-  surflogs: Awaited<ReturnType<typeof queryLogs>>
-}) {
-  const latestTechlogs = techlogs.slice(0, 5)
-  const latestSurflogs = surflogs.slice(0, 5)
+export default function Page({ locale }: { locale: AppLocale }) {
+  const { data: techlogs } = useGetLogsQuery({
+    platform: 'techlog',
+    locale,
+  })
+  const { data: surflogs } = useGetLogsQuery({
+    platform: 'surflog',
+    locale,
+  })
+  const latestTechlogs = techlogs?.slice(0, 5)
+  const latestSurflogs = surflogs?.slice(0, 5)
   const t = useTranslations()
 
   return (
@@ -55,17 +58,9 @@ export default function Page({
 
       <div>
         <Title as="h1">Latest Surflogs</Title>
-        <Posts>
-          {latestSurflogs.map((post) => (
-            <PostItem key={post.id} {...post} />
-          ))}
-        </Posts>
+        <Posts>{latestSurflogs?.map((post) => <PostItem key={post.id} {...post} />)}</Posts>
         <Title as="h1">Latest Techlogs</Title>
-        <Posts>
-          {latestTechlogs.map((post) => (
-            <PostItem key={post.id} {...post} />
-          ))}
-        </Posts>
+        <Posts>{latestTechlogs?.map((post) => <PostItem key={post.id} {...post} />)}</Posts>
       </div>
     </div>
   )

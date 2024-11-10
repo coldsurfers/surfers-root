@@ -1,13 +1,14 @@
 'use client'
 
 import { Text, renderBlock } from '@/features/notion'
+import { useGetLogDetailQuery } from '@/lib/react-query/queries/use-get-log-detail-query/use-get-log-detail-query'
 import { CommonBack, TagItem } from '@/ui'
 import { media } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import { RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
 import { Link } from 'i18n/routing'
-import { Fragment } from 'react'
+import { AppLocale } from 'i18n/types'
+import { Fragment, useMemo } from 'react'
 
 const Heading1 = styled.h1`
   ${media.medium(css`
@@ -21,14 +22,31 @@ const StyledSectionTagList = styled.section`
 `
 
 export const LogDetailRenderer = ({
-  pageTitle,
-  pageBlocks,
-  tags,
+  slug,
+  locale,
+  platform,
 }: {
-  pageBlocks: never[]
-  pageTitle: RichTextItemResponse[] | null
-  tags: { name: string; color: string }[]
+  slug: string
+  locale: AppLocale
+  platform: 'techlog' | 'surflog'
 }) => {
+  const { data } = useGetLogDetailQuery(slug, { platform, locale })
+  const page = useMemo(() => data?.page, [data])
+  const blocks = useMemo(() => data?.blocks, [data])
+
+  const pageTitle = useMemo(() => (page?.properties.Name.type === 'title' ? page.properties.Name.title : null), [page])
+
+  const tags = useMemo(
+    () =>
+      page?.properties.tags.type === 'multi_select'
+        ? page?.properties.tags.multi_select.map((value) => ({
+            name: value.name,
+            color: value.color,
+          }))
+        : [],
+    [page],
+  )
+
   return (
     <article>
       <Heading1>
@@ -52,7 +70,7 @@ export const LogDetailRenderer = ({
         })}
       </StyledSectionTagList>
       <section>
-        {pageBlocks.map((block) => (
+        {blocks?.map((block) => (
           // @ts-ignore
           <Fragment key={block.id}>{renderBlock(block)}</Fragment>
         ))}

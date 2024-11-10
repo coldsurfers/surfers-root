@@ -1,6 +1,6 @@
 import Script from 'next/script'
 
-import { OceanRoadThemeRegistry } from '@/lib'
+import { OceanRoadThemeRegistry, QueryClientRegistry } from '@/lib'
 import { PageLayout } from '@/ui'
 import { routing } from 'i18n/routing'
 import { NextIntlClientProvider } from 'next-intl'
@@ -8,7 +8,6 @@ import { getMessages, setRequestLocale } from 'next-intl/server'
 import { Noto_Sans_KR } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { PropsWithChildren } from 'react'
-import StyledComponentsRegistry from '../../lib/registries/StyledComponentsRegistry'
 
 const notoSansKR = Noto_Sans_KR({ subsets: ['latin'] })
 
@@ -70,11 +69,11 @@ export default async function RootLayout({
           }}
         />
         <NextIntlClientProvider messages={messages}>
-          <StyledComponentsRegistry>
-            <OceanRoadThemeRegistry>
+          <OceanRoadThemeRegistry>
+            <QueryClientRegistry>
               <PageLayout>{children}</PageLayout>
-            </OceanRoadThemeRegistry>
-          </StyledComponentsRegistry>
+            </QueryClientRegistry>
+          </OceanRoadThemeRegistry>
         </NextIntlClientProvider>
       </body>
     </html>

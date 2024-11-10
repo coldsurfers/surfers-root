@@ -1,6 +1,6 @@
 'use client'
 
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 export const StyledPageLayoutContainer = styled.main`
   padding: 0 20px;
