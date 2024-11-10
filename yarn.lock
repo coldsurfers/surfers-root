@@ -3034,6 +3034,7 @@ __metadata:
     "@emotion/css": "npm:*"
     "@emotion/react": "npm:*"
     "@emotion/styled": "npm:*"
+    "@lukemorales/query-key-factory": "npm:*"
     "@next/eslint-plugin-next": "npm:^13.4.16"
     "@notionhq/client": "npm:*"
     "@prisma/client": "npm:^5.19.0"

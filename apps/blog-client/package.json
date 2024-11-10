@@ -29,6 +29,7 @@
     "@emotion/css": "*",
     "@emotion/react": "*",
     "@emotion/styled": "*",
+    "@lukemorales/query-key-factory": "*",
     "@notionhq/client": "*",
     "@prisma/client": "^5.19.0",
     "@tanstack/react-query": "*",
