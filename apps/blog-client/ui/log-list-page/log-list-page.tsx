@@ -1,15 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
-import { queryLogs } from '@/lib'
+import { useGetLogsQuery } from '@/lib'
 import { PostItem, PostListContainer } from '@/ui'
+import { AppLocale } from 'i18n/types'
 
-export const LogListPage = ({ logs }: { logs: Awaited<ReturnType<typeof queryLogs>> }) => {
-  return (
-    <PostListContainer>
-      {logs.map((post) => (
-        <PostItem key={post.id} {...post} />
-      ))}
-    </PostListContainer>
-  )
+export const LogListPage = ({ locale, platform }: { locale: AppLocale; platform: 'techlog' | 'surflog' }) => {
+  const { data: logs } = useGetLogsQuery({
+    locale,
+    platform,
+  })
+  return <PostListContainer>{logs?.map((post) => <PostItem key={post.id} {...post} />)}</PostListContainer>
 }
