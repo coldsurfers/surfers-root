@@ -1,3 +1,4 @@
+import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import { AppLocale } from 'i18n/types'
 import { queryLogs } from '../utils'
 
@@ -12,4 +13,17 @@ export const fetchGetLogs = async ({ platform, locale }: { platform: 'techlog' |
   }
   const { logs } = json
   return logs
+}
+
+export const fetchGetLogDetail = async (slug: string, filters: { platform: string; locale: AppLocale }) => {
+  const { platform, locale } = filters
+  const response = await fetch(`${BASE_URL}/api/logs/${slug}?platform=${platform}&locale=${locale}`, {
+    method: 'GET',
+  })
+  const json = (await response.json()) as {
+    page: PageObjectResponse
+    blocks: never[]
+  }
+
+  return json
 }
