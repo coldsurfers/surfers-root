@@ -132,7 +132,7 @@ export const queryLogs = cache(
   },
 )
 
-export const queryProperties = (propertyName: 'tags') =>
+const queryProperties = (propertyName: 'tags') =>
   cache(async () => {
     const response = await notionInstance.databases.query({
       database_id: notionDatabaseIds.blog ?? '',
