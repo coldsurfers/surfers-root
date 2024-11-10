@@ -1,5 +1,6 @@
 import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
+import { getQueryClient } from '@/lib/react-query/react-query.utils'
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { routing } from 'i18n/routing'
 import { PageProps } from 'i18n/types'
 import { setRequestLocale } from 'next-intl/server'
@@ -13,7 +14,7 @@ export function generateStaticParams() {
 
 export default async function RootPage({ params }: PageProps) {
   setRequestLocale(params.locale)
-  const queryClient = new QueryClient()
+  const queryClient = getQueryClient()
   const promises = [
     queryClient.prefetchQuery(
       queryKeyFactory.logs.list({
