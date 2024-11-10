@@ -19,11 +19,12 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     .with('techlog', async () => await getTechlogDetail({ slug, lang: locale }))
     .exhaustive()
   if (!page) {
-    return NextResponse.json({ error: 'page not found' }, { status: 404 })
+    return NextResponse.json({ message: 'page not found' }, { status: 404 })
   }
   const blocks = await getBlocks(page?.id)
   if (!blocks) {
-    return NextResponse.json({ error: 'blocks not found' }, { status: 404 })
+    return NextResponse.json({ message: 'blocks not found' }, { status: 404 })
   }
+
   return NextResponse.json({ page, blocks }, { status: 200 })
 }

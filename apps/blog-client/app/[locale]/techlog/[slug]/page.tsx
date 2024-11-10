@@ -1,10 +1,8 @@
-import Head from 'next/head'
-
-import { notFound } from 'next/navigation'
-import { getBlocks } from '../../../../lib/notion'
-
 import { LogDetailRenderer } from '@/features'
+import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
+import { getQueryClient } from '@/lib/react-query/react-query.utils'
 import { getTechlogDetail, queryLogs } from '@/lib/utils'
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { routing } from 'i18n/routing'
 import { PageProps } from 'i18n/types'
 import { setRequestLocale } from 'next-intl/server'
@@ -38,35 +36,18 @@ export async function generateMetadata({ params }: PageProps<{ slug: string }>) 
 
 export default async function Page({ params }: PageProps<{ slug: string }>) {
   setRequestLocale(params.locale)
-  const page = await getTechlogDetail({ slug: params?.slug ?? '', lang: params.locale })
-
-  if (!page) {
-    notFound()
-  }
-
-  const blocks = await getBlocks(page?.id)
-
-  const titlePlainText = page.properties.Name.type === 'title' ? page.properties.Name.title.at(0)?.plain_text : null
-  const pageTitle = page.properties.Name.type === 'title' ? page.properties.Name.title : null
-  const tags =
-    page.properties.tags.type === 'multi_select'
-      ? page.properties.tags.multi_select.map((value) => ({
-          name: value.name,
-          color: value.color,
-        }))
-      : []
-
-  if (!blocks) {
-    return <div />
-  }
+  const queryClient = getQueryClient()
+  await queryClient.prefetchQuery(
+    queryKeyFactory.logs.detail(params.slug, {
+      platform: 'techlog',
+      locale: params.locale,
+    }),
+  )
+  const dehydratedState = dehydrate(queryClient)
 
   return (
-    <div>
-      <Head>
-        <title>{titlePlainText}</title>
-      </Head>
-
-      <LogDetailRenderer pageTitle={pageTitle} pageBlocks={blocks} tags={tags} />
-    </div>
+    <HydrationBoundary state={dehydratedState}>
+      <LogDetailRenderer slug={params.slug} locale={params.locale} platform="techlog" />
+    </HydrationBoundary>
   )
 }
