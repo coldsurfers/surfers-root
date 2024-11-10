@@ -38,8 +38,8 @@ export const fetchGetUsers = async () => {
   return json
 }
 
-export const fetchGetResume = async () => {
-  const response = await fetch(`${BASE_URL}/api/resume`, {
+export const fetchGetResume = async (filters: { locale: AppLocale }) => {
+  const response = await fetch(`${BASE_URL}/api/resume?locale=${filters.locale}`, {
     method: 'GET',
   })
   const json = (await response.json()) as {
