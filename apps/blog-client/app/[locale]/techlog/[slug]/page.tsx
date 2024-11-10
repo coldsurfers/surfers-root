@@ -3,11 +3,11 @@ import Head from 'next/head'
 import { notFound } from 'next/navigation'
 import { getBlocks } from '../../../../lib/notion'
 
+import { LogDetailRenderer } from '@/features'
 import { getTechlogDetail, queryLogs } from '@/lib/utils'
 import { routing } from 'i18n/routing'
 import { PageProps } from 'i18n/types'
 import { setRequestLocale } from 'next-intl/server'
-import { TechlogSlugPageClient } from './page.client'
 
 export const revalidate = 3600
 
@@ -55,7 +55,6 @@ export default async function Page({ params }: PageProps<{ slug: string }>) {
           color: value.color,
         }))
       : []
-  console.log(tags)
 
   if (!blocks) {
     return <div />
@@ -67,7 +66,7 @@ export default async function Page({ params }: PageProps<{ slug: string }>) {
         <title>{titlePlainText}</title>
       </Head>
 
-      <TechlogSlugPageClient pageTitle={pageTitle} pageBlocks={blocks} tags={tags} />
+      <LogDetailRenderer pageTitle={pageTitle} pageBlocks={blocks} tags={tags} />
     </div>
   )
 }
