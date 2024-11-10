@@ -1,6 +1,6 @@
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory'
 import { AppLocale } from 'i18n/types'
-import { fetchGetLogDetail, fetchGetLogs, fetchGetUsers } from '../fetchers'
+import { fetchGetLogDetail, fetchGetLogs, fetchGetResume, fetchGetUsers } from '../fetchers'
 
 const logs = createQueryKeys('logs', {
   all: null,
@@ -27,4 +27,12 @@ const users = createQueryKeys('users', {
   },
 })
 
-export const queryKeyFactory = mergeQueryKeys(logs, users)
+const resume = createQueryKeys('resumes', {
+  all: null,
+  detail: (filters: { locale: AppLocale }) => ({
+    queryKey: ['detail', { filters }],
+    queryFn: (ctx) => fetchGetResume(filters),
+  }),
+})
+
+export const queryKeyFactory = mergeQueryKeys(logs, users, resume)
