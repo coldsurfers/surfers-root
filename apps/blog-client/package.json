@@ -29,8 +29,10 @@
     "@emotion/css": "*",
     "@emotion/react": "*",
     "@emotion/styled": "*",
+    "@lukemorales/query-key-factory": "*",
     "@notionhq/client": "*",
     "@prisma/client": "^5.19.0",
+    "@tanstack/react-query": "*",
     "axios": "*",
     "date-fns": "^3.6.0",
     "form-data": "^4.0.0",
@@ -46,7 +48,6 @@
     "react-native-web": "*",
     "react-tweet": "^3.2.0",
     "sha1": "^1.1.1",
-    "styled-components": "*",
     "ts-pattern": "*",
     "zod": "^3.23.8",
     "zustand": "*"

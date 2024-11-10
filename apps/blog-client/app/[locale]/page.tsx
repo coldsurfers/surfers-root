@@ -1,4 +1,6 @@
-import { queryLogs } from '@/lib/utils'
+import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
+import { getQueryClient } from '@/lib/react-query/react-query.utils'
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { routing } from 'i18n/routing'
 import { PageProps } from 'i18n/types'
 import { setRequestLocale } from 'next-intl/server'
@@ -10,11 +12,30 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
-const Page = async ({ params }: PageProps) => {
+export default async function RootPage({ params }: PageProps) {
   setRequestLocale(params.locale)
-  const techlogs = await queryLogs('techlog', params.locale)
-  const surflogs = await queryLogs('surflog', params.locale)
-  return <PageClient techlogs={techlogs} surflogs={surflogs} />
-}
+  const queryClient = getQueryClient()
+  const promises = [
+    queryClient.prefetchQuery(
+      queryKeyFactory.logs.list({
+        platform: 'surflog',
+        locale: params.locale,
+      }),
+    ),
+    queryClient.prefetchQuery(
+      queryKeyFactory.logs.list({
+        platform: 'techlog',
+        locale: params.locale,
+      }),
+    ),
+  ]
 
-export default Page
+  await Promise.all(promises)
+
+  const dehydratedState = dehydrate(queryClient)
+  return (
+    <HydrationBoundary state={dehydratedState}>
+      <PageClient locale={params.locale} />
+    </HydrationBoundary>
+  )
+}

@@ -1,6 +1,7 @@
-import styled from 'styled-components/native'
+import { Paragraph } from '@/ui'
+import styled from '@emotion/styled'
 
-export const StyledWritersPageHeader = styled.Text`
+export const StyledWritersPageHeader = styled(Paragraph)`
   margin-top: 8px;
   margin-bottom: 50px;
 
