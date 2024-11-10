@@ -1,4 +1,4 @@
-import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import { PageObjectResponse, PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import { AppLocale } from 'i18n/types'
 import { queryLogs } from '../utils'
 
@@ -25,5 +25,15 @@ export const fetchGetLogDetail = async (slug: string, filters: { platform: strin
     blocks: never[]
   }
 
+  return json
+}
+
+export const fetchGetUsers = async () => {
+  const response = await fetch(`${BASE_URL}/api/users`, {
+    method: 'GET',
+  })
+  const json = (await response.json()) as {
+    users: PersonUserObjectResponse[]
+  }
   return json
 }
