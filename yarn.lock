@@ -3062,7 +3062,6 @@ __metadata:
     react-native-web: "npm:*"
     react-tweet: "npm:^3.2.0"
     sha1: "npm:^1.1.1"
-    styled-components: "npm:*"
     ts-pattern: "npm:*"
     typescript: "npm:*"
     zod: "npm:^3.23.8"
