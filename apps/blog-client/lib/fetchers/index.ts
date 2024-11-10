@@ -37,3 +37,16 @@ export const fetchGetUsers = async () => {
   }
   return json
 }
+
+export const fetchGetResume = async () => {
+  const response = await fetch(`${BASE_URL}/api/resume`, {
+    method: 'GET',
+  })
+  const json = (await response.json()) as {
+    blocks: {
+      career: never[]
+      side: never[]
+    }
+  }
+  return json
+}
