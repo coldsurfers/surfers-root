@@ -56,7 +56,7 @@ export default async function Page({ params }: PageProps<{ slug: string }>) {
       : []
 
   if (!blocks) {
-    return <div />
+    notFound()
   }
 
   return (
