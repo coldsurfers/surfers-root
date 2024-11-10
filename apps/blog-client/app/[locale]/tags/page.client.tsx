@@ -1,6 +1,6 @@
 'use client'
 
-import { TagItem } from '@/features'
+import { TagItem } from '@/ui'
 import { Link } from 'i18n/routing'
 import { StyledSectionTagList, StyledTagPageTitle } from './page.styled'
 

@@ -1,8 +1,7 @@
 'use client'
 
-import { PostItem } from '@/features'
 import { queryLogs } from '@/lib/utils'
-import { Paragraph } from '@/ui'
+import { Paragraph, PostItem } from '@/ui'
 import { media } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
@@ -58,13 +57,13 @@ export default function Page({
         <Title as="h1">Latest Surflogs</Title>
         <Posts>
           {latestSurflogs.map((post) => (
-            <PostItem key={post.id} post={post} postType="surflog" />
+            <PostItem key={post.id} {...post} />
           ))}
         </Posts>
         <Title as="h1">Latest Techlogs</Title>
         <Posts>
           {latestTechlogs.map((post) => (
-            <PostItem key={post.id} post={post} postType="techlog" />
+            <PostItem key={post.id} {...post} />
           ))}
         </Posts>
       </div>

@@ -1,8 +1,7 @@
 'use client'
 
 import { Text, renderBlock } from '@/features/notion'
-import { TagItem } from '@/features/posts'
-import { CommonBack } from '@/ui'
+import { CommonBack, TagItem } from '@/ui'
 import { media } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
