@@ -1,4 +1,4 @@
-import { fetchGetLogs } from '@/lib/fetchers'
+import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
 import { routing } from 'i18n/routing'
 import { PageProps } from 'i18n/types'
@@ -15,34 +15,18 @@ export default async function RootPage({ params }: PageProps) {
   setRequestLocale(params.locale)
   const queryClient = new QueryClient()
   const promises = [
-    queryClient.prefetchQuery({
-      queryKey: [
-        'logs',
-        {
-          locale: params.locale,
-          platform: 'surflog',
-        },
-      ],
-      queryFn: async () =>
-        await fetchGetLogs({
-          locale: params.locale,
-          platform: 'surflog',
-        }),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: [
-        'logs',
-        {
-          locale: params.locale,
-          platform: 'techlog',
-        },
-      ],
-      queryFn: async () =>
-        await fetchGetLogs({
-          locale: params.locale,
-          platform: 'techlog',
-        }),
-    }),
+    queryClient.prefetchQuery(
+      queryKeyFactory.logs.list({
+        platform: 'surflog',
+        locale: params.locale,
+      }),
+    ),
+    queryClient.prefetchQuery(
+      queryKeyFactory.logs.list({
+        platform: 'techlog',
+        locale: params.locale,
+      }),
+    ),
   ]
 
   await Promise.all(promises)
