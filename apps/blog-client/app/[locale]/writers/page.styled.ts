@@ -1,7 +1,6 @@
-import { Paragraph } from '@/ui'
 import styled from '@emotion/styled'
 
-export const StyledWritersPageHeader = styled(Paragraph)`
+export const StyledWritersPageHeader = styled.section`
   margin-top: 8px;
   margin-bottom: 50px;
 

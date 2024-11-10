@@ -1,16 +1,17 @@
 'use client'
 
+import { useGetUsersQuery } from '@/lib'
 import { Paragraph } from '@/ui'
-import { UserObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import { Link } from 'i18n/routing'
 import { useTranslations } from 'next-intl'
 import { StyledWritersPageHeader } from './page.styled'
 
-export function WritersPageClient({ users }: { users: UserObjectResponse[] }) {
+export function WritersPageClient() {
   const t = useTranslations()
+  const { data } = useGetUsersQuery()
   return (
     <div style={{ paddingTop: 24 }}>
-      {users.map((user) => {
+      {data?.users.map((user) => {
         return (
           <div key={user.id}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
