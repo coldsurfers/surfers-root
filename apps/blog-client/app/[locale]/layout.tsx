@@ -8,7 +8,6 @@ import { getMessages, setRequestLocale } from 'next-intl/server'
 import { Noto_Sans_KR } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { PropsWithChildren } from 'react'
-import StyledComponentsRegistry from '../../lib/registries/StyledComponentsRegistry'
 
 const notoSansKR = Noto_Sans_KR({ subsets: ['latin'] })
 
@@ -70,11 +69,9 @@ export default async function RootLayout({
           }}
         />
         <NextIntlClientProvider messages={messages}>
-          <StyledComponentsRegistry>
-            <OceanRoadThemeRegistry>
-              <PageLayout>{children}</PageLayout>
-            </OceanRoadThemeRegistry>
-          </StyledComponentsRegistry>
+          <OceanRoadThemeRegistry>
+            <PageLayout>{children}</PageLayout>
+          </OceanRoadThemeRegistry>
         </NextIntlClientProvider>
       </body>
     </html>
