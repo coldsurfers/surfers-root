@@ -1,7 +1,6 @@
 import Script from 'next/script'
 
-import { OceanRoadThemeRegistry } from '@/lib'
-import QueryClientRegistry from '@/lib/registries/query-client-registry/query-client-registry'
+import { OceanRoadThemeRegistry, QueryClientRegistry } from '@/lib'
 import { PageLayout } from '@/ui'
 import { routing } from 'i18n/routing'
 import { NextIntlClientProvider } from 'next-intl'
