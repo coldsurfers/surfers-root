@@ -3037,6 +3037,7 @@ __metadata:
     "@next/eslint-plugin-next": "npm:^13.4.16"
     "@notionhq/client": "npm:*"
     "@prisma/client": "npm:^5.19.0"
+    "@tanstack/react-query": "npm:*"
     "@types/prismjs": "npm:~1.26.3"
     "@types/react": "npm:*"
     "@types/react-dom": "npm:*"
