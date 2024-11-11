@@ -111,6 +111,7 @@ jobs:
             # Commands to deploy your application on EC2
             cd ~/repo/surfers-root
             git pull origin main
+            aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}
             docker-compose -f ./docker/docker-compose.yml pull blog-client
             docker-compose -f ./docker/docker-compose.yml up -d blog-client
           EOF
