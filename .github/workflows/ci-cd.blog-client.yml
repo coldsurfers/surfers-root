@@ -17,41 +17,41 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}
 
-      - name: Create .env file from template
-        run: |
-          echo "NOTION_TOKEN=${{ secrets.NOTION_TOKEN }}" >> ./apps/blog-client/.env
-          echo "NOTION_BLOG_DATABASE_ID=${{ secrets.NOTION_BLOG_DATABASE_ID }}" >> ./apps/blog-client/.env
-          echo "NOTION_RESUME_DATABASE_ID=${{ secrets.NOTION_RESUME_DATABASE_ID }}" >> ./apps/blog-client/.env
-          echo "CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}" >> ./apps/blog-client/.env
-          echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> ./apps/blog-client/.env
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> ./apps/blog-client/.env
-          touch "./apps/coldsurf-io/.env"
-          touch "./apps/wamuseum-client/.env"
-          touch "./apps/billets-server/.env"
-          touch "./apps/wamuseum-server/.env"
+      # - name: Create .env file from template
+      #   run: |
+      #     echo "NOTION_TOKEN=${{ secrets.NOTION_TOKEN }}" >> ./apps/blog-client/.env
+      #     echo "NOTION_BLOG_DATABASE_ID=${{ secrets.NOTION_BLOG_DATABASE_ID }}" >> ./apps/blog-client/.env
+      #     echo "NOTION_RESUME_DATABASE_ID=${{ secrets.NOTION_RESUME_DATABASE_ID }}" >> ./apps/blog-client/.env
+      #     echo "CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}" >> ./apps/blog-client/.env
+      #     echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> ./apps/blog-client/.env
+      #     echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> ./apps/blog-client/.env
+      #     touch "./apps/coldsurf-io/.env"
+      #     touch "./apps/wamuseum-client/.env"
+      #     touch "./apps/billets-server/.env"
+      #     touch "./apps/wamuseum-server/.env"
 
-      - name: Install Docker Compose
-        run: |
-          DOCKER_COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)
-          sudo curl -L "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
+      # - name: Install Docker Compose
+      #   run: |
+      #     DOCKER_COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)
+      #     sudo curl -L "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+      #     sudo chmod +x /usr/local/bin/docker-compose
 
-      - name: Verify Docker Compose Installation
-        run: docker-compose --version
+      # - name: Verify Docker Compose Installation
+      #   run: docker-compose --version
 
-      - name: Build Docker Image
-        env:
-          ECR_REMOTE_HOST: ${{ secrets.ECR_REPOSITORY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          docker-compose -f ./docker/docker-compose.yml build blog-client
+      # - name: Build Docker Image
+      #   env:
+      #     ECR_REMOTE_HOST: ${{ secrets.ECR_REPOSITORY }}
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     docker-compose -f ./docker/docker-compose.yml build blog-client
 
-      - name: Push Docker Image to ECR
-        env:
-          ECR_REMOTE_HOST: ${{ secrets.ECR_REPOSITORY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          docker-compose -f ./docker/docker-compose.yml push blog-client
+      # - name: Push Docker Image to ECR
+      #   env:
+      #     ECR_REMOTE_HOST: ${{ secrets.ECR_REPOSITORY }}
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     docker-compose -f ./docker/docker-compose.yml push blog-client
 
       - name: Create PEM file from GitHub Secret
         env:
@@ -101,6 +101,7 @@ jobs:
           EC2_USER: ${{ secrets.EC2_USER }}
           ECR_REMOTE_HOST: ${{ secrets.ECR_REPOSITORY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
           # Install AWS CLI on the runner
           sudo apt-get install -y awscli
@@ -108,12 +109,13 @@ jobs:
           # Use the PEM file to SSH into the EC2 instance
           ssh -o StrictHostKeyChecking=no -i ec2-key.pem $EC2_USER@$EC2_HOST << 'EOF'
             # setup env variables
-            export ECR_REMOTE_HOST=${ECR_REMOTE_HOST}
-            export GITHUB_TOKEN=${GITHUB_TOKEN}
+            export ECR_REMOTE_HOST=$ECR_REMOTE_HOST
+            export GITHUB_TOKEN=$GITHUB_TOKEN
+            export AWS_REGION=$AWS_REGION
             # Commands to deploy your application on EC2
             cd ~/repo/surfers-root
             git pull origin main
-            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}
+            aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REMOTE_HOST
             docker-compose -f ./docker/docker-compose.yml pull blog-client
             docker-compose -f ./docker/docker-compose.yml up -d blog-client
           EOF
