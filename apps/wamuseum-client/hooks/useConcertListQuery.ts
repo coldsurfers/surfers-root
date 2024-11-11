@@ -12,7 +12,7 @@ export default function useConcertListQuery(
         createdAt: 'asc' | 'desc'
       }
     }
-  >
+  >,
 ) {
   return useQuery<
     {
