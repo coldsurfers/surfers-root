@@ -90,6 +90,10 @@ jobs:
         run: terraform plan -out=tfplan
         working-directory: ./terraform/ # Again specify the working directory
 
+      - name: 'Terraform Import'
+        run: terraform import aws_security_group.coldsurf-terraform-sg ${{ secrets.AWS_SECURITY_GROUP_ID }}
+        working-directory: ./terraform/
+
       - name: 'Terraform Apply'
         run: terraform apply -auto-approve tfplan
         working-directory: ./terraform/
