@@ -71,9 +71,6 @@ jobs:
           # Install AWS CLI on the runner
           sudo apt-get install -y awscli
 
-          # Retrieve the latest image from ECR
-          IMAGE_URI="${{ secrets.ECR_REPOSITORY }}:latest"
-
           # Use the PEM file to SSH into the EC2 instance
           ssh -o StrictHostKeyChecking=no -i ec2-key.pem $EC2_USER@$EC2_HOST << 'EOF'
             # Commands to deploy your application on EC2
