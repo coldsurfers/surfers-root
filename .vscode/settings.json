@@ -19,6 +19,7 @@
     "billets-server",
     "wamuseum-server",
     "ocean-road",
-    "billets-app"
+    "billets-app",
+    "ci"
   ]
 }
