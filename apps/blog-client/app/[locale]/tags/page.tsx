@@ -1,9 +1,10 @@
-import { getTags } from '@/lib'
-import { TagItem } from '@/ui'
-import { Link, routing } from 'i18n/routing'
+import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
+import { getQueryClient } from '@/lib/react-query/react-query.utils'
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
+import { routing } from 'i18n/routing'
 import { PageProps } from 'i18n/types'
 import { setRequestLocale } from 'next-intl/server'
-import { StyledSectionTagList, StyledTagPageTitle } from './page.styled'
+import { TagsPageClient } from './page.client'
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
@@ -12,29 +13,15 @@ export function generateStaticParams() {
 export default async function TagsPage({ params }: PageProps) {
   const { locale } = params
   setRequestLocale(locale)
+  const queryClient = getQueryClient()
 
-  const tags = await getTags()
+  await queryClient.prefetchQuery(queryKeyFactory.tags.list)
+
+  const dehydratedState = dehydrate(queryClient)
 
   return (
-    <>
-      <StyledTagPageTitle as="h1">Tags</StyledTagPageTitle>
-      <StyledSectionTagList>
-        {tags.map((tag) => {
-          return (
-            <Link
-              key={tag.id}
-              href={{
-                pathname: '/tags/[tag]',
-                params: {
-                  tag: tag.name,
-                },
-              }}
-            >
-              <TagItem {...tag} />
-            </Link>
-          )
-        })}
-      </StyledSectionTagList>
-    </>
+    <HydrationBoundary state={dehydratedState}>
+      <TagsPageClient />
+    </HydrationBoundary>
   )
 }
