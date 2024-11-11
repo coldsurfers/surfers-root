@@ -31,7 +31,7 @@
     "react-dom": "*",
     "react-native": "*",
     "react-native-web": "*",
-    "react-spinners": "^0.13.7",
+    "react-spinners": "*",
     "string-width": "4.2.3",
     "styled-components": "*",
     "typescript": "*",
