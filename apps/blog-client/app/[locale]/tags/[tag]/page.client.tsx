@@ -7,12 +7,12 @@ import { useMemo } from 'react'
 import { StyledTagDetailPageTitle } from './page.styled'
 
 export const TagsTagPageClient = ({ locale, tag }: { locale: AppLocale; tag: string }) => {
-  const { data: techlogs, isLoading } = useGetLogsQuery({
+  const { data: techlogs, isLoading: isLoadingTechlogs } = useGetLogsQuery({
     locale,
     platform: 'techlog',
     tag,
   })
-  const { data: surflogs } = useGetLogsQuery({
+  const { data: surflogs, isLoading: isLoadingSurflogs } = useGetLogsQuery({
     locale,
     platform: 'surflog',
     tag,
@@ -20,6 +20,7 @@ export const TagsTagPageClient = ({ locale, tag }: { locale: AppLocale; tag: str
   const logs = useMemo(() => {
     return [...(techlogs ?? []), ...(surflogs ?? [])]
   }, [surflogs, techlogs])
+  const isLoading = isLoadingTechlogs || isLoadingSurflogs
   if (isLoading) {
     return <PageLoadingSpinner />
   }
