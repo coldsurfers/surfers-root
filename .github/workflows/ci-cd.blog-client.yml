@@ -12,12 +12,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Log in to Amazon ECR
-        env:
-          AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}
 
       - name: Create .env file from template
         run: |
@@ -111,7 +109,7 @@ jobs:
             # Commands to deploy your application on EC2
             cd ~/repo/surfers-root
             git pull origin main
-            aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}
+            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}
             docker-compose -f ./docker/docker-compose.yml pull blog-client
             docker-compose -f ./docker/docker-compose.yml up -d blog-client
           EOF
