@@ -76,13 +76,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-terraform-
 
-      - name: 'Terraform Import'
-        run: terraform import aws_security_group.coldsurf-terraform-sg ${{ secrets.AWS_SECURITY_GROUP_ID }}
-        working-directory: ./terraform/
-
       # Step 4: Initialize Terraform
       - name: 'Terraform Init'
         run: terraform init
+        working-directory: ./terraform/
+
+      - name: 'Terraform Import'
+        run: terraform import aws_security_group.coldsurf-terraform-sg ${{ secrets.AWS_SECURITY_GROUP_ID }}
         working-directory: ./terraform/
 
       - name: 'Terraform Validate'
