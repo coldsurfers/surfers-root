@@ -1,3 +1,5 @@
+'use client'
+
 import { useMutation } from '@apollo/client'
 import { Button, palette } from '@coldsurfers/hotsurf'
 import { usePathname, useRouter } from 'next/navigation'
@@ -14,14 +16,11 @@ const Header = () => {
   const router = useRouter()
   const pathname = usePathname()
   const [showLoader, setShowLoader] = useState<boolean>(false)
-  const { data, loading: meLoading, refetch, client } = useMeQuery()
+  const { data, refetch, client } = useMeQuery()
   const [mutateLogout] = useMutation<{ logout: Mutation['logout'] }>(LogoutMutation, {})
   const me = useMemo(() => {
-    if (!data || meLoading) return null
-    // eslint-disable-next-line no-shadow
-    const { me } = data
-    return me
-  }, [data, meLoading])
+    return data?.me
+  }, [data?.me])
   const handleLogout = useCallback(() => {
     setShowLoader(true)
     mutateLogout({
