@@ -109,9 +109,9 @@ jobs:
           # Use the PEM file to SSH into the EC2 instance
           ssh -o StrictHostKeyChecking=no -i ec2-key.pem $EC2_USER@$EC2_HOST << 'EOF'
             # setup env variables
-            export ECR_REMOTE_HOST=$ECR_REMOTE_HOST
-            export GITHUB_TOKEN=$GITHUB_TOKEN
-            export AWS_REGION=$AWS_REGION
+            export ECR_REMOTE_HOST=${{ secrets.ECR_REPOSITORY }}
+            export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+            export AWS_REGION=${{ secrets.AWS_REGION }}
             # Commands to deploy your application on EC2
             cd ~/repo/surfers-root
             git pull origin main
