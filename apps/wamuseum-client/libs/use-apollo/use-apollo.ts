@@ -4,8 +4,12 @@ import { useMemo } from 'react'
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | null = null
 
-export function initializeApollo(initialState = {}) {
-  const _apolloClient = apolloClient ?? createApolloClient()
+export function initializeApollo({ initialState, token }: { initialState?: object; token?: string }) {
+  const _apolloClient =
+    apolloClient ??
+    createApolloClient({
+      token,
+    })
 
   if (initialState) {
     const existingCache = _apolloClient.extract()
@@ -18,6 +22,6 @@ export function initializeApollo(initialState = {}) {
   return _apolloClient
 }
 
-export function useApollo(initialState = {}) {
-  return useMemo(() => initializeApollo(initialState), [initialState])
+export function useApollo({ initialState, token }: { initialState?: object; token?: string }) {
+  return useMemo(() => initializeApollo({ initialState, token }), [initialState, token])
 }

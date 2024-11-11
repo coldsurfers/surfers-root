@@ -1,24 +1,21 @@
+import { useMutation } from '@apollo/client'
 import { Button, palette } from '@coldsurfers/hotsurf'
-import { useRouter, usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
-import { useMutation } from '@apollo/client'
-import useMeQuery from '../hooks/useMeQuery'
-import storage from '../utils/storage/storage'
-import Loader from './Loader'
-import { ME_QUERY } from '../gql/queries'
 import { LogoutMutation } from '../gql/mutations'
+import { ME_QUERY } from '../gql/queries'
+import useMeQuery from '../hooks/useMeQuery'
 import { Mutation } from '../src/__generated__/graphql'
+import { authUtils } from '../utils'
+import Loader from './Loader'
 
 const Header = () => {
   const router = useRouter()
   const pathname = usePathname()
   const [showLoader, setShowLoader] = useState<boolean>(false)
   const { data, loading: meLoading, refetch, client } = useMeQuery()
-  const [mutateLogout] = useMutation<{ logout: Mutation['logout'] }>(
-    LogoutMutation,
-    {}
-  )
+  const [mutateLogout] = useMutation<{ logout: Mutation['logout'] }>(LogoutMutation, {})
   const me = useMemo(() => {
     if (!data || meLoading) return null
     // eslint-disable-next-line no-shadow
@@ -29,9 +26,10 @@ const Header = () => {
     setShowLoader(true)
     mutateLogout({
       onCompleted: () => {
-        storage.remove('@wamuseum-client/auth-token')
-        client.refetchQueries({
-          include: [ME_QUERY],
+        authUtils.logout().then(() => {
+          client.refetchQueries({
+            include: [ME_QUERY],
+          })
         })
       },
       onError: (error) => {

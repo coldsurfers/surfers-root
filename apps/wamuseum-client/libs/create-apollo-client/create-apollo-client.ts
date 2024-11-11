@@ -5,19 +5,20 @@ import { onError } from '@apollo/client/link/error'
 import { AuthToken } from 'gql/schema'
 import { urls } from 'libs/constants'
 
-export const createApolloClient = () => {
+export const createApolloClient = ({ token }: { token?: string }) => {
   const NON_AUTH_PATH_WHITE_LIST = ['/auth/signin', '/auth/request']
 
   const httpLink = new HttpLink({
     uri: urls.apolloServer,
   })
 
-  const authLink = setContext((_, { headers }) => {
-    const authToken = storage.get<AuthToken>('@wamuseum-client/auth-token')
+  const authLink = setContext(async (_, { headers }) => {
+    const accessToken =
+      typeof window === 'undefined' ? token : storage?.get<AuthToken>('@wamuseum-client/auth-token')?.accessToken
     return {
       headers: {
         ...headers,
-        authorization: authToken ? `${authToken.accessToken}` : '',
+        authorization: accessToken ? `${accessToken}` : '',
       },
     }
   })
@@ -30,10 +31,13 @@ export const createApolloClient = () => {
           // Apollo Server sets code to UNAUTHENTICATED
           // when an AuthenticationError is thrown in a resolver
           case 401:
-            if (storage.get<string>('@wamuseum-client/auth-token')) {
+            if (storage?.get<string>('@wamuseum-client/auth-token')) {
               storage.remove('@wamuseum-client/auth-token')
             }
-            if (NON_AUTH_PATH_WHITE_LIST.every((value) => document.location.pathname !== value)) {
+            if (
+              typeof document !== 'undefined' &&
+              NON_AUTH_PATH_WHITE_LIST.every((value) => document.location.pathname !== value)
+            ) {
               document.location.href = '/auth/signin'
             }
             // Modify the operation context with a new token
