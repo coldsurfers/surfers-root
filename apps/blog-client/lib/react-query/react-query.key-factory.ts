@@ -4,7 +4,7 @@ import { fetchGetLogDetail, fetchGetLogs, fetchGetResume, fetchGetTags, fetchGet
 
 const logs = createQueryKeys('logs', {
   all: null,
-  list: (filters: { platform: 'techlog' | 'surflog'; locale: AppLocale }) => ({
+  list: (filters: { platform: 'techlog' | 'surflog'; locale: AppLocale; tag?: string }) => ({
     queryKey: [{ filters }],
     queryFn: (ctx) => fetchGetLogs(filters),
   }),
