@@ -49,6 +49,9 @@ jobs:
           docker-compose -f ./docker/docker-compose.yml build blog-client
 
       - name: Push Docker Image to ECR
+        env:
+          ECR_REMOTE_HOST: ${{ secrets.ECR_REPOSITORY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           docker-compose -f ./docker/docker-compose.yml push blog-client
 
