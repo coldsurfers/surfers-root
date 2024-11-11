@@ -2,11 +2,11 @@
 
 import { Text, renderBlock } from '@/features/notion'
 import { useGetLogDetailQuery } from '@/lib/react-query/queries/use-get-log-detail-query/use-get-log-detail-query'
-import { CommonBack, TagItem } from '@/ui'
+import { CommonBack } from '@/ui'
+import { TagList } from '@/ui/tag-list/tag-list'
 import { media } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import { Link } from 'i18n/routing'
 import { AppLocale } from 'i18n/types'
 import { Fragment, useMemo } from 'react'
 
@@ -14,11 +14,6 @@ const Heading1 = styled.h1`
   ${media.medium(css`
     font-size: 1.25rem;
   `)}
-`
-
-const StyledSectionTagList = styled.section`
-  display: flex;
-  flex-wrap: wrap;
 `
 
 export const LogDetailRenderer = ({
@@ -40,6 +35,7 @@ export const LogDetailRenderer = ({
     () =>
       page?.properties.tags.type === 'multi_select'
         ? page?.properties.tags.multi_select.map((value) => ({
+            id: value.id,
             name: value.name,
             color: value.color,
           }))
@@ -52,23 +48,7 @@ export const LogDetailRenderer = ({
       <Heading1>
         <Text title={pageTitle} />
       </Heading1>
-      <StyledSectionTagList>
-        {tags.map((tag) => {
-          return (
-            <Link
-              key={tag.name}
-              href={{
-                pathname: '/tags/[tag]',
-                params: {
-                  tag: tag.name,
-                },
-              }}
-            >
-              <TagItem {...tag} />
-            </Link>
-          )
-        })}
-      </StyledSectionTagList>
+      <TagList tags={tags} />
       <section>
         {blocks?.map((block) => (
           // @ts-ignore
