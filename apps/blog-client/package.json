@@ -46,6 +46,7 @@
     "react-dom": "*",
     "react-native": "*",
     "react-native-web": "*",
+    "react-spinners": "*",
     "react-tweet": "^3.2.0",
     "sha1": "^1.1.1",
     "ts-pattern": "*",

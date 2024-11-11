@@ -1,13 +1,13 @@
 'use client'
 
 import { useGetLogsQuery } from '@/lib'
-import { PostItem, PostListContainer } from '@/ui'
+import { PageLoadingSpinner, PostItem, PostListContainer } from '@/ui'
 import { AppLocale } from 'i18n/types'
 import { useMemo } from 'react'
 import { StyledTagDetailPageTitle } from './page.styled'
 
 export const TagsTagPageClient = ({ locale, tag }: { locale: AppLocale; tag: string }) => {
-  const { data: techlogs } = useGetLogsQuery({
+  const { data: techlogs, isLoading } = useGetLogsQuery({
     locale,
     platform: 'techlog',
     tag,
@@ -20,6 +20,9 @@ export const TagsTagPageClient = ({ locale, tag }: { locale: AppLocale; tag: str
   const logs = useMemo(() => {
     return [...(techlogs ?? []), ...(surflogs ?? [])]
   }, [surflogs, techlogs])
+  if (isLoading) {
+    return <PageLoadingSpinner />
+  }
   return (
     <>
       <StyledTagDetailPageTitle as="h1">#{tag}</StyledTagDetailPageTitle>

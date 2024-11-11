@@ -39,7 +39,8 @@
     "@fastify/cors": "10.0.1",
     "@emotion/css": "11.10.6",
     "@emotion/react": "11.10.6",
-    "@emotion/styled": "11.10.6"
+    "@emotion/styled": "11.10.6",
+    "react-spinners": "0.14.1"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.12.1",

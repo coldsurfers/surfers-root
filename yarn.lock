@@ -3061,6 +3061,7 @@ __metadata:
     react-dom: "npm:*"
     react-native: "npm:*"
     react-native-web: "npm:*"
+    react-spinners: "npm:*"
     react-tweet: "npm:^3.2.0"
     sha1: "npm:^1.1.1"
     ts-pattern: "npm:*"
@@ -3129,7 +3130,7 @@ __metadata:
     react-hook-form: "npm:^7.48.2"
     react-native: "npm:*"
     react-native-web: "npm:*"
-    react-spinners: "npm:^0.13.7"
+    react-spinners: "npm:*"
     sharp: "npm:^0.33.5"
     styled-components: "npm:6.1.8"
     tailwindcss: "npm:^3.4.1"
@@ -3387,7 +3388,7 @@ __metadata:
     react-dom: "npm:*"
     react-native: "npm:*"
     react-native-web: "npm:*"
-    react-spinners: "npm:^0.13.7"
+    react-spinners: "npm:*"
     string-width: "npm:4.2.3"
     strip-ansi: "npm:^7.1.0"
     styled-components: "npm:*"
@@ -27938,13 +27939,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-spinners@npm:^0.13.7":
-  version: 0.13.8
-  resolution: "react-spinners@npm:0.13.8"
+"react-spinners@npm:0.14.1":
+  version: 0.14.1
+  resolution: "react-spinners@npm:0.14.1"
   peerDependencies:
     react: ^16.0.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/59a030ece288f045a443e0b720c94636fc00667bcb8cd5a36ed8342cc2bc52a98106a676875551b3389ae5943bd7c4d4aa2ede0fb914bbde4322211f0f0120a8
+  checksum: 10c0/5b3c101f789716331a0b6afad156293fb9aa05620e65494753001afcdb611788057f379b5979b34d570d527fa978003293266b59db505bf2d243ebab899ceeda
   languageName: node
   linkType: hard
 
