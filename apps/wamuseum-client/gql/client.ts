@@ -54,6 +54,7 @@ const errorLink = onError(({ graphQLErrors, forward, operation }) => {
 })
 
 const client = new ApolloClient({
+  ssrMode: typeof window !== 'undefined',
   link: authLink.concat(errorLink).concat(httpLink),
   cache: new InMemoryCache(),
   connectToDevTools: process.env.NODE_ENV === 'development',
