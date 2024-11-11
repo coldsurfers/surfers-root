@@ -38,6 +38,9 @@ jobs:
         run: docker-compose --version
 
       - name: Build Docker Image
+        env:
+          ECR_REMOTE_HOST: ${{ secrets.ECR_REPOSITORY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           docker-compose -f ./docker/docker-compose.yml build blog-client
 
