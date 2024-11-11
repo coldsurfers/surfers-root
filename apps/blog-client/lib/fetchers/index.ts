@@ -4,8 +4,23 @@ import { queryLogs } from '../utils'
 
 const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://blog.coldsurf.io'
 
-export const fetchGetLogs = async ({ platform, locale }: { platform: 'techlog' | 'surflog'; locale: AppLocale }) => {
-  const response = await fetch(`${BASE_URL}/api/logs?platform=${platform}&locale=${locale}`, {
+export const fetchGetLogs = async ({
+  platform,
+  locale,
+  tag,
+}: {
+  platform: 'techlog' | 'surflog'
+  locale: AppLocale
+  tag?: string
+}) => {
+  const searchParams = new URLSearchParams()
+  searchParams.append('platform', platform)
+  searchParams.append('locale', locale)
+  if (tag) {
+    searchParams.append('tag', tag)
+  }
+  const qs = searchParams.toString()
+  const response = await fetch(`${BASE_URL}/api/logs?${qs}`, {
     method: 'GET',
   })
   const json = (await response.json()) as {

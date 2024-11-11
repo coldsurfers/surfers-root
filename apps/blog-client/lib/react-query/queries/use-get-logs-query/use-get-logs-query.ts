@@ -6,7 +6,7 @@ import { queryKeyFactory } from '../../react-query.key-factory'
 type Options = Partial<TypedUseQueryOptions<typeof queryKeyFactory.logs.list>>
 
 export const useGetLogsQuery = (
-  { platform, locale }: { platform: 'techlog' | 'surflog'; locale: AppLocale },
+  { platform, locale, tag }: { platform: 'techlog' | 'surflog'; locale: AppLocale; tag?: string },
   options?: Options,
 ) => {
   return useQuery({
@@ -14,6 +14,7 @@ export const useGetLogsQuery = (
     ...queryKeyFactory.logs.list({
       platform,
       locale,
+      tag,
     }),
   })
 }

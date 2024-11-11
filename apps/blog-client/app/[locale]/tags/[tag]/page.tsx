@@ -1,9 +1,11 @@
-import { getTags, queryLogs } from '@/lib'
-import { PostItem, PostListContainer } from '@/ui'
+import { getTags } from '@/lib'
+import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
+import { getQueryClient } from '@/lib/react-query/react-query.utils'
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { routing } from 'i18n/routing'
 import { PageProps } from 'i18n/types'
 import { setRequestLocale } from 'next-intl/server'
-import { StyledTagDetailPageTitle } from './page.styled'
+import { TagsTagPageClient } from './page.client'
 
 export async function generateStaticParams() {
   const locales = routing.locales.map((locale) => ({ locale }))
@@ -29,20 +31,30 @@ export default async function TagDetailPage({
   const { tag, locale } = params
   const decodedTag = decodeURIComponent(tag)
   setRequestLocale(locale)
+
+  const queryClient = getQueryClient()
   const promises = [
-    queryLogs('surflog', locale, { tag: decodedTag }),
-    queryLogs('techlog', locale, { tag: decodedTag }),
+    queryClient.prefetchQuery(
+      queryKeyFactory.logs.list({
+        platform: 'techlog',
+        locale,
+        tag: decodedTag,
+      }),
+    ),
+    queryClient.prefetchQuery(
+      queryKeyFactory.logs.list({
+        platform: 'surflog',
+        locale,
+        tag: decodedTag,
+      }),
+    ),
   ]
-  const logs = (await Promise.all(promises)).flat()
+  await Promise.all(promises)
+  const dehydratedState = dehydrate(queryClient)
 
   return (
-    <>
-      <StyledTagDetailPageTitle as="h1">#{tag}</StyledTagDetailPageTitle>
-      <PostListContainer>
-        {logs.map((post) => (
-          <PostItem key={post.id} {...post} />
-        ))}
-      </PostListContainer>
-    </>
+    <HydrationBoundary state={dehydratedState}>
+      <TagsTagPageClient locale={locale} tag={decodedTag} />
+    </HydrationBoundary>
   )
 }

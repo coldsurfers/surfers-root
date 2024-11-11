@@ -12,9 +12,16 @@ export async function GET(request: NextRequest) {
   if (locale !== 'en' && locale !== 'ko') {
     return NextResponse.json({ error: 'locale query is strange' }, { status: 409 })
   }
+  const tag = searchParams.get('tag')
   const logs = await match(platform)
-    .with('surflog', async () => await queryLogs('surflog', locale))
-    .with('techlog', async () => await queryLogs('techlog', locale))
+    .with(
+      'surflog',
+      async () =>
+        await queryLogs('surflog', locale, {
+          tag: tag ?? undefined,
+        }),
+    )
+    .with('techlog', async () => await queryLogs('techlog', locale, { tag: tag ?? undefined }))
     .exhaustive()
   return NextResponse.json({ logs: logs }, { status: 200 })
 }
