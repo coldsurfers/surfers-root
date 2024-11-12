@@ -101,7 +101,7 @@ export const signinHandler: RouteHandler<{
           })
         }
         if (value === 'apple') {
-          await verifyAppleToken(token, process.env.APPLE_BUNDLE_ID ?? '')
+          await verifyAppleToken(token, process.env.BILLETS_APP_APPLE_BUNDLE_ID ?? '')
         }
 
         const { accessToken, refreshToken } = generateAuthToken({
@@ -194,7 +194,7 @@ export const signupHandler: RouteHandler<{
           })
         }
         if (value === 'apple') {
-          await verifyAppleToken(token, process.env.APPLE_BUNDLE_ID ?? '')
+          await verifyAppleToken(token, process.env.BILLETS_APP_APPLE_BUNDLE_ID ?? '')
         }
         //
         const userDTO = new UserDTO({
