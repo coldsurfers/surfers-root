@@ -60,7 +60,7 @@ const RegisterArtistPage = () => {
           file: files[0],
         })
         setArtistProfileImageUrl(
-          `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/billets/artist/profile-images/${encodeURIComponent(filename)}`,
+          `${process.env.NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL}/billets/artist/profile-images/${encodeURIComponent(filename)}`,
         )
       } catch (err) {
         console.error(err)
