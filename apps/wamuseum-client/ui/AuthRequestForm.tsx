@@ -20,45 +20,25 @@ const AuthRequestForm = ({}: Props) => {
   const [emailSent, setEmailSent] = useState<boolean>(false)
   const [emailAuthenticated, setEmailAuthenticated] = useState<boolean>(false)
   const [signinCompleted, setSigninCompleted] = useState<boolean>(false)
-  const [
-    mutateCreateEmailAuthRequest,
-    {
-      data: createEmailAuthRequestData,
-      loading: createEmailAuthRequestLoading,
-    },
-  ] = useCreateEmailAuthRequestMutation()
+  const [mutateCreateEmailAuthRequest, { data: createEmailAuthRequestData, loading: createEmailAuthRequestLoading }] =
+    useCreateEmailAuthRequestMutation()
   const [
     mutateAuthenticateEmailAuthRequest,
-    {
-      data: authenticateEmailAuthRequestData,
-      loading: authenticateEmailAuthRequestLoading,
-    },
+    { data: authenticateEmailAuthRequestData, loading: authenticateEmailAuthRequestLoading },
   ] = useAuthenticateEmailAuthRequestMutation()
-  const [
-    mutateCreateUser,
-    { data: createUserData, loading: createUserLoading },
-  ] = useCreateUserMutation()
+  const [mutateCreateUser, { data: createUserData, loading: createUserLoading }] = useCreateUserMutation()
 
-  const [
-    authenticateEmailAuthRequestErrorMessage,
-    setAuthenticateEmailAuthRequestErrorMessage,
-  ] = useState<string>('')
-  const [createUserErrorMessage, setCreateUserErrorMessage] =
-    useState<string>('')
+  const [authenticateEmailAuthRequestErrorMessage, setAuthenticateEmailAuthRequestErrorMessage] = useState<string>('')
+  const [createUserErrorMessage, setCreateUserErrorMessage] = useState<string>('')
 
-  const loading =
-    createEmailAuthRequestLoading ||
-    authenticateEmailAuthRequestLoading ||
-    createUserLoading
+  const loading = createEmailAuthRequestLoading || authenticateEmailAuthRequestLoading || createUserLoading
 
   useEffect(() => {
     if (!authenticateEmailAuthRequestData?.authenticateEmailAuthRequest) return
     const { authenticateEmailAuthRequest } = authenticateEmailAuthRequestData
     switch (authenticateEmailAuthRequest.__typename) {
       case 'HttpError':
-        setAuthenticateEmailAuthRequestErrorMessage(
-          authenticateEmailAuthRequest.message
-        )
+        setAuthenticateEmailAuthRequestErrorMessage(authenticateEmailAuthRequest.message)
         break
       case 'EmailAuthRequest':
         setEmailAuthenticated(!!authenticateEmailAuthRequest.authenticated)
@@ -86,8 +66,7 @@ const AuthRequestForm = ({}: Props) => {
     }
   }, [createUserData, router])
 
-  const authenticatedEmail =
-    createEmailAuthRequestData?.createEmailAuthRequest.email ?? ''
+  const authenticatedEmail = createEmailAuthRequestData?.createEmailAuthRequest.email ?? ''
 
   return (
     <>
@@ -99,7 +78,7 @@ const AuthRequestForm = ({}: Props) => {
             marginBottom: 14,
           }}
         >
-          ColdSurf 어드민
+          WAMUSEUM
         </Text>
         <TextInput
           placeholder="이메일"
@@ -139,11 +118,7 @@ const AuthRequestForm = ({}: Props) => {
                 marginLeft: 14,
                 backgroundColor: palette.black,
               }}
-              disabled={
-                !createEmailAuthRequestData ||
-                !authcode ||
-                authenticateEmailAuthRequestLoading
-              }
+              disabled={!createEmailAuthRequestData || !authcode || authenticateEmailAuthRequestLoading}
               onPress={() => {
                 mutateAuthenticateEmailAuthRequest({
                   variables: {
@@ -194,10 +169,7 @@ const AuthRequestForm = ({}: Props) => {
       </Wrapper>
       {!!authenticateEmailAuthRequestErrorMessage && (
         <ToastWrapper>
-          <Toast
-            type="error"
-            message={authenticateEmailAuthRequestErrorMessage}
-          />
+          <Toast type="error" message={authenticateEmailAuthRequestErrorMessage} />
         </ToastWrapper>
       )}
       {!!createUserErrorMessage && (
@@ -207,10 +179,7 @@ const AuthRequestForm = ({}: Props) => {
       )}
       {signinCompleted && (
         <ToastWrapper>
-          <Toast
-            type="info"
-            message={'가입이 완료되었습니다.\n로그인 페이지로 이동합니다.'}
-          />
+          <Toast type="info" message={'가입이 완료되었습니다.\n로그인 페이지로 이동합니다.'} />
         </ToastWrapper>
       )}
       {loading && <Loader />}
