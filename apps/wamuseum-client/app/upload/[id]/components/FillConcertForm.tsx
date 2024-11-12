@@ -75,7 +75,7 @@ const FillConcertForm = ({ concertId }: { concertId: string }) => {
           file: files[0],
         })
         setPosterUrl(
-          `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/billets/poster-thumbnails/${encodeURIComponent(filename)}`,
+          `${process.env.NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL}/billets/poster-thumbnails/${encodeURIComponent(filename)}`,
         )
       } catch (err) {
         console.error(err)
