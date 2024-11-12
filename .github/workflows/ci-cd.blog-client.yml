@@ -12,10 +12,12 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Log in to Amazon ECR
-        run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}
+        uses: ./composites/ci-cd.ecr-login.yml
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.AWS_REGION }}
+          aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
 
       - name: Create .env file from template
         run: |
