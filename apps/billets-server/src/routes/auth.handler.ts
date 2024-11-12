@@ -247,12 +247,12 @@ export const sendAuthCodeHandler: RouteHandler<{
     })
     const created = await emailAuthRequestDTO.create()
     const send = await sendEmail({
-      from: process.env.MAILER_EMAIL_ADDRESS,
+      from: process.env.BILLETS_SERVER_MAILER_EMAIL_ADDRESS,
       smtpOptions: {
-        service: process.env.MAILER_SERVICE,
+        service: process.env.BILLETS_SERVER_MAILER_SERVICE,
         auth: {
-          user: process.env.MAILER_EMAIL_ADDRESS,
-          pass: process.env.MAILER_EMAIL_APP_PASSWORD,
+          user: process.env.BILLETS_SERVER_MAILER_EMAIL_ADDRESS,
+          pass: process.env.BILLETS_SERVER_MAILER_EMAIL_APP_PASSWORD,
         },
       },
       to: created.props.email ?? '',
