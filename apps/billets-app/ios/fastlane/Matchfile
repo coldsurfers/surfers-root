@@ -1,6 +1,6 @@
-git_url(ENV['apple-auth-git-repo-url'])
+git_url(ENV['apple_auth_git_repo_url'])
 
-storage_mode(ENV['storage-mode'])
+storage_mode(ENV['storage_mode'])
 
 type(ENV['type']) # The default type, can be: appstore, adhoc, enterprise or development
 
