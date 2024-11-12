@@ -1,6 +1,6 @@
-import { RouteHandler } from 'fastify'
 import { S3Client } from '@aws-sdk/client-s3'
 import { createPresignedPost } from '@aws-sdk/s3-presigned-post'
+import { RouteHandler } from 'fastify'
 import { z } from 'zod'
 import { authorizeUser } from '../../src/utils/authHelpers'
 
@@ -26,18 +26,18 @@ const getPosterThumbnailsPresigned: RouteHandler<{
     const { filename, filetype } = queryValidation.data
 
     const s3Client = new S3Client({
-      region: process.env.S3_REGION,
+      region: process.env.COLDSURF_AWS_S3_REGION,
       credentials: {
-        accessKeyId: process.env.S3_ACCESS_KEY_ID ?? '',
-        secretAccessKey: process.env.FSTVLLIFE_ORIGIN_KEY ?? '',
+        accessKeyId: process.env.COLDSURF_AWS_ACCESS_KEY_ID ?? '',
+        secretAccessKey: process.env.COLDSURF_AWS_SECRET_ACCESS_KEY ?? '',
       },
     })
 
     const post = await createPresignedPost(s3Client, {
-      Bucket: process.env.FSTVLLIFE_ORIGIN_B ?? '',
+      Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
       Key: `billets/poster-thumbnails/${filename}` as string,
       Fields: {
-        acl: 'public-read',
+        'acl': 'public-read',
         'Content-Type': filetype as string,
       },
       Expires: 5, // seconds
@@ -74,18 +74,18 @@ const getArtistProfileImagesPresigned: RouteHandler<{
     const { filename, filetype } = queryValidation.data
 
     const s3Client = new S3Client({
-      region: process.env.S3_REGION,
+      region: process.env.COLDSURF_AWS_S3_REGION,
       credentials: {
-        accessKeyId: process.env.S3_ACCESS_KEY_ID ?? '',
-        secretAccessKey: process.env.FSTVLLIFE_ORIGIN_KEY ?? '',
+        accessKeyId: process.env.COLDSURF_AWS_ACCESS_KEY_ID ?? '',
+        secretAccessKey: process.env.COLDSURF_AWS_SECRET_ACCESS_KEY ?? '',
       },
     })
 
     const post = await createPresignedPost(s3Client, {
-      Bucket: process.env.FSTVLLIFE_ORIGIN_B ?? '',
+      Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
       Key: `billets/artist/profile-images/${filename}` as string,
       Fields: {
-        acl: 'public-read',
+        'acl': 'public-read',
         'Content-Type': filetype as string,
       },
       Expires: 5, // seconds
