@@ -110,7 +110,7 @@ export const ConcertIdPageClient = ({
   //       variables: {
   //         input: {
   //           concertId: concert.id,
-  //           imageURL: `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/poster-thumbnails/${filename}`,
+  //           imageURL: `${process.env.NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL}/poster-thumbnails/${filename}`,
   //         },
   //       },
   //     })
@@ -136,7 +136,7 @@ export const ConcertIdPageClient = ({
   //       variables: {
   //         input: {
   //           id: thumbnail.id,
-  //           imageURL: `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/poster-thumbnails/${filename}`,
+  //           imageURL: `${process.env.NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL}/poster-thumbnails/${filename}`,
   //         },
   //       },
   //     })
