@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Log in to Amazon ECR
-        uses: ./.github/workflows/composites/ci-cd.ecr-login.yml
+        uses: ./.github/workflows/composites/ecr-login
         with:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -33,20 +33,20 @@ jobs:
           touch "./apps/wamuseum-server/.env"
 
       - name: Docker Compose build and push
-        uses: ./.github/workflows/composites/ci-cd.docker-compose-build.yml
+        uses: ./.github/workflows/composites/docker-compose-build
         with:
           docker_compose_service: 'blog-client'
           aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Terraform apply
-        uses: ./.github/workflows/composites/ci-cd.terraform-apply.yml
+        uses: ./.github/workflows/composites/terraform-apply
         with:
           working_directory: ./terraform/
           aws_security_group_id: ${{ secrets.AWS_SECURITY_GROUP_ID }}
 
       - name: SSH ec2 and run cli
-        uses: ./.github/workflows/composites/ci-cd.ssh-ec2-cli.yml
+        uses: ./.github/workflows/composites/ssh-ec2-cli
         with:
           ec2_pem_key: ${{ secrets.EC2_PEM_KEY }}
           ec2_host: ${{ secrets.EC2_HOST }}
