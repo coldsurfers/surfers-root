@@ -8,7 +8,7 @@ export default function useConcertQuery(
     {
       concertId: string
     }
-  >
+  >,
 ) {
   return useQuery<
     { concert: ConcertData },
