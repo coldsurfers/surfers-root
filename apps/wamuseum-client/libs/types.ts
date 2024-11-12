@@ -1,10 +1,4 @@
-import {
-  ApolloCache,
-  DefaultContext,
-  MutationHookOptions,
-  OperationVariables,
-  QueryHookOptions,
-} from '@apollo/client'
+import { ApolloCache, DefaultContext, MutationHookOptions, OperationVariables, QueryHookOptions } from '@apollo/client'
 
 export type CommonMutationHookOptions<DataT, InputT> = MutationHookOptions<
   DataT,
@@ -13,7 +7,4 @@ export type CommonMutationHookOptions<DataT, InputT> = MutationHookOptions<
   ApolloCache<any>
 >
 
-export type CommonQueryHookOptions<
-  DataT,
-  InputT extends OperationVariables,
-> = QueryHookOptions<DataT, InputT>
+export type CommonQueryHookOptions<DataT, InputT extends OperationVariables> = QueryHookOptions<DataT, InputT>

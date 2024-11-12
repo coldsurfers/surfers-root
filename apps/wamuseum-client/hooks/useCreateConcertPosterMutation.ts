@@ -1,14 +1,6 @@
-import {
-  ApolloCache,
-  DefaultContext,
-  MutationHookOptions,
-  useMutation,
-} from '@apollo/client'
+import { ApolloCache, DefaultContext, MutationHookOptions, useMutation } from '@apollo/client'
 import { CreateConcertPosterMutation } from '../gql/mutations'
-import {
-  CreateConcertPosterData,
-  CreateConcertPosterInput,
-} from '../src/__generated__/graphql'
+import { CreateConcertPosterData, CreateConcertPosterInput } from '../src/__generated__/graphql'
 
 export default function useCreateConcertPosterMutation(
   options?: MutationHookOptions<
@@ -16,7 +8,7 @@ export default function useCreateConcertPosterMutation(
     { input: CreateConcertPosterInput },
     DefaultContext,
     ApolloCache<any>
-  >
+  >,
 ) {
   return useMutation<
     {

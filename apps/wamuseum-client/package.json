@@ -8,7 +8,7 @@
     "postcompile": "yarn lint:fix",
     "dev": "next dev",
     "lint": "next lint",
-    "lint:fix": "yarn lint --fix",
+    "lint:fix": "yarn lint --fix && prettier --write .",
     "prepare": "husky install",
     "start": "next start",
     "deploy": "pm2 start ecosystem.config.js",

@@ -16,15 +16,9 @@ const UploadFormDateInput = ({ value, onChangeText, placeholder }: Props) => {
       }
       onChangeText(text)
     },
-    [onChangeText]
+    [onChangeText],
   )
-  return (
-    <TextInput
-      placeholder={placeholder}
-      value={value}
-      onChangeText={handleChangeText}
-    />
-  )
+  return <TextInput placeholder={placeholder} value={value} onChangeText={handleChangeText} />
 }
 
 export default UploadFormDateInput

@@ -25,13 +25,9 @@ const InputWithLabel = memo(
   }) => (
     <InputWithLabelWrapper>
       <Label>{label}</Label>
-      <TextInput
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-      />
+      <TextInput value={value} onChangeText={onChangeText} placeholder={placeholder} />
     </InputWithLabelWrapper>
-  )
+  ),
 )
 
 InputWithLabel.displayName = 'InputWithLabel'

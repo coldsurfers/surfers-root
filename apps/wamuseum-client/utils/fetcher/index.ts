@@ -15,25 +15,16 @@ export const presign = async ({
   const authToken = storage.get<AuthToken>('@wamuseum-client/auth-token')
   const headers = new Headers()
   headers.append('Authorization', authToken?.accessToken ?? '')
-  const result = await fetch(
-    `${urls.fileUploadPresignedServer}/${type}?filename=${filename}&filetype=${filetype}`,
-    {
-      method: 'GET',
-      headers,
-    }
-  )
+  const result = await fetch(`${urls.fileUploadPresignedServer}/${type}?filename=${filename}&filetype=${filetype}`, {
+    method: 'GET',
+    headers,
+  })
   const data = (await result.json()) as PresignedData
 
   return data
 }
 
-export const uploadToPresignedURL = async ({
-  data,
-  file,
-}: {
-  data: PresignedData
-  file: File
-}) => {
+export const uploadToPresignedURL = async ({ data, file }: { data: PresignedData; file: File }) => {
   const formData = new FormData()
 
   Object.entries({ ...data.fields, file }).forEach(([key, value]) => {

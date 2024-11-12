@@ -5,11 +5,7 @@ import { format, isValid } from 'date-fns'
 import { useRouter, useSearchParams } from 'next/navigation'
 import useCreateConcertMutation from '../hooks/useCreateConcertMutation'
 import UploadFormDateInput from './UploadFormDateInput'
-import {
-  DEFAULT_LIMIT,
-  DEFAULT_ORDER_BY_CREATED_AT,
-  DEFAULT_PAGE,
-} from '../utils/constants'
+import { DEFAULT_LIMIT, DEFAULT_ORDER_BY_CREATED_AT, DEFAULT_PAGE } from '../utils/constants'
 import { CONCERT_LIST_QUERY } from '../gql/queries'
 import { CreateConcertInput } from '../src/__generated__/graphql'
 import Label from './Label'
@@ -89,11 +85,8 @@ const UploadForm = () => {
   }, [formState, parseDate])
 
   const formatDate = useCallback(
-    (date: Date) =>
-      isValid(date)
-        ? format(date, 'yyyy-MM-dd hh:mm a')
-        : '올바르지 않은 날짜입니다',
-    []
+    (date: Date) => (isValid(date) ? format(date, 'yyyy-MM-dd hh:mm a') : '올바르지 않은 날짜입니다'),
+    [],
   )
 
   const createConcert = useCallback(() => {
