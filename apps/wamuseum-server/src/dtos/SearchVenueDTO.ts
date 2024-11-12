@@ -42,15 +42,13 @@ export default class SearchVenueDTO {
   }
 
   static async search(keyword: string) {
-    console.log('search venue dto')
-    console.log(process.env.KAKAO_REST_API_KEY)
     const { data } = await axios.get<z.infer<typeof kakaoSearchSchema>>(
       `${KAKAO_SEARCH_LOCAL_BY_KEYWORD_URL}?query=${keyword}`,
       {
         headers: {
-          Authorization: `KakaoAK ${process.env.KAKAO_REST_API_KEY}`,
+          Authorization: `KakaoAK ${process.env.WAMUSEUM_SERVER_KAKAO_REST_API_KEY}`,
         },
-      }
+      },
     )
 
     return data.documents.map((document) => new SearchVenueDTO(document))
