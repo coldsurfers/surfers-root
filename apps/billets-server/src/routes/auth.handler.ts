@@ -101,7 +101,7 @@ export const signinHandler: RouteHandler<{
           })
         }
         if (value === 'apple') {
-          await verifyAppleToken(token, process.env.APPLE_BUNDLE_ID ?? '')
+          await verifyAppleToken(token, process.env.BILLETS_APP_APPLE_BUNDLE_ID ?? '')
         }
 
         const { accessToken, refreshToken } = generateAuthToken({
@@ -194,7 +194,7 @@ export const signupHandler: RouteHandler<{
           })
         }
         if (value === 'apple') {
-          await verifyAppleToken(token, process.env.APPLE_BUNDLE_ID ?? '')
+          await verifyAppleToken(token, process.env.BILLETS_APP_APPLE_BUNDLE_ID ?? '')
         }
         //
         const userDTO = new UserDTO({
@@ -247,12 +247,12 @@ export const sendAuthCodeHandler: RouteHandler<{
     })
     const created = await emailAuthRequestDTO.create()
     const send = await sendEmail({
-      from: process.env.MAILER_EMAIL_ADDRESS,
+      from: process.env.BILLETS_SERVER_MAILER_EMAIL_ADDRESS,
       smtpOptions: {
-        service: process.env.MAILER_SERVICE,
+        service: process.env.BILLETS_SERVER_MAILER_SERVICE,
         auth: {
-          user: process.env.MAILER_EMAIL_ADDRESS,
-          pass: process.env.MAILER_EMAIL_APP_PASSWORD,
+          user: process.env.BILLETS_SERVER_MAILER_EMAIL_ADDRESS,
+          pass: process.env.BILLETS_SERVER_MAILER_EMAIL_APP_PASSWORD,
         },
       },
       to: created.props.email ?? '',
