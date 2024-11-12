@@ -58,3 +58,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           aws_region: ${{ secrets.AWS_REGION }}
           docker_compose_service: 'wamuseum-server'
+          docker_compose_service_env_path: ./apps/wamuseum-server/.env

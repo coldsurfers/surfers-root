@@ -23,6 +23,9 @@ inputs:
   docker_compose_service:
     description: 'docker compose service name to build and push to ecr'
     required: true
+  docker_compose_service_env_path:
+    description: 'docker compose serivce env file path for docker'
+    required: true
 
 runs:
   using: 'composite'
@@ -34,6 +37,14 @@ runs:
       run: |
         echo "$EC2_PEM_KEY" > ec2-key.pem
         chmod 600 ec2-key.pem  # Set proper permissions for the PEM file
+
+    - name: Copy env file to EC2
+      shell: bash
+      env:
+        EC2_HOST: ${{ inputs.ec2_host }}
+        EC2_USER: ${{ inputs.ec2_user }}
+      run: |
+        scp -o StrictHostKeyChecking=no -i ec2-key.pem -r ${{ inputs.docker_compose_service_env_path }} $EC2_USER@$EC2_HOST:/home/$EC2_USER/repo/surfers-root/${{ inputs.docker_compose_service_env_path }}
 
     - name: SSH into EC2 and Deploy
       shell: bash
