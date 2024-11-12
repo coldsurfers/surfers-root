@@ -12,10 +12,12 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Log in to Amazon ECR
-        run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}
+        uses: ./composites/ci-cd.ecr-login.yml
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.AWS_REGION }}
+          aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
 
       - name: Create .env file from template
         run: |
@@ -30,96 +32,26 @@ jobs:
           touch "./apps/billets-server/.env"
           touch "./apps/wamuseum-server/.env"
 
-      - name: Install Docker Compose
-        run: |
-          DOCKER_COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)
-          sudo curl -L "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-
-      - name: Verify Docker Compose Installation
-        run: docker-compose --version
-
-      - name: Build Docker Image
-        env:
-          ECR_REMOTE_HOST: ${{ secrets.ECR_REPOSITORY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          docker-compose -f ./docker/docker-compose.yml build blog-client
-
-      - name: Push Docker Image to ECR
-        env:
-          ECR_REMOTE_HOST: ${{ secrets.ECR_REPOSITORY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          docker-compose -f ./docker/docker-compose.yml push blog-client
-
-      - name: Create PEM file from GitHub Secret
-        env:
-          EC2_PEM_KEY: ${{ secrets.EC2_PEM_KEY }}
-        run: |
-          echo "$EC2_PEM_KEY" > ec2-key.pem
-          chmod 600 ec2-key.pem  # Set proper permissions for the PEM file
-
-      - name: 'Set up Terraform'
-        uses: hashicorp/setup-terraform@v2
+      - name: Docker Compose build and push
+        uses: ./composites/ci-cd.docker-compose-build.yml
         with:
-          terraform_version: 1.5.7 # Specify the Terraform version (adjust as necessary)
+          docker_compose_service: 'blog-client'
+          aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      # Step 3: Cache Terraform provider plugins
-      - name: 'Cache Terraform Providers'
-        uses: actions/cache@v2
+      - name: Terraform apply
+        uses: ./composites/ci-cd.terraform-apply.yml
         with:
-          path: ~/.terraform.d/plugins
-          key: ${{ runner.os }}-terraform-${{ hashFiles('**/*.tf') }}
-          restore-keys: |
-            ${{ runner.os }}-terraform-
+          working_directory: ./terraform/
+          aws_security_group_id: ${{ secrets.AWS_SECURITY_GROUP_ID }}
 
-      # Step 4: Initialize Terraform
-      - name: 'Terraform Init'
-        run: terraform init
-        working-directory: ./terraform/
-
-      - name: 'Terraform Import'
-        run: terraform import aws_security_group.coldsurf-terraform-sg ${{ secrets.AWS_SECURITY_GROUP_ID }}
-        working-directory: ./terraform/
-
-      - name: 'Terraform Validate'
-        run: terraform validate
-        working-directory: ./terraform/
-
-      - name: 'Terraform Plan'
-        run: terraform plan -out=tfplan
-        working-directory: ./terraform/ # Again specify the working directory
-
-      - name: 'Terraform Apply'
-        run: terraform apply -auto-approve tfplan
-        working-directory: ./terraform/
-
-      - name: SSH into EC2 and Deploy
-        env:
-          EC2_HOST: ${{ secrets.EC2_HOST }}
-          EC2_USER: ${{ secrets.EC2_USER }}
-          ECR_REMOTE_HOST: ${{ secrets.ECR_REPOSITORY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-        run: |
-          # Install AWS CLI on the runner
-          sudo apt-get install -y awscli
-
-          # Use the PEM file to SSH into the EC2 instance
-          ssh -o StrictHostKeyChecking=no -i ec2-key.pem $EC2_USER@$EC2_HOST << 'EOF'
-            # setup env variables
-            export ECR_REMOTE_HOST=${{ secrets.ECR_REPOSITORY }}
-            export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-            export AWS_REGION=${{ secrets.AWS_REGION }}
-            # Commands to deploy your application on EC2
-            cd ~/repo/surfers-root
-            git pull origin main
-            aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REMOTE_HOST
-            docker-compose -f ./docker/docker-compose.yml pull blog-client
-            docker-compose -f ./docker/docker-compose.yml up -d blog-client
-          EOF
-
-      - name: Clean up PEM file
-        run: |
-          rm -f ec2-key.pem
+      - name: SSH ec2 and run cli
+        uses: ./composites/ci-cd.ssh-ec2-cli.yml
+        with:
+          ec2_pem_key: ${{ secrets.EC2_PEM_KEY }}
+          ec2_host: ${{ secrets.EC2_HOST }}
+          ec2_user: ${{ secrets.EC2_USER }}
+          ecr_repository: ${{ secrets.ECR_REPOSITORY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          aws_region: ${{ secrets.AWS_REGION }}
+          docker_compose_service: 'blog-client'

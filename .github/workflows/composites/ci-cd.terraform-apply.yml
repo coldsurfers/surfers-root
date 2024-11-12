@@ -1,0 +1,45 @@
+name: 'Terraform apply action'
+description: 'Terraform setup and apply'
+inputs:
+  working_directory:
+    description: 'Terraform root directory path'
+    required: true
+  aws_security_group_id:
+    description: 'AWS EC2 security group id to apply with terraform'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 'Set up Terraform'
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.5.7 # Specify the Terraform version (adjust as necessary)
+
+    - name: 'Cache Terraform Providers'
+      uses: actions/cache@v2
+      with:
+        path: ~/.terraform.d/plugins
+        key: ${{ runner.os }}-terraform-${{ hashFiles('**/*.tf') }}
+        restore-keys: |
+          ${{ runner.os }}-terraform-
+
+    - name: 'Terraform Init'
+      run: terraform init
+      working-directory: ${{ inputs.working_directory }}
+
+    - name: 'Terraform Import'
+      run: terraform import aws_security_group.coldsurf-terraform-sg ${{ inputs.aws_security_group_id }}
+      working-directory: ${{ inputs.working_directory }}
+
+    - name: 'Terraform Validate'
+      run: terraform validate
+      working-directory: ${{ inputs.working_directory }}
+
+    - name: 'Terraform Plan'
+      run: terraform plan -out=tfplan
+      working-directory: ${{ inputs.working_directory }}
+
+    - name: 'Terraform Apply'
+      run: terraform apply -auto-approve tfplan
+      working-directory: ${{ inputs.working_directory }}
