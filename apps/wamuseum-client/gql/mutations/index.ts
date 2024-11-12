@@ -1,9 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const AuthenticateEmailAuthRequestMutation = gql`
-  mutation AuthenticateEmailAuthRequest(
-    $input: AuthenticateEmailAuthRequestInput!
-  ) {
+  mutation AuthenticateEmailAuthRequest($input: AuthenticateEmailAuthRequestInput!) {
     authenticateEmailAuthRequest(input: $input) {
       ... on EmailAuthRequest {
         authenticated

@@ -1,14 +1,6 @@
-import {
-  ApolloCache,
-  DefaultContext,
-  MutationHookOptions,
-  useMutation,
-} from '@apollo/client'
+import { ApolloCache, DefaultContext, MutationHookOptions, useMutation } from '@apollo/client'
 import { CreateConcertMutation } from '../gql/mutations'
-import {
-  CreateConcertData,
-  CreateConcertInput,
-} from '../src/__generated__/graphql'
+import { CreateConcertData, CreateConcertInput } from '../src/__generated__/graphql'
 
 export default function useCreateConcertMutation(
   options?: MutationHookOptions<
@@ -18,7 +10,7 @@ export default function useCreateConcertMutation(
     },
     DefaultContext,
     ApolloCache<any>
-  >
+  >,
 ) {
   return useMutation<
     {

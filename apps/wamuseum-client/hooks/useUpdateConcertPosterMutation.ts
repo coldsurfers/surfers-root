@@ -1,9 +1,4 @@
-import {
-  ApolloCache,
-  DefaultContext,
-  MutationHookOptions,
-  useMutation,
-} from '@apollo/client'
+import { ApolloCache, DefaultContext, MutationHookOptions, useMutation } from '@apollo/client'
 import { UpdateConcertPosterData } from '../gql/schema'
 import { UpdateConcertPosterMutation } from '../gql/mutations'
 
@@ -13,7 +8,7 @@ export default function useUpdateConcertPosterMutation(
     { input: { id: number; imageURL: string } },
     DefaultContext,
     ApolloCache<any>
-  >
+  >,
 ) {
   return useMutation<
     {

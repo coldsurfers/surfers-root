@@ -3,32 +3,14 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "react": [
-        "./node_modules/@types/react"
-      ],
-      "@/app/*": [
-        "./app/*"
-      ],
-      "@/hooks/*": [
-        "./hooks/*"
-      ],
-      "@/utils/*": [
-        "./utils/*"
-      ],
-      "@/ui/*": [
-        "./ui/*"
-      ]
+      "react": ["./node_modules/@types/react"],
+      "@/app/*": ["./app/*"],
+      "@/hooks/*": ["./hooks/*"],
+      "@/utils/*": ["./utils/*"],
+      "@/ui/*": ["./ui/*"]
     },
     "strictNullChecks": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "src/__generated__"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", "src/__generated__"]
 }

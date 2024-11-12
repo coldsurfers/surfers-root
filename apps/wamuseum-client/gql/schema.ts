@@ -12,10 +12,7 @@ export interface EmailAuthRequest {
   createdAt: string
 }
 
-export type AuthenticateEmailAuthRequestData =
-  | EmailAuthRequest
-  | HttpError
-  | null
+export type AuthenticateEmailAuthRequestData = EmailAuthRequest | HttpError | null
 
 export interface User {
   __typename: 'User'
