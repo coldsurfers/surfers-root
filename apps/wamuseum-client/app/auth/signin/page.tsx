@@ -1,14 +1,14 @@
 'use client'
 
-import { LoginForm as LoginFormUI, type LoginFormRefHandle, Toast } from '@coldsurfers/hotsurf'
+import useLoginMutation from '@/hooks/useLoginMutation'
+import Loader from '@/ui/Loader'
+import { authUtils } from '@/utils/utils.auth'
+import { LoginForm as LoginFormUI, Toast, type LoginFormRefHandle } from '@coldsurfers/hotsurf'
+import { ME_QUERY } from 'gql/queries'
 import { useRouter } from 'next/navigation'
-import { useCallback, useEffect, useState, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import styled from 'styled-components'
-import useLoginMutation from '@/hooks/useLoginMutation'
-import storage from '@/utils/storage/storage'
-import Loader from '@/ui/Loader'
-import { ME_QUERY } from '../../../gql/queries'
 
 const FormLayout = styled.section`
   position: absolute;
@@ -54,14 +54,10 @@ const SignInPage = () => {
         setErrorMessage(login.message)
         break
       case 'UserWithAuthToken':
-        storage.set(
-          '@wamuseum-client/auth-token',
-          JSON.stringify({
-            ...login.authToken,
-          }),
-        )
-        client.refetchQueries({
-          include: [ME_QUERY],
+        authUtils.login(login.authToken).then(() => {
+          client.refetchQueries({
+            include: [ME_QUERY],
+          })
         })
         break
       default:

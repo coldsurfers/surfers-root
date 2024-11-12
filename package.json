@@ -11,7 +11,9 @@
     "prepare": "husky install",
     "deploy:blog": "yarn workspace @coldsurfers/blog-client deploy",
     "start:coldsurf-io": "yarn workspace @coldsurfers/coldsurf-io start",
-    "dev:coldsurf-io": "yarn workspace @coldsurfers/coldsurf-io dev"
+    "dev:coldsurf-io": "yarn workspace @coldsurfers/coldsurf-io dev",
+    "dev:wamuseum-server": "yarn workspace @coldsurfers/wamuseum-server debug",
+    "dev:wamuseum-client": "yarn workspace @coldsurfers/wamuseum-client dev"
   },
   "resolutions": {
     "typescript": "5.6.3",
