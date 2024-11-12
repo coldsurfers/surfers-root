@@ -79,10 +79,10 @@ const authResolvers: Resolvers = {
         subject: 'Wamuseum 이메일 인증 번호',
         html: `Wamuseum의 이메일 인증 번호는 ${createdEmailAuthRequest.props.authcode}입니다. 3분내에 입력 해 주세요.`,
         smtpOptions: {
-          service: process.env.MAILER_SERVICE,
+          service: process.env.WAMUSEUM_SERVER_MAILER_SERVICE,
           auth: {
-            user: process.env.MAILER_EMAIL_ADDRESS,
-            pass: process.env.MAILER_EMAIL_APP_PASSWORD,
+            user: process.env.WAMUSEUM_SERVER_MAILER_EMAIL_ADDRESS,
+            pass: process.env.WAMUSEUM_SERVER_MAILER_EMAIL_APP_PASSWORD,
           },
         },
       })
