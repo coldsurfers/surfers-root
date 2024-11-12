@@ -39,13 +39,6 @@ jobs:
           aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create PEM file from GitHub Secret
-        env:
-          EC2_PEM_KEY: ${{ secrets.EC2_PEM_KEY }}
-        run: |
-          echo "$EC2_PEM_KEY" > ec2-key.pem
-          chmod 600 ec2-key.pem  # Set proper permissions for the PEM file
-
       - name: 'Set up Terraform'
         uses: hashicorp/setup-terraform@v2
         with:
@@ -80,6 +73,13 @@ jobs:
       - name: 'Terraform Apply'
         run: terraform apply -auto-approve tfplan
         working-directory: ./terraform/
+
+      - name: Create PEM file from GitHub Secret
+        env:
+          EC2_PEM_KEY: ${{ secrets.EC2_PEM_KEY }}
+        run: |
+          echo "$EC2_PEM_KEY" > ec2-key.pem
+          chmod 600 ec2-key.pem  # Set proper permissions for the PEM file
 
       - name: SSH into EC2 and Deploy
         env:
