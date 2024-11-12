@@ -44,7 +44,7 @@ const Header = () => {
 
   return (
     <Wrapper>
-      <Title onClick={() => router.push('/')}>ColdSurf 어드민</Title>
+      <Title onClick={() => router.push('/')}>WAMUSEUM</Title>
       <ButtonPositioner>
         {me && (
           <>
