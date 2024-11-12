@@ -12,7 +12,7 @@ export const presign = async ({
   filename: string
   filetype: 'image/*'
 }): Promise<PresignedData> => {
-  const authToken = storage.get<AuthToken>('@wamuseum-client/auth-token')
+  const authToken = storage?.get<AuthToken>('@wamuseum-client/auth-token')
   const headers = new Headers()
   headers.append('Authorization', authToken?.accessToken ?? '')
   const result = await fetch(`${urls.fileUploadPresignedServer}/${type}?filename=${filename}&filetype=${filetype}`, {
