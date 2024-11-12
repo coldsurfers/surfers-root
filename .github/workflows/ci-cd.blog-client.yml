@@ -45,38 +45,13 @@ jobs:
           working_directory: ./terraform/
           aws_security_group_id: ${{ secrets.AWS_SECURITY_GROUP_ID }}
 
-      - name: Create PEM file from GitHub Secret
-        env:
-          EC2_PEM_KEY: ${{ secrets.EC2_PEM_KEY }}
-        run: |
-          echo "$EC2_PEM_KEY" > ec2-key.pem
-          chmod 600 ec2-key.pem  # Set proper permissions for the PEM file
-
-      - name: SSH into EC2 and Deploy
-        env:
-          EC2_HOST: ${{ secrets.EC2_HOST }}
-          EC2_USER: ${{ secrets.EC2_USER }}
-          ECR_REMOTE_HOST: ${{ secrets.ECR_REPOSITORY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-        run: |
-          # Install AWS CLI on the runner
-          sudo apt-get install -y awscli
-
-          # Use the PEM file to SSH into the EC2 instance
-          ssh -o StrictHostKeyChecking=no -i ec2-key.pem $EC2_USER@$EC2_HOST << 'EOF'
-            # setup env variables
-            export ECR_REMOTE_HOST=${{ secrets.ECR_REPOSITORY }}
-            export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-            export AWS_REGION=${{ secrets.AWS_REGION }}
-            # Commands to deploy your application on EC2
-            cd ~/repo/surfers-root
-            git pull origin main
-            aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REMOTE_HOST
-            docker-compose -f ./docker/docker-compose.yml pull blog-client
-            docker-compose -f ./docker/docker-compose.yml up -d blog-client
-          EOF
-
-      - name: Clean up PEM file
-        run: |
-          rm -f ec2-key.pem
+      - name: SSH ec2 and run cli
+        uses: ./composites/ci-cd.ssh-ec2-cli.yml
+        with:
+          ec2_pem_key: ${{ secrets.EC2_PEM_KEY }}
+          ec2_host: ${{ secrets.EC2_HOST }}
+          ec2_user: ${{ secrets.EC2_USER }}
+          ecr_repository: ${{ secrets.ECR_REPOSITORY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          aws_region: ${{ secrets.AWS_REGION }}
+          docker_compose_service: 'blog-client'

@@ -1,0 +1,64 @@
+name: 'SSH EC2 cli action'
+description: 'SSH connection and run cli'
+inputs:
+  ec2_pem_key:
+    description: 'AWS EC2 pem key string'
+    required: true
+  ec2_host:
+    description: 'AWS EC2 host address'
+    required: true
+  ec2_user:
+    description: 'AWS EC2 username'
+    required: true
+  ecr_repository:
+    description: 'AWS ecr repository address'
+    required: true
+  github_token:
+    description: 'github token for ci'
+    required: true
+  aws_region:
+    description: 'AWS region for ci'
+    required: true
+    default: 'ap-northeast-2'
+  docker_compose_service:
+    description: 'docker compose service name to build and push to ecr'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Create PEM file from GitHub Secret
+      env:
+        EC2_PEM_KEY: ${{ inputs.ec2_pem_key }}
+      run: |
+        echo "$EC2_PEM_KEY" > ec2-key.pem
+        chmod 600 ec2-key.pem  # Set proper permissions for the PEM file
+
+    - name: SSH into EC2 and Deploy
+      env:
+        EC2_HOST: ${{ inputs.ec2_host }}
+        EC2_USER: ${{ inputs.ec2_user }}
+        ECR_REMOTE_HOST: ${{ inputs.ecr_repository }}
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+        AWS_REGION: ${{ inputs.aws_region }}
+      run: |
+        # Install AWS CLI on the runner
+        sudo apt-get install -y awscli
+
+        # Use the PEM file to SSH into the EC2 instance
+        ssh -o StrictHostKeyChecking=no -i ec2-key.pem $EC2_USER@$EC2_HOST << 'EOF'
+          # setup env variables
+          export ECR_REMOTE_HOST=${{ inputs.ecr_repository }}
+          export GITHUB_TOKEN=${{ inputs.github_token }}
+          export AWS_REGION=${{ inputs.aws_region }}
+          # Commands to deploy your application on EC2
+          cd ~/repo/surfers-root
+          git pull origin main
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REMOTE_HOST
+          docker-compose -f ./docker/docker-compose.yml pull ${{ inputs.docker_compose_service }}
+          docker-compose -f ./docker/docker-compose.yml up -d ${{ inputs.docker_compose_service }}
+        EOF
+
+    - name: Clean up PEM file
+      run: |
+        rm -f ec2-key.pem
