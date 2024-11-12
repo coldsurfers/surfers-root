@@ -6,9 +6,6 @@ on:
 jobs:
   blog_client_build_and_deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2

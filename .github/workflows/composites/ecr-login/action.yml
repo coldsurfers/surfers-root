@@ -19,6 +19,7 @@ runs:
   using: 'composite'
   steps:
     - name: Log in to Amazon ECR
+      shell: bash
       run: |
         aws configure set aws_access_key_id ${{ inputs.aws_access_key_id }}
         aws configure set aws_secret_access_key ${{ inputs.aws_secret_access_key }}

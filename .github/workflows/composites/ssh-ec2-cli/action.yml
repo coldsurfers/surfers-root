@@ -28,6 +28,7 @@ runs:
   using: 'composite'
   steps:
     - name: Create PEM file from GitHub Secret
+      shell: bash
       env:
         EC2_PEM_KEY: ${{ inputs.ec2_pem_key }}
       run: |
@@ -35,6 +36,7 @@ runs:
         chmod 600 ec2-key.pem  # Set proper permissions for the PEM file
 
     - name: SSH into EC2 and Deploy
+      shell: bash
       env:
         EC2_HOST: ${{ inputs.ec2_host }}
         EC2_USER: ${{ inputs.ec2_user }}
@@ -60,5 +62,6 @@ runs:
         EOF
 
     - name: Clean up PEM file
+      shell: bash
       run: |
         rm -f ec2-key.pem

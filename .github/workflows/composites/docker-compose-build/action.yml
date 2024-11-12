@@ -15,24 +15,28 @@ runs:
   using: 'composite'
   steps:
     - name: Install Docker Compose
-        run: |
-          DOCKER_COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)
-          sudo curl -L "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
+      shell: bash
+      run: |
+        DOCKER_COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)
+        sudo curl -L "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
 
     - name: Verify Docker Compose Installation
-        run: docker-compose --version
+      shell: bash
+      run: docker-compose --version
 
     - name: Build Docker Image
-        env:
-          ECR_REMOTE_HOST: ${{ inputs.aws_ecr_repository }}
-          GITHUB_TOKEN: ${{ inputs.github_token }}
-        run: |
-          docker-compose -f ./docker/docker-compose.yml build ${{ inputs.docker_compose_service }}
+      shell: bash
+      env:
+        ECR_REMOTE_HOST: ${{ inputs.aws_ecr_repository }}
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+      run: |
+        docker-compose -f ./docker/docker-compose.yml build ${{ inputs.docker_compose_service }}
 
     - name: Push Docker Image to ECR
-        env:
-          ECR_REMOTE_HOST: ${{ inputs.aws_ecr_repository }}
-          GITHUB_TOKEN: ${{ inputs.github_token }}
-        run: |
-            docker-compose -f ./docker/docker-compose.yml push ${{ inputs.docker_compose_service }}
+      shell: bash
+      env:
+        ECR_REMOTE_HOST: ${{ inputs.aws_ecr_repository }}
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+      run: |
+        docker-compose -f ./docker/docker-compose.yml push ${{ inputs.docker_compose_service }}
