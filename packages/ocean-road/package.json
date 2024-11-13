@@ -52,6 +52,7 @@
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
     "eslint": "*",
+    "framer-motion": "*",
     "prettier": "*",
     "react": "*",
     "react-dom": "*",
@@ -67,6 +68,7 @@
     "@emotion/native": "*",
     "@emotion/react": "*",
     "@emotion/styled": "*",
+    "framer-motion": "*",
     "react": "*",
     "react-dom": "*",
     "react-spinners": "*"

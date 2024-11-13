@@ -1,10 +1,10 @@
 'use client'
 
 import useLoginMutation from '@/hooks/useLoginMutation'
-import { LoginForm } from '@/ui'
+import { LoginForm, type LoginFormRefHandle } from '@/ui'
 import Loader from '@/ui/Loader'
 import { authUtils } from '@/utils/utils.auth'
-import { Toast, type LoginFormRefHandle } from '@coldsurfers/hotsurf'
+import { Toast } from '@coldsurfers/hotsurf'
 import styled from '@emotion/styled'
 import { ME_QUERY } from 'gql/queries'
 import { useRouter } from 'next/navigation'
@@ -92,6 +92,7 @@ const SignInPage = () => {
           onPressRequestButtonUI={useCallback(() => {
             router.push('/auth/request')
           }, [router])}
+          formTitle="WAMUSEUM"
         />
       </FormLayout>
       {loading && <Loader />}

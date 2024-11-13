@@ -43,7 +43,8 @@
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
     "@emotion/native": "11.11.0",
-    "react-spinners": "0.14.1"
+    "react-spinners": "0.14.1",
+    "framer-motion": "11.11.13"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.12.1",
