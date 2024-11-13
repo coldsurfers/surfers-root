@@ -37,8 +37,11 @@ jobs:
           echo "APP_STORE_CONNECT_API_KEY_FILEPATH=${{ secrets.APP_STORE_CONNECT_API_KEY_FILEPATH }}" >> ./apps/billets-app/ios/fastlane/.env
 
       - name: Create Appstore Connect API Key File
+        env:
+          APPSTORE_CONNECT_API_KEY_FILE: ${{ secrets.APPSTORE_CONNECT_API_KEY_FILE }}
+          APP_STORE_CONNECT_API_KEY_FILEPATH: ${{ secrets.APP_STORE_CONNECT_API_KEY_FILEPATH }}
         run: |
-          echo ${{ secrets.APPSTORE_CONNECT_API_KEY_FILE }} > ${{ secrets.APP_STORE_CONNECT_API_KEY_FILEPATH }}
+          echo "$APPSTORE_CONNECT_API_KEY_FILE" > "$APP_STORE_CONNECT_API_KEY_FILEPATH"
         working-directory: ./apps/billets-app/ios
 
       - name: Run fastlane beta
