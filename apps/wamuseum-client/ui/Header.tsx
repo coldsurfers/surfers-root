@@ -1,7 +1,7 @@
 'use client'
 
 import { useMutation } from '@apollo/client'
-import { Button, colors, Spinner } from '@coldsurfers/ocean-road'
+import { Button, colors, semantics, Spinner } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { usePathname, useRouter } from 'next/navigation'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
@@ -89,7 +89,7 @@ const Wrapper = styled.div`
   padding-left: 10px;
   padding-right: 10px;
   height: 68.5px;
-  background-color: ${colors.oc.white.value};
+  background-color: ${semantics.color.background[2]};
 
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.12),
