@@ -1,7 +1,7 @@
 'use client'
 
 import { ApolloHydrationBoundary, ApolloProviderRegistry } from '@/libs'
-import Header from '@/ui/Header'
+import { Header } from '@/ui'
 import { usePathname } from 'next/navigation'
 import { PropsWithChildren } from 'react'
 
