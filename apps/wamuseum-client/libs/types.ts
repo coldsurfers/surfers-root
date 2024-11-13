@@ -4,7 +4,7 @@ export type CommonMutationHookOptions<DataT, InputT> = MutationHookOptions<
   DataT,
   InputT,
   DefaultContext,
-  ApolloCache<any>
+  ApolloCache<unknown>
 >
 
 export type CommonQueryHookOptions<DataT, InputT extends OperationVariables> = QueryHookOptions<DataT, InputT>
