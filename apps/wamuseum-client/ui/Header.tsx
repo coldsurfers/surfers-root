@@ -1,10 +1,10 @@
 'use client'
 
 import { useMutation } from '@apollo/client'
-import { Button, palette } from '@coldsurfers/hotsurf'
+import { Button, colors } from '@coldsurfers/ocean-road'
+import styled from '@emotion/styled'
 import { usePathname, useRouter } from 'next/navigation'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import styled from 'styled-components'
 import { LogoutMutation } from '../gql/mutations'
 import { ME_QUERY } from '../gql/queries'
 import useMeQuery from '../hooks/useMeQuery'
@@ -49,30 +49,33 @@ const Header = () => {
         {me && (
           <>
             <Button
-              onPress={() => router.push('/register-venue')}
-              text="공연장 등록"
+              onClick={() => router.push('/register-venue')}
               style={{
                 marginRight: 12,
-                backgroundColor: palette.yellow,
+                backgroundColor: colors.oc.yellow[5].value,
               }}
-            />
+            >
+              공연장 등록
+            </Button>
             <Button
-              onPress={() => router.push('/register-artist')}
-              text="아티스트 등록"
+              onClick={() => router.push('/register-artist')}
               style={{
                 marginRight: 12,
-                backgroundColor: palette.yellow,
+                backgroundColor: colors.oc.yellow[5].value,
               }}
-            />
+            >
+              아티스트 등록
+            </Button>
             <Button
-              onPress={() => router.push('/upload')}
-              text="공연 올리기"
+              onClick={() => router.push('/upload')}
               style={{
                 marginRight: 12,
-                backgroundColor: palette.yellow,
+                backgroundColor: colors.oc.yellow[5].value,
               }}
-            />
-            <Button onPress={handleLogout} text="로그아웃" />
+            >
+              공연 올리기
+            </Button>
+            <Button onClick={handleLogout}>로그아웃</Button>
           </>
         )}
       </ButtonPositioner>
@@ -87,7 +90,7 @@ const Wrapper = styled.div`
   padding-left: 10px;
   padding-right: 10px;
   height: 68.5px;
-  background-color: ${palette.white};
+  background-color: ${colors.oc.white.value};
 
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.12),

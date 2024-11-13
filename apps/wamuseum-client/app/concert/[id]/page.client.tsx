@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, Spinner } from '@coldsurfers/hotsurf'
+import { Button, Spinner } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { format } from 'date-fns'
 import { useRouter } from 'next/navigation'
@@ -144,7 +144,7 @@ export const ConcertIdPageClient = ({
   // }, [mutateUpdateConcertPoster, thumbnail])
 
   if (concertLoading) {
-    return <Spinner />
+    return <Spinner variant="page-overlay" />
   }
 
   return (
@@ -153,7 +153,7 @@ export const ConcertIdPageClient = ({
       <ConfigButtonWrapper>
         <Button
           color="pink"
-          onPress={() => {
+          onClick={() => {
             mutateRemoveConcert({
               variables: {
                 input: {
@@ -175,16 +175,19 @@ export const ConcertIdPageClient = ({
               router.push('/')
             })
           }}
-          text="삭제하기"
           style={{ marginLeft: 10 }}
-        />
+        >
+          삭제하기
+        </Button>
       </ConfigButtonWrapper>
       <InnerWrapper>
         <LeftWrapper>
           {thumbnailURL ? (
             <PosterUI imageURL={thumbnailURL} />
           ) : (
-            <Button text="포스터 등록하기" onPress={() => {}} style={{ marginTop: 12 }} />
+            <Button onClick={() => {}} style={{ marginTop: 12 }}>
+              포스터 등록하기
+            </Button>
           )}
         </LeftWrapper>
         <RightWrapper>
@@ -214,9 +217,8 @@ export const ConcertIdPageClient = ({
                       height: 10,
                       marginLeft: 8,
                     }}
-                    text={'✘'}
                     color={'pink'}
-                    onPress={() => {
+                    onClick={() => {
                       mutateRemoveConcertVenue({
                         variables: {
                           input: {
@@ -256,7 +258,9 @@ export const ConcertIdPageClient = ({
                         },
                       })
                     }}
-                  />
+                  >
+                    ✘
+                  </Button>
                 </div>
               )
             }) || '등록된 공연장소가 없습니다.'}
@@ -281,7 +285,7 @@ export const ConcertIdPageClient = ({
           )}
         </RightWrapper>
       </InnerWrapper>
-      {removeConcertLoading || removeConcertVenueLoading ? <Spinner /> : null}
+      {removeConcertLoading || removeConcertVenueLoading ? <Spinner variant="page-overlay" /> : null}
     </Wrapper>
   )
 }
