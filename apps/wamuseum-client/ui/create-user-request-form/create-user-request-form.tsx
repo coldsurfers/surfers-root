@@ -1,14 +1,16 @@
+'use client'
+
 import { Button, Spinner, Text, TextInput, Toast, colors } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import { memo, useCallback, useState } from 'react'
-import useAuthenticateEmailAuthRequestMutation from '../hooks/useAuthenticateEmailAuthRequestMutation'
-import useCreateEmailAuthRequestMutation from '../hooks/useCreateEmailAuthRequestMutation'
-import useCreateUserMutation from '../hooks/useCreateUserMutation'
-import validateEmail from '../utils/validateEmail'
+import { useCallback, useState } from 'react'
+import useAuthenticateEmailAuthRequestMutation from '../../hooks/useAuthenticateEmailAuthRequestMutation'
+import useCreateEmailAuthRequestMutation from '../../hooks/useCreateEmailAuthRequestMutation'
+import useCreateUserMutation from '../../hooks/useCreateUserMutation'
+import validateEmail from '../../utils/validateEmail'
 
-const AuthRequestForm = () => {
+export const CreateUserRequestForm = () => {
   const router = useRouter()
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -208,5 +210,3 @@ const EmailAuthRequestButtonsWrapper = styled.div`
   align-items: center;
   margin-top: 14px;
 `
-
-export default memo(AuthRequestForm)

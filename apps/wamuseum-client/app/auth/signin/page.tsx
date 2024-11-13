@@ -85,15 +85,7 @@ const SignInPage = () => {
   return (
     <>
       <FormLayout>
-        <LoginForm
-          ref={formRef}
-          onPressLoginButton={login}
-          withRequestButtonUI
-          onPressRequestButtonUI={useCallback(() => {
-            router.push('/auth/request')
-          }, [router])}
-          formTitle="WAMUSEUM"
-        />
+        <LoginForm ref={formRef} onPressLoginButton={login} withRequestButtonUI formTitle="WAMUSEUM" />
       </FormLayout>
       {loading && <Spinner variant="page-overlay" />}
       <AnimatePresence>

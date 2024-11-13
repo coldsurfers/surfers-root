@@ -1,7 +1,5 @@
-'use client'
-
-import AuthRequestForm from '../../../ui/AuthRequestForm'
+import { CreateUserRequestForm } from '@/ui'
 
 export default function AuthRequestPage() {
-  return <AuthRequestForm />
+  return <CreateUserRequestForm />
 }
