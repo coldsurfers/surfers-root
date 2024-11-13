@@ -5,9 +5,6 @@ const nextConfig = {
     externalDir: true,
   },
   output: 'standalone',
-  webpack: (config) => {
-    return config
-  },
   images: {
     remotePatterns: [
       {
