@@ -5,9 +5,9 @@ import InputWithLabel from '@/ui/InputWithLabel'
 import { presign, uploadToPresignedURL } from '@/utils/fetcher'
 import pickFile from '@/utils/pickFile'
 import { Button, Spinner, Text, palette } from '@coldsurfers/hotsurf'
+import styled from '@emotion/styled'
 import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
-import styled from 'styled-components'
 import useCreateArtist from './mutations/useCreateArtist'
 
 const HeadWrapper = styled.div`

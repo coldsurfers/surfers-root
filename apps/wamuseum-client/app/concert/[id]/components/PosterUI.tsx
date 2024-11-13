@@ -1,5 +1,5 @@
 import { Button } from '@coldsurfers/hotsurf'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 const Thumbnail = styled.img`
   width: 300px;

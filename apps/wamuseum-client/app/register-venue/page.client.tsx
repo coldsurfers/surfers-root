@@ -1,12 +1,12 @@
 'use client'
 
 import { Spinner, Text, TextInput } from '@coldsurfers/hotsurf'
-import styled from 'styled-components'
-import { useMemo, useState } from 'react'
+import styled from '@emotion/styled'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useRouter } from 'next/navigation'
-import useSearchVenueQuery from './queries/useSearchVenueQuery'
+import { useMemo, useState } from 'react'
 import useCreateVenueMutation from './mutations/useCreateVenueMutation'
+import useSearchVenueQuery from './queries/useSearchVenueQuery'
 
 const RegisterVenueClientPage = () => {
   const router = useRouter()

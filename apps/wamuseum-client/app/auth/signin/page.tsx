@@ -4,11 +4,11 @@ import useLoginMutation from '@/hooks/useLoginMutation'
 import Loader from '@/ui/Loader'
 import { authUtils } from '@/utils/utils.auth'
 import { LoginForm as LoginFormUI, Toast, type LoginFormRefHandle } from '@coldsurfers/hotsurf'
+import styled from '@emotion/styled'
 import { ME_QUERY } from 'gql/queries'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
-import styled from 'styled-components'
 
 const FormLayout = styled.section`
   position: absolute;

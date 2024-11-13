@@ -1,10 +1,10 @@
 'use client'
 
 import { Button, Spinner } from '@coldsurfers/hotsurf'
+import styled from '@emotion/styled'
 import { format } from 'date-fns'
 import { useRouter } from 'next/navigation'
 import { useMemo } from 'react'
-import styled from 'styled-components'
 import useConcertQuery from '../../../hooks/useConcertQuery'
 import AddTicketsUI from './components/AddTicketsUI'
 import PosterUI from './components/PosterUI'
