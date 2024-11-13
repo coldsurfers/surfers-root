@@ -1,6 +1,5 @@
 import { Button, Text, TextInput } from '@coldsurfers/ocean-road'
 import { forwardRef, useCallback, useImperativeHandle, useState } from 'react'
-import { View } from 'react-native'
 import { LoginFormRefHandle } from './login-form.types'
 
 interface Props {
@@ -29,7 +28,7 @@ export const LoginForm = forwardRef<LoginFormRefHandle, Props>(
     }))
 
     return (
-      <View>
+      <div>
         <Text
           style={{
             fontSize: 18,
@@ -68,7 +67,7 @@ export const LoginForm = forwardRef<LoginFormRefHandle, Props>(
             가입 요청하기
           </Button>
         )}
-      </View>
+      </div>
     )
   },
 )
