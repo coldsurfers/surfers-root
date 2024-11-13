@@ -1,10 +1,10 @@
-import { palette, IconButton, Spinner } from 'fstvllife-design-system'
+import format from 'date-fns/format'
+import { IconButton, palette, Spinner } from 'fstvllife-design-system'
 import React, { useMemo } from 'react'
 import { StatusBar, StyleSheet, View } from 'react-native'
 import { ConcertDetailList, ConcertDetailSectionListSections } from '../components/List/ConcertDetailList'
 import useConcertQuery from '../lib/hooks/queries/useConcertQuery'
 import { useConcertDetailScreenNavigation, useConcertDetailScreenRoute } from './ConcertDetailScreen.hooks'
-import format from 'date-fns/format'
 
 const ConcertDetailScreen = () => {
   const navigation = useConcertDetailScreenNavigation()
@@ -12,7 +12,6 @@ const ConcertDetailScreen = () => {
   const { data, isLoading: isLoadingConcert } = useConcertQuery({
     concertId: params.concertId,
   })
-  console.log(data)
 
   const sections: ConcertDetailSectionListSections = useMemo(() => {
     if (!data) {

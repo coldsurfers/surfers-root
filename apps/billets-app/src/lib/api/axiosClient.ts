@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
-import { storageAuthTokenKey } from '../contexts/constants'
 import { API_BASE_URL } from '../constants'
+import { storageAuthTokenKey } from '../contexts/constants'
 
 const axiosClient = axios.create({
   baseURL: API_BASE_URL,

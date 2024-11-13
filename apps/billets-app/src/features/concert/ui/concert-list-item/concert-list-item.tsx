@@ -1,11 +1,11 @@
-import { Pressable, Text, View, TouchableOpacity, StyleSheet } from 'react-native'
+import { useCallback } from 'react'
+import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import commonStyles from '../../../lib/common-styles'
-import useSubscribedConcertQuery from '../../../lib/hooks/queries/useSubscribedConcertQuery'
-import palettes from '../../../lib/palettes'
-import { memo, useCallback } from 'react'
+import commonStyles from '../../../../lib/common-styles'
+import useSubscribedConcertQuery from '../../../../lib/hooks/queries/useSubscribedConcertQuery'
+import palettes from '../../../../lib/palettes'
 
-const ConcertListItem = ({
+export const ConcertListItem = ({
   concertId,
   thumbnailUrl,
   title,
@@ -112,8 +112,6 @@ const ConcertListItem = ({
     </Pressable>
   )
 }
-
-export default memo(ConcertListItem)
 
 const styles = StyleSheet.create({
   concertListItem: {
