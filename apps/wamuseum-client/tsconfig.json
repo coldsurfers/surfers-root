@@ -7,7 +7,9 @@
       "@/app/*": ["./app/*"],
       "@/hooks/*": ["./hooks/*"],
       "@/utils/*": ["./utils/*"],
-      "@/ui/*": ["./ui/*"]
+      "@/ui/*": ["./ui/*"],
+      "@/libs": ["./libs"],
+      "@/libs/*": ["./libs/*"]
     },
     "strictNullChecks": true
   },

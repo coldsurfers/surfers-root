@@ -4,10 +4,10 @@ import { initializeApollo } from 'libs'
 import { Noto_Sans_KR } from 'next/font/google'
 import { cookies } from 'next/headers'
 import { Suspense } from 'react'
+import RegistryProvider from '../libs/registry/RegistryProvider'
+import StyledComponentsRegistry from '../libs/registry/StyledComponentsRegistry'
+import StyleSheetRegistry from '../libs/registry/StyleSheetRegistry'
 import { RootLayoutClient } from './layout.client'
-import RegistryProvider from './registry/RegistryProvider'
-import StyledComponentsRegistry from './registry/StyledComponentsRegistry'
-import StyleSheetRegistry from './registry/StyleSheetRegistry'
 
 const notoSansKr = Noto_Sans_KR({ subsets: ['latin'] })
 
