@@ -16,6 +16,9 @@ const variables = {
     "border": {
       "1": "var(--color-border-1)",
       "2": "var(--color-border-2)"
+    },
+    "dimmed": {
+      "1": "var(--color-dimmed-1)"
     }
   }
 } as const;
