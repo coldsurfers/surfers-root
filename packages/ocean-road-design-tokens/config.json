@@ -71,7 +71,7 @@
           "filter": "darkColorFilter"
         },
         {
-          "destination": "color/semantic/variables.ts",
+          "destination": "semantic/variables.ts",
           "format": "semanticColorCssVars",
           "filter": "darkColorFilter"
         }
