@@ -1,20 +1,20 @@
+'use client'
+
 import { Button, Text, TextInput } from '@coldsurfers/ocean-road'
-import { forwardRef, useCallback, useImperativeHandle, useState } from 'react'
+import Link from 'next/link'
+import { forwardRef, MouseEventHandler, useCallback, useImperativeHandle, useState } from 'react'
+import { StyledLoginFormContainer } from './login-form.styled'
 import { LoginFormRefHandle } from './login-form.types'
 
 interface Props {
   onPressLoginButton: (params: { email: string; password: string }) => void
   withRequestButtonUI?: boolean
-  onPressRequestButtonUI?: () => void
   onPressCreateAccountButtonUI?: () => void
   formTitle?: string
 }
 
 export const LoginForm = forwardRef<LoginFormRefHandle, Props>(
-  (
-    { onPressLoginButton, withRequestButtonUI, onPressRequestButtonUI, onPressCreateAccountButtonUI, formTitle },
-    ref,
-  ) => {
+  ({ onPressLoginButton, withRequestButtonUI, onPressCreateAccountButtonUI, formTitle }, ref) => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
@@ -27,8 +27,16 @@ export const LoginForm = forwardRef<LoginFormRefHandle, Props>(
       },
     }))
 
+    const onClickLogin = useCallback<MouseEventHandler<HTMLButtonElement>>(
+      (event) => {
+        event.preventDefault()
+        onPressLoginButton({ email, password })
+      },
+      [email, onPressLoginButton, password],
+    )
+
     return (
-      <div>
+      <StyledLoginFormContainer>
         <Text
           style={{
             fontSize: 18,
@@ -51,23 +59,18 @@ export const LoginForm = forwardRef<LoginFormRefHandle, Props>(
           type="password"
           style={{ width: 300, marginTop: 14 }}
         />
-        <Button
-          onClick={useCallback(() => {
-            onPressLoginButton({ email, password })
-          }, [email, onPressLoginButton, password])}
-          style={{ marginTop: 14 }}
-        >
+        <Button onClick={onClickLogin} style={{ marginTop: 14 }}>
           로그인
         </Button>
         <Button onClick={onPressCreateAccountButtonUI} style={{ marginTop: 14 }}>
           계정 만들기
         </Button>
         {withRequestButtonUI && (
-          <Button onClick={onPressRequestButtonUI} style={{ marginTop: 14 }}>
-            가입 요청하기
-          </Button>
+          <Link href="/auth/request" style={{ width: '100%' }}>
+            <Button style={{ marginTop: 14, width: '100%' }}>가입 요청하기</Button>
+          </Link>
         )}
-      </div>
+      </StyledLoginFormContainer>
     )
   },
 )
