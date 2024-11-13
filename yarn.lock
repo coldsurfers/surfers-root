@@ -3365,6 +3365,7 @@ __metadata:
   dependencies:
     "@apollo/client": "npm:^3.10.4"
     "@coldsurfers/hotsurf": "workspace:*"
+    "@coldsurfers/ocean-road": "workspace:*"
     "@coldsurfers/zod-schema": "workspace:*"
     "@graphql-codegen/cli": "npm:2.16.1"
     "@graphql-codegen/client-preset": "npm:^4.2.6"

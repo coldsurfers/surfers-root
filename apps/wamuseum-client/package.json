@@ -17,6 +17,7 @@
   "dependencies": {
     "@apollo/client": "^3.10.4",
     "@coldsurfers/hotsurf": "workspace:*",
+    "@coldsurfers/ocean-road": "workspace:*",
     "@coldsurfers/zod-schema": "workspace:*",
     "@next/font": "13.1.1",
     "@tanstack/react-table": "^8.7.6",
