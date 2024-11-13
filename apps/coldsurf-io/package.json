@@ -30,11 +30,8 @@
     "react": "*",
     "react-dom": "*",
     "react-hook-form": "^7.48.2",
-    "react-native": "*",
-    "react-native-web": "*",
     "react-spinners": "*",
     "sharp": "^0.33.5",
-    "styled-components": "6.1.8",
     "tailwindcss": "^3.4.1",
     "zod": "*",
     "zustand": "*"

@@ -2,8 +2,7 @@
 
 import { Modal } from '@coldsurfers/hotsurf'
 import { Button } from '@coldsurfers/ocean-road'
-import { GestureResponderEvent } from 'react-native'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 const ModalInner = styled.div`
   width: 350px;
@@ -28,7 +27,7 @@ interface Props {
   isOpen?: boolean
   onClickGoogleLogin?: () => Promise<void>
   // eslint-disable-next-line no-unused-vars
-  onClickBackground?: (event: GestureResponderEvent) => void
+  onClickBackground?: () => void
 }
 
 export function LoginModal({ isOpen = false, onClickGoogleLogin, onClickBackground }: Props) {
