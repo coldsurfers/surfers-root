@@ -1,6 +1,5 @@
-import { palette } from '@coldsurfers/hotsurf'
+import styled from '@emotion/styled'
 import { PulseLoader } from 'react-spinners'
-import styled from 'styled-components'
 
 const Loader = () => null
 // (
