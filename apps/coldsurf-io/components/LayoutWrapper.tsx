@@ -1,7 +1,7 @@
 'use client'
 
+import styled from '@emotion/styled'
 import { PropsWithChildren } from 'react'
-import styled from 'styled-components'
 import Header from '../features/layout/Header'
 import { HEADER_HEIGHT } from '../features/layout/Header.constants'
 import { useLoginModalStore } from '../stores/loginModalStore'
