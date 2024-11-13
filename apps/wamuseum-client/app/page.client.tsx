@@ -1,7 +1,7 @@
 'use client'
 
-import { TextInput, palette } from '@coldsurfers/hotsurf'
-import { Spinner } from '@coldsurfers/ocean-road'
+import { TextInput } from '@coldsurfers/hotsurf'
+import { Spinner, colors } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { format } from 'date-fns'
@@ -253,7 +253,7 @@ const Wrapper = styled.div`
 
 const Table = styled.table`
   margin-top: 60px;
-  background-color: ${palette.white};
+  background-color: ${colors.oc.white.value};
   width: 90vw;
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.12),
@@ -264,17 +264,17 @@ const Table = styled.table`
 const Thead = styled.thead``
 const Tr = styled.tr`
   & + & {
-    border-top: 1px solid ${palette.yellow};
+    border-top: 1px solid ${colors.oc.yellow[5].value};
   }
 `
 const Th = styled.th`
   height: 50px;
   padding-left: 8px;
   padding-right: 8px;
-  border-bottom: 1px solid ${palette.yellow};
+  border-bottom: 1px solid ${colors.oc.yellow[5].value};
 
   & + & {
-    border-left: 1px solid ${palette.yellow};
+    border-left: 1px solid ${colors.oc.yellow[5].value};
   }
 `
 const Tbody = styled.tbody``
@@ -282,11 +282,11 @@ const Td = styled.td`
   height: 52px;
   padding-left: 8px;
   padding-right: 8px;
-  background-color: ${palette.white};
+  background-color: ${colors.oc.white.value};
   &:hover {
   }
   & + & {
-    border-left: 1px solid ${palette.yellow};
+    border-left: 1px solid ${colors.oc.yellow[5].value};
   }
   cursor: pointer;
 `

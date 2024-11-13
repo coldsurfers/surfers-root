@@ -1,6 +1,7 @@
+import semanticDesignTokens from '@coldsurfers/design-tokens/dist/js/color/semantic/variables'
+import colorDesignTokens from '@coldsurfers/design-tokens/dist/js/color/variables'
 import darkColorDesignTokens from '@coldsurfers/design-tokens/dist/json/color/variables-dark.json'
 import lightColorDesignTokens from '@coldsurfers/design-tokens/dist/json/color/variables-light.json'
-import colorDesignTokens from '@coldsurfers/design-tokens/dist/json/color/variables.json'
 import { Context, createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from 'react'
 
 export type ColorScheme = 'light' | 'dark' | 'userPreference'
@@ -14,6 +15,7 @@ export interface Theme extends DarkColorDesignTokens, LightColorDesignTokens {
 }
 
 export const colors: ColorDesignTokens = colorDesignTokens
+export const semantics = semanticDesignTokens
 
 export const lightModeTheme: Theme = {
   name: 'lightMode',
