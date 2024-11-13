@@ -52,14 +52,13 @@ export default function Page({ locale }: { locale: AppLocale }) {
   return (
     <div>
       <Header>
-        <Title as="h1">Blog, COLDSURF</Title>
         <About>{t('MainPage.about')}</About>
       </Header>
 
       <div>
-        <Title as="h1">Latest Surflogs</Title>
+        <Title as="h2">Latest Surflogs</Title>
         <Posts>{latestSurflogs?.map((post) => <PostItem key={post.id} {...post} />)}</Posts>
-        <Title as="h1">Latest Techlogs</Title>
+        <Title as="h2">Latest Techlogs</Title>
         <Posts>{latestTechlogs?.map((post) => <PostItem key={post.id} {...post} />)}</Posts>
       </div>
     </div>

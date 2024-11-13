@@ -1,4 +1,5 @@
 import color from '@coldsurfers/design-tokens/dist/js/color/variables'
+import { Text } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 
 export const StyledHeaderHeading = styled.p<{ $isActive: boolean }>`
@@ -15,7 +16,7 @@ export const StyledHeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 20px;
-  padding: 48px 0px 0px 0px;
+  margin-top: 24px;
 
   overflow-x: scroll;
   scrollbar-width: none; /* For Firefox */
@@ -23,4 +24,14 @@ export const StyledHeaderContainer = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+`
+
+export const StyledHeaderBigContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 48px 0px 0px 0px;
+`
+
+export const StyledHeaderTitle = styled(Text)`
+  margin: unset;
 `
