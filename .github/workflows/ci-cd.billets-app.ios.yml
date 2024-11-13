@@ -24,7 +24,7 @@ jobs:
 
       - name: Install Pods
         run: bundle exec pod install
-        working-directory: ./apps/billets-app
+        working-directory: ./apps/billets-app/ios
 
       - name: Create .env file from template
         run: |
