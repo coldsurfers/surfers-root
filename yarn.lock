@@ -3097,7 +3097,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@coldsurfers/coldsurf-io@workspace:apps/coldsurf-io"
   dependencies:
-    "@coldsurfers/hotsurf": "workspace:*"
     "@coldsurfers/ocean-road": "workspace:*"
     "@emotion/css": "npm:*"
     "@emotion/react": "npm:*"
