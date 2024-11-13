@@ -20,10 +20,10 @@ platform :ios do
   lane :code_sign_ios do
     # 사이닝 인증서 및 프로파일 로드
     match(
-      git_url: ENV['apple_auth_git_repo_url'],
-      storage_mode: ENV['storage_mode'],
-      type: ENV['type'],
-      app_identifier: ENV['bundle_id'],
+      git_url: ENV['MATCH_APPLE_AUTH_GIT_REPO_URL'],
+      storage_mode: ENV['MATCH_STORAGE_MODE'],
+      type: ENV['MATCH_TYPE'],
+      app_identifier: ENV['BILLETS_APP_APPLE_BUNDLE_ID'],
       readonly: true,
       # keychain_name: ENV['MATCH_KEYCHAIN_NAME'],
       # keychain_password: ENV['MATCH_KEYCHAIN_PASSWORD'],
@@ -33,9 +33,9 @@ platform :ios do
   lane :beta do
     # add actions here: https://docs.fastlane.tools/actions
     api_key = app_store_connect_api_key(
-      key_id: ENV['app_store_connect_api_key_id'],
-      issuer_id: ENV['issuer_id'],
-      key_filepath: ENV['key_file_path'],
+      key_id: ENV['APP_STORE_CONNECT_API_KEY_ID'],
+      issuer_id: ENV['APP_STORE_CONNECT_API_ISSUER_ID'],
+      key_filepath: ENV['APP_STORE_CONNECT_API_KEY_FILEPATH'],
       duration: 1200,
       in_house: false
     )
@@ -44,7 +44,7 @@ platform :ios do
     increment_build_number(
       build_number: latest_testflight_build_number(
         api_key: api_key,
-        app_identifier: ENV['bundle_id']
+        app_identifier: ENV['BILLETS_APP_APPLE_BUNDLE_ID']
       ) + 1,
       xcodeproj: "FstvlLifeApp.xcodeproj"
     )
