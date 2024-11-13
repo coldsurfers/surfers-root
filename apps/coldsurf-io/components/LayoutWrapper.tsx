@@ -4,9 +4,7 @@ import styled from '@emotion/styled'
 import { PropsWithChildren } from 'react'
 import Header from '../features/layout/Header'
 import { HEADER_HEIGHT } from '../features/layout/Header.constants'
-import { useLoginModalStore } from '../stores/loginModalStore'
 import Footer from './Footer'
-import { LoginModal } from './LoginModal'
 
 const Container = styled.div`
   display: flex;
@@ -28,13 +26,11 @@ export default function LayoutWrapper({
   accessToken?: string
   refreshToken?: string
 }>) {
-  const { isOpen, close } = useLoginModalStore()
   return (
     <Container>
       <Header />
       <ChildrenWrapper>{children}</ChildrenWrapper>
       <Footer />
-      <LoginModal isOpen={isOpen} onClickBackground={close} />
     </Container>
   )
 }
