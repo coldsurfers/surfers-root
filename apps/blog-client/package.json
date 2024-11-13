@@ -22,7 +22,6 @@
   "dependencies": {
     "@coldsurfers/cloudinary-utils": "workspace:*",
     "@coldsurfers/design-tokens": "workspace:*",
-    "@coldsurfers/hotsurf": "workspace:*",
     "@coldsurfers/notion-utils": "workspace:*",
     "@coldsurfers/ocean-road": "workspace:*",
     "@coldsurfers/shared-utils": "workspace:*",
