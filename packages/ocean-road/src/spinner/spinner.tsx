@@ -9,7 +9,7 @@ export const Spinner = ({ variant }: { variant: SpinnerVariant }) => {
       return (
         <StyledPageLoadingWrapper>
           <StyledPageLoadingWrapper>
-            <FadeLoader height="13" color={semantics.color.foreground[1]} />
+            <FadeLoader height={13} color={semantics.color.foreground[1]} />
           </StyledPageLoadingWrapper>
         </StyledPageLoadingWrapper>
       )
