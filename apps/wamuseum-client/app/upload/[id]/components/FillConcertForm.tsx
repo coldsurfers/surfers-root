@@ -4,7 +4,7 @@ import useCreateConcertPosterMutation from '@/hooks/useCreateConcertPosterMutati
 import AddButton from '@/ui/AddButton'
 import { presign, uploadToPresignedURL } from '@/utils/fetcher'
 import pickFile from '@/utils/pickFile'
-import { Button, Spinner, Text, palette } from '@coldsurfers/hotsurf'
+import { Button, Spinner, Text, colors } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
@@ -20,7 +20,7 @@ const Form = styled.form`
 
   width: 900px;
 
-  background-color: ${palette.white};
+  background-color: ${colors.oc.white.value};
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.12),
     0 1px 2px rgba(0, 0, 0, 0.24);
@@ -104,19 +104,22 @@ const FillConcertForm = ({ concertId }: { concertId: string }) => {
           {posterUrl ? (
             <Button
               style={{ width: 10, height: 10, marginLeft: 'auto' }}
-              text={'✘'}
-              onPress={() => {
+              onClick={() => {
                 setPosterUrl('')
               }}
-            />
+            >
+              ✘
+            </Button>
           ) : (
             <AddButton onPress={getThumbnail} />
           )}
         </HeadWrapper>
         {posterUrl && <PosterThumbnail src={posterUrl} />}
-        <Button text={'다음'} style={{ marginTop: 10, backgroundColor: palette.black }} onPress={createPoster} />
+        <Button style={{ marginTop: 10, backgroundColor: colors.oc.black.value }} onClick={createPoster}>
+          다음
+        </Button>
       </Form>
-      {loading || uploadFileLoading ? <Spinner /> : null}
+      {loading || uploadFileLoading ? <Spinner variant="page-overlay" /> : null}
     </Wrapper>
   )
 }

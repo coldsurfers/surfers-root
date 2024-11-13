@@ -1,6 +1,6 @@
 'use client'
 
-import { Spinner, Text, TextInput } from '@coldsurfers/hotsurf'
+import { Spinner, Text, TextInput } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useRouter } from 'next/navigation'
@@ -28,7 +28,12 @@ const RegisterVenueClientPage = () => {
 
   return (
     <Wrapper>
-      <TextInput placeholder="공연 장소 검색하기" value={keyword} onChangeText={setKeyword} style={{ width: 520 }} />
+      <TextInput
+        placeholder="공연 장소 검색하기"
+        value={keyword}
+        onChange={(event) => setKeyword(event.target.value)}
+        style={{ width: 520 }}
+      />
       {searchResult.map((result) => {
         if (!result || !result.y || !result.x || !result.place_name) {
           return null
@@ -55,7 +60,7 @@ const RegisterVenueClientPage = () => {
           </div>
         )
       })}
-      {loadingCreateVenue ? <Spinner /> : null}
+      {loadingCreateVenue ? <Spinner variant="page-overlay" /> : null}
     </Wrapper>
   )
 }

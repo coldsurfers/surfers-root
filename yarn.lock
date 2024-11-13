@@ -3401,7 +3401,6 @@ __metadata:
     react-spinners: "npm:*"
     string-width: "npm:4.2.3"
     strip-ansi: "npm:^7.1.0"
-    styled-components: "npm:*"
     ts-node: "npm:^10.9.2"
     typescript: "npm:*"
     zod: "npm:^3.23.8"
