@@ -60,6 +60,13 @@
         "darkValue": "{oc.gray.6}",
         "comment": "border color 2"
       }
+    },
+    "dimmed": {
+      "1": {
+        "value": "{oc.gray.1}",
+        "darkValue": "{oc.gray.7}",
+        "comment": "dimmed color 1"
+      }
     }
   }
 }
