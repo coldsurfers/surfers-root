@@ -31,7 +31,6 @@
     "@types/react": "^18"
   },
   "dependencies": {
-    "@coldsurfers/hotsurf": "workspace:*",
     "@coldsurfers/ocean-road": "workspace:*",
     "@invertase/react-native-apple-authentication": "^2.2.2",
     "@lukemorales/query-key-factory": "*",
