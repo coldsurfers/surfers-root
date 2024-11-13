@@ -3215,7 +3215,7 @@ __metadata:
     "@babel/preset-typescript": "npm:^7.21.4"
     "@coldsurfers/design-tokens": "workspace:*"
     "@emotion/css": "npm:*"
-    "@emotion/native": "npm:^11.11.0"
+    "@emotion/native": "npm:*"
     "@emotion/react": "npm:*"
     "@emotion/styled": "npm:*"
     "@rollup/plugin-babel": "npm:^6.0.3"
@@ -3229,6 +3229,7 @@ __metadata:
     prettier: "npm:*"
     react: "npm:*"
     react-dom: "npm:*"
+    react-spinners: "npm:*"
     release-it: "npm:*"
     rollup: "npm:^3.20.7"
     rollup-plugin-import-css: "npm:^3.2.1"
@@ -3236,10 +3237,12 @@ __metadata:
     typescript: "npm:*"
   peerDependencies:
     "@emotion/css": "*"
+    "@emotion/native": "*"
     "@emotion/react": "*"
     "@emotion/styled": "*"
     react: "*"
     react-dom: "*"
+    react-spinners: "*"
   languageName: unknown
   linkType: soft
 
@@ -3828,7 +3831,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/native@npm:^11.11.0":
+"@emotion/native@npm:11.11.0":
   version: 11.11.0
   resolution: "@emotion/native@npm:11.11.0"
   dependencies:

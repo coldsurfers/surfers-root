@@ -1,6 +1,7 @@
 'use client'
 
-import { Spinner, TextInput, palette } from '@coldsurfers/hotsurf'
+import { TextInput, palette } from '@coldsurfers/hotsurf'
+import { Spinner } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { format } from 'date-fns'
@@ -238,7 +239,7 @@ export function RootPageClient() {
           }}
         />
       </TableBottom>
-      {loadingConcertList && <Spinner />}
+      {loadingConcertList && <Spinner variant="page-overlay" />}
     </Wrapper>
   )
 }
