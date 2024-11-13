@@ -4,7 +4,6 @@ import {
   QueryClientRegistry,
   RegistryProvider,
   StyleSheetRegistry,
-  StyledComponentsRegistry,
 } from '@/libs/registries'
 import type { Metadata } from 'next'
 import { Noto_Sans as notoSans } from 'next/font/google'
@@ -39,7 +38,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           `,
           }}
         />
-        <RegistryProvider registries={[StyledComponentsRegistry, StyleSheetRegistry, OceanRoadThemeRegistry]}>
+        <RegistryProvider registries={[StyleSheetRegistry, OceanRoadThemeRegistry]}>
           <AuthStoreProvider accessToken={accessToken} refreshToken={refreshToken}>
             <QueryClientRegistry>
               <LayoutWrapper>{children}</LayoutWrapper>
