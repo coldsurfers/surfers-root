@@ -1,13 +1,13 @@
 'use client'
 
 import { Spinner, Text, TextInput, palette } from '@coldsurfers/hotsurf'
-import { useMemo, useState } from 'react'
+import styled from '@emotion/styled'
 import { useDebounce } from '@uidotdev/usehooks'
-import styled from 'styled-components'
-import useSearchArtists from '../queries/useSearchArtists'
+import { useMemo, useState } from 'react'
+import { ConcertArtistData } from '../../../../src/__generated__/graphql'
 import useCreateConcertArtist from '../mutations/useCreateConcertArtist'
 import { concertArtistsQuery } from '../queries/useConcertArtists'
-import { ConcertArtistData } from '../../../../src/__generated__/graphql'
+import useSearchArtists from '../queries/useSearchArtists'
 
 const SearchResultWrapper = styled.div`
   box-shadow:

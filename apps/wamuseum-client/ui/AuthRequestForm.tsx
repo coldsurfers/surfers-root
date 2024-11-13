@@ -1,7 +1,7 @@
 import { Button, palette, Text, TextInput, Toast } from '@coldsurfers/hotsurf'
+import styled from '@emotion/styled'
 import { useRouter } from 'next/navigation'
 import { memo, useEffect, useState } from 'react'
-import styled from 'styled-components'
 import useAuthenticateEmailAuthRequestMutation from '../hooks/useAuthenticateEmailAuthRequestMutation'
 import useCreateEmailAuthRequestMutation from '../hooks/useCreateEmailAuthRequestMutation'
 import useCreateUserMutation from '../hooks/useCreateUserMutation'

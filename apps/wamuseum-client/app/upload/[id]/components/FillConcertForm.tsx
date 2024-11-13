@@ -5,9 +5,9 @@ import AddButton from '@/ui/AddButton'
 import { presign, uploadToPresignedURL } from '@/utils/fetcher'
 import pickFile from '@/utils/pickFile'
 import { Button, Spinner, Text, palette } from '@coldsurfers/hotsurf'
+import styled from '@emotion/styled'
 import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
-import styled from 'styled-components'
 
 const Form = styled.form`
   display: flex;
