@@ -1,6 +1,5 @@
 export type ToastProps = {
-  visible: boolean
   message: string
-  zIndex: number
+  zIndex?: number
   onClose: () => void
 }

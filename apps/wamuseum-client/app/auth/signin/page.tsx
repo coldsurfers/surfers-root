@@ -2,9 +2,8 @@
 
 import useLoginMutation from '@/hooks/useLoginMutation'
 import { LoginForm, type LoginFormRefHandle } from '@/ui'
-import Loader from '@/ui/Loader'
 import { authUtils } from '@/utils/utils.auth'
-import { Toast } from '@coldsurfers/ocean-road'
+import { Spinner, Toast } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { AnimatePresence } from 'framer-motion'
 import { ME_QUERY } from 'gql/queries'
@@ -96,16 +95,9 @@ const SignInPage = () => {
           formTitle="WAMUSEUM"
         />
       </FormLayout>
-      {loading && <Loader />}
+      {loading && <Spinner variant="page-overlay" />}
       <AnimatePresence>
-        {toastVisible && (
-          <Toast
-            visible={toastVisible}
-            message={'Failed to login'}
-            onClose={() => setToastVisible(false)}
-            zIndex={99}
-          />
-        )}
+        {toastVisible && <Toast message={'Failed to login'} onClose={() => setToastVisible(false)} />}
       </AnimatePresence>
     </>
   )
