@@ -1,10 +1,4 @@
-import {
-  AuthStoreProvider,
-  OceanRoadThemeRegistry,
-  QueryClientRegistry,
-  RegistryProvider,
-  StyleSheetRegistry,
-} from '@/libs/registries'
+import { AuthStoreProvider, OceanRoadThemeRegistry, QueryClientRegistry, RegistryProvider } from '@/libs/registries'
 import type { Metadata } from 'next'
 import { Noto_Sans as notoSans } from 'next/font/google'
 import { cookies } from 'next/headers'
@@ -38,7 +32,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           `,
           }}
         />
-        <RegistryProvider registries={[StyleSheetRegistry, OceanRoadThemeRegistry]}>
+        <RegistryProvider registries={[OceanRoadThemeRegistry]}>
           <AuthStoreProvider accessToken={accessToken} refreshToken={refreshToken}>
             <QueryClientRegistry>
               <LayoutWrapper>{children}</LayoutWrapper>
