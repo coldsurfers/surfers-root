@@ -1,9 +1,10 @@
 'use client'
 
 import useLoginMutation from '@/hooks/useLoginMutation'
+import { LoginForm } from '@/ui'
 import Loader from '@/ui/Loader'
 import { authUtils } from '@/utils/utils.auth'
-import { LoginForm as LoginFormUI, Toast, type LoginFormRefHandle } from '@coldsurfers/hotsurf'
+import { Toast, type LoginFormRefHandle } from '@coldsurfers/hotsurf'
 import styled from '@emotion/styled'
 import { ME_QUERY } from 'gql/queries'
 import { useRouter } from 'next/navigation'
@@ -84,7 +85,7 @@ const SignInPage = () => {
   return (
     <>
       <FormLayout>
-        <LoginFormUI
+        <LoginForm
           ref={formRef}
           onPressLoginButton={login}
           withRequestButtonUI
