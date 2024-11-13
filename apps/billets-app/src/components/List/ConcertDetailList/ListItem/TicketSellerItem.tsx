@@ -1,27 +1,22 @@
-import {Text} from 'fstvllife-design-system';
-import React, {memo, useCallback} from 'react';
-import {Linking, StyleSheet, TouchableOpacity} from 'react-native';
-import {ConcertDetailTicketSellerSectionData} from '../types';
+import { Text } from 'fstvllife-design-system'
+import React, { memo, useCallback } from 'react'
+import { Linking, StyleSheet, TouchableOpacity } from 'react-native'
+import { ConcertDetailTicketSellerSectionData } from '../types'
 
-const TicketSellerItem = ({
-  siteUrl,
-  name,
-}: ConcertDetailTicketSellerSectionData) => {
+const TicketSellerItem = ({ siteUrl, name }: ConcertDetailTicketSellerSectionData) => {
   const onPressTicketSeller = useCallback((url: string) => {
-    Linking.canOpenURL(url).then(canOpen => {
+    Linking.canOpenURL(url).then((canOpen) => {
       if (canOpen) {
-        Linking.openURL(url);
+        Linking.openURL(url)
       }
-    });
-  }, []);
+    })
+  }, [])
   return (
-    <TouchableOpacity
-      onPress={() => siteUrl && onPressTicketSeller(siteUrl)}
-      style={styles.wrapper}>
+    <TouchableOpacity onPress={() => siteUrl && onPressTicketSeller(siteUrl)} style={styles.wrapper}>
       <Text style={styles.name}>{name}</Text>
     </TouchableOpacity>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -32,6 +27,6 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     color: '#2e94f4',
   },
-});
+})
 
-export default memo(TicketSellerItem);
+export default memo(TicketSellerItem)

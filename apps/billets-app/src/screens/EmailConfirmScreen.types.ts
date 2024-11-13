@@ -1,7 +1,7 @@
-import {LoginStackScreenProp} from '../navigations/LoginStackNavigation.types';
+import { LoginStackScreenProp } from '../navigations/LoginStackNavigation.types'
 
 export type EmailConfirmScreenParam = {
-  email: string;
-};
+  email: string
+}
 
-export type EmailConfirmScreenProp = LoginStackScreenProp<'EmailConfirmScreen'>;
+export type EmailConfirmScreenProp = LoginStackScreenProp<'EmailConfirmScreen'>

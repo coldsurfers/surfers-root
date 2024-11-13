@@ -1,5 +1,6 @@
-import {HomeStackScreenProps} from '../navigations/HomeStackNavigation.types';
+import { HomeStackScreenProps } from '../navigations/HomeStackNavigation.types'
 
-export type LocationSelectionScreenParams = {};
-export type LocationSelectionScreenProp =
-  HomeStackScreenProps<'LocationSelectionScreen'>;
+export type LocationSelectionScreenParams = {
+  //
+}
+export type LocationSelectionScreenProp = HomeStackScreenProps<'LocationSelectionScreen'>

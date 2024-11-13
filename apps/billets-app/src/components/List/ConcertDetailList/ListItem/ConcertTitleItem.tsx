@@ -1,14 +1,14 @@
-import {palette, Text} from 'fstvllife-design-system';
-import React from 'react';
-import {StyleSheet} from 'react-native';
+import { palette, Text } from 'fstvllife-design-system'
+import React from 'react'
+import { StyleSheet } from 'react-native'
 
 interface Props {
-  title: string;
+  title: string
 }
 
-const ConcertTitleItem = ({title}: Props) => {
-  return <Text style={styles.text}>{title}</Text>;
-};
+const ConcertTitleItem = ({ title }: Props) => {
+  return <Text style={styles.text}>{title}</Text>
+}
 
 const styles = StyleSheet.create({
   text: {
@@ -20,6 +20,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     backgroundColor: palette.white,
   },
-});
+})
 
-export default ConcertTitleItem;
+export default ConcertTitleItem

@@ -1,1 +1,1 @@
-export const storageAuthTokenKey = '@fstvllife/authToken';
+export const storageAuthTokenKey = '@fstvllife/authToken'

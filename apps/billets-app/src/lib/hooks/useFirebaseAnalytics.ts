@@ -1,33 +1,24 @@
-import analytics from '@react-native-firebase/analytics';
-import {useCallback, useMemo} from 'react';
+import analytics from '@react-native-firebase/analytics'
+import { useCallback, useMemo } from 'react'
 
 function useFirebaseAnalytics() {
   const enable = useCallback(async (enabled: boolean) => {
-    await analytics().setAnalyticsCollectionEnabled(enabled);
-  }, []);
+    await analytics().setAnalyticsCollectionEnabled(enabled)
+  }, [])
 
-  const logEvent = useCallback(
-    (name: string, params?: {[key: string]: any}) => {
-      analytics().logEvent(name, params);
-    },
-    [],
-  );
+  const logEvent = useCallback((name: string, params?: { [key: string]: unknown }) => {
+    analytics().logEvent(name, params)
+  }, [])
 
   const logScreenView = useCallback(
-    async ({
-      screen_class,
-      screen_name,
-    }: {
-      screen_class: string;
-      screen_name: string;
-    }) => {
+    async ({ screen_class, screen_name }: { screen_class: string; screen_name: string }) => {
       await analytics().logScreenView({
         screen_name,
         screen_class,
-      });
+      })
     },
     [],
-  );
+  )
 
   return useMemo(
     () => ({
@@ -36,7 +27,7 @@ function useFirebaseAnalytics() {
       logScreenView,
     }),
     [enable, logEvent, logScreenView],
-  );
+  )
 }
 
-export default useFirebaseAnalytics;
+export default useFirebaseAnalytics

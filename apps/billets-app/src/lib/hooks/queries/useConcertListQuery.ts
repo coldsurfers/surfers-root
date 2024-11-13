@@ -1,13 +1,9 @@
-import {
-  InfiniteData,
-  UseInfiniteQueryOptions,
-  useInfiniteQuery,
-} from '@tanstack/react-query';
-import client from '../../api/openapi-client';
-import {LatLng} from '../../../types/LatLng';
-import {v1QueryKeyFactory} from '../../query-key-factory';
+import { InfiniteData, UseInfiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query'
+import client from '../../api/openapi-client'
+import { LatLng } from '../../../types/LatLng'
+import { v1QueryKeyFactory } from '../../query-key-factory'
 
-const DEFAULT_SIZE = 20;
+const DEFAULT_SIZE = 20
 
 const queryFn = async (offset: number, size: number, latLng: LatLng) => {
   const response = await client.GET('/v1/concert/', {
@@ -19,17 +15,15 @@ const queryFn = async (offset: number, size: number, latLng: LatLng) => {
         longitude: `${latLng.longitude}`,
       },
     },
-  });
-  return response.data ?? [];
-};
+  })
+  return response.data ?? []
+}
 
-type TQueryData = Awaited<ReturnType<typeof queryFn>>;
-type TError = Error;
-type TQueryParams = {latLng: LatLng};
-type TQueryKey = ReturnType<
-  (typeof v1QueryKeyFactory)['concerts']['list']
->['queryKey'];
-type TPageParam = number;
+type TQueryData = Awaited<ReturnType<typeof queryFn>>
+type TError = Error
+type TQueryParams = { latLng: LatLng }
+type TQueryKey = ReturnType<(typeof v1QueryKeyFactory)['concerts']['list']>['queryKey']
+type TPageParam = number
 
 function useConcertListQuery(
   params: TQueryParams,
@@ -44,28 +38,21 @@ function useConcertListQuery(
     >
   >,
 ) {
-  return useInfiniteQuery<
-    TQueryData,
-    TError,
-    InfiniteData<TQueryData, TQueryParams>,
-    TQueryKey,
-    TPageParam
-  >({
+  return useInfiniteQuery<TQueryData, TError, InfiniteData<TQueryData, TQueryParams>, TQueryKey, TPageParam>({
     ...options,
     initialPageParam: 0,
     queryKey: v1QueryKeyFactory.concerts.list(params).queryKey,
-    queryFn: ({pageParam = 0}) =>
-      queryFn(pageParam, DEFAULT_SIZE, params.latLng),
+    queryFn: ({ pageParam = 0 }) => queryFn(pageParam, DEFAULT_SIZE, params.latLng),
     getNextPageParam: (lastPage, allPages) => {
       if (!lastPage) {
-        return undefined;
+        return undefined
       }
       if (lastPage.length < DEFAULT_SIZE) {
-        return undefined;
+        return undefined
       }
-      return allPages.length * DEFAULT_SIZE;
+      return allPages.length * DEFAULT_SIZE
     },
-  });
+  })
 }
 
-export default useConcertListQuery;
+export default useConcertListQuery

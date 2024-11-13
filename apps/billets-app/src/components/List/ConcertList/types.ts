@@ -1,5 +1,5 @@
 // import {GigNews} from '../../../lib/api/concert';
 
-import {Concert} from '../../../types/Concert';
+import { Concert } from '../../../types/Concert'
 
-export type ConcertListData = ReadonlyArray<Concert>;
+export type ConcertListData = ReadonlyArray<Concert>

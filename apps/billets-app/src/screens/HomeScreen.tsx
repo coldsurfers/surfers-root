@@ -1,58 +1,52 @@
-import {SafeAreaView} from 'react-native-safe-area-context';
-import palettes from '../lib/palettes';
-import CurrentGeoLocation from '../features/location/components/CurrentGeoLocation';
-import {
-  ActivityIndicator,
-  FlatList,
-  ListRenderItem,
-  StyleSheet,
-  View,
-} from 'react-native';
-import {useUserCurrentLocationStore} from '../lib/stores/userCurrentLocationStore';
-import useConcertListQuery from '../lib/hooks/queries/useConcertListQuery';
-import {useShallow} from 'zustand/shallow';
-import {useCallback, useMemo, useState} from 'react';
-import format from 'date-fns/format';
-import LocationSelector from '../features/location/ui/LocationSelector';
-import LocationSelectorModal from '../features/location/ui/LocationSelectorModal';
-import AnimatePresence from '../ui/AnimatePresence';
-import {useHomeScreenNavigation} from './HomeScreen.hooks';
-import CommonListEmpty from '../ui/CommonListEmpty';
-import useSubscribeConcertMutation from '../lib/hooks/mutations/useSubscribeConcertMutation';
-import {useQueryClient} from '@tanstack/react-query';
-import {v1QueryKeyFactory} from '../lib/query-key-factory';
-import useGetMeQuery from '../lib/hooks/queries/useGetMeQuery';
-import ConcertListItem from '../features/concert/ui/ConcertListItem';
-import useSubscribedConcertQuery from '../lib/hooks/queries/useSubscribedConcertQuery';
-import useUnsubscribeConcertMutation from '../lib/hooks/mutations/useUnsubscribeConcertMutation';
-import useSubscribedConcertListQuery from '../lib/hooks/queries/useSubscribedConcertListQuery';
+import { SafeAreaView } from 'react-native-safe-area-context'
+import palettes from '../lib/palettes'
+import CurrentGeoLocation from '../features/location/components/CurrentGeoLocation'
+import { ActivityIndicator, FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
+import { useUserCurrentLocationStore } from '../lib/stores/userCurrentLocationStore'
+import useConcertListQuery from '../lib/hooks/queries/useConcertListQuery'
+import { useShallow } from 'zustand/shallow'
+import { useCallback, useMemo, useState } from 'react'
+import format from 'date-fns/format'
+import LocationSelector from '../features/location/ui/LocationSelector'
+import LocationSelectorModal from '../features/location/ui/LocationSelectorModal'
+import AnimatePresence from '../ui/AnimatePresence'
+import { useHomeScreenNavigation } from './HomeScreen.hooks'
+import CommonListEmpty from '../ui/CommonListEmpty'
+import useSubscribeConcertMutation from '../lib/hooks/mutations/useSubscribeConcertMutation'
+import { useQueryClient } from '@tanstack/react-query'
+import { v1QueryKeyFactory } from '../lib/query-key-factory'
+import useGetMeQuery from '../lib/hooks/queries/useGetMeQuery'
+import ConcertListItem from '../features/concert/ui/ConcertListItem'
+import useSubscribedConcertQuery from '../lib/hooks/queries/useSubscribedConcertQuery'
+import useUnsubscribeConcertMutation from '../lib/hooks/mutations/useUnsubscribeConcertMutation'
+import useSubscribedConcertListQuery from '../lib/hooks/queries/useSubscribedConcertListQuery'
 
 type ItemT = {
-  date: string;
-  id: string;
+  date: string
+  id: string
   posters: {
-    imageUrl: string;
-  }[];
-  title: string;
+    imageUrl: string
+  }[]
+  title: string
   venues: {
-    venueTitle: string;
-  }[];
-};
+    venueTitle: string
+  }[]
+}
 
 const HomeScreen = () => {
-  const navigation = useHomeScreenNavigation();
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [locationModalVisible, setLocationModalVisible] = useState(false);
-  const {latitude, longitude} = useUserCurrentLocationStore(
-    useShallow(state => ({
+  const navigation = useHomeScreenNavigation()
+  const [isRefreshing, setIsRefreshing] = useState(false)
+  const [locationModalVisible, setLocationModalVisible] = useState(false)
+  const { latitude, longitude } = useUserCurrentLocationStore(
+    useShallow((state) => ({
       latitude: state.latitude ? +`${state.latitude}`.substring(0, 7) : null,
       longitude: state.longitude ? +`${state.longitude}`.substring(0, 8) : null,
     })),
-  );
+  )
 
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
-  const {data: meData} = useGetMeQuery();
+  const { data: meData } = useGetMeQuery()
   const {
     data: concertListData,
     isPending: isPendingConcertList,
@@ -71,159 +65,140 @@ const HomeScreen = () => {
       enabled: !!latitude && !!longitude,
       refetchOnWindowFocus: false,
     },
-  );
+  )
 
-  const {mutate: subscribeConcert} = useSubscribeConcertMutation({
-    onMutate: async variables => {
+  const { mutate: subscribeConcert } = useSubscribeConcertMutation({
+    onMutate: async (variables) => {
       await queryClient.cancelQueries({
         queryKey: v1QueryKeyFactory.concerts.subscribed({
           concertId: variables.id,
         }).queryKey,
-      });
+      })
       if (!meData) {
-        return;
+        return
       }
       const previousSubscribedConcertList = queryClient.getQueryData<
         Awaited<ReturnType<typeof useSubscribedConcertListQuery>>['data']
-      >(v1QueryKeyFactory.concerts.subscribedList.queryKey);
-      const newSubscribedConcert: Awaited<
-        ReturnType<typeof useSubscribedConcertQuery>['data']
-      > = {
+      >(v1QueryKeyFactory.concerts.subscribedList.queryKey)
+      const newSubscribedConcert: Awaited<ReturnType<typeof useSubscribedConcertQuery>['data']> = {
         concertId: variables.id,
         userId: meData.id,
-      };
+      }
 
       queryClient.setQueryData(
-        v1QueryKeyFactory.concerts.subscribed({concertId: variables.id})
-          .queryKey,
+        v1QueryKeyFactory.concerts.subscribed({ concertId: variables.id }).queryKey,
         newSubscribedConcert,
-      );
-      queryClient.setQueryData(
-        v1QueryKeyFactory.concerts.subscribedList.queryKey,
-        {
-          ...previousSubscribedConcertList,
-          pageParams: previousSubscribedConcertList?.pageParams ?? 0,
-          pages: [
-            newSubscribedConcert,
-            ...(previousSubscribedConcertList?.pages.flat() ?? []),
-          ],
-        },
-      );
-      return newSubscribedConcert;
+      )
+      queryClient.setQueryData(v1QueryKeyFactory.concerts.subscribedList.queryKey, {
+        ...previousSubscribedConcertList,
+        pageParams: previousSubscribedConcertList?.pageParams ?? 0,
+        pages: [newSubscribedConcert, ...(previousSubscribedConcertList?.pages.flat() ?? [])],
+      })
+      return newSubscribedConcert
     },
-    onSettled: data => {
+    onSettled: (data) => {
       if (!data?.concertId) {
-        return;
+        return
       }
       queryClient.invalidateQueries({
         queryKey: v1QueryKeyFactory.concerts.subscribed({
           concertId: data.concertId,
         }).queryKey,
-      });
+      })
       queryClient.invalidateQueries({
         queryKey: v1QueryKeyFactory.concerts.subscribedList.queryKey,
-      });
+      })
     },
-  });
-  const {mutate: unsubscribeConcert} = useUnsubscribeConcertMutation({
-    onMutate: async variables => {
+  })
+  const { mutate: unsubscribeConcert } = useUnsubscribeConcertMutation({
+    onMutate: async (variables) => {
       await queryClient.cancelQueries({
         queryKey: v1QueryKeyFactory.concerts.subscribed({
           concertId: variables.id,
         }).queryKey,
-      });
+      })
       const previousSubscribedConcertList = queryClient.getQueryData<
         Awaited<ReturnType<typeof useSubscribedConcertListQuery>>['data']
-      >(v1QueryKeyFactory.concerts.subscribedList.queryKey);
+      >(v1QueryKeyFactory.concerts.subscribedList.queryKey)
       queryClient.setQueryData(
         v1QueryKeyFactory.concerts.subscribed({
           concertId: variables.id,
         }).queryKey,
         null,
-      );
-      queryClient.setQueryData(
-        v1QueryKeyFactory.concerts.subscribedList.queryKey,
-        {
-          ...previousSubscribedConcertList,
-          pageParams: previousSubscribedConcertList?.pageParams ?? 0,
-          pages: (previousSubscribedConcertList?.pages.flat() ?? []).filter(
-            v => v?.concertId !== variables.id,
-          ),
-        },
-      );
-      return null;
+      )
+      queryClient.setQueryData(v1QueryKeyFactory.concerts.subscribedList.queryKey, {
+        ...previousSubscribedConcertList,
+        pageParams: previousSubscribedConcertList?.pageParams ?? 0,
+        pages: (previousSubscribedConcertList?.pages.flat() ?? []).filter((v) => v?.concertId !== variables.id),
+      })
+      return null
     },
-    onSettled: data => {
+    onSettled: (data) => {
       if (!data?.concertId) {
-        return;
+        return
       }
       queryClient.invalidateQueries({
         queryKey: v1QueryKeyFactory.concerts.subscribed({
           concertId: data.concertId,
         }).queryKey,
-      });
+      })
       queryClient.invalidateQueries({
         queryKey: v1QueryKeyFactory.concerts.subscribedList.queryKey,
-      });
+      })
     },
-  });
+  })
 
   const concertList = useMemo(() => {
-    return concertListData?.pages.flat() ?? [];
-  }, [concertListData]);
+    return concertListData?.pages.flat() ?? []
+  }, [concertListData])
 
   const onEndReached = useCallback(async () => {
     if (isPendingConcertList || isFetchingNextConcertList) {
-      return;
+      return
     }
     if (!hasNextConcertListPage) {
-      return;
+      return
     }
-    await fetchNextConcertList();
-  }, [
-    fetchNextConcertList,
-    hasNextConcertListPage,
-    isFetchingNextConcertList,
-    isPendingConcertList,
-  ]);
+    await fetchNextConcertList()
+  }, [fetchNextConcertList, hasNextConcertListPage, isFetchingNextConcertList, isPendingConcertList])
 
   const onRefresh = useCallback(async () => {
-    setIsRefreshing(true);
-    await refetchConcertList();
-    setIsRefreshing(false);
-  }, [refetchConcertList]);
+    setIsRefreshing(true)
+    await refetchConcertList()
+    setIsRefreshing(false)
+  }, [refetchConcertList])
 
   const onPressConcertListItem = useCallback(
     (concertId: string) => {
       navigation.navigate('ConcertStackScreen', {
         screen: 'ConcertDetailScreen',
-        params: {concertId},
-      });
+        params: { concertId },
+      })
     },
     [navigation],
-  );
+  )
 
   const onPressSubscribeConcertListItem = useCallback(
-    ({isSubscribed, concertId}: {isSubscribed: boolean; concertId: string}) => {
+    ({ isSubscribed, concertId }: { isSubscribed: boolean; concertId: string }) => {
       if (!meData) {
         navigation.navigate('LoginStackScreen', {
           screen: 'LoginSelectionScreen',
           params: {},
-        });
-        return;
+        })
+        return
       }
 
       if (isSubscribed) {
-        unsubscribeConcert({id: concertId});
+        unsubscribeConcert({ id: concertId })
       } else {
-        subscribeConcert({id: concertId});
+        subscribeConcert({ id: concertId })
       }
     },
     [meData, navigation, subscribeConcert, unsubscribeConcert],
-  );
+  )
 
   const renderItem: ListRenderItem<ItemT> = useCallback(
-    info => {
+    (info) => {
       return (
         <ConcertListItem
           concertId={info.item.id}
@@ -234,10 +209,10 @@ const HomeScreen = () => {
           onPress={onPressConcertListItem}
           onPressSubscribe={onPressSubscribeConcertListItem}
         />
-      );
+      )
     },
     [onPressConcertListItem, onPressSubscribeConcertListItem],
-  );
+  )
 
   return (
     <SafeAreaView edges={['top']} style={styles.wrapper}>
@@ -245,7 +220,7 @@ const HomeScreen = () => {
       <LocationSelector onPress={() => setLocationModalVisible(true)} />
       <FlatList
         data={concertList}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.concertListContentContainer}
@@ -255,9 +230,7 @@ const HomeScreen = () => {
               <ActivityIndicator size="large" />
             </View>
           ) : (
-            <CommonListEmpty
-              emptyText={`🥺\n앗,\n해당하는\n위치에\n공연 정보가 없어요!`}
-            />
+            <CommonListEmpty emptyText={`🥺\n앗,\n해당하는\n위치에\n공연 정보가 없어요!`} />
           )
         }
         onEndReached={onEndReached}
@@ -274,11 +247,11 @@ const HomeScreen = () => {
         )}
       </AnimatePresence>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
-  wrapper: {flex: 1, backgroundColor: palettes.gray['100']},
+  wrapper: { flex: 1, backgroundColor: palettes.gray['100'] },
   concertListItem: {
     width: '100%',
     backgroundColor: palettes.white,
@@ -292,9 +265,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 12,
   },
-  concertTitle: {fontWeight: 'bold', fontSize: 18},
-  concertFormattedDate: {marginTop: 8},
-  concertVenue: {marginTop: 8},
+  concertTitle: { fontWeight: 'bold', fontSize: 18 },
+  concertFormattedDate: { marginTop: 8 },
+  concertVenue: { marginTop: 8 },
   concertListContentContainer: {
     paddingHorizontal: 12,
     marginTop: 12,
@@ -306,8 +279,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  emptyWrapper: {flex: 1, alignItems: 'center', justifyContent: 'center'},
-  emptyEmoji: {fontSize: 28},
+  emptyWrapper: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  emptyEmoji: { fontSize: 28 },
   emptyDesc: {
     fontSize: 28,
     fontWeight: 'bold',
@@ -328,6 +301,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-});
+})
 
-export default HomeScreen;
+export default HomeScreen

@@ -1,6 +1,6 @@
 export interface LatLng {
-  latitude: number;
-  longitude: number;
+  latitude: number
+  longitude: number
 }
 
-export type LatLngArray = [number, number];
+export type LatLngArray = [number, number]

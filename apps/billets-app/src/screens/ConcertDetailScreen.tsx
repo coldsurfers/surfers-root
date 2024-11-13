@@ -1,31 +1,25 @@
-import {palette, IconButton, Spinner} from 'fstvllife-design-system';
-import React, {useMemo} from 'react';
-import {StatusBar, StyleSheet, View} from 'react-native';
-import {
-  ConcertDetailList,
-  ConcertDetailSectionListSections,
-} from '../components/List/ConcertDetailList';
-import useConcertQuery from '../lib/hooks/queries/useConcertQuery';
-import {
-  useConcertDetailScreenNavigation,
-  useConcertDetailScreenRoute,
-} from './ConcertDetailScreen.hooks';
-import format from 'date-fns/format';
+import { palette, IconButton, Spinner } from 'fstvllife-design-system'
+import React, { useMemo } from 'react'
+import { StatusBar, StyleSheet, View } from 'react-native'
+import { ConcertDetailList, ConcertDetailSectionListSections } from '../components/List/ConcertDetailList'
+import useConcertQuery from '../lib/hooks/queries/useConcertQuery'
+import { useConcertDetailScreenNavigation, useConcertDetailScreenRoute } from './ConcertDetailScreen.hooks'
+import format from 'date-fns/format'
 
 const ConcertDetailScreen = () => {
-  const navigation = useConcertDetailScreenNavigation();
-  const {params} = useConcertDetailScreenRoute();
-  const {data, isLoading: isLoadingConcert} = useConcertQuery({
+  const navigation = useConcertDetailScreenNavigation()
+  const { params } = useConcertDetailScreenRoute()
+  const { data, isLoading: isLoadingConcert } = useConcertQuery({
     concertId: params.concertId,
-  });
-  console.log(data);
+  })
+  console.log(data)
 
   const sections: ConcertDetailSectionListSections = useMemo(() => {
     if (!data) {
-      return [];
+      return []
     }
     if (data.posters?.length === 0) {
-      return [];
+      return []
     }
     // if (data.html) {
     //   return [
@@ -77,7 +71,7 @@ const ConcertDetailScreen = () => {
       {
         title: 'lineup',
         sectionHeaderTitle: '라인업',
-        data: data.artists.map(artist => ({
+        data: data.artists.map((artist) => ({
           thumbnailUrl: artist.profileImageUrl,
           name: artist.name,
         })),
@@ -89,10 +83,7 @@ const ConcertDetailScreen = () => {
           ? [
               {
                 description: '',
-                openDate: format(
-                  new Date(data.tickets.at(0)?.openDate ?? ''),
-                  'yyyy-MM-dd HH:mm',
-                ),
+                openDate: format(new Date(data.tickets.at(0)?.openDate ?? ''), 'yyyy-MM-dd HH:mm'),
               },
             ]
           : [],
@@ -100,7 +91,7 @@ const ConcertDetailScreen = () => {
       {
         title: 'ticket-seller',
         sectionHeaderTitle: '티켓 판매처',
-        data: data.tickets.map(ticket => ({
+        data: data.tickets.map((ticket) => ({
           siteUrl: ticket.url,
           name: ticket.url,
         })),
@@ -117,18 +108,15 @@ const ConcertDetailScreen = () => {
       //     price: ticket.formattedPrice,
       //   })),
       // },
-    ];
-    return innerSections;
-  }, [data]);
+    ]
+    return innerSections
+  }, [data])
 
   return (
     <>
       <StatusBar hidden />
       <View style={styles.wrapper}>
-        <ConcertDetailList
-          sections={sections}
-          thumbnails={data?.posters?.map(thumb => thumb.imageUrl) ?? []}
-        />
+        <ConcertDetailList sections={sections} thumbnails={data?.posters?.map((thumb) => thumb.imageUrl) ?? []} />
         <IconButton
           icon="←"
           color="transparentDarkGray"
@@ -138,8 +126,8 @@ const ConcertDetailScreen = () => {
         {isLoadingConcert ? <Spinner /> : null}
       </View>
     </>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -151,6 +139,6 @@ const styles = StyleSheet.create({
     left: 15,
     top: 40,
   },
-});
+})
 
-export default ConcertDetailScreen;
+export default ConcertDetailScreen

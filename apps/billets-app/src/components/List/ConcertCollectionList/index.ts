@@ -1,2 +1,2 @@
-export {default as ConcertCollectionList} from './List';
-export * from './types';
+export { default as ConcertCollectionList } from './List'
+export * from './types'

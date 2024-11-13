@@ -1,40 +1,35 @@
-import React, {useCallback} from 'react';
-import {StatusBar, StatusBarStyle, StyleSheet, View} from 'react-native';
-import {IconButton, palette, Text} from 'fstvllife-design-system';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useNavigation} from '@react-navigation/native';
+import React, { useCallback } from 'react'
+import { StatusBar, StatusBarStyle, StyleSheet, View } from 'react-native'
+import { IconButton, palette, Text } from 'fstvllife-design-system'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useNavigation } from '@react-navigation/native'
 
 interface Props {
-  statusBarStyle?: StatusBarStyle;
-  title: string;
+  statusBarStyle?: StatusBarStyle
+  title: string
 }
 
-const Header = ({statusBarStyle, title}: Props) => {
-  const {top} = useSafeAreaInsets();
-  const {goBack, canGoBack} = useNavigation();
+const Header = ({ statusBarStyle, title }: Props) => {
+  const { top } = useSafeAreaInsets()
+  const { goBack, canGoBack } = useNavigation()
   const onPressBackButton = useCallback(() => {
     if (canGoBack()) {
-      goBack();
+      goBack()
     }
-  }, [canGoBack, goBack]);
+  }, [canGoBack, goBack])
 
   return (
     <>
       <StatusBar barStyle={statusBarStyle} />
-      <View style={[styles.header, {paddingTop: top}]}>
+      <View style={[styles.header, { paddingTop: top }]}>
         <View style={[styles.innerPosition]}>
-          <IconButton
-            color="pink"
-            onPress={onPressBackButton}
-            icon="←"
-            style={styles.backButton}
-          />
+          <IconButton color="pink" onPress={onPressBackButton} icon="←" style={styles.backButton} />
           <Text style={[styles.title]}>{title}</Text>
         </View>
       </View>
     </>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   header: {
@@ -60,6 +55,6 @@ const styles = StyleSheet.create({
     zIndex: 1,
     color: palette.black,
   },
-});
+})
 
-export default Header;
+export default Header

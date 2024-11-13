@@ -1,29 +1,23 @@
-import {StyleSheet, View} from 'react-native';
-import FastImage from 'react-native-fast-image';
-import {match} from 'ts-pattern';
-import {SEARCH_ITEM_THUMBNAIL_SIZE} from './constants';
+import { StyleSheet, View } from 'react-native'
+import FastImage from 'react-native-fast-image'
+import { match } from 'ts-pattern'
+import { SEARCH_ITEM_THUMBNAIL_SIZE } from './constants'
 
-const SearchItemThumbnail = ({
-  uri,
-  type,
-}: {
-  uri: string;
-  type: 'square' | 'circle';
-}) => {
+const SearchItemThumbnail = ({ uri, type }: { uri: string; type: 'square' | 'circle' }) => {
   const wrapperStyle = match(type)
     .with('circle', () => styles.wrapperCircle)
     .with('square', () => styles.wrapperSquare)
-    .otherwise(() => undefined);
+    .otherwise(() => undefined)
   const imgStyle = match(type)
     .with('circle', () => styles.imgCircle)
     .with('square', () => styles.imgSquare)
-    .otherwise(() => undefined);
+    .otherwise(() => undefined)
   return (
     <View style={wrapperStyle}>
-      <FastImage source={{uri}} style={imgStyle} />
+      <FastImage source={{ uri }} style={imgStyle} />
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   wrapperCircle: {
@@ -46,6 +40,6 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 4,
   },
-});
+})
 
-export default SearchItemThumbnail;
+export default SearchItemThumbnail

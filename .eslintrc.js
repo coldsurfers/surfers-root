@@ -53,5 +53,6 @@ module.exports = {
 
     'react-hooks/exhaustive-deps': 'warn',
     'prettier/prettier': 'warn',
+    '@typescript-eslint/ban-types': 'warn',
   },
 }

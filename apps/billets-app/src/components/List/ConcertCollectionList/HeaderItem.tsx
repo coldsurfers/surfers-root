@@ -1,13 +1,13 @@
-import {Text, palette} from 'fstvllife-design-system';
-import React, {memo} from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import { Text, palette } from 'fstvllife-design-system'
+import React, { memo } from 'react'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 
 interface Props {
-  title: string;
-  onPressMore?: () => void;
+  title: string
+  onPressMore?: () => void
 }
 
-const GigNewsCollectionList = ({title, onPressMore}: Props) => {
+const GigNewsCollectionList = ({ title, onPressMore }: Props) => {
   return (
     <View style={styles.sectionHeader}>
       <Text style={styles.sectionTitle}>{title}</Text>
@@ -15,8 +15,8 @@ const GigNewsCollectionList = ({title, onPressMore}: Props) => {
         <Text style={styles.sectionMoreTitle}>더 보기</Text>
       </TouchableOpacity>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   sectionHeader: {
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: palette.black,
   },
-  sectionTitle: {color: palette.pink, fontWeight: '700'},
-});
+  sectionTitle: { color: palette.pink, fontWeight: '700' },
+})
 
-export default memo(GigNewsCollectionList);
+export default memo(GigNewsCollectionList)

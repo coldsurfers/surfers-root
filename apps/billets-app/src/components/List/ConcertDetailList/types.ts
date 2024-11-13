@@ -1,33 +1,33 @@
-import {SectionListData} from 'react-native';
+import { SectionListData } from 'react-native'
 
 export type ConcertDetailVenueSectionData = {
-  name: string;
-};
+  name: string
+}
 export type ConcertDetailDateSectionData = {
-  date: string;
-};
+  date: string
+}
 export type ConcertDetailLineupSectionData = {
-  thumbnailUrl: string;
-  name: string;
-};
+  thumbnailUrl: string
+  name: string
+}
 export type ConcertDetailTicketSellerSectionData = {
-  siteUrl: string;
-  name: string;
-};
+  siteUrl: string
+  name: string
+}
 export type ConcertDetailTitleSectionData = {
-  title: string;
-};
+  title: string
+}
 export type ConcertPriceSectionData = {
-  description: string;
-  price: string;
-};
+  description: string
+  price: string
+}
 export type ConcertTicketOpenDateSectionData = {
-  description: string;
-  openDate: string;
-};
+  description: string
+  openDate: string
+}
 export type ConcertHtmlSectionData = {
-  html: string;
-};
+  html: string
+}
 
 export type ConcertDetailSectionListItemT =
   | ConcertDetailVenueSectionData
@@ -37,18 +37,10 @@ export type ConcertDetailSectionListItemT =
   | ConcertDetailTitleSectionData
   | ConcertPriceSectionData
   | ConcertTicketOpenDateSectionData
-  | ConcertHtmlSectionData;
+  | ConcertHtmlSectionData
 
 export type ConcertDetailSectionListSectionT = {
-  title:
-    | 'venue'
-    | 'date'
-    | 'lineup'
-    | 'ticket-seller'
-    | 'title'
-    | 'price-info'
-    | 'ticket-open-date'
-    | 'html';
+  title: 'venue' | 'date' | 'lineup' | 'ticket-seller' | 'title' | 'price-info' | 'ticket-open-date' | 'html'
   sectionHeaderTitle?:
     | '라인업'
     | '티켓 판매처'
@@ -56,13 +48,12 @@ export type ConcertDetailSectionListSectionT = {
     | '공연 날짜'
     | '공연 장소'
     | '티켓 오픈 날짜'
-    | '종합 정보';
-};
+    | '종합 정보'
+}
 
 export type ConcertDetailSectionListSection = SectionListData<
   ConcertDetailSectionListItemT,
   ConcertDetailSectionListSectionT
->;
+>
 
-export type ConcertDetailSectionListSections =
-  ReadonlyArray<ConcertDetailSectionListSection>;
+export type ConcertDetailSectionListSections = ReadonlyArray<ConcertDetailSectionListSection>

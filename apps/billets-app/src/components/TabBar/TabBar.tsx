@@ -1,27 +1,27 @@
-import {palette, Text} from 'fstvllife-design-system';
-import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
-import React, {useEffect, useRef} from 'react';
-import {Animated, StyleSheet, TouchableOpacity} from 'react-native';
-import {StackScreens} from '../../lib/navigations';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import palettes from '../../lib/palettes';
+import { palette, Text } from 'fstvllife-design-system'
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
+import React, { useEffect, useRef } from 'react'
+import { Animated, StyleSheet, TouchableOpacity } from 'react-native'
+import { StackScreens } from '../../lib/navigations'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import palettes from '../../lib/palettes'
 
 interface Props extends BottomTabBarProps {
-  hidden?: boolean;
+  hidden?: boolean
 }
 
 const TabBar = (props: Props) => {
-  const {navigation, state, descriptors, hidden} = props;
-  const hiddenAnimationValue = useRef(new Animated.Value(0)).current;
-  const {bottom: bottomInset} = useSafeAreaInsets();
+  const { navigation, state, descriptors, hidden } = props
+  const hiddenAnimationValue = useRef(new Animated.Value(0)).current
+  const { bottom: bottomInset } = useSafeAreaInsets()
 
   useEffect(() => {
     Animated.timing(hiddenAnimationValue, {
       duration: 300,
       toValue: hidden ? 75 : 0,
       useNativeDriver: false,
-    }).start();
-  }, [hidden, hiddenAnimationValue]);
+    }).start()
+  }, [hidden, hiddenAnimationValue])
 
   return (
     <Animated.View
@@ -38,78 +38,76 @@ const TabBar = (props: Props) => {
             },
           ],
         },
-      ]}>
+      ]}
+    >
       {state.routes.map((route, index) => {
-        const isFocused = state.index === index;
-        const {options} = descriptors[route.key];
+        const isFocused = state.index === index
+        const { options } = descriptors[route.key]
         const label =
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
             : options.title !== undefined
               ? options.title
-              : route.name;
+              : route.name
         const emoji = () => {
           switch (route.name) {
             case StackScreens.HomeStackScreen:
-              return '🏠';
+              return '🏠'
             case StackScreens.SearchStackScreen:
-              return '🔎';
+              return '🔎'
             case StackScreens.ConcertStackScreen:
-              return '📰';
+              return '📰'
             case StackScreens.FundingStackScreen:
-              return '💰';
+              return '💰'
             case StackScreens.ContentsStackScreen:
-              return '🗞';
+              return '🗞'
             case StackScreens.CommunityStackScreen:
-              return '🎙';
+              return '🎙'
             case StackScreens.MyStackScreen:
-              return '🙂';
+              return '🙂'
             case StackScreens.CalendarStackScreen:
-              return '🗓';
+              return '🗓'
             case StackScreens.ConcertSearchStackScreen:
-              return '🔎';
+              return '🔎'
           }
-        };
+        }
 
         const handlePress = () => {
           const event = navigation.emit({
             type: 'tabPress',
             target: route.key,
             canPreventDefault: true,
-          });
+          })
 
           if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name);
+            navigation.navigate(route.name)
           }
-        };
+        }
 
         const onLongPress = () => {
           navigation.emit({
             type: 'tabLongPress',
             target: route.key,
-          });
-        };
+          })
+        }
 
         return (
           <TouchableOpacity
             key={route.name}
             onPress={handlePress}
             onLongPress={onLongPress}
-            style={styles.tabBarButton}>
+            style={styles.tabBarButton}
+          >
             <Text style={styles.emoji}>{emoji()}</Text>
-            <Text
-              style={[
-                styles.tabBarTitle,
-                isFocused && styles.tabBarTitleFocused,
-              ]}>
+            <Text style={[styles.tabBarTitle, isFocused && styles.tabBarTitleFocused]}>
               {typeof label === 'string' && label}
             </Text>
           </TouchableOpacity>
-        );
+        )
       })}
     </Animated.View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   tabBar: {
@@ -126,20 +124,20 @@ const styles = StyleSheet.create({
   emoji: {
     marginBottom: 4,
   },
-  tabBarTitle: {color: palette.white, fontWeight: '500'},
+  tabBarTitle: { color: palette.white, fontWeight: '500' },
   tabBarTitleFocused: {
     fontWeight: '800',
   },
   shadowBox: {
     // iOS Shadow Properties
     shadowColor: palettes.black, // Shadow color
-    shadowOffset: {width: 0, height: 2}, // Shadow position
+    shadowOffset: { width: 0, height: 2 }, // Shadow position
     shadowOpacity: 0.25, // Opacity of the shadow
     shadowRadius: 3.84, // How blurry the shadow is
 
     // Android Shadow Property
     elevation: 5, // Elevation for Android
   },
-});
+})
 
-export default TabBar;
+export default TabBar
