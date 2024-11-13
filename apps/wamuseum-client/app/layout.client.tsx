@@ -1,10 +1,9 @@
 'use client'
 
+import { ApolloHydrationBoundary, ApolloProviderRegistry } from '@/libs'
 import Header from '@/ui/Header'
-import { ApolloHydrationBoundary } from 'libs'
 import { usePathname } from 'next/navigation'
 import { PropsWithChildren } from 'react'
-import ApolloProviderRegistry from './registry/ApolloProviderRegistry'
 
 export const RootLayoutClient = ({
   children,
