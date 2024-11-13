@@ -1,5 +1,5 @@
 const ContentsMainScreen = () => {
-  return null;
-};
+  return null
+}
 
-export default ContentsMainScreen;
+export default ContentsMainScreen

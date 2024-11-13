@@ -1,3 +1,3 @@
-import {UserDTOSerialized} from '../lib/api/type-gens';
+import { UserDTOSerialized } from '../lib/api/type-gens'
 
-export type User = UserDTOSerialized;
+export type User = UserDTOSerialized

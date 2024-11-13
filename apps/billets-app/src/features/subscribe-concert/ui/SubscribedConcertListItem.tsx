@@ -1,28 +1,28 @@
-import format from 'date-fns/format';
-import useConcertQuery from '../../../lib/hooks/queries/useConcertQuery';
-import ConcertListItem from '../../concert/ui/ConcertListItem';
-import {useMemo} from 'react';
+import format from 'date-fns/format'
+import useConcertQuery from '../../../lib/hooks/queries/useConcertQuery'
+import ConcertListItem from '../../concert/ui/ConcertListItem'
+import { useMemo } from 'react'
 
 export default function SubscribedConcertListItem({
   concertId,
   onPress,
 }: {
-  concertId: string;
-  onPress: (concertId: string) => void;
+  concertId: string
+  onPress: (concertId: string) => void
 }) {
-  const {data: concertData} = useConcertQuery({
+  const { data: concertData } = useConcertQuery({
     concertId,
-  });
+  })
 
   const date = useMemo(() => {
     if (!concertData) {
-      return '';
+      return ''
     }
-    return format(new Date(concertData.date), 'EEE, MMM d');
-  }, [concertData]);
+    return format(new Date(concertData.date), 'EEE, MMM d')
+  }, [concertData])
 
   if (!concertData) {
-    return null;
+    return null
   }
 
   return (
@@ -35,5 +35,5 @@ export default function SubscribedConcertListItem({
       onPress={onPress}
       size="small"
     />
-  );
+  )
 }

@@ -23,6 +23,6 @@ const palettes = {
     800: '#262626',
     900: '#171717',
   },
-};
+}
 
-export default palettes;
+export default palettes

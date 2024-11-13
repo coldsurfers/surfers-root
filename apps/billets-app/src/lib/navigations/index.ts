@@ -9,10 +9,10 @@ export const StackScreens = {
   ConcertSearchStackScreen: 'ConcertSearchStackScreen',
   HomeStackScreen: 'HomeStackScreen',
   SearchStackScreen: 'SearchStackScreen',
-} as const;
+} as const
 export const TabScreens = {
   MainTabScreen: 'MainTabScreen',
-} as const;
+} as const
 export const Screens = {
   ConcertMainScreen: 'ConcertMainScreen',
   ConcertDetailScreen: 'ConcertDetailScreen',
@@ -29,4 +29,4 @@ export const Screens = {
   HomeScreen: 'HomeScreen',
   LocationSelectionScreen: 'LocationSelectionScreen',
   SearchScreen: 'SearchScreen',
-} as const;
+} as const

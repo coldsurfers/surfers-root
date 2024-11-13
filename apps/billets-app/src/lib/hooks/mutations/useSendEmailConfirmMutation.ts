@@ -1,24 +1,24 @@
-import {MutationOptions, useMutation} from '@tanstack/react-query';
-import client from '../../api/openapi-client';
-import {components} from '../../../types/api';
-import APIError from '../../api/APIError';
+import { MutationOptions, useMutation } from '@tanstack/react-query'
+import client from '../../api/openapi-client'
+import { components } from '../../../types/api'
+import APIError from '../../api/APIError'
 
 function useSendEmailConfirmMutation(
   options: MutationOptions<
     components['schemas']['SendAuthCodeSuccessResponse'] | undefined,
     APIError,
     {
-      email: string;
+      email: string
     }
   >,
 ) {
   return useMutation({
-    mutationFn: async ({email}: {email: string}) => {
+    mutationFn: async ({ email }: { email: string }) => {
       const response = await client.POST('/v1/auth/email/send-auth-code', {
         body: {
           email,
         },
-      });
+      })
       if (response.response.status === 409) {
         throw new APIError(
           {
@@ -27,12 +27,12 @@ function useSendEmailConfirmMutation(
           {
             status: response.response.status,
           },
-        );
+        )
       }
-      return response.data;
+      return response.data
     },
     ...options,
-  });
+  })
 }
 
-export default useSendEmailConfirmMutation;
+export default useSendEmailConfirmMutation

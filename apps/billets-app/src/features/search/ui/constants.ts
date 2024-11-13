@@ -1,1 +1,1 @@
-export const SEARCH_ITEM_THUMBNAIL_SIZE = 62;
+export const SEARCH_ITEM_THUMBNAIL_SIZE = 62

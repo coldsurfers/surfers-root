@@ -1,5 +1,5 @@
 const CommunityMainScreen = () => {
-  return null;
-};
+  return null
+}
 
-export default CommunityMainScreen;
+export default CommunityMainScreen

@@ -1,15 +1,9 @@
-import {
-  Pressable,
-  Text,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
-import FastImage from 'react-native-fast-image';
-import commonStyles from '../../../lib/common-styles';
-import useSubscribedConcertQuery from '../../../lib/hooks/queries/useSubscribedConcertQuery';
-import palettes from '../../../lib/palettes';
-import {memo, useCallback} from 'react';
+import { Pressable, Text, View, TouchableOpacity, StyleSheet } from 'react-native'
+import FastImage from 'react-native-fast-image'
+import commonStyles from '../../../lib/common-styles'
+import useSubscribedConcertQuery from '../../../lib/hooks/queries/useSubscribedConcertQuery'
+import palettes from '../../../lib/palettes'
+import { memo, useCallback } from 'react'
 
 const ConcertListItem = ({
   concertId,
@@ -21,30 +15,27 @@ const ConcertListItem = ({
   onPressSubscribe,
   size = 'large',
 }: {
-  concertId: string;
-  thumbnailUrl: string;
-  title: string;
-  date: string;
-  venue?: string;
-  onPress: (concertId: string) => void;
-  onPressSubscribe?: (params: {
-    isSubscribed: boolean;
-    concertId: string;
-  }) => void;
-  size?: 'small' | 'large';
+  concertId: string
+  thumbnailUrl: string
+  title: string
+  date: string
+  venue?: string
+  onPress: (concertId: string) => void
+  onPressSubscribe?: (params: { isSubscribed: boolean; concertId: string }) => void
+  size?: 'small' | 'large'
 }) => {
-  const {data: subscribedConcertData} = useSubscribedConcertQuery({
+  const { data: subscribedConcertData } = useSubscribedConcertQuery({
     concertId,
-  });
+  })
   const handlePress = useCallback(() => {
-    onPress(concertId);
-  }, [onPress, concertId]);
+    onPress(concertId)
+  }, [onPress, concertId])
   const handlePressSubscribe = useCallback(() => {
     onPressSubscribe?.({
       isSubscribed: !!subscribedConcertData,
       concertId,
-    });
-  }, [onPressSubscribe, subscribedConcertData, concertId]);
+    })
+  }, [onPressSubscribe, subscribedConcertData, concertId])
 
   return (
     <Pressable
@@ -57,9 +48,10 @@ const ConcertListItem = ({
         {
           width: size === 'small' ? 140 : '100%',
         },
-      ]}>
+      ]}
+    >
       <FastImage
-        source={{uri: thumbnailUrl}}
+        source={{ uri: thumbnailUrl }}
         style={[
           styles.concertThumbnail,
           {
@@ -74,7 +66,8 @@ const ConcertListItem = ({
           {
             fontSize: size === 'small' ? 14 : 18,
           },
-        ]}>
+        ]}
+      >
         {title}
       </Text>
       <View style={styles.concertInfoWrapper}>
@@ -85,7 +78,8 @@ const ConcertListItem = ({
               {
                 fontSize: size === 'small' ? 12 : 14,
               },
-            ]}>
+            ]}
+          >
             {date}
           </Text>
           {venue ? (
@@ -95,7 +89,8 @@ const ConcertListItem = ({
                 {
                   fontSize: size === 'small' ? 12 : 14,
                 },
-              ]}>
+              ]}
+            >
               {venue}
             </Text>
           ) : null}
@@ -106,20 +101,19 @@ const ConcertListItem = ({
             style={[
               styles.concertSaveButton,
               {
-                backgroundColor: subscribedConcertData
-                  ? palettes.black
-                  : palettes.white,
+                backgroundColor: subscribedConcertData ? palettes.black : palettes.white,
               },
-            ]}>
+            ]}
+          >
             <Text style={styles.concertSaveButtonIcon}>❣️</Text>
           </TouchableOpacity>
         )}
       </View>
     </Pressable>
-  );
-};
+  )
+}
 
-export default memo(ConcertListItem);
+export default memo(ConcertListItem)
 
 const styles = StyleSheet.create({
   concertListItem: {
@@ -135,9 +129,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 12,
   },
-  concertTitle: {fontWeight: 'bold', fontSize: 18},
-  concertFormattedDate: {marginTop: 8},
-  concertVenue: {marginTop: 8},
+  concertTitle: { fontWeight: 'bold', fontSize: 18 },
+  concertFormattedDate: { marginTop: 8 },
+  concertVenue: { marginTop: 8 },
   concertListContentContainer: {
     paddingHorizontal: 12,
     marginTop: 12,
@@ -158,5 +152,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  concertSaveButtonIcon: {fontSize: 24},
-});
+  concertSaveButtonIcon: { fontSize: 24 },
+})

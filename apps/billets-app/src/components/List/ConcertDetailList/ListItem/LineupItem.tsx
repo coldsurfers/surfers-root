@@ -1,15 +1,15 @@
-import React, {memo} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
-import {ConcertDetailLineupSectionData} from '../types';
+import React, { memo } from 'react'
+import { Image, StyleSheet, Text, View } from 'react-native'
+import { ConcertDetailLineupSectionData } from '../types'
 
-const LineupItem = ({thumbnailUrl, name}: ConcertDetailLineupSectionData) => {
+const LineupItem = ({ thumbnailUrl, name }: ConcertDetailLineupSectionData) => {
   return (
     <View style={styles.wrapper}>
-      <Image style={styles.image} source={{uri: thumbnailUrl}} />
+      <Image style={styles.image} source={{ uri: thumbnailUrl }} />
       <Text style={styles.name}>{name}</Text>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  image: {width: 75, height: 75, borderRadius: 75 / 2},
+  image: { width: 75, height: 75, borderRadius: 75 / 2 },
   name: {
     marginLeft: 8,
     marginBottom: 'auto',
@@ -27,6 +27,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 18,
   },
-});
+})
 
-export default memo(LineupItem);
+export default memo(LineupItem)

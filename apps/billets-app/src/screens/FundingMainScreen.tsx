@@ -1,6 +1,6 @@
-import {palette} from 'fstvllife-design-system';
-import React, {FC} from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import { palette } from 'fstvllife-design-system'
+import React, { FC } from 'react'
+import { SafeAreaView, StyleSheet } from 'react-native'
 
 // export type FundingMainScreenParam = {};
 
@@ -30,14 +30,14 @@ import {SafeAreaView, StyleSheet} from 'react-native';
 // };
 
 const FundingMainScreen: FC = () => {
-  return <SafeAreaView style={styles.wrapper} />;
-};
+  return <SafeAreaView style={styles.wrapper} />
+}
 
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: palette.white,
   },
-});
+})
 
-export default FundingMainScreen;
+export default FundingMainScreen

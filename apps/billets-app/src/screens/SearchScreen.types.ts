@@ -1,5 +1,7 @@
-import {SearchStackProp} from '../navigations/SearchStackNavigation';
+import { SearchStackProp } from '../navigations/SearchStackNavigation'
 
-export type SearchScreenParams = {};
+export type SearchScreenParams = {
+  //
+}
 
-export type SearchScreenProp = SearchStackProp<'SearchScreen'>;
+export type SearchScreenProp = SearchStackProp<'SearchScreen'>

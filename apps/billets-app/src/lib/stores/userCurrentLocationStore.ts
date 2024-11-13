@@ -1,26 +1,25 @@
-import {create} from 'zustand';
-import {persist} from 'zustand/middleware';
-import {LatLng} from '../../types/LatLng';
-import {currentLocationStorage} from '../storage/hooks/current-location-storage';
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
+import { LatLng } from '../../types/LatLng'
+import { currentLocationStorage } from '../storage/hooks/current-location-storage'
 
 export interface UserCurrentLocationStoreState {
-  latitude: number | null;
-  longitude: number | null;
+  latitude: number | null
+  longitude: number | null
 }
 
 export interface UserCurrentLocationStoreAction {
-  setUserCurrentLocation: (payload: LatLng) => void;
+  setUserCurrentLocation: (payload: LatLng) => void
 }
 
-export type UserCurrentLocationStore = UserCurrentLocationStoreState &
-  UserCurrentLocationStoreAction;
+export type UserCurrentLocationStore = UserCurrentLocationStoreState & UserCurrentLocationStoreAction
 
 export const useUserCurrentLocationStore = create<UserCurrentLocationStore>()(
   persist(
-    set => ({
+    (set) => ({
       latitude: null,
       longitude: null,
-      setUserCurrentLocation: payload =>
+      setUserCurrentLocation: (payload) =>
         set(() => ({
           latitude: payload.latitude,
           longitude: payload.longitude,
@@ -31,4 +30,4 @@ export const useUserCurrentLocationStore = create<UserCurrentLocationStore>()(
       storage: currentLocationStorage,
     },
   ),
-);
+)

@@ -1,29 +1,17 @@
-import {palette, Text} from 'fstvllife-design-system';
-import React, {memo} from 'react';
-import {
-  StyleProp,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { palette, Text } from 'fstvllife-design-system'
+import React, { memo } from 'react'
+import { StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle } from 'react-native'
+import FastImage from 'react-native-fast-image'
 
 interface Props {
-  onPress: () => void;
-  wrapperStyles?: StyleProp<ViewStyle>;
-  thumbnailURI: string;
-  titleText: string;
-  dateText: string;
+  onPress: () => void
+  wrapperStyles?: StyleProp<ViewStyle>
+  thumbnailURI: string
+  titleText: string
+  dateText: string
 }
 
-const FullGigNewsItem = ({
-  onPress,
-  wrapperStyles,
-  thumbnailURI,
-  titleText,
-  dateText,
-}: Props) => {
+const FullGigNewsItem = ({ onPress, wrapperStyles, thumbnailURI, titleText, dateText }: Props) => {
   return (
     <TouchableOpacity onPress={onPress} style={[styles.wrapper, wrapperStyles]}>
       <FastImage
@@ -39,8 +27,8 @@ const FullGigNewsItem = ({
         <Text style={styles.date}>{dateText}</Text>
       </View>
     </TouchableOpacity>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -55,14 +43,14 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 3,
   },
-  rightWrapper: {flex: 1},
-  title: {marginLeft: 8, overflow: 'hidden'},
+  rightWrapper: { flex: 1 },
+  title: { marginLeft: 8, overflow: 'hidden' },
   date: {
     marginLeft: 8,
     fontSize: 12,
     marginTop: 4,
     color: '#a2a2a2',
   },
-});
+})
 
-export default memo(FullGigNewsItem);
+export default memo(FullGigNewsItem)
