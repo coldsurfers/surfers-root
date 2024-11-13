@@ -1,6 +1,6 @@
+import { TextInput } from '@coldsurfers/ocean-road'
 import { memo } from 'react'
 import styled from 'styled-components'
-import { TextInput } from '@coldsurfers/hotsurf'
 import Label from './Label'
 
 const InputWithLabelWrapper = styled.div`
@@ -25,7 +25,7 @@ const InputWithLabel = memo(
   }) => (
     <InputWithLabelWrapper>
       <Label>{label}</Label>
-      <TextInput value={value} onChangeText={onChangeText} placeholder={placeholder} />
+      <TextInput value={value} onChange={(event) => onChangeText(event.target.value)} placeholder={placeholder} />
     </InputWithLabelWrapper>
   ),
 )

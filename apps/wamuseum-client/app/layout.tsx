@@ -1,13 +1,9 @@
-import '@coldsurfers/hotsurf/global-light-only.css'
+import { initializeApollo, OceanRoadThemeRegistry } from '@/libs'
 import { ME_QUERY } from 'gql/queries'
-import { initializeApollo } from 'libs'
 import { Noto_Sans_KR } from 'next/font/google'
 import { cookies } from 'next/headers'
 import { Suspense } from 'react'
 import { RootLayoutClient } from './layout.client'
-import RegistryProvider from './registry/RegistryProvider'
-import StyledComponentsRegistry from './registry/StyledComponentsRegistry'
-import StyleSheetRegistry from './registry/StyleSheetRegistry'
 
 const notoSansKr = Noto_Sans_KR({ subsets: ['latin'] })
 
@@ -36,13 +32,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       */}
       <head />
       <body className={notoSansKr.className}>
-        <RegistryProvider registries={[StyledComponentsRegistry, StyleSheetRegistry]}>
+        <OceanRoadThemeRegistry>
           <Suspense>
             <RootLayoutClient token={accessToken} initialState={initialState}>
               {children}
             </RootLayoutClient>
           </Suspense>
-        </RegistryProvider>
+        </OceanRoadThemeRegistry>
       </body>
     </html>
   )

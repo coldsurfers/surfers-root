@@ -1,21 +1,20 @@
-import semantic from '@coldsurfers/design-tokens/dist/js/color/semantic/variables'
-import color from '@coldsurfers/design-tokens/dist/js/color/variables'
+import { colors, semantics } from '../tokens'
 import { ButtonTheme } from './button.types'
 
 export const getButtonBackgroundColor = (colorTheme: ButtonTheme) => {
   switch (colorTheme) {
     case 'indigo':
-      return color.oc.indigo[9].value
+      return colors.oc.indigo[9].value
     case 'pink':
-      return color.oc.pink[9].value
+      return colors.oc.pink[9].value
     case 'transparent':
       return 'transparent'
     case 'transparentDarkGray':
-      return color.oc.black.value
+      return colors.oc.black.value
     case 'white':
-      return color.oc.white.value
+      return colors.oc.white.value
     default:
-      return color.oc.indigo[9].value
+      return colors.oc.indigo[9].value
   }
 }
 
@@ -24,8 +23,8 @@ export const getButtonForegroundColor = (colorTheme: ButtonTheme) => {
     case 'transparent':
     case 'transparentDarkGray':
     case 'white':
-      return semantic.color.foreground[1]
+      return semantics.color.foreground[1]
     default:
-      return color.oc.white.value
+      return colors.oc.white.value
   }
 }

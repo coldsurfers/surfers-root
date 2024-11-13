@@ -1,5 +1,5 @@
-import { Button } from '@coldsurfers/hotsurf'
-import styled from 'styled-components'
+import { Button } from '@coldsurfers/ocean-road'
+import styled from '@emotion/styled'
 
 const Thumbnail = styled.img`
   width: 300px;
@@ -20,7 +20,9 @@ interface Props {
 const PosterUI = ({ imageURL }: Props) => (
   <>
     <Thumbnail src={imageURL} />
-    <Button text="포스터 변경하기" onPress={() => {}} style={{ marginTop: 12 }} />
+    <Button onClick={() => {}} style={{ marginTop: 12 }}>
+      포스터 변경하기
+    </Button>
   </>
 )
 

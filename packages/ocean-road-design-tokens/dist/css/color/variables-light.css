@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Sat, 02 Nov 2024 05:39:26 GMT
+ * Generated on Wed, 13 Nov 2024 03:47:19 GMT
  */
 
 :root {
@@ -15,4 +15,5 @@
   --color-foreground-4: #868e96; /* foreground color 4 */
   --color-border-1: #f1f3f5; /* border color 1 */
   --color-border-2: #e9ecef; /* border color 2 */
+  --color-dimmed-1: #f1f3f5; /* dimmed color 1 */
 }
