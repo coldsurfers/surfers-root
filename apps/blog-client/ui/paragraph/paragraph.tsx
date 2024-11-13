@@ -1,11 +1,11 @@
 'use client'
 
-import variables from '@coldsurfers/design-tokens/dist/js/color/semantic/variables'
+import { semantics } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { CSSProperties, ElementType, PropsWithChildren } from 'react'
 
 const ParagraphContainer = styled.p`
-  color: ${variables.color.foreground[1]};
+  color: ${semantics.color.foreground[1]};
   white-space: pre-wrap;
 `
 

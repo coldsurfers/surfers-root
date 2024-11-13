@@ -1,7 +1,7 @@
 import { motion, usePresence } from 'framer-motion'
 import { useEffect, useRef } from 'react'
-import { semantics } from '../contexts/ColorSchemeProvider'
 import { Text } from '../text'
+import { semantics } from '../tokens'
 import type { ToastProps } from './toast.types'
 
 const AUTO_CLOSE_TIME = 3000
