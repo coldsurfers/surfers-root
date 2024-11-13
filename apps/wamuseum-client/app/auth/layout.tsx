@@ -1,9 +1,9 @@
 'use client'
 
+import { Spinner } from '@coldsurfers/ocean-road'
 import { useRouter } from 'next/navigation'
 import { PropsWithChildren, useEffect } from 'react'
 import useMeQuery from '../../hooks/useMeQuery'
-import Loader from '../../ui/Loader'
 
 export default function AuthLayout({ children }: PropsWithChildren) {
   const { data, loading } = useMeQuery()
@@ -21,7 +21,7 @@ export default function AuthLayout({ children }: PropsWithChildren) {
   }, [data, router])
 
   if (loading) {
-    return <Loader />
+    return <Spinner variant="page-overlay" />
   }
   return children
 }

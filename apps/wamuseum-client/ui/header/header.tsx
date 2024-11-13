@@ -1,18 +1,17 @@
 'use client'
 
 import { useMutation } from '@apollo/client'
-import { Button, colors } from '@coldsurfers/ocean-road'
+import { Button, colors, semantics, Spinner } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { usePathname, useRouter } from 'next/navigation'
-import { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { LogoutMutation } from '../gql/mutations'
-import { ME_QUERY } from '../gql/queries'
-import useMeQuery from '../hooks/useMeQuery'
-import { Mutation } from '../src/__generated__/graphql'
-import { authUtils } from '../utils'
-import Loader from './Loader'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { LogoutMutation } from '../../gql/mutations'
+import { ME_QUERY } from '../../gql/queries'
+import useMeQuery from '../../hooks/useMeQuery'
+import { Mutation } from '../../src/__generated__/graphql'
+import { authUtils } from '../../utils'
 
-const Header = () => {
+export const Header = () => {
   const router = useRouter()
   const pathname = usePathname()
   const [showLoader, setShowLoader] = useState<boolean>(false)
@@ -79,7 +78,7 @@ const Header = () => {
           </>
         )}
       </ButtonPositioner>
-      {showLoader && <Loader />}
+      {showLoader && <Spinner variant="page-overlay" />}
     </Wrapper>
   )
 }
@@ -90,7 +89,7 @@ const Wrapper = styled.div`
   padding-left: 10px;
   padding-right: 10px;
   height: 68.5px;
-  background-color: ${colors.oc.white.value};
+  background-color: ${semantics.color.background[2]};
 
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.12),
@@ -109,5 +108,3 @@ const ButtonPositioner = styled.div`
   display: flex;
   align-items: center;
 `
-
-export default memo(Header)

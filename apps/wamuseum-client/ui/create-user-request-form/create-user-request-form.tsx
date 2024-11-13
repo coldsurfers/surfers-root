@@ -1,18 +1,16 @@
-import { Button, Text, TextInput, Toast, colors } from '@coldsurfers/ocean-road'
+'use client'
+
+import { Button, Spinner, Text, TextInput, Toast, colors } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import { memo, useEffect, useState } from 'react'
-import useAuthenticateEmailAuthRequestMutation from '../hooks/useAuthenticateEmailAuthRequestMutation'
-import useCreateEmailAuthRequestMutation from '../hooks/useCreateEmailAuthRequestMutation'
-import useCreateUserMutation from '../hooks/useCreateUserMutation'
-import validateEmail from '../utils/validateEmail'
-import Loader from './Loader'
+import { useCallback, useState } from 'react'
+import useAuthenticateEmailAuthRequestMutation from '../../hooks/useAuthenticateEmailAuthRequestMutation'
+import useCreateEmailAuthRequestMutation from '../../hooks/useCreateEmailAuthRequestMutation'
+import useCreateUserMutation from '../../hooks/useCreateUserMutation'
+import validateEmail from '../../utils/validateEmail'
 
-interface Props {}
-
-// eslint-disable-next-line no-empty-pattern
-const AuthRequestForm = ({}: Props) => {
+export const CreateUserRequestForm = () => {
   const router = useRouter()
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -23,55 +21,88 @@ const AuthRequestForm = ({}: Props) => {
   const [signinCompleted, setSigninCompleted] = useState<boolean>(false)
   const [mutateCreateEmailAuthRequest, { data: createEmailAuthRequestData, loading: createEmailAuthRequestLoading }] =
     useCreateEmailAuthRequestMutation()
-  const [
-    mutateAuthenticateEmailAuthRequest,
-    { data: authenticateEmailAuthRequestData, loading: authenticateEmailAuthRequestLoading },
-  ] = useAuthenticateEmailAuthRequestMutation()
-  const [mutateCreateUser, { data: createUserData, loading: createUserLoading }] = useCreateUserMutation()
+  const [mutateAuthenticateEmailAuthRequest, { loading: authenticateEmailAuthRequestLoading }] =
+    useAuthenticateEmailAuthRequestMutation()
+  const [mutateCreateUser, { loading: createUserLoading }] = useCreateUserMutation()
 
   const [toastVisible, setToastVisible] = useState(false)
   const [toastMessage, setToastMessage] = useState('')
 
   const loading = createEmailAuthRequestLoading || authenticateEmailAuthRequestLoading || createUserLoading
 
-  useEffect(() => {
-    if (!authenticateEmailAuthRequestData?.authenticateEmailAuthRequest) return
-    const { authenticateEmailAuthRequest } = authenticateEmailAuthRequestData
-    switch (authenticateEmailAuthRequest.__typename) {
-      case 'HttpError':
-        setToastVisible(true)
-        setToastMessage(authenticateEmailAuthRequest.message)
-        break
-      case 'EmailAuthRequest':
-        setEmailAuthenticated(!!authenticateEmailAuthRequest.authenticated)
-        break
-      default:
-        break
-    }
-  }, [authenticateEmailAuthRequestData])
-
-  useEffect(() => {
-    if (!createUserData?.createUser) return
-    const { createUser } = createUserData
-    console.log(createUser)
-    switch (createUser.__typename) {
-      case 'HttpError':
-        setToastVisible(true)
-        setToastMessage(createUser.message)
-        break
-      case 'User':
-        setSigninCompleted(true)
-        setToastMessage('가입이 완료되었습니다.\n로그인 페이지로 이동합니다.')
-        setTimeout(() => {
-          router.push('/auth/signin')
-        }, 1500)
-        break
-      default:
-        break
-    }
-  }, [createUserData, router])
-
   const authenticatedEmail = createEmailAuthRequestData?.createEmailAuthRequest.email ?? ''
+
+  const onClickGetAuthcode = useCallback(() => {
+    setEmailSent(true)
+    mutateCreateEmailAuthRequest({
+      variables: {
+        input: {
+          email,
+        },
+      },
+    })
+  }, [email, mutateCreateEmailAuthRequest])
+
+  const onClickAuthenticate = useCallback(() => {
+    mutateAuthenticateEmailAuthRequest({
+      variables: {
+        input: {
+          email: authenticatedEmail,
+          authcode,
+        },
+      },
+      onCompleted(data) {
+        const { authenticateEmailAuthRequest } = data
+        if (!authenticateEmailAuthRequest) {
+          return
+        }
+        switch (authenticateEmailAuthRequest.__typename) {
+          case 'HttpError':
+            setToastVisible(true)
+            setToastMessage(authenticateEmailAuthRequest.message)
+            break
+          case 'EmailAuthRequest':
+            setEmailAuthenticated(!!authenticateEmailAuthRequest.authenticated)
+            break
+          default:
+            break
+        }
+      },
+    })
+  }, [authcode, authenticatedEmail, mutateAuthenticateEmailAuthRequest])
+
+  const onClickCreateUser = useCallback(() => {
+    mutateCreateUser({
+      variables: {
+        input: {
+          email: authenticatedEmail,
+          password,
+          passwordConfirm,
+        },
+      },
+      onCompleted: (data) => {
+        const { createUser } = data
+        if (!createUser) {
+          return
+        }
+        switch (createUser.__typename) {
+          case 'HttpError':
+            setToastVisible(true)
+            setToastMessage(createUser.message)
+            break
+          case 'User':
+            setSigninCompleted(true)
+            setToastMessage('가입이 완료되었습니다.\n로그인 페이지로 이동합니다.')
+            setTimeout(() => {
+              router.push('/auth/signin')
+            }, 1500)
+            break
+          default:
+            break
+        }
+      },
+    })
+  }, [authenticatedEmail, mutateCreateUser, password, passwordConfirm, router])
 
   return (
     <>
@@ -103,16 +134,7 @@ const AuthRequestForm = ({}: Props) => {
           <EmailAuthRequestButtonsWrapper>
             <Button
               disabled={!validateEmail(email) || createEmailAuthRequestLoading}
-              onClick={() => {
-                setEmailSent(true)
-                mutateCreateEmailAuthRequest({
-                  variables: {
-                    input: {
-                      email,
-                    },
-                  },
-                })
-              }}
+              onClick={onClickGetAuthcode}
               style={{ flex: 1, backgroundColor: colors.oc.yellow[4].value }}
             >
               {emailSent ? '다시 요청하기' : '인증번호 받기'}
@@ -124,16 +146,7 @@ const AuthRequestForm = ({}: Props) => {
                 backgroundColor: colors.oc.black.value,
               }}
               disabled={!createEmailAuthRequestData || !authcode || authenticateEmailAuthRequestLoading}
-              onClick={() => {
-                mutateAuthenticateEmailAuthRequest({
-                  variables: {
-                    input: {
-                      email: authenticatedEmail,
-                      authcode,
-                    },
-                  },
-                })
-              }}
+              onClick={onClickAuthenticate}
             >
               인증하기
             </Button>
@@ -157,17 +170,7 @@ const AuthRequestForm = ({}: Props) => {
         )}
         {emailAuthenticated && (
           <Button
-            onClick={() => {
-              mutateCreateUser({
-                variables: {
-                  input: {
-                    email: authenticatedEmail,
-                    password,
-                    passwordConfirm,
-                  },
-                },
-              })
-            }}
+            onClick={onClickCreateUser}
             style={{ marginTop: 14, backgroundColor: colors.oc.black.value }}
             disabled={createUserLoading || signinCompleted}
           >
@@ -176,22 +179,14 @@ const AuthRequestForm = ({}: Props) => {
         )}
       </Wrapper>
       <AnimatePresence>
-        {(toastVisible || signinCompleted) && (
-          <Toast
-            visible={toastVisible || signinCompleted}
-            zIndex={99}
-            message={toastMessage}
-            onClose={() => setToastVisible(false)}
-          />
-        )}
+        {(toastVisible || signinCompleted) && <Toast message={toastMessage} onClose={() => setToastVisible(false)} />}
       </AnimatePresence>
-      {loading && <Loader />}
+      {loading && <Spinner variant="page-overlay" />}
     </>
   )
 }
 
 const Wrapper = styled.section`
-  /* border: 1px solid red; */
   position: absolute;
   top: 50%; /* position the top  edge of the element at the middle of the parent */
   left: 50%; /* position the left edge of the element at the middle of the parent */
@@ -215,5 +210,3 @@ const EmailAuthRequestButtonsWrapper = styled.div`
   align-items: center;
   margin-top: 14px;
 `
-
-export default memo(AuthRequestForm)

@@ -9,25 +9,23 @@ const AUTO_CLOSE_TIME = 3000
 /**
  * 사용시, framer-motion의 AnimatePresence 컴포넌트를 사용해야 합니다.
  */
-export const Toast = ({ visible, message, zIndex, onClose }: ToastProps) => {
+export const Toast = ({ message, zIndex = 99, onClose }: ToastProps) => {
   const [isPresent, safeToRemove] = usePresence()
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
   useEffect(() => {
-    if (visible) {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current)
-      }
-      timeoutRef.current = setTimeout(() => {
-        onClose()
-      }, AUTO_CLOSE_TIME)
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
     }
+    timeoutRef.current = setTimeout(() => {
+      onClose()
+    }, AUTO_CLOSE_TIME)
 
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current)
       }
     }
-  }, [onClose, visible])
+  }, [onClose])
 
   useEffect(() => {
     if (!isPresent) {

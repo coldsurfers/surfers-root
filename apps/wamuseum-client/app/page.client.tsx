@@ -1,6 +1,6 @@
 'use client'
 
-import { colors, Spinner, TextInput } from '@coldsurfers/ocean-road'
+import { semantics, Spinner, TextInput } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { format } from 'date-fns'
@@ -251,7 +251,7 @@ const Wrapper = styled.div`
 
 const Table = styled.table`
   margin-top: 60px;
-  background-color: ${colors.oc.white.value};
+  background-color: ${semantics.color.background[3]};
   width: 90vw;
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.12),
@@ -262,17 +262,17 @@ const Table = styled.table`
 const Thead = styled.thead``
 const Tr = styled.tr`
   & + & {
-    border-top: 1px solid ${colors.oc.yellow[5].value};
+    border-top: 1px solid ${semantics.color.border[1]};
   }
 `
 const Th = styled.th`
   height: 50px;
   padding-left: 8px;
   padding-right: 8px;
-  border-bottom: 1px solid ${colors.oc.yellow[5].value};
+  border-bottom: 1px solid ${semantics.color.border[1]};
 
   & + & {
-    border-left: 1px solid ${colors.oc.yellow[5].value};
+    border-left: 1px solid ${semantics.color.border[1]};
   }
 `
 const Tbody = styled.tbody``
@@ -280,11 +280,11 @@ const Td = styled.td`
   height: 52px;
   padding-left: 8px;
   padding-right: 8px;
-  background-color: ${colors.oc.white.value};
+  background-color: ${semantics.color.background[3]};
   &:hover {
   }
   & + & {
-    border-left: 1px solid ${colors.oc.yellow[5].value};
+    border-left: 1px solid ${semantics.color.border[1]};
   }
   cursor: pointer;
 `
