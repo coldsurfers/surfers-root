@@ -1,6 +1,6 @@
 import { TextInput } from '@coldsurfers/ocean-road'
+import styled from '@emotion/styled'
 import { memo } from 'react'
-import styled from 'styled-components'
 import Label from './Label'
 
 const InputWithLabelWrapper = styled.div`
