@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.10.4",
-    "@coldsurfers/hotsurf": "workspace:*",
     "@coldsurfers/ocean-road": "workspace:*",
     "@coldsurfers/zod-schema": "workspace:*",
     "@emotion/css": "*",

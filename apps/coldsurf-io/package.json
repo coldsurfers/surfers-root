@@ -11,7 +11,6 @@
     "codegen": "npx openapi-typescript https://api.billets.coldsurf.io/docs/json -o types/api.d.ts --alphabetize && prettier --write src/types/api.d.ts"
   },
   "dependencies": {
-    "@coldsurfers/hotsurf": "workspace:*",
     "@coldsurfers/ocean-road": "workspace:*",
     "@emotion/css": "*",
     "@emotion/react": "*",

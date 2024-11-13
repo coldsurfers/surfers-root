@@ -2910,7 +2910,6 @@ __metadata:
     "@babel/core": "npm:^7.20.0"
     "@babel/preset-env": "npm:^7.20.0"
     "@babel/runtime": "npm:^7.20.0"
-    "@coldsurfers/hotsurf": "workspace:*"
     "@coldsurfers/ocean-road": "workspace:*"
     "@invertase/react-native-apple-authentication": "npm:^2.2.2"
     "@lukemorales/query-key-factory": "npm:*"
@@ -3026,7 +3025,6 @@ __metadata:
   dependencies:
     "@coldsurfers/cloudinary-utils": "workspace:*"
     "@coldsurfers/design-tokens": "workspace:*"
-    "@coldsurfers/hotsurf": "workspace:*"
     "@coldsurfers/notion-utils": "workspace:*"
     "@coldsurfers/ocean-road": "workspace:*"
     "@coldsurfers/prisma-schema": "workspace:*"
@@ -3098,7 +3096,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@coldsurfers/coldsurf-io@workspace:apps/coldsurf-io"
   dependencies:
-    "@coldsurfers/hotsurf": "workspace:*"
     "@coldsurfers/ocean-road": "workspace:*"
     "@emotion/css": "npm:*"
     "@emotion/react": "npm:*"
@@ -3150,7 +3147,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@coldsurfers/hotsurf@workspace:*, @coldsurfers/hotsurf@workspace:packages/hotsurf":
+"@coldsurfers/hotsurf@workspace:packages/hotsurf":
   version: 0.0.0-use.local
   resolution: "@coldsurfers/hotsurf@workspace:packages/hotsurf"
   dependencies:
@@ -3363,7 +3360,6 @@ __metadata:
   resolution: "@coldsurfers/wamuseum-client@workspace:apps/wamuseum-client"
   dependencies:
     "@apollo/client": "npm:^3.10.4"
-    "@coldsurfers/hotsurf": "workspace:*"
     "@coldsurfers/ocean-road": "workspace:*"
     "@coldsurfers/zod-schema": "workspace:*"
     "@emotion/css": "npm:*"
