@@ -1,0 +1,47 @@
+name: Billets App iOS CI/CD Pipeline
+
+on:
+  workflow_dispatch: # Allows the workflow to be triggered manually
+
+jobs:
+  build:
+    runs-on: self-hosted # Specifies that this job should use a self-hosted runner
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.16.0'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Install Gems
+        run: bundle install
+        working-directory: ./apps/billets-app
+
+      - name: Install Pods
+        run: bundle exec pod install
+        working-directory: ./apps/billets-app
+
+      - name: Create .env file from template
+        run: |
+          echo "MATCH_APPLE_AUTH_GIT_REPO_URL=${{ secrets.MATCH_APPLE_AUTH_GIT_REPO_URL }}" >> ./apps/billets-app/ios/fastlane/.env
+          echo "MATCH_STORAGE_MODE=${{ secrets.MATCH_STORAGE_MODE }}" >> ./apps/billets-app/ios/fastlane/.env
+          echo "MATCH_TYPE=${{ secrets.MATCH_TYPE }}" >> ./apps/billets-app/ios/fastlane/.env
+          echo "BILLETS_APP_APPLE_BUNDLE_ID=${{ secrets.BILLETS_APP_APPLE_BUNDLE_ID }}" >> ./apps/billets-app/ios/fastlane/.env
+          echo "APP_STORE_CONNECT_API_KEY_ID=${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}" >> ./apps/billets-app/ios/fastlane/.env
+          echo "APP_STORE_CONNECT_API_ISSUER_ID=${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}" >> ./apps/billets-app/ios/fastlane/.env
+          echo "APP_STORE_CONNECT_API_KEY_FILEPATH=${{ secrets.APP_STORE_CONNECT_API_KEY_FILEPATH }}" >> ./apps/billets-app/ios/fastlane/.env
+
+      - name: Create Appstore Connect API Key File
+        run: |
+          echo ${{ secrets.APPSTORE_CONNECT_API_KEY_FILE }} > ${{ secrets.APP_STORE_CONNECT_API_KEY_FILEPATH }}
+          chmod 600 ${{ secrets.APP_STORE_CONNECT_API_KEY_FILEPATH }}
+        working-directory: ./apps/billets-app/ios
+
+      - name: Run fastlane beta
+        run: fastlane beta
+        working-directory: ./apps/billets-app/ios
