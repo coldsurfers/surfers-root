@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { semantics } from '../contexts/ColorSchemeProvider'
+import { semantics } from '../tokens'
 
 export const StyledTextInputContainer = styled.input`
   padding: 1rem;
