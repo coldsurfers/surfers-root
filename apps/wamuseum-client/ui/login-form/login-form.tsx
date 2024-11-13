@@ -1,4 +1,4 @@
-import { Button, TextInput } from '@coldsurfers/ocean-road'
+import { Button, Text, TextInput } from '@coldsurfers/ocean-road'
 import { forwardRef, useCallback, useImperativeHandle, useState } from 'react'
 import { View } from 'react-native'
 import { LoginFormRefHandle } from './login-form.types'
@@ -30,15 +30,15 @@ export const LoginForm = forwardRef<LoginFormRefHandle, Props>(
 
     return (
       <View>
-        {/* <Text
-          weight="bold"
+        <Text
           style={{
             fontSize: 18,
             marginBottom: 14,
+            fontWeight: 'bold',
           }}
         >
           {formTitle}
-        </Text> */}
+        </Text>
         <TextInput
           value={email}
           onChange={(event) => setEmail(event.target.value)}
