@@ -1,17 +1,19 @@
-import { useMutation } from '@apollo/client'
-import { AuthenticateEmailAuthRequestData } from '../gql/schema'
+import { MutationHookOptions, useMutation } from '@apollo/client'
 import { AuthenticateEmailAuthRequestMutation } from '../gql/mutations'
+import { AuthenticateEmailAuthRequestData } from '../gql/schema'
 
-export default function useAuthenticateEmailAuthRequestMutation() {
-  return useMutation<
-    {
-      authenticateEmailAuthRequest: AuthenticateEmailAuthRequestData
-    },
-    {
-      input: {
-        email: string
-        authcode: string
-      }
-    }
-  >(AuthenticateEmailAuthRequestMutation)
+type TData = {
+  authenticateEmailAuthRequest: AuthenticateEmailAuthRequestData
+}
+type TVariables = {
+  input: {
+    email: string
+    authcode: string
+  }
+}
+
+type Options = MutationHookOptions<TData, TVariables>
+
+export default function useAuthenticateEmailAuthRequestMutation(options?: Options) {
+  return useMutation<TData, TVariables>(AuthenticateEmailAuthRequestMutation, options)
 }

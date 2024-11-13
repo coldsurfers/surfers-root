@@ -1,7 +1,7 @@
 'use client'
 
 import { useMutation } from '@apollo/client'
-import { Button, colors } from '@coldsurfers/ocean-road'
+import { Button, colors, Spinner } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { usePathname, useRouter } from 'next/navigation'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
@@ -10,7 +10,6 @@ import { ME_QUERY } from '../gql/queries'
 import useMeQuery from '../hooks/useMeQuery'
 import { Mutation } from '../src/__generated__/graphql'
 import { authUtils } from '../utils'
-import Loader from './Loader'
 
 const Header = () => {
   const router = useRouter()
@@ -79,7 +78,7 @@ const Header = () => {
           </>
         )}
       </ButtonPositioner>
-      {showLoader && <Loader />}
+      {showLoader && <Spinner variant="page-overlay" />}
     </Wrapper>
   )
 }
