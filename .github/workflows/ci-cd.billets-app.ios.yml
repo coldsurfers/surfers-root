@@ -44,6 +44,14 @@ jobs:
           echo "$APPSTORE_CONNECT_API_KEY_FILE" > "$APP_STORE_CONNECT_API_KEY_FILEPATH"
         working-directory: ./apps/billets-app/ios
 
+      - name: Create Google Service Info plist file
+        env:
+          BILLETS_APP_IOS_GOOGLE_SERVICE_INFO_PLIST_FILE: ${{ secrets.BILLETS_APP_IOS_GOOGLE_SERVICE_INFO_PLIST_FILE }}
+          BILLETS_APP_IOS_GOOGLE_SERVICE_INFO_PLIST_FILEPATH: ${{ secrets.BILLETS_APP_IOS_GOOGLE_SERVICE_INFO_PLIST_FILEPATH }}
+        run: |
+          echo: "$BILLETS_APP_IOS_GOOGLE_SERVICE_INFO_PLIST_FILE" > "$BILLETS_APP_IOS_GOOGLE_SERVICE_INFO_PLIST_FILEPATH"
+        working-directory: ./apps/billets-app/ios
+
       - name: Run fastlane beta
         run: fastlane beta
         working-directory: ./apps/billets-app/ios
