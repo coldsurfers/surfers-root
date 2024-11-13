@@ -6,7 +6,7 @@ interface Props {
   children: React.ReactNode
 }
 
-export default function RegistryProvider(props: Props) {
+export function RegistryProvider(props: Props) {
   const { registries = [], children } = props
 
   return (
