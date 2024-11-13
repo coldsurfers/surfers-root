@@ -1,4 +1,4 @@
-type ActiveTab = 'techlog' | 'surflog' | 'main' | 'writers' | null
+type ActiveTab = 'techlog' | 'surflog' | 'writers' | null
 
 type UIStoreState = {
   activeTab: ActiveTab

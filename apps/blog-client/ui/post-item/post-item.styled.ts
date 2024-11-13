@@ -1,5 +1,4 @@
-import { Paragraph } from '@/ui/paragraph'
-import { media } from '@coldsurfers/ocean-road'
+import { media, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 
@@ -7,26 +6,21 @@ export const StyledPostItemContainer = styled.li`
   display: flex;
   flex-direction: row;
   align-items: center;
-  ${media.medium(css`
-    flex-direction: column;
-    align-items: flex-start;
-
-    margin-bottom: 2rem;
-  `)}
 `
 
 export const StyledPostSubContentContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  width: 12rem;
 
   ${media.medium(css`
     margin-left: auto;
-    margin-top: 1rem;
+    width: 10rem;
   `)}
 `
 
-export const StyledPostItemDateLocale = styled(Paragraph)`
+export const StyledPostItemDateLocale = styled(Text)`
   opacity: 0.65;
   margin: unset;
   ${media.medium(css`
@@ -54,7 +48,7 @@ export const StyledPostItemPostTitleContainer = styled.div`
   `)}
 `
 
-export const StyledPostItemTitleText = styled(Paragraph)`
+export const StyledPostItemTitleText = styled(Text)`
   font-size: 18px;
   font-weight: 500;
 
@@ -62,6 +56,7 @@ export const StyledPostItemTitleText = styled(Paragraph)`
 
   ${media.medium(css`
     font-size: 16px;
+    margin-right: 16px;
   `)}
 `
 
@@ -71,7 +66,7 @@ export const StyledPostItemWriterContainer = styled.div`
   margin-right: 12px;
 `
 
-export const StyledPostItemWriterText = styled(Paragraph)`
+export const StyledPostItemWriterText = styled(Text)`
   margin: unset;
   ${media.medium(css`
     font-size: 14px;

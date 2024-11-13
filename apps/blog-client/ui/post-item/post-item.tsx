@@ -26,7 +26,7 @@ export function PostItem(props: Awaited<ReturnType<typeof queryLogs>>[number]) {
     >
       <StyledPostItemContainer>
         <StyledPostItemPostTitleContainer>
-          <StyledPostItemTitleText>
+          <StyledPostItemTitleText numberOfLines={1}>
             <Text title={props.title} />
           </StyledPostItemTitleText>
         </StyledPostItemPostTitleContainer>
