@@ -1,7 +1,6 @@
 'use client'
 
-import { TextInput } from '@coldsurfers/hotsurf'
-import { Spinner, colors } from '@coldsurfers/ocean-road'
+import { colors, Spinner, TextInput } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { format } from 'date-fns'
@@ -224,9 +223,8 @@ export function RootPageClient() {
         <TextInput
           placeholder="페이지로 이동하기"
           value={jumpPage}
-          onChangeText={(text) => setJumpPage(text)}
+          onChange={(event) => setJumpPage(event.target.value)}
           onKeyPress={(e) => {
-            // @ts-ignore
             if (e.key !== 'Enter') {
               return
             }
