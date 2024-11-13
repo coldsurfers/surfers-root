@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { PropsWithChildren } from 'react'
 
 const Wrapper = styled.div<{ $fade: boolean }>`

@@ -2,8 +2,8 @@
 
 import { Modal } from '@coldsurfers/hotsurf'
 import { Button } from '@coldsurfers/ocean-road'
+import styled from '@emotion/styled'
 import { GestureResponderEvent } from 'react-native'
-import styled from 'styled-components'
 
 const ModalInner = styled.div`
   width: 350px;
