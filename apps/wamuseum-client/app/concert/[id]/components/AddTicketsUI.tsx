@@ -4,11 +4,11 @@ import AddButton from '@/ui/AddButton'
 import InputWithLabel from '@/ui/InputWithLabel'
 import Label from '@/ui/Label'
 import UploadFormDateInput from '@/ui/UploadFormDateInput'
-import { Button, Spinner } from '@coldsurfers/hotsurf'
+import { Button, Spinner } from '@coldsurfers/ocean-road'
+import styled from '@emotion/styled'
 import format from 'date-fns/format'
 import isValid from 'date-fns/isValid'
 import { useCallback, useState } from 'react'
-import styled from 'styled-components'
 import useCreateConcertTicket from '../mutations/useCreateConcertTicket'
 import { UseConcertTicketsDataT, UseConcertTicketsInputT, concertTicketsQuery } from '../queries/useConcertTickets'
 
@@ -127,8 +127,7 @@ const AddTicketsUI = ({ concertId }: { concertId: string }) => {
                 height: 10,
               }}
               color={'indigo'}
-              text={'﹢'}
-              onPress={() => {
+              onClick={() => {
                 const isValidOpenDate = isValid(parseDate(ticket.opendate))
                 if (!isValidOpenDate) {
                   alert('Invalid Ticket Open Date')
@@ -176,20 +175,23 @@ const AddTicketsUI = ({ concertId }: { concertId: string }) => {
                   },
                 })
               }}
-            />
+            >
+              ﹢
+            </Button>
             <Button
               style={{
                 width: 10,
                 height: 10,
               }}
-              text={'✘'}
               color={'pink'}
-              onPress={() => setAddTicketsForm((prev) => prev.filter((_, index) => index !== ticketIndex))}
-            />
+              onClick={() => setAddTicketsForm((prev) => prev.filter((_, index) => index !== ticketIndex))}
+            >
+              ✘
+            </Button>
           </div>
         </div>
       ))}
-      {loadingCreateConcertTicket ? <Spinner /> : null}
+      {loadingCreateConcertTicket ? <Spinner variant="page-overlay" /> : null}
     </>
   )
 }

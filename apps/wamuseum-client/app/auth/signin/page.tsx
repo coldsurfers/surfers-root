@@ -1,14 +1,15 @@
 'use client'
 
 import useLoginMutation from '@/hooks/useLoginMutation'
+import { LoginForm, type LoginFormRefHandle } from '@/ui'
 import Loader from '@/ui/Loader'
 import { authUtils } from '@/utils/utils.auth'
-import { LoginForm as LoginFormUI, Toast, type LoginFormRefHandle } from '@coldsurfers/hotsurf'
+import { Toast } from '@coldsurfers/ocean-road'
+import styled from '@emotion/styled'
+import { AnimatePresence } from 'framer-motion'
 import { ME_QUERY } from 'gql/queries'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { View } from 'react-native'
-import styled from 'styled-components'
 
 const FormLayout = styled.section`
   position: absolute;
@@ -32,8 +33,12 @@ const FormLayout = styled.section`
 const SignInPage = () => {
   const router = useRouter()
   const formRef = useRef<LoginFormRefHandle>(null)
-  const [mutate, { data, loading, client }] = useLoginMutation()
-  const [errorMessage, setErrorMessage] = useState<string>('')
+  const [mutate, { data, loading, client }] = useLoginMutation({
+    onError: () => {
+      setToastVisible(true)
+    },
+  })
+  const [toastVisible, setToastVisible] = useState(false)
 
   const login = useCallback(
     (params: { email: string; password: string }) =>
@@ -50,9 +55,6 @@ const SignInPage = () => {
     // eslint-disable-next-line no-shadow
     const { login } = data
     switch (login.__typename) {
-      case 'HttpError':
-        setErrorMessage(login.message)
-        break
       case 'UserWithAuthToken':
         authUtils.login(login.authToken).then(() => {
           client.refetchQueries({
@@ -84,21 +86,27 @@ const SignInPage = () => {
   return (
     <>
       <FormLayout>
-        <LoginFormUI
+        <LoginForm
           ref={formRef}
           onPressLoginButton={login}
           withRequestButtonUI
           onPressRequestButtonUI={useCallback(() => {
             router.push('/auth/request')
           }, [router])}
+          formTitle="WAMUSEUM"
         />
       </FormLayout>
       {loading && <Loader />}
-      {errorMessage && (
-        <View style={{ position: 'absolute', bottom: 20, left: 0, right: 0 }}>
-          <Toast type="error" message={errorMessage} onPress={() => setErrorMessage('')} />
-        </View>
-      )}
+      <AnimatePresence>
+        {toastVisible && (
+          <Toast
+            visible={toastVisible}
+            message={'Failed to login'}
+            onClose={() => setToastVisible(false)}
+            zIndex={99}
+          />
+        )}
+      </AnimatePresence>
     </>
   )
 }

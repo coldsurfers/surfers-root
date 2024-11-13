@@ -1,19 +1,19 @@
 'use client'
 
-import { Spinner, Text, TextInput, palette } from '@coldsurfers/hotsurf'
-import { useMemo, useState } from 'react'
+import { Spinner, Text, TextInput, colors } from '@coldsurfers/ocean-road'
+import styled from '@emotion/styled'
 import { useDebounce } from '@uidotdev/usehooks'
-import styled from 'styled-components'
-import useSearchConcertVenueQuery from '../queries/useSearchConcertVenueQuery'
+import { useMemo, useState } from 'react'
 import useCreateConcertVenue from '../mutations/useCreateConcertVenue'
 import { UseConcertVenuesDataT, UseConcertVenuesInputT, concertVenuesQuery } from '../queries/useConcertVenues'
+import useSearchConcertVenueQuery from '../queries/useSearchConcertVenueQuery'
 
 const SearchResultWrapper = styled.div`
   box-shadow:
     0 3px 6px rgba(0, 0, 0, 0.16),
     0 3px 6px rgba(0, 0, 0, 0.23);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  background-color: ${palette.white};
+  background-color: ${colors.oc.white.value};
   padding: 8px;
   margin: 4px;
 `
@@ -41,7 +41,7 @@ const SearchConcertVenueUI = ({ concertId }: { concertId: string }) => {
     <>
       <TextInput
         value={searchConcertVenueKeyword}
-        onChangeText={setSearchConcertVenueKeyword}
+        onChange={(event) => setSearchConcertVenueKeyword(event.target.value)}
         placeholder="아티스트 검색"
         style={{
           marginTop: 12,
@@ -97,7 +97,7 @@ const SearchConcertVenueUI = ({ concertId }: { concertId: string }) => {
                 })
               }}
               style={{
-                background: palette.white,
+                background: colors.oc.white.value,
                 cursor: 'pointer',
               }}
             >
@@ -106,7 +106,7 @@ const SearchConcertVenueUI = ({ concertId }: { concertId: string }) => {
           ))}
         </SearchResultWrapper>
       ) : null}
-      {loadingSearchConcertVenue ? <Spinner /> : null}
+      {loadingSearchConcertVenue ? <Spinner variant="page-overlay" /> : null}
     </>
   )
 }

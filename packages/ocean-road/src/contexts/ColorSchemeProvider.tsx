@@ -1,19 +1,13 @@
 import darkColorDesignTokens from '@coldsurfers/design-tokens/dist/json/color/variables-dark.json'
 import lightColorDesignTokens from '@coldsurfers/design-tokens/dist/json/color/variables-light.json'
-import colorDesignTokens from '@coldsurfers/design-tokens/dist/json/color/variables.json'
 import { Context, createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from 'react'
+import { colors, DarkColorDesignTokens, LightColorDesignTokens } from '../tokens'
 
 export type ColorScheme = 'light' | 'dark' | 'userPreference'
-
-export type ColorDesignTokens = typeof colorDesignTokens
-export type DarkColorDesignTokens = typeof darkColorDesignTokens
-export type LightColorDesignTokens = typeof lightColorDesignTokens
 
 export interface Theme extends DarkColorDesignTokens, LightColorDesignTokens {
   name: 'lightMode' | 'darkMode'
 }
-
-export const colors: ColorDesignTokens = colorDesignTokens
 
 export const lightModeTheme: Theme = {
   name: 'lightMode',

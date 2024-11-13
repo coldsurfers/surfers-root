@@ -1,11 +1,11 @@
+import { Button, Spinner, Text } from '@coldsurfers/ocean-road'
 import { useMemo } from 'react'
-import { Button, Spinner, Text } from '@coldsurfers/hotsurf'
+import useRemoveConcertTicket from '../mutations/useRemoveConcertTicket'
 import useConcertTickets, {
   UseConcertTicketsDataT,
   UseConcertTicketsInputT,
   concertTicketsQuery,
 } from '../queries/useConcertTickets'
-import useRemoveConcertTicket from '../mutations/useRemoveConcertTicket'
 
 const RegisteredTicketsUI = ({ concertId }: { concertId: string }) => {
   const { data: ticketsData } = useConcertTickets({
@@ -37,9 +37,8 @@ const RegisteredTicketsUI = ({ concertId }: { concertId: string }) => {
                 width: 10,
                 height: 10,
               }}
-              text={'✘'}
               color={'pink'}
-              onPress={() => {
+              onClick={() => {
                 mutateRemoveConcertTicket({
                   variables: {
                     input: {
@@ -78,11 +77,13 @@ const RegisteredTicketsUI = ({ concertId }: { concertId: string }) => {
                   },
                 })
               }}
-            />
+            >
+              ✘
+            </Button>
           </div>
         )
       })}
-      {loadingRemoveConcertTicket ? <Spinner /> : null}
+      {loadingRemoveConcertTicket ? <Spinner variant="page-overlay" /> : null}
     </>
   )
 }

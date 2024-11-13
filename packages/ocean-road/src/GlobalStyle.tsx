@@ -1,6 +1,5 @@
-import variables from '@coldsurfers/design-tokens/dist/js/color/semantic/variables'
-import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import { Global, css } from '@emotion/react'
+import { colors, semantics } from './tokens'
 
 export default function GlobalStyle() {
   return (
@@ -14,7 +13,7 @@ export default function GlobalStyle() {
 
         body {
           background-color: white;
-          color: ${variables.color.foreground[1]};
+          color: ${semantics.color.foreground[1]};
           white-space: pre-wrap;
         }
 
@@ -25,7 +24,7 @@ export default function GlobalStyle() {
         }
 
         a {
-          color: ${color.oc.blue[5].value};
+          color: ${colors.oc.blue[5].value};
           text-decoration: none;
         }
 

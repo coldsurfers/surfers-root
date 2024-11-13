@@ -1,5 +1,4 @@
-import variables from '@coldsurfers/design-tokens/dist/js/color/semantic/variables'
-import { Button } from '@coldsurfers/ocean-road'
+import { Button, semantics } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -13,7 +12,7 @@ const HeaderContainer = styled.div<{ $animation: 'show' | 'hide' }>`
   height: ${HEADER_HEIGHT};
   padding: 0 40px;
 
-  background-color: ${variables.color.background[2]};
+  background-color: ${semantics.color.background[2]};
   z-index: 99;
 
   position: fixed;
@@ -87,7 +86,7 @@ const ModalContainer = styled.div<{ $isOpen: boolean }>`
 `
 
 const ModalPaper = styled.div`
-  background: ${variables.color.background[2]};
+  background: ${semantics.color.background[2]};
   border-radius: 8px;
   padding: 20px;
   width: 90%;

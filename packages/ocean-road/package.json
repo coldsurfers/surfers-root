@@ -35,13 +35,13 @@
     "release:rc": "release-it --ci --preRelease=rc"
   },
   "dependencies": {
-    "@coldsurfers/design-tokens": "workspace:*",
-    "@emotion/native": "^11.11.0"
+    "@coldsurfers/design-tokens": "workspace:*"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.21.4",
     "@emotion/css": "*",
+    "@emotion/native": "*",
     "@emotion/react": "*",
     "@emotion/styled": "*",
     "@rollup/plugin-babel": "^6.0.3",
@@ -52,9 +52,11 @@
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
     "eslint": "*",
+    "framer-motion": "*",
     "prettier": "*",
     "react": "*",
     "react-dom": "*",
+    "react-spinners": "*",
     "release-it": "*",
     "rollup": "^3.20.7",
     "rollup-plugin-import-css": "^3.2.1",
@@ -63,10 +65,13 @@
   },
   "peerDependencies": {
     "@emotion/css": "*",
+    "@emotion/native": "*",
     "@emotion/react": "*",
     "@emotion/styled": "*",
+    "framer-motion": "*",
     "react": "*",
-    "react-dom": "*"
+    "react-dom": "*",
+    "react-spinners": "*"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"

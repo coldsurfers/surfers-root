@@ -1,7 +1,8 @@
 'use client'
 
 import { useGetLogsQuery } from '@/lib'
-import { PageLoadingSpinner, PostItem, PostListContainer } from '@/ui'
+import { PostItem, PostListContainer } from '@/ui'
+import { Spinner } from '@coldsurfers/ocean-road'
 import { AppLocale } from 'i18n/types'
 import { useMemo } from 'react'
 import { StyledTagDetailPageTitle } from './page.styled'
@@ -22,7 +23,7 @@ export const TagsTagPageClient = ({ locale, tag }: { locale: AppLocale; tag: str
   }, [surflogs, techlogs])
   const isLoading = isLoadingTechlogs || isLoadingSurflogs
   if (isLoading) {
-    return <PageLoadingSpinner />
+    return <Spinner variant="page-overlay" />
   }
   return (
     <>

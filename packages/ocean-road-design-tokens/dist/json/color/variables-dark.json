@@ -9,5 +9,6 @@
   "color-foreground-3": "#dee2e6",
   "color-foreground-4": "#ced4da",
   "color-border-1": "#495057",
-  "color-border-2": "#868e96"
+  "color-border-2": "#868e96",
+  "color-dimmed-1": "#495057"
 }

@@ -1,12 +1,12 @@
 'use client'
 
-import { Spinner, TextInput, palette } from '@coldsurfers/hotsurf'
+import { colors, Spinner, TextInput } from '@coldsurfers/ocean-road'
+import styled from '@emotion/styled'
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import styled from 'styled-components'
 import useConcertListQuery from '../hooks/useConcertListQuery'
 import { Concert } from '../src/__generated__/graphql'
 import { DEFAULT_LIMIT, DEFAULT_ORDER_BY_CREATED_AT, DEFAULT_PAGE } from '../utils/constants'
@@ -223,9 +223,8 @@ export function RootPageClient() {
         <TextInput
           placeholder="페이지로 이동하기"
           value={jumpPage}
-          onChangeText={(text) => setJumpPage(text)}
+          onChange={(event) => setJumpPage(event.target.value)}
           onKeyPress={(e) => {
-            // @ts-ignore
             if (e.key !== 'Enter') {
               return
             }
@@ -238,7 +237,7 @@ export function RootPageClient() {
           }}
         />
       </TableBottom>
-      {loadingConcertList && <Spinner />}
+      {loadingConcertList && <Spinner variant="page-overlay" />}
     </Wrapper>
   )
 }
@@ -252,7 +251,7 @@ const Wrapper = styled.div`
 
 const Table = styled.table`
   margin-top: 60px;
-  background-color: ${palette.white};
+  background-color: ${colors.oc.white.value};
   width: 90vw;
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.12),
@@ -263,17 +262,17 @@ const Table = styled.table`
 const Thead = styled.thead``
 const Tr = styled.tr`
   & + & {
-    border-top: 1px solid ${palette.yellow};
+    border-top: 1px solid ${colors.oc.yellow[5].value};
   }
 `
 const Th = styled.th`
   height: 50px;
   padding-left: 8px;
   padding-right: 8px;
-  border-bottom: 1px solid ${palette.yellow};
+  border-bottom: 1px solid ${colors.oc.yellow[5].value};
 
   & + & {
-    border-left: 1px solid ${palette.yellow};
+    border-left: 1px solid ${colors.oc.yellow[5].value};
   }
 `
 const Tbody = styled.tbody``
@@ -281,11 +280,11 @@ const Td = styled.td`
   height: 52px;
   padding-left: 8px;
   padding-right: 8px;
-  background-color: ${palette.white};
+  background-color: ${colors.oc.white.value};
   &:hover {
   }
   & + & {
-    border-left: 1px solid ${palette.yellow};
+    border-left: 1px solid ${colors.oc.yellow[5].value};
   }
   cursor: pointer;
 `

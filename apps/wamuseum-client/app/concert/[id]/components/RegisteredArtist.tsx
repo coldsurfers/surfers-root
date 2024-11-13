@@ -1,4 +1,4 @@
-import { Button, Text } from '@coldsurfers/hotsurf'
+import { Button, Text } from '@coldsurfers/ocean-road'
 import { Artist, ConcertArtistData } from '../../../../src/__generated__/graphql'
 import useRemoveConcertArtist from '../mutations/useRemoveConcertArtist'
 import { concertArtistsQuery } from '../queries/useConcertArtists'
@@ -14,9 +14,8 @@ const RegisteredArtist = ({ value, concertId }: { value: Artist; concertId: stri
           height: 10,
           marginLeft: 8,
         }}
-        text={'✘'}
         color={'pink'}
-        onPress={() => {
+        onClick={() => {
           mutateRemoveConcertArtist({
             variables: {
               input: {
@@ -63,7 +62,9 @@ const RegisteredArtist = ({ value, concertId }: { value: Artist; concertId: stri
             },
           })
         }}
-      />
+      >
+        ✘
+      </Button>
     </div>
   )
 }

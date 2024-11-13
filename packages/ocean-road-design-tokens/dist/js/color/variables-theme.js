@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Sat, 02 Nov 2024 05:39:26 GMT
+ * Generated on Wed, 13 Nov 2024 03:47:19 GMT
  */
 
 module.exports = {
@@ -261,6 +261,31 @@ module.exports = {
           "color",
           "border",
           "2"
+        ]
+      }
+    },
+    "dimmed": {
+      "1": {
+        "value": "#f1f3f5",
+        "darkValue": "#495057",
+        "comment": "dimmed color 1",
+        "filePath": "tokens/color/theme-alias.json",
+        "isSource": true,
+        "original": {
+          "value": "{oc.gray.1}",
+          "darkValue": "{oc.gray.7}",
+          "comment": "dimmed color 1"
+        },
+        "name": "ColorDimmed1",
+        "attributes": {
+          "category": "color",
+          "type": "dimmed",
+          "item": "1"
+        },
+        "path": [
+          "color",
+          "dimmed",
+          "1"
         ]
       }
     }

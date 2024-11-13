@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Sat, 02 Nov 2024 05:39:26 GMT
+ * Generated on Wed, 13 Nov 2024 03:47:19 GMT
  */
 
 export default tokens;
@@ -39,6 +39,9 @@ declare const tokens: {
     "border": {
       "1": DesignToken,
       "2": DesignToken
+    },
+    "dimmed": {
+      "1": DesignToken
     }
   }
 }

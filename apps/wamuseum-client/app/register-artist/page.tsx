@@ -4,10 +4,10 @@ import AddButton from '@/ui/AddButton'
 import InputWithLabel from '@/ui/InputWithLabel'
 import { presign, uploadToPresignedURL } from '@/utils/fetcher'
 import pickFile from '@/utils/pickFile'
-import { Button, Spinner, Text, palette } from '@coldsurfers/hotsurf'
+import { Button, Spinner, Text, colors } from '@coldsurfers/ocean-road'
+import styled from '@emotion/styled'
 import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
-import styled from 'styled-components'
 import useCreateArtist from './mutations/useCreateArtist'
 
 const HeadWrapper = styled.div`
@@ -79,20 +79,20 @@ const RegisterArtistPage = () => {
           {artistProfileImageUrl ? (
             <Button
               style={{ width: 10, height: 10, marginLeft: 'auto' }}
-              text={'✘'}
-              onPress={() => {
+              onClick={() => {
                 setArtistProfileImageUrl('')
               }}
-            />
+            >
+              ✘
+            </Button>
           ) : (
             <AddButton onPress={getThumbnail} />
           )}
         </HeadWrapper>
         {artistProfileImageUrl && <PosterThumbnail src={artistProfileImageUrl} />}
         <Button
-          text={'등록하기'}
-          style={{ marginTop: 10, backgroundColor: palette.black }}
-          onPress={() => {
+          style={{ marginTop: 10, backgroundColor: colors.oc.black.value }}
+          onClick={() => {
             mutate({
               variables: {
                 input: {
@@ -102,9 +102,11 @@ const RegisterArtistPage = () => {
               },
             })
           }}
-        />
+        >
+          등록하기
+        </Button>
       </Form>
-      {loading || uploadFileLoading ? <Spinner /> : null}
+      {loading || uploadFileLoading ? <Spinner variant="page-overlay" /> : null}
     </Wrapper>
   )
 }
@@ -127,7 +129,7 @@ const Form = styled.div`
 
   width: 900px;
 
-  background-color: ${palette.white};
+  background-color: ${colors.oc.white.value};
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.12),
     0 1px 2px rgba(0, 0, 0, 0.24);
