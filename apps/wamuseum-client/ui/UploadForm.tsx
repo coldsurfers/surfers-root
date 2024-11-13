@@ -1,4 +1,4 @@
-import { Button, palette, Spinner } from '@coldsurfers/hotsurf'
+import { Button, Spinner, colors } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { format, isValid } from 'date-fns'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -150,14 +150,14 @@ const UploadForm = () => {
         placeholder={'공연 일정'}
       />
       <Button
-        // text={existing ? '수정하기' : 'Next'}
-        text={'다음'}
         // disabled={!validation.validated}
-        style={{ marginTop: 10, backgroundColor: palette.black }}
+        style={{ marginTop: 10, backgroundColor: colors.oc.black.value }}
         // onPress={existing ? updateConcert : createConcert}
-        onPress={createConcert}
-      />
-      {createConcertLoading ? <Spinner /> : null}
+        onClick={createConcert}
+      >
+        다음
+      </Button>
+      {createConcertLoading ? <Spinner variant="page-overlay" /> : null}
     </Wrapper>
   )
 }
@@ -173,7 +173,7 @@ const Wrapper = styled.div`
 
   width: 900px;
 
-  background-color: ${palette.white};
+  background-color: ${colors.oc.white.value};
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.12),
     0 1px 2px rgba(0, 0, 0, 0.24);

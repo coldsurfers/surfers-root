@@ -1,5 +1,5 @@
-import { TextInput } from '@coldsurfers/hotsurf'
-import { useCallback } from 'react'
+import { TextInput } from '@coldsurfers/ocean-road'
+import { ChangeEventHandler, useCallback } from 'react'
 
 interface Props {
   value: string
@@ -8,17 +8,18 @@ interface Props {
 }
 
 const UploadFormDateInput = ({ value, onChangeText, placeholder }: Props) => {
-  const handleChangeText = useCallback(
-    (text: string) => {
-      const nextText = text
+  const handleChangeText = useCallback<ChangeEventHandler<HTMLInputElement>>(
+    (event) => {
+      const { value } = event.target
+      const nextText = value
       if (nextText.length > 10) {
         return
       }
-      onChangeText(text)
+      onChangeText(value)
     },
     [onChangeText],
   )
-  return <TextInput placeholder={placeholder} value={value} onChangeText={handleChangeText} />
+  return <TextInput placeholder={placeholder} value={value} onChange={handleChangeText} />
 }
 
 export default UploadFormDateInput

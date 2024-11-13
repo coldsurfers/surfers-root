@@ -3026,7 +3026,6 @@ __metadata:
   dependencies:
     "@coldsurfers/cloudinary-utils": "workspace:*"
     "@coldsurfers/design-tokens": "workspace:*"
-    "@coldsurfers/hotsurf": "workspace:*"
     "@coldsurfers/notion-utils": "workspace:*"
     "@coldsurfers/ocean-road": "workspace:*"
     "@coldsurfers/prisma-schema": "workspace:*"
@@ -3363,7 +3362,6 @@ __metadata:
   resolution: "@coldsurfers/wamuseum-client@workspace:apps/wamuseum-client"
   dependencies:
     "@apollo/client": "npm:^3.10.4"
-    "@coldsurfers/hotsurf": "workspace:*"
     "@coldsurfers/ocean-road": "workspace:*"
     "@coldsurfers/zod-schema": "workspace:*"
     "@emotion/css": "npm:*"
