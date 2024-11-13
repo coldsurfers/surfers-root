@@ -1,7 +1,7 @@
-import { Text } from '@coldsurfers/hotsurf'
+import { Text } from '@coldsurfers/ocean-road'
 import { PropsWithChildren, memo } from 'react'
 
-const Label = memo(({ children }: PropsWithChildren<{}>) => (
+const Label = memo(({ children }: PropsWithChildren) => (
   <Text style={{ marginBottom: 10, fontSize: 16 }}>{children}</Text>
 ))
 
