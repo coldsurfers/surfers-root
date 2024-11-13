@@ -55,7 +55,6 @@ StyleDictionary.registerFormat({
     const tokens = JSON.stringify(
       dictionary.tokens,
       (key, value) => {
-        console.log(value)
         if (value && value.value) {
           return `var(--${value.path.join('-')})` // CSS variable reference format
         }
