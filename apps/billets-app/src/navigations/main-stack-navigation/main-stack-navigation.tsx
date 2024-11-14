@@ -1,15 +1,15 @@
+import { AuthContext } from '@/lib/contexts/AuthContext'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { palette } from 'fstvllife-design-system'
 import React, { useContext } from 'react'
-import { AuthContext } from '../lib/contexts/AuthContext'
-import ConcertStackNavigation from './ConcertStackNavigation'
-import LoginStackNavigation from './LoginStackNavigation'
-import { MainStackNavigationParamList } from './MainStackNavigation.types'
-import MainTabNavigation from './MainTabNavigation'
+import ConcertStackNavigation from '../ConcertStackNavigation'
+import LoginStackNavigation from '../LoginStackNavigation'
+import MainTabNavigation from '../MainTabNavigation'
+import { MainStackNavigationParamList } from './main-stack-navigation.types'
 
 const MainStack = createNativeStackNavigator<MainStackNavigationParamList>()
 
-const MainStackNavigation = () => {
+export const MainStackNavigation = () => {
   const { user } = useContext(AuthContext)
   return (
     <MainStack.Navigator
@@ -38,5 +38,3 @@ const MainStackNavigation = () => {
     </MainStack.Navigator>
   )
 }
-
-export default MainStackNavigation

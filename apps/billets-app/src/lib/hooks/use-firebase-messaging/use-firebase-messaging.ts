@@ -1,7 +1,7 @@
 import messaging from '@react-native-firebase/messaging'
 import { useCallback, useEffect, useMemo } from 'react'
 
-function useFirebaseMessaging() {
+export function useFirebaseMessaging() {
   const requestPermission = useCallback(async () => {
     const status = await messaging().requestPermission()
     return status === messaging.AuthorizationStatus.PROVISIONAL || status === messaging.AuthorizationStatus.AUTHORIZED
@@ -43,5 +43,3 @@ function useFirebaseMessaging() {
     [requestPermission, getFCMToken],
   )
 }
-
-export default useFirebaseMessaging
