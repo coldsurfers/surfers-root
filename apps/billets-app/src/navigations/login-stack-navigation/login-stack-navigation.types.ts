@@ -1,7 +1,7 @@
 import { CompositeScreenProps } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { Screens } from '../../lib/navigations'
-import { EmailConfirmScreenParam } from '../../screens/EmailConfirmScreen.types'
+import { EmailConfirmScreenParam } from '../../screens/email-confirm-screen/email-confirm-screen.types'
 import { EmailLoginScreenParam } from '../../screens/EmailLoginScreen.type'
 import { EmailSignupScreenParam } from '../../screens/EmailSignupScreen.types'
 import { LoginSelectionScreenParam } from '../../screens/login-selection-screen/login-selection-screen.types'
