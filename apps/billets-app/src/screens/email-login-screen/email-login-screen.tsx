@@ -1,16 +1,12 @@
+import { AuthContext, ToastVisibleContext, ToastVisibleContextProvider } from '@/lib'
+import useSignInMutation from '@/lib/hooks/mutations/useSignInMutation'
 import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import { Button, IconButton, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { KeyboardAvoidingView, SafeAreaView, StyleSheet, View } from 'react-native'
-import { AuthContext } from '../lib/contexts/auth-context/auth-context'
-import {
-  ToastVisibleContext,
-  ToastVisibleContextProvider,
-} from '../lib/contexts/toast-visible-context/toast-visible-context'
-import useSignInMutation from '../lib/hooks/mutations/useSignInMutation'
-import { useEmailLoginScreenNavigation } from './EmailLoginScreen.hooks'
+import { useEmailLoginScreenNavigation } from './email-login-screen.hooks'
 
-const EmailLoginScreen = () => {
+export const EmailLoginScreen = () => {
   const { show } = useContext(ToastVisibleContext)
   const { login } = useContext(AuthContext)
   const { navigate, goBack } = useEmailLoginScreenNavigation()
@@ -87,27 +83,29 @@ const EmailLoginScreen = () => {
   // }, [isPendingSignIn, login, signInData]);
 
   return (
-    <SafeAreaView style={styles.wrapper}>
-      <IconButton icon="←" onPress={goBack} theme="transparentDarkGray" style={styles.backButton} />
-      <KeyboardAvoidingView style={styles.innerWrapper} behavior="padding">
-        <View style={styles.formWrapper}>
-          <TextInput placeholder="이메일" onChangeText={(text) => setEmail(text)} autoCapitalize="none" />
-          <TextInput
-            placeholder="비밀번호"
-            onChangeText={(text) => setPassword(text)}
-            secureTextEntry
-            style={styles.textInputSpace}
-          />
-          <Button onPress={onPressSignIn} style={styles.buttonSpace}>
-            로그인하기
-          </Button>
-          <Button theme="pink" onPress={onPressSignup} style={styles.buttonSpace}>
-            이메일로 가입하기
-          </Button>
-        </View>
-      </KeyboardAvoidingView>
-      {isPendingSignIn ? <Spinner /> : null}
-    </SafeAreaView>
+    <ToastVisibleContextProvider>
+      <SafeAreaView style={styles.wrapper}>
+        <IconButton icon="←" onPress={goBack} theme="transparentDarkGray" style={styles.backButton} />
+        <KeyboardAvoidingView style={styles.innerWrapper} behavior="padding">
+          <View style={styles.formWrapper}>
+            <TextInput placeholder="이메일" onChangeText={(text) => setEmail(text)} autoCapitalize="none" />
+            <TextInput
+              placeholder="비밀번호"
+              onChangeText={(text) => setPassword(text)}
+              secureTextEntry
+              style={styles.textInputSpace}
+            />
+            <Button onPress={onPressSignIn} style={styles.buttonSpace}>
+              로그인하기
+            </Button>
+            <Button theme="pink" onPress={onPressSignup} style={styles.buttonSpace}>
+              이메일로 가입하기
+            </Button>
+          </View>
+        </KeyboardAvoidingView>
+        {isPendingSignIn ? <Spinner /> : null}
+      </SafeAreaView>
+    </ToastVisibleContextProvider>
   )
 }
 
@@ -134,13 +132,3 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
 })
-
-const EmailLoginScreenWithToastProvider = () => {
-  return (
-    <ToastVisibleContextProvider>
-      <EmailLoginScreen />
-    </ToastVisibleContextProvider>
-  )
-}
-
-export default EmailLoginScreenWithToastProvider
