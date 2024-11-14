@@ -1,13 +1,13 @@
+import { ConcertDetailList, ConcertDetailSectionListSections } from '@/components/List/ConcertDetailList'
+import useConcertQuery from '@/lib/hooks/queries/useConcertQuery'
 import { colors } from '@coldsurfers/ocean-road'
 import { IconButton, Spinner } from '@coldsurfers/ocean-road/native'
 import format from 'date-fns/format'
 import React, { useMemo } from 'react'
 import { StatusBar, StyleSheet, View } from 'react-native'
-import { ConcertDetailList, ConcertDetailSectionListSections } from '../components/List/ConcertDetailList'
-import useConcertQuery from '../lib/hooks/queries/useConcertQuery'
-import { useConcertDetailScreenNavigation, useConcertDetailScreenRoute } from './ConcertDetailScreen.hooks'
+import { useConcertDetailScreenNavigation, useConcertDetailScreenRoute } from './concert-detail-screen.hooks'
 
-const ConcertDetailScreen = () => {
+export const ConcertDetailScreen = () => {
   const navigation = useConcertDetailScreenNavigation()
   const { params } = useConcertDetailScreenRoute()
   const { data, isLoading: isLoadingConcert } = useConcertQuery({
@@ -140,5 +140,3 @@ const styles = StyleSheet.create({
     top: 40,
   },
 })
-
-export default ConcertDetailScreen
