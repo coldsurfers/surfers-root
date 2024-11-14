@@ -4,7 +4,7 @@ import { Screens } from '../../lib/navigations'
 import { EmailConfirmScreenParam } from '../../screens/EmailConfirmScreen.types'
 import { EmailLoginScreenParam } from '../../screens/EmailLoginScreen.type'
 import { EmailSignupScreenParam } from '../../screens/EmailSignupScreen.types'
-import { LoginSelectionScreenParam } from '../../screens/LoginSelectionScreen.types'
+import { LoginSelectionScreenParam } from '../../screens/login-selection-screen/login-selection-screen.types'
 import { MainStackProp } from '../main-stack-navigation'
 
 export type LoginStackParam = {

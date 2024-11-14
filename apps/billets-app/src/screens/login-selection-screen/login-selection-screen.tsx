@@ -1,4 +1,5 @@
-import { AuthContext, GOOGLE_SIGNIN_OPTIONS, ToastVisibleContext, ToastVisibleContextProvider } from '@/lib'
+import { AuthContext, decodeJwt, GOOGLE_SIGNIN_OPTIONS, ToastVisibleContext, ToastVisibleContextProvider } from '@/lib'
+import useSignInMutation from '@/lib/hooks/mutations/useSignInMutation'
 import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, IconButton, Spinner } from '@coldsurfers/ocean-road/native'
@@ -7,9 +8,7 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import React, { useCallback, useContext } from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import decodeJwt from '../lib/decodeJwt'
-import useSignInMutation from '../lib/hooks/mutations/useSignInMutation'
-import { useLoginSelectionScreenNavigation } from './LoginSelectionScreen.hooks'
+import { useLoginSelectionScreenNavigation } from './login-selection-screen.hooks'
 
 const GOOGLE_COLOR = '#4284F3'
 
@@ -26,7 +25,7 @@ GoogleSignin.configure({
   profileImageSize: 120, // [iOS] The desired height (and width) of the profile image. Defaults to 120px
 })
 
-const LoginSelectionScreen = () => {
+export const LoginSelectionScreen = () => {
   const { show } = useContext(ToastVisibleContext)
   const { login } = useContext(AuthContext)
   const { goBack, navigate } = useLoginSelectionScreenNavigation()
@@ -125,7 +124,7 @@ const LoginSelectionScreen = () => {
   }, [mutateSignIn, show])
 
   return (
-    <>
+    <ToastVisibleContextProvider>
       <SafeAreaView edges={['bottom']} style={styles.wrapper}>
         <IconButton
           onPress={onPressBackButton}
@@ -172,7 +171,7 @@ const LoginSelectionScreen = () => {
         </View>
         {isPendingMutateSignIn ? <Spinner /> : null}
       </SafeAreaView>
-    </>
+    </ToastVisibleContextProvider>
   )
 }
 
@@ -198,13 +197,3 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
 })
-
-const LoginSelectionScreenWithToast = () => {
-  return (
-    <ToastVisibleContextProvider>
-      <LoginSelectionScreen />
-    </ToastVisibleContextProvider>
-  )
-}
-
-export default LoginSelectionScreenWithToast
