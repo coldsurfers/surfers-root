@@ -44,6 +44,22 @@ export function SubscribedConcertList({
     [horizontal, onPressItem],
   )
 
+  const onEndReached = useCallback(async () => {
+    if (horizontal) {
+      return
+    }
+    if (isFetchingNextPage || isLoading || !hasNextPage || isPending) {
+      return
+    }
+    await fetchNextPage()
+  }, [fetchNextPage, hasNextPage, horizontal, isFetchingNextPage, isLoading, isPending])
+
+  const onRefresh = useCallback(async () => {
+    setIsRefreshing(true)
+    await refetch()
+    setIsRefreshing(false)
+  }, [refetch])
+
   return (
     <FlatList
       horizontal={horizontal}
@@ -53,20 +69,8 @@ export function SubscribedConcertList({
       ItemSeparatorComponent={ItemSeparator}
       contentContainerStyle={styles.contentContainer}
       ListHeaderComponent={listHeaderComponent}
-      onEndReached={async () => {
-        if (horizontal) {
-          return
-        }
-        if (isFetchingNextPage || isLoading || !hasNextPage || isPending) {
-          return
-        }
-        await fetchNextPage()
-      }}
-      onRefresh={async () => {
-        setIsRefreshing(true)
-        await refetch()
-        setIsRefreshing(false)
-      }}
+      onEndReached={onEndReached}
+      onRefresh={onRefresh}
       refreshing={isRefreshing}
     />
   )
