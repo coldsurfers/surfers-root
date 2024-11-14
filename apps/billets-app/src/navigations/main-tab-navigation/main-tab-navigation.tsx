@@ -1,17 +1,17 @@
 import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react'
-import { TabBar } from '../components/TabBar'
-import { StackScreens } from '../lib/navigations'
-import HomeStackNavigation from './HomeStackNavigation'
-import { MainTabNavigationParamList } from './MainTabNavigation.types'
-import MyStackNavigation from './MyStackNavigation'
-import SearchStackNavigation from './SearchStackNavigation'
+import { TabBar } from '../../components/TabBar'
+import { StackScreens } from '../../lib/navigations'
+import { HomeStackNavigation } from '../home-stack-navigation'
+import { MyStackNavigation } from '../my-stack-navigation'
+import SearchStackNavigation from '../search-stack-navigation/search-stack-navigation'
+import { MainTabNavigationParamList } from './main-tab-navigation.types'
 
 const Tab = createBottomTabNavigator<MainTabNavigationParamList>()
 
 const renderTabBar = (props: BottomTabBarProps) => <TabBar {...props} />
 
-const MainTabNavigation = () => {
+export const MainTabNavigation = () => {
   return (
     <Tab.Navigator tabBar={renderTabBar}>
       <Tab.Screen
@@ -97,5 +97,3 @@ const MainTabNavigation = () => {
     </Tab.Navigator>
   )
 }
-
-export default MainTabNavigation

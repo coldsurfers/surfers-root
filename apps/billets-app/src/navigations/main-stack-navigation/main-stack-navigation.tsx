@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React, { useContext } from 'react'
 import { ConcertStackNavigation } from '../concert-stack-navigation'
 import { LoginStackNavigation } from '../login-stack-navigation'
-import MainTabNavigation from '../MainTabNavigation'
+import { MainTabNavigation } from '../main-tab-navigation'
 import { MainStackNavigationParamList } from './main-stack-navigation.types'
 
 const MainStack = createNativeStackNavigator<MainStackNavigationParamList>()

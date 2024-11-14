@@ -2,7 +2,7 @@ import { colors } from '@coldsurfers/ocean-road'
 import React from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
 import { Screens } from '../lib/navigations'
-import { MyStackProp } from '../navigations/MyStackNavigation.types'
+import { MyStackProp } from '../navigations/my-stack-navigation/my-stack-navigation.types'
 
 export type ArtistAddScreenParam = {
   [Screens.ArtistAddScreen]: {}

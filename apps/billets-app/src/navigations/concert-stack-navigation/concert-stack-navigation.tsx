@@ -1,6 +1,6 @@
+import { Screens } from '@/lib'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
-import { Screens } from '../../lib/navigations'
 import ConcertDetailScreen from '../../screens/ConcertDetailScreen'
 import { ConcertStackParam } from './concert-stack-navigation.types'
 
