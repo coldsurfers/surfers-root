@@ -1,4 +1,5 @@
 export * from './concert-detail-screen'
+export * from './concert-ticket-list-screen'
 export * from './email-confirm-screen'
 export * from './email-login-screen'
 export * from './email-signup-screen'
