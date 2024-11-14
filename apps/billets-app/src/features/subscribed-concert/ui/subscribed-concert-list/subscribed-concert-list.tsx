@@ -6,9 +6,24 @@ import { SubscribedConcertListItem } from '../subscribed-concert-list-item'
 
 const ItemSeparator = () => <View style={styles.itemSeparator} />
 
-export function SubscribedConcertList({ onPressItem }: { onPressItem: (concertId: string) => void }) {
+export function SubscribedConcertList({
+  onPressItem,
+  horizontal = true,
+  listHeaderComponent,
+}: {
+  onPressItem: (concertId: string) => void
+  horizontal?: boolean
+  listHeaderComponent?: React.ComponentType<unknown>
+}) {
   const { data: meData } = useGetMeQuery()
-  const { data: concertListData } = useSubscribedConcertListQuery({
+  const {
+    data: concertListData,
+    fetchNextPage,
+    isFetchingNextPage,
+    isLoading,
+    hasNextPage,
+    isPending,
+  } = useSubscribedConcertListQuery({
     enabled: !!meData,
   })
   const listData = useMemo(() => {
@@ -16,19 +31,35 @@ export function SubscribedConcertList({ onPressItem }: { onPressItem: (concertId
   }, [concertListData])
   const renderItem = useCallback<ListRenderItem<(typeof listData)[number]>>(
     (info) => {
-      return <SubscribedConcertListItem concertId={info.item.concertId} onPress={onPressItem} />
+      return (
+        <SubscribedConcertListItem
+          concertId={info.item.concertId}
+          onPress={onPressItem}
+          size={horizontal ? 'small' : 'large'}
+        />
+      )
     },
-    [onPressItem],
+    [horizontal, onPressItem],
   )
 
   return (
     <FlatList
-      horizontal
+      horizontal={horizontal}
       data={listData}
       keyExtractor={(item, index) => `${item.concertId}-${index}`}
       renderItem={renderItem}
       ItemSeparatorComponent={ItemSeparator}
       contentContainerStyle={styles.contentContainer}
+      ListHeaderComponent={listHeaderComponent}
+      onEndReached={async () => {
+        if (horizontal) {
+          return
+        }
+        if (isFetchingNextPage || isLoading || !hasNextPage || isPending) {
+          return
+        }
+        await fetchNextPage()
+      }}
     />
   )
 }
