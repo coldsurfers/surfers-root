@@ -1,8 +1,7 @@
 import { Screens } from '@/lib'
-import { EmailConfirmScreen, EmailLoginScreen, LoginSelectionScreen } from '@/screens'
+import { EmailConfirmScreen, EmailLoginScreen, EmailSignupScreen, LoginSelectionScreen } from '@/screens'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
-import EmailSignupScreen from '../../screens/EmailSignupScreen'
 import { LoginStackParam } from './login-stack-navigation.types'
 
 const LoginStack = createNativeStackNavigator<LoginStackParam>()

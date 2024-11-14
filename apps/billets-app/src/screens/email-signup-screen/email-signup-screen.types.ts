@@ -1,4 +1,4 @@
-import { LoginStackScreenProp } from '../navigations/login-stack-navigation/login-stack-navigation.types'
+import { LoginStackScreenProp } from '@/navigations'
 
 export type EmailSignupScreenParam = {
   //
