@@ -1,5 +1,5 @@
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { MyScreenProp } from './MyScreen.types'
+import { MyScreenProp } from './my-screen.types'
 
 export const useMyScreenNavigation = () => {
   return useNavigation<MyScreenProp['navigation']>()
