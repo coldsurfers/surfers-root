@@ -1,12 +1,12 @@
 import { useCallback, useMemo } from 'react'
 import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
-import useGetMeQuery from '../../../lib/react-query/queries/useGetMeQuery'
-import useSubscribedConcertListQuery from '../../../lib/react-query/queries/useSubscribedConcertListQuery'
-import SubscribedConcertListItem from './SubscribedConcertListItem'
+import useGetMeQuery from '../../../../lib/react-query/queries/useGetMeQuery'
+import useSubscribedConcertListQuery from '../../../../lib/react-query/queries/useSubscribedConcertListQuery'
+import { SubscribedConcertListItem } from '../subscribed-concert-list-item'
 
 const ItemSeparator = () => <View style={styles.itemSeparator} />
 
-export default function SubscribedConcertList({ onPressItem }: { onPressItem: (concertId: string) => void }) {
+export function SubscribedConcertList({ onPressItem }: { onPressItem: (concertId: string) => void }) {
   const { data: meData } = useGetMeQuery()
   const { data: concertListData } = useSubscribedConcertListQuery({
     enabled: !!meData,
