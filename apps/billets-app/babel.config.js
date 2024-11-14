@@ -16,6 +16,7 @@ module.exports = {
           '@/navigations': path.resolve(__dirname, './src/navigations'),
           '@/lib': path.resolve(__dirname, './src/lib'),
           '@/components': path.resolve(__dirname, './src/components'),
+          '@/ui': path.resolve(__dirname, './src/ui'),
         },
       },
     ],

@@ -1,8 +1,7 @@
 import { PropsWithChildren, useEffect } from 'react'
-import { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated'
-import Reanimated from 'react-native-reanimated'
+import Reanimated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 
-const AnimatePresence = ({ children }: PropsWithChildren) => {
+export const AnimatePresence = ({ children }: PropsWithChildren) => {
   const opacityValue = useSharedValue(0)
 
   const opacityStyles = useAnimatedStyle(
@@ -31,5 +30,3 @@ const AnimatePresence = ({ children }: PropsWithChildren) => {
 
   return <Reanimated.View style={[opacityStyles]}>{children}</Reanimated.View>
 }
-
-export default AnimatePresence
