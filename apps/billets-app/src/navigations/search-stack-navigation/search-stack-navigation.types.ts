@@ -1,5 +1,5 @@
 import { Screens } from '@/lib'
-import { SearchScreenParams } from '@/screens/SearchScreen.types'
+import { SearchScreenParams } from '@/screens/search-screen/search-screen.types'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { MainTabProp } from '../main-tab-navigation'

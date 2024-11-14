@@ -5,7 +5,7 @@ import commonStyles from '../../../lib/common-styles'
 import geolocationUtils from '../../../lib/geolocationUtils'
 import palettes from '../../../lib/palettes'
 import { useUserCurrentLocationStore } from '../../../lib/stores/userCurrentLocationStore'
-import { useHomeScreenNavigation } from '../../../screens/HomeScreen.hooks'
+import { useHomeScreenNavigation } from '../../../screens/home-screen/home-screen.hooks'
 
 const LocationSelectorModal = ({ visible, onPressBackground }: { visible: boolean; onPressBackground: () => void }) => {
   const navigation = useHomeScreenNavigation()
