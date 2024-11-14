@@ -74,7 +74,7 @@ export const ConcertTicketListScreen = () => {
                   onPress={() => {
                     Linking.openURL(info.item.url)
                   }}
-                  style={{ backgroundColor: colors.oc.cyan[6].value }}
+                  style={{ backgroundColor: colors.oc.cyan[8].value }}
                 >
                   <Text weight="medium" style={{ color: colors.oc.white.value }}>
                     구매하기 - {info.item.formattedPrice}
