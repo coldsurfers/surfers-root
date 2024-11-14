@@ -2,7 +2,10 @@ import { Button, IconButton, palette, Spinner, TextInput } from 'fstvllife-desig
 import React, { useCallback, useContext, useState } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
 import { AuthContext } from '../lib/contexts/auth-context/auth-context'
-import { ToastVisibleContext, ToastVisibleContextProvider } from '../lib/contexts/ToastVisibleContext'
+import {
+  ToastVisibleContext,
+  ToastVisibleContextProvider,
+} from '../lib/contexts/toast-visible-context/toast-visible-context'
 import useSignupEmailMutation from '../lib/hooks/mutations/useSignupEmailMutation'
 import useUpdateEmailConfirmMutation from '../lib/hooks/mutations/useUpdateEmailConfirmMutation'
 import palettes from '../lib/palettes'
