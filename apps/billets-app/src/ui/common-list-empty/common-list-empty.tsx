@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 
-export default function CommonListEmpty({ emptyText }: { emptyText: string }) {
+export function CommonListEmpty({ emptyText }: { emptyText: string }) {
   return (
     <View style={styles.emptyWrapper}>
       <Text style={styles.emptyDesc}>{emptyText}</Text>

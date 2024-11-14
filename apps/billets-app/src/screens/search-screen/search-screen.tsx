@@ -1,3 +1,4 @@
+import { CommonListEmpty } from '@/ui'
 import { Text, TextInput } from '@coldsurfers/ocean-road/native'
 import { useDebounce } from '@uidotdev/usehooks'
 import format from 'date-fns/format'
@@ -20,7 +21,6 @@ import SearchItemThumbnail from '../../features/search/ui/SearchItemThumbnail'
 import useConcertListQuery from '../../lib/react-query/queries/useConcertListQuery'
 import useSearchQuery from '../../lib/react-query/queries/useSearchQuery'
 import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocationStore'
-import CommonListEmpty from '../../ui/CommonListEmpty'
 import { useSearchScreenNavigation } from './search-screen.hooks'
 
 export const SearchScreen = () => {
