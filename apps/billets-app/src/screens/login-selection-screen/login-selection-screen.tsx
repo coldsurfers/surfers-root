@@ -1,5 +1,5 @@
 import { AuthContext, decodeJwt, GOOGLE_SIGNIN_OPTIONS, ToastVisibleContext, ToastVisibleContextProvider } from '@/lib'
-import useSignInMutation from '@/lib/hooks/mutations/useSignInMutation'
+import useSignInMutation from '@/lib/react-query/mutations/useSignInMutation'
 import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, IconButton, Spinner } from '@coldsurfers/ocean-road/native'

@@ -1,5 +1,5 @@
 import { ToastVisibleContext, ToastVisibleContextProvider, validateEmail } from '@/lib'
-import useSendEmailConfirmMutation from '@/lib/hooks/mutations/useSendEmailConfirmMutation'
+import useSendEmailConfirmMutation from '@/lib/react-query/mutations/useSendEmailConfirmMutation'
 import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import { Button, IconButton, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useState } from 'react'
