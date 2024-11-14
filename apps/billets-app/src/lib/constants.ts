@@ -1,7 +1,8 @@
+import { Dimensions } from 'react-native'
 import Config from 'react-native-config'
 
 export const TAB_BAR_HEIGHT = 75
-export const CONCERT_DETAIL_LIST_HEADER_HEIGHT = 350
+export const CONCERT_DETAIL_LIST_HEADER_HEIGHT = Dimensions.get('screen').height / 2
 
 export const GOOGLE_SIGNIN_OPTIONS = {
   webClientId: Config.GOOGLE_SIGNIN_WEB_CLIENT_ID ?? '',
