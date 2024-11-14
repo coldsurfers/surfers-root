@@ -2,7 +2,7 @@ import { CONCERT_DETAIL_LIST_HEADER_HEIGHT } from '@/lib'
 import React, { ReactElement, ReactNode, useCallback } from 'react'
 import { Animated, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import HeaderItem from '../../../../components/List/ConcertDetailList/HeaderItem'
+import { ConcertDetailSectionListHeaderItem } from '../concert-detail-section-list-header-item'
 import {
   ConcertDetailSectionListDateItemProps,
   ConcertDetailSectionListItem,
@@ -49,10 +49,10 @@ export const ConcertDetailSectionList = ({
         case 'price-info':
         case 'ticket-seller':
         case 'ticket-open-date':
-          children = sectionHeaderTitle ? <HeaderItem title={sectionHeaderTitle} /> : null
+          children = sectionHeaderTitle ? <ConcertDetailSectionListHeaderItem title={sectionHeaderTitle} /> : null
           break
         case 'html':
-          children = <HeaderItem title="종합 정보" />
+          children = <ConcertDetailSectionListHeaderItem title="종합 정보" />
           break
         default:
           children = null
