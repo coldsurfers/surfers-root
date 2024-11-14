@@ -1,4 +1,4 @@
-import { MyStackProp } from '../navigations/MyStackNavigation.types'
+import { MyStackProp } from '../navigations/my-stack-navigation/my-stack-navigation.types'
 
 export type MyScreenParam = {
   //

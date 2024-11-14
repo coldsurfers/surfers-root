@@ -2,7 +2,10 @@ import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import { Button, IconButton, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useState } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
-import { ToastVisibleContext, ToastVisibleContextProvider } from '../lib/contexts/ToastVisibleContext'
+import {
+  ToastVisibleContext,
+  ToastVisibleContextProvider,
+} from '../lib/contexts/toast-visible-context/toast-visible-context'
 import useSendEmailConfirmMutation from '../lib/hooks/mutations/useSendEmailConfirmMutation'
 import validateEmail from '../lib/validateEmail'
 import { useEmailSignupScreenNavigation } from './EmailSignupScreen.hooks'

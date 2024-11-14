@@ -1,4 +1,5 @@
-import { palette, Text } from 'fstvllife-design-system'
+import { colors } from '@coldsurfers/ocean-road'
+import { Text } from '@coldsurfers/ocean-road/native'
 import React, { memo } from 'react'
 import { StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle } from 'react-native'
 import FastImage from 'react-native-fast-image'
@@ -32,7 +33,7 @@ const FullGigNewsItem = ({ onPress, wrapperStyles, thumbnailURI, titleText, date
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: palette.white,
+    backgroundColor: colors.oc.white.value,
     padding: 10,
     borderRadius: 3,
     flexDirection: 'row',

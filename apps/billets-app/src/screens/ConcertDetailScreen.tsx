@@ -1,5 +1,6 @@
+import { colors } from '@coldsurfers/ocean-road'
+import { IconButton, Spinner } from '@coldsurfers/ocean-road/native'
 import format from 'date-fns/format'
-import { IconButton, palette, Spinner } from 'fstvllife-design-system'
 import React, { useMemo } from 'react'
 import { StatusBar, StyleSheet, View } from 'react-native'
 import { ConcertDetailList, ConcertDetailSectionListSections } from '../components/List/ConcertDetailList'
@@ -118,7 +119,7 @@ const ConcertDetailScreen = () => {
         <ConcertDetailList sections={sections} thumbnails={data?.posters?.map((thumb) => thumb.imageUrl) ?? []} />
         <IconButton
           icon="←"
-          color="transparentDarkGray"
+          theme="transparentDarkGray"
           onPress={navigation.goBack}
           style={styles.backButtonPosition}
         />
@@ -131,7 +132,7 @@ const ConcertDetailScreen = () => {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: palette.white,
+    backgroundColor: colors.oc.white.value,
   },
   backButtonPosition: {
     position: 'absolute',
