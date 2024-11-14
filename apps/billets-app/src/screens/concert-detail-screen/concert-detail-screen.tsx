@@ -125,7 +125,16 @@ export const ConcertDetailScreen = () => {
           thumbnails={data?.posters?.map((thumb) => thumb.imageUrl) ?? []}
         />
         <View style={[styles.fixedBottom, { paddingBottom: bottomInset }]}>
-          <Button style={{ backgroundColor: colors.oc.cyan[8].value }}>🎫 티켓 구매하기 🎫</Button>
+          <Button
+            onPress={() => {
+              navigation.navigate('ConcertTicketListScreen', {
+                concertId: params.concertId,
+              })
+            }}
+            style={{ backgroundColor: colors.oc.cyan[8].value }}
+          >
+            🎫 티켓 구매하기 🎫
+          </Button>
         </View>
         <CommonBackIconButton top={40} onPress={() => navigation.goBack()} />
 
