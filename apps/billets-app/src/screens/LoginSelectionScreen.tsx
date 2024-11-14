@@ -1,8 +1,9 @@
 import { AuthContext, GOOGLE_SIGNIN_OPTIONS, ToastVisibleContext, ToastVisibleContextProvider } from '@/lib'
 import color from '@coldsurfers/design-tokens/dist/js/color/variables'
+import { colors } from '@coldsurfers/ocean-road'
+import { Button, IconButton, Spinner } from '@coldsurfers/ocean-road/native'
 import appleAuth from '@invertase/react-native-apple-authentication'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
-import { Button, IconButton, Spinner, palette } from 'fstvllife-design-system'
 import React, { useCallback, useContext } from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -128,13 +129,12 @@ const LoginSelectionScreen = () => {
       <SafeAreaView edges={['bottom']} style={styles.wrapper}>
         <IconButton
           onPress={onPressBackButton}
-          color="transparentDarkGray"
+          theme="transparentDarkGray"
           icon="✘"
           style={styles.closeButtonPosition}
         />
         <View style={styles.loginBox}>
           <Button
-            text="이메일로 계속하기"
             style={[
               styles.loginButton,
               {
@@ -142,21 +142,23 @@ const LoginSelectionScreen = () => {
               },
             ]}
             onPress={onPressEmailLogin}
-          />
+          >
+            이메일로 계속하기
+          </Button>
           {Platform.OS === 'ios' && (
             <Button
-              text="   Apple로 계속하기"
               style={[
                 styles.loginButton,
                 {
-                  backgroundColor: palette.black,
+                  backgroundColor: colors.oc.black.value,
                 },
               ]}
               onPress={onPressAppleLogin}
-            />
+            >
+               Apple로 계속하기
+            </Button>
           )}
           <Button
-            text="Google로 계속하기"
             style={[
               styles.loginButton,
               {
@@ -164,7 +166,9 @@ const LoginSelectionScreen = () => {
               },
             ]}
             onPress={onPressGoogleLogin}
-          />
+          >
+            Google로 계속하기
+          </Button>
         </View>
         {isPendingMutateSignIn ? <Spinner /> : null}
       </SafeAreaView>
@@ -175,7 +179,7 @@ const LoginSelectionScreen = () => {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: palette.white,
+    backgroundColor: colors.oc.white.value,
     alignItems: 'center',
     justifyContent: 'center',
   },
