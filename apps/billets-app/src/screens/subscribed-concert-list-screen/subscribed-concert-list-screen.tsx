@@ -1,5 +1,10 @@
+import { SubscribedConcertList } from '@/features'
 import { CommonScreenLayout } from '@/ui'
 
 export const SubscribedConcertListScreen = () => {
-  return <CommonScreenLayout></CommonScreenLayout>
+  return (
+    <CommonScreenLayout>
+      <SubscribedConcertList onPressItem={() => {}} />
+    </CommonScreenLayout>
+  )
 }
