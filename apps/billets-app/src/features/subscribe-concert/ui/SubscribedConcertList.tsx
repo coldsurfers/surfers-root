@@ -1,5 +1,5 @@
-import { useMemo } from 'react'
-import { FlatList, StyleSheet, View } from 'react-native'
+import { useCallback, useMemo } from 'react'
+import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
 import useGetMeQuery from '../../../lib/react-query/queries/useGetMeQuery'
 import useSubscribedConcertListQuery from '../../../lib/react-query/queries/useSubscribedConcertListQuery'
 import SubscribedConcertListItem from './SubscribedConcertListItem'
@@ -14,15 +14,19 @@ export default function SubscribedConcertList({ onPressItem }: { onPressItem: (c
   const listData = useMemo(() => {
     return concertListData?.pages.flatMap((page) => page).filter((v) => !!v) ?? []
   }, [concertListData])
+  const renderItem = useCallback<ListRenderItem<(typeof listData)[number]>>(
+    (info) => {
+      return <SubscribedConcertListItem concertId={info.item.concertId} onPress={onPressItem} />
+    },
+    [onPressItem],
+  )
 
   return (
     <FlatList
       horizontal
       data={listData}
       keyExtractor={(item, index) => `${item.concertId}-${index}`}
-      renderItem={(info) => {
-        return <SubscribedConcertListItem concertId={info.item.concertId} onPress={onPressItem} />
-      }}
+      renderItem={renderItem}
       ItemSeparatorComponent={ItemSeparator}
       contentContainerStyle={styles.contentContainer}
     />
