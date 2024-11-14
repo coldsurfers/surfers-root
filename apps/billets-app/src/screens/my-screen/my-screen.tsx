@@ -4,10 +4,10 @@ import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Alert, Pressable, SectionList, SectionListData, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { match } from 'ts-pattern'
-import SubscribedConcertList from '../features/subscribe-concert/ui/SubscribedConcertList'
-import { AuthContext } from '../lib/contexts/auth-context/auth-context'
-import palettes from '../lib/palettes'
-import { useMyScreenNavigation } from './MyScreen.hooks'
+import SubscribedConcertList from '../../features/subscribe-concert/ui/SubscribedConcertList'
+import { AuthContext } from '../../lib/contexts/auth-context/auth-context'
+import palettes from '../../lib/palettes'
+import { useMyScreenNavigation } from './my-screen.hooks'
 
 const ListHeaderComponent = () => {
   return (
@@ -17,7 +17,7 @@ const ListHeaderComponent = () => {
   )
 }
 
-const MyScreen = () => {
+export const MyScreen = () => {
   const navigation = useMyScreenNavigation()
   const { user, logout, isLoading } = useContext(AuthContext)
   const [settingSections, setSettingSections] = useState<
@@ -249,5 +249,3 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
 })
-
-export default MyScreen
