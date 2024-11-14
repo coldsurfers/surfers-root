@@ -5,6 +5,7 @@ import React, { useContext } from 'react'
 import { ConcertStackNavigation } from '../concert-stack-navigation'
 import { LoginStackNavigation } from '../login-stack-navigation'
 import { MainTabNavigation } from '../main-tab-navigation'
+import { SubscribedStackNavigation } from '../subscribed-stack-navigation'
 import { MainStackNavigationParamList } from './main-stack-navigation.types'
 
 const MainStack = createNativeStackNavigator<MainStackNavigationParamList>()
@@ -35,6 +36,15 @@ export const MainStackNavigation = () => {
           options={{ presentation: 'fullScreenModal' }}
         />
       )}
+      {user ? (
+        <MainStack.Screen
+          name="SubscribedStackScreen"
+          component={SubscribedStackNavigation}
+          options={{
+            presentation: 'card',
+          }}
+        />
+      ) : null}
     </MainStack.Navigator>
   )
 }

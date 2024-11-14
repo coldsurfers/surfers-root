@@ -1,13 +1,15 @@
+import { SubscribedConcertList } from '@/features'
+import { Screens } from '@/lib'
+import { CommonScreenLayout } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner, Text } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { Alert, Pressable, SectionList, SectionListData, SectionListRenderItem, StyleSheet, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { Alert, Pressable, SectionList, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import { match } from 'ts-pattern'
-import SubscribedConcertList from '../../features/subscribe-concert/ui/SubscribedConcertList'
 import { AuthContext } from '../../lib/contexts/auth-context/auth-context'
 import palettes from '../../lib/palettes'
 import { useMyScreenNavigation } from './my-screen.hooks'
+import { MyScreenSettingSectionListData, MyScreenSettingSectionListSectionT } from './my-screen.types'
 
 const ListHeaderComponent = () => {
   return (
@@ -20,20 +22,7 @@ const ListHeaderComponent = () => {
 export const MyScreen = () => {
   const navigation = useMyScreenNavigation()
   const { user, logout, isLoading } = useContext(AuthContext)
-  const [settingSections, setSettingSections] = useState<
-    Array<
-      SectionListData<
-        {
-          title: string
-          onPress: () => void
-        },
-        {
-          title: 'profile' | 'account' | 'saved'
-          uiTitle: string
-        }
-      >
-    >
-  >([])
+  const [settingSections, setSettingSections] = useState<Array<MyScreenSettingSectionListData>>([])
   const onPressLoginButton = useCallback(() => {
     navigation.navigate('LoginStackScreen', {
       screen: 'LoginSelectionScreen',
@@ -50,10 +39,15 @@ export const MyScreen = () => {
     [navigation],
   )
 
-  const renderSectionHeader = useCallback((info: { section: { title: string; uiTitle: string } }) => {
+  const renderSectionHeader = useCallback((info: { section: MyScreenSettingSectionListSectionT }) => {
     return (
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionHeaderText}>{info.section.uiTitle}</Text>
+        {info.section.moreAddOn && (
+          <Pressable onPress={info.section.moreAddOn.onPress} style={styles.sectionHeaderMoreAddOnButton}>
+            <Text style={styles.sectionHeaderMoreAddOnButtonText}>{info.section.moreAddOn.uiText}</Text>
+          </Pressable>
+        )}
       </View>
     )
   }, [])
@@ -112,6 +106,15 @@ export const MyScreen = () => {
       {
         title: 'saved',
         uiTitle: '❣️ 찜한 공연',
+        moreAddOn: {
+          uiText: '더 보기',
+          onPress: () => {
+            navigation.navigate('SubscribedStackScreen', {
+              screen: Screens.SubscribedConcertListScreen,
+              params: {},
+            })
+          },
+        },
         data: [{ title: user.email.split('@')[0], onPress: () => {} }],
       },
       {
@@ -154,7 +157,7 @@ export const MyScreen = () => {
   }
 
   return user ? (
-    <SafeAreaView edges={['top']} style={styles.settingWrapper}>
+    <CommonScreenLayout>
       <SectionList
         contentContainerStyle={styles.sectionListContentContainer}
         style={styles.sectionList}
@@ -164,9 +167,9 @@ export const MyScreen = () => {
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
       />
-    </SafeAreaView>
+    </CommonScreenLayout>
   ) : (
-    <View style={styles.wrapper}>
+    <CommonScreenLayout style={styles.wrapper}>
       <Text weight="bold" style={styles.loginText}>
         {`🎉\n예정된 많은\n공연을\n놓치지 마세요`}
       </Text>
@@ -174,20 +177,16 @@ export const MyScreen = () => {
       <Button style={styles.loginButton} onPress={onPressLoginButton}>
         로그인 / 회원가입
       </Button>
-    </View>
+    </CommonScreenLayout>
   )
 }
 
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: palettes.gray['100'],
+    backgroundColor: colors.oc.gray[1].value,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  settingWrapper: {
-    flex: 1,
-    backgroundColor: palettes.gray['100'],
   },
   loginButtonTitle: {
     color: colors.oc.white.value,
@@ -195,7 +194,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   sectionListContentContainer: {
-    backgroundColor: palettes.gray['100'],
+    backgroundColor: colors.oc.gray[1].value,
     flexGrow: 1,
   },
   listHeader: {
@@ -207,7 +206,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   itemText: { fontWeight: '700', fontSize: 18 },
-  sectionList: { backgroundColor: palettes.gray['100'] },
+  sectionList: { backgroundColor: colors.oc.gray[1].value },
   loginButton: {
     backgroundColor: palettes.lightblue[500],
     marginTop: 16,
@@ -229,7 +228,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: palettes.gray['300'],
+    backgroundColor: colors.oc.gray[3].value,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -238,7 +237,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   accountItem: {
-    backgroundColor: palettes.gray['600'],
+    backgroundColor: colors.oc.gray[6].value,
   },
   profileItemThumbnailText: {
     fontSize: 18,
@@ -247,5 +246,14 @@ const styles = StyleSheet.create({
   sectionHeader: {
     paddingVertical: 8,
     paddingHorizontal: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  sectionHeaderMoreAddOnButton: {
+    marginLeft: 'auto',
+  },
+  sectionHeaderMoreAddOnButtonText: {
+    fontWeight: 'bold',
+    fontSize: 12,
   },
 })
