@@ -3,7 +3,7 @@ import { NavigatorScreenParams } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { ConcertStackParam } from '../concert-stack-navigation'
 import { LoginStackParam } from '../login-stack-navigation/login-stack-navigation.types'
-import { MainTabNavigationParamList } from '../MainTabNavigation.types'
+import { MainTabNavigationParamList } from '../main-tab-navigation/main-tab-navigation.types'
 
 export type MainStackNavigationParamList = {
   [TabScreens.MainTabScreen]: NavigatorScreenParams<MainTabNavigationParamList>

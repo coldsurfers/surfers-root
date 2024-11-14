@@ -1,8 +1,8 @@
 import { CompositeScreenProps } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { Screens } from '../lib/navigations'
-import { HomeScreenParams } from '../screens/HomeScreen.types'
-import { MainTabProp } from './MainTabNavigation.types'
+import { Screens } from '../../lib/navigations'
+import { HomeScreenParams } from '../../screens/HomeScreen.types'
+import { MainTabProp } from '../main-tab-navigation/main-tab-navigation.types'
 
 export type HomeStackParam = {
   [Screens.HomeScreen]: HomeScreenParams

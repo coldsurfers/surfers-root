@@ -1,12 +1,12 @@
-import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import MyScreen from '../screens/MyScreen'
-import ArtistAddScreen from '../screens/ArtistAddScreen'
-import { MyStackParam } from './MyStackNavigation.types'
+import React from 'react'
+import ArtistAddScreen from '../../screens/ArtistAddScreen'
+import MyScreen from '../../screens/MyScreen'
+import { MyStackParam } from './my-stack-navigation.types'
 
 const Stack = createNativeStackNavigator<MyStackParam>()
 
-const MyStackNavigation = () => {
+export const MyStackNavigation = () => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -18,5 +18,3 @@ const MyStackNavigation = () => {
     </Stack.Navigator>
   )
 }
-
-export default MyStackNavigation

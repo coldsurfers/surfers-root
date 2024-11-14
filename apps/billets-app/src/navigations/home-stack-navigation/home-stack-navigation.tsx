@@ -1,12 +1,12 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
-import HomeScreen from '../screens/HomeScreen'
-import LocationSelectionScreen from '../screens/LocationSelectionScreen'
-import { HomeStackParam } from './HomeStackNavigation.types'
+import HomeScreen from '../../screens/HomeScreen'
+import LocationSelectionScreen from '../../screens/LocationSelectionScreen'
+import { HomeStackParam } from './home-stack-navigation.types'
 
 const HomeStack = createNativeStackNavigator<HomeStackParam>()
 
-const HomeStackNavigation = () => {
+export const HomeStackNavigation = () => {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
@@ -27,5 +27,3 @@ const HomeStackNavigation = () => {
     </HomeStack.Navigator>
   )
 }
-
-export default HomeStackNavigation

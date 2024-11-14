@@ -1,4 +1,4 @@
-import { SearchStackProp } from '../navigations/SearchStackNavigation'
+import { SearchStackProp } from '@/navigations'
 
 export type SearchScreenParams = {
   //
