@@ -1,9 +1,9 @@
-import { AuthContext } from '@/lib/contexts/AuthContext'
+import { AuthContext } from '@/lib'
+import { ConcertStackNavigation } from '@/navigations'
+import { colors } from '@coldsurfers/ocean-road'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { palette } from 'fstvllife-design-system'
 import React, { useContext } from 'react'
-import ConcertStackNavigation from '../ConcertStackNavigation'
-import LoginStackNavigation from '../LoginStackNavigation'
+import { LoginStackNavigation } from '../login-stack-navigation'
 import MainTabNavigation from '../MainTabNavigation'
 import { MainStackNavigationParamList } from './main-stack-navigation.types'
 
@@ -16,7 +16,7 @@ export const MainStackNavigation = () => {
       screenOptions={{
         header: () => null,
         contentStyle: {
-          backgroundColor: palette.white,
+          backgroundColor: colors.oc.white.value,
         },
       }}
     >
