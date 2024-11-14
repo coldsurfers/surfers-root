@@ -1,6 +1,6 @@
-import { Text } from 'fstvllife-design-system'
+import { Text } from '@coldsurfers/ocean-road/native'
 import React, { memo } from 'react'
-import { Pressable, StyleProp, ViewStyle, StyleSheet, useWindowDimensions } from 'react-native'
+import { Pressable, StyleProp, StyleSheet, useWindowDimensions, ViewStyle } from 'react-native'
 import FastImage from 'react-native-fast-image'
 
 interface Props {

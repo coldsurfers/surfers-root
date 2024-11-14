@@ -1,4 +1,4 @@
-import { Text } from 'fstvllife-design-system'
+import { Text } from '@coldsurfers/ocean-road/native'
 import React, { memo, useCallback } from 'react'
 import { Linking, StyleSheet, TouchableOpacity } from 'react-native'
 import { ConcertDetailTicketSellerSectionData } from '../types'

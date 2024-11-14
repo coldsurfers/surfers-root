@@ -1,4 +1,5 @@
-import { Text, palette } from 'fstvllife-design-system'
+import { colors } from '@coldsurfers/ocean-road'
+import { Text } from '@coldsurfers/ocean-road/native'
 import React, { memo } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     paddingRight: 8,
     paddingLeft: 8,
-    backgroundColor: palette.white,
+    backgroundColor: colors.oc.white.value,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -34,9 +35,9 @@ const styles = StyleSheet.create({
   sectionMoreTitle: {
     fontSize: 12,
     fontWeight: '600',
-    color: palette.black,
+    color: colors.oc.black.value,
   },
-  sectionTitle: { color: palette.pink, fontWeight: '700' },
+  sectionTitle: { color: colors.oc.pink[5].value, fontWeight: '700' },
 })
 
 export default memo(GigNewsCollectionList)
