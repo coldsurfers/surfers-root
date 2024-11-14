@@ -1,7 +1,8 @@
 import { ConcertDetailSectionList, ConcertDetailSectionListSections } from '@/features'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
+import { CommonBackIconButton } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
-import { IconButton, Spinner } from '@coldsurfers/ocean-road/native'
+import { Spinner } from '@coldsurfers/ocean-road/native'
 import format from 'date-fns/format'
 import React, { useMemo } from 'react'
 import { StatusBar, StyleSheet, View } from 'react-native'
@@ -120,12 +121,8 @@ export const ConcertDetailScreen = () => {
           sections={sections}
           thumbnails={data?.posters?.map((thumb) => thumb.imageUrl) ?? []}
         />
-        <IconButton
-          icon="←"
-          theme="transparentDarkGray"
-          onPress={navigation.goBack}
-          style={styles.backButtonPosition}
-        />
+        <CommonBackIconButton top={40} onPress={() => navigation.goBack()} />
+
         {isLoadingConcert ? <Spinner /> : null}
       </View>
     </>
@@ -136,10 +133,5 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: colors.oc.white.value,
-  },
-  backButtonPosition: {
-    position: 'absolute',
-    left: 15,
-    top: 40,
   },
 })

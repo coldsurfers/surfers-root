@@ -95,7 +95,7 @@ export const ConcertListItem = ({
             </Text>
           ) : null}
         </View>
-        {size === 'large' && (
+        {onPressSubscribe && (
           <TouchableOpacity
             onPress={handlePressSubscribe}
             style={[
