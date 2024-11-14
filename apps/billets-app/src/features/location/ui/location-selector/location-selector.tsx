@@ -1,7 +1,7 @@
 import { Text } from '@coldsurfers/ocean-road/native'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 
-const LocationSelector = ({ onPress }: { onPress: () => void }) => (
+export const LocationSelector = ({ onPress }: { onPress: () => void }) => (
   <View style={styles.wrapper}>
     <TouchableOpacity
       onPress={onPress}
@@ -23,5 +23,3 @@ const styles = StyleSheet.create({
   button: { marginLeft: 'auto', marginRight: 12 },
   emoji: { fontSize: 24 },
 })
-
-export default LocationSelector

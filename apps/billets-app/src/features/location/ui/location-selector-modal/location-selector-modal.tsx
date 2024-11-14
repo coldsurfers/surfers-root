@@ -1,13 +1,19 @@
 import { Button, Modal } from '@coldsurfers/ocean-road/native'
 import { useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
-import commonStyles from '../../../lib/common-styles'
-import geolocationUtils from '../../../lib/geolocationUtils'
-import palettes from '../../../lib/palettes'
-import { useUserCurrentLocationStore } from '../../../lib/stores/userCurrentLocationStore'
-import { useHomeScreenNavigation } from '../../../screens/home-screen/home-screen.hooks'
+import commonStyles from '../../../../lib/common-styles'
+import geolocationUtils from '../../../../lib/geolocationUtils'
+import palettes from '../../../../lib/palettes'
+import { useUserCurrentLocationStore } from '../../../../lib/stores/userCurrentLocationStore'
+import { useHomeScreenNavigation } from '../../../../screens/home-screen/home-screen.hooks'
 
-const LocationSelectorModal = ({ visible, onPressBackground }: { visible: boolean; onPressBackground: () => void }) => {
+export const LocationSelectorModal = ({
+  visible,
+  onPressBackground,
+}: {
+  visible: boolean
+  onPressBackground: () => void
+}) => {
   const navigation = useHomeScreenNavigation()
   const setUserCurrentLocation = useUserCurrentLocationStore((state) => state.setUserCurrentLocation)
   const onPressCurrentLocation = useCallback(async () => {
@@ -49,5 +55,3 @@ const styles = StyleSheet.create({
   },
   anotherLocBtn: { marginTop: 12, backgroundColor: palettes.lightblue[500] },
 })
-
-export default LocationSelectorModal
