@@ -13,7 +13,9 @@
       "@/navigations": ["./src/navigations"],
       "@/navigations/*": ["./src/navigations/*"],
       "@/lib": ["./src/lib"],
-      "@/lib/*": ["./src/lib/*"]
+      "@/lib/*": ["./src/lib/*"],
+      "@/components": ["./src/components"],
+      "@/components/*": ["./src/components/*"]
     }
   }
 }
