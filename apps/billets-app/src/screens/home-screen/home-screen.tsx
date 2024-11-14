@@ -19,7 +19,7 @@ import { v1QueryKeyFactory } from '../../lib/query-key-factory'
 import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocationStore'
 import AnimatePresence from '../../ui/AnimatePresence'
 import CommonListEmpty from '../../ui/CommonListEmpty'
-import { useHomeScreenNavigation } from '../HomeScreen.hooks'
+import { useHomeScreenNavigation } from './home-screen.hooks'
 
 type ItemT = {
   date: string
