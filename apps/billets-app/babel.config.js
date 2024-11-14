@@ -15,7 +15,6 @@ module.exports = {
           '@/screens': path.resolve(__dirname, './src/screens'),
           '@/navigations': path.resolve(__dirname, './src/navigations'),
           '@/lib': path.resolve(__dirname, './src/lib'),
-          '@/components': path.resolve(__dirname, './src/components'),
           '@/ui': path.resolve(__dirname, './src/ui'),
           '@/features': path.resolve(__dirname, './src/features'),
         },
