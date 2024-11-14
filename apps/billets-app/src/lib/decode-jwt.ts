@@ -11,7 +11,7 @@ interface JwtPayload {
 }
 
 // Function to parse JWT token
-const decodeJwt = (token: string): JwtPayload | null => {
+export const decodeJwt = (token: string): JwtPayload | null => {
   try {
     // Decode the token
     const decodedToken = jwtDecode<JwtPayload>(token)
@@ -21,5 +21,3 @@ const decodeJwt = (token: string): JwtPayload | null => {
     return null
   }
 }
-
-export default decodeJwt
