@@ -5,7 +5,7 @@ import React, { useContext } from 'react'
 import { ConcertStackNavigation } from '../concert-stack-navigation'
 import { LoginStackNavigation } from '../login-stack-navigation'
 import { MainTabNavigation } from '../main-tab-navigation'
-import { SubscribedStackScreen } from '../subscribed-stack-screen/subscribed-stack-screen'
+import { SubscribedStackNavigation } from '../subscribed-stack-navigation'
 import { MainStackNavigationParamList } from './main-stack-navigation.types'
 
 const MainStack = createNativeStackNavigator<MainStackNavigationParamList>()
@@ -39,7 +39,7 @@ export const MainStackNavigation = () => {
       {user ? (
         <MainStack.Screen
           name="SubscribedStackScreen"
-          component={SubscribedStackScreen}
+          component={SubscribedStackNavigation}
           options={{
             presentation: 'card',
           }}

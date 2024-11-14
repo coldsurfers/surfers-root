@@ -1,4 +1,4 @@
-import { SubscribedStackScreenProp } from '@/navigations/subscribed-stack-screen/subscribed-stack-screen.types'
+import { SubscribedStackScreenProp } from '@/navigations/subscribed-stack-navigation/subscribed-stack-navigation.types'
 
 export type SubscribedConcertListScreenParam = {
   //

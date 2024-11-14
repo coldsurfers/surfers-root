@@ -1,9 +1,9 @@
 import { Screens } from '@/lib'
+import { CommonScreenLayout } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner, Text } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Alert, Pressable, SectionList, SectionListRenderItem, StyleSheet, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { match } from 'ts-pattern'
 import SubscribedConcertList from '../../features/subscribe-concert/ui/SubscribedConcertList'
 import { AuthContext } from '../../lib/contexts/auth-context/auth-context'
@@ -157,7 +157,7 @@ export const MyScreen = () => {
   }
 
   return user ? (
-    <SafeAreaView edges={['top']} style={styles.settingWrapper}>
+    <CommonScreenLayout>
       <SectionList
         contentContainerStyle={styles.sectionListContentContainer}
         style={styles.sectionList}
@@ -167,9 +167,9 @@ export const MyScreen = () => {
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
       />
-    </SafeAreaView>
+    </CommonScreenLayout>
   ) : (
-    <View style={styles.wrapper}>
+    <CommonScreenLayout style={styles.wrapper}>
       <Text weight="bold" style={styles.loginText}>
         {`🎉\n예정된 많은\n공연을\n놓치지 마세요`}
       </Text>
@@ -177,7 +177,7 @@ export const MyScreen = () => {
       <Button style={styles.loginButton} onPress={onPressLoginButton}>
         로그인 / 회원가입
       </Button>
-    </View>
+    </CommonScreenLayout>
   )
 }
 
@@ -187,10 +187,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.oc.gray[1].value,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  settingWrapper: {
-    flex: 1,
-    backgroundColor: colors.oc.gray[1].value,
   },
   loginButtonTitle: {
     color: colors.oc.white.value,
