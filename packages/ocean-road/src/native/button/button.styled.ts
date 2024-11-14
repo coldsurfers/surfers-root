@@ -15,8 +15,6 @@ export const StyledButton = styled.TouchableOpacity<{
   padding-top: 16px;
   padding-bottom: 16px;
   border-radius: 24px;
-  border: ${({ colorTheme, disabled }) =>
-    `1px solid ${disabled ? color.oc.gray[4].value : getButtonBackgroundColor(colorTheme)}`};
   font-family: inherit;
 
   opacity: ${(props) => (props.colorTheme === 'transparentDarkGray' ? 0.5 : 1.0)};
