@@ -3,6 +3,7 @@ import { CommonBackIconButton, CommonScreenLayout } from '@/ui'
 import { Text } from '@coldsurfers/ocean-road/native'
 import { StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useSubscribedConcertListScreenNavigation } from './subscribed-concert-list-screen.hooks'
 
 const ListHeaderComponent = () => {
   return (
@@ -14,10 +15,11 @@ const ListHeaderComponent = () => {
 
 export const SubscribedConcertListScreen = () => {
   const { top: topInset } = useSafeAreaInsets()
+  const navigation = useSubscribedConcertListScreenNavigation()
   return (
     <CommonScreenLayout>
       <SubscribedConcertList horizontal={false} listHeaderComponent={ListHeaderComponent} onPressItem={() => {}} />
-      <CommonBackIconButton top={topInset} />
+      <CommonBackIconButton top={topInset} onPress={() => navigation.goBack()} />
     </CommonScreenLayout>
   )
 }
