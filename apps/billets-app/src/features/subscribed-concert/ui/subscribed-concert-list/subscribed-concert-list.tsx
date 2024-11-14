@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
 import useGetMeQuery from '../../../../lib/react-query/queries/useGetMeQuery'
 import useSubscribedConcertListQuery from '../../../../lib/react-query/queries/useSubscribedConcertListQuery'
@@ -15,6 +15,7 @@ export function SubscribedConcertList({
   horizontal?: boolean
   listHeaderComponent?: React.ComponentType<unknown>
 }) {
+  const [isRefreshing, setIsRefreshing] = useState(false)
   const { data: meData } = useGetMeQuery()
   const {
     data: concertListData,
@@ -23,6 +24,7 @@ export function SubscribedConcertList({
     isLoading,
     hasNextPage,
     isPending,
+    refetch,
   } = useSubscribedConcertListQuery({
     enabled: !!meData,
   })
@@ -60,6 +62,12 @@ export function SubscribedConcertList({
         }
         await fetchNextPage()
       }}
+      onRefresh={async () => {
+        setIsRefreshing(true)
+        await refetch()
+        setIsRefreshing(false)
+      }}
+      refreshing={isRefreshing}
     />
   )
 }

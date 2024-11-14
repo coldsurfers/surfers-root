@@ -1,7 +1,8 @@
 import { SubscribedConcertList } from '@/features'
-import { CommonScreenLayout } from '@/ui'
+import { CommonBackIconButton, CommonScreenLayout } from '@/ui'
 import { Text } from '@coldsurfers/ocean-road/native'
 import { StyleSheet, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const ListHeaderComponent = () => {
   return (
@@ -12,9 +13,11 @@ const ListHeaderComponent = () => {
 }
 
 export const SubscribedConcertListScreen = () => {
+  const { top: topInset } = useSafeAreaInsets()
   return (
     <CommonScreenLayout>
       <SubscribedConcertList horizontal={false} listHeaderComponent={ListHeaderComponent} onPressItem={() => {}} />
+      <CommonBackIconButton top={topInset} />
     </CommonScreenLayout>
   )
 }

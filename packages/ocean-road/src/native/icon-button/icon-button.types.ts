@@ -2,7 +2,7 @@ import { StyleProp, ViewStyle } from 'react-native'
 import { ButtonTheme } from '../../button'
 
 export interface IconButtonProps {
-  onPress: () => void
+  onPress?: () => void
   icon: '←' | '✘'
   size?: IconButtonSize
   theme?: ButtonTheme
