@@ -1,38 +1,23 @@
 import { CurrentLocationTracker, LocationSelector, LocationSelectorModal } from '@/features'
-import { AnimatePresence, CommonListEmpty } from '@/ui'
+import { AnimatePresence } from '@/ui'
 import { useQueryClient } from '@tanstack/react-query'
-import format from 'date-fns/format'
-import { useCallback, useMemo, useState } from 'react'
-import { ActivityIndicator, FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
+import { useCallback, useState } from 'react'
+import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useShallow } from 'zustand/shallow'
-import { ConcertListItem } from '../../features/concert'
+import { ConcertList } from '../../features/concert'
 import palettes from '../../lib/palettes'
 import { v1QueryKeyFactory } from '../../lib/query-key-factory'
 import useSubscribeConcertMutation from '../../lib/react-query/mutations/useSubscribeConcertMutation'
 import useUnsubscribeConcertMutation from '../../lib/react-query/mutations/useUnsubscribeConcertMutation'
-import useConcertListQuery from '../../lib/react-query/queries/useConcertListQuery'
 import useGetMeQuery from '../../lib/react-query/queries/useGetMeQuery'
 import useSubscribedConcertListQuery from '../../lib/react-query/queries/useSubscribedConcertListQuery'
 import useSubscribedConcertQuery from '../../lib/react-query/queries/useSubscribedConcertQuery'
 import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocationStore'
 import { useHomeScreenNavigation } from './home-screen.hooks'
 
-type ItemT = {
-  date: string
-  id: string
-  posters: {
-    imageUrl: string
-  }[]
-  title: string
-  venues: {
-    venueTitle: string
-  }[]
-}
-
 export const HomeScreen = () => {
   const navigation = useHomeScreenNavigation()
-  const [isRefreshing, setIsRefreshing] = useState(false)
   const [locationModalVisible, setLocationModalVisible] = useState(false)
   const { latitude, longitude } = useUserCurrentLocationStore(
     useShallow((state) => ({
@@ -44,25 +29,6 @@ export const HomeScreen = () => {
   const queryClient = useQueryClient()
 
   const { data: meData } = useGetMeQuery()
-  const {
-    data: concertListData,
-    isPending: isPendingConcertList,
-    fetchNextPage: fetchNextConcertList,
-    isFetchingNextPage: isFetchingNextConcertList,
-    hasNextPage: hasNextConcertListPage,
-    refetch: refetchConcertList,
-  } = useConcertListQuery(
-    {
-      latLng: {
-        latitude: latitude!,
-        longitude: longitude!,
-      },
-    },
-    {
-      enabled: !!latitude && !!longitude,
-      refetchOnWindowFocus: false,
-    },
-  )
 
   const { mutate: subscribeConcert } = useSubscribeConcertMutation({
     onMutate: async (variables) => {
@@ -145,26 +111,6 @@ export const HomeScreen = () => {
     },
   })
 
-  const concertList = useMemo(() => {
-    return concertListData?.pages.flat() ?? []
-  }, [concertListData])
-
-  const onEndReached = useCallback(async () => {
-    if (isPendingConcertList || isFetchingNextConcertList) {
-      return
-    }
-    if (!hasNextConcertListPage) {
-      return
-    }
-    await fetchNextConcertList()
-  }, [fetchNextConcertList, hasNextConcertListPage, isFetchingNextConcertList, isPendingConcertList])
-
-  const onRefresh = useCallback(async () => {
-    setIsRefreshing(true)
-    await refetchConcertList()
-    setIsRefreshing(false)
-  }, [refetchConcertList])
-
   const onPressConcertListItem = useCallback(
     (concertId: string) => {
       navigation.navigate('ConcertStackScreen', {
@@ -194,47 +140,19 @@ export const HomeScreen = () => {
     [meData, navigation, subscribeConcert, unsubscribeConcert],
   )
 
-  const renderItem: ListRenderItem<ItemT> = useCallback(
-    (info) => {
-      return (
-        <ConcertListItem
-          concertId={info.item.id}
-          thumbnailUrl={info.item.posters.at(0)?.imageUrl ?? ''}
-          title={info.item.title}
-          date={format(new Date(info.item.date), 'EEE, MMM d')}
-          venue={info.item.venues.at(0)?.venueTitle}
-          onPress={onPressConcertListItem}
-          onPressSubscribe={onPressSubscribeConcertListItem}
-        />
-      )
-    },
-    [onPressConcertListItem, onPressSubscribeConcertListItem],
-  )
-
   return (
     <SafeAreaView edges={['top']} style={styles.wrapper}>
       {latitude === null && longitude === null && <CurrentLocationTracker />}
       <LocationSelector onPress={() => setLocationModalVisible(true)} />
-      <FlatList
-        data={concertList}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.concertListContentContainer}
-        ListEmptyComponent={
-          isPendingConcertList ? (
-            <View style={styles.loadingIndicatorWrapper}>
-              <ActivityIndicator size="large" />
-            </View>
-          ) : (
-            <CommonListEmpty emptyText={`🥺\n앗,\n해당하는\n위치에\n공연 정보가 없어요!`} />
-          )
+      <ConcertList
+        onPressItem={(item) => onPressConcertListItem(item.id)}
+        onPressSubscribe={(item, { isSubscribed }) =>
+          onPressSubscribeConcertListItem({
+            isSubscribed,
+            concertId: item.id,
+          })
         }
-        onEndReached={onEndReached}
-        refreshing={isRefreshing}
-        onRefresh={onRefresh}
       />
-
       <AnimatePresence>
         {locationModalVisible && (
           <LocationSelectorModal
