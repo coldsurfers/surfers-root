@@ -1,10 +1,7 @@
+import { useAppleAuth, useFirebaseAnalytics, useFirebaseMessaging } from '@/lib'
+import { MainStackNavigation, MainStackNavigationParamList } from '@/navigations'
 import { LinkingOptions, NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
 import React, { useCallback, useEffect, useRef } from 'react'
-import useAppleAuth from './lib/hooks/useAppleAuth'
-import useFirebaseAnalytics from './lib/hooks/useFirebaseAnalytics'
-import useFirebaseMessaging from './lib/hooks/useFirebaseMessaging'
-import MainStackNavigation from './navigations/MainStackNavigation'
-import { MainStackNavigationParamList } from './navigations/MainStackNavigation.types'
 
 const linking: LinkingOptions<MainStackNavigationParamList> = {
   prefixes: ['billets://', 'fstvllife://'],

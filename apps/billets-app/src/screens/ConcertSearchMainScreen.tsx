@@ -1,4 +1,4 @@
-// import {Spinner, TextInput} from 'fstvllife-design-system';
+// import {Spinner, TextInput} from '@coldsurfers/ocean-road/native';
 // import React, {
 //   useCallback,
 //   useContext,

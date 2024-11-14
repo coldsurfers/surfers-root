@@ -1,4 +1,4 @@
-// import {palette, Spinner, Text} from 'fstvllife-design-system';
+// import {palette, Spinner, Text} from '@coldsurfers/ocean-road/native';
 // import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 // import {
 //   CompositeNavigationProp,

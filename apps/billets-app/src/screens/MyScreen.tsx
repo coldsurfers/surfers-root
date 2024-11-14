@@ -1,11 +1,11 @@
-import { Button } from '@coldsurfers/ocean-road/native'
-import { palette, Spinner, Text } from 'fstvllife-design-system'
+import { colors } from '@coldsurfers/ocean-road'
+import { Button, Spinner, Text } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Alert, Pressable, SectionList, SectionListData, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { match } from 'ts-pattern'
 import SubscribedConcertList from '../features/subscribe-concert/ui/SubscribedConcertList'
-import { AuthContext } from '../lib/contexts/AuthContext'
+import { AuthContext } from '../lib/contexts/auth-context/auth-context'
 import palettes from '../lib/palettes'
 import { useMyScreenNavigation } from './MyScreen.hooks'
 
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     backgroundColor: palettes.gray['100'],
   },
   loginButtonTitle: {
-    color: palette.white,
+    color: colors.oc.white.value,
     fontWeight: '700',
     fontSize: 14,
   },
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
   },
   profileItemThumbnailText: {
     fontSize: 18,
-    color: palette.white,
+    color: colors.oc.white.value,
   },
   sectionHeader: {
     paddingVertical: 8,

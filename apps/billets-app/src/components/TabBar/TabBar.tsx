@@ -1,9 +1,10 @@
-import { palette, Text } from 'fstvllife-design-system'
+import { colors } from '@coldsurfers/ocean-road'
+import { Text } from '@coldsurfers/ocean-road/native'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import React, { useEffect, useRef } from 'react'
 import { Animated, StyleSheet, TouchableOpacity } from 'react-native'
-import { StackScreens } from '../../lib/navigations'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { StackScreens } from '../../lib/navigations'
 import palettes from '../../lib/palettes'
 
 interface Props extends BottomTabBarProps {
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
   emoji: {
     marginBottom: 4,
   },
-  tabBarTitle: { color: palette.white, fontWeight: '500' },
+  tabBarTitle: { color: colors.oc.white.value, fontWeight: '500' },
   tabBarTitleFocused: {
     fontWeight: '800',
   },

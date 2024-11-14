@@ -1,4 +1,4 @@
-import { palette } from 'fstvllife-design-system'
+import { colors } from '@coldsurfers/ocean-road'
 import React, { memo, useCallback, useMemo, useRef } from 'react'
 import { Dimensions, Linking, StyleSheet, View } from 'react-native'
 import WebView, { WebViewMessageEvent } from 'react-native-webview'
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: Dimensions.get('window').height - CONCERT_DETAIL_LIST_HEADER_HEIGHT - TAB_BAR_HEIGHT,
-    backgroundColor: palette.white,
+    backgroundColor: colors.oc.white.value,
     alignItems: 'center',
     paddingTop: 8,
   },

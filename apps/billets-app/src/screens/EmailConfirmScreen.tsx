@@ -1,10 +1,14 @@
-import { Button, palette, IconButton, Spinner, TextInput } from 'fstvllife-design-system'
+import { colors } from '@coldsurfers/ocean-road'
+import { Button, IconButton, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useState } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
-import { ToastVisibleContext, ToastVisibleContextProvider } from '../lib/contexts/ToastVisibleContext'
+import { AuthContext } from '../lib/contexts/auth-context/auth-context'
+import {
+  ToastVisibleContext,
+  ToastVisibleContextProvider,
+} from '../lib/contexts/toast-visible-context/toast-visible-context'
 import useSignupEmailMutation from '../lib/hooks/mutations/useSignupEmailMutation'
 import useUpdateEmailConfirmMutation from '../lib/hooks/mutations/useUpdateEmailConfirmMutation'
-import { AuthContext } from '../lib/contexts/AuthContext'
 import palettes from '../lib/palettes'
 import { useEmailConfirmScreenNavigation, useEmailConfirmScreenRoute } from './EmailConfirmScreen.hooks'
 
@@ -125,7 +129,7 @@ const EmailConfirmScreen = () => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <IconButton icon="←" color="transparentDarkGray" onPress={goBack} style={styles.backButton} />
+      <IconButton icon="←" theme="transparentDarkGray" onPress={goBack} style={styles.backButton} />
       {confirmed ? (
         <>
           <TextInput
@@ -154,7 +158,6 @@ const EmailConfirmScreen = () => {
       )}
 
       <Button
-        text={confirmed ? '비밀번호 설정하기' : '인증하기'}
         style={[
           {
             backgroundColor: palettes.lightblue[400],
@@ -162,7 +165,9 @@ const EmailConfirmScreen = () => {
           styles.button,
         ]}
         onPress={confirmed ? onPressSignup : onPressConfirm}
-      />
+      >
+        {confirmed ? '비밀번호 설정하기' : '인증하기'}
+      </Button>
       {isLoadingEmailConfirm && <Spinner />}
     </SafeAreaView>
   )
@@ -171,7 +176,7 @@ const EmailConfirmScreen = () => {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: palette.white,
+    backgroundColor: colors.oc.white.value,
   },
   backButton: {
     marginLeft: 16,

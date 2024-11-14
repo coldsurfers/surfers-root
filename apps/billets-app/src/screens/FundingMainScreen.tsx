@@ -1,4 +1,4 @@
-import { palette } from 'fstvllife-design-system'
+import { colors } from '@coldsurfers/ocean-road'
 import React, { FC } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
 
@@ -36,7 +36,7 @@ const FundingMainScreen: FC = () => {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: palette.white,
+    backgroundColor: colors.oc.white.value,
   },
 })
 
