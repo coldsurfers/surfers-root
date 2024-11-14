@@ -1,6 +1,6 @@
+import { HomeScreen } from '@/screens'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
-import HomeScreen from '../../screens/HomeScreen'
 import LocationSelectionScreen from '../../screens/LocationSelectionScreen'
 import { HomeStackParam } from './home-stack-navigation.types'
 
