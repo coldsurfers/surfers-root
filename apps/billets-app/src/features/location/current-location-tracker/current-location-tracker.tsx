@@ -1,8 +1,8 @@
 import { useCallback, useEffect } from 'react'
-import geolocationUtils from '../../../lib/geolocationUtils'
-import { useUserCurrentLocationStore } from '../../../lib/stores/userCurrentLocationStore'
 import { AppState, Platform } from 'react-native'
 import { PERMISSIONS, check, request } from 'react-native-permissions'
+import geolocationUtils from '../../../lib/geolocationUtils'
+import { useUserCurrentLocationStore } from '../../../lib/stores/userCurrentLocationStore'
 
 const checkPermission = async () => {
   const permission =
@@ -22,7 +22,7 @@ const requestPermission = async (options?: { iOSAlways: boolean }) => {
   return result
 }
 
-const CurrentGeoLocation = () => {
+export const CurrentLocationTracker = () => {
   const setUserCurrentLocation = useUserCurrentLocationStore((state) => state.setUserCurrentLocation)
 
   const initializeLocation = useCallback(async () => {
@@ -65,5 +65,3 @@ const CurrentGeoLocation = () => {
 
   return null
 }
-
-export default CurrentGeoLocation

@@ -1,3 +1,4 @@
+import { CurrentLocationTracker } from '@/features'
 import { AnimatePresence, CommonListEmpty } from '@/ui'
 import { useQueryClient } from '@tanstack/react-query'
 import format from 'date-fns/format'
@@ -6,7 +7,6 @@ import { ActivityIndicator, FlatList, ListRenderItem, StyleSheet, View } from 'r
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useShallow } from 'zustand/shallow'
 import { ConcertListItem } from '../../features/concert'
-import CurrentGeoLocation from '../../features/location/components/CurrentGeoLocation'
 import LocationSelector from '../../features/location/ui/LocationSelector'
 import LocationSelectorModal from '../../features/location/ui/LocationSelectorModal'
 import palettes from '../../lib/palettes'
@@ -215,7 +215,7 @@ export const HomeScreen = () => {
 
   return (
     <SafeAreaView edges={['top']} style={styles.wrapper}>
-      {latitude === null && longitude === null && <CurrentGeoLocation />}
+      {latitude === null && longitude === null && <CurrentLocationTracker />}
       <LocationSelector onPress={() => setLocationModalVisible(true)} />
       <FlatList
         data={concertList}
