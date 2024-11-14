@@ -3,7 +3,10 @@ import { Button, IconButton, Spinner, TextInput } from '@coldsurfers/ocean-road/
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { KeyboardAvoidingView, SafeAreaView, StyleSheet, View } from 'react-native'
 import { AuthContext } from '../lib/contexts/auth-context/auth-context'
-import { ToastVisibleContext, ToastVisibleContextProvider } from '../lib/contexts/ToastVisibleContext'
+import {
+  ToastVisibleContext,
+  ToastVisibleContextProvider,
+} from '../lib/contexts/toast-visible-context/toast-visible-context'
 import useSignInMutation from '../lib/hooks/mutations/useSignInMutation'
 import { useEmailLoginScreenNavigation } from './EmailLoginScreen.hooks'
 

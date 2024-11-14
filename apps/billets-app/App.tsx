@@ -1,11 +1,9 @@
-import { useFirebaseAnalytics, useFirebaseCrashlytics } from '@/lib'
+import { AuthContextProvider, TabBarVisibleContextProvider, useFirebaseAnalytics, useFirebaseCrashlytics } from '@/lib'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React, { PropsWithChildren, useEffect } from 'react'
 import { StatusBar } from 'react-native'
 import BootSplash from 'react-native-bootsplash'
 import AppContainer from './src/AppContainer'
-import { AuthContextProvider } from './src/lib/contexts/auth-context/auth-context'
-import { TabBarVisibleContextProvider } from './src/lib/contexts/TabBarVisibleContext'
 
 const queryClient = new QueryClient()
 
