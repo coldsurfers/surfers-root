@@ -2,8 +2,8 @@ import { useCallback } from 'react'
 import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import commonStyles from '../../../../lib/common-styles'
-import useSubscribedConcertQuery from '../../../../lib/hooks/queries/useSubscribedConcertQuery'
 import palettes from '../../../../lib/palettes'
+import useSubscribedConcertQuery from '../../../../lib/react-query/queries/useSubscribedConcertQuery'
 
 export const ConcertListItem = ({
   concertId,

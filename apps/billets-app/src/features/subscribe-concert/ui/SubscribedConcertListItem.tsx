@@ -1,6 +1,6 @@
 import format from 'date-fns/format'
 import { useMemo } from 'react'
-import useConcertQuery from '../../../lib/hooks/queries/useConcertQuery'
+import useConcertQuery from '../../../lib/react-query/queries/useConcertQuery'
 import { ConcertListItem } from '../../concert/ui'
 
 export default function SubscribedConcertListItem({

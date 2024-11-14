@@ -1,5 +1,5 @@
 import { ConcertDetailList, ConcertDetailSectionListSections } from '@/components/List/ConcertDetailList'
-import useConcertQuery from '@/lib/hooks/queries/useConcertQuery'
+import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
 import { colors } from '@coldsurfers/ocean-road'
 import { IconButton, Spinner } from '@coldsurfers/ocean-road/native'
 import format from 'date-fns/format'

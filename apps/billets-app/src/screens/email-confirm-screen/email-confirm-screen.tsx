@@ -7,9 +7,9 @@ import {
   ToastVisibleContext,
   ToastVisibleContextProvider,
 } from '../../lib/contexts/toast-visible-context/toast-visible-context'
-import useSignupEmailMutation from '../../lib/hooks/mutations/useSignupEmailMutation'
-import useUpdateEmailConfirmMutation from '../../lib/hooks/mutations/useUpdateEmailConfirmMutation'
 import palettes from '../../lib/palettes'
+import useSignupEmailMutation from '../../lib/react-query/mutations/useSignupEmailMutation'
+import useUpdateEmailConfirmMutation from '../../lib/react-query/mutations/useUpdateEmailConfirmMutation'
 import { useEmailConfirmScreenNavigation, useEmailConfirmScreenRoute } from './email-confirm-screen.hooks'
 
 export const EmailConfirmScreen = () => {

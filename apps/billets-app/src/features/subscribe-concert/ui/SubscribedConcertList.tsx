@@ -1,7 +1,7 @@
-import { FlatList, StyleSheet, View } from 'react-native'
-import useGetMeQuery from '../../../lib/hooks/queries/useGetMeQuery'
-import useSubscribedConcertListQuery from '../../../lib/hooks/queries/useSubscribedConcertListQuery'
 import { useMemo } from 'react'
+import { FlatList, StyleSheet, View } from 'react-native'
+import useGetMeQuery from '../../../lib/react-query/queries/useGetMeQuery'
+import useSubscribedConcertListQuery from '../../../lib/react-query/queries/useSubscribedConcertListQuery'
 import SubscribedConcertListItem from './SubscribedConcertListItem'
 
 const ItemSeparator = () => <View style={styles.itemSeparator} />
