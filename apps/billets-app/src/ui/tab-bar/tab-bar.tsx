@@ -11,7 +11,7 @@ interface Props extends BottomTabBarProps {
   hidden?: boolean
 }
 
-const TabBar = (props: Props) => {
+export const TabBar = (props: Props) => {
   const { navigation, state, descriptors, hidden } = props
   const hiddenAnimationValue = useRef(new Animated.Value(0)).current
   const { bottom: bottomInset } = useSafeAreaInsets()
@@ -140,5 +140,3 @@ const styles = StyleSheet.create({
     elevation: 5, // Elevation for Android
   },
 })
-
-export default TabBar

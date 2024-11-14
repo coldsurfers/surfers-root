@@ -14,8 +14,6 @@
       "@/navigations/*": ["./src/navigations/*"],
       "@/lib": ["./src/lib"],
       "@/lib/*": ["./src/lib/*"],
-      "@/components": ["./src/components"],
-      "@/components/*": ["./src/components/*"],
       "@/ui": ["./src/ui"],
       "@/ui/*": ["./src/ui/*"],
       "@/features": ["./src/features"],
