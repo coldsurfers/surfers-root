@@ -2,17 +2,17 @@ import { colors } from '@coldsurfers/ocean-road'
 import { Button, IconButton, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useState } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
-import { AuthContext } from '../lib/contexts/auth-context/auth-context'
+import { AuthContext } from '../../lib/contexts/auth-context/auth-context'
 import {
   ToastVisibleContext,
   ToastVisibleContextProvider,
-} from '../lib/contexts/toast-visible-context/toast-visible-context'
-import useSignupEmailMutation from '../lib/hooks/mutations/useSignupEmailMutation'
-import useUpdateEmailConfirmMutation from '../lib/hooks/mutations/useUpdateEmailConfirmMutation'
-import palettes from '../lib/palettes'
-import { useEmailConfirmScreenNavigation, useEmailConfirmScreenRoute } from './EmailConfirmScreen.hooks'
+} from '../../lib/contexts/toast-visible-context/toast-visible-context'
+import useSignupEmailMutation from '../../lib/hooks/mutations/useSignupEmailMutation'
+import useUpdateEmailConfirmMutation from '../../lib/hooks/mutations/useUpdateEmailConfirmMutation'
+import palettes from '../../lib/palettes'
+import { useEmailConfirmScreenNavigation, useEmailConfirmScreenRoute } from './email-confirm-screen.hooks'
 
-const EmailConfirmScreen = () => {
+export const EmailConfirmScreen = () => {
   const { params } = useEmailConfirmScreenRoute()
   const { show } = useContext(ToastVisibleContext)
   const [confirmed, setConfirmed] = useState<boolean>(false)
@@ -128,48 +128,50 @@ const EmailConfirmScreen = () => {
   }, [isLoadingSignupEmail, mutateSignupEmail, params.email, passwordConfirmText, passwordText, show])
 
   return (
-    <SafeAreaView style={styles.wrapper}>
-      <IconButton icon="←" theme="transparentDarkGray" onPress={goBack} style={styles.backButton} />
-      {confirmed ? (
-        <>
+    <ToastVisibleContextProvider>
+      <SafeAreaView style={styles.wrapper}>
+        <IconButton icon="←" theme="transparentDarkGray" onPress={goBack} style={styles.backButton} />
+        {confirmed ? (
+          <>
+            <TextInput
+              placeholder="비밀번호를 입력해주세요"
+              style={styles.textInput}
+              onChangeText={onChangePasswordText}
+              secureTextEntry
+              autoCapitalize="none"
+            />
+            <TextInput
+              placeholder="비밀번호 확인"
+              style={styles.textInput}
+              onChangeText={onChangePasswordConfirmText}
+              secureTextEntry
+              autoCapitalize="none"
+            />
+          </>
+        ) : (
           <TextInput
-            placeholder="비밀번호를 입력해주세요"
+            placeholder="인증번호를 입력해주세요"
+            keyboardType="number-pad"
             style={styles.textInput}
-            onChangeText={onChangePasswordText}
-            secureTextEntry
-            autoCapitalize="none"
+            editable={!confirmed}
+            onChangeText={onChangeConfirmText}
           />
-          <TextInput
-            placeholder="비밀번호 확인"
-            style={styles.textInput}
-            onChangeText={onChangePasswordConfirmText}
-            secureTextEntry
-            autoCapitalize="none"
-          />
-        </>
-      ) : (
-        <TextInput
-          placeholder="인증번호를 입력해주세요"
-          keyboardType="number-pad"
-          style={styles.textInput}
-          editable={!confirmed}
-          onChangeText={onChangeConfirmText}
-        />
-      )}
+        )}
 
-      <Button
-        style={[
-          {
-            backgroundColor: palettes.lightblue[400],
-          },
-          styles.button,
-        ]}
-        onPress={confirmed ? onPressSignup : onPressConfirm}
-      >
-        {confirmed ? '비밀번호 설정하기' : '인증하기'}
-      </Button>
-      {isLoadingEmailConfirm && <Spinner />}
-    </SafeAreaView>
+        <Button
+          style={[
+            {
+              backgroundColor: palettes.lightblue[400],
+            },
+            styles.button,
+          ]}
+          onPress={confirmed ? onPressSignup : onPressConfirm}
+        >
+          {confirmed ? '비밀번호 설정하기' : '인증하기'}
+        </Button>
+        {isLoadingEmailConfirm && <Spinner />}
+      </SafeAreaView>
+    </ToastVisibleContextProvider>
   )
 }
 
@@ -190,13 +192,3 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
 })
-
-const EmailConfirmScreenWithToastProvider = () => {
-  return (
-    <ToastVisibleContextProvider>
-      <EmailConfirmScreen />
-    </ToastVisibleContextProvider>
-  )
-}
-
-export default EmailConfirmScreenWithToastProvider
