@@ -2945,7 +2945,6 @@ __metadata:
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-jest: "npm:^28.8.3"
     eslint-plugin-prettier: "npm:^5.2.1"
-    fstvllife-design-system: "npm:^0.2.5"
     jest: "npm:^29.6.3"
     jwt-decode: "npm:^4.0.0"
     metro-react-native-babel-preset: "npm:0.73.7"
@@ -18815,20 +18814,6 @@ __metadata:
     bindings: "npm:^1.5.0"
     nan: "npm:^2.12.1"
   conditions: os=darwin
-  languageName: node
-  linkType: hard
-
-"fstvllife-design-system@npm:^0.2.5":
-  version: 0.2.6
-  resolution: "fstvllife-design-system@npm:0.2.6"
-  dependencies:
-    react: "npm:18.2.0"
-    style-dictionary: "npm:^3.7.1"
-    typescript: "npm:^4.8.3"
-  peerDependencies:
-    react: ">= 18.2.0"
-    react-native: ">= 0.69.0"
-  checksum: 10c0/9bc1f0d381b23804a0168d8dc472bfc13707acbea634bb86be57a80724fc659d7aad842ceb2c06b54b6357e02d12123c685d83d80349d83014d0ddee5019500f
   languageName: node
   linkType: hard
 

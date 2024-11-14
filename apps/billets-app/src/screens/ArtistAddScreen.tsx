@@ -1,4 +1,4 @@
-import { palette } from 'fstvllife-design-system'
+import { colors } from '@coldsurfers/ocean-road'
 import React from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
 import { Screens } from '../lib/navigations'
@@ -17,7 +17,7 @@ const ArtistAddScreen = () => {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: palette.white,
+    backgroundColor: colors.oc.white.value,
   },
 })
 

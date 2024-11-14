@@ -1,6 +1,6 @@
-import { Text } from 'fstvllife-design-system'
-import React from 'react'
+import { Text } from '@coldsurfers/ocean-road/native'
 import { format } from 'date-fns'
+import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
 interface Props {

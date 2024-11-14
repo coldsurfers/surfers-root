@@ -1,4 +1,5 @@
-import { palette, Text } from 'fstvllife-design-system'
+import { colors } from '@coldsurfers/ocean-road'
+import { Text } from '@coldsurfers/ocean-road/native'
 import React, { memo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
@@ -16,7 +17,7 @@ const HeaderItem = ({ title }: Props) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: palette.white,
+    backgroundColor: colors.oc.white.value,
     paddingHorizontal: 12,
   },
   title: { fontWeight: '700', fontSize: 18 },

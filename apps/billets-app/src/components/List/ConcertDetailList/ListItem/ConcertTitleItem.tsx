@@ -1,4 +1,5 @@
-import { palette, Text } from 'fstvllife-design-system'
+import { colors } from '@coldsurfers/ocean-road'
+import { Text } from '@coldsurfers/ocean-road/native'
 import React from 'react'
 import { StyleSheet } from 'react-native'
 
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     paddingBottom: 12,
     paddingHorizontal: 12,
-    backgroundColor: palette.white,
+    backgroundColor: colors.oc.white.value,
   },
 })
 

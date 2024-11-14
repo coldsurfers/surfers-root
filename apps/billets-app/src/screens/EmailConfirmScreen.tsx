@@ -1,4 +1,5 @@
-import { Button, IconButton, palette, Spinner, TextInput } from 'fstvllife-design-system'
+import { colors } from '@coldsurfers/ocean-road'
+import { Button, IconButton, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useState } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
 import { AuthContext } from '../lib/contexts/auth-context/auth-context'
@@ -128,7 +129,7 @@ const EmailConfirmScreen = () => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <IconButton icon="←" color="transparentDarkGray" onPress={goBack} style={styles.backButton} />
+      <IconButton icon="←" theme="transparentDarkGray" onPress={goBack} style={styles.backButton} />
       {confirmed ? (
         <>
           <TextInput
@@ -157,7 +158,6 @@ const EmailConfirmScreen = () => {
       )}
 
       <Button
-        text={confirmed ? '비밀번호 설정하기' : '인증하기'}
         style={[
           {
             backgroundColor: palettes.lightblue[400],
@@ -165,7 +165,9 @@ const EmailConfirmScreen = () => {
           styles.button,
         ]}
         onPress={confirmed ? onPressSignup : onPressConfirm}
-      />
+      >
+        {confirmed ? '비밀번호 설정하기' : '인증하기'}
+      </Button>
       {isLoadingEmailConfirm && <Spinner />}
     </SafeAreaView>
   )
@@ -174,7 +176,7 @@ const EmailConfirmScreen = () => {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: palette.white,
+    backgroundColor: colors.oc.white.value,
   },
   backButton: {
     marginLeft: 16,
