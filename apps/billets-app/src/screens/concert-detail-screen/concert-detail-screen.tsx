@@ -8,6 +8,7 @@ import format from 'date-fns/format'
 import React, { useMemo } from 'react'
 import { StatusBar, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT } from './concert-detail-screen.constants'
 import { useConcertDetailScreenNavigation, useConcertDetailScreenRoute } from './concert-detail-screen.hooks'
 
 export const ConcertDetailScreen = () => {
@@ -158,6 +159,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+    height: CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT,
     ...commonStyles.shadowBox,
   },
 })

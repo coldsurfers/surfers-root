@@ -1,4 +1,5 @@
 import { CONCERT_DETAIL_LIST_HEADER_HEIGHT } from '@/lib'
+import { CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT } from '@/screens'
 import React, { ReactElement, ReactNode, useCallback } from 'react'
 import { Animated, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
@@ -160,6 +161,7 @@ export const ConcertDetailSectionList = ({ sections, thumbnails }: ConcertDetail
         sections={sections}
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
+        showsVerticalScrollIndicator={false}
       />
     </>
   )
@@ -174,6 +176,6 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: 'white',
-    paddingBottom: 12,
+    paddingBottom: 24 + CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT,
   },
 })
