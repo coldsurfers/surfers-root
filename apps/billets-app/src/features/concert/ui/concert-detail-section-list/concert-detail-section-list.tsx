@@ -1,38 +1,30 @@
-import React, { memo, ReactElement, ReactNode, useCallback } from 'react'
+import { CONCERT_DETAIL_LIST_HEADER_HEIGHT } from '@/lib'
+import React, { ReactElement, ReactNode, useCallback } from 'react'
 import { Animated, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import { CONCERT_DETAIL_LIST_HEADER_HEIGHT } from '../../../lib/constants'
-import HeaderItem from './HeaderItem'
-import GigDateItem from './ListItem/ConcertDateItem'
-import GigLocationItem from './ListItem/ConcertLocationItem'
-import ConcertPriceInfoItem from './ListItem/ConcertPriceInfoItem'
-import ConcertTicketOpenDateItem from './ListItem/ConcertTicketOpenDateItem'
-import ConcertTitleItem from './ListItem/ConcertTitleItem'
-import ConcertWebview from './ListItem/ConcertWebview'
-import LineupItem from './ListItem/LineupItem'
-import TicketSellerItem from './ListItem/TicketSellerItem'
-import type {
-  ConcertDetailDateSectionData,
-  ConcertDetailLineupSectionData,
+import HeaderItem from '../../../../components/List/ConcertDetailList/HeaderItem'
+import {
+  ConcertDetailSectionListDateItemProps,
+  ConcertDetailSectionListItem,
+  ConcertDetailSectionListLineupItemProps,
+  ConcertDetailSectionListLocationItemProps,
+  ConcertDetailSectionListPriceItemProps,
+  ConcertDetailSectionListTicketOpenDateItemProps,
+  ConcertDetailSectionListTicketSellerItemProps,
+  ConcertDetailSectionListTitleItemProps,
+} from '../concert-detail-section-list-item'
+import {
   ConcertDetailSectionListItemT,
+  ConcertDetailSectionListProps,
   ConcertDetailSectionListSection,
-  ConcertDetailSectionListSections,
   ConcertDetailSectionListSectionT,
-  ConcertDetailTicketSellerSectionData,
-  ConcertDetailTitleSectionData,
-  ConcertDetailVenueSectionData,
-  ConcertHtmlSectionData,
-  ConcertPriceSectionData,
-  ConcertTicketOpenDateSectionData,
-} from './types'
+} from './concert-detail-section-list.types'
 
-interface Props {
-  sections: ConcertDetailSectionListSections
-  thumbnails: string[]
-  ListFooterComponent?: React.ComponentType<unknown> | React.ReactElement | null
-}
-
-const List = ({ sections, thumbnails, ListFooterComponent }: Props) => {
+export const ConcertDetailSectionList = ({
+  sections,
+  thumbnails,
+  ListFooterComponent,
+}: ConcertDetailSectionListProps) => {
   const [scrollY] = React.useState(new Animated.Value(0))
   const coverTranslateY = scrollY.interpolate({
     inputRange: [-4, 0, 10],
@@ -77,28 +69,49 @@ const List = ({ sections, thumbnails, ListFooterComponent }: Props) => {
       let children: ReactNode = null
       switch (title) {
         case 'title':
-          children = <ConcertTitleItem title={(info.item as ConcertDetailTitleSectionData).title} />
+          children = (
+            <ConcertDetailSectionListItem.TitleItem
+              title={(info.item as ConcertDetailSectionListTitleItemProps).title}
+            />
+          )
           break
         case 'venue':
-          children = <GigLocationItem location={(info.item as ConcertDetailVenueSectionData).name} />
+          children = (
+            <ConcertDetailSectionListItem.LocationItem
+              location={(info.item as ConcertDetailSectionListLocationItemProps).location}
+            />
+          )
           break
         case 'lineup':
-          children = <LineupItem {...(info.item as ConcertDetailLineupSectionData)} />
+          children = (
+            <ConcertDetailSectionListItem.LineupItem {...(info.item as ConcertDetailSectionListLineupItemProps)} />
+          )
           break
         case 'ticket-seller':
-          children = <TicketSellerItem {...(info.item as ConcertDetailTicketSellerSectionData)} />
+          children = (
+            <ConcertDetailSectionListItem.TicketSellerItem
+              {...(info.item as ConcertDetailSectionListTicketSellerItemProps)}
+            />
+          )
           break
         case 'date':
-          children = <GigDateItem date={(info.item as ConcertDetailDateSectionData).date} />
+          children = (
+            <ConcertDetailSectionListItem.DateItem date={(info.item as ConcertDetailSectionListDateItemProps).date} />
+          )
           break
         case 'price-info':
-          children = <ConcertPriceInfoItem priceInfo={{ ...(info.item as ConcertPriceSectionData) }} />
+          children = (
+            <ConcertDetailSectionListItem.PriceInfoItem
+              priceInfo={{ ...(info.item as ConcertDetailSectionListPriceItemProps).priceInfo }}
+            />
+          )
           break
         case 'ticket-open-date':
-          children = <ConcertTicketOpenDateItem {...(info.item as ConcertTicketOpenDateSectionData)} />
-          break
-        case 'html':
-          children = <ConcertWebview html={(info.item as ConcertHtmlSectionData).html} />
+          children = (
+            <ConcertDetailSectionListItem.TicketOpenDateItem
+              {...(info.item as ConcertDetailSectionListTicketOpenDateItemProps)}
+            />
+          )
           break
         default:
           children = null
@@ -169,5 +182,3 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
   },
 })
-
-export default memo(List)
