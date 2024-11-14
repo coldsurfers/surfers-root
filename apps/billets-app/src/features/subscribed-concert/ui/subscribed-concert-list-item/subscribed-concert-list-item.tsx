@@ -6,9 +6,11 @@ import { ConcertListItem } from '../../../concert/ui'
 export function SubscribedConcertListItem({
   concertId,
   onPress,
+  size = 'small',
 }: {
   concertId: string
   onPress: (concertId: string) => void
+  size?: 'small' | 'large'
 }) {
   const { data: concertData } = useConcertQuery({
     concertId,
@@ -33,7 +35,7 @@ export function SubscribedConcertListItem({
       date={date}
       venue={concertData.venues.at(0)?.venueTitle}
       onPress={onPress}
-      size="small"
+      size={size}
     />
   )
 }
