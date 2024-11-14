@@ -5,7 +5,7 @@ import { Alert, Pressable, SectionList, SectionListData, SectionListRenderItem, 
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { match } from 'ts-pattern'
 import SubscribedConcertList from '../features/subscribe-concert/ui/SubscribedConcertList'
-import { AuthContext } from '../lib/contexts/AuthContext'
+import { AuthContext } from '../lib/contexts/auth-context/auth-context'
 import palettes from '../lib/palettes'
 import { useMyScreenNavigation } from './MyScreen.hooks'
 

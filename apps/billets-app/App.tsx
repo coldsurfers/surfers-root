@@ -4,7 +4,7 @@ import React, { PropsWithChildren, useEffect } from 'react'
 import { StatusBar } from 'react-native'
 import BootSplash from 'react-native-bootsplash'
 import AppContainer from './src/AppContainer'
-import { AuthContextProvider } from './src/lib/contexts/AuthContext'
+import { AuthContextProvider } from './src/lib/contexts/auth-context/auth-context'
 import { TabBarVisibleContextProvider } from './src/lib/contexts/TabBarVisibleContext'
 
 const queryClient = new QueryClient()

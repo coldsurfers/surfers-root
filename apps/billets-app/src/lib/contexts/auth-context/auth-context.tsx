@@ -1,9 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useQueryClient } from '@tanstack/react-query'
 import React, { createContext, PropsWithChildren, useCallback } from 'react'
-import { components } from '../../types/api'
-import useGetMeQuery from '../hooks/queries/useGetMeQuery'
-import { storageAuthTokenKey } from './constants'
+import { components } from '../../../types/api'
+import useGetMeQuery from '../../hooks/queries/useGetMeQuery'
+import { storageAuthTokenKey } from '../constants'
 
 export type User = components['schemas']['GetMeSuccessResponse'] | null
 

@@ -1,15 +1,15 @@
-import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import LoginSelectionScreen from '../screens/LoginSelectionScreen'
-import { Screens } from '../lib/navigations'
-import EmailSignupScreen from '../screens/EmailSignupScreen'
-import EmailLoginScreen from '../screens/EmailLoginScreen'
-import EmailConfirmScreen from '../screens/EmailConfirmScreen'
-import { LoginStackParam } from './LoginStackNavigation.types'
+import React from 'react'
+import { Screens } from '../../lib/navigations'
+import EmailConfirmScreen from '../../screens/EmailConfirmScreen'
+import EmailLoginScreen from '../../screens/EmailLoginScreen'
+import EmailSignupScreen from '../../screens/EmailSignupScreen'
+import LoginSelectionScreen from '../../screens/LoginSelectionScreen'
+import { LoginStackParam } from './login-stack-navigation.types'
 
 const LoginStack = createNativeStackNavigator<LoginStackParam>()
 
-const LoginStackNavigation = () => {
+export const LoginStackNavigation = () => {
   return (
     <LoginStack.Navigator
       screenOptions={{
@@ -23,5 +23,3 @@ const LoginStackNavigation = () => {
     </LoginStack.Navigator>
   )
 }
-
-export default LoginStackNavigation

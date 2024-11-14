@@ -1,12 +1,12 @@
-import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import ConcertDetailScreen from '../screens/ConcertDetailScreen'
-import { Screens } from '../lib/navigations'
-import { ConcertStackParam } from './ConcertStackNavigation.types'
+import React from 'react'
+import { Screens } from '../../lib/navigations'
+import ConcertDetailScreen from '../../screens/ConcertDetailScreen'
+import { ConcertStackParam } from './concert-stack-navigation.types'
 
 const Stack = createNativeStackNavigator<ConcertStackParam>()
 
-const ConcertStackNavigation = () => {
+export const ConcertStackNavigation = () => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -25,5 +25,3 @@ const ConcertStackNavigation = () => {
     </Stack.Navigator>
   )
 }
-
-export default ConcertStackNavigation

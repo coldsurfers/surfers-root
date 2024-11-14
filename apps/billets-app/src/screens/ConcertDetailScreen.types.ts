@@ -1,4 +1,4 @@
-import { ConcertStackScreenProp } from '../navigations/ConcertStackNavigation.types'
+import { ConcertStackScreenProp } from '@/navigations'
 
 export type ConcertDetailScreenParam = {
   concertId: string
