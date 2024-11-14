@@ -1,4 +1,4 @@
-import { ConcertDetailList, ConcertDetailSectionListSections } from '@/components/List/ConcertDetailList'
+import { ConcertDetailSectionList, ConcertDetailSectionListSections } from '@/features'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
 import { colors } from '@coldsurfers/ocean-road'
 import { IconButton, Spinner } from '@coldsurfers/ocean-road/native'
@@ -55,7 +55,7 @@ export const ConcertDetailScreen = () => {
         sectionHeaderTitle: '공연 장소',
         data: [
           {
-            name: `${data.venues.at(0)?.venueTitle ?? ''}`,
+            location: `${data.venues.at(0)?.venueTitle ?? ''}`,
           },
         ],
       },
@@ -116,7 +116,10 @@ export const ConcertDetailScreen = () => {
     <>
       <StatusBar hidden />
       <View style={styles.wrapper}>
-        <ConcertDetailList sections={sections} thumbnails={data?.posters?.map((thumb) => thumb.imageUrl) ?? []} />
+        <ConcertDetailSectionList
+          sections={sections}
+          thumbnails={data?.posters?.map((thumb) => thumb.imageUrl) ?? []}
+        />
         <IconButton
           icon="←"
           theme="transparentDarkGray"
