@@ -1,5 +1,5 @@
+import { SearchScreen } from '@/screens'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import SearchScreen from '../../screens/SearchScreen'
 import { SearchStackParam } from './search-stack-navigation.types'
 
 const SearchStack = createNativeStackNavigator<SearchStackParam>()
