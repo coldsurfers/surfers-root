@@ -1,14 +1,17 @@
 import { ConcertDetailSectionList, ConcertDetailSectionListSections } from '@/features'
+import commonStyles from '@/lib/common-styles'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
 import { CommonBackIconButton } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
-import { Spinner } from '@coldsurfers/ocean-road/native'
+import { Button, Spinner } from '@coldsurfers/ocean-road/native'
 import format from 'date-fns/format'
 import React, { useMemo } from 'react'
 import { StatusBar, StyleSheet, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useConcertDetailScreenNavigation, useConcertDetailScreenRoute } from './concert-detail-screen.hooks'
 
 export const ConcertDetailScreen = () => {
+  const { bottom: bottomInset } = useSafeAreaInsets()
   const navigation = useConcertDetailScreenNavigation()
   const { params } = useConcertDetailScreenRoute()
   const { data, isLoading: isLoadingConcert } = useConcertQuery({
@@ -121,6 +124,9 @@ export const ConcertDetailScreen = () => {
           sections={sections}
           thumbnails={data?.posters?.map((thumb) => thumb.imageUrl) ?? []}
         />
+        <View style={[styles.fixedBottom, { paddingBottom: bottomInset }]}>
+          <Button style={{ backgroundColor: colors.oc.cyan[8].value }}>🎫 티켓 구매하기 🎫</Button>
+        </View>
         <CommonBackIconButton top={40} onPress={() => navigation.goBack()} />
 
         {isLoadingConcert ? <Spinner /> : null}
@@ -133,5 +139,16 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: colors.oc.white.value,
+  },
+  fixedBottom: {
+    backgroundColor: colors.oc.white.value,
+    paddingTop: 14,
+    paddingHorizontal: 14,
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    ...commonStyles.shadowBox,
   },
 })
