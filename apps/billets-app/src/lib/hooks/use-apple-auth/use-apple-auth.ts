@@ -2,7 +2,7 @@ import appleAuth from '@invertase/react-native-apple-authentication'
 import { useEffect } from 'react'
 import { Platform } from 'react-native'
 
-const useAppleAuth = () => {
+export const useAppleAuth = () => {
   useEffect(() => {
     if (Platform.OS !== 'ios') {
       return
@@ -13,5 +13,3 @@ const useAppleAuth = () => {
     })
   }, [])
 }
-
-export default useAppleAuth

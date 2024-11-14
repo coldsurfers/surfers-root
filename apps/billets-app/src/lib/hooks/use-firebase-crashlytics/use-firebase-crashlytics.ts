@@ -1,7 +1,7 @@
 import crashlytics from '@react-native-firebase/crashlytics'
 import { useCallback, useMemo } from 'react'
 
-function useFirebaseCrashlytics() {
+export function useFirebaseCrashlytics() {
   const enable = useCallback(async (enabled: boolean) => {
     await crashlytics().setCrashlyticsCollectionEnabled(enabled)
   }, [])
@@ -13,5 +13,3 @@ function useFirebaseCrashlytics() {
     [enable],
   )
 }
-
-export default useFirebaseCrashlytics

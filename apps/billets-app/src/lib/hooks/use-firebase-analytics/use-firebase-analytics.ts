@@ -1,7 +1,7 @@
 import analytics from '@react-native-firebase/analytics'
 import { useCallback, useMemo } from 'react'
 
-function useFirebaseAnalytics() {
+export function useFirebaseAnalytics() {
   const enable = useCallback(async (enabled: boolean) => {
     await analytics().setAnalyticsCollectionEnabled(enabled)
   }, [])
@@ -29,5 +29,3 @@ function useFirebaseAnalytics() {
     [enable, logEvent, logScreenView],
   )
 }
-
-export default useFirebaseAnalytics

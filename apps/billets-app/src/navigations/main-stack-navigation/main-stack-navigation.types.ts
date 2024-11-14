@@ -1,9 +1,9 @@
+import { StackScreens, TabScreens } from '@/lib/navigations'
 import { NavigatorScreenParams } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { LoginStackParam } from './LoginStackNavigation.types'
-import { StackScreens, TabScreens } from '../lib/navigations'
-import { ConcertStackParam } from './ConcertStackNavigation.types'
-import { MainTabNavigationParamList } from './MainTabNavigation.types'
+import { ConcertStackParam } from '../ConcertStackNavigation.types'
+import { LoginStackParam } from '../LoginStackNavigation.types'
+import { MainTabNavigationParamList } from '../MainTabNavigation.types'
 
 export type MainStackNavigationParamList = {
   [TabScreens.MainTabScreen]: NavigatorScreenParams<MainTabNavigationParamList>
