@@ -14,16 +14,16 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { match } from 'ts-pattern'
 import { useShallow } from 'zustand/shallow'
-import SearchItem from '../features/search/ui/SearchItem'
-import SearchItemTextThumbnail from '../features/search/ui/SearchItemTextThumbnail'
-import SearchItemThumbnail from '../features/search/ui/SearchItemThumbnail'
-import useConcertListQuery from '../lib/hooks/queries/useConcertListQuery'
-import useSearchQuery from '../lib/hooks/queries/useSearchQuery'
-import { useUserCurrentLocationStore } from '../lib/stores/userCurrentLocationStore'
-import CommonListEmpty from '../ui/CommonListEmpty'
-import { useSearchScreenNavigation } from './SearchScreen.hooks'
+import SearchItem from '../../features/search/ui/SearchItem'
+import SearchItemTextThumbnail from '../../features/search/ui/SearchItemTextThumbnail'
+import SearchItemThumbnail from '../../features/search/ui/SearchItemThumbnail'
+import useConcertListQuery from '../../lib/hooks/queries/useConcertListQuery'
+import useSearchQuery from '../../lib/hooks/queries/useSearchQuery'
+import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocationStore'
+import CommonListEmpty from '../../ui/CommonListEmpty'
+import { useSearchScreenNavigation } from './search-screen.hooks'
 
-const SearchScreen = () => {
+export const SearchScreen = () => {
   const navigation = useSearchScreenNavigation()
   const [searchKeyword, setSearchKeyword] = useState('')
   const debouncedSearchKeyword = useDebounce(searchKeyword, 350)
@@ -236,5 +236,3 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
 })
-
-export default SearchScreen
