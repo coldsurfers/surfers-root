@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import useConcertTickets from '../../../../app/concert/[id]/queries/useConcertTickets'
 import { RegisteredTicketItem } from '../registered-ticket-item'
+import { StyledTicketListContainer } from './registered-ticket-list.styled'
 
 export const RegisteredTicketList = ({ concertId }: { concertId: string }) => {
   const { data: ticketsData } = useConcertTickets({
@@ -16,10 +17,10 @@ export const RegisteredTicketList = ({ concertId }: { concertId: string }) => {
   }, [ticketsData])
 
   return (
-    <>
-      {tickets.map((ticket) => {
-        return <RegisteredTicketItem key={ticket?.id} ticket={ticket} concertId={concertId} />
-      })}
-    </>
+    <StyledTicketListContainer>
+      {tickets.map((ticket) => (
+        <RegisteredTicketItem key={ticket?.id} ticket={ticket} concertId={concertId} />
+      ))}
+    </StyledTicketListContainer>
   )
 }

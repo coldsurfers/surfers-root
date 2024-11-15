@@ -131,8 +131,8 @@ export const ConcertIdPageClient = ({
           </StyledContent>
           {/* Ticket */}
           <StyledLabel as="h3">티켓 정보</StyledLabel>
-          <RegisteredTicketList concertId={id} />
           <AddTicketsUI concertId={id} />
+          <RegisteredTicketList concertId={id} />
           {/* Created At */}
           <StyledLabel as="h3">등록일</StyledLabel>
           {concert?.createdAt ? (
