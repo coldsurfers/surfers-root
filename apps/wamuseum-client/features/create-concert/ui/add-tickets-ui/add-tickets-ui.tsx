@@ -5,32 +5,18 @@ import InputWithLabel from '@/ui/InputWithLabel'
 import Label from '@/ui/Label'
 import UploadFormDateInput from '@/ui/UploadFormDateInput'
 import { Button, Spinner } from '@coldsurfers/ocean-road'
-import styled from '@emotion/styled'
-import format from 'date-fns/format'
 import isValid from 'date-fns/isValid'
 import { useCallback, useState } from 'react'
-import useCreateConcertTicket from '../mutations/useCreateConcertTicket'
-import { UseConcertTicketsDataT, UseConcertTicketsInputT, concertTicketsQuery } from '../queries/useConcertTickets'
+import useCreateConcertTicket from '../../../../app/concert/[id]/mutations/useCreateConcertTicket'
+import {
+  UseConcertTicketsDataT,
+  UseConcertTicketsInputT,
+  concertTicketsQuery,
+} from '../../../../app/concert/[id]/queries/useConcertTickets'
+import { StyledAddTicketsUIContent } from './add-tickets-ui.styled'
+import { formatDate, parseDate } from './add-tickets-ui.utils'
 
-const Content = styled.h3`
-  font-size: 20px;
-  margin-bottom: 16px;
-  font-weight: 600;
-`
-
-const parseDate = (dateString: string) => {
-  const year = dateString.slice(0, 2)
-  const month = dateString.slice(2, 4)
-  const day = dateString.slice(4, 6)
-  const hour = dateString.slice(6, 8)
-  const min = dateString.slice(8, 10)
-  const parsed = new Date(`20${year}-${month}-${day} ${hour}:${min}`)
-  return parsed
-}
-
-const formatDate = (date: Date) => (isValid(date) ? format(date, 'yyyy-MM-dd hh:mm a') : '올바르지 않은 날짜입니다')
-
-const AddTicketsUI = ({ concertId }: { concertId: string }) => {
+export const AddTicketsUI = ({ concertId }: { concertId: string }) => {
   const [mutateCreateConcertTicket, { loading: loadingCreateConcertTicket }] = useCreateConcertTicket({})
 
   const [addTicketsForm, setAddTicketsForm] = useState<
@@ -59,9 +45,9 @@ const AddTicketsUI = ({ concertId }: { concertId: string }) => {
 
   return (
     <>
-      <Content style={{ display: 'flex', alignItems: 'center' }}>
+      <StyledAddTicketsUIContent>
         <AddButton onClick={addTicketInput} />
-      </Content>
+      </StyledAddTicketsUIContent>
       {addTicketsForm.map((ticket, ticketIndex) => (
         <div key={ticketIndex} style={{ display: 'flex', alignItems: 'center' }}>
           <InputWithLabel
@@ -195,5 +181,3 @@ const AddTicketsUI = ({ concertId }: { concertId: string }) => {
     </>
   )
 }
-
-export default AddTicketsUI
