@@ -165,7 +165,7 @@ export const UPDATE_CONCERT_POSTER_MUTATION = gql`
 export const UpdateConcertPosterMutation = gql`
   mutation UpdateConcertPoster($input: UpdateConcertPosterInput!) {
     updateConcertPoster(input: $input) {
-      ... on ConcertPoster {
+      ... on Poster {
         id
         imageURL
       }

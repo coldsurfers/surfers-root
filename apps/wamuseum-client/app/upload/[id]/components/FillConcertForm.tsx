@@ -3,6 +3,7 @@
 import useCreateConcertPosterMutation from '@/hooks/useCreateConcertPosterMutation'
 import { AddButton } from '@/ui'
 import { presign, uploadToPresignedURL } from '@/utils/fetcher'
+import { getPosterS3Url } from '@/utils/get-poster-s3-url'
 import pickFile from '@/utils/pickFile'
 import { Button, Spinner, Text, colors } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
@@ -74,9 +75,7 @@ const FillConcertForm = ({ concertId }: { concertId: string }) => {
           data: presignedData,
           file: files[0],
         })
-        setPosterUrl(
-          `${process.env.NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL}/billets/poster-thumbnails/${encodeURIComponent(filename)}`,
-        )
+        setPosterUrl(getPosterS3Url(filename))
       } catch (err) {
         console.error(err)
       } finally {
