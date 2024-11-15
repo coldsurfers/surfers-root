@@ -125,18 +125,18 @@ export const ConcertIdPageClient = ({
             <SearchConcertVenueUI concertId={id} />
           </StyledContent>
           {/* Concert Date */}
-          <StyledLabel>공연 날짜</StyledLabel>
+          <StyledLabel as="h3">공연 날짜</StyledLabel>
           <StyledContent>
-            {concert?.date ? format(new Date(concert.date), 'yyyy-MM-dd hh:mm a') : '등록된 공연날짜가 없습니다.'}
+            {concert?.date ? format(new Date(concert.date), 'MMM dd, hh:mm a') : '등록된 공연날짜가 없습니다.'}
           </StyledContent>
           {/* Ticket */}
-          <StyledLabel>티켓 정보</StyledLabel>
+          <StyledLabel as="h3">티켓 정보</StyledLabel>
           <RegisteredTicketsUI concertId={id} />
           <AddTicketsUI concertId={id} />
           {/* Created At */}
-          <StyledLabel>등록일</StyledLabel>
+          <StyledLabel as="h3">등록일</StyledLabel>
           {concert?.createdAt ? (
-            <StyledContent>{format(new Date(concert.createdAt), 'yyyy-MM-dd hh:mm a')}</StyledContent>
+            <StyledContent>{format(new Date(concert.createdAt), 'MMM dd, hh:mm a')}</StyledContent>
           ) : null}
           {concert?.updatedAt && (
             <>
