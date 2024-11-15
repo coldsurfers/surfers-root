@@ -178,8 +178,4 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  container: {
-    backgroundColor: 'white',
-    paddingBottom: 24 + CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT,
-  },
 })
