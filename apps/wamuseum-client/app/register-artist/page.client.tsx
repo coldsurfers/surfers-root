@@ -1,6 +1,6 @@
 'use client'
 
-import AddButton from '@/ui/AddButton'
+import { AddButton } from '@/ui'
 import InputWithLabel from '@/ui/InputWithLabel'
 import { presign, uploadToPresignedURL } from '@/utils/fetcher'
 import pickFile from '@/utils/pickFile'
