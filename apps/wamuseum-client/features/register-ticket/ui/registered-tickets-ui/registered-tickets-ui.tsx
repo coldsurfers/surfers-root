@@ -37,7 +37,7 @@ export const RegisteredTicketsUI = ({ concertId }: { concertId: string }) => {
                 width: 10,
                 height: 10,
               }}
-              color={'pink'}
+              theme={'pink'}
               onClick={() => {
                 mutateRemoveConcertTicket({
                   variables: {
