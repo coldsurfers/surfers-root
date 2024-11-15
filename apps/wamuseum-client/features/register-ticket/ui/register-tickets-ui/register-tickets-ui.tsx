@@ -1,13 +1,13 @@
 import { Button, Spinner, Text } from '@coldsurfers/ocean-road'
 import { useMemo } from 'react'
-import useRemoveConcertTicket from '../mutations/useRemoveConcertTicket'
+import useRemoveConcertTicket from '../../../../app/concert/[id]/mutations/useRemoveConcertTicket'
 import useConcertTickets, {
   UseConcertTicketsDataT,
   UseConcertTicketsInputT,
   concertTicketsQuery,
-} from '../queries/useConcertTickets'
+} from '../../../../app/concert/[id]/queries/useConcertTickets'
 
-const RegisteredTicketsUI = ({ concertId }: { concertId: string }) => {
+export const RegisterTicketsUI = ({ concertId }: { concertId: string }) => {
   const { data: ticketsData } = useConcertTickets({
     variables: {
       concertId,
@@ -87,5 +87,3 @@ const RegisteredTicketsUI = ({ concertId }: { concertId: string }) => {
     </>
   )
 }
-
-export default RegisteredTicketsUI

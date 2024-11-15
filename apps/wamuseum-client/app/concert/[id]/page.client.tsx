@@ -7,6 +7,7 @@ import {
   DeleteConcertButton,
   DeleteConcertConfirmModal,
   RegisteredConcertArtistList,
+  RegisterTicketsUI,
   SearchArtistsUI,
   UpdateConcertPosterUI,
 } from '@/features'
@@ -16,7 +17,6 @@ import { format } from 'date-fns'
 import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
 import useConcertQuery from '../../../hooks/useConcertQuery'
-import RegisteredTicketsUI from './components/RegisteredTicketsUI'
 import SearchConcertVenueUI from './components/SearchConcertVenueUI'
 import { StyledContent, StyledLabel } from './page.styled'
 import useConcertArtists from './queries/useConcertArtists'
@@ -131,7 +131,7 @@ export const ConcertIdPageClient = ({
           </StyledContent>
           {/* Ticket */}
           <StyledLabel as="h3">티켓 정보</StyledLabel>
-          <RegisteredTicketsUI concertId={id} />
+          <RegisterTicketsUI concertId={id} />
           <AddTicketsUI concertId={id} />
           {/* Created At */}
           <StyledLabel as="h3">등록일</StyledLabel>
