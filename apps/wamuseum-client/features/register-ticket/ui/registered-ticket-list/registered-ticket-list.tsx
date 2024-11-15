@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import useConcertTickets from '../../../../app/concert/[id]/queries/useConcertTickets'
 import { RegisteredTicketItem } from '../registered-ticket-item'
 
-export const RegisteredTicketsUI = ({ concertId }: { concertId: string }) => {
+export const RegisteredTicketList = ({ concertId }: { concertId: string }) => {
   const { data: ticketsData } = useConcertTickets({
     variables: {
       concertId,
