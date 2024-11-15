@@ -4,9 +4,12 @@ import {
   UseConcertTicketsDataT,
   UseConcertTicketsInputT,
 } from '@/app/concert/[id]/queries/useConcertTickets'
-import { Button, Text } from '@coldsurfers/ocean-road'
+import { Button, colors, Text } from '@coldsurfers/ocean-road'
+import { format } from 'date-fns'
+import Link from 'next/link'
 import { useCallback } from 'react'
 import { Maybe, Ticket } from 'src/__generated__/graphql'
+import { StyledTicketItemContainer, StyledTicketItemLabel } from './registered-ticket-item.styled'
 
 export const RegisteredTicketItem = ({ ticket, concertId }: { ticket: Maybe<Ticket>; concertId: string }) => {
   const [mutateRemoveConcertTicket, { loading: loadingRemoveConcertTicket }] = useRemoveConcertTicket()
@@ -58,20 +61,18 @@ export const RegisteredTicketItem = ({ ticket, concertId }: { ticket: Maybe<Tick
     return null
   }
   return (
-    <div key={ticket.id} style={{ display: 'flex', alignItems: 'center' }}>
-      <Text>{ticket.seller}</Text>
-      <Text style={{ marginLeft: 8 }}>{ticket.sellingURL}</Text>
-      <Text style={{ marginLeft: 8 }}>{ticket.openDate}</Text>
-      <Button
-        style={{
-          width: 10,
-          height: 10,
-        }}
-        theme={'pink'}
-        onClick={onClickDelete}
-      >
-        ✘
+    <StyledTicketItemContainer>
+      <StyledTicketItemLabel as="h4">티켓 판매자</StyledTicketItemLabel>
+      <Text>🎫 {ticket.seller}</Text>
+      <StyledTicketItemLabel as="h4">티켓 판매 링크</StyledTicketItemLabel>
+      <Link href={ticket.sellingURL} target="_blank">
+        <Text style={{ color: colors.oc.blue[3].value }}>{ticket.sellingURL}</Text>
+      </Link>
+      <StyledTicketItemLabel as="h4">티켓 오픈 날짜</StyledTicketItemLabel>
+      <Text>{format(new Date(ticket.openDate), 'MMM dd, hh:mm a')}</Text>
+      <Button theme={'pink'} onClick={onClickDelete} style={{ marginTop: '1rem' }}>
+        삭제하기
       </Button>
-    </div>
+    </StyledTicketItemContainer>
   )
 }
