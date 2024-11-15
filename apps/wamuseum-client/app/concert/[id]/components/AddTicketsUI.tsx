@@ -1,6 +1,6 @@
 'use client'
 
-import AddButton from '@/ui/AddButton'
+import { AddButton } from '@/ui'
 import InputWithLabel from '@/ui/InputWithLabel'
 import Label from '@/ui/Label'
 import UploadFormDateInput from '@/ui/UploadFormDateInput'

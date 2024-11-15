@@ -1,7 +1,7 @@
 'use client'
 
 import useCreateConcertPosterMutation from '@/hooks/useCreateConcertPosterMutation'
-import AddButton from '@/ui/AddButton'
+import { AddButton } from '@/ui'
 import { presign, uploadToPresignedURL } from '@/utils/fetcher'
 import pickFile from '@/utils/pickFile'
 import { Button, Spinner, Text, colors } from '@coldsurfers/ocean-road'
