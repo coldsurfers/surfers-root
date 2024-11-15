@@ -1,8 +1,8 @@
 import { Button } from '@coldsurfers/ocean-road'
-import { memo } from 'react'
+import { memo, MouseEventHandler } from 'react'
 
-export const AddButton = memo(({ onPress }: { onPress: () => void }) => (
-  <Button theme="white" onClick={onPress} style={{ width: 12, height: 12, marginLeft: 'auto' }}>
+export const AddButton = memo(({ onClick }: { onClick: MouseEventHandler<HTMLButtonElement> }) => (
+  <Button theme="white" onClick={onClick} style={{ width: 12, height: 12, marginLeft: 'auto' }}>
     ➕
   </Button>
 ))

@@ -7,7 +7,7 @@ import pickFile from '@/utils/pickFile'
 import { Button, Spinner, Text, colors } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { useRouter } from 'next/navigation'
-import { useCallback, useState } from 'react'
+import { MouseEventHandler, useCallback, useState } from 'react'
 
 const Form = styled.form`
   display: flex;
@@ -56,12 +56,12 @@ const FillConcertForm = ({ concertId }: { concertId: string }) => {
     },
   })
   const [posterUrl, setPosterUrl] = useState('')
-  const getThumbnail = useCallback(async () => {
+  const getThumbnail = useCallback<MouseEventHandler<HTMLButtonElement>>(async () => {
     pickFile(async (e) => {
       const { target } = e
       if (!target) return
       const filename = new Date().toISOString()
-      // @ts-ignore
+      // @ts-expect-error
       const { files } = target
       setUploadFileLoading(true)
       try {
@@ -98,7 +98,7 @@ const FillConcertForm = ({ concertId }: { concertId: string }) => {
 
   return (
     <Wrapper>
-      <Form>
+      <Form onSubmit={(e) => e.preventDefault()}>
         <HeadWrapper>
           <Text style={{ fontSize: 16 }}>공연 포스터</Text>
           {posterUrl ? (
@@ -111,7 +111,7 @@ const FillConcertForm = ({ concertId }: { concertId: string }) => {
               ✘
             </Button>
           ) : (
-            <AddButton onPress={getThumbnail} />
+            <AddButton onClick={getThumbnail} />
           )}
         </HeadWrapper>
         {posterUrl && <PosterThumbnail src={posterUrl} />}
