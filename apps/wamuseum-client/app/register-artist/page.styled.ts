@@ -28,7 +28,7 @@ export const StyledWrapper = styled.div`
   justify-content: center;
 `
 
-export const StyledForm = styled.div`
+export const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
 

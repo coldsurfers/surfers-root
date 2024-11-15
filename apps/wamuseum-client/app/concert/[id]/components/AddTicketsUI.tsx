@@ -60,7 +60,7 @@ const AddTicketsUI = ({ concertId }: { concertId: string }) => {
   return (
     <>
       <Content style={{ display: 'flex', alignItems: 'center' }}>
-        <AddButton onPress={addTicketInput} />
+        <AddButton onClick={addTicketInput} />
       </Content>
       {addTicketsForm.map((ticket, ticketIndex) => (
         <div key={ticketIndex} style={{ display: 'flex', alignItems: 'center' }}>
