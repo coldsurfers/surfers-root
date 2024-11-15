@@ -1,6 +1,6 @@
 import { ApolloCache, DefaultContext, MutationHookOptions, useMutation } from '@apollo/client'
+import { UpdateConcertPosterData } from 'src/__generated__/graphql'
 import { UpdateConcertPosterMutation } from '../gql/mutations'
-import { UpdateConcertPosterData } from '../gql/schema'
 
 type TData = {
   updateConcertPoster: UpdateConcertPosterData

@@ -1,4 +1,5 @@
 export * from './concert-artist'
 export * from './concert-poster'
+export * from './concert-venue'
 export * from './create-concert'
 export * from './delete-concert'
