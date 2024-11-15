@@ -1,6 +1,6 @@
 'use client'
 
-import AddButton from '@/ui/AddButton'
+import { AddButton } from '@/ui'
 import InputWithLabel from '@/ui/InputWithLabel'
 import { presign, uploadToPresignedURL } from '@/utils/fetcher'
 import pickFile from '@/utils/pickFile'
@@ -63,7 +63,7 @@ export const RegisterArtistPageClient = () => {
 
   return (
     <StyledWrapper>
-      <StyledForm>
+      <StyledForm onSubmit={(e) => e.preventDefault()}>
         <InputWithLabel label="아티스트 등록" value={artistName} onChangeText={setArtistName} />
         <StyledHeadWrapper>
           <Text style={{ fontSize: 16 }}>아티스트 프로필 이미지</Text>
@@ -77,7 +77,7 @@ export const RegisterArtistPageClient = () => {
               ✘
             </Button>
           ) : (
-            <AddButton onPress={getThumbnail} />
+            <AddButton onClick={getThumbnail} />
           )}
         </StyledHeadWrapper>
         {artistProfileImageUrl && <StyledPosterThumbnail src={artistProfileImageUrl} />}

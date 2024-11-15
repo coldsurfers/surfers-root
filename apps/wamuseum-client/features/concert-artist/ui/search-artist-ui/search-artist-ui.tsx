@@ -1,25 +1,15 @@
 'use client'
 
 import { Spinner, Text, TextInput, colors } from '@coldsurfers/ocean-road'
-import styled from '@emotion/styled'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useMemo, useState } from 'react'
+import useCreateConcertArtist from '../../../../app/concert/[id]/mutations/useCreateConcertArtist'
+import { concertArtistsQuery } from '../../../../app/concert/[id]/queries/useConcertArtists'
+import useSearchArtists from '../../../../app/concert/[id]/queries/useSearchArtists'
 import { ConcertArtistData } from '../../../../src/__generated__/graphql'
-import useCreateConcertArtist from '../mutations/useCreateConcertArtist'
-import { concertArtistsQuery } from '../queries/useConcertArtists'
-import useSearchArtists from '../queries/useSearchArtists'
+import { StyledSearchResultWrapper } from './search-artist-ui.styled'
 
-const SearchResultWrapper = styled.div`
-  box-shadow:
-    0 3px 6px rgba(0, 0, 0, 0.16),
-    0 3px 6px rgba(0, 0, 0, 0.23);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  background-color: ${colors.oc.white.value};
-  padding: 8px;
-  margin: 4px;
-`
-
-const SearchArtistsUI = ({ concertId }: { concertId: string }) => {
+export const SearchArtistsUI = ({ concertId }: { concertId: string }) => {
   const [searchArtistKeyword, setSearchArtistKeyword] = useState('')
   const debouncedSearchArtistKeyword = useDebounce(searchArtistKeyword, 350)
   const { data: searchedArtists, loading: loadingSearchArtists } = useSearchArtists({
@@ -43,12 +33,9 @@ const SearchArtistsUI = ({ concertId }: { concertId: string }) => {
         value={searchArtistKeyword}
         onChange={(event) => setSearchArtistKeyword(event.target.value)}
         placeholder="아티스트 검색"
-        style={{
-          marginTop: 12,
-        }}
       />
       {artistSearchResult.length > 0 ? (
-        <SearchResultWrapper>
+        <StyledSearchResultWrapper>
           {artistSearchResult.map((result) => (
             <div
               key={result?.id}
@@ -112,11 +99,9 @@ const SearchArtistsUI = ({ concertId }: { concertId: string }) => {
               <Text>{result?.name}</Text>
             </div>
           ))}
-        </SearchResultWrapper>
+        </StyledSearchResultWrapper>
       ) : null}
       {loadingSearchArtists ? <Spinner variant="page-overlay" /> : null}
     </>
   )
 }
-
-export default SearchArtistsUI

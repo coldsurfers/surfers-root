@@ -1,24 +1,18 @@
 import { ApolloCache, DefaultContext, MutationHookOptions, useMutation } from '@apollo/client'
-import { UpdateConcertPosterData } from '../gql/schema'
+import { UpdateConcertPosterData } from 'src/__generated__/graphql'
 import { UpdateConcertPosterMutation } from '../gql/mutations'
 
-export default function useUpdateConcertPosterMutation(
-  options?: MutationHookOptions<
-    { updateConcertPoster: UpdateConcertPosterData },
-    { input: { id: number; imageURL: string } },
-    DefaultContext,
-    ApolloCache<any>
-  >,
-) {
-  return useMutation<
-    {
-      updateConcertPoster: UpdateConcertPosterData
-    },
-    {
-      input: {
-        id: number
-        imageURL: string
-      }
-    }
-  >(UpdateConcertPosterMutation, options)
+type TData = {
+  updateConcertPoster: UpdateConcertPosterData
+}
+type TVariables = {
+  input: {
+    id: string
+    imageURL: string
+  }
+}
+type Options = MutationHookOptions<TData, TVariables, DefaultContext, ApolloCache<unknown>>
+
+export default function useUpdateConcertPosterMutation(options?: Options) {
+  return useMutation<TData, TVariables>(UpdateConcertPosterMutation, options)
 }
