@@ -9,6 +9,7 @@ import {
   RegisteredConcertArtistList,
   RegisterTicketsUI,
   SearchArtistsUI,
+  SearchConcertVenueUI,
   UpdateConcertPosterUI,
 } from '@/features'
 import { Spinner } from '@coldsurfers/ocean-road'
@@ -17,7 +18,6 @@ import { format } from 'date-fns'
 import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
 import useConcertQuery from '../../../hooks/useConcertQuery'
-import SearchConcertVenueUI from './components/SearchConcertVenueUI'
 import { StyledContent, StyledLabel } from './page.styled'
 import useConcertArtists from './queries/useConcertArtists'
 import useConcertPoster from './queries/useConcertPoster'

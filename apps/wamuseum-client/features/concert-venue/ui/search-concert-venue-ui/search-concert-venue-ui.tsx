@@ -4,9 +4,13 @@ import { Spinner, Text, TextInput, colors } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useMemo, useState } from 'react'
-import useCreateConcertVenue from '../mutations/useCreateConcertVenue'
-import { UseConcertVenuesDataT, UseConcertVenuesInputT, concertVenuesQuery } from '../queries/useConcertVenues'
-import useSearchConcertVenueQuery from '../queries/useSearchConcertVenueQuery'
+import useCreateConcertVenue from '../../../../app/concert/[id]/mutations/useCreateConcertVenue'
+import {
+  UseConcertVenuesDataT,
+  UseConcertVenuesInputT,
+  concertVenuesQuery,
+} from '../../../../app/concert/[id]/queries/useConcertVenues'
+import useSearchConcertVenueQuery from '../../../../app/concert/[id]/queries/useSearchConcertVenueQuery'
 
 const SearchResultWrapper = styled.div`
   box-shadow:
@@ -18,7 +22,7 @@ const SearchResultWrapper = styled.div`
   margin: 4px;
 `
 
-const SearchConcertVenueUI = ({ concertId }: { concertId: string }) => {
+export const SearchConcertVenueUI = ({ concertId }: { concertId: string }) => {
   const [searchConcertVenueKeyword, setSearchConcertVenueKeyword] = useState('')
   const debouncedSearchConcertVenueKeyword = useDebounce(searchConcertVenueKeyword, 350)
   const { data: searchedConcertVenues, loading: loadingSearchConcertVenue } = useSearchConcertVenueQuery({
@@ -110,5 +114,3 @@ const SearchConcertVenueUI = ({ concertId }: { concertId: string }) => {
     </>
   )
 }
-
-export default SearchConcertVenueUI
