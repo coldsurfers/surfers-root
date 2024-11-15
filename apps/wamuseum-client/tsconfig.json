@@ -10,7 +10,9 @@
       "@/ui": ["./ui"],
       "@/ui/*": ["./ui/*"],
       "@/libs": ["./libs"],
-      "@/libs/*": ["./libs/*"]
+      "@/libs/*": ["./libs/*"],
+      "@/features": ["./features"],
+      "@/features/*": ["./features/*"]
     },
     "strictNullChecks": true
   },
