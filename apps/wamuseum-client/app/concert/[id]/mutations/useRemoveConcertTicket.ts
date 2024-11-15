@@ -21,7 +21,7 @@ export type UseRemoveConcertTicketInputT = {
 }
 
 const useRemoveConcertTicket = (
-  options: CommonMutationHookOptions<UseRemoveConcertTicketDataT, UseRemoveConcertTicketInputT>,
+  options?: CommonMutationHookOptions<UseRemoveConcertTicketDataT, UseRemoveConcertTicketInputT>,
 ) => useMutation<UseRemoveConcertTicketDataT, UseRemoveConcertTicketInputT>(removeConcertTicketMutation, options)
 
 export default useRemoveConcertTicket
