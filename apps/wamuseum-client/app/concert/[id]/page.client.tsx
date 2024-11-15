@@ -171,6 +171,7 @@ const InnerWrapper = styled.div`
   display: flex;
   margin-left: auto;
   margin-right: auto;
+  padding-bottom: 4.5rem;
 `
 
 const LeftWrapper = styled.div`
