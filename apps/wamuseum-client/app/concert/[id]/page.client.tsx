@@ -7,7 +7,9 @@ import {
   DeleteConcertButton,
   DeleteConcertConfirmModal,
   RegisteredConcertArtistList,
+  RegisteredTicketList,
   SearchArtistsUI,
+  SearchConcertVenueUI,
   UpdateConcertPosterUI,
 } from '@/features'
 import { Spinner } from '@coldsurfers/ocean-road'
@@ -16,8 +18,6 @@ import { format } from 'date-fns'
 import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
 import useConcertQuery from '../../../hooks/useConcertQuery'
-import RegisteredTicketsUI from './components/RegisteredTicketsUI'
-import SearchConcertVenueUI from './components/SearchConcertVenueUI'
 import { StyledContent, StyledLabel } from './page.styled'
 import useConcertArtists from './queries/useConcertArtists'
 import useConcertPoster from './queries/useConcertPoster'
@@ -131,8 +131,8 @@ export const ConcertIdPageClient = ({
           </StyledContent>
           {/* Ticket */}
           <StyledLabel as="h3">티켓 정보</StyledLabel>
-          <RegisteredTicketsUI concertId={id} />
           <AddTicketsUI concertId={id} />
+          <RegisteredTicketList concertId={id} />
           {/* Created At */}
           <StyledLabel as="h3">등록일</StyledLabel>
           {concert?.createdAt ? (
@@ -171,6 +171,7 @@ const InnerWrapper = styled.div`
   display: flex;
   margin-left: auto;
   margin-right: auto;
+  padding-bottom: 4.5rem;
 `
 
 const LeftWrapper = styled.div`
