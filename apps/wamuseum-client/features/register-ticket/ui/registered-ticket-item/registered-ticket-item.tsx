@@ -20,7 +20,7 @@ export const RegisteredTicketItem = ({ ticket, concertId }: { ticket: Maybe<Tick
       <StyledTicketItemLabel as="h4">티켓 판매자</StyledTicketItemLabel>
       <Text>🎫 {ticket.seller}</Text>
       <StyledTicketItemLabel as="h4">티켓 판매 링크</StyledTicketItemLabel>
-      <Link href={ticket.sellingURL} target="_blank">
+      <Link href={ticket.sellingURL} target="_blank" style={{ alignSelf: 'flex-start' }}>
         <Text style={{ color: colors.oc.blue[3].value }}>{ticket.sellingURL}</Text>
       </Link>
       <StyledTicketItemLabel as="h4">티켓 오픈 날짜</StyledTicketItemLabel>
