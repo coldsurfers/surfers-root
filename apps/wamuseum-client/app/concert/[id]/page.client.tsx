@@ -1,10 +1,10 @@
 'use client'
 
-import { Button, Spinner } from '@coldsurfers/ocean-road'
+import { Button, Modal, Spinner, Text } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { format } from 'date-fns'
 import { useRouter } from 'next/navigation'
-import { useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import useConcertQuery from '../../../hooks/useConcertQuery'
 import AddTicketsUI from './components/AddTicketsUI'
 import PosterUI from './components/PosterUI'
@@ -31,6 +31,7 @@ export const ConcertIdPageClient = ({
 }) => {
   const { id } = params
   const router = useRouter()
+  const [deleteConfirmModalVisible, setDeleteConfirmModalVisible] = useState(false)
 
   const { data: concertData, loading: concertLoading } = useConcertQuery({
     variables: {
@@ -90,6 +91,29 @@ export const ConcertIdPageClient = ({
     }
     return []
   }, [concertVenuesData])
+
+  const onClickConfirmDelete = useCallback(() => {
+    mutateRemoveConcert({
+      variables: {
+        input: {
+          id,
+        },
+      },
+      update: (cache, { data }) => {
+        if (!data || !data.removeConcert) return
+        const { removeConcert } = data
+        if (removeConcert.__typename !== 'Concert') return
+        const normalizedId = cache.identify({
+          id: removeConcert.id,
+          __typename: 'Concert',
+        })
+        cache.evict({ id: normalizedId })
+        cache.gc()
+      },
+    }).then(() => {
+      router.push('/')
+    })
+  }, [id, mutateRemoveConcert, router])
 
   // const onClickCreatePoster = useCallback(() => {
   //   if (!concert) return
@@ -151,32 +175,7 @@ export const ConcertIdPageClient = ({
     <Wrapper>
       <Title>{concert?.title}</Title>
       <ConfigButtonWrapper>
-        <Button
-          color="pink"
-          onClick={() => {
-            mutateRemoveConcert({
-              variables: {
-                input: {
-                  id,
-                },
-              },
-              update: (cache, { data }) => {
-                if (!data || !data.removeConcert) return
-                const { removeConcert } = data
-                if (removeConcert.__typename !== 'Concert') return
-                const normalizedId = cache.identify({
-                  id: removeConcert.id,
-                  __typename: 'Concert',
-                })
-                cache.evict({ id: normalizedId })
-                cache.gc()
-              },
-            }).then(() => {
-              router.push('/')
-            })
-          }}
-          style={{ marginLeft: 10 }}
-        >
+        <Button color="pink" onClick={() => setDeleteConfirmModalVisible(true)} style={{ marginLeft: 10 }}>
           삭제하기
         </Button>
       </ConfigButtonWrapper>
@@ -286,6 +285,10 @@ export const ConcertIdPageClient = ({
         </RightWrapper>
       </InnerWrapper>
       {removeConcertLoading || removeConcertVenueLoading ? <Spinner variant="page-overlay" /> : null}
+      <Modal visible={deleteConfirmModalVisible} onClose={() => setDeleteConfirmModalVisible(false)}>
+        <Text>확인을 누르면 해당 콘서트를 삭제해요.</Text>
+        <Button onClick={onClickConfirmDelete}>확인</Button>
+      </Modal>
     </Wrapper>
   )
 }
