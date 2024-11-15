@@ -26,15 +26,15 @@ const ListHeader = ({
 }) => {
   return (
     <View>
-      <View style={{ width: '100%', height: Dimensions.get('screen').height / 2 }}>
-        <FastImage source={{ uri: posterThumbnail }} style={{ width: '100%', height: '100%' }} />
+      <View style={styles.headerImageWrapper}>
+        <FastImage source={{ uri: posterThumbnail }} style={styles.headerImage} />
       </View>
-      <View style={{ marginTop: 24, paddingHorizontal: 12 }}>
-        <Text weight="bold" style={{ fontSize: 20 }}>
+      <View style={styles.headerContentWrapper}>
+        <Text weight="bold" style={styles.headerTitle}>
           {concertTitle}
         </Text>
-        <Text style={{ marginTop: 6 }}>{format(new Date(concertDate ?? ''), 'MMM dd, hh:mm a')}</Text>
-        <Text style={{ marginTop: 6, color: colors.oc.gray[8].value }}>{concertVenue}</Text>
+        <Text style={styles.headerDate}>{format(new Date(concertDate ?? ''), 'MMM dd, hh:mm a')}</Text>
+        <Text style={styles.headerVenue}>{concertVenue}</Text>
       </View>
     </View>
   )
@@ -132,4 +132,10 @@ const styles = StyleSheet.create({
   ticketItemBottom: { marginTop: 12 },
   ticketItemCTA: { backgroundColor: colors.oc.cyan[8].value },
   ticketItemCTAText: { color: colors.oc.white.value },
+  headerImageWrapper: { width: '100%', height: Dimensions.get('screen').height / 2 },
+  headerImage: { width: '100%', height: '100%' },
+  headerContentWrapper: { marginTop: 24, paddingHorizontal: 12 },
+  headerTitle: { fontSize: 20 },
+  headerDate: { marginTop: 6 },
+  headerVenue: { marginTop: 6, color: colors.oc.gray[8].value },
 })
