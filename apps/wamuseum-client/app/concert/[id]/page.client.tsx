@@ -7,7 +7,7 @@ import {
   DeleteConcertButton,
   DeleteConcertConfirmModal,
   RegisteredConcertArtistList,
-  RegisterTicketsUI,
+  RegisteredTicketsUI,
   SearchArtistsUI,
   SearchConcertVenueUI,
   UpdateConcertPosterUI,
@@ -131,7 +131,7 @@ export const ConcertIdPageClient = ({
           </StyledContent>
           {/* Ticket */}
           <StyledLabel as="h3">티켓 정보</StyledLabel>
-          <RegisterTicketsUI concertId={id} />
+          <RegisteredTicketsUI concertId={id} />
           <AddTicketsUI concertId={id} />
           {/* Created At */}
           <StyledLabel as="h3">등록일</StyledLabel>

@@ -7,7 +7,7 @@ import useConcertTickets, {
   concertTicketsQuery,
 } from '../../../../app/concert/[id]/queries/useConcertTickets'
 
-export const RegisterTicketsUI = ({ concertId }: { concertId: string }) => {
+export const RegisteredTicketsUI = ({ concertId }: { concertId: string }) => {
   const { data: ticketsData } = useConcertTickets({
     variables: {
       concertId,
