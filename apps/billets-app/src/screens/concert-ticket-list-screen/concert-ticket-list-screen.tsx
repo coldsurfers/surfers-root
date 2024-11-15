@@ -5,7 +5,7 @@ import { colors } from '@coldsurfers/ocean-road'
 import { Button, Text } from '@coldsurfers/ocean-road/native'
 import { format } from 'date-fns'
 import { useMemo } from 'react'
-import { Dimensions, FlatList, Linking, View } from 'react-native'
+import { Dimensions, FlatList, Linking, StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import {
@@ -45,38 +45,21 @@ export const ConcertTicketListScreen = () => {
         data={ticketsData}
         renderItem={(info) => {
           return (
-            <View
-              style={{
-                marginHorizontal: 12,
-                ...commonStyles.shadowBox,
-                backgroundColor: colors.oc.white.value,
-                borderRadius: 8,
-                padding: 8,
-                marginTop: 12,
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  borderBottomWidth: 1,
-                  borderBottomColor: colors.oc.gray[4].value,
-                  paddingBottom: 12,
-                }}
-              >
-                <Text style={{ fontSize: 24 }}>🎫</Text>
-                <View style={{ marginLeft: 12 }}>
+            <View style={styles.ticketItemWrapper}>
+              <View style={styles.ticketItemTop}>
+                <Text style={styles.ticketItemEmoji}>🎫</Text>
+                <View style={styles.ticketItemPriceWrapper}>
                   <Text>{info.item.formattedPrice}</Text>
                 </View>
               </View>
-              <View style={{ marginTop: 12 }}>
+              <View style={styles.ticketItemBottom}>
                 <Button
                   onPress={() => {
                     Linking.openURL(info.item.url)
                   }}
-                  style={{ backgroundColor: colors.oc.cyan[8].value }}
+                  style={styles.ticketItemCTA}
                 >
-                  <Text weight="medium" style={{ color: colors.oc.white.value }}>
+                  <Text weight="medium" style={styles.ticketItemCTAText}>
                     구매하기 - {info.item.formattedPrice}
                   </Text>
                 </Button>
@@ -104,3 +87,26 @@ export const ConcertTicketListScreen = () => {
     </CommonScreenLayout>
   )
 }
+
+const styles = StyleSheet.create({
+  ticketItemWrapper: {
+    marginHorizontal: 12,
+    ...commonStyles.shadowBox,
+    backgroundColor: colors.oc.white.value,
+    borderRadius: 8,
+    padding: 8,
+    marginTop: 12,
+  },
+  ticketItemTop: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: colors.oc.gray[4].value,
+    paddingBottom: 12,
+  },
+  ticketItemEmoji: { fontSize: 24 },
+  ticketItemPriceWrapper: { marginLeft: 12 },
+  ticketItemBottom: { marginTop: 12 },
+  ticketItemCTA: { backgroundColor: colors.oc.cyan[8].value },
+  ticketItemCTAText: { color: colors.oc.white.value },
+})
