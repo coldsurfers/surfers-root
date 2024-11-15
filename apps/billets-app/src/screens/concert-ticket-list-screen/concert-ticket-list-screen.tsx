@@ -4,14 +4,41 @@ import { CommonBackIconButton, CommonScreenLayout } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Text } from '@coldsurfers/ocean-road/native'
 import { format } from 'date-fns'
-import { useMemo } from 'react'
-import { Dimensions, FlatList, Linking, StyleSheet, View } from 'react-native'
+import { useCallback, useMemo } from 'react'
+import { Dimensions, FlatList, Linking, ListRenderItem, StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import {
   useConcertTicketListScreenNavigation,
   useConcertTicketListScreenRoute,
 } from './concert-ticket-list-screen.hooks'
+
+const ListHeader = ({
+  posterThumbnail,
+  concertTitle,
+  concertVenue,
+  concertDate,
+}: {
+  posterThumbnail: string
+  concertTitle: string
+  concertDate: string
+  concertVenue: string
+}) => {
+  return (
+    <View>
+      <View style={{ width: '100%', height: Dimensions.get('screen').height / 2 }}>
+        <FastImage source={{ uri: posterThumbnail }} style={{ width: '100%', height: '100%' }} />
+      </View>
+      <View style={{ marginTop: 24, paddingHorizontal: 12 }}>
+        <Text weight="bold" style={{ fontSize: 20 }}>
+          {concertTitle}
+        </Text>
+        <Text style={{ marginTop: 6 }}>{format(new Date(concertDate ?? ''), 'MMM dd, hh:mm a')}</Text>
+        <Text style={{ marginTop: 6, color: colors.oc.gray[8].value }}>{concertVenue}</Text>
+      </View>
+    </View>
+  )
+}
 
 export const ConcertTicketListScreen = () => {
   const { top: topInset } = useSafeAreaInsets()
@@ -38,48 +65,44 @@ export const ConcertTicketListScreen = () => {
     return data?.tickets ?? []
   }, [data?.tickets])
 
+  const renderItem = useCallback<ListRenderItem<(typeof ticketsData)[number]>>((info) => {
+    return (
+      <View style={styles.ticketItemWrapper}>
+        <View style={styles.ticketItemTop}>
+          <Text style={styles.ticketItemEmoji}>🎫</Text>
+          <View style={styles.ticketItemPriceWrapper}>
+            <Text>{info.item.formattedPrice}</Text>
+          </View>
+        </View>
+        <View style={styles.ticketItemBottom}>
+          <Button
+            onPress={() => {
+              Linking.openURL(info.item.url)
+            }}
+            style={styles.ticketItemCTA}
+          >
+            <Text weight="medium" style={styles.ticketItemCTAText}>
+              구매하기 - {info.item.formattedPrice}
+            </Text>
+          </Button>
+        </View>
+      </View>
+    )
+  }, [])
+
   return (
     <CommonScreenLayout edges={[]}>
       <FlatList
         style={{ flex: 1 }}
         data={ticketsData}
-        renderItem={(info) => {
-          return (
-            <View style={styles.ticketItemWrapper}>
-              <View style={styles.ticketItemTop}>
-                <Text style={styles.ticketItemEmoji}>🎫</Text>
-                <View style={styles.ticketItemPriceWrapper}>
-                  <Text>{info.item.formattedPrice}</Text>
-                </View>
-              </View>
-              <View style={styles.ticketItemBottom}>
-                <Button
-                  onPress={() => {
-                    Linking.openURL(info.item.url)
-                  }}
-                  style={styles.ticketItemCTA}
-                >
-                  <Text weight="medium" style={styles.ticketItemCTAText}>
-                    구매하기 - {info.item.formattedPrice}
-                  </Text>
-                </Button>
-              </View>
-            </View>
-          )
-        }}
+        renderItem={renderItem}
         ListHeaderComponent={
-          <View>
-            <View style={{ width: '100%', height: Dimensions.get('screen').height / 2 }}>
-              <FastImage source={{ uri: posterThumbnail }} style={{ width: '100%', height: '100%' }} />
-            </View>
-            <View style={{ marginTop: 24, paddingHorizontal: 12 }}>
-              <Text weight="bold" style={{ fontSize: 20 }}>
-                {concertTitle}
-              </Text>
-              <Text style={{ marginTop: 6 }}>{format(new Date(concertDate ?? ''), 'MMM dd, hh:mm a')}</Text>
-              <Text style={{ marginTop: 6, color: colors.oc.gray[8].value }}>{concertVenue}</Text>
-            </View>
-          </View>
+          <ListHeader
+            concertTitle={concertTitle ?? ''}
+            concertDate={concertDate ?? ''}
+            concertVenue={concertVenue ?? ''}
+            posterThumbnail={posterThumbnail ?? ''}
+          />
         }
         bounces={false}
       />
