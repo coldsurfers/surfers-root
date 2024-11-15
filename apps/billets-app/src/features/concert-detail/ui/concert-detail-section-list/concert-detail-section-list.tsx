@@ -1,5 +1,6 @@
 import { CONCERT_DETAIL_LIST_HEADER_HEIGHT } from '@/lib'
 import { CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT } from '@/screens'
+import { colors } from '@coldsurfers/ocean-road'
 import React, { ReactElement, ReactNode, useCallback } from 'react'
 import { Animated, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
@@ -120,7 +121,10 @@ export const ConcertDetailSectionList = ({ sections, thumbnails }: ConcertDetail
   return (
     <>
       <Animated.SectionList
-        contentContainerStyle={styles.container}
+        contentContainerStyle={{
+          backgroundColor: colors.oc.white.value,
+          paddingBottom: 24 + CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT,
+        }}
         stickySectionHeadersEnabled={false}
         onScroll={Animated.event(
           [
