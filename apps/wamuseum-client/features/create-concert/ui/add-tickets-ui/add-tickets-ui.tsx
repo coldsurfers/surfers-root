@@ -24,7 +24,7 @@ export const AddTicketsUI = ({ concertId }: { concertId: string }) => {
       name: string
       website: string
       opendate: string
-      ticketPrices: number[]
+      ticketMinimumPrice: string
     }[]
   >([])
 
@@ -34,7 +34,7 @@ export const AddTicketsUI = ({ concertId }: { concertId: string }) => {
         name: '',
         website: '',
         opendate: '',
-        ticketPrices: [],
+        ticketMinimumPrice: '',
       }),
     )
   }, [])
@@ -106,6 +106,24 @@ export const AddTicketsUI = ({ concertId }: { concertId: string }) => {
               placeholder={'티켓 오픈 날짜'}
             />
           </div>
+          <InputWithLabel
+            value={''}
+            onChangeText={(text) => {
+              setAddTicketsForm((prev) =>
+                prev.map((prevItem, prevIndex) => {
+                  if (prevIndex === ticketIndex) {
+                    return {
+                      ...prevItem,
+                      ticketMinimumPrice: text,
+                    }
+                  }
+                  return prevItem
+                }),
+              )
+            }}
+            label="티켓 가격"
+            placeholder="티켓 최소 가격"
+          />
           <div>
             <Button
               style={{

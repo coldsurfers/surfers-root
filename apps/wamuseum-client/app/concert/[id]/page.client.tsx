@@ -1,6 +1,13 @@
 'use client'
 
-import { AddTicketsUI } from '@/features'
+import {
+  AddTicketsUI,
+  CreateConcertPosterUI,
+  DeleteConcertButton,
+  RegisteredConcertArtistUI,
+  SearchArtistsUI,
+  UpdateConcertPosterUI,
+} from '@/features'
 import useCreateConcertPosterMutation from '@/hooks/useCreateConcertPosterMutation'
 import useUpdateConcertPosterMutation from '@/hooks/useUpdateConcertPosterMutation'
 import { presign, uploadToPresignedURL } from '@/utils/fetcher'
@@ -13,13 +20,11 @@ import { concertPosterQuery } from 'gql/queries'
 import { useRouter } from 'next/navigation'
 import { useCallback, useMemo, useState } from 'react'
 import useConcertQuery from '../../../hooks/useConcertQuery'
-import PosterUI from './components/PosterUI'
-import RegisteredArtist from './components/RegisteredArtist'
 import RegisteredTicketsUI from './components/RegisteredTicketsUI'
-import SearchArtistsUI from './components/SearchArtistsUI'
 import SearchConcertVenueUI from './components/SearchConcertVenueUI'
 import useRemoveConcert from './mutations/useRemoveConcert'
 import useRemoveConcertVenue from './mutations/useRemoveConcertVenue'
+import { StyledContent, StyledLabel } from './page.styled'
 import useConcertArtists from './queries/useConcertArtists'
 import useConcertPoster from './queries/useConcertPoster'
 import useConcertVenues, {
@@ -231,37 +236,26 @@ export const ConcertIdPageClient = ({
   return (
     <Wrapper>
       <Title>{concert?.title}</Title>
-      <ConfigButtonWrapper>
-        <Button color="pink" onClick={() => setDeleteConfirmModalVisible(true)} style={{ marginLeft: 10 }}>
-          삭제하기
-        </Button>
-      </ConfigButtonWrapper>
+      <DeleteConcertButton onClick={() => setDeleteConfirmModalVisible(true)} />
       <InnerWrapper>
         <LeftWrapper>
           {thumbnailURL ? (
-            <PosterUI imageURL={thumbnailURL} onClickUpdate={onClickUpdatePoster} />
+            <UpdateConcertPosterUI imageURL={thumbnailURL} onClickUpdate={onClickUpdatePoster} />
           ) : (
-            <Button onClick={onClickCreatePoster} style={{ marginTop: 12 }}>
-              포스터 등록하기
-            </Button>
+            <CreateConcertPosterUI onClick={onClickCreatePoster} />
           )}
         </LeftWrapper>
         <RightWrapper>
-          <Label>아티스트</Label>
-          <Content
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-          >
+          <StyledLabel as="h3">아티스트</StyledLabel>
+          <StyledContent>
             {artistsResult.map((value) => {
               if (!value) return null
-              return <RegisteredArtist key={value.id} value={value} concertId={id} />
+              return <RegisteredConcertArtistUI key={value.id} value={value} concertId={id} />
             }) || '등록된 아티스트가 없습니다.'}
             <SearchArtistsUI concertId={id} />
-          </Content>
-          <Label>공연장소</Label>
-          <Content>
+          </StyledContent>
+          <StyledLabel as="h3">공연장소</StyledLabel>
+          <StyledContent>
             {venuesResult.map((value) => {
               if (!value) return null
               return (
@@ -320,23 +314,25 @@ export const ConcertIdPageClient = ({
                 </div>
               )
             }) || '등록된 공연장소가 없습니다.'}
-          </Content>
+          </StyledContent>
           <SearchConcertVenueUI concertId={id} />
-          <Label>공연 날짜</Label>
-          <Content>
+          <StyledLabel>공연 날짜</StyledLabel>
+          <StyledContent>
             {concert?.date ? format(new Date(concert.date), 'yyyy-MM-dd hh:mm a') : '등록된 공연날짜가 없습니다.'}
-          </Content>
+          </StyledContent>
 
-          <Label>티켓 정보</Label>
+          <StyledLabel>티켓 정보</StyledLabel>
           <RegisteredTicketsUI concertId={id} />
           <AddTicketsUI concertId={id} />
 
-          <Label>등록일</Label>
-          {concert?.createdAt ? <Content>{format(new Date(concert.createdAt), 'yyyy-MM-dd hh:mm a')}</Content> : null}
+          <StyledLabel>등록일</StyledLabel>
+          {concert?.createdAt ? (
+            <StyledContent>{format(new Date(concert.createdAt), 'yyyy-MM-dd hh:mm a')}</StyledContent>
+          ) : null}
           {concert?.updatedAt && (
             <>
-              <Label>수정일</Label>
-              <Content>{format(new Date(concert.updatedAt), 'yyyy-MM-dd hh:mm a')}</Content>
+              <StyledLabel>수정일</StyledLabel>
+              <StyledContent>{format(new Date(concert.updatedAt), 'yyyy-MM-dd hh:mm a')}</StyledContent>
             </>
           )}
         </RightWrapper>
@@ -386,21 +382,4 @@ const RightWrapper = styled.div`
 const Title = styled.h1`
   font-size: 32px;
   font-weight: 700;
-`
-
-const Label = styled.p`
-  font-size: 18px;
-  margin-bottom: 8px;
-`
-
-const Content = styled.h3`
-  font-size: 20px;
-  margin-bottom: 16px;
-  font-weight: 600;
-`
-
-const ConfigButtonWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: auto;
 `
