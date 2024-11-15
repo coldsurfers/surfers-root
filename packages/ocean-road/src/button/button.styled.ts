@@ -18,6 +18,10 @@ export const StyledButton = styled.button<{
 
   opacity: ${(props) => (props.colorTheme === 'transparentDarkGray' ? 0.5 : 1.0)};
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   &:active {
     opacity: 0.5;
   }
