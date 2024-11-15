@@ -2,20 +2,14 @@ import { ApolloCache, DefaultContext, MutationHookOptions, useMutation } from '@
 import { CreateConcertPosterMutation } from '../gql/mutations'
 import { CreateConcertPosterData, CreateConcertPosterInput } from '../src/__generated__/graphql'
 
-export default function useCreateConcertPosterMutation(
-  options?: MutationHookOptions<
-    { createConcertPoster: CreateConcertPosterData },
-    { input: CreateConcertPosterInput },
-    DefaultContext,
-    ApolloCache<any>
-  >,
-) {
-  return useMutation<
-    {
-      createConcertPoster: CreateConcertPosterData
-    },
-    {
-      input: CreateConcertPosterInput
-    }
-  >(CreateConcertPosterMutation, options)
+type TData = {
+  createConcertPoster: CreateConcertPosterData
+}
+type TVariables = {
+  input: CreateConcertPosterInput
+}
+type Options = MutationHookOptions<TData, TVariables, DefaultContext, ApolloCache<unknown>>
+
+export default function useCreateConcertPosterMutation(options?: Options) {
+  return useMutation<TData, TVariables>(CreateConcertPosterMutation, options)
 }

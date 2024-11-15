@@ -1,8 +1,14 @@
 'use client'
 
+import useCreateConcertPosterMutation from '@/hooks/useCreateConcertPosterMutation'
+import useUpdateConcertPosterMutation from '@/hooks/useUpdateConcertPosterMutation'
+import { presign, uploadToPresignedURL } from '@/utils/fetcher'
+import { getPosterS3Url } from '@/utils/get-poster-s3-url'
+import pickFile from '@/utils/pickFile'
 import { Button, Modal, Spinner, Text } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { format } from 'date-fns'
+import { concertPosterQuery } from 'gql/queries'
 import { useRouter } from 'next/navigation'
 import { useCallback, useMemo, useState } from 'react'
 import useConcertQuery from '../../../hooks/useConcertQuery'
@@ -59,6 +65,9 @@ export const ConcertIdPageClient = ({
 
   const [mutateRemoveConcertVenue, { loading: removeConcertVenueLoading }] = useRemoveConcertVenue({})
 
+  const [mutateUpdateConcertPoster, { loading: updateConcertPosterLoading }] = useUpdateConcertPosterMutation()
+  const [mutateCreateConcertPoster, { loading: createConcertPosterLoading }] = useCreateConcertPosterMutation()
+
   const concert = useMemo(() => {
     if (!concertData?.concert) return null
     switch (concertData.concert.__typename) {
@@ -71,12 +80,16 @@ export const ConcertIdPageClient = ({
     }
   }, [concertData])
 
-  const thumbnailURL = useMemo<string | null>(() => {
+  const concertPoster = useMemo(() => {
     if (concertPosterData?.concertPoster.__typename === 'PosterList') {
-      return concertPosterData.concertPoster.list?.at(0)?.imageURL ?? null
+      return concertPosterData.concertPoster.list?.at(0)
     }
     return null
   }, [concertPosterData])
+
+  const thumbnailURL = useMemo<string | null>(() => {
+    return concertPoster?.imageURL ?? null
+  }, [concertPoster?.imageURL])
 
   const artistsResult = useMemo(() => {
     if (concertArtists?.concertArtists.__typename === 'ArtistList') {
@@ -115,57 +128,101 @@ export const ConcertIdPageClient = ({
     })
   }, [id, mutateRemoveConcert, router])
 
-  // const onClickCreatePoster = useCallback(() => {
-  //   if (!concert) return
-  //   pickFile(async (e) => {
-  //     const { target } = e
-  //     if (!target) return
-  //     const filename = new Date().toISOString()
-  //     const { files } = target as any
-  //     const presignedData = await presign({
-  //       filename,
-  //       filetype: 'image/*',
-  //     })
-  //     await uploadToPresignedURL({
-  //       data: presignedData,
-  //       file: files[0],
-  //     })
-  //     mutateCreateConcertPoster({
-  //       variables: {
-  //         input: {
-  //           concertId: concert.id,
-  //           imageURL: `${process.env.NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL}/poster-thumbnails/${filename}`,
-  //         },
-  //       },
-  //     })
-  //   })
-  // }, [concert, mutateCreateConcertPoster])
+  const onClickCreatePoster = useCallback(() => {
+    if (!concert) return
+    pickFile(async (e) => {
+      const { target } = e
+      if (!target) return
+      const filename = new Date().toISOString()
+      // @ts-expect-error
+      const { files } = target
+      const presignedData = await presign({
+        filename,
+        filetype: 'image/*',
+        type: 'poster-thumbnails',
+      })
+      await uploadToPresignedURL({
+        data: presignedData,
+        file: files[0],
+      })
+      mutateCreateConcertPoster({
+        variables: {
+          input: {
+            concertId: concert.id,
+            imageURL: getPosterS3Url(filename),
+          },
+        },
+        update: (cache, { data }) => {
+          if (!concert) {
+            return
+          }
+          if (data?.createConcertPoster.__typename !== 'Poster') {
+            return
+          }
+          cache.writeQuery({
+            query: concertPosterQuery,
+            variables: {
+              concertId: concert.id,
+            },
+            data: {
+              concertPoster: {
+                __typename: 'PosterList',
+                list: [data.createConcertPoster],
+              },
+            },
+          })
+        },
+      })
+    })
+  }, [concert, mutateCreateConcertPoster])
 
-  // const onClickUpdatePoster = useCallback(async () => {
-  //   if (!thumbnail) return
-  //   pickFile(async (e) => {
-  //     const { target } = e
-  //     if (!target) return
-  //     const filename = new Date().toISOString()
-  //     const { files } = target as any
-  //     const presignedData = await presign({
-  //       filename,
-  //       filetype: 'image/*',
-  //     })
-  //     await uploadToPresignedURL({
-  //       data: presignedData,
-  //       file: files[0],
-  //     })
-  //     mutateUpdateConcertPoster({
-  //       variables: {
-  //         input: {
-  //           id: thumbnail.id,
-  //           imageURL: `${process.env.NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL}/poster-thumbnails/${filename}`,
-  //         },
-  //       },
-  //     })
-  //   })
-  // }, [mutateUpdateConcertPoster, thumbnail])
+  const onClickUpdatePoster = useCallback(async () => {
+    if (!concertPoster) return
+    pickFile(async (e) => {
+      const { target } = e
+      if (!target) return
+      const filename = new Date().toISOString()
+      // @ts-expect-error
+      const { files } = target
+      const presignedData = await presign({
+        filename,
+        filetype: 'image/*',
+        type: 'poster-thumbnails',
+      })
+      await uploadToPresignedURL({
+        data: presignedData,
+        file: files[0],
+      })
+      mutateUpdateConcertPoster({
+        variables: {
+          input: {
+            id: concertPoster.id,
+            imageURL: getPosterS3Url(filename),
+          },
+        },
+        update: (cache, { data }) => {
+          if (!data || !data.updateConcertPoster) return
+          const { updateConcertPoster } = data
+          if (updateConcertPoster.__typename !== 'ConcertPoster') return
+          const existingConcertPoster = cache.readQuery({ query: concertPosterQuery })
+          if (existingConcertPoster && updateConcertPoster) {
+            cache.writeQuery({
+              query: concertPosterQuery,
+              variables: {
+                concertId: concert?.id ?? '',
+              },
+              data: {
+                ...existingConcertPoster,
+                concertPoster: {
+                  list: [updateConcertPoster],
+                },
+              },
+            })
+          }
+        },
+      })
+    })
+  }, [concert?.id, concertPoster, mutateUpdateConcertPoster])
 
   if (concertLoading) {
     return <Spinner variant="page-overlay" />
@@ -182,9 +239,9 @@ export const ConcertIdPageClient = ({
       <InnerWrapper>
         <LeftWrapper>
           {thumbnailURL ? (
-            <PosterUI imageURL={thumbnailURL} />
+            <PosterUI imageURL={thumbnailURL} onClickUpdate={onClickUpdatePoster} />
           ) : (
-            <Button onClick={() => {}} style={{ marginTop: 12 }}>
+            <Button onClick={onClickCreatePoster} style={{ marginTop: 12 }}>
               포스터 등록하기
             </Button>
           )}
@@ -284,7 +341,9 @@ export const ConcertIdPageClient = ({
           )}
         </RightWrapper>
       </InnerWrapper>
-      {removeConcertLoading || removeConcertVenueLoading ? <Spinner variant="page-overlay" /> : null}
+      {removeConcertLoading || removeConcertVenueLoading || createConcertPosterLoading || updateConcertPosterLoading ? (
+        <Spinner variant="page-overlay" />
+      ) : null}
       <Modal visible={deleteConfirmModalVisible} onClose={() => setDeleteConfirmModalVisible(false)}>
         <Text>확인을 누르면 해당 콘서트를 삭제해요.</Text>
         <Button onClick={onClickConfirmDelete}>확인</Button>

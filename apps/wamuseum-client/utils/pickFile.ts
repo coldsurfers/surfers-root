@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 export default function pickFile(onChange: (e: Event) => void | Promise<void>) {
   const input = document.createElement('input')
   input.type = 'file'

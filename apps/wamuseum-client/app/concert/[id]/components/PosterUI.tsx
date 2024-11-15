@@ -15,12 +15,13 @@ const Thumbnail = styled.img`
 
 interface Props {
   imageURL: string
+  onClickUpdate?: () => void
 }
 
-const PosterUI = ({ imageURL }: Props) => (
+const PosterUI = ({ imageURL, onClickUpdate }: Props) => (
   <>
     <Thumbnail src={imageURL} />
-    <Button onClick={() => {}} style={{ marginTop: 12 }}>
+    <Button onClick={onClickUpdate} style={{ marginTop: 12 }}>
       포스터 변경하기
     </Button>
   </>
