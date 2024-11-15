@@ -1,61 +1,16 @@
-import useRemoveConcertTicket from '@/app/concert/[id]/mutations/useRemoveConcertTicket'
-import {
-  concertTicketsQuery,
-  UseConcertTicketsDataT,
-  UseConcertTicketsInputT,
-} from '@/app/concert/[id]/queries/useConcertTickets'
 import { Button, colors, Text } from '@coldsurfers/ocean-road'
 import { format } from 'date-fns'
 import Link from 'next/link'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { Maybe, Ticket } from 'src/__generated__/graphql'
+import { DeleteTicketConfirmModal } from '../../../delete-ticket'
 import { StyledTicketItemContainer, StyledTicketItemLabel } from './registered-ticket-item.styled'
 
 export const RegisteredTicketItem = ({ ticket, concertId }: { ticket: Maybe<Ticket>; concertId: string }) => {
-  const [mutateRemoveConcertTicket, { loading: loadingRemoveConcertTicket }] = useRemoveConcertTicket()
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false)
   const onClickDelete = useCallback(() => {
-    if (!ticket) {
-      return
-    }
-    if (loadingRemoveConcertTicket) {
-      return
-    }
-    mutateRemoveConcertTicket({
-      variables: {
-        input: {
-          concertId,
-          ticketId: ticket.id,
-        },
-      },
-      update: (cache, { data }) => {
-        if (data?.removeConcertTicket.__typename !== 'Ticket') {
-          return
-        }
-        const { removeConcertTicket: removedConcertTicketData } = data
-        const cacheData = cache.readQuery<UseConcertTicketsDataT, UseConcertTicketsInputT>({
-          query: concertTicketsQuery,
-          variables: {
-            concertId,
-          },
-        })
-
-        if (cacheData?.concertTickets.__typename === 'TicketList') {
-          cache.writeQuery({
-            query: concertTicketsQuery,
-            variables: {
-              concertId,
-            },
-            data: {
-              concertTickets: {
-                ...cacheData.concertTickets,
-                list: cacheData.concertTickets.list?.filter((value) => value?.id !== removedConcertTicketData.id),
-              },
-            },
-          })
-        }
-      },
-    })
-  }, [concertId, loadingRemoveConcertTicket, mutateRemoveConcertTicket, ticket])
+    setDeleteModalVisible(true)
+  }, [])
 
   if (!ticket) {
     return null
@@ -73,6 +28,12 @@ export const RegisteredTicketItem = ({ ticket, concertId }: { ticket: Maybe<Tick
       <Button theme={'pink'} onClick={onClickDelete} style={{ marginTop: '1rem' }}>
         삭제하기
       </Button>
+      <DeleteTicketConfirmModal
+        visible={deleteModalVisible}
+        concertId={concertId}
+        ticketId={ticket.id}
+        onClose={() => setDeleteModalVisible(false)}
+      />
     </StyledTicketItemContainer>
   )
 }
