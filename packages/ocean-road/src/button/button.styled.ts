@@ -16,6 +16,8 @@ export const StyledButton = styled.button<{
   border: none;
   font-family: inherit;
 
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+
   opacity: ${(props) => (props.colorTheme === 'transparentDarkGray' ? 0.5 : 1.0)};
 
   display: flex;
