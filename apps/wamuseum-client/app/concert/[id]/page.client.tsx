@@ -1,26 +1,27 @@
 'use client'
 
-import { Button, Spinner } from '@coldsurfers/ocean-road'
+import {
+  AddTicketsUI,
+  ConcertVenueList,
+  CreateConcertPosterUI,
+  DeleteConcertButton,
+  DeleteConcertConfirmModal,
+  RegisteredConcertArtistList,
+  SearchArtistsUI,
+  UpdateConcertPosterUI,
+} from '@/features'
+import { Spinner } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { format } from 'date-fns'
 import { useRouter } from 'next/navigation'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import useConcertQuery from '../../../hooks/useConcertQuery'
-import AddTicketsUI from './components/AddTicketsUI'
-import PosterUI from './components/PosterUI'
-import RegisteredArtist from './components/RegisteredArtist'
 import RegisteredTicketsUI from './components/RegisteredTicketsUI'
-import SearchArtistsUI from './components/SearchArtistsUI'
 import SearchConcertVenueUI from './components/SearchConcertVenueUI'
-import useRemoveConcert from './mutations/useRemoveConcert'
-import useRemoveConcertVenue from './mutations/useRemoveConcertVenue'
+import { StyledContent, StyledLabel } from './page.styled'
 import useConcertArtists from './queries/useConcertArtists'
 import useConcertPoster from './queries/useConcertPoster'
-import useConcertVenues, {
-  UseConcertVenuesDataT,
-  UseConcertVenuesInputT,
-  concertVenuesQuery,
-} from './queries/useConcertVenues'
+import useConcertVenues from './queries/useConcertVenues'
 
 export const ConcertIdPageClient = ({
   params,
@@ -31,6 +32,7 @@ export const ConcertIdPageClient = ({
 }) => {
   const { id } = params
   const router = useRouter()
+  const [deleteConfirmModalVisible, setDeleteConfirmModalVisible] = useState(false)
 
   const { data: concertData, loading: concertLoading } = useConcertQuery({
     variables: {
@@ -54,10 +56,6 @@ export const ConcertIdPageClient = ({
     },
   })
 
-  const [mutateRemoveConcert, { loading: removeConcertLoading }] = useRemoveConcert({})
-
-  const [mutateRemoveConcertVenue, { loading: removeConcertVenueLoading }] = useRemoveConcertVenue({})
-
   const concert = useMemo(() => {
     if (!concertData?.concert) return null
     switch (concertData.concert.__typename) {
@@ -70,12 +68,16 @@ export const ConcertIdPageClient = ({
     }
   }, [concertData])
 
-  const thumbnailURL = useMemo<string | null>(() => {
+  const concertPoster = useMemo(() => {
     if (concertPosterData?.concertPoster.__typename === 'PosterList') {
-      return concertPosterData.concertPoster.list?.at(0)?.imageURL ?? null
+      return concertPosterData.concertPoster.list?.at(0)
     }
     return null
   }, [concertPosterData])
+
+  const thumbnailURL = useMemo<string | null>(() => {
+    return concertPoster?.imageURL ?? null
+  }, [concertPoster?.imageURL])
 
   const artistsResult = useMemo(() => {
     if (concertArtists?.concertArtists.__typename === 'ArtistList') {
@@ -91,201 +93,65 @@ export const ConcertIdPageClient = ({
     return []
   }, [concertVenuesData])
 
-  // const onClickCreatePoster = useCallback(() => {
-  //   if (!concert) return
-  //   pickFile(async (e) => {
-  //     const { target } = e
-  //     if (!target) return
-  //     const filename = new Date().toISOString()
-  //     const { files } = target as any
-  //     const presignedData = await presign({
-  //       filename,
-  //       filetype: 'image/*',
-  //     })
-  //     await uploadToPresignedURL({
-  //       data: presignedData,
-  //       file: files[0],
-  //     })
-  //     mutateCreateConcertPoster({
-  //       variables: {
-  //         input: {
-  //           concertId: concert.id,
-  //           imageURL: `${process.env.NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL}/poster-thumbnails/${filename}`,
-  //         },
-  //       },
-  //     })
-  //   })
-  // }, [concert, mutateCreateConcertPoster])
-
-  // const onClickUpdatePoster = useCallback(async () => {
-  //   if (!thumbnail) return
-  //   pickFile(async (e) => {
-  //     const { target } = e
-  //     if (!target) return
-  //     const filename = new Date().toISOString()
-  //     const { files } = target as any
-  //     const presignedData = await presign({
-  //       filename,
-  //       filetype: 'image/*',
-  //     })
-  //     await uploadToPresignedURL({
-  //       data: presignedData,
-  //       file: files[0],
-  //     })
-  //     mutateUpdateConcertPoster({
-  //       variables: {
-  //         input: {
-  //           id: thumbnail.id,
-  //           imageURL: `${process.env.NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL}/poster-thumbnails/${filename}`,
-  //         },
-  //       },
-  //     })
-  //   })
-  // }, [mutateUpdateConcertPoster, thumbnail])
-
-  if (concertLoading) {
+  if (concertLoading || !concert) {
     return <Spinner variant="page-overlay" />
   }
 
   return (
     <Wrapper>
-      <Title>{concert?.title}</Title>
-      <ConfigButtonWrapper>
-        <Button
-          color="pink"
-          onClick={() => {
-            mutateRemoveConcert({
-              variables: {
-                input: {
-                  id,
-                },
-              },
-              update: (cache, { data }) => {
-                if (!data || !data.removeConcert) return
-                const { removeConcert } = data
-                if (removeConcert.__typename !== 'Concert') return
-                const normalizedId = cache.identify({
-                  id: removeConcert.id,
-                  __typename: 'Concert',
-                })
-                cache.evict({ id: normalizedId })
-                cache.gc()
-              },
-            }).then(() => {
-              router.push('/')
-            })
-          }}
-          style={{ marginLeft: 10 }}
-        >
-          삭제하기
-        </Button>
-      </ConfigButtonWrapper>
+      {/* Concert Title */}
+      <Title>{concert.title}</Title>
+      <DeleteConcertButton onClick={() => setDeleteConfirmModalVisible(true)} />
       <InnerWrapper>
         <LeftWrapper>
+          {/* Poster */}
           {thumbnailURL ? (
-            <PosterUI imageURL={thumbnailURL} />
+            <UpdateConcertPosterUI concertId={concert.id} />
           ) : (
-            <Button onClick={() => {}} style={{ marginTop: 12 }}>
-              포스터 등록하기
-            </Button>
+            <CreateConcertPosterUI concertId={concert.id} />
           )}
         </LeftWrapper>
         <RightWrapper>
-          <Label>아티스트</Label>
-          <Content
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-          >
-            {artistsResult.map((value) => {
-              if (!value) return null
-              return <RegisteredArtist key={value.id} value={value} concertId={id} />
-            }) || '등록된 아티스트가 없습니다.'}
+          {/* Artist */}
+          <StyledLabel as="h3">아티스트</StyledLabel>
+          <StyledContent>
+            <RegisteredConcertArtistList artists={artistsResult} concertId={concert.id} />
             <SearchArtistsUI concertId={id} />
-          </Content>
-          <Label>공연장소</Label>
-          <Content>
-            {venuesResult.map((value) => {
-              if (!value) return null
-              return (
-                <div key={value.id} style={{ display: 'flex', alignItems: 'center' }}>
-                  <div>{value.name}</div>
-                  <Button
-                    style={{
-                      width: 10,
-                      height: 10,
-                      marginLeft: 8,
-                    }}
-                    color={'pink'}
-                    onClick={() => {
-                      mutateRemoveConcertVenue({
-                        variables: {
-                          input: {
-                            concertId: id,
-                            venueId: value.id,
-                          },
-                        },
-                        update: (cache, { data }) => {
-                          if (data?.removeConcertVenue.__typename !== 'Venue') {
-                            return
-                          }
-                          const { id: removedConcertVenueId } = data.removeConcertVenue
-                          const cacheData = cache.readQuery<UseConcertVenuesDataT, UseConcertVenuesInputT>({
-                            query: concertVenuesQuery,
-                            variables: {
-                              concertId: id,
-                            },
-                          })
-                          if (!cacheData) {
-                            return
-                          }
-                          const { concertVenues } = cacheData
-                          if (concertVenues.__typename === 'ConcertVenueList') {
-                            cache.writeQuery({
-                              query: concertVenuesQuery,
-                              variables: {
-                                concertId: id,
-                              },
-                              data: {
-                                concertVenues: {
-                                  ...concertVenues,
-                                  list: concertVenues.list?.filter((venue) => venue?.id !== removedConcertVenueId),
-                                },
-                              },
-                            })
-                          }
-                        },
-                      })
-                    }}
-                  >
-                    ✘
-                  </Button>
-                </div>
-              )
-            }) || '등록된 공연장소가 없습니다.'}
-          </Content>
-          <SearchConcertVenueUI concertId={id} />
-          <Label>공연 날짜</Label>
-          <Content>
-            {concert?.date ? format(new Date(concert.date), 'yyyy-MM-dd hh:mm a') : '등록된 공연날짜가 없습니다.'}
-          </Content>
-
-          <Label>티켓 정보</Label>
+          </StyledContent>
+          {/* Venue */}
+          <StyledLabel as="h3">공연장소</StyledLabel>
+          <StyledContent>
+            <ConcertVenueList concertId={concert.id} venues={venuesResult} />
+            <SearchConcertVenueUI concertId={id} />
+          </StyledContent>
+          {/* Concert Date */}
+          <StyledLabel as="h3">공연 날짜</StyledLabel>
+          <StyledContent>
+            {concert?.date ? format(new Date(concert.date), 'MMM dd, hh:mm a') : '등록된 공연날짜가 없습니다.'}
+          </StyledContent>
+          {/* Ticket */}
+          <StyledLabel as="h3">티켓 정보</StyledLabel>
           <RegisteredTicketsUI concertId={id} />
           <AddTicketsUI concertId={id} />
-
-          <Label>등록일</Label>
-          {concert?.createdAt ? <Content>{format(new Date(concert.createdAt), 'yyyy-MM-dd hh:mm a')}</Content> : null}
+          {/* Created At */}
+          <StyledLabel as="h3">등록일</StyledLabel>
+          {concert?.createdAt ? (
+            <StyledContent>{format(new Date(concert.createdAt), 'MMM dd, hh:mm a')}</StyledContent>
+          ) : null}
           {concert?.updatedAt && (
             <>
-              <Label>수정일</Label>
-              <Content>{format(new Date(concert.updatedAt), 'yyyy-MM-dd hh:mm a')}</Content>
+              <StyledLabel>수정일</StyledLabel>
+              <StyledContent>{format(new Date(concert.updatedAt), 'yyyy-MM-dd hh:mm a')}</StyledContent>
             </>
           )}
         </RightWrapper>
       </InnerWrapper>
-      {removeConcertLoading || removeConcertVenueLoading ? <Spinner variant="page-overlay" /> : null}
+      <DeleteConcertConfirmModal
+        concertId={concert.id}
+        onClose={() => setDeleteConfirmModalVisible(false)}
+        visible={deleteConfirmModalVisible}
+        onDeleteSuccess={() => router.push('/')}
+      />
     </Wrapper>
   )
 }
@@ -324,21 +190,4 @@ const RightWrapper = styled.div`
 const Title = styled.h1`
   font-size: 32px;
   font-weight: 700;
-`
-
-const Label = styled.p`
-  font-size: 18px;
-  margin-bottom: 8px;
-`
-
-const Content = styled.h3`
-  font-size: 20px;
-  margin-bottom: 16px;
-  font-weight: 600;
-`
-
-const ConfigButtonWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: auto;
 `
