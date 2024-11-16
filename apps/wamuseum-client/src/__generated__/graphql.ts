@@ -580,6 +580,20 @@ export type ConcertPosterQueryVariables = Exact<{
 
 export type ConcertPosterQuery = { __typename?: 'Query', concertPoster?: { __typename?: 'HttpError' } | { __typename?: 'PosterList', list?: Array<{ __typename?: 'Poster', id: string, imageURL: string } | null> | null } | null };
 
+export type CreateConcertPosterMutationVariables = Exact<{
+  input: CreateConcertPosterInput;
+}>;
+
+
+export type CreateConcertPosterMutation = { __typename?: 'Mutation', createConcertPoster?: { __typename?: 'HttpError', code: number, message: string } | { __typename?: 'Poster', id: string, imageURL: string } | null };
+
+export type UpdateConcertPosterMutationVariables = Exact<{
+  input: UpdateConcertPosterInput;
+}>;
+
+
+export type UpdateConcertPosterMutation = { __typename?: 'Mutation', updateConcertPoster?: { __typename?: 'HttpError', code: number, message: string } | { __typename?: 'Poster', id: string, imageURL: string } | null };
+
 export type ConcertTicketsQueryVariables = Exact<{
   concertId: Scalars['String']['input'];
 }>;
@@ -635,6 +649,67 @@ export type RemoveConcertMutationVariables = Exact<{
 
 
 export type RemoveConcertMutation = { __typename?: 'Mutation', removeConcert?: { __typename?: 'Concert', id: string } | { __typename?: 'HttpError' } | null };
+
+export type ConcertQueryVariables = Exact<{
+  concertId: Scalars['String']['input'];
+}>;
+
+
+export type ConcertQuery = { __typename?: 'Query', concert?: { __typename?: 'Concert', id: string, title: string, date: string, createdAt: string, updatedAt?: string | null } | { __typename?: 'HttpError', code: number, message: string } | null };
+
+export type ConcertListQueryVariables = Exact<{
+  page: Scalars['Int']['input'];
+  limit: Scalars['Int']['input'];
+  orderBy: ConcertListOrderBy;
+}>;
+
+
+export type ConcertListQuery = { __typename?: 'Query', concertList?: { __typename?: 'ConcertListWithPagination', list?: { __typename?: 'ConcertList', list?: Array<{ __typename?: 'Concert', id: string, title: string, date: string, createdAt: string, updatedAt?: string | null } | null> | null } | null, pagination?: { __typename?: 'Pagination', current: number, count: number } | null } | { __typename?: 'HttpError', code: number, message: string } | null };
+
+export type CreateConcertMutationVariables = Exact<{
+  input: CreateConcertInput;
+}>;
+
+
+export type CreateConcertMutation = { __typename?: 'Mutation', createConcert?: { __typename?: 'Concert', id: string, title: string, date: string, createdAt: string, updatedAt?: string | null } | { __typename?: 'HttpError', code: number, message: string } | null };
+
+export type AuthenticateEmailAuthRequestMutationVariables = Exact<{
+  input: AuthenticateEmailAuthRequestInput;
+}>;
+
+
+export type AuthenticateEmailAuthRequestMutation = { __typename?: 'Mutation', authenticateEmailAuthRequest?: { __typename?: 'EmailAuthRequest', authenticated?: boolean | null, createdAt: string, email: string, id: string } | { __typename?: 'HttpError', code: number, message: string } | null };
+
+export type CreateEmailAuthRequestMutationVariables = Exact<{
+  input: CreateEmailAuthRequestInput;
+}>;
+
+
+export type CreateEmailAuthRequestMutation = { __typename?: 'Mutation', createEmailAuthRequest?: { __typename?: 'EmailAuthRequest', authenticated?: boolean | null, createdAt: string, email: string, id: string } | null };
+
+export type LoginMutationVariables = Exact<{
+  input: LoginInput;
+}>;
+
+
+export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'HttpError', code: number, message: string } | { __typename?: 'UserWithAuthToken', authToken: { __typename?: 'AuthToken', accessToken: string, refreshToken: string }, user: { __typename?: 'User', createdAt?: string | null, email: string, id: string, isAdmin?: boolean | null } } | null };
+
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = { __typename?: 'Mutation', logout: { __typename?: 'User', id: string, email: string } };
+
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'HttpError', code: number, message: string } | { __typename?: 'User', id: string, email: string, isAdmin?: boolean | null, createdAt?: string | null } | null };
+
+export type CreateUserMutationVariables = Exact<{
+  input: CreateUserInput;
+}>;
+
+
+export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typename?: 'HttpError', code: number, message: string } | { __typename?: 'User', createdAt?: string | null, email: string, id: string, isAdmin?: boolean | null } | null };
 
 
 export const ConcertArtistsDocument = gql`
@@ -843,6 +918,86 @@ export type ConcertPosterQueryHookResult = ReturnType<typeof useConcertPosterQue
 export type ConcertPosterLazyQueryHookResult = ReturnType<typeof useConcertPosterLazyQuery>;
 export type ConcertPosterSuspenseQueryHookResult = ReturnType<typeof useConcertPosterSuspenseQuery>;
 export type ConcertPosterQueryResult = Apollo.QueryResult<ConcertPosterQuery, ConcertPosterQueryVariables>;
+export const CreateConcertPosterDocument = gql`
+    mutation CreateConcertPoster($input: CreateConcertPosterInput!) {
+  createConcertPoster(input: $input) {
+    ... on Poster {
+      id
+      imageURL
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+    `;
+export type CreateConcertPosterMutationFn = Apollo.MutationFunction<CreateConcertPosterMutation, CreateConcertPosterMutationVariables>;
+
+/**
+ * __useCreateConcertPosterMutation__
+ *
+ * To run a mutation, you first call `useCreateConcertPosterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateConcertPosterMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createConcertPosterMutation, { data, loading, error }] = useCreateConcertPosterMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateConcertPosterMutation(baseOptions?: Apollo.MutationHookOptions<CreateConcertPosterMutation, CreateConcertPosterMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateConcertPosterMutation, CreateConcertPosterMutationVariables>(CreateConcertPosterDocument, options);
+      }
+export type CreateConcertPosterMutationHookResult = ReturnType<typeof useCreateConcertPosterMutation>;
+export type CreateConcertPosterMutationResult = Apollo.MutationResult<CreateConcertPosterMutation>;
+export type CreateConcertPosterMutationOptions = Apollo.BaseMutationOptions<CreateConcertPosterMutation, CreateConcertPosterMutationVariables>;
+export const UpdateConcertPosterDocument = gql`
+    mutation UpdateConcertPoster($input: UpdateConcertPosterInput!) {
+  updateConcertPoster(input: $input) {
+    ... on Poster {
+      id
+      imageURL
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+    `;
+export type UpdateConcertPosterMutationFn = Apollo.MutationFunction<UpdateConcertPosterMutation, UpdateConcertPosterMutationVariables>;
+
+/**
+ * __useUpdateConcertPosterMutation__
+ *
+ * To run a mutation, you first call `useUpdateConcertPosterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateConcertPosterMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateConcertPosterMutation, { data, loading, error }] = useUpdateConcertPosterMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateConcertPosterMutation(baseOptions?: Apollo.MutationHookOptions<UpdateConcertPosterMutation, UpdateConcertPosterMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateConcertPosterMutation, UpdateConcertPosterMutationVariables>(UpdateConcertPosterDocument, options);
+      }
+export type UpdateConcertPosterMutationHookResult = ReturnType<typeof useUpdateConcertPosterMutation>;
+export type UpdateConcertPosterMutationResult = Apollo.MutationResult<UpdateConcertPosterMutation>;
+export type UpdateConcertPosterMutationOptions = Apollo.BaseMutationOptions<UpdateConcertPosterMutation, UpdateConcertPosterMutationVariables>;
 export const ConcertTicketsDocument = gql`
     query ConcertTickets($concertId: String!) {
   concertTickets(concertId: $concertId) {
@@ -1188,3 +1343,407 @@ export function useRemoveConcertMutation(baseOptions?: Apollo.MutationHookOption
 export type RemoveConcertMutationHookResult = ReturnType<typeof useRemoveConcertMutation>;
 export type RemoveConcertMutationResult = Apollo.MutationResult<RemoveConcertMutation>;
 export type RemoveConcertMutationOptions = Apollo.BaseMutationOptions<RemoveConcertMutation, RemoveConcertMutationVariables>;
+export const ConcertDocument = gql`
+    query Concert($concertId: String!) {
+  concert(id: $concertId) {
+    ... on Concert {
+      id
+      title
+      date
+      createdAt
+      updatedAt
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+    `;
+
+/**
+ * __useConcertQuery__
+ *
+ * To run a query within a React component, call `useConcertQuery` and pass it any options that fit your needs.
+ * When your component renders, `useConcertQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useConcertQuery({
+ *   variables: {
+ *      concertId: // value for 'concertId'
+ *   },
+ * });
+ */
+export function useConcertQuery(baseOptions: Apollo.QueryHookOptions<ConcertQuery, ConcertQueryVariables> & ({ variables: ConcertQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ConcertQuery, ConcertQueryVariables>(ConcertDocument, options);
+      }
+export function useConcertLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ConcertQuery, ConcertQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ConcertQuery, ConcertQueryVariables>(ConcertDocument, options);
+        }
+export function useConcertSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ConcertQuery, ConcertQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ConcertQuery, ConcertQueryVariables>(ConcertDocument, options);
+        }
+export type ConcertQueryHookResult = ReturnType<typeof useConcertQuery>;
+export type ConcertLazyQueryHookResult = ReturnType<typeof useConcertLazyQuery>;
+export type ConcertSuspenseQueryHookResult = ReturnType<typeof useConcertSuspenseQuery>;
+export type ConcertQueryResult = Apollo.QueryResult<ConcertQuery, ConcertQueryVariables>;
+export const ConcertListDocument = gql`
+    query ConcertList($page: Int!, $limit: Int!, $orderBy: ConcertListOrderBy!) {
+  concertList(page: $page, limit: $limit, orderBy: $orderBy) {
+    ... on ConcertListWithPagination {
+      list {
+        list {
+          id
+          title
+          date
+          createdAt
+          updatedAt
+        }
+      }
+      pagination {
+        current
+        count
+      }
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+    `;
+
+/**
+ * __useConcertListQuery__
+ *
+ * To run a query within a React component, call `useConcertListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useConcertListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useConcertListQuery({
+ *   variables: {
+ *      page: // value for 'page'
+ *      limit: // value for 'limit'
+ *      orderBy: // value for 'orderBy'
+ *   },
+ * });
+ */
+export function useConcertListQuery(baseOptions: Apollo.QueryHookOptions<ConcertListQuery, ConcertListQueryVariables> & ({ variables: ConcertListQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ConcertListQuery, ConcertListQueryVariables>(ConcertListDocument, options);
+      }
+export function useConcertListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ConcertListQuery, ConcertListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ConcertListQuery, ConcertListQueryVariables>(ConcertListDocument, options);
+        }
+export function useConcertListSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ConcertListQuery, ConcertListQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ConcertListQuery, ConcertListQueryVariables>(ConcertListDocument, options);
+        }
+export type ConcertListQueryHookResult = ReturnType<typeof useConcertListQuery>;
+export type ConcertListLazyQueryHookResult = ReturnType<typeof useConcertListLazyQuery>;
+export type ConcertListSuspenseQueryHookResult = ReturnType<typeof useConcertListSuspenseQuery>;
+export type ConcertListQueryResult = Apollo.QueryResult<ConcertListQuery, ConcertListQueryVariables>;
+export const CreateConcertDocument = gql`
+    mutation CreateConcert($input: CreateConcertInput!) {
+  createConcert(input: $input) {
+    ... on Concert {
+      id
+      title
+      date
+      createdAt
+      updatedAt
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+    `;
+export type CreateConcertMutationFn = Apollo.MutationFunction<CreateConcertMutation, CreateConcertMutationVariables>;
+
+/**
+ * __useCreateConcertMutation__
+ *
+ * To run a mutation, you first call `useCreateConcertMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateConcertMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createConcertMutation, { data, loading, error }] = useCreateConcertMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateConcertMutation(baseOptions?: Apollo.MutationHookOptions<CreateConcertMutation, CreateConcertMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateConcertMutation, CreateConcertMutationVariables>(CreateConcertDocument, options);
+      }
+export type CreateConcertMutationHookResult = ReturnType<typeof useCreateConcertMutation>;
+export type CreateConcertMutationResult = Apollo.MutationResult<CreateConcertMutation>;
+export type CreateConcertMutationOptions = Apollo.BaseMutationOptions<CreateConcertMutation, CreateConcertMutationVariables>;
+export const AuthenticateEmailAuthRequestDocument = gql`
+    mutation AuthenticateEmailAuthRequest($input: AuthenticateEmailAuthRequestInput!) {
+  authenticateEmailAuthRequest(input: $input) {
+    ... on EmailAuthRequest {
+      authenticated
+      createdAt
+      email
+      id
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+    `;
+export type AuthenticateEmailAuthRequestMutationFn = Apollo.MutationFunction<AuthenticateEmailAuthRequestMutation, AuthenticateEmailAuthRequestMutationVariables>;
+
+/**
+ * __useAuthenticateEmailAuthRequestMutation__
+ *
+ * To run a mutation, you first call `useAuthenticateEmailAuthRequestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAuthenticateEmailAuthRequestMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [authenticateEmailAuthRequestMutation, { data, loading, error }] = useAuthenticateEmailAuthRequestMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAuthenticateEmailAuthRequestMutation(baseOptions?: Apollo.MutationHookOptions<AuthenticateEmailAuthRequestMutation, AuthenticateEmailAuthRequestMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AuthenticateEmailAuthRequestMutation, AuthenticateEmailAuthRequestMutationVariables>(AuthenticateEmailAuthRequestDocument, options);
+      }
+export type AuthenticateEmailAuthRequestMutationHookResult = ReturnType<typeof useAuthenticateEmailAuthRequestMutation>;
+export type AuthenticateEmailAuthRequestMutationResult = Apollo.MutationResult<AuthenticateEmailAuthRequestMutation>;
+export type AuthenticateEmailAuthRequestMutationOptions = Apollo.BaseMutationOptions<AuthenticateEmailAuthRequestMutation, AuthenticateEmailAuthRequestMutationVariables>;
+export const CreateEmailAuthRequestDocument = gql`
+    mutation CreateEmailAuthRequest($input: CreateEmailAuthRequestInput!) {
+  createEmailAuthRequest(input: $input) {
+    authenticated
+    createdAt
+    email
+    id
+  }
+}
+    `;
+export type CreateEmailAuthRequestMutationFn = Apollo.MutationFunction<CreateEmailAuthRequestMutation, CreateEmailAuthRequestMutationVariables>;
+
+/**
+ * __useCreateEmailAuthRequestMutation__
+ *
+ * To run a mutation, you first call `useCreateEmailAuthRequestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEmailAuthRequestMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEmailAuthRequestMutation, { data, loading, error }] = useCreateEmailAuthRequestMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateEmailAuthRequestMutation(baseOptions?: Apollo.MutationHookOptions<CreateEmailAuthRequestMutation, CreateEmailAuthRequestMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateEmailAuthRequestMutation, CreateEmailAuthRequestMutationVariables>(CreateEmailAuthRequestDocument, options);
+      }
+export type CreateEmailAuthRequestMutationHookResult = ReturnType<typeof useCreateEmailAuthRequestMutation>;
+export type CreateEmailAuthRequestMutationResult = Apollo.MutationResult<CreateEmailAuthRequestMutation>;
+export type CreateEmailAuthRequestMutationOptions = Apollo.BaseMutationOptions<CreateEmailAuthRequestMutation, CreateEmailAuthRequestMutationVariables>;
+export const LoginDocument = gql`
+    mutation Login($input: LoginInput!) {
+  login(input: $input) {
+    ... on UserWithAuthToken {
+      authToken {
+        accessToken
+        refreshToken
+      }
+      user {
+        createdAt
+        email
+        id
+        isAdmin
+      }
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+    `;
+export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+
+/**
+ * __useLoginMutation__
+ *
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+      }
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const LogoutDocument = gql`
+    mutation Logout {
+  logout {
+    ... on User {
+      id
+      email
+    }
+  }
+}
+    `;
+export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
+
+/**
+ * __useLogoutMutation__
+ *
+ * To run a mutation, you first call `useLogoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logoutMutation, { data, loading, error }] = useLogoutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
+      }
+export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
+export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export const MeDocument = gql`
+    query Me {
+  me {
+    ... on User {
+      id
+      email
+      isAdmin
+      createdAt
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+    `;
+
+/**
+ * __useMeQuery__
+ *
+ * To run a query within a React component, call `useMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+      }
+export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+        }
+export function useMeSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<MeQuery, MeQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+        }
+export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
+export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
+export type MeSuspenseQueryHookResult = ReturnType<typeof useMeSuspenseQuery>;
+export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const CreateUserDocument = gql`
+    mutation CreateUser($input: CreateUserInput!) {
+  createUser(input: $input) {
+    ... on User {
+      createdAt
+      email
+      id
+      isAdmin
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+    `;
+export type CreateUserMutationFn = Apollo.MutationFunction<CreateUserMutation, CreateUserMutationVariables>;
+
+/**
+ * __useCreateUserMutation__
+ *
+ * To run a mutation, you first call `useCreateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createUserMutation, { data, loading, error }] = useCreateUserMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, options);
+      }
+export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
+export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
+export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;

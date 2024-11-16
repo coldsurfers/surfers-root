@@ -1,8 +1,8 @@
 import { initializeApollo, OceanRoadThemeRegistry } from '@/libs'
-import { ME_QUERY } from 'gql/queries'
 import { Noto_Sans_KR } from 'next/font/google'
 import { cookies } from 'next/headers'
 import { Suspense } from 'react'
+import { MeDocument } from 'src/__generated__/graphql'
 import { RootLayoutClient } from './layout.client'
 
 const notoSansKr = Noto_Sans_KR({ subsets: ['latin'] })
@@ -16,7 +16,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   try {
     await apolloClient.query({
-      query: ME_QUERY,
+      query: MeDocument,
     })
   } catch (e) {
     console.error(e)

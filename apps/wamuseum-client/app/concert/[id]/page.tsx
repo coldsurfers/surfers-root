@@ -1,7 +1,11 @@
-import { CONCERT_QUERY } from 'gql/queries'
 import { ApolloHydrationBoundary, initializeApollo } from 'libs'
 import { cookies } from 'next/headers'
-import { ConcertArtistsDocument, ConcertPosterDocument, ConcertVenuesDocument } from 'src/__generated__/graphql'
+import {
+  ConcertArtistsDocument,
+  ConcertDocument,
+  ConcertPosterDocument,
+  ConcertVenuesDocument,
+} from 'src/__generated__/graphql'
 import { ConcertIdPageClient } from './page.client'
 
 export default async function ConcertIdPage({
@@ -16,7 +20,7 @@ export default async function ConcertIdPage({
   const apolloClient = initializeApollo({ token: accessToken })
   const promises = [
     apolloClient.query({
-      query: CONCERT_QUERY,
+      query: ConcertDocument,
       variables: {
         concertId: params.id,
       },
