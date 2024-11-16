@@ -1,6 +1,5 @@
-import { gql, useQuery } from '@apollo/client'
-import { CommonQueryHookOptions } from '../../../../libs/types'
-import { ConcertArtistData } from '../../../../src/__generated__/graphql'
+import { gql, QueryHookOptions, useQuery } from '@apollo/client'
+import { ConcertArtistsQuery, ConcertArtistsQueryVariables } from '../../../../src/__generated__/graphql'
 
 export const concertArtistsQuery = gql`
   query ConcertArtists($concertId: String!) {
@@ -15,15 +14,7 @@ export const concertArtistsQuery = gql`
   }
 `
 
-type DataT = {
-  concertArtists: ConcertArtistData
-}
-
-type InputT = {
-  concertId: string
-}
-
-const useConcertArtists = (options: CommonQueryHookOptions<DataT, InputT>) =>
-  useQuery<DataT, InputT>(concertArtistsQuery, options)
+const useConcertArtists = (options: QueryHookOptions<ConcertArtistsQuery, ConcertArtistsQueryVariables>) =>
+  useQuery<ConcertArtistsQuery, ConcertArtistsQueryVariables>(concertArtistsQuery, options)
 
 export default useConcertArtists
