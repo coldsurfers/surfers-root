@@ -1,5 +1,6 @@
 // prismjs
-import { getSurflogDetail, LogDetailRenderer, queryLogs } from '@/features'
+import { LogDetailRenderer, queryLogs } from '@/features'
+import { querySurflogDetail } from '@/features/logs/logs.query'
 import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
 import { getQueryClient } from '@/lib/react-query/react-query.utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
@@ -19,7 +20,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps<{ slug: string }>) {
   // fetch data
-  const page = await getSurflogDetail({ slug: params?.slug ?? '', lang: params.locale })
+  const page = await querySurflogDetail({ slug: params?.slug ?? '', lang: params.locale })
   const pageTitle = page?.properties.Name.type === 'title' ? page.properties.Name.title.at(0)?.plain_text : ''
 
   if (!page || !pageTitle) {

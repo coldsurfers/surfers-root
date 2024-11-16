@@ -5,7 +5,7 @@ import { cache } from 'react'
 import { match } from 'ts-pattern'
 import notionInstance, { notionDatabaseIds } from '../../../lib/notionInstance'
 
-const getLogDetail = (platform: LogPlatform) =>
+export const getLogDetail = (platform: LogPlatform) =>
   cache(async ({ slug, lang }: { slug: string; lang: 'ko' | 'en' }): Promise<PageObjectResponse | null> => {
     const res = await notionInstance.databases.query({
       database_id: notionDatabaseIds.blog ?? '',
@@ -45,9 +45,6 @@ const getLogDetail = (platform: LogPlatform) =>
     }
     return null
   })
-
-export const getTechlogDetail = getLogDetail('techlog')
-export const getSurflogDetail = getLogDetail('surflog')
 
 export const queryLogs = cache(
   async (

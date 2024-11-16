@@ -1,4 +1,4 @@
-import { getSurflogDetail, getTechlogDetail } from '@/features/notion'
+import { querySurflogDetail, queryTechlogDetail } from '@/features'
 import { getBlocks } from '@/lib/notion'
 import { NextRequest, NextResponse } from 'next/server'
 import { match } from 'ts-pattern'
@@ -15,8 +15,8 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   }
   const slug = (await params).slug
   const page = await match(platform)
-    .with('surflog', async () => await getSurflogDetail({ slug, lang: locale }))
-    .with('techlog', async () => await getTechlogDetail({ slug, lang: locale }))
+    .with('surflog', async () => await querySurflogDetail({ slug, lang: locale }))
+    .with('techlog', async () => await queryTechlogDetail({ slug, lang: locale }))
     .exhaustive()
   if (!page) {
     return NextResponse.json({ message: 'page not found' }, { status: 404 })
