@@ -63,12 +63,14 @@ export const DeleteTicketConfirmModal = ({
         }
       },
     })
-  }, [concertId, loadingRemoveConcertTicket, mutateRemoveConcertTicket, ticketId])
+  }, [concertId, loadingRemoveConcertTicket, mutateRemoveConcertTicket, onDeleteSuccess, ticketId])
 
   return (
     <Modal visible={visible} onClose={onClose}>
       <Text>확인을 누르면 해당 티켓을 삭제해요.</Text>
-      <Button onClick={onClickDelete}>확인</Button>
+      <Button theme="pink" onClick={onClickDelete}>
+        확인
+      </Button>
     </Modal>
   )
 }
