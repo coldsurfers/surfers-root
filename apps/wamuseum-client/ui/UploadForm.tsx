@@ -3,9 +3,7 @@ import styled from '@emotion/styled'
 import { format, isValid } from 'date-fns'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { CONCERT_LIST_QUERY } from '../gql/queries'
-import useCreateConcertMutation from '../hooks/useCreateConcertMutation'
-import { CreateConcertInput } from '../src/__generated__/graphql'
+import { ConcertListDocument, CreateConcertInput, useCreateConcertMutation } from '../src/__generated__/graphql'
 import { DEFAULT_LIMIT, DEFAULT_ORDER_BY_CREATED_AT, DEFAULT_PAGE } from '../utils/constants'
 import InputWithLabel from './InputWithLabel'
 import Label from './Label'
@@ -29,7 +27,7 @@ const UploadForm = () => {
   const [mutate, { loading: createConcertLoading }] = useCreateConcertMutation({
     refetchQueries: [
       {
-        query: CONCERT_LIST_QUERY,
+        query: ConcertListDocument,
         variables: {
           page: DEFAULT_PAGE,
           limit: DEFAULT_LIMIT,
@@ -105,7 +103,7 @@ const UploadForm = () => {
       },
     }).then((response) => {
       if (response) {
-        if (response.data?.createConcert.__typename === 'Concert') {
+        if (response.data?.createConcert?.__typename === 'Concert') {
           router.push(`/upload/${response.data.createConcert.id}`)
         }
       }

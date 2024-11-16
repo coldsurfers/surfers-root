@@ -4,13 +4,13 @@ import { Spinner, Text, TextInput, colors } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useMemo, useState } from 'react'
-import useCreateConcertVenue from '../../../../app/concert/[id]/mutations/useCreateConcertVenue'
 import {
-  UseConcertVenuesDataT,
-  UseConcertVenuesInputT,
-  concertVenuesQuery,
-} from '../../../../app/concert/[id]/queries/useConcertVenues'
-import useSearchConcertVenueQuery from '../../../../app/concert/[id]/queries/useSearchConcertVenueQuery'
+  ConcertVenuesDocument,
+  ConcertVenuesQuery,
+  ConcertVenuesQueryVariables,
+  useCreateConcertVenueMutation,
+  useSearchConcertVenueQuery,
+} from 'src/__generated__/graphql'
 
 const SearchResultWrapper = styled.div`
   box-shadow:
@@ -32,10 +32,10 @@ export const SearchConcertVenueUI = ({ concertId }: { concertId: string }) => {
     skip: debouncedSearchConcertVenueKeyword === '',
   })
 
-  const [mutateCreateConcertVenue] = useCreateConcertVenue({})
+  const [mutateCreateConcertVenue] = useCreateConcertVenueMutation({})
 
   const concertVenuesSearchResult = useMemo(() => {
-    if (searchedConcertVenues?.searchConcertVenue.__typename === 'SearchedConcertVenueList') {
+    if (searchedConcertVenues?.searchConcertVenue?.__typename === 'SearchedConcertVenueList') {
       return searchedConcertVenues.searchConcertVenue.list ?? []
     }
     return []
@@ -68,26 +68,25 @@ export const SearchConcertVenueUI = ({ concertId }: { concertId: string }) => {
                     },
                   },
                   update: (cache, { data }) => {
-                    if (data?.createConcertVenue.__typename !== 'Venue') {
+                    if (data?.createConcertVenue?.__typename !== 'Venue') {
                       return
                     }
-                    const cacheData = cache.readQuery<UseConcertVenuesDataT, UseConcertVenuesInputT>({
-                      query: concertVenuesQuery,
+                    const concertVenuesCache = cache.readQuery<ConcertVenuesQuery, ConcertVenuesQueryVariables>({
+                      query: ConcertVenuesDocument,
                       variables: {
                         concertId,
                       },
                     })
-                    if (!cacheData) {
+                    if (!concertVenuesCache) {
                       return
                     }
-                    const { concertVenues } = cacheData
-                    if (concertVenues.__typename === 'ConcertVenueList') {
+                    if (concertVenuesCache.concertVenues?.__typename === 'ConcertVenueList') {
                       cache.writeQuery({
-                        query: concertVenuesQuery,
+                        query: ConcertVenuesDocument,
                         data: {
                           concertVenues: {
-                            ...concertVenues,
-                            list: concertVenues.list?.concat({
+                            ...concertVenuesCache.concertVenues,
+                            list: concertVenuesCache.concertVenues.list?.concat({
                               ...data.createConcertVenue,
                             }),
                           },

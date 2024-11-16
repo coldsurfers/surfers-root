@@ -1,12 +1,15 @@
 import { Button, Text } from '@coldsurfers/ocean-road'
 import { useCallback } from 'react'
-import useRemoveConcertArtist from '../../../../app/concert/[id]/mutations/useRemoveConcertArtist'
-import { concertArtistsQuery } from '../../../../app/concert/[id]/queries/useConcertArtists'
-import { Artist, ConcertArtistData } from '../../../../src/__generated__/graphql'
+import {
+  Artist,
+  ConcertArtistData,
+  ConcertArtistsDocument,
+  useRemoveConcertArtistMutation,
+} from '../../../../src/__generated__/graphql'
 import { StyledRegisteredConcertArtistUIContainer } from './registered-concert-artist-ui.styled'
 
 export const RegisteredConcertArtistUI = ({ value, concertId }: { value: Artist; concertId: string }) => {
-  const [mutateRemoveConcertArtist] = useRemoveConcertArtist({})
+  const [mutateRemoveConcertArtist] = useRemoveConcertArtistMutation({})
   const onClickDelete = useCallback(() => {
     mutateRemoveConcertArtist({
       variables: {
@@ -16,7 +19,7 @@ export const RegisteredConcertArtistUI = ({ value, concertId }: { value: Artist;
         },
       },
       update: (cache, { data }) => {
-        if (data?.removeConcertArtist.__typename !== 'Artist') {
+        if (data?.removeConcertArtist?.__typename !== 'Artist') {
           return
         }
         const { id: removeArtistId } = data.removeConcertArtist
@@ -28,7 +31,7 @@ export const RegisteredConcertArtistUI = ({ value, concertId }: { value: Artist;
             concertId: string
           }
         >({
-          query: concertArtistsQuery,
+          query: ConcertArtistsDocument,
           variables: {
             concertId,
           },
@@ -39,7 +42,7 @@ export const RegisteredConcertArtistUI = ({ value, concertId }: { value: Artist;
         const { concertArtists } = cacheData
         if (concertArtists.__typename === 'ArtistList') {
           cache.writeQuery({
-            query: concertArtistsQuery,
+            query: ConcertArtistsDocument,
             variables: {
               concertId,
             },

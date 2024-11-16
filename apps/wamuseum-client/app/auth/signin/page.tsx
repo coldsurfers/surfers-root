@@ -1,14 +1,13 @@
 'use client'
 
-import useLoginMutation from '@/hooks/useLoginMutation'
 import { LoginForm, type LoginFormRefHandle } from '@/ui'
 import { authUtils } from '@/utils/utils.auth'
 import { Spinner, Toast } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { AnimatePresence } from 'framer-motion'
-import { ME_QUERY } from 'gql/queries'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { MeDocument, useLoginMutation } from 'src/__generated__/graphql'
 
 const FormLayout = styled.section`
   position: absolute;
@@ -57,7 +56,7 @@ const SignInPage = () => {
       case 'UserWithAuthToken':
         authUtils.login(login.authToken).then(() => {
           client.refetchQueries({
-            include: [ME_QUERY],
+            include: [MeDocument],
           })
         })
         break
