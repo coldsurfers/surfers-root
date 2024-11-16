@@ -566,6 +566,13 @@ export type ConcertTicketsQueryVariables = Exact<{
 
 export type ConcertTicketsQuery = { __typename?: 'Query', concertTickets?: { __typename?: 'HttpError' } | { __typename?: 'TicketList', list?: Array<{ __typename?: 'Ticket', id: string, openDate: string, seller: string, sellingURL: string } | null> | null } | null };
 
+export type ConcertVenuesQueryVariables = Exact<{
+  concertId: Scalars['String']['input'];
+}>;
+
+
+export type ConcertVenuesQuery = { __typename?: 'Query', concertVenues?: { __typename?: 'ConcertVenueList', list?: Array<{ __typename?: 'Venue', id: string, name: string, lat: number, lng: number, geohash: string } | null> | null } | { __typename?: 'HttpError', code: number, message: string } | null };
+
 
 export const ConcertArtistsDocument = gql`
     query ConcertArtists($concertId: String!) {
@@ -704,3 +711,55 @@ export type ConcertTicketsQueryHookResult = ReturnType<typeof useConcertTicketsQ
 export type ConcertTicketsLazyQueryHookResult = ReturnType<typeof useConcertTicketsLazyQuery>;
 export type ConcertTicketsSuspenseQueryHookResult = ReturnType<typeof useConcertTicketsSuspenseQuery>;
 export type ConcertTicketsQueryResult = Apollo.QueryResult<ConcertTicketsQuery, ConcertTicketsQueryVariables>;
+export const ConcertVenuesDocument = gql`
+    query ConcertVenues($concertId: String!) {
+  concertVenues(concertId: $concertId) {
+    ... on ConcertVenueList {
+      list {
+        id
+        name
+        lat
+        lng
+        geohash
+      }
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+    `;
+
+/**
+ * __useConcertVenuesQuery__
+ *
+ * To run a query within a React component, call `useConcertVenuesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useConcertVenuesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useConcertVenuesQuery({
+ *   variables: {
+ *      concertId: // value for 'concertId'
+ *   },
+ * });
+ */
+export function useConcertVenuesQuery(baseOptions: Apollo.QueryHookOptions<ConcertVenuesQuery, ConcertVenuesQueryVariables> & ({ variables: ConcertVenuesQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ConcertVenuesQuery, ConcertVenuesQueryVariables>(ConcertVenuesDocument, options);
+      }
+export function useConcertVenuesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ConcertVenuesQuery, ConcertVenuesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ConcertVenuesQuery, ConcertVenuesQueryVariables>(ConcertVenuesDocument, options);
+        }
+export function useConcertVenuesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ConcertVenuesQuery, ConcertVenuesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ConcertVenuesQuery, ConcertVenuesQueryVariables>(ConcertVenuesDocument, options);
+        }
+export type ConcertVenuesQueryHookResult = ReturnType<typeof useConcertVenuesQuery>;
+export type ConcertVenuesLazyQueryHookResult = ReturnType<typeof useConcertVenuesLazyQuery>;
+export type ConcertVenuesSuspenseQueryHookResult = ReturnType<typeof useConcertVenuesSuspenseQuery>;
+export type ConcertVenuesQueryResult = Apollo.QueryResult<ConcertVenuesQuery, ConcertVenuesQueryVariables>;

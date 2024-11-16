@@ -1,0 +1,17 @@
+query ConcertVenues($concertId: String!) {
+  concertVenues(concertId: $concertId) {
+    ... on ConcertVenueList {
+      list {
+        id
+        name
+        lat
+        lng
+        geohash
+      }
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}

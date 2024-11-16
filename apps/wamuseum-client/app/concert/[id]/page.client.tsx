@@ -17,10 +17,9 @@ import styled from '@emotion/styled'
 import { format } from 'date-fns'
 import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
-import { useConcertArtistsQuery, useConcertPosterQuery } from 'src/__generated__/graphql'
+import { useConcertArtistsQuery, useConcertPosterQuery, useConcertVenuesQuery } from 'src/__generated__/graphql'
 import useConcertQuery from '../../../hooks/useConcertQuery'
 import { StyledContent, StyledLabel } from './page.styled'
-import useConcertVenues from './queries/useConcertVenues'
 
 export const ConcertIdPageClient = ({
   params,
@@ -49,7 +48,7 @@ export const ConcertIdPageClient = ({
       concertId: id,
     },
   })
-  const { data: concertVenuesData } = useConcertVenues({
+  const { data: concertVenuesData } = useConcertVenuesQuery({
     variables: {
       concertId: id,
     },
@@ -86,7 +85,7 @@ export const ConcertIdPageClient = ({
   }, [concertArtists])
 
   const venuesResult = useMemo(() => {
-    if (concertVenuesData?.concertVenues.__typename === 'ConcertVenueList') {
+    if (concertVenuesData?.concertVenues?.__typename === 'ConcertVenueList') {
       return concertVenuesData.concertVenues.list ?? []
     }
     return []
