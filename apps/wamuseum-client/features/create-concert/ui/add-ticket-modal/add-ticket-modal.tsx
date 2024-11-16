@@ -1,14 +1,14 @@
-import useCreateConcertTicket from '@/app/concert/[id]/mutations/useCreateConcertTicket'
-import {
-  concertTicketsQuery,
-  UseConcertTicketsDataT,
-  UseConcertTicketsInputT,
-} from '@/app/concert/[id]/queries/useConcertTickets'
 import { AddFormModal } from '@/ui'
 import InputWithLabel from '@/ui/InputWithLabel'
 import { Button } from '@coldsurfers/ocean-road'
 import { isValid } from 'date-fns'
 import { useCallback, useEffect, useState } from 'react'
+import {
+  ConcertTicketsDocument,
+  ConcertTicketsQuery,
+  ConcertTicketsQueryVariables,
+  useCreateConcertTicketMutation,
+} from 'src/__generated__/graphql'
 import { parseDate } from '../add-tickets-ui/add-tickets-ui.utils'
 import { StyledAddTicketModalInner } from './add-ticket-modal.styled'
 import { AddTicketForm } from './add-ticket-modal.types'
@@ -29,7 +29,7 @@ export const AddTicketModal = ({
       opendate: '',
     },
   ])
-  const [mutateCreateConcertTicket, { loading: loadingCreateConcertTicket }] = useCreateConcertTicket({})
+  const [mutateCreateConcertTicket, { loading: loadingCreateConcertTicket }] = useCreateConcertTicketMutation({})
 
   const addTicketEmptyForm = useCallback(() => {
     setAddTicketsForm((prev) =>
@@ -71,26 +71,26 @@ export const AddTicketModal = ({
           removeTicketInput(ticketIndex)
         },
         update: (cache, { data }) => {
-          if (data?.createConcertTicket.__typename !== 'Ticket') {
+          if (data?.createConcertTicket?.__typename !== 'Ticket') {
             return
           }
           const { createConcertTicket: addedConcertTicketData } = data
-          const cacheData = cache.readQuery<UseConcertTicketsDataT, UseConcertTicketsInputT>({
-            query: concertTicketsQuery,
+          const concertTicketsCache = cache.readQuery<ConcertTicketsQuery, ConcertTicketsQueryVariables>({
+            query: ConcertTicketsDocument,
             variables: {
               concertId,
             },
           })
-          if (cacheData?.concertTickets.__typename === 'TicketList') {
+          if (concertTicketsCache?.concertTickets?.__typename === 'TicketList') {
             cache.writeQuery({
-              query: concertTicketsQuery,
+              query: ConcertTicketsDocument,
               variables: {
                 concertId,
               },
               data: {
                 concertTickets: {
-                  ...cacheData.concertTickets,
-                  list: cacheData.concertTickets.list?.concat({
+                  ...concertTicketsCache.concertTickets,
+                  list: concertTicketsCache.concertTickets.list?.concat({
                     ...addedConcertTicketData,
                   }),
                 },

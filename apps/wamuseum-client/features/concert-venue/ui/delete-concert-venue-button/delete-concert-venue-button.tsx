@@ -1,14 +1,14 @@
-import useRemoveConcertVenue from '@/app/concert/[id]/mutations/useRemoveConcertVenue'
-import {
-  concertVenuesQuery,
-  UseConcertVenuesDataT,
-  UseConcertVenuesInputT,
-} from '@/app/concert/[id]/queries/useConcertVenues'
 import { Button } from '@coldsurfers/ocean-road'
 import { useCallback } from 'react'
+import {
+  ConcertVenuesDocument,
+  ConcertVenuesQuery,
+  ConcertVenuesQueryVariables,
+  useRemoveConcertVenueMutation,
+} from 'src/__generated__/graphql'
 
 export const DeleteConcertVenueButton = ({ concertId, venueId }: { concertId: string; venueId: string }) => {
-  const [mutateRemoveConcertVenue] = useRemoveConcertVenue({})
+  const [mutateRemoveConcertVenue] = useRemoveConcertVenueMutation({})
   const onClick = useCallback(() => {
     mutateRemoveConcertVenue({
       variables: {
@@ -18,30 +18,29 @@ export const DeleteConcertVenueButton = ({ concertId, venueId }: { concertId: st
         },
       },
       update: (cache, { data }) => {
-        if (data?.removeConcertVenue.__typename !== 'Venue') {
+        if (data?.removeConcertVenue?.__typename !== 'Venue') {
           return
         }
         const { id: removedConcertVenueId } = data.removeConcertVenue
-        const cacheData = cache.readQuery<UseConcertVenuesDataT, UseConcertVenuesInputT>({
-          query: concertVenuesQuery,
+        const concertVenuesCache = cache.readQuery<ConcertVenuesQuery, ConcertVenuesQueryVariables>({
+          query: ConcertVenuesDocument,
           variables: {
             concertId,
           },
         })
-        if (!cacheData) {
+        if (!concertVenuesCache) {
           return
         }
-        const { concertVenues } = cacheData
-        if (concertVenues.__typename === 'ConcertVenueList') {
+        if (concertVenuesCache.concertVenues?.__typename === 'ConcertVenueList') {
           cache.writeQuery({
-            query: concertVenuesQuery,
+            query: ConcertVenuesDocument,
             variables: {
               concertId,
             },
             data: {
               concertVenues: {
-                ...concertVenues,
-                list: concertVenues.list?.filter((venue) => venue?.id !== removedConcertVenueId),
+                ...concertVenuesCache.concertVenues,
+                list: concertVenuesCache.concertVenues.list?.filter((venue) => venue?.id !== removedConcertVenueId),
               },
             },
           })

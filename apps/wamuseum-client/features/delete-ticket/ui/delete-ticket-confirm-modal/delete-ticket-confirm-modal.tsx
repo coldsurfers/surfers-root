@@ -1,11 +1,11 @@
-import useRemoveConcertTicket from '@/app/concert/[id]/mutations/useRemoveConcertTicket'
-import {
-  concertTicketsQuery,
-  UseConcertTicketsDataT,
-  UseConcertTicketsInputT,
-} from '@/app/concert/[id]/queries/useConcertTickets'
 import { Button, Modal, Text } from '@coldsurfers/ocean-road'
 import { useCallback } from 'react'
+import {
+  ConcertTicketsDocument,
+  ConcertTicketsQuery,
+  ConcertTicketsQueryVariables,
+  useRemoveConcertTicketMutation,
+} from 'src/__generated__/graphql'
 
 export const DeleteTicketConfirmModal = ({
   visible,
@@ -20,7 +20,7 @@ export const DeleteTicketConfirmModal = ({
   concertId: string
   ticketId: string
 }) => {
-  const [mutateRemoveConcertTicket, { loading: loadingRemoveConcertTicket }] = useRemoveConcertTicket()
+  const [mutateRemoveConcertTicket, { loading: loadingRemoveConcertTicket }] = useRemoveConcertTicketMutation()
   const onClickDelete = useCallback(() => {
     if (loadingRemoveConcertTicket) {
       return
@@ -36,27 +36,29 @@ export const DeleteTicketConfirmModal = ({
         onDeleteSuccess?.()
       },
       update: (cache, { data }) => {
-        if (data?.removeConcertTicket.__typename !== 'Ticket') {
+        if (data?.removeConcertTicket?.__typename !== 'Ticket') {
           return
         }
         const { removeConcertTicket: removedConcertTicketData } = data
-        const cacheData = cache.readQuery<UseConcertTicketsDataT, UseConcertTicketsInputT>({
-          query: concertTicketsQuery,
+        const concertTicketsCache = cache.readQuery<ConcertTicketsQuery, ConcertTicketsQueryVariables>({
+          query: ConcertTicketsDocument,
           variables: {
             concertId,
           },
         })
 
-        if (cacheData?.concertTickets.__typename === 'TicketList') {
+        if (concertTicketsCache?.concertTickets?.__typename === 'TicketList') {
           cache.writeQuery({
-            query: concertTicketsQuery,
+            query: ConcertTicketsDocument,
             variables: {
               concertId,
             },
             data: {
               concertTickets: {
-                ...cacheData.concertTickets,
-                list: cacheData.concertTickets.list?.filter((value) => value?.id !== removedConcertTicketData.id),
+                ...concertTicketsCache.concertTickets,
+                list: concertTicketsCache.concertTickets.list?.filter(
+                  (value) => value?.id !== removedConcertTicketData.id,
+                ),
               },
             },
           })

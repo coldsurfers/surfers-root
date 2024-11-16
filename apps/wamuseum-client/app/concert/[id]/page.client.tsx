@@ -17,11 +17,13 @@ import styled from '@emotion/styled'
 import { format } from 'date-fns'
 import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
-import useConcertQuery from '../../../hooks/useConcertQuery'
+import {
+  useConcertArtistsQuery,
+  useConcertPosterQuery,
+  useConcertQuery,
+  useConcertVenuesQuery,
+} from 'src/__generated__/graphql'
 import { StyledContent, StyledLabel } from './page.styled'
-import useConcertArtists from './queries/useConcertArtists'
-import useConcertPoster from './queries/useConcertPoster'
-import useConcertVenues from './queries/useConcertVenues'
 
 export const ConcertIdPageClient = ({
   params,
@@ -40,17 +42,17 @@ export const ConcertIdPageClient = ({
     },
   })
 
-  const { data: concertArtists } = useConcertArtists({
+  const { data: concertArtists } = useConcertArtistsQuery({
     variables: {
       concertId: id,
     },
   })
-  const { data: concertPosterData } = useConcertPoster({
+  const { data: concertPosterData } = useConcertPosterQuery({
     variables: {
       concertId: id,
     },
   })
-  const { data: concertVenuesData } = useConcertVenues({
+  const { data: concertVenuesData } = useConcertVenuesQuery({
     variables: {
       concertId: id,
     },
@@ -69,7 +71,7 @@ export const ConcertIdPageClient = ({
   }, [concertData])
 
   const concertPoster = useMemo(() => {
-    if (concertPosterData?.concertPoster.__typename === 'PosterList') {
+    if (concertPosterData?.concertPoster?.__typename === 'PosterList') {
       return concertPosterData.concertPoster.list?.at(0)
     }
     return null
@@ -80,14 +82,14 @@ export const ConcertIdPageClient = ({
   }, [concertPoster?.imageURL])
 
   const artistsResult = useMemo(() => {
-    if (concertArtists?.concertArtists.__typename === 'ArtistList') {
+    if (concertArtists?.concertArtists?.__typename === 'ArtistList') {
       return concertArtists.concertArtists.list ?? []
     }
     return []
   }, [concertArtists])
 
   const venuesResult = useMemo(() => {
-    if (concertVenuesData?.concertVenues.__typename === 'ConcertVenueList') {
+    if (concertVenuesData?.concertVenues?.__typename === 'ConcertVenueList') {
       return concertVenuesData.concertVenues.list ?? []
     }
     return []
