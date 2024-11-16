@@ -1,4 +1,5 @@
 import { Resolvers } from '../../../gql/resolvers-types'
+import { TicketPriceDTO } from '../../dtos'
 import { authorizeUser } from '../../utils/authHelpers'
 
 export const ticketPriceResolvers: Resolvers = {
