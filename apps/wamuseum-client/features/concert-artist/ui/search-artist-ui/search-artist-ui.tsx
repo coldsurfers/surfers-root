@@ -4,9 +4,8 @@ import { Spinner, Text, TextInput, colors } from '@coldsurfers/ocean-road'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useMemo, useState } from 'react'
 import useCreateConcertArtist from '../../../../app/concert/[id]/mutations/useCreateConcertArtist'
-import { concertArtistsQuery } from '../../../../app/concert/[id]/queries/useConcertArtists'
 import useSearchArtists from '../../../../app/concert/[id]/queries/useSearchArtists'
-import { ConcertArtistData } from '../../../../src/__generated__/graphql'
+import { ConcertArtistData, ConcertArtistsDocument } from '../../../../src/__generated__/graphql'
 import { StyledSearchResultWrapper } from './search-artist-ui.styled'
 
 export const SearchArtistsUI = ({ concertId }: { concertId: string }) => {
@@ -62,7 +61,7 @@ export const SearchArtistsUI = ({ concertId }: { concertId: string }) => {
                         concertId: string
                       }
                     >({
-                      query: concertArtistsQuery,
+                      query: ConcertArtistsDocument,
                       variables: {
                         concertId,
                       },
@@ -73,7 +72,7 @@ export const SearchArtistsUI = ({ concertId }: { concertId: string }) => {
                     const { concertArtists } = cacheData
                     if (concertArtists.__typename === 'ArtistList') {
                       cache.writeQuery({
-                        query: concertArtistsQuery,
+                        query: ConcertArtistsDocument,
                         data: {
                           concertArtists: {
                             ...concertArtists,
