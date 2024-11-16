@@ -1,0 +1,14 @@
+mutation CreateUser($input: CreateUserInput!) {
+  createUser(input: $input) {
+    ... on User {
+      createdAt
+      email
+      id
+      isAdmin
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}

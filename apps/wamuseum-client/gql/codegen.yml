@@ -1,0 +1,12 @@
+schema: http://localhost:3002/api/graphql # Replace with your GraphQL endpoint or local schema file
+documents: './gql/documents/*.graphql' # Glob pattern for your GraphQL documents
+generates:
+  ./src/__generated__/graphql.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      withHooks: true # Enables React hooks generation for Apollo Client
+      withHOC: false # Disables higher-order component generation
+      withComponent: false # Disables component generation
