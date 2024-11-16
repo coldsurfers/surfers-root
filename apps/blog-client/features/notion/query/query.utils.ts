@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { uploadCloudinary } from '@coldsurfers/cloudinary-utils'
 import { getRandomInt } from '@coldsurfers/shared-utils'
 import {
   BlockObjectResponse,
@@ -75,7 +74,8 @@ export const getBlocks = async ({
     }
     if (process.env.NODE_ENV === 'production' && generated.type === 'image' && withUploadCloudinary) {
       if (generated.image.type === 'file') {
-        const cloudinary = await uploadCloudinary(generated.image.file.url)
+        const cloudinaryUtils = await import('@coldsurfers/cloudinary-utils')
+        const cloudinary = await cloudinaryUtils.uploadCloudinary(generated.image.file.url)
         generated.image.file.url = cloudinary.secure_url
       }
     }
