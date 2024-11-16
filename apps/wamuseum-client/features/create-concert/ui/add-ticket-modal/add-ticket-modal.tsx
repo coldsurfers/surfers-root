@@ -196,14 +196,5 @@ export const AddTicketModal = ({
         </>
       }
     />
-    // <Modal visible={visible} onClose={onClose}>
-    //   <StyledAddTicketModalTop>
-    //     <Text as="h3">티켓 등록 모달</Text>
-    //     <AddButton onClick={addTicketEmptyForm} />
-    //   </StyledAddTicketModalTop>
-    //   <Button style={{ width: '100%' }} theme={'indigo'} onClick={onClickBulkAdd}>
-    //     등록하기
-    //   </Button>
-    // </Modal>
   )
 }
