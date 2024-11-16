@@ -1,6 +1,6 @@
 import { AddFormModal } from '@/ui'
 import InputWithLabel from '@/ui/InputWithLabel'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { StyledAddPriceModalInner } from './register-ticket-price-info-modal.styled'
 import { AddPriceInfoForm } from './register-ticket-price-info-modal.types'
 
@@ -20,12 +20,23 @@ export const RegisterTicketPriceInfoModal = ({
       currency: '',
     },
   ])
+
+  const addPriceEmptyForm = useCallback(() => {
+    setAddPriceForm((prev) =>
+      prev.concat({
+        name: '',
+        price: '',
+        currency: '',
+      }),
+    )
+  }, [])
+
   return (
     <AddFormModal
       title={'티켓 가격 정보'}
       visible={visible}
       onClose={onClose}
-      onClickTopAddButton={() => {}}
+      onClickTopAddButton={addPriceEmptyForm}
       formListComponent={
         <>
           {addPriceForm.map((price, priceIndex) => {
