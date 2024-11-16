@@ -1,0 +1,14 @@
+query Me {
+  me {
+    ... on User {
+      id
+      email
+      isAdmin
+      createdAt
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}

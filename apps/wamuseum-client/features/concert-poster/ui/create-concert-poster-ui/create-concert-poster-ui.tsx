@@ -1,11 +1,9 @@
-import useConcertQuery from '@/hooks/useConcertQuery'
-import useCreateConcertPosterMutation from '@/hooks/useCreateConcertPosterMutation'
 import { presign, uploadToPresignedURL } from '@/utils/fetcher'
 import { getPosterS3Url } from '@/utils/get-poster-s3-url'
 import pickFile from '@/utils/pickFile'
 import { Button } from '@coldsurfers/ocean-road'
-import { concertPosterQuery } from 'gql/queries'
 import { useCallback, useMemo } from 'react'
+import { ConcertPosterDocument, useConcertQuery, useCreateConcertPosterMutation } from 'src/__generated__/graphql'
 
 export const CreateConcertPosterUI = ({ concertId }: { concertId: string }) => {
   const { data: concertData } = useConcertQuery({
@@ -55,11 +53,11 @@ export const CreateConcertPosterUI = ({ concertId }: { concertId: string }) => {
           if (!concert) {
             return
           }
-          if (data?.createConcertPoster.__typename !== 'Poster') {
+          if (data?.createConcertPoster?.__typename !== 'Poster') {
             return
           }
           cache.writeQuery({
-            query: concertPosterQuery,
+            query: ConcertPosterDocument,
             variables: {
               concertId: concert.id,
             },
