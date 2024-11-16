@@ -1,0 +1,10 @@
+query ConcertArtists($concertId: String!) {
+  concertArtists(concertId: $concertId) {
+    ... on ArtistList {
+      list {
+        id
+        name
+      }
+    }
+  }
+}
