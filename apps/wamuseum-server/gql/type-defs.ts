@@ -149,6 +149,12 @@ const typeDefs = `#graphql
     imageURL: String
   }
 
+  input CreateConcertTicketPriceInput {
+    title: String!
+    price: Float!
+    priceCurrency: String!
+  }
+
   input LoginInput {
     email: String!
     password: String!
@@ -234,6 +240,8 @@ const typeDefs = `#graphql
   union UpdateConcertPosterData = Poster | HttpError
 
   union CreateConcertPosterData = Poster | HttpError
+
+  union CreateConcertTicketPriceData = TicketPrice | HttpError
 
   union CreateArtistData = Artist | HttpError
 
@@ -380,6 +388,9 @@ const typeDefs = `#graphql
     updateConcertPoster(
       input: UpdateConcertPosterInput!
     ): UpdateConcertPosterData
+    createConcertTicketPrice(
+      input: CreateConcertTicketPriceInput!
+    ): CreateConcertTicketPriceData
     createArtist(
       input: CreateArtistInput!
     ): CreateArtistData
