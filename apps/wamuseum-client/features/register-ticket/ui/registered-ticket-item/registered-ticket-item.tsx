@@ -1,9 +1,9 @@
-import { TicketPriceListItem } from '@/features/ticket-price'
+import { TicketPriceList } from '@/features/ticket-price'
 import { Button, colors, Text } from '@coldsurfers/ocean-road'
 import { format } from 'date-fns'
 import Link from 'next/link'
-import { useCallback, useMemo, useState } from 'react'
-import { Maybe, Ticket, useConcertTicketPricesQuery } from 'src/__generated__/graphql'
+import { useCallback, useState } from 'react'
+import { Maybe, Ticket } from 'src/__generated__/graphql'
 import { DeleteTicketConfirmModal } from '../../../delete-ticket'
 import { RegisterTicketPriceInfoModal } from '../register-ticket-price-info-modal'
 import {
@@ -21,17 +21,6 @@ export const RegisteredTicketItem = ({ ticket, concertId }: { ticket: Maybe<Tick
   const onClickPriceInfo = useCallback(() => {
     setPriceInfoModalVisible(true)
   }, [])
-  const { data: ticketPricesData } = useConcertTicketPricesQuery({
-    variables: {
-      ticketId: ticket?.id ?? '',
-    },
-  })
-  const ticketPrices = useMemo(() => {
-    if (ticketPricesData?.concertTicketPrices?.__typename === 'TicketPriceList') {
-      return ticketPricesData.concertTicketPrices.list ?? []
-    }
-    return []
-  }, [ticketPricesData])
 
   if (!ticket) {
     return null
@@ -48,12 +37,7 @@ export const RegisteredTicketItem = ({ ticket, concertId }: { ticket: Maybe<Tick
       <StyledTicketItemLabel as="h4">티켓 오픈 날짜</StyledTicketItemLabel>
       <Text>{format(new Date(ticket.openDate), 'MMM dd, hh:mm a')}</Text>
       <StyledTicketItemLabel as="h4">티켓 가격 정보</StyledTicketItemLabel>
-      {ticketPrices.map((item) => {
-        if (!item) {
-          return null
-        }
-        return <TicketPriceListItem key={item.id} item={item} />
-      })}
+      <TicketPriceList ticketId={ticket.id} />
       <StyledTicketBottomWrapper>
         <Button theme={'indigo'} onClick={onClickPriceInfo} style={{ flex: 0.5, marginRight: '1rem' }}>
           가격정보 등록
@@ -62,14 +46,12 @@ export const RegisteredTicketItem = ({ ticket, concertId }: { ticket: Maybe<Tick
           삭제하기
         </Button>
       </StyledTicketBottomWrapper>
-
       <DeleteTicketConfirmModal
         visible={deleteModalVisible}
         concertId={concertId}
         ticketId={ticket.id}
         onClose={() => setDeleteModalVisible(false)}
       />
-
       <RegisterTicketPriceInfoModal
         visible={priceInfoModalVisible}
         ticketId={ticket.id}
