@@ -1,11 +1,10 @@
-import useConcertPoster from '@/app/concert/[id]/queries/useConcertPoster'
 import useUpdateConcertPosterMutation from '@/hooks/useUpdateConcertPosterMutation'
 import { presign, uploadToPresignedURL } from '@/utils/fetcher'
 import { getPosterS3Url } from '@/utils/get-poster-s3-url'
 import pickFile from '@/utils/pickFile'
 import { Button } from '@coldsurfers/ocean-road'
-import { concertPosterQuery } from 'gql/queries'
 import { useCallback, useMemo } from 'react'
+import { ConcertPosterDocument, useConcertPosterQuery } from 'src/__generated__/graphql'
 import { StyledUpdateConcertPosterUIThumbnail } from './update-concert-poster-ui.styled'
 
 interface Props {
@@ -13,14 +12,14 @@ interface Props {
 }
 
 export const UpdateConcertPosterUI = ({ concertId }: Props) => {
-  const { data: concertPosterData } = useConcertPoster({
+  const { data: concertPosterData } = useConcertPosterQuery({
     variables: {
       concertId,
     },
   })
   const [mutateUpdateConcertPoster] = useUpdateConcertPosterMutation()
   const concertPoster = useMemo(() => {
-    if (concertPosterData?.concertPoster.__typename === 'PosterList') {
+    if (concertPosterData?.concertPoster?.__typename === 'PosterList') {
       return concertPosterData.concertPoster.list?.at(0)
     }
     return null
@@ -54,10 +53,10 @@ export const UpdateConcertPosterUI = ({ concertId }: Props) => {
           if (!data || !data.updateConcertPoster) return
           const { updateConcertPoster } = data
           if (updateConcertPoster.__typename !== 'Poster') return
-          const existingConcertPoster = cache.readQuery({ query: concertPosterQuery })
+          const existingConcertPoster = cache.readQuery({ query: ConcertPosterDocument })
           if (existingConcertPoster && updateConcertPoster) {
             cache.writeQuery({
-              query: concertPosterQuery,
+              query: ConcertPosterDocument,
               variables: {
                 concertId,
               },

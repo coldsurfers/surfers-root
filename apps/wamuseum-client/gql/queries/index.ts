@@ -77,16 +77,3 @@ export const ME_QUERY = gql`
     }
   }
 `
-
-export const concertPosterQuery = gql`
-  query ConcertPoster($concertId: String!) {
-    concertPoster(concertId: $concertId) {
-      ... on PosterList {
-        list {
-          id
-          imageURL
-        }
-      }
-    }
-  }
-`

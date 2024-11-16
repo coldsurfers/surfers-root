@@ -552,6 +552,13 @@ export type ConcertArtistsQueryVariables = Exact<{
 
 export type ConcertArtistsQuery = { __typename?: 'Query', concertArtists?: { __typename?: 'ArtistList', list?: Array<{ __typename?: 'Artist', id: string, name: string } | null> | null } | { __typename?: 'HttpError' } | null };
 
+export type ConcertPosterQueryVariables = Exact<{
+  concertId: Scalars['String']['input'];
+}>;
+
+
+export type ConcertPosterQuery = { __typename?: 'Query', concertPoster?: { __typename?: 'HttpError' } | { __typename?: 'PosterList', list?: Array<{ __typename?: 'Poster', id: string, imageURL: string } | null> | null } | null };
+
 
 export const ConcertArtistsDocument = gql`
     query ConcertArtists($concertId: String!) {
@@ -598,3 +605,48 @@ export type ConcertArtistsQueryHookResult = ReturnType<typeof useConcertArtistsQ
 export type ConcertArtistsLazyQueryHookResult = ReturnType<typeof useConcertArtistsLazyQuery>;
 export type ConcertArtistsSuspenseQueryHookResult = ReturnType<typeof useConcertArtistsSuspenseQuery>;
 export type ConcertArtistsQueryResult = Apollo.QueryResult<ConcertArtistsQuery, ConcertArtistsQueryVariables>;
+export const ConcertPosterDocument = gql`
+    query ConcertPoster($concertId: String!) {
+  concertPoster(concertId: $concertId) {
+    ... on PosterList {
+      list {
+        id
+        imageURL
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useConcertPosterQuery__
+ *
+ * To run a query within a React component, call `useConcertPosterQuery` and pass it any options that fit your needs.
+ * When your component renders, `useConcertPosterQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useConcertPosterQuery({
+ *   variables: {
+ *      concertId: // value for 'concertId'
+ *   },
+ * });
+ */
+export function useConcertPosterQuery(baseOptions: Apollo.QueryHookOptions<ConcertPosterQuery, ConcertPosterQueryVariables> & ({ variables: ConcertPosterQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ConcertPosterQuery, ConcertPosterQueryVariables>(ConcertPosterDocument, options);
+      }
+export function useConcertPosterLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ConcertPosterQuery, ConcertPosterQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ConcertPosterQuery, ConcertPosterQueryVariables>(ConcertPosterDocument, options);
+        }
+export function useConcertPosterSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ConcertPosterQuery, ConcertPosterQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ConcertPosterQuery, ConcertPosterQueryVariables>(ConcertPosterDocument, options);
+        }
+export type ConcertPosterQueryHookResult = ReturnType<typeof useConcertPosterQuery>;
+export type ConcertPosterLazyQueryHookResult = ReturnType<typeof useConcertPosterLazyQuery>;
+export type ConcertPosterSuspenseQueryHookResult = ReturnType<typeof useConcertPosterSuspenseQuery>;
+export type ConcertPosterQueryResult = Apollo.QueryResult<ConcertPosterQuery, ConcertPosterQueryVariables>;

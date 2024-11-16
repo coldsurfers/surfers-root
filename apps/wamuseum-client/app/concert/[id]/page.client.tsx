@@ -17,10 +17,9 @@ import styled from '@emotion/styled'
 import { format } from 'date-fns'
 import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
-import { useConcertArtistsQuery } from 'src/__generated__/graphql'
+import { useConcertArtistsQuery, useConcertPosterQuery } from 'src/__generated__/graphql'
 import useConcertQuery from '../../../hooks/useConcertQuery'
 import { StyledContent, StyledLabel } from './page.styled'
-import useConcertPoster from './queries/useConcertPoster'
 import useConcertVenues from './queries/useConcertVenues'
 
 export const ConcertIdPageClient = ({
@@ -45,7 +44,7 @@ export const ConcertIdPageClient = ({
       concertId: id,
     },
   })
-  const { data: concertPosterData } = useConcertPoster({
+  const { data: concertPosterData } = useConcertPosterQuery({
     variables: {
       concertId: id,
     },
@@ -69,7 +68,7 @@ export const ConcertIdPageClient = ({
   }, [concertData])
 
   const concertPoster = useMemo(() => {
-    if (concertPosterData?.concertPoster.__typename === 'PosterList') {
+    if (concertPosterData?.concertPoster?.__typename === 'PosterList') {
       return concertPosterData.concertPoster.list?.at(0)
     }
     return null
