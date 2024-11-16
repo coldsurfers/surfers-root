@@ -1,8 +1,8 @@
 import { DEFAULT_LIMIT, DEFAULT_ORDER_BY_CREATED_AT, DEFAULT_PAGE } from '@/utils/constants'
-import { CONCERT_LIST_QUERY } from 'gql/queries'
 import { ApolloHydrationBoundary } from 'libs/apollo-hydration-boundary'
 import { initializeApollo } from 'libs/use-apollo'
 import { cookies } from 'next/headers'
+import { ConcertListDocument } from 'src/__generated__/graphql'
 import { authUtils } from '../utils'
 import { RootPageClient } from './page.client'
 
@@ -16,7 +16,7 @@ export default async function RootPage() {
   // Fetch data on the server side
   try {
     await client.query({
-      query: CONCERT_LIST_QUERY,
+      query: ConcertListDocument,
       variables: {
         page: DEFAULT_PAGE,
         limit: DEFAULT_LIMIT,

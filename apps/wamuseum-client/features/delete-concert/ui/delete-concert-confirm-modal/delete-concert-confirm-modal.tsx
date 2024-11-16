@@ -1,6 +1,6 @@
-import useRemoveConcert from '@/app/concert/[id]/mutations/useRemoveConcert'
 import { Button, Modal, Text } from '@coldsurfers/ocean-road'
 import { useCallback } from 'react'
+import { useRemoveConcertMutation } from 'src/__generated__/graphql'
 
 export const DeleteConcertConfirmModal = ({
   visible,
@@ -13,7 +13,7 @@ export const DeleteConcertConfirmModal = ({
   onClose: () => void
   concertId: string
 }) => {
-  const [mutateRemoveConcert] = useRemoveConcert({})
+  const [mutateRemoveConcert] = useRemoveConcertMutation({})
   const onClickConfirmDelete = useCallback(() => {
     mutateRemoveConcert({
       variables: {

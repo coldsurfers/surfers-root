@@ -1,0 +1,31 @@
+query ConcertTickets($concertId: String!) {
+  concertTickets(concertId: $concertId) {
+    ... on TicketList {
+      list {
+        id
+        openDate
+        seller
+        sellingURL
+      }
+    }
+  }
+}
+
+mutation CreateConcertTicket($input: CreateConcertTicketInput!) {
+  createConcertTicket(input: $input) {
+    ... on Ticket {
+      id
+      openDate
+      seller
+      sellingURL
+    }
+  }
+}
+
+mutation RemoveConcertTicket($input: RemoveConcertTicketInput!) {
+  removeConcertTicket(input: $input) {
+    ... on Ticket {
+      id
+    }
+  }
+}
