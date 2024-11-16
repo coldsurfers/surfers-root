@@ -1,7 +1,6 @@
 'use client'
 
-import { Text } from '@/features'
-import { queryLogs } from '@/lib'
+import { queryLogs, Text } from '@/features'
 import { Link } from 'i18n/routing'
 import {
   StyledPostItemContainer,

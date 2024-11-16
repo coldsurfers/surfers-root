@@ -1,4 +1,4 @@
-import { queryNotionResumePage } from '@/lib'
+import { queryNotionResumePage } from '@/features/notion'
 import { getBlocks } from '@/lib/notion'
 import { NextRequest, NextResponse } from 'next/server'
 

@@ -1,4 +1,4 @@
-import { getTags, queryLogs } from '@/lib/utils'
+import { getTags, queryLogs } from '@/features/notion'
 import { getPathname, routing } from 'i18n/routing'
 import { MetadataRoute } from 'next'
 

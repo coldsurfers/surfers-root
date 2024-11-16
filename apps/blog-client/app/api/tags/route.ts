@@ -1,4 +1,4 @@
-import { getTags } from '@/lib'
+import { getTags } from '@/features/notion'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
