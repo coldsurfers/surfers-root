@@ -1,6 +1,5 @@
 import { LogPlatform } from '@/features/logs'
 import { PageObjectResponse, QueryDatabaseParameters } from '@notionhq/client/build/src/api-endpoints'
-import { AppLocale } from 'i18n/types'
 import { cache } from 'react'
 import { match } from 'ts-pattern'
 import notionInstance, { notionDatabaseIds } from '../../../lib/notionInstance'
@@ -152,28 +151,3 @@ export const queryProperties = (propertyName: 'tags') =>
       })
       .exhaustive()
   })
-
-export const queryNotionResumePage = cache(
-  async (tagName: 'Career' | 'Side Project Career' | 'Music Career', lang: AppLocale) => {
-    const res = await notionInstance.databases.query({
-      database_id: notionDatabaseIds.resume ?? '',
-      filter: {
-        and: [
-          {
-            property: 'Tags',
-            multi_select: {
-              contains: tagName,
-            },
-          },
-          {
-            property: 'lang',
-            multi_select: {
-              contains: lang,
-            },
-          },
-        ],
-      },
-    })
-    return res
-  },
-)

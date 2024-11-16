@@ -1,4 +1,4 @@
-import { queryNotionResumePage } from '@/features/notion'
+import { queryResumePage } from '@/features/resume/resume.query'
 import { getBlocks } from '@/lib/notion'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -9,9 +9,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'locale query is strange' }, { status: 409 })
   }
   const promises = [
-    queryNotionResumePage('Career', locale),
-    queryNotionResumePage('Music Career', locale),
-    queryNotionResumePage('Side Project Career', locale),
+    queryResumePage('Career', locale),
+    queryResumePage('Music Career', locale),
+    queryResumePage('Side Project Career', locale),
   ]
   const [careerResult, musicCareerResult, sideProjectCareerResult] = await Promise.all(promises)
 
