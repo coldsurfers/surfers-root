@@ -4,12 +4,8 @@ import { Spinner, Text, TextInput, colors } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useMemo, useState } from 'react'
+import { ConcertVenuesDocument, ConcertVenuesQuery, ConcertVenuesQueryVariables } from 'src/__generated__/graphql'
 import useCreateConcertVenue from '../../../../app/concert/[id]/mutations/useCreateConcertVenue'
-import {
-  UseConcertVenuesDataT,
-  UseConcertVenuesInputT,
-  concertVenuesQuery,
-} from '../../../../app/concert/[id]/queries/useConcertVenues'
 import useSearchConcertVenueQuery from '../../../../app/concert/[id]/queries/useSearchConcertVenueQuery'
 
 const SearchResultWrapper = styled.div`
@@ -71,23 +67,22 @@ export const SearchConcertVenueUI = ({ concertId }: { concertId: string }) => {
                     if (data?.createConcertVenue.__typename !== 'Venue') {
                       return
                     }
-                    const cacheData = cache.readQuery<UseConcertVenuesDataT, UseConcertVenuesInputT>({
-                      query: concertVenuesQuery,
+                    const concertVenuesCache = cache.readQuery<ConcertVenuesQuery, ConcertVenuesQueryVariables>({
+                      query: ConcertVenuesDocument,
                       variables: {
                         concertId,
                       },
                     })
-                    if (!cacheData) {
+                    if (!concertVenuesCache) {
                       return
                     }
-                    const { concertVenues } = cacheData
-                    if (concertVenues.__typename === 'ConcertVenueList') {
+                    if (concertVenuesCache.concertVenues?.__typename === 'ConcertVenueList') {
                       cache.writeQuery({
-                        query: concertVenuesQuery,
+                        query: ConcertVenuesDocument,
                         data: {
                           concertVenues: {
-                            ...concertVenues,
-                            list: concertVenues.list?.concat({
+                            ...concertVenuesCache.concertVenues,
+                            list: concertVenuesCache.concertVenues.list?.concat({
                               ...data.createConcertVenue,
                             }),
                           },

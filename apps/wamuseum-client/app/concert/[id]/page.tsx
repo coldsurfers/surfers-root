@@ -1,9 +1,8 @@
 import { CONCERT_QUERY } from 'gql/queries'
 import { ApolloHydrationBoundary, initializeApollo } from 'libs'
 import { cookies } from 'next/headers'
-import { ConcertArtistsDocument, ConcertPosterDocument } from 'src/__generated__/graphql'
+import { ConcertArtistsDocument, ConcertPosterDocument, ConcertVenuesDocument } from 'src/__generated__/graphql'
 import { ConcertIdPageClient } from './page.client'
-import { concertVenuesQuery } from './queries/useConcertVenues'
 
 export default async function ConcertIdPage({
   params,
@@ -35,7 +34,7 @@ export default async function ConcertIdPage({
       },
     }),
     apolloClient.query({
-      query: concertVenuesQuery,
+      query: ConcertVenuesDocument,
       variables: {
         concertId: params.id,
       },
