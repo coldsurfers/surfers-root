@@ -1,4 +1,4 @@
-import { queryLogs } from '@/features/notion'
+import { queryLogs } from '@/features'
 import { NextRequest, NextResponse } from 'next/server'
 import { match } from 'ts-pattern'
 
