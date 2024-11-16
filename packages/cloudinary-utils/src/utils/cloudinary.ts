@@ -1,10 +1,10 @@
+import { generateUUID } from '@coldsurfers/shared-utils'
+import axios from 'axios'
+import FormData from 'form-data'
 import fs from 'fs'
 import sha1 from 'sha1'
-import axios from 'axios'
-import util from 'util'
 import stream from 'stream'
-import FormData from 'form-data'
-import { generateUUID } from '@coldsurfers/shared-utils'
+import util from 'util'
 
 const pipeline = util.promisify(stream.pipeline)
 
@@ -31,11 +31,9 @@ export const uploadCloudinary = async (url: string) => {
   }
   const filepath = `temps/${generateUUID()}`
   await pipeline(request.data, fs.createWriteStream(filepath))
-  const { signature, public_id, timestamp } =
-    generateCloudinaryUploadSignature(generateUUID())
+  const { signature, public_id, timestamp } = generateCloudinaryUploadSignature(generateUUID())
 
-  const cloudinarySignedUploadAPI =
-    'https://api.cloudinary.com/v1_1/druidbphk/image/upload'
+  const cloudinarySignedUploadAPI = 'https://api.cloudinary.com/v1_1/druidbphk/image/upload'
   const formdata = new FormData()
 
   formdata.append('file', fs.createReadStream(filepath))
