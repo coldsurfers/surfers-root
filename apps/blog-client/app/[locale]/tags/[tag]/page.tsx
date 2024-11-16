@@ -1,4 +1,4 @@
-import { getTags } from '@/lib'
+import { getTags } from '@/features/notion'
 import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
 import { getQueryClient } from '@/lib/react-query/react-query.utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'

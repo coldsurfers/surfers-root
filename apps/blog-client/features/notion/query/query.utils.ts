@@ -1,10 +1,11 @@
+import { LogPlatform } from '@/features/logs'
 import { PageObjectResponse, QueryDatabaseParameters } from '@notionhq/client/build/src/api-endpoints'
 import { AppLocale } from 'i18n/types'
 import { cache } from 'react'
 import { match } from 'ts-pattern'
-import notionInstance, { notionDatabaseIds } from '../notionInstance'
+import notionInstance, { notionDatabaseIds } from '../../../lib/notionInstance'
 
-const getLogDetail = (platform: 'techlog' | 'surflog') =>
+const getLogDetail = (platform: LogPlatform) =>
   cache(async ({ slug, lang }: { slug: string; lang: 'ko' | 'en' }): Promise<PageObjectResponse | null> => {
     const res = await notionInstance.databases.query({
       database_id: notionDatabaseIds.blog ?? '',
@@ -156,31 +157,6 @@ const queryProperties = (propertyName: 'tags') =>
   })
 
 export const getTags = queryProperties('tags')
-
-export const generatePDF = async () => {
-  // Set options for html2pdf
-  const options = {
-    margin: 0.25,
-    filename: 'website_screenshot.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 1.5 },
-    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-    pagebreak: { mode: 'avoid-all' },
-  }
-
-  // Select the element to capture
-  const element = document.body
-
-  // @ts-expect-error
-  const { default: html2pdf } = await import('html2pdf.js')
-  // Generate PDF
-  html2pdf()
-    .from(element)
-    .set({
-      ...options,
-    })
-    .save()
-}
 
 export const queryNotionResumePage = cache(
   async (tagName: 'Career' | 'Side Project Career' | 'Music Career', lang: AppLocale) => {

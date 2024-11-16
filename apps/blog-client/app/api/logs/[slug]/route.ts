@@ -1,4 +1,4 @@
-import { getSurflogDetail, getTechlogDetail } from '@/lib'
+import { getSurflogDetail, getTechlogDetail } from '@/features/notion'
 import { getBlocks } from '@/lib/notion'
 import { NextRequest, NextResponse } from 'next/server'
 import { match } from 'ts-pattern'
