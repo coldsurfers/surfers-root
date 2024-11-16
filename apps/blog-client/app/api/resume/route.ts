@@ -1,5 +1,5 @@
+import { getBlocks } from '@/features'
 import { queryResumePage } from '@/features/resume/resume.query'
-import { getBlocks } from '@/lib/notion'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
@@ -16,11 +16,20 @@ export async function GET(request: NextRequest) {
   const [careerResult, musicCareerResult, sideProjectCareerResult] = await Promise.all(promises)
 
   const careerPage = careerResult.results.at(0)
-  const musicCareerPage = musicCareerResult.results.at(0)
   const sideProjectCareerPage = sideProjectCareerResult.results.at(0)
 
-  const careerBlocks = await getBlocks(careerPage?.id)
-  const sideProjectCareerBlocks = await getBlocks(sideProjectCareerPage?.id)
+  const careerBlocks = careerPage?.id
+    ? await getBlocks({
+        blockId: careerPage.id,
+        withUploadCloudinary: true,
+      })
+    : []
+  const sideProjectCareerBlocks = sideProjectCareerPage?.id
+    ? await getBlocks({
+        blockId: sideProjectCareerPage?.id,
+        withUploadCloudinary: true,
+      })
+    : []
 
   return NextResponse.json({
     blocks: {
