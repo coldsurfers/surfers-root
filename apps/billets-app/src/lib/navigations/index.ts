@@ -18,6 +18,7 @@ export const Screens = {
   ConcertMainScreen: 'ConcertMainScreen',
   ConcertDetailScreen: 'ConcertDetailScreen',
   ConcertListByCategoryScreen: 'ConcertListByCategoryScreen',
+  ConcertTicketListScreen: 'ConcertTicketListScreen',
   MyScreen: 'MyScreen',
   LoginSelectionScreen: 'LoginSelectionScreen',
   EmailSignupScreen: 'EmailSignupScreen',

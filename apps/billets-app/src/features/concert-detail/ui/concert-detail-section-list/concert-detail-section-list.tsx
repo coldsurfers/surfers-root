@@ -20,11 +20,7 @@ import {
   ConcertDetailSectionListSectionT,
 } from './concert-detail-section-list.types'
 
-export const ConcertDetailSectionList = ({
-  sections,
-  thumbnails,
-  ListFooterComponent,
-}: ConcertDetailSectionListProps) => {
+export const ConcertDetailSectionList = ({ sections, thumbnails }: ConcertDetailSectionListProps) => {
   const [scrollY] = React.useState(new Animated.Value(0))
   const coverTranslateY = scrollY.interpolate({
     inputRange: [-4, 0, 10],
@@ -161,7 +157,6 @@ export const ConcertDetailSectionList = ({
             />
           </Animated.View>
         }
-        ListFooterComponent={ListFooterComponent}
         sections={sections}
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}

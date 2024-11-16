@@ -5,9 +5,11 @@ import styled from '@emotion/styled'
 import { AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
-import useAuthenticateEmailAuthRequestMutation from '../../hooks/useAuthenticateEmailAuthRequestMutation'
-import useCreateEmailAuthRequestMutation from '../../hooks/useCreateEmailAuthRequestMutation'
-import useCreateUserMutation from '../../hooks/useCreateUserMutation'
+import {
+  useAuthenticateEmailAuthRequestMutation,
+  useCreateEmailAuthRequestMutation,
+  useCreateUserMutation,
+} from 'src/__generated__/graphql'
 import validateEmail from '../../utils/validateEmail'
 
 export const CreateUserRequestForm = () => {
@@ -30,7 +32,7 @@ export const CreateUserRequestForm = () => {
 
   const loading = createEmailAuthRequestLoading || authenticateEmailAuthRequestLoading || createUserLoading
 
-  const authenticatedEmail = createEmailAuthRequestData?.createEmailAuthRequest.email ?? ''
+  const authenticatedEmail = createEmailAuthRequestData?.createEmailAuthRequest?.email ?? ''
 
   const onClickGetAuthcode = useCallback(() => {
     setEmailSent(true)

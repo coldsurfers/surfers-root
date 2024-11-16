@@ -1,0 +1,8 @@
+mutation Logout {
+  logout {
+    ... on User {
+      id
+      email
+    }
+  }
+}

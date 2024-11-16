@@ -69,9 +69,12 @@ export function SubscribedConcertList({
       ItemSeparatorComponent={ItemSeparator}
       contentContainerStyle={styles.contentContainer}
       ListHeaderComponent={listHeaderComponent}
-      onEndReached={onEndReached}
-      onRefresh={onRefresh}
-      refreshing={isRefreshing}
+      onEndReached={horizontal ? undefined : onEndReached}
+      onRefresh={horizontal ? undefined : onRefresh}
+      refreshing={horizontal ? undefined : isRefreshing}
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
+      bounces={!horizontal}
     />
   )
 }
@@ -79,6 +82,7 @@ export function SubscribedConcertList({
 const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: 16,
+    marginTop: 12,
   },
   itemSeparator: {
     width: 10,

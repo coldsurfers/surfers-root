@@ -1,0 +1,23 @@
+mutation AuthenticateEmailAuthRequest($input: AuthenticateEmailAuthRequestInput!) {
+  authenticateEmailAuthRequest(input: $input) {
+    ... on EmailAuthRequest {
+      authenticated
+      createdAt
+      email
+      id
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+
+mutation CreateEmailAuthRequest($input: CreateEmailAuthRequestInput!) {
+  createEmailAuthRequest(input: $input) {
+    authenticated
+    createdAt
+    email
+    id
+  }
+}

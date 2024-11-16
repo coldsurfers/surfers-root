@@ -13,10 +13,16 @@ export const StyledButton = styled.button<{
   padding-top: 16px;
   padding-bottom: 16px;
   border-radius: 24px;
-  border: ${({ colorTheme }) => `1px solid ${getButtonBackgroundColor(colorTheme)}`};
+  border: none;
   font-family: inherit;
 
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+
   opacity: ${(props) => (props.colorTheme === 'transparentDarkGray' ? 0.5 : 1.0)};
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:active {
     opacity: 0.5;

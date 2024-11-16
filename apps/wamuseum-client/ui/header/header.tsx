@@ -1,14 +1,10 @@
 'use client'
 
-import { useMutation } from '@apollo/client'
 import { Button, colors, semantics, Spinner } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { LogoutMutation } from '../../gql/mutations'
-import { ME_QUERY } from '../../gql/queries'
-import useMeQuery from '../../hooks/useMeQuery'
-import { Mutation } from '../../src/__generated__/graphql'
+import { MeDocument, useLogoutMutation, useMeQuery } from '../../src/__generated__/graphql'
 import { authUtils } from '../../utils'
 
 export const Header = () => {
@@ -16,7 +12,7 @@ export const Header = () => {
   const pathname = usePathname()
   const [showLoader, setShowLoader] = useState<boolean>(false)
   const { data, refetch, client } = useMeQuery()
-  const [mutateLogout] = useMutation<{ logout: Mutation['logout'] }>(LogoutMutation, {})
+  const [mutateLogout] = useLogoutMutation()
   const me = useMemo(() => {
     return data?.me
   }, [data?.me])
@@ -26,7 +22,7 @@ export const Header = () => {
       onCompleted: () => {
         authUtils.logout().then(() => {
           client.refetchQueries({
-            include: [ME_QUERY],
+            include: [MeDocument],
           })
         })
       },
