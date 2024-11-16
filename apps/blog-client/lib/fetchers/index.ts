@@ -1,4 +1,4 @@
-import { queryLogs } from '@/features/notion'
+import { queryLogs } from '@/features'
 import { PageObjectResponse, PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import { AppLocale } from 'i18n/types'
 

@@ -1,5 +1,4 @@
-import { queryTags } from '@/features'
-import { queryLogs } from '@/features/notion'
+import { queryLogs, queryTags } from '@/features'
 import { getPathname, routing } from 'i18n/routing'
 import { MetadataRoute } from 'next'
 
