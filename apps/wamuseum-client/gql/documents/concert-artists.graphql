@@ -8,3 +8,31 @@ query ConcertArtists($concertId: String!) {
     }
   }
 }
+
+mutation CreateConcertArtist($input: CreateConcertArtistInput!) {
+  createConcertArtist(input: $input) {
+    ... on Artist {
+      id
+      name
+    }
+  }
+}
+
+query SearchArtists($keyword: String!) {
+  searchArtists(keyword: $keyword) {
+    ... on ArtistList {
+      list {
+        id
+        name
+      }
+    }
+  }
+}
+
+mutation RemoveConcertArtist($input: RemoveConcertArtistInput!) {
+  removeConcertArtist(input: $input) {
+    ... on Artist {
+      id
+    }
+  }
+}

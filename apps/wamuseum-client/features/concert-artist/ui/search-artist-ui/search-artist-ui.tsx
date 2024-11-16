@@ -3,24 +3,27 @@
 import { Spinner, Text, TextInput, colors } from '@coldsurfers/ocean-road'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useMemo, useState } from 'react'
-import useCreateConcertArtist from '../../../../app/concert/[id]/mutations/useCreateConcertArtist'
-import useSearchArtists from '../../../../app/concert/[id]/queries/useSearchArtists'
-import { ConcertArtistData, ConcertArtistsDocument } from '../../../../src/__generated__/graphql'
+import {
+  ConcertArtistData,
+  ConcertArtistsDocument,
+  useCreateConcertArtistMutation,
+  useSearchArtistsQuery,
+} from '../../../../src/__generated__/graphql'
 import { StyledSearchResultWrapper } from './search-artist-ui.styled'
 
 export const SearchArtistsUI = ({ concertId }: { concertId: string }) => {
   const [searchArtistKeyword, setSearchArtistKeyword] = useState('')
   const debouncedSearchArtistKeyword = useDebounce(searchArtistKeyword, 350)
-  const { data: searchedArtists, loading: loadingSearchArtists } = useSearchArtists({
+  const { data: searchedArtists, loading: loadingSearchArtists } = useSearchArtistsQuery({
     variables: {
       keyword: debouncedSearchArtistKeyword,
     },
   })
 
-  const [mutateCreateConcertArtist] = useCreateConcertArtist({})
+  const [mutateCreateConcertArtist] = useCreateConcertArtistMutation({})
 
   const artistSearchResult = useMemo(() => {
-    if (searchedArtists?.searchArtists.__typename === 'ArtistList') {
+    if (searchedArtists?.searchArtists?.__typename === 'ArtistList') {
       return searchedArtists.searchArtists.list ?? []
     }
     return []
@@ -50,7 +53,7 @@ export const SearchArtistsUI = ({ concertId }: { concertId: string }) => {
                     },
                   },
                   update: (cache, { data }) => {
-                    if (data?.createConcertArtist.__typename !== 'Artist') {
+                    if (data?.createConcertArtist?.__typename !== 'Artist') {
                       return
                     }
                     const cacheData = cache.readQuery<

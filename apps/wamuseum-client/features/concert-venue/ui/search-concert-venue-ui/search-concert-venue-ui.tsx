@@ -4,9 +4,13 @@ import { Spinner, Text, TextInput, colors } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useMemo, useState } from 'react'
-import { ConcertVenuesDocument, ConcertVenuesQuery, ConcertVenuesQueryVariables } from 'src/__generated__/graphql'
-import useCreateConcertVenue from '../../../../app/concert/[id]/mutations/useCreateConcertVenue'
-import useSearchConcertVenueQuery from '../../../../app/concert/[id]/queries/useSearchConcertVenueQuery'
+import {
+  ConcertVenuesDocument,
+  ConcertVenuesQuery,
+  ConcertVenuesQueryVariables,
+  useCreateConcertVenueMutation,
+  useSearchConcertVenueQuery,
+} from 'src/__generated__/graphql'
 
 const SearchResultWrapper = styled.div`
   box-shadow:
@@ -28,10 +32,10 @@ export const SearchConcertVenueUI = ({ concertId }: { concertId: string }) => {
     skip: debouncedSearchConcertVenueKeyword === '',
   })
 
-  const [mutateCreateConcertVenue] = useCreateConcertVenue({})
+  const [mutateCreateConcertVenue] = useCreateConcertVenueMutation({})
 
   const concertVenuesSearchResult = useMemo(() => {
-    if (searchedConcertVenues?.searchConcertVenue.__typename === 'SearchedConcertVenueList') {
+    if (searchedConcertVenues?.searchConcertVenue?.__typename === 'SearchedConcertVenueList') {
       return searchedConcertVenues.searchConcertVenue.list ?? []
     }
     return []
@@ -64,7 +68,7 @@ export const SearchConcertVenueUI = ({ concertId }: { concertId: string }) => {
                     },
                   },
                   update: (cache, { data }) => {
-                    if (data?.createConcertVenue.__typename !== 'Venue') {
+                    if (data?.createConcertVenue?.__typename !== 'Venue') {
                       return
                     }
                     const concertVenuesCache = cache.readQuery<ConcertVenuesQuery, ConcertVenuesQueryVariables>({

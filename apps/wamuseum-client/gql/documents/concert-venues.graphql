@@ -15,3 +15,53 @@ query ConcertVenues($concertId: String!) {
     }
   }
 }
+
+query SearchConcertVenue($keyword: String!) {
+  searchConcertVenue(keyword: $keyword) {
+    ... on SearchedConcertVenueList {
+      list {
+        id
+        name
+        lat
+        lng
+        geohash
+      }
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+
+mutation CreateConcertVenue($input: CreateConcertVenueInput!) {
+  createConcertVenue(input: $input) {
+    ... on Venue {
+      id
+      name
+      lat
+      lng
+      geohash
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+
+mutation RemoveConcertVenue($input: RemoveConcertVenueInput!) {
+  removeConcertVenue(input: $input) {
+    ... on Venue {
+      id
+      name
+      lat
+      lng
+      geohash
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}

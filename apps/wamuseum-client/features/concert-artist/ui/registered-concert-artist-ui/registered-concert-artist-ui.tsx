@@ -1,11 +1,15 @@
 import { Button, Text } from '@coldsurfers/ocean-road'
 import { useCallback } from 'react'
-import useRemoveConcertArtist from '../../../../app/concert/[id]/mutations/useRemoveConcertArtist'
-import { Artist, ConcertArtistData, ConcertArtistsDocument } from '../../../../src/__generated__/graphql'
+import {
+  Artist,
+  ConcertArtistData,
+  ConcertArtistsDocument,
+  useRemoveConcertArtistMutation,
+} from '../../../../src/__generated__/graphql'
 import { StyledRegisteredConcertArtistUIContainer } from './registered-concert-artist-ui.styled'
 
 export const RegisteredConcertArtistUI = ({ value, concertId }: { value: Artist; concertId: string }) => {
-  const [mutateRemoveConcertArtist] = useRemoveConcertArtist({})
+  const [mutateRemoveConcertArtist] = useRemoveConcertArtistMutation({})
   const onClickDelete = useCallback(() => {
     mutateRemoveConcertArtist({
       variables: {
@@ -15,7 +19,7 @@ export const RegisteredConcertArtistUI = ({ value, concertId }: { value: Artist;
         },
       },
       update: (cache, { data }) => {
-        if (data?.removeConcertArtist.__typename !== 'Artist') {
+        if (data?.removeConcertArtist?.__typename !== 'Artist') {
           return
         }
         const { id: removeArtistId } = data.removeConcertArtist

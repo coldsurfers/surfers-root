@@ -1,7 +1,11 @@
-import useRemoveConcertTicket from '@/app/concert/[id]/mutations/useRemoveConcertTicket'
 import { Button, Modal, Text } from '@coldsurfers/ocean-road'
 import { useCallback } from 'react'
-import { ConcertTicketsDocument, ConcertTicketsQuery, ConcertTicketsQueryVariables } from 'src/__generated__/graphql'
+import {
+  ConcertTicketsDocument,
+  ConcertTicketsQuery,
+  ConcertTicketsQueryVariables,
+  useRemoveConcertTicketMutation,
+} from 'src/__generated__/graphql'
 
 export const DeleteTicketConfirmModal = ({
   visible,
@@ -16,7 +20,7 @@ export const DeleteTicketConfirmModal = ({
   concertId: string
   ticketId: string
 }) => {
-  const [mutateRemoveConcertTicket, { loading: loadingRemoveConcertTicket }] = useRemoveConcertTicket()
+  const [mutateRemoveConcertTicket, { loading: loadingRemoveConcertTicket }] = useRemoveConcertTicketMutation()
   const onClickDelete = useCallback(() => {
     if (loadingRemoveConcertTicket) {
       return
@@ -32,7 +36,7 @@ export const DeleteTicketConfirmModal = ({
         onDeleteSuccess?.()
       },
       update: (cache, { data }) => {
-        if (data?.removeConcertTicket.__typename !== 'Ticket') {
+        if (data?.removeConcertTicket?.__typename !== 'Ticket') {
           return
         }
         const { removeConcertTicket: removedConcertTicketData } = data
