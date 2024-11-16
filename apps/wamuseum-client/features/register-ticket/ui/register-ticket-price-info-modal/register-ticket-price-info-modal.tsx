@@ -1,6 +1,12 @@
 import { AddFormModal } from '@/ui'
 import InputWithLabel from '@/ui/InputWithLabel'
 import { useCallback, useState } from 'react'
+import {
+  ConcertTicketPricesDocument,
+  ConcertTicketPricesQuery,
+  ConcertTicketPricesQueryVariables,
+  useCreateConcertTicketPriceMutation,
+} from 'src/__generated__/graphql'
 import { StyledAddPriceModalInner } from './register-ticket-price-info-modal.styled'
 import { AddPriceInfoForm } from './register-ticket-price-info-modal.types'
 
@@ -30,6 +36,56 @@ export const RegisterTicketPriceInfoModal = ({
       }),
     )
   }, [])
+
+  const [createConcertTicketPrice] = useCreateConcertTicketPriceMutation()
+
+  const onClickSubmitForm = useCallback(async () => {
+    const promises = addPriceForm.map(async (form) => {
+      await createConcertTicketPrice({
+        variables: {
+          input: {
+            title: form.name,
+            price: +form.price,
+            ticketId: ticketId,
+            priceCurrency: form.currency,
+          },
+        },
+        update: (cache, { data }) => {
+          if (data?.createConcertTicketPrice?.__typename !== 'TicketPrice') {
+            return
+          }
+          const { createConcertTicketPrice } = data
+          const concertTicketPricesCache = cache.readQuery<ConcertTicketPricesQuery, ConcertTicketPricesQueryVariables>(
+            {
+              query: ConcertTicketPricesDocument,
+              variables: {
+                ticketId: ticketId,
+              },
+            },
+          )
+          if (concertTicketPricesCache?.concertTicketPrices?.__typename === 'TicketPriceList') {
+            cache.writeQuery<ConcertTicketPricesQuery, ConcertTicketPricesQueryVariables>({
+              query: ConcertTicketPricesDocument,
+              variables: {
+                ticketId,
+              },
+              data: {
+                ...concertTicketPricesCache,
+                concertTicketPrices: {
+                  ...concertTicketPricesCache.concertTicketPrices,
+                  list: concertTicketPricesCache.concertTicketPrices.list?.concat({
+                    ...createConcertTicketPrice,
+                  }),
+                },
+              },
+            })
+          }
+        },
+      })
+    })
+    await Promise.all(promises)
+    onClose()
+  }, [addPriceForm, createConcertTicketPrice, onClose, ticketId])
 
   return (
     <AddFormModal
@@ -101,7 +157,7 @@ export const RegisterTicketPriceInfoModal = ({
           })}
         </>
       }
-      onClickSubmitForm={() => {}}
+      onClickSubmitForm={onClickSubmitForm}
     />
   )
 }

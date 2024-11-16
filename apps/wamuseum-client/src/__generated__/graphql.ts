@@ -594,6 +594,20 @@ export type UpdateConcertPosterMutationVariables = Exact<{
 
 export type UpdateConcertPosterMutation = { __typename?: 'Mutation', updateConcertPoster?: { __typename?: 'HttpError', code: number, message: string } | { __typename?: 'Poster', id: string, imageURL: string } | null };
 
+export type ConcertTicketPricesQueryVariables = Exact<{
+  ticketId: Scalars['String']['input'];
+}>;
+
+
+export type ConcertTicketPricesQuery = { __typename?: 'Query', concertTicketPrices?: { __typename?: 'HttpError', code: number, message: string } | { __typename?: 'TicketPriceList', list?: Array<{ __typename?: 'TicketPrice', id: string, title: string, price: number, priceCurrency: string } | null> | null } | null };
+
+export type CreateConcertTicketPriceMutationVariables = Exact<{
+  input: CreateConcertTicketPriceInput;
+}>;
+
+
+export type CreateConcertTicketPriceMutation = { __typename?: 'Mutation', createConcertTicketPrice?: { __typename?: 'HttpError', code: number, message: string } | { __typename?: 'TicketPrice', id: string, title: string, price: number, priceCurrency: string } | null };
+
 export type ConcertTicketsQueryVariables = Exact<{
   concertId: Scalars['String']['input'];
 }>;
@@ -998,6 +1012,99 @@ export function useUpdateConcertPosterMutation(baseOptions?: Apollo.MutationHook
 export type UpdateConcertPosterMutationHookResult = ReturnType<typeof useUpdateConcertPosterMutation>;
 export type UpdateConcertPosterMutationResult = Apollo.MutationResult<UpdateConcertPosterMutation>;
 export type UpdateConcertPosterMutationOptions = Apollo.BaseMutationOptions<UpdateConcertPosterMutation, UpdateConcertPosterMutationVariables>;
+export const ConcertTicketPricesDocument = gql`
+    query ConcertTicketPrices($ticketId: String!) {
+  concertTicketPrices(ticketId: $ticketId) {
+    ... on TicketPriceList {
+      list {
+        id
+        title
+        price
+        priceCurrency
+      }
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+    `;
+
+/**
+ * __useConcertTicketPricesQuery__
+ *
+ * To run a query within a React component, call `useConcertTicketPricesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useConcertTicketPricesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useConcertTicketPricesQuery({
+ *   variables: {
+ *      ticketId: // value for 'ticketId'
+ *   },
+ * });
+ */
+export function useConcertTicketPricesQuery(baseOptions: Apollo.QueryHookOptions<ConcertTicketPricesQuery, ConcertTicketPricesQueryVariables> & ({ variables: ConcertTicketPricesQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ConcertTicketPricesQuery, ConcertTicketPricesQueryVariables>(ConcertTicketPricesDocument, options);
+      }
+export function useConcertTicketPricesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ConcertTicketPricesQuery, ConcertTicketPricesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ConcertTicketPricesQuery, ConcertTicketPricesQueryVariables>(ConcertTicketPricesDocument, options);
+        }
+export function useConcertTicketPricesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ConcertTicketPricesQuery, ConcertTicketPricesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ConcertTicketPricesQuery, ConcertTicketPricesQueryVariables>(ConcertTicketPricesDocument, options);
+        }
+export type ConcertTicketPricesQueryHookResult = ReturnType<typeof useConcertTicketPricesQuery>;
+export type ConcertTicketPricesLazyQueryHookResult = ReturnType<typeof useConcertTicketPricesLazyQuery>;
+export type ConcertTicketPricesSuspenseQueryHookResult = ReturnType<typeof useConcertTicketPricesSuspenseQuery>;
+export type ConcertTicketPricesQueryResult = Apollo.QueryResult<ConcertTicketPricesQuery, ConcertTicketPricesQueryVariables>;
+export const CreateConcertTicketPriceDocument = gql`
+    mutation CreateConcertTicketPrice($input: CreateConcertTicketPriceInput!) {
+  createConcertTicketPrice(input: $input) {
+    ... on TicketPrice {
+      id
+      title
+      price
+      priceCurrency
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+    `;
+export type CreateConcertTicketPriceMutationFn = Apollo.MutationFunction<CreateConcertTicketPriceMutation, CreateConcertTicketPriceMutationVariables>;
+
+/**
+ * __useCreateConcertTicketPriceMutation__
+ *
+ * To run a mutation, you first call `useCreateConcertTicketPriceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateConcertTicketPriceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createConcertTicketPriceMutation, { data, loading, error }] = useCreateConcertTicketPriceMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateConcertTicketPriceMutation(baseOptions?: Apollo.MutationHookOptions<CreateConcertTicketPriceMutation, CreateConcertTicketPriceMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateConcertTicketPriceMutation, CreateConcertTicketPriceMutationVariables>(CreateConcertTicketPriceDocument, options);
+      }
+export type CreateConcertTicketPriceMutationHookResult = ReturnType<typeof useCreateConcertTicketPriceMutation>;
+export type CreateConcertTicketPriceMutationResult = Apollo.MutationResult<CreateConcertTicketPriceMutation>;
+export type CreateConcertTicketPriceMutationOptions = Apollo.BaseMutationOptions<CreateConcertTicketPriceMutation, CreateConcertTicketPriceMutationVariables>;
 export const ConcertTicketsDocument = gql`
     query ConcertTickets($concertId: String!) {
   concertTickets(concertId: $concertId) {
