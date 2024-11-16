@@ -36,6 +36,7 @@ export const RegisteredTicketItem = ({ ticket, concertId }: { ticket: Maybe<Tick
   if (!ticket) {
     return null
   }
+
   return (
     <StyledTicketItemContainer>
       <StyledTicketItemLabel as="h4">티켓 판매자</StyledTicketItemLabel>
@@ -55,6 +56,9 @@ export const RegisteredTicketItem = ({ ticket, concertId }: { ticket: Maybe<Tick
           <div key={item.id} style={{ display: 'flex', alignItems: 'center' }}>
             <Text>{item.title}</Text>
             <Text style={{ marginLeft: '1rem' }}>{formatCurrency(item.price, item.priceCurrency)}</Text>
+            <Button theme={'transparent'} style={{ marginLeft: 'auto' }}>
+              ❌
+            </Button>
           </div>
         )
       })}
