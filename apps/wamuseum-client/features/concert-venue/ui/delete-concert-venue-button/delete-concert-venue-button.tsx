@@ -1,10 +1,14 @@
-import useRemoveConcertVenue from '@/app/concert/[id]/mutations/useRemoveConcertVenue'
 import { Button } from '@coldsurfers/ocean-road'
 import { useCallback } from 'react'
-import { ConcertVenuesDocument, ConcertVenuesQuery, ConcertVenuesQueryVariables } from 'src/__generated__/graphql'
+import {
+  ConcertVenuesDocument,
+  ConcertVenuesQuery,
+  ConcertVenuesQueryVariables,
+  useRemoveConcertVenueMutation,
+} from 'src/__generated__/graphql'
 
 export const DeleteConcertVenueButton = ({ concertId, venueId }: { concertId: string; venueId: string }) => {
-  const [mutateRemoveConcertVenue] = useRemoveConcertVenue({})
+  const [mutateRemoveConcertVenue] = useRemoveConcertVenueMutation({})
   const onClick = useCallback(() => {
     mutateRemoveConcertVenue({
       variables: {
@@ -14,7 +18,7 @@ export const DeleteConcertVenueButton = ({ concertId, venueId }: { concertId: st
         },
       },
       update: (cache, { data }) => {
-        if (data?.removeConcertVenue.__typename !== 'Venue') {
+        if (data?.removeConcertVenue?.__typename !== 'Venue') {
           return
         }
         const { id: removedConcertVenueId } = data.removeConcertVenue

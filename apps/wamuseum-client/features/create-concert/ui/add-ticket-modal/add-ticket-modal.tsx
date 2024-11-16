@@ -1,10 +1,14 @@
-import useCreateConcertTicket from '@/app/concert/[id]/mutations/useCreateConcertTicket'
 import { AddFormModal } from '@/ui'
 import InputWithLabel from '@/ui/InputWithLabel'
 import { Button } from '@coldsurfers/ocean-road'
 import { isValid } from 'date-fns'
 import { useCallback, useEffect, useState } from 'react'
-import { ConcertTicketsDocument, ConcertTicketsQuery, ConcertTicketsQueryVariables } from 'src/__generated__/graphql'
+import {
+  ConcertTicketsDocument,
+  ConcertTicketsQuery,
+  ConcertTicketsQueryVariables,
+  useCreateConcertTicketMutation,
+} from 'src/__generated__/graphql'
 import { parseDate } from '../add-tickets-ui/add-tickets-ui.utils'
 import { StyledAddTicketModalInner } from './add-ticket-modal.styled'
 import { AddTicketForm } from './add-ticket-modal.types'
@@ -25,7 +29,7 @@ export const AddTicketModal = ({
       opendate: '',
     },
   ])
-  const [mutateCreateConcertTicket, { loading: loadingCreateConcertTicket }] = useCreateConcertTicket({})
+  const [mutateCreateConcertTicket, { loading: loadingCreateConcertTicket }] = useCreateConcertTicketMutation({})
 
   const addTicketEmptyForm = useCallback(() => {
     setAddTicketsForm((prev) =>
@@ -67,7 +71,7 @@ export const AddTicketModal = ({
           removeTicketInput(ticketIndex)
         },
         update: (cache, { data }) => {
-          if (data?.createConcertTicket.__typename !== 'Ticket') {
+          if (data?.createConcertTicket?.__typename !== 'Ticket') {
             return
           }
           const { createConcertTicket: addedConcertTicketData } = data

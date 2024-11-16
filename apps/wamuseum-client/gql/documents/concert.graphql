@@ -1,0 +1,7 @@
+mutation RemoveConcert($input: RemoveConcertInput!) {
+  removeConcert(input: $input) {
+    ... on Concert {
+      id
+    }
+  }
+}
