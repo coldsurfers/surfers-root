@@ -133,7 +133,7 @@ export const queryLogs = cache(
   },
 )
 
-const queryProperties = (propertyName: 'tags') =>
+export const queryProperties = (propertyName: 'tags') =>
   cache(async () => {
     const response = await notionInstance.databases.query({
       database_id: notionDatabaseIds.blog ?? '',
@@ -155,8 +155,6 @@ const queryProperties = (propertyName: 'tags') =>
       })
       .exhaustive()
   })
-
-export const getTags = queryProperties('tags')
 
 export const queryNotionResumePage = cache(
   async (tagName: 'Career' | 'Side Project Career' | 'Music Career', lang: AppLocale) => {
