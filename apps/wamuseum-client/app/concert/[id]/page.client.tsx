@@ -17,8 +17,12 @@ import styled from '@emotion/styled'
 import { format } from 'date-fns'
 import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
-import { useConcertArtistsQuery, useConcertPosterQuery, useConcertVenuesQuery } from 'src/__generated__/graphql'
-import useConcertQuery from '../../../hooks/useConcertQuery'
+import {
+  useConcertArtistsQuery,
+  useConcertPosterQuery,
+  useConcertQuery,
+  useConcertVenuesQuery,
+} from 'src/__generated__/graphql'
 import { StyledContent, StyledLabel } from './page.styled'
 
 export const ConcertIdPageClient = ({

@@ -1,10 +1,9 @@
-import useUpdateConcertPosterMutation from '@/hooks/useUpdateConcertPosterMutation'
 import { presign, uploadToPresignedURL } from '@/utils/fetcher'
 import { getPosterS3Url } from '@/utils/get-poster-s3-url'
 import pickFile from '@/utils/pickFile'
 import { Button } from '@coldsurfers/ocean-road'
 import { useCallback, useMemo } from 'react'
-import { ConcertPosterDocument, useConcertPosterQuery } from 'src/__generated__/graphql'
+import { ConcertPosterDocument, useConcertPosterQuery, useUpdateConcertPosterMutation } from 'src/__generated__/graphql'
 import { StyledUpdateConcertPosterUIThumbnail } from './update-concert-poster-ui.styled'
 
 interface Props {
