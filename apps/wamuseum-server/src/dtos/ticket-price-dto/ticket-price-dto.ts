@@ -9,6 +9,27 @@ export class TicketPriceDTO {
     this.props = props
   }
 
+  async create({ ticketId }: { ticketId: string }) {
+    if (!this.props.price || !this.props.priceCurrency || !this.props.title) {
+      throw Error('invalid price, priceCurrency, title')
+    }
+    const price = await prisma.price.create({
+      data: {
+        price: this.props.price,
+        priceCurrency: this.props.priceCurrency,
+        title: this.props.title,
+      },
+    })
+    await prisma.ticketsOnPrices.create({
+      data: {
+        priceId: price.id,
+        ticketId,
+      },
+    })
+
+    return new TicketPriceDTO(price)
+  }
+
   static async list(ticketId: string) {
     const data = await prisma.price.findMany({
       where: {

@@ -137,6 +137,7 @@ export type CreateConcertTicketPriceData = HttpError | TicketPrice;
 export type CreateConcertTicketPriceInput = {
   price: Scalars['Float'];
   priceCurrency: Scalars['String'];
+  ticketId: Scalars['String'];
   title: Scalars['String'];
 };
 
