@@ -1,4 +1,4 @@
-import { formatCurrency } from '@/utils/format-currency'
+import { TicketPriceListItem } from '@/features/ticket-price'
 import { Button, colors, Text } from '@coldsurfers/ocean-road'
 import { format } from 'date-fns'
 import Link from 'next/link'
@@ -52,15 +52,7 @@ export const RegisteredTicketItem = ({ ticket, concertId }: { ticket: Maybe<Tick
         if (!item) {
           return null
         }
-        return (
-          <div key={item.id} style={{ display: 'flex', alignItems: 'center' }}>
-            <Text>{item.title}</Text>
-            <Text style={{ marginLeft: '1rem' }}>{formatCurrency(item.price, item.priceCurrency)}</Text>
-            <Button theme={'transparent'} style={{ marginLeft: 'auto' }}>
-              ❌
-            </Button>
-          </div>
-        )
+        return <TicketPriceListItem key={item.id} item={item} />
       })}
       <StyledTicketBottomWrapper>
         <Button theme={'indigo'} onClick={onClickPriceInfo} style={{ flex: 0.5, marginRight: '1rem' }}>
