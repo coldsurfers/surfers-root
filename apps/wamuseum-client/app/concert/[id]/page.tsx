@@ -4,6 +4,7 @@ import {
   ConcertArtistsDocument,
   ConcertDocument,
   ConcertPosterDocument,
+  ConcertTicketsDocument,
   ConcertVenuesDocument,
 } from 'src/__generated__/graphql'
 import { ConcertIdPageClient } from './page.client'
@@ -39,6 +40,12 @@ export default async function ConcertIdPage({
     }),
     apolloClient.query({
       query: ConcertVenuesDocument,
+      variables: {
+        concertId: params.id,
+      },
+    }),
+    apolloClient.query({
+      query: ConcertTicketsDocument,
       variables: {
         concertId: params.id,
       },
