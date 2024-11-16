@@ -1,6 +1,6 @@
 'use client'
 
-import { queryLogs, Text } from '@/features'
+import { LogItem, Text } from '@/features'
 import { Link } from 'i18n/routing'
 import {
   StyledPostItemContainer,
@@ -13,7 +13,7 @@ import {
   StyledPostSubContentContainer,
 } from './post-item.styled'
 
-export function PostItem(props: Awaited<ReturnType<typeof queryLogs>>[number]) {
+export function PostItem(props: LogItem) {
   return (
     <Link
       href={{

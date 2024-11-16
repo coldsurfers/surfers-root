@@ -1,6 +1,7 @@
 import notionInstance, { notionDatabaseIds } from '@/lib/notionInstance'
 import { PageObjectResponse, QueryDatabaseParameters } from '@notionhq/client/build/src/api-endpoints'
 import { cache } from 'react'
+import { LogItem } from './types'
 import { LogPlatform } from './types/platform'
 
 export const queryLogDetail = (platform: LogPlatform) =>
@@ -54,7 +55,7 @@ export const queryLogs = cache(
     options?: {
       tag?: string
     },
-  ) => {
+  ): Promise<LogItem[]> => {
     const filter: QueryDatabaseParameters['filter'] = {
       and: [
         {
@@ -96,7 +97,7 @@ export const queryLogs = cache(
       filter,
     })
 
-    const posts = result?.results?.map((post) => {
+    const logs = result?.results?.map((post) => {
       // @ts-ignore
       const createdTime = new Date(post.properties?.['Publish date']?.date?.start ?? post.created_time)
       // @ts-ignore
@@ -127,6 +128,6 @@ export const queryLogs = cache(
       }
     })
 
-    return posts
+    return logs satisfies LogItem[]
   },
 )
