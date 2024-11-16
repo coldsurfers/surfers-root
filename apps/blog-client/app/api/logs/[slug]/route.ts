@@ -1,5 +1,4 @@
-import { querySurflogDetail, queryTechlogDetail } from '@/features'
-import { getBlocks } from '@/lib/notion'
+import { getBlocks, querySurflogDetail, queryTechlogDetail } from '@/features'
 import { NextRequest, NextResponse } from 'next/server'
 import { match } from 'ts-pattern'
 
@@ -21,7 +20,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   if (!page) {
     return NextResponse.json({ message: 'page not found' }, { status: 404 })
   }
-  const blocks = await getBlocks(page?.id)
+  const blocks = await getBlocks({
+    blockId: page.id,
+    withUploadCloudinary: true,
+  })
   if (!blocks) {
     return NextResponse.json({ message: 'blocks not found' }, { status: 404 })
   }

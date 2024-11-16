@@ -3024,7 +3024,6 @@ __metadata:
   dependencies:
     "@coldsurfers/cloudinary-utils": "workspace:*"
     "@coldsurfers/design-tokens": "workspace:*"
-    "@coldsurfers/notion-utils": "workspace:*"
     "@coldsurfers/ocean-road": "workspace:*"
     "@coldsurfers/prisma-schema": "workspace:*"
     "@coldsurfers/shared-utils": "workspace:*"
@@ -3171,29 +3170,6 @@ __metadata:
   peerDependencies:
     react: ">= 18.2.0"
     react-native: ">= 0.69.0"
-  languageName: unknown
-  linkType: soft
-
-"@coldsurfers/notion-utils@workspace:*, @coldsurfers/notion-utils@workspace:packages/notion-utils":
-  version: 0.0.0-use.local
-  resolution: "@coldsurfers/notion-utils@workspace:packages/notion-utils"
-  dependencies:
-    "@coldsurfers/cloudinary-utils": "workspace:*"
-    "@coldsurfers/shared-utils": "workspace:*"
-    "@notionhq/client": "npm:*"
-    "@types/sha1": "npm:^1.1.5"
-    axios: "npm:*"
-    eslint: "npm:*"
-    form-data: "npm:^4.0.0"
-    prettier: "npm:*"
-    release-it: "npm:*"
-    sha1: "npm:^1.1.1"
-    typescript: "npm:*"
-  peerDependencies:
-    "@notionhq/client": "*"
-    axios: "*"
-    form-data: ^4.0.0
-    sha1: ^1.1.1
   languageName: unknown
   linkType: soft
 
