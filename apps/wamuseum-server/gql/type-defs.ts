@@ -153,6 +153,7 @@ const typeDefs = `#graphql
     title: String!
     price: Float!
     priceCurrency: String!
+    ticketId: String!
   }
 
   input LoginInput {

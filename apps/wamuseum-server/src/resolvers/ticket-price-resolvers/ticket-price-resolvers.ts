@@ -21,5 +21,28 @@ export const ticketPriceResolvers: Resolvers = {
       }
     },
   },
-  Mutation: {},
+  Mutation: {
+    createConcertTicketPrice: async (parent, args, ctx) => {
+      try {
+        await authorizeUser(ctx, { requiredRole: 'staff' })
+        const { title, price, priceCurrency, ticketId } = args.input
+        const dto = new TicketPriceDTO({
+          title,
+          price,
+          priceCurrency,
+        })
+        const created = await dto.create({ ticketId })
+        return {
+          __typename: 'TicketPrice',
+          ...created.serialize(),
+        }
+      } catch (e) {
+        return {
+          __typename: 'HttpError',
+          code: 500,
+          message: 'internal server error',
+        }
+      }
+    },
+  },
 }
