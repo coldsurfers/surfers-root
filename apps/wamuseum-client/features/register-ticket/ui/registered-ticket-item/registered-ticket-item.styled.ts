@@ -4,7 +4,7 @@ import styled from '@emotion/styled'
 export const StyledTicketItemContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: ${semantics.color.background[1]};
+  background-color: ${semantics.color.background[2]};
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.12),
     0 1px 2px rgba(0, 0, 0, 0.24);
@@ -23,4 +23,10 @@ export const StyledTicketItemContainer = styled.div`
 
 export const StyledTicketItemLabel = styled(Text)`
   margin: 0.5rem 0.5rem 0px 0px;
+`
+
+export const StyledTicketBottomWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
 `
