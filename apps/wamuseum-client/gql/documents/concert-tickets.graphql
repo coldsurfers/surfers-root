@@ -1,0 +1,12 @@
+query ConcertTickets($concertId: String!) {
+  concertTickets(concertId: $concertId) {
+    ... on TicketList {
+      list {
+        id
+        openDate
+        seller
+        sellingURL
+      }
+    }
+  }
+}

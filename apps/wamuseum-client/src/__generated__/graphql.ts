@@ -559,6 +559,13 @@ export type ConcertPosterQueryVariables = Exact<{
 
 export type ConcertPosterQuery = { __typename?: 'Query', concertPoster?: { __typename?: 'HttpError' } | { __typename?: 'PosterList', list?: Array<{ __typename?: 'Poster', id: string, imageURL: string } | null> | null } | null };
 
+export type ConcertTicketsQueryVariables = Exact<{
+  concertId: Scalars['String']['input'];
+}>;
+
+
+export type ConcertTicketsQuery = { __typename?: 'Query', concertTickets?: { __typename?: 'HttpError' } | { __typename?: 'TicketList', list?: Array<{ __typename?: 'Ticket', id: string, openDate: string, seller: string, sellingURL: string } | null> | null } | null };
+
 
 export const ConcertArtistsDocument = gql`
     query ConcertArtists($concertId: String!) {
@@ -650,3 +657,50 @@ export type ConcertPosterQueryHookResult = ReturnType<typeof useConcertPosterQue
 export type ConcertPosterLazyQueryHookResult = ReturnType<typeof useConcertPosterLazyQuery>;
 export type ConcertPosterSuspenseQueryHookResult = ReturnType<typeof useConcertPosterSuspenseQuery>;
 export type ConcertPosterQueryResult = Apollo.QueryResult<ConcertPosterQuery, ConcertPosterQueryVariables>;
+export const ConcertTicketsDocument = gql`
+    query ConcertTickets($concertId: String!) {
+  concertTickets(concertId: $concertId) {
+    ... on TicketList {
+      list {
+        id
+        openDate
+        seller
+        sellingURL
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useConcertTicketsQuery__
+ *
+ * To run a query within a React component, call `useConcertTicketsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useConcertTicketsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useConcertTicketsQuery({
+ *   variables: {
+ *      concertId: // value for 'concertId'
+ *   },
+ * });
+ */
+export function useConcertTicketsQuery(baseOptions: Apollo.QueryHookOptions<ConcertTicketsQuery, ConcertTicketsQueryVariables> & ({ variables: ConcertTicketsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ConcertTicketsQuery, ConcertTicketsQueryVariables>(ConcertTicketsDocument, options);
+      }
+export function useConcertTicketsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ConcertTicketsQuery, ConcertTicketsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ConcertTicketsQuery, ConcertTicketsQueryVariables>(ConcertTicketsDocument, options);
+        }
+export function useConcertTicketsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ConcertTicketsQuery, ConcertTicketsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ConcertTicketsQuery, ConcertTicketsQueryVariables>(ConcertTicketsDocument, options);
+        }
+export type ConcertTicketsQueryHookResult = ReturnType<typeof useConcertTicketsQuery>;
+export type ConcertTicketsLazyQueryHookResult = ReturnType<typeof useConcertTicketsLazyQuery>;
+export type ConcertTicketsSuspenseQueryHookResult = ReturnType<typeof useConcertTicketsSuspenseQuery>;
+export type ConcertTicketsQueryResult = Apollo.QueryResult<ConcertTicketsQuery, ConcertTicketsQueryVariables>;
