@@ -72,6 +72,13 @@ const typeDefs = `#graphql
     sellingURL: String!
   }
 
+  type TicketPrice {
+    id: String!
+    title: String!
+    price: Float!
+    priceCurrency: String!
+  }
+
   type Venue {
     id: String!
     name: String!
@@ -169,6 +176,10 @@ const typeDefs = `#graphql
     list: [Ticket]
   }
 
+  type TicketPriceList {
+    list: [TicketPrice]
+  }
+
   type SearchedVenue {
     address_name: String
     category_group_code: String
@@ -235,6 +246,8 @@ const typeDefs = `#graphql
   union RemoveConcertArtistData = Artist | HttpError
 
   union ConcertTicketsData = TicketList | HttpError
+
+  union ConcertTicketPricesData = TicketPriceList | HttpError
 
   union RemoveConcertTicketData = Ticket | HttpError
 
@@ -315,6 +328,9 @@ const typeDefs = `#graphql
     concertVenues(
       concertId: String!
     ): ConcertVenueData
+    concertTicketPrices(
+      ticketId: String!
+    ): ConcertTicketPricesData
     searchArtists(
       keyword: String!
     ): SearchArtistsData
