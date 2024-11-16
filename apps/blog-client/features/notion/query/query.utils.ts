@@ -72,7 +72,12 @@ export const getBlocks = async ({
       })
       generated.children = children
     }
-    if (process.env.NODE_ENV === 'production' && generated.type === 'image' && withUploadCloudinary) {
+    if (
+      process.env.NODE_ENV === 'production' &&
+      typeof window === 'undefined' &&
+      generated.type === 'image' &&
+      withUploadCloudinary
+    ) {
       if (generated.image.type === 'file') {
         const cloudinaryUtils = await import('@coldsurfers/cloudinary-utils')
         const cloudinary = await cloudinaryUtils.uploadCloudinary(generated.image.file.url)
