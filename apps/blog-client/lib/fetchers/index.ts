@@ -1,6 +1,6 @@
+import { LogPlatform, queryLogs } from '@/features'
 import { PageObjectResponse, PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import { AppLocale } from 'i18n/types'
-import { queryLogs } from '../utils'
 
 const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://blog.coldsurf.io'
 
@@ -9,7 +9,7 @@ export const fetchGetLogs = async ({
   locale,
   tag,
 }: {
-  platform: 'techlog' | 'surflog'
+  platform: LogPlatform
   locale: AppLocale
   tag?: string
 }) => {

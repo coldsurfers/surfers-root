@@ -1,4 +1,4 @@
-import { AuthToken } from 'gql/schema'
+import { AuthToken } from 'src/__generated__/graphql'
 import storage from './storage/storage'
 
 export const authUtils = {

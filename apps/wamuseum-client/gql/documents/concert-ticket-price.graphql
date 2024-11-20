@@ -1,0 +1,46 @@
+query ConcertTicketPrices($ticketId: String!) {
+  concertTicketPrices(ticketId: $ticketId) {
+    ... on TicketPriceList {
+      list {
+        id
+        title
+        price
+        priceCurrency
+      }
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+
+mutation CreateConcertTicketPrice($input: CreateConcertTicketPriceInput!) {
+  createConcertTicketPrice(input: $input) {
+    ... on TicketPrice {
+      id
+      title
+      price
+      priceCurrency
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+
+mutation RemoveConcertTicketPrice($input: RemoveConcertTicketPriceInput!) {
+  removeConcertTicketPrice(input: $input) {
+    ... on TicketPrice {
+      id
+      title
+      price
+      priceCurrency
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}

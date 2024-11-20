@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "NODE_OPTIONS='--max-old-space-size=4096' next build",
-    "compile": "npx graphql-codegen-esm --config ./gql/codegen.ts",
+    "compile": "npx graphql-codegen-esm --config ./gql/codegen.yml",
     "postcompile": "yarn lint:fix",
     "dev": "next dev",
     "lint": "next lint",
@@ -41,6 +41,9 @@
   "devDependencies": {
     "@graphql-codegen/cli": "2.16.1",
     "@graphql-codegen/client-preset": "^4.2.6",
+    "@graphql-codegen/typescript": "^4.1.1",
+    "@graphql-codegen/typescript-operations": "^4.3.1",
+    "@graphql-codegen/typescript-react-apollo": "^4.3.2",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@types/react": "*",
     "@types/react-dom": "*",

@@ -72,6 +72,13 @@ const typeDefs = `#graphql
     sellingURL: String!
   }
 
+  type TicketPrice {
+    id: String!
+    title: String!
+    price: Float!
+    priceCurrency: String!
+  }
+
   type Venue {
     id: String!
     name: String!
@@ -142,6 +149,17 @@ const typeDefs = `#graphql
     imageURL: String
   }
 
+  input CreateConcertTicketPriceInput {
+    title: String!
+    price: Float!
+    priceCurrency: String!
+    ticketId: String!
+  }
+
+  input RemoveConcertTicketPriceInput {
+    ticketPriceId: String!
+  }
+
   input LoginInput {
     email: String!
     password: String!
@@ -167,6 +185,10 @@ const typeDefs = `#graphql
 
   type TicketList {
     list: [Ticket]
+  }
+
+  type TicketPriceList {
+    list: [TicketPrice]
   }
 
   type SearchedVenue {
@@ -224,6 +246,10 @@ const typeDefs = `#graphql
 
   union CreateConcertPosterData = Poster | HttpError
 
+  union CreateConcertTicketPriceData = TicketPrice | HttpError
+
+  union RemoveConcertTicketPriceData = TicketPrice | HttpError
+
   union CreateArtistData = Artist | HttpError
 
   union SearchArtistsData = ArtistList | HttpError
@@ -235,6 +261,8 @@ const typeDefs = `#graphql
   union RemoveConcertArtistData = Artist | HttpError
 
   union ConcertTicketsData = TicketList | HttpError
+
+  union ConcertTicketPricesData = TicketPriceList | HttpError
 
   union RemoveConcertTicketData = Ticket | HttpError
 
@@ -315,6 +343,9 @@ const typeDefs = `#graphql
     concertVenues(
       concertId: String!
     ): ConcertVenueData
+    concertTicketPrices(
+      ticketId: String!
+    ): ConcertTicketPricesData
     searchArtists(
       keyword: String!
     ): SearchArtistsData
@@ -364,6 +395,12 @@ const typeDefs = `#graphql
     updateConcertPoster(
       input: UpdateConcertPosterInput!
     ): UpdateConcertPosterData
+    createConcertTicketPrice(
+      input: CreateConcertTicketPriceInput!
+    ): CreateConcertTicketPriceData
+    removeConcertTicketPrice(
+      input: RemoveConcertTicketPriceInput!
+    ): RemoveConcertTicketPriceData
     createArtist(
       input: CreateArtistInput!
     ): CreateArtistData

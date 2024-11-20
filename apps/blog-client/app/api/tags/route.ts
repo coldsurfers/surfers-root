@@ -1,8 +1,8 @@
-import { getTags } from '@/lib'
+import { queryTags } from '@/features'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
-  const tags = await getTags()
+  const tags = await queryTags()
   return NextResponse.json(
     {
       tags,
