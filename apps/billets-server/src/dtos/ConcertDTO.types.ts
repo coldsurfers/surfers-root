@@ -38,6 +38,7 @@ export const concertDTOSerializedSchema = z.object({
   ),
   tickets: z.array(
     z.object({
+      seller: z.string(),
       url: z.string(),
       openDate: z.string().datetime(),
       prices: z.array(

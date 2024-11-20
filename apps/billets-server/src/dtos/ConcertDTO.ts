@@ -149,6 +149,7 @@ export default class ConcertDTO {
         })) ?? [],
       tickets:
         this.props.tickets?.map((ticket) => ({
+          seller: ticket.seller ?? '',
           openDate: ticket.openDate?.toISOString() ?? '',
           url: ticket.sellingURL ?? '',
           prices:
