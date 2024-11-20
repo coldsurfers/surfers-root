@@ -1,53 +1,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { uploadCloudinary } from '@coldsurfers/cloudinary-utils'
 import { getRandomInt } from '@coldsurfers/shared-utils'
 import {
   BlockObjectResponse,
+  PageObjectResponse,
   PartialBlockObjectResponse,
-  QueryDatabaseParameters,
 } from '@notionhq/client/build/src/api-endpoints'
-import { notionInstance } from '..'
+import { cache } from 'react'
+import { match } from 'ts-pattern'
+import notionInstance, { notionDatabaseIds } from '../../../lib/notionInstance'
 
-const databaseId = process.env.NOTION_DATABASE_ID ?? ''
-
-export const queryList = async ({
-  platform,
-  direction,
-  timestamp,
-}: {
-  platform: 'surflog' | 'techlog' | 'store'
-  direction: 'ascending' | 'descending'
-  timestamp: 'created_time' | 'last_edited_time'
-}) => {
-  const platformFilter = {
-    property: 'platform',
-    multi_select: {
-      contains: platform,
-    },
-  }
-  const res = await notionInstance.databases.query({
-    database_id: databaseId,
-    sorts: [
-      {
-        timestamp,
-        direction,
-      },
-    ],
-    filter: platformFilter,
+export const queryProperties = (propertyName: 'tags') =>
+  cache(async () => {
+    const response = await notionInstance.databases.query({
+      database_id: notionDatabaseIds.blog ?? '',
+    })
+    return match(propertyName)
+      .with('tags', () => {
+        const tags = response.results
+          .map((result) => {
+            const page = result as PageObjectResponse
+            if (page.properties.tags.type === 'multi_select') {
+              return page.properties.tags.multi_select
+            }
+            return null
+          })
+          .filter((value) => value !== null)
+          .flat()
+        // id 값으로  중복  제거
+        return Array.from(new Map(tags.map((value) => [value.id, value])).values())
+      })
+      .exhaustive()
   })
-  return res.results
-}
-
-export const queryDetail = async (filter: QueryDatabaseParameters['filter']) => {
-  const res = await notionInstance.databases.query({
-    database_id: databaseId,
-    filter,
-  })
-  if (res.results.length) {
-    return res.results[0]
-  }
-  return null
-}
 
 export const getBlocks = async ({
   blockId: _blockId,
@@ -89,9 +72,15 @@ export const getBlocks = async ({
       })
       generated.children = children
     }
-    if (process.env.NODE_ENV === 'production' && generated.type === 'image' && withUploadCloudinary) {
+    if (
+      process.env.NODE_ENV === 'production' &&
+      typeof window === 'undefined' &&
+      generated.type === 'image' &&
+      withUploadCloudinary
+    ) {
       if (generated.image.type === 'file') {
-        const cloudinary = await uploadCloudinary(generated.image.file.url)
+        const cloudinaryUtils = await import('@coldsurfers/cloudinary-utils')
+        const cloudinary = await cloudinaryUtils.uploadCloudinary(generated.image.file.url)
         generated.image.file.url = cloudinary.secure_url
       }
     }
@@ -126,9 +115,4 @@ export const getBlocks = async ({
       return acc
     }, []),
   )
-}
-
-export const retrievePage = async (pageId: string) => {
-  const response = await notionInstance.pages.retrieve({ page_id: pageId })
-  return response
 }

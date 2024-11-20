@@ -1,5 +1,6 @@
 'use client'
 
+import { LogPlatform } from '@/features/logs'
 import { Text, renderBlock } from '@/features/notion'
 import { useGetLogDetailQuery } from '@/lib/react-query/queries/use-get-log-detail-query/use-get-log-detail-query'
 import { CommonBack } from '@/ui'
@@ -23,7 +24,7 @@ export const LogDetailRenderer = ({
 }: {
   slug: string
   locale: AppLocale
-  platform: 'techlog' | 'surflog'
+  platform: LogPlatform
 }) => {
   const { data } = useGetLogDetailQuery(slug, { platform, locale })
   const page = useMemo(() => data?.page, [data])

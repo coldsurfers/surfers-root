@@ -1,7 +1,7 @@
-import { LogDetailRenderer } from '@/features'
+import { LogDetailRenderer, queryLogs } from '@/features'
+import { queryTechlogDetail } from '@/features/logs/logs.query'
 import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
 import { getQueryClient } from '@/lib/react-query/react-query.utils'
-import { getTechlogDetail, queryLogs } from '@/lib/utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { routing } from 'i18n/routing'
 import { PageProps } from 'i18n/types'
@@ -19,7 +19,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps<{ slug: string }>) {
   // fetch data
-  const page = await getTechlogDetail({ slug: params.slug ?? '', lang: params.locale })
+  const page = await queryTechlogDetail({ slug: params.slug ?? '', lang: params.locale })
   const pageTitle = page?.properties.Name.type === 'title' ? page.properties.Name.title.at(0)?.plain_text : ''
 
   if (!page || !pageTitle) {

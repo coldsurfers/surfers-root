@@ -1,10 +1,10 @@
+import notionInstance, { notionDatabaseIds } from '@/lib/notionInstance'
 import { PageObjectResponse, QueryDatabaseParameters } from '@notionhq/client/build/src/api-endpoints'
-import { AppLocale } from 'i18n/types'
 import { cache } from 'react'
-import { match } from 'ts-pattern'
-import notionInstance, { notionDatabaseIds } from '../notionInstance'
+import { LogItem } from './types'
+import { LogPlatform } from './types/platform'
 
-const getLogDetail = (platform: 'techlog' | 'surflog') =>
+export const queryLogDetail = (platform: LogPlatform) =>
   cache(async ({ slug, lang }: { slug: string; lang: 'ko' | 'en' }): Promise<PageObjectResponse | null> => {
     const res = await notionInstance.databases.query({
       database_id: notionDatabaseIds.blog ?? '',
@@ -45,17 +45,21 @@ const getLogDetail = (platform: 'techlog' | 'surflog') =>
     return null
   })
 
-export const getTechlogDetail = getLogDetail('techlog')
-export const getSurflogDetail = getLogDetail('surflog')
+export const queryTechlogDetail = queryLogDetail('techlog')
+export const querySurflogDetail = queryLogDetail('surflog')
+export const queryFilmlogDetail = queryLogDetail('filmlog')
+export const querySoundlogDetail = queryLogDetail('soundlog')
+export const querySquarelogDetail = queryLogDetail('squarelog')
+export const queryTextlogDetail = queryLogDetail('textlog')
 
 export const queryLogs = cache(
   async (
-    platform: 'techlog' | 'surflog',
+    platform: LogPlatform,
     lang: 'ko' | 'en',
     options?: {
       tag?: string
     },
-  ) => {
+  ): Promise<LogItem[]> => {
     const filter: QueryDatabaseParameters['filter'] = {
       and: [
         {
@@ -97,7 +101,7 @@ export const queryLogs = cache(
       filter,
     })
 
-    const posts = result?.results?.map((post) => {
+    const logs = result?.results?.map((post) => {
       // @ts-ignore
       const createdTime = new Date(post.properties?.['Publish date']?.date?.start ?? post.created_time)
       // @ts-ignore
@@ -128,81 +132,6 @@ export const queryLogs = cache(
       }
     })
 
-    return posts
-  },
-)
-
-const queryProperties = (propertyName: 'tags') =>
-  cache(async () => {
-    const response = await notionInstance.databases.query({
-      database_id: notionDatabaseIds.blog ?? '',
-    })
-    return match(propertyName)
-      .with('tags', () => {
-        const tags = response.results
-          .map((result) => {
-            const page = result as PageObjectResponse
-            if (page.properties.tags.type === 'multi_select') {
-              return page.properties.tags.multi_select
-            }
-            return null
-          })
-          .filter((value) => value !== null)
-          .flat()
-        // id 값으로  중복  제거
-        return Array.from(new Map(tags.map((value) => [value.id, value])).values())
-      })
-      .exhaustive()
-  })
-
-export const getTags = queryProperties('tags')
-
-export const generatePDF = async () => {
-  // Set options for html2pdf
-  const options = {
-    margin: 0.25,
-    filename: 'website_screenshot.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 1.5 },
-    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-    pagebreak: { mode: 'avoid-all' },
-  }
-
-  // Select the element to capture
-  const element = document.body
-
-  // @ts-expect-error
-  const { default: html2pdf } = await import('html2pdf.js')
-  // Generate PDF
-  html2pdf()
-    .from(element)
-    .set({
-      ...options,
-    })
-    .save()
-}
-
-export const queryNotionResumePage = cache(
-  async (tagName: 'Career' | 'Side Project Career' | 'Music Career', lang: AppLocale) => {
-    const res = await notionInstance.databases.query({
-      database_id: notionDatabaseIds.resume ?? '',
-      filter: {
-        and: [
-          {
-            property: 'Tags',
-            multi_select: {
-              contains: tagName,
-            },
-          },
-          {
-            property: 'lang',
-            multi_select: {
-              contains: lang,
-            },
-          },
-        ],
-      },
-    })
-    return res
+    return logs satisfies LogItem[]
   },
 )
