@@ -1,4 +1,4 @@
-import { queryLogs } from '@/features'
+import { LogPlatform, queryLogs } from '@/features'
 import { PageObjectResponse, PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import { AppLocale } from 'i18n/types'
 
@@ -9,7 +9,7 @@ export const fetchGetLogs = async ({
   locale,
   tag,
 }: {
-  platform: 'techlog' | 'surflog'
+  platform: LogPlatform
   locale: AppLocale
   tag?: string
 }) => {

@@ -1,7 +1,9 @@
 'use client'
 
-import { LogItem, Text } from '@/features'
-import { Link } from 'i18n/routing'
+import { LogItem, LogPlatform, Text } from '@/features'
+import { I18nPath, Link } from 'i18n/routing'
+import { useMemo } from 'react'
+import { match } from 'ts-pattern'
 import {
   StyledPostItemContainer,
   StyledPostItemDateLocale,
@@ -14,15 +16,49 @@ import {
 } from './post-item.styled'
 
 export function PostItem(props: LogItem) {
-  return (
-    <Link
-      href={{
-        pathname: props.platform === 'surflog' ? '/surflog/[slug]' : '/techlog/[slug]',
+  const href = useMemo<I18nPath>(() => {
+    return match<LogPlatform, I18nPath>(props.platform)
+      .with('filmlog', () => ({
+        pathname: '/filmlog/[slug]',
         params: {
           slug: props.slug,
         },
-      }}
-    >
+      }))
+      .with('soundlog', () => ({
+        pathname: '/soundlog/[slug]',
+        params: {
+          slug: props.slug,
+        },
+      }))
+      .with('squarelog', () => ({
+        pathname: '/squarelog/[slug]',
+        params: {
+          slug: props.slug,
+        },
+      }))
+      .with('surflog', () => ({
+        pathname: '/surflog/[slug]',
+        params: {
+          slug: props.slug,
+        },
+      }))
+      .with('techlog', () => ({
+        pathname: '/techlog/[slug]',
+        params: {
+          slug: props.slug,
+        },
+      }))
+      .with('textlog', () => ({
+        pathname: '/textlog/[slug]',
+        params: {
+          slug: props.slug,
+        },
+      }))
+      .exhaustive()
+  }, [props.platform, props.slug])
+
+  return (
+    <Link href={href}>
       <StyledPostItemContainer>
         <StyledPostItemPostTitleContainer>
           <StyledPostItemTitleText numberOfLines={1}>
