@@ -45,7 +45,7 @@ export const ConcertTicketListScreen = () => {
   const navigation = useConcertTicketListScreenNavigation()
   const route = useConcertTicketListScreenRoute()
   const { concertId } = route.params
-  const { data, isLoading } = useConcertQuery({
+  const { data } = useConcertQuery({
     concertId,
   })
 
@@ -66,7 +66,7 @@ export const ConcertTicketListScreen = () => {
   }, [data?.tickets])
 
   const renderItem = useCallback<ListRenderItem<(typeof ticketsData)[number]>>((info) => {
-    const { prices } = info.item
+    const { prices, seller } = info.item
     const cheapestPrice =
       prices.length > 0
         ? prices.reduce((min, current) => {
@@ -83,6 +83,7 @@ export const ConcertTicketListScreen = () => {
         <View style={styles.ticketItemTop}>
           <Text style={styles.ticketItemEmoji}>🎫</Text>
           <View style={styles.ticketItemPriceWrapper}>
+            <Text style={styles.ticketItemSeller}>{seller}</Text>
             <Text>최저가 {formattedPrice}</Text>
           </View>
         </View>
@@ -150,4 +151,7 @@ const styles = StyleSheet.create({
   headerTitle: { fontSize: 20 },
   headerDate: { marginTop: 6 },
   headerVenue: { marginTop: 6, color: colors.oc.gray[8].value },
+  ticketItemSeller: {
+    fontWeight: '600',
+  },
 })
