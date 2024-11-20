@@ -1,19 +1,6 @@
 import { createNavigation } from 'next-intl/navigation'
 import { defineRouting } from 'next-intl/routing'
 
-export type I18nPath =
-  | { pathname: '/filmlog/[slug]'; params: { slug: string } }
-  | { pathname: '/soundlog/[slug]'; params: { slug: string } }
-  | { pathname: '/squarelog/[slug]'; params: { slug: string } }
-  | { pathname: '/surflog/[slug]'; params: { slug: string } }
-  | { pathname: '/techlog/[slug]'; params: { slug: string } }
-  | { pathname: '/textlog/[slug]'; params: { slug: string } }
-  | { pathname: '/writers' } // No params needed
-  | { pathname: '/resume' }
-  | { pathname: '/tags/[tag]'; params: { tag: string } }
-  | { pathname: '/tags' }
-  | { pathname: '/' }
-
 export const i18nRoutingPathnames = {
   '/': '/',
   //
@@ -36,7 +23,7 @@ export const i18nRoutingPathnames = {
   '/resume': '/resume',
   '/tags': '/tags',
 } as const
-export type I18nRoutingPathnamesValue = (typeof i18nRoutingPathnames)[keyof typeof i18nRoutingPathnames]
+
 export const routing = defineRouting({
   // A list of all locales that are supported
   locales: ['en', 'ko'],
