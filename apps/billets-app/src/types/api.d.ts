@@ -851,6 +851,7 @@ export interface components {
           id: string
           price: number
         }[]
+        seller: string
         url: string
       }[]
       title: string
