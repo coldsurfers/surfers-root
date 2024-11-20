@@ -43,6 +43,18 @@ export class TicketPriceDTO {
     return data.map((item) => new TicketPriceDTO(item))
   }
 
+  async delete() {
+    if (!this.props.id) {
+      throw Error('invalid id')
+    }
+    const data = await prisma.price.delete({
+      where: {
+        id: this.props.id,
+      },
+    })
+    return new TicketPriceDTO(data)
+  }
+
   serialize(): TicketPrice {
     return {
       __typename: 'TicketPrice',
