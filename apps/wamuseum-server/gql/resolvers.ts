@@ -1,11 +1,12 @@
+import { ticketPriceResolvers } from '../src/resolvers'
 import artistResolvers from '../src/resolvers/artistResolvers'
-import concertTicketResolvers from '../src/resolvers/concertTicketResolvers'
+import authResolvers from '../src/resolvers/authResolvers'
 import concertPosterResolvers from '../src/resolvers/concertPosterResolvers'
 import concertResolvers from '../src/resolvers/concertResolvers'
-import authResolvers from '../src/resolvers/authResolvers'
-import { Resolvers } from './resolvers-types'
+import concertTicketResolvers from '../src/resolvers/concertTicketResolvers'
 import userResolvers from '../src/resolvers/userResolvers'
 import venueResolvers from '../src/resolvers/venueResolvers'
+import { Resolvers } from './resolvers-types'
 
 const resolvers: Resolvers = {
   Query: {
@@ -15,6 +16,7 @@ const resolvers: Resolvers = {
     ...artistResolvers.Query,
     ...concertTicketResolvers.Query,
     ...venueResolvers.Query,
+    ...ticketPriceResolvers.Query,
   },
   Mutation: {
     ...userResolvers.Mutation,
@@ -24,6 +26,7 @@ const resolvers: Resolvers = {
     ...concertPosterResolvers.Mutation,
     ...artistResolvers.Mutation,
     ...venueResolvers.Mutation,
+    ...ticketPriceResolvers.Mutation,
   },
 }
 

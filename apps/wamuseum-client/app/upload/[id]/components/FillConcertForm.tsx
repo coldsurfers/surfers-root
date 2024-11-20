@@ -1,13 +1,14 @@
 'use client'
 
-import useCreateConcertPosterMutation from '@/hooks/useCreateConcertPosterMutation'
-import AddButton from '@/ui/AddButton'
+import { AddButton } from '@/ui'
 import { presign, uploadToPresignedURL } from '@/utils/fetcher'
+import { getPosterS3Url } from '@/utils/get-poster-s3-url'
 import pickFile from '@/utils/pickFile'
 import { Button, Spinner, Text, colors } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { useRouter } from 'next/navigation'
-import { useCallback, useState } from 'react'
+import { MouseEventHandler, useCallback, useState } from 'react'
+import { useCreateConcertPosterMutation } from 'src/__generated__/graphql'
 
 const Form = styled.form`
   display: flex;
@@ -56,12 +57,12 @@ const FillConcertForm = ({ concertId }: { concertId: string }) => {
     },
   })
   const [posterUrl, setPosterUrl] = useState('')
-  const getThumbnail = useCallback(async () => {
+  const getThumbnail = useCallback<MouseEventHandler<HTMLButtonElement>>(async () => {
     pickFile(async (e) => {
       const { target } = e
       if (!target) return
       const filename = new Date().toISOString()
-      // @ts-ignore
+      // @ts-expect-error
       const { files } = target
       setUploadFileLoading(true)
       try {
@@ -74,9 +75,7 @@ const FillConcertForm = ({ concertId }: { concertId: string }) => {
           data: presignedData,
           file: files[0],
         })
-        setPosterUrl(
-          `${process.env.NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL}/billets/poster-thumbnails/${encodeURIComponent(filename)}`,
-        )
+        setPosterUrl(getPosterS3Url(filename))
       } catch (err) {
         console.error(err)
       } finally {
@@ -98,7 +97,7 @@ const FillConcertForm = ({ concertId }: { concertId: string }) => {
 
   return (
     <Wrapper>
-      <Form>
+      <Form onSubmit={(e) => e.preventDefault()}>
         <HeadWrapper>
           <Text style={{ fontSize: 16 }}>공연 포스터</Text>
           {posterUrl ? (
@@ -111,7 +110,7 @@ const FillConcertForm = ({ concertId }: { concertId: string }) => {
               ✘
             </Button>
           ) : (
-            <AddButton onPress={getThumbnail} />
+            <AddButton onClick={getThumbnail} />
           )}
         </HeadWrapper>
         {posterUrl && <PosterThumbnail src={posterUrl} />}

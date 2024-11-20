@@ -3,7 +3,7 @@
 import { Spinner } from '@coldsurfers/ocean-road'
 import { useRouter } from 'next/navigation'
 import { PropsWithChildren, useEffect } from 'react'
-import useMeQuery from '../../hooks/useMeQuery'
+import { useMeQuery } from 'src/__generated__/graphql'
 
 export default function AuthLayout({ children }: PropsWithChildren) {
   const { data, loading } = useMeQuery()

@@ -1,15 +1,13 @@
-import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import { Text } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 
 export const StyledHeaderHeading = styled.p<{ $isActive: boolean }>`
   margin-bottom: 20px;
   text-transform: uppercase;
-  font-size: 16px;
-  opacity: 0.6;
+  font-size: 32px;
+  line-height: 32px;
   letter-spacing: 0.5px;
   font-weight: bold;
-  border-bottom: ${({ $isActive }) => ($isActive ? `2px ${color.oc.blue[5].value} solid` : '0px')};
 `
 
 export const StyledHeaderContainer = styled.div`

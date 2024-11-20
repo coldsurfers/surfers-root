@@ -1,0 +1,36 @@
+query ConcertPoster($concertId: String!) {
+  concertPoster(concertId: $concertId) {
+    ... on PosterList {
+      list {
+        id
+        imageURL
+      }
+    }
+  }
+}
+
+mutation CreateConcertPoster($input: CreateConcertPosterInput!) {
+  createConcertPoster(input: $input) {
+    ... on Poster {
+      id
+      imageURL
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+
+mutation UpdateConcertPoster($input: UpdateConcertPosterInput!) {
+  updateConcertPoster(input: $input) {
+    ... on Poster {
+      id
+      imageURL
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
