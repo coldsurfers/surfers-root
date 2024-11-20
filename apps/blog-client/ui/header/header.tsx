@@ -29,6 +29,12 @@ export const Header = () => {
         <Link href="/filmlog">
           <StyledHeaderHeading $isActive={pathname.startsWith('/filmlog')}>{'🎥'}</StyledHeaderHeading>
         </Link>
+        <Link href="/textlog">
+          <StyledHeaderHeading $isActive={pathname.startsWith('/textlog')}>{'📖'}</StyledHeaderHeading>
+        </Link>
+        <Link href="/squarelog">
+          <StyledHeaderHeading $isActive={pathname.startsWith('/squarelog')}>{'📷'}</StyledHeaderHeading>
+        </Link>
         <Link href="/writers">
           <StyledHeaderHeading $isActive={pathname.startsWith('/writers')}>{'🧑🏻‍💻'}</StyledHeaderHeading>
         </Link>
