@@ -40,7 +40,7 @@ export default async function Page({ params }: PageProps<{ slug: string }>) {
   const queryClient = getQueryClient()
   await queryClient.prefetchQuery(
     queryKeyFactory.logs.detail(params.slug, {
-      platform: 'surflog',
+      platform: 'soundlog',
       locale: params.locale,
     }),
   )
@@ -48,7 +48,7 @@ export default async function Page({ params }: PageProps<{ slug: string }>) {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <LogDetailRenderer slug={params.slug} locale={params.locale} platform="surflog" />
+      <LogDetailRenderer slug={params.slug} locale={params.locale} platform="soundlog" />
     </HydrationBoundary>
   )
 }
