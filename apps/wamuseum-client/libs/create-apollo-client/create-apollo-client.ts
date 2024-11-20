@@ -2,8 +2,8 @@ import storage from '@/utils/storage/storage'
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { onError } from '@apollo/client/link/error'
-import { AuthToken } from 'gql/schema'
 import { urls } from 'libs/constants'
+import { AuthToken } from 'src/__generated__/graphql'
 
 export const createApolloClient = ({ token }: { token?: string }) => {
   const NON_AUTH_PATH_WHITE_LIST = ['/auth/signin', '/auth/request']
