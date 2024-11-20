@@ -210,6 +210,7 @@ export type Mutation = {
   removeConcert?: Maybe<RemoveConcertData>;
   removeConcertArtist?: Maybe<RemoveConcertArtistData>;
   removeConcertTicket?: Maybe<RemoveConcertTicketData>;
+  removeConcertTicketPrice?: Maybe<RemoveConcertTicketPriceData>;
   removeConcertVenue?: Maybe<RemoveConcertVenueData>;
   updateConcert?: Maybe<UpdateConcertData>;
   updateConcertPoster?: Maybe<UpdateConcertPosterData>;
@@ -289,6 +290,11 @@ export type MutationRemoveConcertArtistArgs = {
 
 export type MutationRemoveConcertTicketArgs = {
   input: RemoveConcertTicketInput;
+};
+
+
+export type MutationRemoveConcertTicketPriceArgs = {
+  input: RemoveConcertTicketPriceInput;
 };
 
 
@@ -427,6 +433,12 @@ export type RemoveConcertTicketData = HttpError | Ticket;
 export type RemoveConcertTicketInput = {
   concertId: Scalars['String']['input'];
   ticketId: Scalars['String']['input'];
+};
+
+export type RemoveConcertTicketPriceData = HttpError | TicketPrice;
+
+export type RemoveConcertTicketPriceInput = {
+  ticketPriceId: Scalars['String']['input'];
 };
 
 export type RemoveConcertVenueData = HttpError | Venue;
@@ -607,6 +619,13 @@ export type CreateConcertTicketPriceMutationVariables = Exact<{
 
 
 export type CreateConcertTicketPriceMutation = { __typename?: 'Mutation', createConcertTicketPrice?: { __typename?: 'HttpError', code: number, message: string } | { __typename?: 'TicketPrice', id: string, title: string, price: number, priceCurrency: string } | null };
+
+export type RemoveConcertTicketPriceMutationVariables = Exact<{
+  input: RemoveConcertTicketPriceInput;
+}>;
+
+
+export type RemoveConcertTicketPriceMutation = { __typename?: 'Mutation', removeConcertTicketPrice?: { __typename?: 'HttpError', code: number, message: string } | { __typename?: 'TicketPrice', id: string, title: string, price: number, priceCurrency: string } | null };
 
 export type ConcertTicketsQueryVariables = Exact<{
   concertId: Scalars['String']['input'];
@@ -1105,6 +1124,48 @@ export function useCreateConcertTicketPriceMutation(baseOptions?: Apollo.Mutatio
 export type CreateConcertTicketPriceMutationHookResult = ReturnType<typeof useCreateConcertTicketPriceMutation>;
 export type CreateConcertTicketPriceMutationResult = Apollo.MutationResult<CreateConcertTicketPriceMutation>;
 export type CreateConcertTicketPriceMutationOptions = Apollo.BaseMutationOptions<CreateConcertTicketPriceMutation, CreateConcertTicketPriceMutationVariables>;
+export const RemoveConcertTicketPriceDocument = gql`
+    mutation RemoveConcertTicketPrice($input: RemoveConcertTicketPriceInput!) {
+  removeConcertTicketPrice(input: $input) {
+    ... on TicketPrice {
+      id
+      title
+      price
+      priceCurrency
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+    `;
+export type RemoveConcertTicketPriceMutationFn = Apollo.MutationFunction<RemoveConcertTicketPriceMutation, RemoveConcertTicketPriceMutationVariables>;
+
+/**
+ * __useRemoveConcertTicketPriceMutation__
+ *
+ * To run a mutation, you first call `useRemoveConcertTicketPriceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveConcertTicketPriceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeConcertTicketPriceMutation, { data, loading, error }] = useRemoveConcertTicketPriceMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useRemoveConcertTicketPriceMutation(baseOptions?: Apollo.MutationHookOptions<RemoveConcertTicketPriceMutation, RemoveConcertTicketPriceMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveConcertTicketPriceMutation, RemoveConcertTicketPriceMutationVariables>(RemoveConcertTicketPriceDocument, options);
+      }
+export type RemoveConcertTicketPriceMutationHookResult = ReturnType<typeof useRemoveConcertTicketPriceMutation>;
+export type RemoveConcertTicketPriceMutationResult = Apollo.MutationResult<RemoveConcertTicketPriceMutation>;
+export type RemoveConcertTicketPriceMutationOptions = Apollo.BaseMutationOptions<RemoveConcertTicketPriceMutation, RemoveConcertTicketPriceMutationVariables>;
 export const ConcertTicketsDocument = gql`
     query ConcertTickets($concertId: String!) {
   concertTickets(concertId: $concertId) {
