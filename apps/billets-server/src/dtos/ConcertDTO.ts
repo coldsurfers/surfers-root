@@ -101,7 +101,13 @@ export default class ConcertDTO {
               include: {
                 prices: {
                   include: {
-                    price: true,
+                    price: {
+                      select: {
+                        id: true,
+                        price: true,
+                        priceCurrency: true,
+                      },
+                    },
                   },
                 },
               },
@@ -118,6 +124,7 @@ export default class ConcertDTO {
       artists: data.artists.map((artist) => artist.artist),
       tickets: data.tickets.map((ticket) => ({
         ...ticket.ticket,
+        prices: ticket.ticket.prices.map((price) => price.price),
       })),
     })
   }
@@ -144,7 +151,14 @@ export default class ConcertDTO {
         this.props.tickets?.map((ticket) => ({
           openDate: ticket.openDate?.toISOString() ?? '',
           url: ticket.sellingURL ?? '',
-          formattedPrice: `${ticket.price?.priceCurrency}${ticket.price?.price}`,
+          prices:
+            ticket.prices?.map((price) => {
+              return {
+                id: price.id ?? '',
+                price: price.price ?? 0,
+                currency: price.priceCurrency ?? '',
+              }
+            }) ?? [],
         })) ?? [],
     }
   }
