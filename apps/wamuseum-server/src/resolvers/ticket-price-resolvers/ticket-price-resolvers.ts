@@ -57,6 +57,7 @@ export const ticketPriceResolvers: Resolvers = {
           ...deleted.serialize(),
         }
       } catch (e) {
+        console.error(e)
         return {
           __typename: 'HttpError',
           code: 500,
