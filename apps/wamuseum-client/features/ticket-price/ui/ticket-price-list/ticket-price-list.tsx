@@ -20,7 +20,7 @@ export const TicketPriceList = ({ ticketId }: { ticketId: string }) => {
         if (!item) {
           return null
         }
-        return <TicketPriceListItem key={item.id} item={item} />
+        return <TicketPriceListItem key={item.id} item={item} ticketId={ticketId} />
       })}
     </>
   )

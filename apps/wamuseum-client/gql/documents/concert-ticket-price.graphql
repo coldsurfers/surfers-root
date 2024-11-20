@@ -29,3 +29,18 @@ mutation CreateConcertTicketPrice($input: CreateConcertTicketPriceInput!) {
     }
   }
 }
+
+mutation RemoveConcertTicketPrice($input: RemoveConcertTicketPriceInput!) {
+  removeConcertTicketPrice(input: $input) {
+    ... on TicketPrice {
+      id
+      title
+      price
+      priceCurrency
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
