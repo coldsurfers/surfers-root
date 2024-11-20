@@ -49,7 +49,7 @@ export const Toast = ({ message, zIndex = 99, onClose }: ToastProps) => {
         bottom: '45px',
         left: 'calc(50% - 192.5px)',
         width: 'calc(385px - 32px - 32px)',
-        zIndex: 999 + zIndex,
+        zIndex,
         boxShadow: `0px 0px 12px 0px ${semantics.color.dimmed[1]}`,
         cursor: 'pointer',
       }}
