@@ -37,6 +37,7 @@ export const RegisteredTicketItem = ({ ticket, concertId }: { ticket: Maybe<Tick
       <StyledTicketItemLabel as="h4">티켓 오픈 날짜</StyledTicketItemLabel>
       <Text>{format(new Date(ticket.openDate), 'MMM dd, hh:mm a')}</Text>
       <StyledTicketItemLabel as="h4">티켓 가격 정보</StyledTicketItemLabel>
+      {/* Ticket Price list */}
       <TicketPriceList ticketId={ticket.id} />
       <StyledTicketBottomWrapper>
         <Button theme={'indigo'} onClick={onClickPriceInfo} style={{ flex: 0.5, marginRight: '1rem' }}>

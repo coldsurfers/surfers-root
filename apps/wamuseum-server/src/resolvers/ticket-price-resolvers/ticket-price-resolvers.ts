@@ -44,5 +44,26 @@ export const ticketPriceResolvers: Resolvers = {
         }
       }
     },
+    removeConcertTicketPrice: async (parent, args, ctx) => {
+      try {
+        await authorizeUser(ctx, { requiredRole: 'staff' })
+        const { ticketPriceId } = args.input
+        const dto = new TicketPriceDTO({
+          id: ticketPriceId,
+        })
+        const deleted = await dto.delete()
+        return {
+          __typename: 'TicketPrice',
+          ...deleted.serialize(),
+        }
+      } catch (e) {
+        console.error(e)
+        return {
+          __typename: 'HttpError',
+          code: 500,
+          message: 'internal server error',
+        }
+      }
+    },
   },
 }

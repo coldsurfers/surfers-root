@@ -208,6 +208,7 @@ export type Mutation = {
   removeConcert?: Maybe<RemoveConcertData>;
   removeConcertArtist?: Maybe<RemoveConcertArtistData>;
   removeConcertTicket?: Maybe<RemoveConcertTicketData>;
+  removeConcertTicketPrice?: Maybe<RemoveConcertTicketPriceData>;
   removeConcertVenue?: Maybe<RemoveConcertVenueData>;
   updateConcert?: Maybe<UpdateConcertData>;
   updateConcertPoster?: Maybe<UpdateConcertPosterData>;
@@ -287,6 +288,11 @@ export type MutationRemoveConcertArtistArgs = {
 
 export type MutationRemoveConcertTicketArgs = {
   input: RemoveConcertTicketInput;
+};
+
+
+export type MutationRemoveConcertTicketPriceArgs = {
+  input: RemoveConcertTicketPriceInput;
 };
 
 
@@ -425,6 +431,12 @@ export type RemoveConcertTicketData = HttpError | Ticket;
 export type RemoveConcertTicketInput = {
   concertId: Scalars['String'];
   ticketId: Scalars['String'];
+};
+
+export type RemoveConcertTicketPriceData = HttpError | TicketPrice;
+
+export type RemoveConcertTicketPriceInput = {
+  ticketPriceId: Scalars['String'];
 };
 
 export type RemoveConcertVenueData = HttpError | Venue;
@@ -669,6 +681,8 @@ export type ResolversTypes = {
   RemoveConcertInput: RemoveConcertInput;
   RemoveConcertTicketData: ResolversTypes['HttpError'] | ResolversTypes['Ticket'];
   RemoveConcertTicketInput: RemoveConcertTicketInput;
+  RemoveConcertTicketPriceData: ResolversTypes['HttpError'] | ResolversTypes['TicketPrice'];
+  RemoveConcertTicketPriceInput: RemoveConcertTicketPriceInput;
   RemoveConcertVenueData: ResolversTypes['HttpError'] | ResolversTypes['Venue'];
   RemoveConcertVenueInput: RemoveConcertVenueInput;
   SearchArtistsData: ResolversTypes['ArtistList'] | ResolversTypes['HttpError'];
@@ -753,6 +767,8 @@ export type ResolversParentTypes = {
   RemoveConcertInput: RemoveConcertInput;
   RemoveConcertTicketData: ResolversParentTypes['HttpError'] | ResolversParentTypes['Ticket'];
   RemoveConcertTicketInput: RemoveConcertTicketInput;
+  RemoveConcertTicketPriceData: ResolversParentTypes['HttpError'] | ResolversParentTypes['TicketPrice'];
+  RemoveConcertTicketPriceInput: RemoveConcertTicketPriceInput;
   RemoveConcertVenueData: ResolversParentTypes['HttpError'] | ResolversParentTypes['Venue'];
   RemoveConcertVenueInput: RemoveConcertVenueInput;
   SearchArtistsData: ResolversParentTypes['ArtistList'] | ResolversParentTypes['HttpError'];
@@ -924,6 +940,7 @@ export type MutationResolvers<ContextType = GraphqlContext, ParentType extends R
   removeConcert?: Resolver<Maybe<ResolversTypes['RemoveConcertData']>, ParentType, ContextType, RequireFields<MutationRemoveConcertArgs, 'input'>>;
   removeConcertArtist?: Resolver<Maybe<ResolversTypes['RemoveConcertArtistData']>, ParentType, ContextType, RequireFields<MutationRemoveConcertArtistArgs, 'input'>>;
   removeConcertTicket?: Resolver<Maybe<ResolversTypes['RemoveConcertTicketData']>, ParentType, ContextType, RequireFields<MutationRemoveConcertTicketArgs, 'input'>>;
+  removeConcertTicketPrice?: Resolver<Maybe<ResolversTypes['RemoveConcertTicketPriceData']>, ParentType, ContextType, RequireFields<MutationRemoveConcertTicketPriceArgs, 'input'>>;
   removeConcertVenue?: Resolver<Maybe<ResolversTypes['RemoveConcertVenueData']>, ParentType, ContextType, RequireFields<MutationRemoveConcertVenueArgs, 'input'>>;
   updateConcert?: Resolver<Maybe<ResolversTypes['UpdateConcertData']>, ParentType, ContextType, RequireFields<MutationUpdateConcertArgs, 'input'>>;
   updateConcertPoster?: Resolver<Maybe<ResolversTypes['UpdateConcertPosterData']>, ParentType, ContextType, RequireFields<MutationUpdateConcertPosterArgs, 'input'>>;
@@ -980,6 +997,10 @@ export type RemoveConcertDataResolvers<ContextType = GraphqlContext, ParentType 
 
 export type RemoveConcertTicketDataResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['RemoveConcertTicketData'] = ResolversParentTypes['RemoveConcertTicketData']> = {
   __resolveType: TypeResolveFn<'HttpError' | 'Ticket', ParentType, ContextType>;
+};
+
+export type RemoveConcertTicketPriceDataResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['RemoveConcertTicketPriceData'] = ResolversParentTypes['RemoveConcertTicketPriceData']> = {
+  __resolveType: TypeResolveFn<'HttpError' | 'TicketPrice', ParentType, ContextType>;
 };
 
 export type RemoveConcertVenueDataResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['RemoveConcertVenueData'] = ResolversParentTypes['RemoveConcertVenueData']> = {
@@ -1128,6 +1149,7 @@ export type Resolvers<ContextType = GraphqlContext> = {
   RemoveConcertArtistData?: RemoveConcertArtistDataResolvers<ContextType>;
   RemoveConcertData?: RemoveConcertDataResolvers<ContextType>;
   RemoveConcertTicketData?: RemoveConcertTicketDataResolvers<ContextType>;
+  RemoveConcertTicketPriceData?: RemoveConcertTicketPriceDataResolvers<ContextType>;
   RemoveConcertVenueData?: RemoveConcertVenueDataResolvers<ContextType>;
   SearchArtistsData?: SearchArtistsDataResolvers<ContextType>;
   SearchConcertVenueData?: SearchConcertVenueDataResolvers<ContextType>;
