@@ -844,9 +844,13 @@ export interface components {
         imageUrl: string
       }[]
       tickets: {
-        formattedPrice: string
         /** Format: date-time */
         openDate: string
+        prices: {
+          currency: string
+          id: string
+          price: number
+        }[]
         url: string
       }[]
       title: string
