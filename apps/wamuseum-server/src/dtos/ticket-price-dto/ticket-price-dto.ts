@@ -47,6 +47,33 @@ export class TicketPriceDTO {
     if (!this.props.id) {
       throw Error('invalid id')
     }
+    const existing = await prisma.price.findUnique({
+      where: {
+        id: this.props.id,
+      },
+      include: {
+        tickets: {
+          select: { ticketId: true },
+        },
+      },
+    })
+    if (!existing) {
+      throw Error('ticket price is not existing')
+    }
+    await prisma.ticketsOnPrices.deleteMany({
+      where: {
+        AND: [
+          {
+            ticketId: {
+              in: existing?.tickets.map((ticket) => ticket.ticketId),
+            },
+          },
+          {
+            priceId: existing.id,
+          },
+        ],
+      },
+    })
     const data = await prisma.price.delete({
       where: {
         id: this.props.id,
