@@ -66,12 +66,24 @@ export const ConcertTicketListScreen = () => {
   }, [data?.tickets])
 
   const renderItem = useCallback<ListRenderItem<(typeof ticketsData)[number]>>((info) => {
+    const { prices } = info.item
+    const cheapestPrice =
+      prices.length > 0
+        ? prices.reduce((min, current) => {
+            return current.price < min.price ? current : min
+          }, prices[0])
+        : null
+    const formattedPrice = cheapestPrice
+      ? `${new Intl.NumberFormat('en-US', { style: 'currency', currency: cheapestPrice.currency }).format(
+          cheapestPrice.price,
+        )}`
+      : ''
     return (
       <View style={styles.ticketItemWrapper}>
         <View style={styles.ticketItemTop}>
           <Text style={styles.ticketItemEmoji}>🎫</Text>
           <View style={styles.ticketItemPriceWrapper}>
-            <Text>{info.item.formattedPrice}</Text>
+            <Text>최저가 {formattedPrice}</Text>
           </View>
         </View>
         <View style={styles.ticketItemBottom}>
@@ -82,7 +94,7 @@ export const ConcertTicketListScreen = () => {
             style={styles.ticketItemCTA}
           >
             <Text weight="medium" style={styles.ticketItemCTAText}>
-              구매하기 - {info.item.formattedPrice}
+              구매하기 - {formattedPrice}부터
             </Text>
           </Button>
         </View>
