@@ -13,7 +13,7 @@ export type ConcertDTOProps = Partial<
       }
     >[]
   } & {
-    tickets: Partial<Ticket & { price: Partial<Price> }>[]
+    tickets: Partial<Ticket & { prices: Partial<Price>[] }>[]
   }
 >
 export const concertDTOSerializedSchema = z.object({
@@ -40,7 +40,13 @@ export const concertDTOSerializedSchema = z.object({
     z.object({
       url: z.string(),
       openDate: z.string().datetime(),
-      formattedPrice: z.string(),
+      prices: z.array(
+        z.object({
+          id: z.string(),
+          price: z.number(),
+          currency: z.string(),
+        }),
+      ),
     }),
   ),
 })
