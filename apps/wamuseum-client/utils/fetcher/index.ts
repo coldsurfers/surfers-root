@@ -1,4 +1,4 @@
-import { AuthToken } from '../../gql/schema'
+import { AuthToken } from 'src/__generated__/graphql'
 import { urls } from '../../libs/constants'
 import storage from '../storage/storage'
 import { PresignedData } from './types'
