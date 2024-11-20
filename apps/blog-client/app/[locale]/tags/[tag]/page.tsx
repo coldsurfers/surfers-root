@@ -1,4 +1,5 @@
 import { queryTags } from '@/features'
+import { allLogPlatforms } from '@/features/logs/logs.constants'
 import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
 import { getQueryClient } from '@/lib/react-query/react-query.utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
@@ -33,22 +34,15 @@ export default async function TagDetailPage({
   setRequestLocale(locale)
 
   const queryClient = getQueryClient()
-  const promises = [
-    queryClient.prefetchQuery(
+  const promises = allLogPlatforms.map((platform) => {
+    return queryClient.prefetchQuery(
       queryKeyFactory.logs.list({
-        platform: 'techlog',
+        platform,
         locale,
         tag: decodedTag,
       }),
-    ),
-    queryClient.prefetchQuery(
-      queryKeyFactory.logs.list({
-        platform: 'surflog',
-        locale,
-        tag: decodedTag,
-      }),
-    ),
-  ]
+    )
+  })
   await Promise.all(promises)
   const dehydratedState = dehydrate(queryClient)
 

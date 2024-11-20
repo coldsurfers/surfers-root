@@ -13,6 +13,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'locale query is strange' }, { status: 409 })
   }
   const tag = searchParams.get('tag')
-  const logs = await queryLogs(platformValidation.data, locale, { tag: tag ?? undefined })
+  const logs = await queryLogs(platformValidation.data, locale, {
+    tag: tag ? decodeURIComponent(tag) : undefined,
+  })
   return NextResponse.json({ logs: logs }, { status: 200 })
 }
