@@ -18,13 +18,16 @@ export const Header = () => {
       </Link>
       <StyledHeaderContainer>
         <Link href="/surflog">
-          <StyledHeaderHeading $isActive={pathname.startsWith('/surflog')}>Surflogs</StyledHeaderHeading>
+          <StyledHeaderHeading $isActive={pathname.startsWith('/surflog')}>{'🌊'}</StyledHeaderHeading>
         </Link>
         <Link href="/techlog">
-          <StyledHeaderHeading $isActive={pathname.startsWith('/techlog')}>Techlogs</StyledHeaderHeading>
+          <StyledHeaderHeading $isActive={pathname.startsWith('/techlog')}>{'💻'}</StyledHeaderHeading>
+        </Link>
+        <Link href="/soundlog">
+          <StyledHeaderHeading $isActive={pathname.startsWith('/soundlog')}>{'🎧'}</StyledHeaderHeading>
         </Link>
         <Link href="/writers">
-          <StyledHeaderHeading $isActive={pathname.startsWith('/writers')}>Writers</StyledHeaderHeading>
+          <StyledHeaderHeading $isActive={pathname.startsWith('/writers')}>{'🧑🏻‍💻'}</StyledHeaderHeading>
         </Link>
       </StyledHeaderContainer>
     </StyledHeaderBigContainer>

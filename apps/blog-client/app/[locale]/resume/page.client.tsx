@@ -1,7 +1,8 @@
 'use client'
 
 import { renderBlock } from '@/features/notion'
-import { generatePDF, useGetResumeQuery } from '@/lib'
+import { generatePDF } from '@/features/pdf'
+import { useGetResumeQuery } from '@/lib'
 import variables from '@coldsurfers/design-tokens/dist/js/color/variables'
 import styled from '@emotion/styled'
 import { AppLocale } from 'i18n/types'
