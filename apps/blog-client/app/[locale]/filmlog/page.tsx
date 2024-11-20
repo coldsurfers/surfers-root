@@ -12,12 +12,12 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
-export default async function SoundLogPage({ params }: PageProps) {
+export default async function FilmLogPage({ params }: PageProps) {
   setRequestLocale(params.locale)
   const queryClient = getQueryClient()
   await queryClient.prefetchQuery(
     queryKeyFactory.logs.list({
-      platform: 'soundlog',
+      platform: 'filmlog',
       locale: params.locale,
     }),
   )
@@ -25,7 +25,7 @@ export default async function SoundLogPage({ params }: PageProps) {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <LogListPage locale={params.locale} platform="soundlog" />
+      <LogListPage locale={params.locale} platform="filmlog" />
     </HydrationBoundary>
   )
 }
