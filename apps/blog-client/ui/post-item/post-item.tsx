@@ -1,7 +1,8 @@
 'use client'
 
 import { LogItem, LogPlatform, Text } from '@/features'
-import { I18nPath, Link } from 'i18n/routing'
+import { Link } from 'i18n/routing'
+import { I18nPathWithParams } from 'i18n/types'
 import { useMemo } from 'react'
 import { match } from 'ts-pattern'
 import {
@@ -16,8 +17,8 @@ import {
 } from './post-item.styled'
 
 export function PostItem(props: LogItem) {
-  const href = useMemo<I18nPath>(() => {
-    return match<LogPlatform, I18nPath>(props.platform)
+  const href = useMemo<I18nPathWithParams>(() => {
+    return match<LogPlatform, I18nPathWithParams>(props.platform)
       .with('filmlog', () => ({
         pathname: '/filmlog/[slug]',
         params: {
