@@ -1,5 +1,4 @@
 import { CONCERT_DETAIL_LIST_HEADER_HEIGHT } from '@/lib'
-import { CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT } from '@/screens'
 import { colors } from '@coldsurfers/ocean-road'
 import React, { ReactElement, ReactNode, useCallback } from 'react'
 import { Animated, SectionListRenderItem, StyleSheet, View } from 'react-native'
@@ -73,6 +72,11 @@ export const ConcertDetailSectionList = ({ sections, thumbnails }: ConcertDetail
             />
           )
           break
+        case 'date':
+          children = (
+            <ConcertDetailSectionListItem.DateItem date={(info.item as ConcertDetailSectionListDateItemProps).date} />
+          )
+          break
         case 'venue':
           children = (
             <ConcertDetailSectionListItem.LocationItem
@@ -90,11 +94,6 @@ export const ConcertDetailSectionList = ({ sections, thumbnails }: ConcertDetail
             <ConcertDetailSectionListItem.TicketSellerItem
               {...(info.item as ConcertDetailSectionListTicketSellerItemProps)}
             />
-          )
-          break
-        case 'date':
-          children = (
-            <ConcertDetailSectionListItem.DateItem date={(info.item as ConcertDetailSectionListDateItemProps).date} />
           )
           break
         case 'price-info':
@@ -122,8 +121,8 @@ export const ConcertDetailSectionList = ({ sections, thumbnails }: ConcertDetail
     <>
       <Animated.SectionList
         contentContainerStyle={{
-          backgroundColor: colors.oc.white.value,
-          paddingBottom: 24 + CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT,
+          backgroundColor: colors.oc.gray[1].value,
+          flexGrow: 1,
         }}
         stickySectionHeadersEnabled={false}
         onScroll={Animated.event(
@@ -163,7 +162,7 @@ export const ConcertDetailSectionList = ({ sections, thumbnails }: ConcertDetail
           </Animated.View>
         }
         sections={sections}
-        renderSectionHeader={renderSectionHeader}
+        // renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
       />
@@ -173,7 +172,9 @@ export const ConcertDetailSectionList = ({ sections, thumbnails }: ConcertDetail
 
 const styles = StyleSheet.create({
   headerWrapper: {},
-  commonContentWrapper: {},
+  commonContentWrapper: {
+    backgroundColor: colors.oc.gray[1].value,
+  },
   thumbnail: {
     width: '100%',
     height: '100%',

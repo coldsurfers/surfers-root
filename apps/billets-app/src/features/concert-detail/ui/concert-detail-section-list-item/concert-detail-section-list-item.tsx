@@ -15,10 +15,10 @@ import {
 export const ConcertDetailSectionListItem = () => null
 
 ConcertDetailSectionListItem.DateItem = ({ date }: ConcertDetailSectionListDateItemProps) => {
-  return <Text style={styles.text}>{format(new Date(date), 'yyyy-MM-dd')}</Text>
+  return <Text style={[styles.text, styles.dateText]}>{format(new Date(date ?? ''), 'MMM dd, hh:mm a')}</Text>
 }
 ConcertDetailSectionListItem.LocationItem = ({ location }: ConcertDetailSectionListLocationItemProps) => {
-  return <Text style={styles.text}>{location}</Text>
+  return <Text style={[styles.text, styles.venueText]}>{location}</Text>
 }
 ConcertDetailSectionListItem.PriceInfoItem = ({ priceInfo }: ConcertDetailSectionListPriceItemProps) => {
   return (
@@ -40,7 +40,11 @@ ConcertDetailSectionListItem.TicketOpenDateItem = ({
   )
 }
 ConcertDetailSectionListItem.TitleItem = ({ title }: ConcertDetailSectionListTitleItemProps) => {
-  return <Text style={styles.titleText}>{title}</Text>
+  return (
+    <Text weight="bold" style={styles.titleText}>
+      {title}
+    </Text>
+  )
 }
 ConcertDetailSectionListItem.LineupItem = ({ thumbnailUrl, name }: ConcertDetailSectionListLineupItemProps) => {
   return (
@@ -70,35 +74,33 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   titleText: {
-    fontWeight: '700',
-    fontSize: 22,
-    marginTop: 8,
-    paddingTop: 12,
-    paddingBottom: 12,
+    fontSize: 20,
+    marginTop: 24,
     paddingHorizontal: 12,
-    backgroundColor: colors.oc.white.value,
   },
   wrapper: {
     paddingHorizontal: 12,
   },
   lineupWrapper: {
     width: '100%',
-    height: 75 + 16,
     flexDirection: 'row',
     alignItems: 'center',
+    paddingHorizontal: 12,
+    marginTop: 12,
   },
-  image: { width: 75, height: 75, borderRadius: 75 / 2 },
+  image: { width: 42, height: 42, borderRadius: 42 / 2 },
   name: {
     marginLeft: 8,
-    marginBottom: 'auto',
-    marginTop: 8,
-    paddingTop: 8,
-    fontWeight: '700',
-    fontSize: 18,
+    fontWeight: '500',
+    fontSize: 16,
   },
   ticketSellerText: {
     fontSize: 16,
     textDecorationLine: 'underline',
     color: '#2e94f4',
   },
+  dateText: {
+    marginTop: 6,
+  },
+  venueText: { marginTop: 6, color: colors.oc.gray[8].value },
 })
