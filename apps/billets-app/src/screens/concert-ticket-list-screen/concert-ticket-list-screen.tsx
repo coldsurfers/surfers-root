@@ -41,7 +41,7 @@ const ListHeader = ({
 }
 
 export const ConcertTicketListScreen = () => {
-  const { top: topInset } = useSafeAreaInsets()
+  const { top: topInset, bottom: bottomInset } = useSafeAreaInsets()
   const navigation = useConcertTicketListScreenNavigation()
   const route = useConcertTicketListScreenRoute()
   const { concertId } = route.params
@@ -66,7 +66,7 @@ export const ConcertTicketListScreen = () => {
   }, [data?.tickets])
 
   const renderItem = useCallback<ListRenderItem<(typeof ticketsData)[number]>>((info) => {
-    const { prices, seller } = info.item
+    const { prices, seller, openDate } = info.item
     const cheapestPrice =
       prices.length > 0
         ? prices.reduce((min, current) => {
@@ -85,6 +85,7 @@ export const ConcertTicketListScreen = () => {
           <View style={styles.ticketItemPriceWrapper}>
             <Text style={styles.ticketItemSeller}>{seller}</Text>
             <Text>최저가 {formattedPrice}</Text>
+            <Text>{format(new Date(openDate), 'yyyy년 MM월 dd일 HH시 mm분 오픈')}</Text>
           </View>
         </View>
         <View style={styles.ticketItemBottom}>
@@ -107,6 +108,9 @@ export const ConcertTicketListScreen = () => {
     <CommonScreenLayout edges={[]}>
       <FlatList
         style={{ flex: 1 }}
+        contentContainerStyle={{
+          paddingBottom: bottomInset + 32,
+        }}
         data={ticketsData}
         renderItem={renderItem}
         ListHeaderComponent={
