@@ -107,7 +107,7 @@ export const ConcertTicketListScreen = () => {
   return (
     <CommonScreenLayout edges={[]}>
       <FlatList
-        style={{ flex: 1 }}
+        style={styles.listStyle}
         contentContainerStyle={{
           paddingBottom: bottomInset + 32,
         }}
@@ -129,6 +129,7 @@ export const ConcertTicketListScreen = () => {
 }
 
 const styles = StyleSheet.create({
+  listStyle: { flex: 1 },
   ticketItemWrapper: {
     marginHorizontal: 12,
     ...commonStyles.shadowBox,
