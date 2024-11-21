@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 12,
-    marginTop: 12,
   },
   image: { width: 42, height: 42, borderRadius: 42 / 2 },
   name: {
@@ -102,5 +101,5 @@ const styles = StyleSheet.create({
   dateText: {
     marginTop: 6,
   },
-  venueText: { marginTop: 6, color: colors.oc.gray[8].value },
+  venueText: { marginTop: 6, color: colors.oc.gray[8].value, marginBottom: 8 },
 })
