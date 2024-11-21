@@ -41,19 +41,22 @@ export const ConcertDetailSectionList = ({ sections, thumbnails }: ConcertDetail
       }
       switch (title) {
         case 'lineup':
-        case 'venue':
-        case 'date':
-        case 'price-info':
-        case 'ticket-seller':
-        case 'ticket-open-date':
+          // case 'venue':
+          // case 'date':
+          // case 'price-info':
+          // case 'ticket-seller':
+          // case 'ticket-open-date':
           children = sectionHeaderTitle ? <ConcertDetailSectionListHeaderItem title={sectionHeaderTitle} /> : null
           break
-        case 'html':
-          children = <ConcertDetailSectionListHeaderItem title="종합 정보" />
-          break
+        // case 'html':
+        //   children = <ConcertDetailSectionListHeaderItem title="종합 정보" />
+        //   break
         default:
           children = null
           break
+      }
+      if (children === null) {
+        return null
       }
       return <View style={styles.headerWrapper}>{children}</View>
     },
@@ -162,7 +165,7 @@ export const ConcertDetailSectionList = ({ sections, thumbnails }: ConcertDetail
           </Animated.View>
         }
         sections={sections}
-        // renderSectionHeader={renderSectionHeader}
+        renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
       />
@@ -171,7 +174,10 @@ export const ConcertDetailSectionList = ({ sections, thumbnails }: ConcertDetail
 }
 
 const styles = StyleSheet.create({
-  headerWrapper: {},
+  headerWrapper: {
+    backgroundColor: colors.oc.gray[1].value,
+    marginBottom: 4,
+  },
   commonContentWrapper: {
     backgroundColor: colors.oc.gray[1].value,
   },
