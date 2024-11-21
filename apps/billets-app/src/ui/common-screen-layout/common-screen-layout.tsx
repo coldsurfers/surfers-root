@@ -1,16 +1,18 @@
 import { colors } from '@coldsurfers/ocean-road'
 import { PropsWithChildren } from 'react'
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { Edges, SafeAreaView } from 'react-native-safe-area-context'
 
 export const CommonScreenLayout = ({
   children,
   style,
+  edges,
 }: PropsWithChildren<{
+  edges?: Edges
   style?: StyleProp<ViewStyle>
 }>) => {
   return (
-    <SafeAreaView edges={['top']} style={[styles.layout, style]}>
+    <SafeAreaView edges={edges ? edges : ['top']} style={[styles.layout, style]}>
       {children}
     </SafeAreaView>
   )
