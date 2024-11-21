@@ -1,4 +1,5 @@
 import { CONCERT_DETAIL_LIST_HEADER_HEIGHT } from '@/lib'
+import { colors } from '@coldsurfers/ocean-road'
 import React, { ReactElement, ReactNode, useCallback } from 'react'
 import { Animated, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
@@ -40,19 +41,22 @@ export const ConcertDetailSectionList = ({ sections, thumbnails }: ConcertDetail
       }
       switch (title) {
         case 'lineup':
-        case 'venue':
-        case 'date':
-        case 'price-info':
-        case 'ticket-seller':
-        case 'ticket-open-date':
+          // case 'venue':
+          // case 'date':
+          // case 'price-info':
+          // case 'ticket-seller':
+          // case 'ticket-open-date':
           children = sectionHeaderTitle ? <ConcertDetailSectionListHeaderItem title={sectionHeaderTitle} /> : null
           break
-        case 'html':
-          children = <ConcertDetailSectionListHeaderItem title="종합 정보" />
-          break
+        // case 'html':
+        //   children = <ConcertDetailSectionListHeaderItem title="종합 정보" />
+        //   break
         default:
           children = null
           break
+      }
+      if (children === null) {
+        return null
       }
       return <View style={styles.headerWrapper}>{children}</View>
     },
@@ -69,6 +73,11 @@ export const ConcertDetailSectionList = ({ sections, thumbnails }: ConcertDetail
             <ConcertDetailSectionListItem.TitleItem
               title={(info.item as ConcertDetailSectionListTitleItemProps).title}
             />
+          )
+          break
+        case 'date':
+          children = (
+            <ConcertDetailSectionListItem.DateItem date={(info.item as ConcertDetailSectionListDateItemProps).date} />
           )
           break
         case 'venue':
@@ -88,11 +97,6 @@ export const ConcertDetailSectionList = ({ sections, thumbnails }: ConcertDetail
             <ConcertDetailSectionListItem.TicketSellerItem
               {...(info.item as ConcertDetailSectionListTicketSellerItemProps)}
             />
-          )
-          break
-        case 'date':
-          children = (
-            <ConcertDetailSectionListItem.DateItem date={(info.item as ConcertDetailSectionListDateItemProps).date} />
           )
           break
         case 'price-info':
@@ -119,7 +123,10 @@ export const ConcertDetailSectionList = ({ sections, thumbnails }: ConcertDetail
   return (
     <>
       <Animated.SectionList
-        contentContainerStyle={styles.container}
+        contentContainerStyle={{
+          backgroundColor: colors.oc.gray[1].value,
+          flexGrow: 1,
+        }}
         stickySectionHeadersEnabled={false}
         onScroll={Animated.event(
           [
@@ -160,20 +167,22 @@ export const ConcertDetailSectionList = ({ sections, thumbnails }: ConcertDetail
         sections={sections}
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
+        showsVerticalScrollIndicator={false}
       />
     </>
   )
 }
 
 const styles = StyleSheet.create({
-  headerWrapper: {},
-  commonContentWrapper: {},
+  headerWrapper: {
+    backgroundColor: colors.oc.gray[1].value,
+    marginBottom: 4,
+  },
+  commonContentWrapper: {
+    backgroundColor: colors.oc.gray[1].value,
+  },
   thumbnail: {
     width: '100%',
     height: '100%',
-  },
-  container: {
-    backgroundColor: 'white',
-    paddingBottom: 12,
   },
 })

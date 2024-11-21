@@ -17,7 +17,7 @@ export const ConcertDetailSectionListHeaderItem = ({ title }: Props) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: colors.oc.white.value,
+    backgroundColor: colors.oc.gray[1].value,
     paddingHorizontal: 12,
   },
   title: { fontWeight: '700', fontSize: 18 },
