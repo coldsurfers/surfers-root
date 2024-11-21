@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const path = require('path')
-
 module.exports = {
   presets: ['module:@react-native/babel-preset'],
   plugins: [
@@ -10,13 +7,13 @@ module.exports = {
       {
         root: ['.'],
         alias: {
-          'react': path.resolve(__dirname, '../../node_modules/react'),
-          '@coldsurfers/ocean-road/native': path.resolve(__dirname, '../../packages/ocean-road/src/native/index.ts'),
-          '@/screens': path.resolve(__dirname, './src/screens'),
-          '@/navigations': path.resolve(__dirname, './src/navigations'),
-          '@/lib': path.resolve(__dirname, './src/lib'),
-          '@/ui': path.resolve(__dirname, './src/ui'),
-          '@/features': path.resolve(__dirname, './src/features'),
+          'react': '../../node_modules/react',
+          '@coldsurfers/ocean-road/native': '../../packages/ocean-road/src/native/index.ts',
+          '@/screens': './src/screens',
+          '@/navigations': './src/navigations',
+          '@/lib': './src/lib',
+          '@/ui': './src/ui',
+          '@/features': './src/features',
         },
       },
     ],
