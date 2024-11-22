@@ -1,10 +1,11 @@
-import { ConcertDetailSectionList, ConcertDetailSectionListSections } from '@/features'
+import { ConcertDetailSectionList, ConcertDetailSectionListSections, useToggleSubscribeConcert } from '@/features'
 import commonStyles from '@/lib/common-styles'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
+import useSubscribedConcertQuery from '@/lib/react-query/queries/useSubscribedConcertQuery'
 import { CommonBackIconButton } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner } from '@coldsurfers/ocean-road/native'
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { StatusBar, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT } from './concert-detail-screen.constants'
@@ -17,6 +18,17 @@ export const ConcertDetailScreen = () => {
   const { data, isLoading: isLoadingConcert } = useConcertQuery({
     concertId: params.concertId,
   })
+  const { data: subscribedConcert } = useSubscribedConcertQuery({
+    concertId: params.concertId,
+  })
+  const toggleSubscribeConcert = useToggleSubscribeConcert()
+
+  const onPressSubscribe = useCallback(() => {
+    toggleSubscribeConcert({
+      isSubscribed: !!subscribedConcert,
+      concertId: params.concertId,
+    })
+  }, [params.concertId, subscribedConcert, toggleSubscribeConcert])
 
   const sections: ConcertDetailSectionListSections = useMemo(() => {
     if (!data) {
@@ -103,6 +115,8 @@ export const ConcertDetailScreen = () => {
         <ConcertDetailSectionList
           sections={sections}
           thumbnails={data?.posters?.map((thumb) => thumb.imageUrl) ?? []}
+          isSubscribed={!!subscribedConcert}
+          onPressSubscribe={onPressSubscribe}
         />
         <View style={[styles.fixedBottom, { paddingBottom: bottomInset }]}>
           <Button
