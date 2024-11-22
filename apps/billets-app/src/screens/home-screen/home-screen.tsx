@@ -1,18 +1,12 @@
-import { CurrentLocationTracker, LocationSelector, LocationSelectorModal } from '@/features'
+import { CurrentLocationTracker, LocationSelector, LocationSelectorModal, useToggleSubscribeConcert } from '@/features'
 import { AnimatePresence } from '@/ui'
-import { useQueryClient } from '@tanstack/react-query'
 import { useCallback, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useShallow } from 'zustand/shallow'
 import { ConcertList } from '../../features/concert'
 import palettes from '../../lib/palettes'
-import { v1QueryKeyFactory } from '../../lib/query-key-factory'
-import useSubscribeConcertMutation from '../../lib/react-query/mutations/useSubscribeConcertMutation'
-import useUnsubscribeConcertMutation from '../../lib/react-query/mutations/useUnsubscribeConcertMutation'
 import useGetMeQuery from '../../lib/react-query/queries/useGetMeQuery'
-import useSubscribedConcertListQuery from '../../lib/react-query/queries/useSubscribedConcertListQuery'
-import useSubscribedConcertQuery from '../../lib/react-query/queries/useSubscribedConcertQuery'
 import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocationStore'
 import { useHomeScreenNavigation } from './home-screen.hooks'
 
@@ -26,90 +20,9 @@ export const HomeScreen = () => {
     })),
   )
 
-  const queryClient = useQueryClient()
-
   const { data: meData } = useGetMeQuery()
 
-  const { mutate: subscribeConcert } = useSubscribeConcertMutation({
-    onMutate: async (variables) => {
-      await queryClient.cancelQueries({
-        queryKey: v1QueryKeyFactory.concerts.subscribed({
-          concertId: variables.id,
-        }).queryKey,
-      })
-      if (!meData) {
-        return
-      }
-      const previousSubscribedConcertList = queryClient.getQueryData<
-        Awaited<ReturnType<typeof useSubscribedConcertListQuery>>['data']
-      >(v1QueryKeyFactory.concerts.subscribedList.queryKey)
-      const newSubscribedConcert: Awaited<ReturnType<typeof useSubscribedConcertQuery>['data']> = {
-        concertId: variables.id,
-        userId: meData.id,
-      }
-
-      queryClient.setQueryData(
-        v1QueryKeyFactory.concerts.subscribed({ concertId: variables.id }).queryKey,
-        newSubscribedConcert,
-      )
-      queryClient.setQueryData(v1QueryKeyFactory.concerts.subscribedList.queryKey, {
-        ...previousSubscribedConcertList,
-        pageParams: previousSubscribedConcertList?.pageParams ?? 0,
-        pages: [newSubscribedConcert, ...(previousSubscribedConcertList?.pages.flat() ?? [])],
-      })
-      return newSubscribedConcert
-    },
-    onSettled: (data) => {
-      if (!data?.concertId) {
-        return
-      }
-      queryClient.invalidateQueries({
-        queryKey: v1QueryKeyFactory.concerts.subscribed({
-          concertId: data.concertId,
-        }).queryKey,
-      })
-      queryClient.invalidateQueries({
-        queryKey: v1QueryKeyFactory.concerts.subscribedList.queryKey,
-      })
-    },
-  })
-  const { mutate: unsubscribeConcert } = useUnsubscribeConcertMutation({
-    onMutate: async (variables) => {
-      await queryClient.cancelQueries({
-        queryKey: v1QueryKeyFactory.concerts.subscribed({
-          concertId: variables.id,
-        }).queryKey,
-      })
-      const previousSubscribedConcertList = queryClient.getQueryData<
-        Awaited<ReturnType<typeof useSubscribedConcertListQuery>>['data']
-      >(v1QueryKeyFactory.concerts.subscribedList.queryKey)
-      queryClient.setQueryData(
-        v1QueryKeyFactory.concerts.subscribed({
-          concertId: variables.id,
-        }).queryKey,
-        null,
-      )
-      queryClient.setQueryData(v1QueryKeyFactory.concerts.subscribedList.queryKey, {
-        ...previousSubscribedConcertList,
-        pageParams: previousSubscribedConcertList?.pageParams ?? 0,
-        pages: (previousSubscribedConcertList?.pages.flat() ?? []).filter((v) => v?.concertId !== variables.id),
-      })
-      return null
-    },
-    onSettled: (data) => {
-      if (!data?.concertId) {
-        return
-      }
-      queryClient.invalidateQueries({
-        queryKey: v1QueryKeyFactory.concerts.subscribed({
-          concertId: data.concertId,
-        }).queryKey,
-      })
-      queryClient.invalidateQueries({
-        queryKey: v1QueryKeyFactory.concerts.subscribedList.queryKey,
-      })
-    },
-  })
+  const toggleSubscribeConcert = useToggleSubscribeConcert()
 
   const onPressConcertListItem = useCallback(
     (concertId: string) => {
@@ -131,13 +44,12 @@ export const HomeScreen = () => {
         return
       }
 
-      if (isSubscribed) {
-        unsubscribeConcert({ id: concertId })
-      } else {
-        subscribeConcert({ id: concertId })
-      }
+      toggleSubscribeConcert({
+        isSubscribed,
+        concertId,
+      })
     },
-    [meData, navigation, subscribeConcert, unsubscribeConcert],
+    [meData, navigation, toggleSubscribeConcert],
   )
 
   return (

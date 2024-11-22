@@ -1,5 +1,6 @@
+import { ConcertSubscribeButton } from '@/features/subscribe'
 import { useCallback } from 'react'
-import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import commonStyles from '../../../../lib/common-styles'
 import palettes from '../../../../lib/palettes'
@@ -96,17 +97,9 @@ export const ConcertListItem = ({
           ) : null}
         </View>
         {onPressSubscribe && (
-          <TouchableOpacity
-            onPress={handlePressSubscribe}
-            style={[
-              styles.concertSaveButton,
-              {
-                backgroundColor: subscribedConcertData ? palettes.black : palettes.white,
-              },
-            ]}
-          >
-            <Text style={styles.concertSaveButtonIcon}>❣️</Text>
-          </TouchableOpacity>
+          <View style={{ marginLeft: 'auto' }}>
+            <ConcertSubscribeButton onPress={handlePressSubscribe} isSubscribed={!!subscribedConcertData} />
+          </View>
         )}
       </View>
     </Pressable>
