@@ -294,6 +294,45 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/fcm/token': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['PostFCMTokenBody']
+        }
+      }
+      responses: {
+        /** @description Default Response */
+        201: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['PostFCMTokenSuccessResponse']
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/search/': {
     parameters: {
       query?: never
@@ -893,6 +932,13 @@ export interface components {
     GetSubscribedConcertListQueryString: {
       offset: string
       size: string
+    }
+    PostFCMTokenBody: {
+      fcmToken: string
+    }
+    PostFCMTokenSuccessResponse: {
+      id: string
+      token: string
     }
     SearchDTOSerialized:
       | {
