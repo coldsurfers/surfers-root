@@ -2,8 +2,11 @@ import { useAppleAuth, useFirebaseAnalytics, useFirebaseMessaging } from '@/lib'
 import { MainStackNavigation, MainStackNavigationParamList } from '@/navigations'
 import { LinkingOptions, NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
 import React, { useCallback, useEffect, useRef } from 'react'
+import { useSendFCMTokenMutation } from './lib/react-query'
+import useGetMeQuery from './lib/react-query/queries/useGetMeQuery'
 
 const linking: LinkingOptions<MainStackNavigationParamList> = {
+  // @todo: remove fstvllife://
   prefixes: ['billets://', 'fstvllife://'],
   config: {
     initialRouteName: 'MainTabScreen',
@@ -12,25 +15,37 @@ const linking: LinkingOptions<MainStackNavigationParamList> = {
 }
 
 const AppContainer = () => {
+  const { data: meData } = useGetMeQuery()
   const { logScreenView } = useFirebaseAnalytics()
   const { requestPermission, getFCMToken } = useFirebaseMessaging()
+  const { mutate: sendFCMToken } = useSendFCMTokenMutation()
 
   useAppleAuth()
 
   useEffect(() => {
     requestPermission()
       .then((authorized) => {
-        if (authorized) {
+        // @todo: what if user not logged in?
+        if (authorized && !!meData) {
           getFCMToken().then((token) => {
-            // todo: save token to somewhere
-            console.log(token)
+            // send fcm token to server
+            sendFCMToken(
+              {
+                fcmToken: token,
+              },
+              {
+                onSuccess: (data) => {
+                  console.log(data.data)
+                },
+              },
+            )
           })
         }
       })
       .catch((e) => {
         console.error(e)
       })
-  }, [getFCMToken, requestPermission])
+  }, [getFCMToken, meData, requestPermission, sendFCMToken])
 
   const routeNameRef = useRef<string>()
   const navigationRef = useRef<NavigationContainerRef<MainStackNavigationParamList>>(null)
