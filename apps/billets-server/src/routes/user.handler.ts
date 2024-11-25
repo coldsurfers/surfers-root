@@ -1,5 +1,5 @@
 import { RouteHandler } from 'fastify'
-import { FCMTokenDTO } from 'src/dtos'
+import { FCMTokenDTO } from '../dtos'
 import { findUserByAccessToken } from './user.service'
 import { GetMeResponse, PostFCMTokenBody, PostFCMTokenResponse } from './user.types'
 

@@ -1,5 +1,5 @@
 import { FCMToken } from '@prisma/client'
-import { prisma } from 'src/prisma/connect'
+import { prisma } from '../../prisma/connect'
 import { FCMTokenDTOSerialized } from './FCMTokenDTO.types'
 
 export class FCMTokenDTO {
