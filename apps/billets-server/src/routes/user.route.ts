@@ -1,7 +1,7 @@
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { getMeHandler, postFCMTokenHandler } from './user.handler'
-import { getMeResponseSchema, postFCMTokenBodySchema, postFCMTokenResponseSchema } from './user.types'
+import { getMeHandler } from './user.handler'
+import { getMeResponseSchema } from './user.types'
 
 const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
@@ -20,24 +20,6 @@ const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
     },
     getMeHandler,
-  )
-  fastify.withTypeProvider<ZodTypeProvider>().post(
-    '/fcm-token',
-    {
-      schema: {
-        tags: ['v1', 'user'],
-        security: [
-          {
-            AccessTokenAuth: [],
-          },
-        ],
-        body: postFCMTokenBodySchema,
-        response: {
-          201: postFCMTokenResponseSchema,
-        },
-      },
-    },
-    postFCMTokenHandler,
   )
   done()
 }
