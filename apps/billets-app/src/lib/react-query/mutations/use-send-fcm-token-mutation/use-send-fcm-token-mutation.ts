@@ -2,7 +2,7 @@ import client from '@/lib/api/openapi-client'
 import { useMutation, UseMutationOptions } from '@tanstack/react-query'
 
 const mutationFn = async (variables: TVariables) => {
-  return await client.POST('/v1/user/fcm-token', {
+  return await client.POST('/v1/fcm/token', {
     body: {
       fcmToken: variables.fcmToken,
     },

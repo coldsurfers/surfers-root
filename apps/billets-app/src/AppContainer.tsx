@@ -3,7 +3,6 @@ import { MainStackNavigation, MainStackNavigationParamList } from '@/navigations
 import { LinkingOptions, NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
 import React, { useCallback, useEffect, useRef } from 'react'
 import { useSendFCMTokenMutation } from './lib/react-query'
-import useGetMeQuery from './lib/react-query/queries/useGetMeQuery'
 
 const linking: LinkingOptions<MainStackNavigationParamList> = {
   // @todo: remove fstvllife://
@@ -15,7 +14,6 @@ const linking: LinkingOptions<MainStackNavigationParamList> = {
 }
 
 const AppContainer = () => {
-  const { data: meData } = useGetMeQuery()
   const { logScreenView } = useFirebaseAnalytics()
   const { requestPermission, getFCMToken } = useFirebaseMessaging()
   const { mutate: sendFCMToken } = useSendFCMTokenMutation()
@@ -23,29 +21,22 @@ const AppContainer = () => {
   useAppleAuth()
 
   useEffect(() => {
+    // 앱 초기 진입 시 푸시 알림 권한 설정 및 fcm token 설정
     requestPermission()
       .then((authorized) => {
-        // @todo: what if user not logged in?
-        if (authorized && !!meData) {
+        if (authorized) {
           getFCMToken().then((token) => {
             // send fcm token to server
-            sendFCMToken(
-              {
-                fcmToken: token,
-              },
-              {
-                onSuccess: (data) => {
-                  console.log(data.data)
-                },
-              },
-            )
+            sendFCMToken({
+              fcmToken: token,
+            })
           })
         }
       })
       .catch((e) => {
         console.error(e)
       })
-  }, [getFCMToken, meData, requestPermission, sendFCMToken])
+  }, [getFCMToken, requestPermission, sendFCMToken])
 
   const routeNameRef = useRef<string>()
   const navigationRef = useRef<NavigationContainerRef<MainStackNavigationParamList>>(null)
