@@ -43,17 +43,27 @@ model User {
   subscribedConcerts UsersOnSubscribedConcerts[]
   subscribedArtists  UsersOnSubscribedArtists[]
   subscribedVenues   UsersOnSubscribedVenues[]
+  fcmTokens          UsersOnFCMTokens[]
 
   auth_token AuthToken[]
-  fcmTokens  FCMToken[]
 }
 
 model FCMToken {
-  id         String   @id @default(uuid())
-  tokenValue String
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String             @id @default(uuid())
+  tokenValue String             @unique
+  createdAt  DateTime           @default(now())
+  users      UsersOnFCMTokens[]
+}
+
+model UsersOnFCMTokens {
+  user       User     @relation(fields: [userId], references: [id])
   userId     String
+  fcmToken   FCMToken @relation(fields: [fcmTokenId], references: [id])
+  fcmTokenId String
   createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@id([userId, fcmTokenId])
 }
 
 model AuthToken {
