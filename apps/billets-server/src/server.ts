@@ -49,7 +49,7 @@ import {
   subscribeVenueParamsSchema,
 } from './routes/subscribe.types'
 import userRoute from './routes/user.route'
-import { getMeResponseSchema } from './routes/user.types'
+import { getMeResponseSchema, postFCMTokenBodySchema, postFCMTokenResponseSchema } from './routes/user.types'
 
 dotenv.config()
 
@@ -142,6 +142,8 @@ fastify.register(fastifySwagger, {
       SubscribeConcertBody: subscribeConcertBodySchema,
       GetSubscribedConcertListQueryString: getSubscribedConcertListQueryStringSchema,
       SubscribedConcertSerializedList: subscribedConcertDTOSerializedListSchema,
+      PostFCMTokenBody: postFCMTokenBodySchema,
+      PostFCMTokenSuccessResponse: postFCMTokenResponseSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
