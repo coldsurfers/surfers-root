@@ -9,6 +9,7 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
+import { fcmTokenDTOSerializedSchema } from './dtos'
 import { searchDTOSerializedSchema } from './dtos/SearchDTO.types'
 import { subscribedArtistDTOSerializedSchema } from './dtos/SubscribeArtistDTO.types'
 import {
@@ -38,6 +39,7 @@ import {
   concertSearchParamsSchema,
   concertSearchResponseSchema,
 } from './routes/concert.types'
+import { fcmRoute, postFCMTokenBodySchema } from './routes/fcm'
 import searchRoute from './routes/search.route'
 import { searchListQuerystringSchema } from './routes/search.types'
 import subscribeRoute from './routes/subscribe.route'
@@ -49,7 +51,7 @@ import {
   subscribeVenueParamsSchema,
 } from './routes/subscribe.types'
 import userRoute from './routes/user.route'
-import { getMeResponseSchema, postFCMTokenBodySchema, postFCMTokenResponseSchema } from './routes/user.types'
+import { getMeResponseSchema } from './routes/user.types'
 
 dotenv.config()
 
@@ -143,7 +145,7 @@ fastify.register(fastifySwagger, {
       GetSubscribedConcertListQueryString: getSubscribedConcertListQueryStringSchema,
       SubscribedConcertSerializedList: subscribedConcertDTOSerializedListSchema,
       PostFCMTokenBody: postFCMTokenBodySchema,
-      PostFCMTokenSuccessResponse: postFCMTokenResponseSchema,
+      PostFCMTokenSuccessResponse: fcmTokenDTOSerializedSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
@@ -170,3 +172,4 @@ fastify.register(userRoute, { prefix: '/v1/user' })
 fastify.register(concertRoute, { prefix: '/v1/concert' })
 fastify.register(searchRoute, { prefix: '/v1/search' })
 fastify.register(subscribeRoute, { prefix: '/v1/subscribe' })
+fastify.register(fcmRoute, { prefix: '/v1/fcm' })
