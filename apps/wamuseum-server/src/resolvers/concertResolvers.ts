@@ -41,6 +41,7 @@ const concertResolvers: Resolvers = {
         date: new Date(date),
       })
       const concert = await concertDTO.create()
+      // @todo: send fcm message from server
       return concert.serialize()
     },
     updateConcert: async (parent, args, ctx) => {
