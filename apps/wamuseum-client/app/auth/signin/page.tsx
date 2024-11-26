@@ -41,9 +41,14 @@ const SignInPage = () => {
       const { login } = data
       switch (login.__typename) {
         case 'UserWithAuthToken':
-          authUtils.login(login.authToken).then(() => {
-            router.push('/')
-          })
+          authUtils
+            .login(login.authToken)
+            .then(() => {
+              router.push('/')
+            })
+            .catch((e) => {
+              console.error(e)
+            })
           break
         default:
           break
