@@ -35,6 +35,14 @@ jobs:
           touch "./apps/billets-server/.env"
           touch "./apps/blog-client/.env"
 
+      - name: Create firebase service account key file
+        env:
+          FIREBASE_SERVICE_ACCOUNT_KEY_FILE: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_FILE }}
+          WAMUSEUM_SERVER_FIREBASE_SERVICE_ACCOUNT_KEY_FILE_PATH: ${{ secrets.WAMUSEUM_SERVER_FIREBASE_SERVICE_ACCOUNT_KEY_FILE_PATH }}
+        run: |
+          echo "$FIREBASE_SERVICE_ACCOUNT_KEY_FILE" > "$WAMUSEUM_SERVER_FIREBASE_SERVICE_ACCOUNT_KEY_FILE_PATH"
+        working-directory: ./apps/wamuseum-server
+
       - name: Docker Compose build and push
         uses: ./.github/workflows/composites/docker-compose-build
         with:
