@@ -29,12 +29,14 @@ function buildDeepLinkFromNotificationData(data: FirebaseMessagingTypes.RemoteMe
     return `${prefix}search`
   }
   if (navigationId === 'concert-detail') {
-    return `${prefix}concert-detail`
+    const concertId = data?.concertId
+    if (typeof concertId === 'string') {
+      return `${prefix}concert-detail/${concertId}`
+    }
+    console.warn('Unverified concertId', concertId)
+    return null
   }
-  const concertId = data?.concertId
-  if (typeof concertId === 'string') {
-    return `${prefix}concert-detail/${concertId}`
-  }
+
   console.warn('Missing concertId')
   return null
 }
