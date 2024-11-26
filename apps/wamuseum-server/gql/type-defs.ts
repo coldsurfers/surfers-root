@@ -218,6 +218,10 @@ const typeDefs = `#graphql
     list: [Venue]
   }
 
+  type RemoteNotification {
+    response: String
+  }
+
   union AuthenticateEmailAuthRequestData = EmailAuthRequest | HttpError
 
   union CreateUserData = User | HttpError
@@ -278,6 +282,8 @@ const typeDefs = `#graphql
 
   union RemoveConcertVenueData = Venue | HttpError
 
+  union NotifyConcertData = RemoteNotification | HttpError
+
   input ConcertListOrderBy {
     createdAt: String!
   }
@@ -316,6 +322,10 @@ const typeDefs = `#graphql
   input RemoveConcertVenueInput {
     concertId: String!
     venueId: String!
+  }
+
+  input NotifyConcertInput {
+    concertId: String!
   }
 
   type Query {
@@ -419,6 +429,9 @@ const typeDefs = `#graphql
     removeConcertVenue(
       input: RemoveConcertVenueInput!
     ): RemoveConcertVenueData
+    notifyConcert(
+      input: NotifyConcertInput!
+    ): NotifyConcertData
   }
 `
 
