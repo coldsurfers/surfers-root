@@ -16,6 +16,7 @@ export async function POST(request: NextRequest) {
           maxAge: 60 * 60 * 24 * 7, // 1 week
           sameSite: 'strict',
           path: '/',
+          domain: process.env.NODE_ENV === 'development' ? undefined : 'wamuseum.coldsurf.io',
         }),
       },
     })
