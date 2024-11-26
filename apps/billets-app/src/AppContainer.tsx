@@ -15,7 +15,7 @@ const linking: LinkingOptions<MainStackNavigationParamList> = {
 
 const AppContainer = () => {
   const { logScreenView } = useFirebaseAnalytics()
-  const { requestPermission, getFCMToken } = useFirebaseMessaging()
+  const { requestPermission, getFCMToken, subscribeTopic } = useFirebaseMessaging()
   const { mutate: sendFCMToken } = useSendFCMTokenMutation()
 
   useAppleAuth()
@@ -25,6 +25,7 @@ const AppContainer = () => {
     requestPermission()
       .then((authorized) => {
         if (authorized) {
+          subscribeTopic('new-concert')
           getFCMToken().then((token) => {
             // send fcm token to server
             sendFCMToken({
@@ -36,7 +37,7 @@ const AppContainer = () => {
       .catch((e) => {
         console.error(e)
       })
-  }, [getFCMToken, requestPermission, sendFCMToken])
+  }, [getFCMToken, requestPermission, sendFCMToken, subscribeTopic])
 
   const routeNameRef = useRef<string>()
   const navigationRef = useRef<NavigationContainerRef<MainStackNavigationParamList>>(null)
