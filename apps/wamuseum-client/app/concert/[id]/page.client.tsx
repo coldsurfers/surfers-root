@@ -105,7 +105,7 @@ export const ConcertIdPageClient = ({
       {/* Concert Title */}
       <Title>{concert.title}</Title>
       <DeleteConcertButton onClick={() => setDeleteConfirmModalVisible(true)} />
-      <FirebaseNotifyButton />
+      <FirebaseNotifyButton concertId={concert.id} />
       <InnerWrapper>
         <LeftWrapper>
           {/* Poster */}

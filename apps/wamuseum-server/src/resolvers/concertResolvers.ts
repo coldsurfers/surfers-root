@@ -80,8 +80,8 @@ const concertResolvers: Resolvers = {
       // send fcm message from server
       const response = await firebaseAdmin.sendMessageToTopic({
         topic: 'new-concert',
-        title: concert.title,
-        body: `${concert.title}이 새로 등록되었어요`,
+        title: '🎫 최신 공연 소식 🎫',
+        body: `${concert.title} 공연이 새로 등록 되었어요. 더 알아보려면 누르세요!`,
         data: {
           concertId: concert.id,
         },

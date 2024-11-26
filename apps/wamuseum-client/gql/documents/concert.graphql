@@ -61,3 +61,15 @@ mutation CreateConcert($input: CreateConcertInput!) {
     }
   }
 }
+
+mutation NotifyConcert($input: NotifyConcertInput!) {
+  notifyConcert(input: $input) {
+    ... on RemoteNotification {
+      response
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
