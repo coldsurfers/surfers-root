@@ -28,7 +28,14 @@ fastify.register(
       origin: ['http://localhost:3000', 'https://wamuseum.coldsurf.io'],
     })
 
-    await instance.register(cookie)
+    await instance.register(cookie, {
+      parseOptions: {
+        sameSite: 'none',
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== 'development',
+        domain: process.env.NODE_ENV !== 'development' ? '.wamuseum.coldsurf.io' : undefined,
+      },
+    })
 
     await instance.route({
       url: '/graphql',
