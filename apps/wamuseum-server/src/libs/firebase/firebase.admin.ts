@@ -1,6 +1,5 @@
 import admin from 'firebase-admin'
-import { BaseMessage } from 'firebase-admin/lib/messaging/messaging-api'
-import { TopicType } from './firebase.types'
+import { FirebaseMessageData, TopicType } from './firebase.types'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const serviceAccount = require('../../../assets/firebase/firebase-service-account-key.json')
 
@@ -17,7 +16,7 @@ const sendMessageToDevice = async ({
   token: string
   title: string
   body: string
-  data: BaseMessage['data']
+  data: FirebaseMessageData
 }) => {
   const response = await admin.messaging().send({
     token,
@@ -52,7 +51,7 @@ const sendMessageToTopic = async ({
   topic: TopicType
   title: string
   body: string
-  data: BaseMessage['data']
+  data: FirebaseMessageData
 }) => {
   const response = await admin.messaging().send({
     topic,
