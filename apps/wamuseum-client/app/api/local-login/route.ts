@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
           httpOnly: true,
           secure: process.env.NODE_ENV === 'production',
           maxAge: 60 * 60 * 24 * 7, // 1 week
-          sameSite: 'strict',
+          sameSite: 'none',
           path: '/',
           domain: process.env.NODE_ENV === 'development' ? undefined : 'wamuseum.coldsurf.io',
         }),
