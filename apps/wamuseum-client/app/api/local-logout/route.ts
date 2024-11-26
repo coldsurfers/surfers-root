@@ -7,8 +7,12 @@ export async function POST(request: NextRequest) {
     status: 200,
     headers: {
       'Set-Cookie': cookie.serialize(COOKIE_ACCESS_TOKEN_KEY, '', {
-        path: '/',
+        httpOnly: true,
+        secure: true,
         maxAge: 0,
+        sameSite: 'none',
+        path: '/',
+        domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
       }),
     },
   })
