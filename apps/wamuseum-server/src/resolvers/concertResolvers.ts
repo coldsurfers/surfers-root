@@ -1,6 +1,7 @@
 import { Resolvers } from '../../gql/resolvers-types'
 import ConcertDTO from '../dtos/ConcertDTO'
 import ConcertListPaginationDTO from '../dtos/ConcertListWithPaginationDTO'
+import { firebaseAdmin } from '../libs/firebase'
 import { authorizeUser } from '../utils/authHelpers'
 
 const concertResolvers: Resolvers = {
@@ -41,6 +42,18 @@ const concertResolvers: Resolvers = {
         date: new Date(date),
       })
       const concert = await concertDTO.create()
+      // send fcm message from server
+      if (concert.id && concert.title) {
+        firebaseAdmin.sendMessageToTopic({
+          topic: 'new-concert',
+          title: concert.title,
+          body: `${concert.title}이 새로 등록되었어요`,
+          data: {
+            concertId: concert.id,
+          },
+        })
+      }
+
       return concert.serialize()
     },
     updateConcert: async (parent, args, ctx) => {

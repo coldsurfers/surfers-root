@@ -58,6 +58,14 @@ export default class ConcertDTO {
     })
   }
 
+  get id() {
+    return this.props.id
+  }
+
+  get title() {
+    return this.props.title
+  }
+
   serialize(): ConcertResolverType {
     return {
       __typename: 'Concert',

@@ -17,3 +17,5 @@ export const TEST_UPLOAD_INPUT_DATA = {
 export const DEFAULT_PAGE = 1
 export const DEFAULT_LIMIT = 10
 export const DEFAULT_ORDER_BY_CREATED_AT = 'desc'
+
+export const COOKIE_ACCESS_TOKEN_KEY = 'accessToken'
