@@ -205,6 +205,7 @@ export type Mutation = {
   createVenue?: Maybe<CreateVenueData>;
   login?: Maybe<LoginData>;
   logout: User;
+  notifyConcert?: Maybe<NotifyConcertData>;
   removeConcert?: Maybe<RemoveConcertData>;
   removeConcertArtist?: Maybe<RemoveConcertArtistData>;
   removeConcertTicket?: Maybe<RemoveConcertTicketData>;
@@ -276,6 +277,11 @@ export type MutationLoginArgs = {
 };
 
 
+export type MutationNotifyConcertArgs = {
+  input: NotifyConcertInput;
+};
+
+
 export type MutationRemoveConcertArgs = {
   input: RemoveConcertInput;
 };
@@ -313,6 +319,12 @@ export type MutationUpdateConcertPosterArgs = {
 
 export type MutationUpdateConcertTicketArgs = {
   input: UpdateConcertTicketInput;
+};
+
+export type NotifyConcertData = HttpError | RemoteNotification;
+
+export type NotifyConcertInput = {
+  concertId: Scalars['String'];
 };
 
 export type Pagination = {
@@ -411,6 +423,11 @@ export type QuerySearchVenueArgs = {
 
 export type QueryUserArgs = {
   id: Scalars['Int'];
+};
+
+export type RemoteNotification = {
+  __typename?: 'RemoteNotification';
+  response?: Maybe<Scalars['String']>;
 };
 
 export type RemoveConcertArtistData = Artist | HttpError;
@@ -670,11 +687,14 @@ export type ResolversTypes = {
   LoginData: ResolversTypes['HttpError'] | ResolversTypes['UserWithAuthToken'];
   LoginInput: LoginInput;
   Mutation: ResolverTypeWrapper<{}>;
+  NotifyConcertData: ResolversTypes['HttpError'] | ResolversTypes['RemoteNotification'];
+  NotifyConcertInput: NotifyConcertInput;
   Pagination: ResolverTypeWrapper<Pagination>;
   Poster: ResolverTypeWrapper<Poster>;
   PosterList: ResolverTypeWrapper<PosterList>;
   Price: ResolverTypeWrapper<Price>;
   Query: ResolverTypeWrapper<{}>;
+  RemoteNotification: ResolverTypeWrapper<RemoteNotification>;
   RemoveConcertArtistData: ResolversTypes['Artist'] | ResolversTypes['HttpError'];
   RemoveConcertArtistInput: RemoveConcertArtistInput;
   RemoveConcertData: ResolversTypes['Concert'] | ResolversTypes['HttpError'];
@@ -756,11 +776,14 @@ export type ResolversParentTypes = {
   LoginData: ResolversParentTypes['HttpError'] | ResolversParentTypes['UserWithAuthToken'];
   LoginInput: LoginInput;
   Mutation: {};
+  NotifyConcertData: ResolversParentTypes['HttpError'] | ResolversParentTypes['RemoteNotification'];
+  NotifyConcertInput: NotifyConcertInput;
   Pagination: Pagination;
   Poster: Poster;
   PosterList: PosterList;
   Price: Price;
   Query: {};
+  RemoteNotification: RemoteNotification;
   RemoveConcertArtistData: ResolversParentTypes['Artist'] | ResolversParentTypes['HttpError'];
   RemoveConcertArtistInput: RemoveConcertArtistInput;
   RemoveConcertData: ResolversParentTypes['Concert'] | ResolversParentTypes['HttpError'];
@@ -937,6 +960,7 @@ export type MutationResolvers<ContextType = GraphqlContext, ParentType extends R
   createVenue?: Resolver<Maybe<ResolversTypes['CreateVenueData']>, ParentType, ContextType, RequireFields<MutationCreateVenueArgs, 'input'>>;
   login?: Resolver<Maybe<ResolversTypes['LoginData']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>;
   logout?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  notifyConcert?: Resolver<Maybe<ResolversTypes['NotifyConcertData']>, ParentType, ContextType, RequireFields<MutationNotifyConcertArgs, 'input'>>;
   removeConcert?: Resolver<Maybe<ResolversTypes['RemoveConcertData']>, ParentType, ContextType, RequireFields<MutationRemoveConcertArgs, 'input'>>;
   removeConcertArtist?: Resolver<Maybe<ResolversTypes['RemoveConcertArtistData']>, ParentType, ContextType, RequireFields<MutationRemoveConcertArtistArgs, 'input'>>;
   removeConcertTicket?: Resolver<Maybe<ResolversTypes['RemoveConcertTicketData']>, ParentType, ContextType, RequireFields<MutationRemoveConcertTicketArgs, 'input'>>;
@@ -945,6 +969,10 @@ export type MutationResolvers<ContextType = GraphqlContext, ParentType extends R
   updateConcert?: Resolver<Maybe<ResolversTypes['UpdateConcertData']>, ParentType, ContextType, RequireFields<MutationUpdateConcertArgs, 'input'>>;
   updateConcertPoster?: Resolver<Maybe<ResolversTypes['UpdateConcertPosterData']>, ParentType, ContextType, RequireFields<MutationUpdateConcertPosterArgs, 'input'>>;
   updateConcertTicket?: Resolver<Maybe<ResolversTypes['UpdateConcertTicketData']>, ParentType, ContextType, RequireFields<MutationUpdateConcertTicketArgs, 'input'>>;
+};
+
+export type NotifyConcertDataResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['NotifyConcertData'] = ResolversParentTypes['NotifyConcertData']> = {
+  __resolveType: TypeResolveFn<'HttpError' | 'RemoteNotification', ParentType, ContextType>;
 };
 
 export type PaginationResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Pagination'] = ResolversParentTypes['Pagination']> = {
@@ -985,6 +1013,11 @@ export type QueryResolvers<ContextType = GraphqlContext, ParentType extends Reso
   searchConcertVenue?: Resolver<Maybe<ResolversTypes['SearchConcertVenueData']>, ParentType, ContextType, RequireFields<QuerySearchConcertVenueArgs, 'keyword'>>;
   searchVenue?: Resolver<Maybe<ResolversTypes['SearchVenueData']>, ParentType, ContextType, RequireFields<QuerySearchVenueArgs, 'keyword'>>;
   user?: Resolver<Maybe<ResolversTypes['UserData']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
+};
+
+export type RemoteNotificationResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['RemoteNotification'] = ResolversParentTypes['RemoteNotification']> = {
+  response?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type RemoveConcertArtistDataResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['RemoveConcertArtistData'] = ResolversParentTypes['RemoveConcertArtistData']> = {
@@ -1141,11 +1174,13 @@ export type Resolvers<ContextType = GraphqlContext> = {
   HttpError?: HttpErrorResolvers<ContextType>;
   LoginData?: LoginDataResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  NotifyConcertData?: NotifyConcertDataResolvers<ContextType>;
   Pagination?: PaginationResolvers<ContextType>;
   Poster?: PosterResolvers<ContextType>;
   PosterList?: PosterListResolvers<ContextType>;
   Price?: PriceResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  RemoteNotification?: RemoteNotificationResolvers<ContextType>;
   RemoveConcertArtistData?: RemoveConcertArtistDataResolvers<ContextType>;
   RemoveConcertData?: RemoveConcertDataResolvers<ContextType>;
   RemoveConcertTicketData?: RemoveConcertTicketDataResolvers<ContextType>;

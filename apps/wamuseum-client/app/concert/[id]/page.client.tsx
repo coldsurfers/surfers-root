@@ -12,6 +12,7 @@ import {
   SearchConcertVenueUI,
   UpdateConcertPosterUI,
 } from '@/features'
+import { FirebaseNotifyButton } from '@/features/firebase/ui/firebase-notify-button/firebase-notify-button'
 import { Spinner } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { format } from 'date-fns'
@@ -104,6 +105,7 @@ export const ConcertIdPageClient = ({
       {/* Concert Title */}
       <Title>{concert.title}</Title>
       <DeleteConcertButton onClick={() => setDeleteConfirmModalVisible(true)} />
+      <FirebaseNotifyButton concertId={concert.id} />
       <InnerWrapper>
         <LeftWrapper>
           {/* Poster */}
