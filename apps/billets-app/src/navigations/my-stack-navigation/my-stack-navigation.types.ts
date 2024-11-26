@@ -1,6 +1,6 @@
 import { CompositeScreenProps } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { Screens } from '../../lib/navigations'
+import { Screens } from '../../lib/navigations/constants'
 import { MyScreenParam } from '../../screens/my-screen/my-screen.types'
 import { MainTabProp } from '../main-tab-navigation/main-tab-navigation.types'
 
