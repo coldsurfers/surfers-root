@@ -207,6 +207,7 @@ export type Mutation = {
   createVenue?: Maybe<CreateVenueData>;
   login?: Maybe<LoginData>;
   logout: User;
+  notifyConcert?: Maybe<NotifyConcertData>;
   removeConcert?: Maybe<RemoveConcertData>;
   removeConcertArtist?: Maybe<RemoveConcertArtistData>;
   removeConcertTicket?: Maybe<RemoveConcertTicketData>;
@@ -278,6 +279,11 @@ export type MutationLoginArgs = {
 };
 
 
+export type MutationNotifyConcertArgs = {
+  input: NotifyConcertInput;
+};
+
+
 export type MutationRemoveConcertArgs = {
   input: RemoveConcertInput;
 };
@@ -315,6 +321,12 @@ export type MutationUpdateConcertPosterArgs = {
 
 export type MutationUpdateConcertTicketArgs = {
   input: UpdateConcertTicketInput;
+};
+
+export type NotifyConcertData = HttpError | RemoteNotification;
+
+export type NotifyConcertInput = {
+  concertId: Scalars['String']['input'];
 };
 
 export type Pagination = {
@@ -413,6 +425,11 @@ export type QuerySearchVenueArgs = {
 
 export type QueryUserArgs = {
   id: Scalars['Int']['input'];
+};
+
+export type RemoteNotification = {
+  __typename?: 'RemoteNotification';
+  response?: Maybe<Scalars['String']['output']>;
 };
 
 export type RemoveConcertArtistData = Artist | HttpError;
@@ -705,6 +722,13 @@ export type CreateConcertMutationVariables = Exact<{
 
 
 export type CreateConcertMutation = { __typename?: 'Mutation', createConcert?: { __typename?: 'Concert', id: string, title: string, date: string, createdAt: string, updatedAt?: string | null } | { __typename?: 'HttpError', code: number, message: string } | null };
+
+export type NotifyConcertMutationVariables = Exact<{
+  input: NotifyConcertInput;
+}>;
+
+
+export type NotifyConcertMutation = { __typename?: 'Mutation', notifyConcert?: { __typename?: 'HttpError', code: number, message: string } | { __typename?: 'RemoteNotification', response?: string | null } | null };
 
 export type AuthenticateEmailAuthRequestMutationVariables = Exact<{
   input: AuthenticateEmailAuthRequestInput;
@@ -1664,6 +1688,45 @@ export function useCreateConcertMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateConcertMutationHookResult = ReturnType<typeof useCreateConcertMutation>;
 export type CreateConcertMutationResult = Apollo.MutationResult<CreateConcertMutation>;
 export type CreateConcertMutationOptions = Apollo.BaseMutationOptions<CreateConcertMutation, CreateConcertMutationVariables>;
+export const NotifyConcertDocument = gql`
+    mutation NotifyConcert($input: NotifyConcertInput!) {
+  notifyConcert(input: $input) {
+    ... on RemoteNotification {
+      response
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+    `;
+export type NotifyConcertMutationFn = Apollo.MutationFunction<NotifyConcertMutation, NotifyConcertMutationVariables>;
+
+/**
+ * __useNotifyConcertMutation__
+ *
+ * To run a mutation, you first call `useNotifyConcertMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useNotifyConcertMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [notifyConcertMutation, { data, loading, error }] = useNotifyConcertMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useNotifyConcertMutation(baseOptions?: Apollo.MutationHookOptions<NotifyConcertMutation, NotifyConcertMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<NotifyConcertMutation, NotifyConcertMutationVariables>(NotifyConcertDocument, options);
+      }
+export type NotifyConcertMutationHookResult = ReturnType<typeof useNotifyConcertMutation>;
+export type NotifyConcertMutationResult = Apollo.MutationResult<NotifyConcertMutation>;
+export type NotifyConcertMutationOptions = Apollo.BaseMutationOptions<NotifyConcertMutation, NotifyConcertMutationVariables>;
 export const AuthenticateEmailAuthRequestDocument = gql`
     mutation AuthenticateEmailAuthRequest($input: AuthenticateEmailAuthRequestInput!) {
   authenticateEmailAuthRequest(input: $input) {
