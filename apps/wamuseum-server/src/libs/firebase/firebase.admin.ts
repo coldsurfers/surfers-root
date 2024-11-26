@@ -1,13 +1,14 @@
 import admin from 'firebase-admin'
 import { BaseMessage } from 'firebase-admin/lib/messaging/messaging-api'
+import { TopicType } from './firebase.types'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const serviceAccount = require('../../assets/firebase/firebase-service-account-key.json')
+const serviceAccount = require('../../../assets/firebase/firebase-service-account-key.json')
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 })
 
-export const sendMessageToDevice = async ({
+const sendMessageToDevice = async ({
   token,
   title,
   body,
@@ -42,13 +43,13 @@ export const sendMessageToDevice = async ({
   return response
 }
 
-export const sendMessageToTopic = async ({
+const sendMessageToTopic = async ({
   topic,
   title,
   body,
   data,
 }: {
-  topic: string
+  topic: TopicType
   title: string
   body: string
   data: BaseMessage['data']
@@ -75,4 +76,9 @@ export const sendMessageToTopic = async ({
     },
   })
   return response
+}
+
+export const firebaseAdmin = {
+  sendMessageToDevice,
+  sendMessageToTopic,
 }
