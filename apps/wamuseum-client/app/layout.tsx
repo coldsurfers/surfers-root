@@ -1,4 +1,5 @@
 import { initializeApollo, OceanRoadThemeRegistry } from '@/libs'
+import { COOKIE_ACCESS_TOKEN_KEY } from '@/utils/constants'
 import { Noto_Sans_KR } from 'next/font/google'
 import { cookies } from 'next/headers'
 import { Suspense } from 'react'
@@ -9,7 +10,7 @@ const notoSansKr = Noto_Sans_KR({ subsets: ['latin'] })
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies()
-  const accessToken = cookieStore.get('accessToken')?.value
+  const accessToken = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY)?.value
   const apolloClient = initializeApollo({
     token: accessToken,
   })
