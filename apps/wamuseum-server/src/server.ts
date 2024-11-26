@@ -33,7 +33,7 @@ fastify.register(
         sameSite: 'none',
         httpOnly: true,
         secure: process.env.NODE_ENV !== 'development',
-        domain: process.env.NODE_ENV !== 'development' ? '.wamuseum.coldsurf.io' : undefined,
+        domain: process.env.NODE_ENV !== 'development' ? '.coldsurf.io' : undefined,
       },
     })
 
