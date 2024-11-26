@@ -5,7 +5,7 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf dist && NODE_OPTIONS='--max-old-space-size=4096' tsc",
+    "build": "rm -rf dist && NODE_OPTIONS='--max-old-space-size=4096' tsc && cp -r ./assets ./dist/assets",
     "build:vercel": "vercel build --prod",
     "codegen": "graphql-codegen --config ./gql/codegen.yml",
     "debug:vercel": "npx vercel dev --listen 3001",
