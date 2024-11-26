@@ -1,4 +1,4 @@
-import { StackScreens, TabScreens } from '@/lib/navigations'
+import { StackScreens, TabScreens } from '@/lib/navigations/constants'
 import { NavigatorScreenParams } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { ConcertStackParam } from '../concert-stack-navigation'

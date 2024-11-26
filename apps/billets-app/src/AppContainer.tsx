@@ -1,4 +1,4 @@
-import { useAppleAuth, useFirebaseAnalytics, useFirebaseMessaging } from '@/lib'
+import { TabScreens, useAppleAuth, useFirebaseAnalytics, useFirebaseMessaging } from '@/lib'
 import { MainStackNavigation, MainStackNavigationParamList } from '@/navigations'
 import { LinkingOptions, NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
 import React, { useCallback, useEffect, useRef } from 'react'
@@ -8,7 +8,7 @@ const linking: LinkingOptions<MainStackNavigationParamList> = {
   // @todo: remove fstvllife://
   prefixes: ['billets://', 'fstvllife://'],
   config: {
-    initialRouteName: 'MainTabScreen',
+    initialRouteName: TabScreens.MainTabScreen,
     screens: {},
   },
 }
