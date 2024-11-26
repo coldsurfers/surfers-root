@@ -1,3 +1,4 @@
+import { COOKIE_ACCESS_TOKEN_KEY } from '@/utils/constants'
 import { ApolloHydrationBoundary, initializeApollo } from 'libs'
 import { cookies } from 'next/headers'
 import {
@@ -17,7 +18,7 @@ export default async function ConcertIdPage({
   }
 }) {
   const cookieStore = await cookies()
-  const accessToken = cookieStore.get('accessToken')?.value
+  const accessToken = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY)?.value
   const apolloClient = initializeApollo({ token: accessToken })
   const promises = [
     apolloClient.query({
