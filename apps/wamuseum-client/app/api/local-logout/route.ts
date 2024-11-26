@@ -7,11 +7,8 @@ export async function POST(request: NextRequest) {
     status: 200,
     headers: {
       'Set-Cookie': cookie.serialize(COOKIE_ACCESS_TOKEN_KEY, '', {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        expires: new Date(0), // Expire immediately
-        sameSite: 'none',
         path: '/',
+        maxAge: 0,
       }),
     },
   })
