@@ -1,5 +1,6 @@
 import messaging from '@react-native-firebase/messaging'
 import { useCallback, useEffect, useMemo } from 'react'
+import { TopicType } from './use-firebase-messaging.types'
 
 export function useFirebaseMessaging() {
   const requestPermission = useCallback(async () => {
@@ -10,6 +11,10 @@ export function useFirebaseMessaging() {
   const getFCMToken = useCallback(async () => {
     const fcmToken = await messaging().getToken()
     return fcmToken
+  }, [])
+
+  const subscribeTopic = useCallback(async (topic: TopicType) => {
+    await messaging().subscribeToTopic(topic)
   }, [])
 
   useEffect(() => {
@@ -39,7 +44,8 @@ export function useFirebaseMessaging() {
     () => ({
       requestPermission,
       getFCMToken,
+      subscribeTopic,
     }),
-    [requestPermission, getFCMToken],
+    [requestPermission, getFCMToken, subscribeTopic],
   )
 }
