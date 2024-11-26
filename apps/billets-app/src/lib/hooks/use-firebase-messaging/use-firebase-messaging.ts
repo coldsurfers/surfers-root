@@ -23,20 +23,6 @@ export function useFirebaseMessaging() {
       console.log(message)
     })
 
-    // When the application is running, but in the background.
-    messaging().onNotificationOpenedApp((message) => {
-      console.log('Notification caused app to open from background state:', message)
-    })
-
-    // When the application is opened from a quit state.
-    messaging()
-      .getInitialNotification()
-      .then((remoteMessage) => {
-        if (remoteMessage) {
-          console.log('Notification caused app to open from quit state:', remoteMessage.notification)
-        }
-      })
-
     return () => unsubscribe()
   }, [])
 
