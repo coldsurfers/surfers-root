@@ -28,6 +28,18 @@ export type ArtistList = {
   list?: Maybe<Array<Maybe<Artist>>>;
 };
 
+export type ArtistProfileImage = {
+  __typename?: 'ArtistProfileImage';
+  id: Scalars['String']['output'];
+  imageURL: Scalars['String']['output'];
+};
+
+export type ArtistWithProfileImage = {
+  __typename?: 'ArtistWithProfileImage';
+  artist?: Maybe<Artist>;
+  artistProfileImage?: Maybe<ArtistProfileImage>;
+};
+
 export type AuthToken = {
   __typename?: 'AuthToken';
   accessToken: Scalars['String']['output'];
@@ -84,7 +96,14 @@ export type ConcertVenueList = {
   list?: Maybe<Array<Maybe<Venue>>>;
 };
 
-export type CreateArtistData = Artist | HttpError;
+export type Copyright = {
+  __typename?: 'Copyright';
+  id: Scalars['String']['output'];
+  license: Scalars['String']['output'];
+  owner: Scalars['String']['output'];
+};
+
+export type CreateArtistData = ArtistWithProfileImage | HttpError;
 
 export type CreateArtistInput = {
   artistName: Scalars['String']['input'];
@@ -150,6 +169,15 @@ export type CreateConcertVenueInput = {
   venueId: Scalars['String']['input'];
 };
 
+export type CreateCopyrightData = Copyright | HttpError;
+
+export type CreateCopyrightInput = {
+  artistProfileImageId?: InputMaybe<Scalars['String']['input']>;
+  license: Scalars['String']['input'];
+  licenseURL: Scalars['String']['input'];
+  owner: Scalars['String']['input'];
+};
+
 export type CreateEmailAuthRequestInput = {
   email: Scalars['String']['input'];
 };
@@ -202,11 +230,13 @@ export type Mutation = {
   createConcertTicket?: Maybe<CreateConcertTicketData>;
   createConcertTicketPrice?: Maybe<CreateConcertTicketPriceData>;
   createConcertVenue?: Maybe<CreateConcertVenueData>;
+  createCopyright?: Maybe<CreateCopyrightData>;
   createEmailAuthRequest?: Maybe<EmailAuthRequest>;
   createUser?: Maybe<CreateUserData>;
   createVenue?: Maybe<CreateVenueData>;
   login?: Maybe<LoginData>;
   logout: User;
+  notifyConcert?: Maybe<NotifyConcertData>;
   removeConcert?: Maybe<RemoveConcertData>;
   removeConcertArtist?: Maybe<RemoveConcertArtistData>;
   removeConcertTicket?: Maybe<RemoveConcertTicketData>;
@@ -258,6 +288,11 @@ export type MutationCreateConcertVenueArgs = {
 };
 
 
+export type MutationCreateCopyrightArgs = {
+  input: CreateCopyrightInput;
+};
+
+
 export type MutationCreateEmailAuthRequestArgs = {
   input: CreateEmailAuthRequestInput;
 };
@@ -275,6 +310,11 @@ export type MutationCreateVenueArgs = {
 
 export type MutationLoginArgs = {
   input: LoginInput;
+};
+
+
+export type MutationNotifyConcertArgs = {
+  input: NotifyConcertInput;
 };
 
 
@@ -315,6 +355,12 @@ export type MutationUpdateConcertPosterArgs = {
 
 export type MutationUpdateConcertTicketArgs = {
   input: UpdateConcertTicketInput;
+};
+
+export type NotifyConcertData = HttpError | RemoteNotification;
+
+export type NotifyConcertInput = {
+  concertId: Scalars['String']['input'];
 };
 
 export type Pagination = {
@@ -413,6 +459,11 @@ export type QuerySearchVenueArgs = {
 
 export type QueryUserArgs = {
   id: Scalars['Int']['input'];
+};
+
+export type RemoteNotification = {
+  __typename?: 'RemoteNotification';
+  response?: Maybe<Scalars['String']['output']>;
 };
 
 export type RemoveConcertArtistData = Artist | HttpError;
@@ -556,6 +607,13 @@ export type Venue = {
   lng: Scalars['Float']['output'];
   name: Scalars['String']['output'];
 };
+
+export type CreateArtistMutationVariables = Exact<{
+  input: CreateArtistInput;
+}>;
+
+
+export type CreateArtistMutation = { __typename?: 'Mutation', createArtist?: { __typename?: 'ArtistWithProfileImage', artist?: { __typename?: 'Artist', id: string, name: string } | null, artistProfileImage?: { __typename?: 'ArtistProfileImage', id: string, imageURL: string } | null } | { __typename?: 'HttpError', code: number, message: string } | null };
 
 export type ConcertArtistsQueryVariables = Exact<{
   concertId: Scalars['String']['input'];
@@ -706,6 +764,20 @@ export type CreateConcertMutationVariables = Exact<{
 
 export type CreateConcertMutation = { __typename?: 'Mutation', createConcert?: { __typename?: 'Concert', id: string, title: string, date: string, createdAt: string, updatedAt?: string | null } | { __typename?: 'HttpError', code: number, message: string } | null };
 
+export type NotifyConcertMutationVariables = Exact<{
+  input: NotifyConcertInput;
+}>;
+
+
+export type NotifyConcertMutation = { __typename?: 'Mutation', notifyConcert?: { __typename?: 'HttpError', code: number, message: string } | { __typename?: 'RemoteNotification', response?: string | null } | null };
+
+export type CreateCopyrightMutationVariables = Exact<{
+  input: CreateCopyrightInput;
+}>;
+
+
+export type CreateCopyrightMutation = { __typename?: 'Mutation', createCopyright?: { __typename?: 'Copyright', id: string, owner: string, license: string } | { __typename?: 'HttpError', code: number, message: string } | null };
+
 export type AuthenticateEmailAuthRequestMutationVariables = Exact<{
   input: AuthenticateEmailAuthRequestInput;
 }>;
@@ -745,6 +817,52 @@ export type CreateUserMutationVariables = Exact<{
 export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typename?: 'HttpError', code: number, message: string } | { __typename?: 'User', createdAt?: string | null, email: string, id: string, isAdmin?: boolean | null } | null };
 
 
+export const CreateArtistDocument = gql`
+    mutation CreateArtist($input: CreateArtistInput!) {
+  createArtist(input: $input) {
+    ... on HttpError {
+      code
+      message
+    }
+    ... on ArtistWithProfileImage {
+      artist {
+        id
+        name
+      }
+      artistProfileImage {
+        id
+        imageURL
+      }
+    }
+  }
+}
+    `;
+export type CreateArtistMutationFn = Apollo.MutationFunction<CreateArtistMutation, CreateArtistMutationVariables>;
+
+/**
+ * __useCreateArtistMutation__
+ *
+ * To run a mutation, you first call `useCreateArtistMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateArtistMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createArtistMutation, { data, loading, error }] = useCreateArtistMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateArtistMutation(baseOptions?: Apollo.MutationHookOptions<CreateArtistMutation, CreateArtistMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateArtistMutation, CreateArtistMutationVariables>(CreateArtistDocument, options);
+      }
+export type CreateArtistMutationHookResult = ReturnType<typeof useCreateArtistMutation>;
+export type CreateArtistMutationResult = Apollo.MutationResult<CreateArtistMutation>;
+export type CreateArtistMutationOptions = Apollo.BaseMutationOptions<CreateArtistMutation, CreateArtistMutationVariables>;
 export const ConcertArtistsDocument = gql`
     query ConcertArtists($concertId: String!) {
   concertArtists(concertId: $concertId) {
@@ -1664,6 +1782,86 @@ export function useCreateConcertMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateConcertMutationHookResult = ReturnType<typeof useCreateConcertMutation>;
 export type CreateConcertMutationResult = Apollo.MutationResult<CreateConcertMutation>;
 export type CreateConcertMutationOptions = Apollo.BaseMutationOptions<CreateConcertMutation, CreateConcertMutationVariables>;
+export const NotifyConcertDocument = gql`
+    mutation NotifyConcert($input: NotifyConcertInput!) {
+  notifyConcert(input: $input) {
+    ... on RemoteNotification {
+      response
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+    `;
+export type NotifyConcertMutationFn = Apollo.MutationFunction<NotifyConcertMutation, NotifyConcertMutationVariables>;
+
+/**
+ * __useNotifyConcertMutation__
+ *
+ * To run a mutation, you first call `useNotifyConcertMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useNotifyConcertMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [notifyConcertMutation, { data, loading, error }] = useNotifyConcertMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useNotifyConcertMutation(baseOptions?: Apollo.MutationHookOptions<NotifyConcertMutation, NotifyConcertMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<NotifyConcertMutation, NotifyConcertMutationVariables>(NotifyConcertDocument, options);
+      }
+export type NotifyConcertMutationHookResult = ReturnType<typeof useNotifyConcertMutation>;
+export type NotifyConcertMutationResult = Apollo.MutationResult<NotifyConcertMutation>;
+export type NotifyConcertMutationOptions = Apollo.BaseMutationOptions<NotifyConcertMutation, NotifyConcertMutationVariables>;
+export const CreateCopyrightDocument = gql`
+    mutation CreateCopyright($input: CreateCopyrightInput!) {
+  createCopyright(input: $input) {
+    ... on Copyright {
+      id
+      owner
+      license
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
+    `;
+export type CreateCopyrightMutationFn = Apollo.MutationFunction<CreateCopyrightMutation, CreateCopyrightMutationVariables>;
+
+/**
+ * __useCreateCopyrightMutation__
+ *
+ * To run a mutation, you first call `useCreateCopyrightMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCopyrightMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCopyrightMutation, { data, loading, error }] = useCreateCopyrightMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateCopyrightMutation(baseOptions?: Apollo.MutationHookOptions<CreateCopyrightMutation, CreateCopyrightMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateCopyrightMutation, CreateCopyrightMutationVariables>(CreateCopyrightDocument, options);
+      }
+export type CreateCopyrightMutationHookResult = ReturnType<typeof useCreateCopyrightMutation>;
+export type CreateCopyrightMutationResult = Apollo.MutationResult<CreateCopyrightMutation>;
+export type CreateCopyrightMutationOptions = Apollo.BaseMutationOptions<CreateCopyrightMutation, CreateCopyrightMutationVariables>;
 export const AuthenticateEmailAuthRequestDocument = gql`
     mutation AuthenticateEmailAuthRequest($input: AuthenticateEmailAuthRequestInput!) {
   authenticateEmailAuthRequest(input: $input) {

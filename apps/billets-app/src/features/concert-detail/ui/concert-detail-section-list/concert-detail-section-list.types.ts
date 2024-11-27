@@ -40,5 +40,7 @@ export type ConcertDetailSectionListSections = ReadonlyArray<ConcertDetailSectio
 export interface ConcertDetailSectionListProps {
   sections: ConcertDetailSectionListSections
   thumbnails: string[]
+  isSubscribed?: boolean
+  onPressSubscribe?: () => void
   ListFooterComponent?: React.ComponentType<unknown> | React.ReactElement | null
 }

@@ -1,10 +1,17 @@
-import { ConcertDetailSectionList, ConcertDetailSectionListSections } from '@/features'
+import {
+  ConcertDetailArtistProfileImageModal,
+  ConcertDetailSectionList,
+  ConcertDetailSectionListSections,
+  useToggleSubscribeConcert,
+} from '@/features'
 import commonStyles from '@/lib/common-styles'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
+import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
+import useSubscribedConcertQuery from '@/lib/react-query/queries/useSubscribedConcertQuery'
 import { CommonBackIconButton } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner } from '@coldsurfers/ocean-road/native'
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { StatusBar, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT } from './concert-detail-screen.constants'
@@ -17,6 +24,28 @@ export const ConcertDetailScreen = () => {
   const { data, isLoading: isLoadingConcert } = useConcertQuery({
     concertId: params.concertId,
   })
+  const { data: subscribedConcert } = useSubscribedConcertQuery({
+    concertId: params.concertId,
+  })
+  const { data: meData } = useGetMeQuery()
+  const toggleSubscribeConcert = useToggleSubscribeConcert()
+
+  const [imageViewerVisible, setImageViewerVisible] = useState(false)
+
+  const onPressSubscribe = useCallback(() => {
+    if (!meData) {
+      // @todo: show login modal
+      navigation.navigate('LoginStackScreen', {
+        screen: 'LoginSelectionScreen',
+        params: {},
+      })
+      return
+    }
+    toggleSubscribeConcert({
+      isSubscribed: !!subscribedConcert,
+      concertId: params.concertId,
+    })
+  }, [meData, navigation, params.concertId, subscribedConcert, toggleSubscribeConcert])
 
   const sections: ConcertDetailSectionListSections = useMemo(() => {
     if (!data) {
@@ -58,6 +87,7 @@ export const ConcertDetailScreen = () => {
         data: data.artists.map((artist) => ({
           thumbnailUrl: artist.profileImageUrl,
           name: artist.name,
+          onPress: () => setImageViewerVisible(true),
         })),
       },
       // {
@@ -96,6 +126,8 @@ export const ConcertDetailScreen = () => {
     return innerSections
   }, [data])
 
+  const firstArtist = useMemo(() => data?.artists.at(0), [data?.artists])
+
   return (
     <>
       <StatusBar hidden />
@@ -103,6 +135,8 @@ export const ConcertDetailScreen = () => {
         <ConcertDetailSectionList
           sections={sections}
           thumbnails={data?.posters?.map((thumb) => thumb.imageUrl) ?? []}
+          isSubscribed={!!subscribedConcert}
+          onPressSubscribe={onPressSubscribe}
         />
         <View style={[styles.fixedBottom, { paddingBottom: bottomInset }]}>
           <Button
@@ -113,10 +147,19 @@ export const ConcertDetailScreen = () => {
             }}
             style={{ backgroundColor: colors.oc.cyan[8].value }}
           >
-            🎫 티켓 구매하기 🎫
+            🎫 티켓 찾기 🎫
           </Button>
         </View>
         <CommonBackIconButton top={40} onPress={() => navigation.goBack()} />
+
+        {/* Artist Profile Image Modal */}
+        {firstArtist && (
+          <ConcertDetailArtistProfileImageModal
+            visible={imageViewerVisible}
+            onClose={() => setImageViewerVisible(false)}
+            artistId={firstArtist.id}
+          />
+        )}
 
         {isLoadingConcert ? <Spinner /> : null}
       </View>
@@ -141,4 +184,6 @@ const styles = StyleSheet.create({
     height: CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT,
     ...commonStyles.shadowBox,
   },
+  imageViewerCloseButton: { position: 'absolute', zIndex: 99, right: 12 },
+  imageViewerCloseText: { color: '#ffffff' },
 })

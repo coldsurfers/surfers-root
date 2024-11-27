@@ -16,16 +16,23 @@ const InputWithLabel = memo(
     onChangeText,
     label,
     placeholder,
+    disabled,
   }: {
     value: string
     // eslint-disable-next-line no-unused-vars
     onChangeText: (text: string) => void
     label: string
     placeholder?: string
+    disabled?: boolean
   }) => (
     <InputWithLabelWrapper>
       <Label>{label}</Label>
-      <TextInput value={value} onChange={(event) => onChangeText(event.target.value)} placeholder={placeholder} />
+      <TextInput
+        disabled={disabled}
+        value={value}
+        onChange={(event) => onChangeText(event.target.value)}
+        placeholder={placeholder}
+      />
     </InputWithLabelWrapper>
   ),
 )

@@ -1,5 +1,6 @@
 import messaging from '@react-native-firebase/messaging'
 import { useCallback, useEffect, useMemo } from 'react'
+import { TopicType } from './use-firebase-messaging.types'
 
 export function useFirebaseMessaging() {
   const requestPermission = useCallback(async () => {
@@ -12,25 +13,15 @@ export function useFirebaseMessaging() {
     return fcmToken
   }, [])
 
+  const subscribeTopic = useCallback(async (topic: TopicType) => {
+    await messaging().subscribeToTopic(topic)
+  }, [])
+
   useEffect(() => {
     // foreground
     const unsubscribe = messaging().onMessage((message) => {
       console.log(message)
     })
-
-    // When the application is running, but in the background.
-    messaging().onNotificationOpenedApp((message) => {
-      console.log('Notification caused app to open from background state:', message)
-    })
-
-    // When the application is opened from a quit state.
-    messaging()
-      .getInitialNotification()
-      .then((remoteMessage) => {
-        if (remoteMessage) {
-          console.log('Notification caused app to open from quit state:', remoteMessage.notification)
-        }
-      })
 
     return () => unsubscribe()
   }, [])
@@ -39,7 +30,8 @@ export function useFirebaseMessaging() {
     () => ({
       requestPermission,
       getFCMToken,
+      subscribeTopic,
     }),
-    [requestPermission, getFCMToken],
+    [requestPermission, getFCMToken, subscribeTopic],
   )
 }

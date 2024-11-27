@@ -39,12 +39,31 @@ model User {
 
   provider String
 
-  staffs UsersOnStaffs[]
+  staffs             UsersOnStaffs[]
   subscribedConcerts UsersOnSubscribedConcerts[]
-  subscribedArtists UsersOnSubscribedArtists[]
-  subscribedVenues UsersOnSubscribedVenues[]
+  subscribedArtists  UsersOnSubscribedArtists[]
+  subscribedVenues   UsersOnSubscribedVenues[]
+  fcmTokens          UsersOnFCMTokens[]
 
   auth_token AuthToken[]
+}
+
+model FCMToken {
+  id         String             @id @default(uuid())
+  tokenValue String             @unique
+  createdAt  DateTime           @default(now())
+  users      UsersOnFCMTokens[]
+}
+
+model UsersOnFCMTokens {
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  fcmToken   FCMToken @relation(fields: [fcmTokenId], references: [id])
+  fcmTokenId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@id([userId, fcmTokenId])
 }
 
 model AuthToken {
@@ -57,14 +76,14 @@ model AuthToken {
 }
 
 model Venue {
-  id        String             @id @default(uuid())
-  name      String
-  lat       Float
-  lng       Float
-  geohash   String
-  concerts  ConcertsOnVenues[]
+  id              String                    @id @default(uuid())
+  name            String
+  lat             Float
+  lng             Float
+  geohash         String
+  concerts        ConcertsOnVenues[]
   subscribedUsers UsersOnSubscribedVenues[]
-  createdAt DateTime           @default(now())
+  createdAt       DateTime                  @default(now())
 }
 
 model Promoter {
@@ -75,23 +94,26 @@ model Promoter {
 }
 
 model Artist {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  name      String
+  id                 String               @id @default(uuid())
+  createdAt          DateTime             @default(now())
+  name               String
   artistProfileImage ArtistProfileImage[]
 
-  concerts ConcertsOnArtists[]
+  concerts        ConcertsOnArtists[]
   subscribedUsers UsersOnSubscribedArtists[]
 }
 
 model ArtistProfileImage {
-  id String @id @default(uuid())
+  id       String @id @default(uuid())
   imageURL String
 
-  artist Artist @relation(fields: [artistId], references: [id])
+  artist   Artist @relation(fields: [artistId], references: [id])
   artistId String
 
   createdAt DateTime @default(now())
+
+  copyright   Copyright? @relation(fields: [copyrightId], references: [id])
+  copyrightId String?
 }
 
 model EmailAuthRequest {
@@ -112,17 +134,17 @@ model Staff {
 }
 
 model Concert {
-  id        String              @id @default(uuid())
-  artists   ConcertsOnArtists[]
-  title     String
-  venues    ConcertsOnVenues[]
-  date      DateTime?
-  posters   ConcertsOnPosters[]
-  tickets   ConcertsOnTickets[]
+  id              String                      @id @default(uuid())
+  artists         ConcertsOnArtists[]
+  title           String
+  venues          ConcertsOnVenues[]
+  date            DateTime?
+  posters         ConcertsOnPosters[]
+  tickets         ConcertsOnTickets[]
   subscribedUsers UsersOnSubscribedConcerts[]
-  createdAt DateTime            @default(now())
-  updatedAt DateTime?
-  deletedAt DateTime?
+  createdAt       DateTime                    @default(now())
+  updatedAt       DateTime?
+  deletedAt       DateTime?
 }
 
 model Poster {
@@ -202,9 +224,9 @@ model ConcertsOnTickets {
 }
 
 model UsersOnSubscribedConcerts {
-  user User @relation(fields: [userId], references: [id])
-  userId String
-  concert Concert @relation(fields: [concertId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  concert   Concert  @relation(fields: [concertId], references: [id])
   concertId String
   createdAt DateTime @default(now())
 
@@ -212,46 +234,30 @@ model UsersOnSubscribedConcerts {
 }
 
 model UsersOnSubscribedArtists {
-  user User @relation(fields: [userId], references: [id])
-  userId String
-  artist Artist @relation(fields: [artistId], references: [id])
-  artistId String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  artist    Artist   @relation(fields: [artistId], references: [id])
+  artistId  String
   createdAt DateTime @default(now())
 
   @@id([userId, artistId])
 }
 
 model UsersOnSubscribedVenues {
-  user User @relation(fields: [userId], references: [id])
-  userId String
-  venue Venue @relation(fields: [venueId], references: [id])
-  venueId String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  venue     Venue    @relation(fields: [venueId], references: [id])
+  venueId   String
   createdAt DateTime @default(now())
 
   @@id([userId, venueId])
 }
 
-model Career {
-  id            String          @id @default(uuid())
-  company       String
-  startDate     DateTime
-  endDate       DateTime?
-  CareerChapter CareerChapter[]
-}
-
-model CareerChapter {
+model Copyright {
   id                 String               @id @default(uuid())
-  title              String
-  careerId           String
-  Career             Career               @relation(fields: [careerId], references: [id])
-  CareerSmallChapter CareerSmallChapter[]
-  sortOrder          Int
-}
-
-model CareerSmallChapter {
-  id              String        @id @default(uuid())
-  description     String        @db.Text
-  CareerChapter   CareerChapter @relation(fields: [careerChapterId], references: [id])
-  careerChapterId String
-  sortOrder       Int
+  owner              String
+  license            String
+  licenseURL String
+  createdAt          DateTime             @default(now())
+  ArtistProfileImage ArtistProfileImage[]
 }
