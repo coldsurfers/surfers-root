@@ -3,17 +3,17 @@ import commonStyles from '@/lib/common-styles'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
 import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import useSubscribedConcertQuery from '@/lib/react-query/queries/useSubscribedConcertQuery'
-import { CommonBackIconButton } from '@/ui'
+import { CommonBackIconButton, CommonImageViewer } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
-import { Button, Spinner } from '@coldsurfers/ocean-road/native'
-import React, { useCallback, useMemo } from 'react'
-import { StatusBar, StyleSheet, View } from 'react-native'
+import { Button, Modal, Spinner, Text } from '@coldsurfers/ocean-road/native'
+import React, { useCallback, useMemo, useState } from 'react'
+import { Pressable, StatusBar, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT } from './concert-detail-screen.constants'
 import { useConcertDetailScreenNavigation, useConcertDetailScreenRoute } from './concert-detail-screen.hooks'
 
 export const ConcertDetailScreen = () => {
-  const { bottom: bottomInset } = useSafeAreaInsets()
+  const { bottom: bottomInset, top: topInset } = useSafeAreaInsets()
   const navigation = useConcertDetailScreenNavigation()
   const { params } = useConcertDetailScreenRoute()
   const { data, isLoading: isLoadingConcert } = useConcertQuery({
@@ -24,6 +24,8 @@ export const ConcertDetailScreen = () => {
   })
   const { data: meData } = useGetMeQuery()
   const toggleSubscribeConcert = useToggleSubscribeConcert()
+
+  const [imageViewerVisible, setImageViewerVisible] = useState(false)
 
   const onPressSubscribe = useCallback(() => {
     if (!meData) {
@@ -80,6 +82,7 @@ export const ConcertDetailScreen = () => {
         data: data.artists.map((artist) => ({
           thumbnailUrl: artist.profileImageUrl,
           name: artist.name,
+          onPress: () => setImageViewerVisible(true),
         })),
       },
       // {
@@ -142,6 +145,17 @@ export const ConcertDetailScreen = () => {
         </View>
         <CommonBackIconButton top={40} onPress={() => navigation.goBack()} />
 
+        <Modal visible={imageViewerVisible}>
+          <>
+            <Pressable
+              onPress={() => setImageViewerVisible(false)}
+              style={{ position: 'absolute', zIndex: 99, top: topInset, right: 12 }}
+            >
+              <Text style={{ color: '#ffffff' }}>Close</Text>
+            </Pressable>
+            <CommonImageViewer imageUri={data?.artists.at(0)?.profileImageUrl ?? ''} />
+          </>
+        </Modal>
         {isLoadingConcert ? <Spinner /> : null}
       </View>
     </>

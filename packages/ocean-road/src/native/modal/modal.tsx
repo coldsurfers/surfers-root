@@ -3,7 +3,7 @@ import { StyledModal, StyledModalBackground } from './modal.styled'
 import { ModalProps } from './modal.types'
 
 export const Modal = ({ children, visible = false, transparent = true, onPressBackground }: ModalProps) => (
-  <StyledModal visible={visible} transparent={transparent}>
+  <StyledModal visible={visible} transparent={transparent} animationType="slide">
     <StyledModalBackground onPress={onPressBackground}>
       <TouchableWithoutFeedback>{children}</TouchableWithoutFeedback>
     </StyledModalBackground>
