@@ -16,6 +16,11 @@ export const StyledBannerPreviewWrapper = styled.div`
   background: #fefefe;
 `
 
+export const StyledBannerForm = styled.form`
+  display: flex;
+  flex-direction: column;
+`
+
 export const ArtistText = styled(Text)`
   font-size: 72px;
   font-style: italic;
