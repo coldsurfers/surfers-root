@@ -54,7 +54,6 @@ const _EmailLoginScreen = () => {
               authToken,
               user,
             })
-            await queryClient.invalidateQueries()
 
             navigate('MainTabScreen', {
               screen: 'HomeStackScreen',
@@ -67,7 +66,7 @@ const _EmailLoginScreen = () => {
         },
       },
     )
-  }, [email, login, mutate, navigate, password, queryClient, show])
+  }, [email, login, mutate, navigate, password, show])
 
   useEffect(() => {
     if (error && error) {

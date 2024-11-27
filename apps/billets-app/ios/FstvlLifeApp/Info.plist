@@ -64,6 +64,14 @@
 				<string>billets</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.461685252269-2hu562d1s96cn2bg45hruutb2h214qr6</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>47</string>
@@ -82,9 +90,9 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>위치 기반 공연 정보를 원활하게 가져오기 위해 위치 권한을 획득합니다.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>위치 기반 공연 정보를 원활하게 가져오기 위해 위치 권한을 획득합니다.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>위치 기반 공연 정보를 원활하게 가져오기 위해 위치 권한을 획득합니다.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>공연 정보를 올리기 위해 사진 권한을 획득합니다.</string>

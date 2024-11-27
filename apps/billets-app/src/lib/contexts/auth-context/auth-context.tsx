@@ -48,11 +48,12 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         await sendFCMToken({
           fcmToken,
         })
+        await queryClient.invalidateQueries()
       } catch (e) {
         console.error(e)
       }
     },
-    [getFCMToken, sendFCMToken],
+    [getFCMToken, queryClient, sendFCMToken],
   )
   const logout = useCallback(async () => {
     try {
