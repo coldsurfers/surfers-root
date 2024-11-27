@@ -141,6 +141,9 @@ export default class ConcertDTO {
       venues:
         this.props.venues?.map((venue) => ({
           venueTitle: venue.name ?? '',
+          latitude: venue.lat ?? 0.0,
+          longitude: venue.lng ?? 0.0,
+          address: venue.address ?? '',
         })) ?? [],
       artists:
         this.props.artists?.map((artist) => ({

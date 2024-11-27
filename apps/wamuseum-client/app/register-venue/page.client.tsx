@@ -48,6 +48,7 @@ const RegisterVenueClientPage = () => {
                     lat: +result.y!,
                     lng: +result.x!,
                     name: result.place_name!,
+                    address: result.road_address_name ?? result.address_name ?? '',
                   },
                 },
                 onCompleted: () => {

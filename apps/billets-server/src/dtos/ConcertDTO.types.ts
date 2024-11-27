@@ -28,6 +28,9 @@ export const concertDTOSerializedSchema = z.object({
   venues: z.array(
     z.object({
       venueTitle: z.string(),
+      latitude: z.number(),
+      longitude: z.number(),
+      address: z.string(),
     }),
   ),
   artists: z.array(

@@ -933,6 +933,9 @@ export interface components {
       }[]
       title: string
       venues: {
+        address: string
+        latitude: number
+        longitude: number
         venueTitle: string
       }[]
     }
