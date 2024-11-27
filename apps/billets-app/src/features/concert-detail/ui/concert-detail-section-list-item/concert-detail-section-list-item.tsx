@@ -1,7 +1,7 @@
 import { colors } from '@coldsurfers/ocean-road'
 import { Text } from '@coldsurfers/ocean-road/native'
 import { format } from 'date-fns'
-import { Image, Linking, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Image, Linking, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import {
   ConcertDetailSectionListDateItemProps,
   ConcertDetailSectionListLineupItemProps,
@@ -46,12 +46,16 @@ ConcertDetailSectionListItem.TitleItem = ({ title }: ConcertDetailSectionListTit
     </Text>
   )
 }
-ConcertDetailSectionListItem.LineupItem = ({ thumbnailUrl, name }: ConcertDetailSectionListLineupItemProps) => {
+ConcertDetailSectionListItem.LineupItem = ({
+  thumbnailUrl,
+  name,
+  onPress,
+}: ConcertDetailSectionListLineupItemProps) => {
   return (
-    <View style={styles.lineupWrapper}>
+    <Pressable onPress={onPress} style={styles.lineupWrapper}>
       <Image style={styles.image} source={{ uri: thumbnailUrl }} />
       <Text style={styles.name}>{name}</Text>
-    </View>
+    </Pressable>
   )
 }
 ConcertDetailSectionListItem.TicketSellerItem = ({ siteUrl, name }: ConcertDetailSectionListTicketSellerItemProps) => {
