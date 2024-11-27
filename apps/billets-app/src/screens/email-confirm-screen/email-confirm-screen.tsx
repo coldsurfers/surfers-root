@@ -59,7 +59,6 @@ const _EmailConfirmScreen = () => {
       })
       setTimeout(async () => {
         await login({ user, authToken })
-        await queryClient.invalidateQueries()
         navigation.navigate('MainTabScreen', {
           screen: 'HomeStackScreen',
           params: {
