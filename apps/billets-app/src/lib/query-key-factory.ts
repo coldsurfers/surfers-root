@@ -19,4 +19,7 @@ export const v1QueryKeyFactory = createQueryKeyStore({
     all: ['v1', 'search'],
     list: (params: { keyword: string }) => ['v1', 'search', 'list', params],
   },
+  artists: {
+    detail: (params: { id: string }) => ['v1', 'artists', params],
+  },
 })

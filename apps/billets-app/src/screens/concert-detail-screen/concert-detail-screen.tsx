@@ -1,19 +1,24 @@
-import { ConcertDetailSectionList, ConcertDetailSectionListSections, useToggleSubscribeConcert } from '@/features'
+import {
+  ConcertDetailArtistProfileImageModal,
+  ConcertDetailSectionList,
+  ConcertDetailSectionListSections,
+  useToggleSubscribeConcert,
+} from '@/features'
 import commonStyles from '@/lib/common-styles'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
 import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import useSubscribedConcertQuery from '@/lib/react-query/queries/useSubscribedConcertQuery'
-import { CommonBackIconButton, CommonImageViewer } from '@/ui'
+import { CommonBackIconButton } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
-import { Button, Modal, Spinner, Text } from '@coldsurfers/ocean-road/native'
+import { Button, Spinner } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useMemo, useState } from 'react'
-import { Pressable, StatusBar, StyleSheet, View } from 'react-native'
+import { StatusBar, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT } from './concert-detail-screen.constants'
 import { useConcertDetailScreenNavigation, useConcertDetailScreenRoute } from './concert-detail-screen.hooks'
 
 export const ConcertDetailScreen = () => {
-  const { bottom: bottomInset, top: topInset } = useSafeAreaInsets()
+  const { bottom: bottomInset } = useSafeAreaInsets()
   const navigation = useConcertDetailScreenNavigation()
   const { params } = useConcertDetailScreenRoute()
   const { data, isLoading: isLoadingConcert } = useConcertQuery({
@@ -121,6 +126,8 @@ export const ConcertDetailScreen = () => {
     return innerSections
   }, [data])
 
+  const firstArtist = useMemo(() => data?.artists.at(0), [data?.artists])
+
   return (
     <>
       <StatusBar hidden />
@@ -145,17 +152,15 @@ export const ConcertDetailScreen = () => {
         </View>
         <CommonBackIconButton top={40} onPress={() => navigation.goBack()} />
 
-        <Modal visible={imageViewerVisible}>
-          <>
-            <Pressable
-              onPress={() => setImageViewerVisible(false)}
-              style={[styles.imageViewerCloseButton, { top: topInset }]}
-            >
-              <Text style={styles.imageViewerCloseText}>닫기</Text>
-            </Pressable>
-            <CommonImageViewer imageUri={data?.artists.at(0)?.profileImageUrl ?? ''} />
-          </>
-        </Modal>
+        {/* Artist Profile Image Modal */}
+        {firstArtist && (
+          <ConcertDetailArtistProfileImageModal
+            visible={imageViewerVisible}
+            onClose={() => setImageViewerVisible(false)}
+            artistId={firstArtist.id}
+          />
+        )}
+
         {isLoadingConcert ? <Spinner /> : null}
       </View>
     </>

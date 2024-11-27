@@ -4,6 +4,43 @@
  */
 
 export interface paths {
+  '/v1/artist/{id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['GetArtistByIdSuccessResponse']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/auth/email/confirm-auth-code': {
     parameters: {
       query?: never
@@ -615,7 +652,7 @@ export interface paths {
       }
       requestBody: {
         content: {
-          'application/json': components['schemas']['SubscribeConcertBody']
+          'application/json': components['schemas']['GetArtistByIdParams']
         }
       }
       responses: {
@@ -668,7 +705,7 @@ export interface paths {
       }
       requestBody: {
         content: {
-          'application/json': components['schemas']['SubscribeConcertBody']
+          'application/json': components['schemas']['GetArtistByIdParams']
         }
       }
       responses: {
@@ -872,6 +909,7 @@ export interface components {
     }
     ConcertDetailSuccessResponse: {
       artists: {
+        id: string
         name: string
         profileImageUrl: string
       }[]
@@ -923,6 +961,22 @@ export interface components {
     ErrorResponse: {
       code: string
       message: string
+    }
+    GetArtistByIdParams: {
+      id: string
+    }
+    GetArtistByIdSuccessResponse: {
+      artistProfileImage: {
+        copyright: {
+          id: string
+          license: string
+          licenseURL: string
+          owner: string
+        } | null
+        id: string
+        imageURL: string
+      }[]
+      id: string
     }
     GetMeSuccessResponse: {
       email: string
