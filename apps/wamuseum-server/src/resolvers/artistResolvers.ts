@@ -1,4 +1,5 @@
 import { Resolvers } from '../../gql/resolvers-types'
+import { ArtistProfileImageDTO } from '../dtos'
 import ArtistDTO from '../dtos/ArtistDTO'
 import { authorizeUser } from '../utils/authHelpers'
 
@@ -27,11 +28,32 @@ const artistResolvers: Resolvers = {
       await authorizeUser(ctx, { requiredRole: 'staff' })
       const artistDTO = new ArtistDTO({
         name: args.input.artistName,
-        profileImageURL: args.input.imageURL,
       })
-      const created = await artistDTO.create()
+      const createdArtist = await artistDTO.create()
+      if (!createdArtist.id) {
+        return {
+          __typename: 'HttpError',
+          code: 404,
+          message: 'not found artist dto id',
+        }
+      }
+      const profileImageDTO = new ArtistProfileImageDTO({
+        artistId: createdArtist.id,
+        imageURL: args.input.imageURL,
+      })
+      const createdProfileImage = await profileImageDTO.create()
 
-      return created.serialize()
+      return {
+        __typename: 'ArtistWithProfileImage',
+        artist: {
+          __typename: 'Artist',
+          ...createdArtist.serialize(),
+        },
+        artistProfileImage: {
+          __typename: 'ArtistProfileImage',
+          ...createdProfileImage.serialize(),
+        },
+      }
     },
     createConcertArtist: async (parent, args, ctx) => {
       await authorizeUser(ctx, { requiredRole: 'staff' })

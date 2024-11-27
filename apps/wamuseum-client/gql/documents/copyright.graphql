@@ -1,0 +1,13 @@
+mutation CreateCopyright($input: CreateCopyrightInput!) {
+  createCopyright(input: $input) {
+    ... on Copyright {
+      id
+      owner
+      license
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
