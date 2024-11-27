@@ -14,8 +14,6 @@ export const StyledBannerPreviewWrapper = styled.div`
   font-size: 24px;
   text-align: center;
   background: #fefefe;
-
-  margin-top: 2.5rem;
 `
 
 export const ArtistText = styled(Text)`
