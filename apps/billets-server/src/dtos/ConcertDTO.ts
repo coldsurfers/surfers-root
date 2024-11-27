@@ -144,6 +144,7 @@ export default class ConcertDTO {
         })) ?? [],
       artists:
         this.props.artists?.map((artist) => ({
+          id: artist.id ?? '',
           name: artist.name ?? '',
           profileImageUrl: artist.artistProfileImage?.at(0)?.imageURL ?? '',
         })) ?? [],
