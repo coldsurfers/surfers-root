@@ -149,9 +149,9 @@ export const ConcertDetailScreen = () => {
           <>
             <Pressable
               onPress={() => setImageViewerVisible(false)}
-              style={{ position: 'absolute', zIndex: 99, top: topInset, right: 12 }}
+              style={[styles.imageViewerCloseButton, { top: topInset }]}
             >
-              <Text style={{ color: '#ffffff' }}>Close</Text>
+              <Text style={styles.imageViewerCloseText}>닫기</Text>
             </Pressable>
             <CommonImageViewer imageUri={data?.artists.at(0)?.profileImageUrl ?? ''} />
           </>
@@ -179,4 +179,6 @@ const styles = StyleSheet.create({
     height: CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT,
     ...commonStyles.shadowBox,
   },
+  imageViewerCloseButton: { position: 'absolute', zIndex: 99, right: 12 },
+  imageViewerCloseText: { color: '#ffffff' },
 })

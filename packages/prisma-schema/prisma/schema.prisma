@@ -111,6 +111,9 @@ model ArtistProfileImage {
   artistId String
 
   createdAt DateTime @default(now())
+
+  copyright   Copyright? @relation(fields: [copyrightId], references: [id])
+  copyrightId String?
 }
 
 model EmailAuthRequest {
@@ -250,27 +253,11 @@ model UsersOnSubscribedVenues {
   @@id([userId, venueId])
 }
 
-model Career {
-  id            String          @id @default(uuid())
-  company       String
-  startDate     DateTime
-  endDate       DateTime?
-  CareerChapter CareerChapter[]
-}
-
-model CareerChapter {
+model Copyright {
   id                 String               @id @default(uuid())
-  title              String
-  careerId           String
-  Career             Career               @relation(fields: [careerId], references: [id])
-  CareerSmallChapter CareerSmallChapter[]
-  sortOrder          Int
-}
-
-model CareerSmallChapter {
-  id              String        @id @default(uuid())
-  description     String        @db.Text
-  CareerChapter   CareerChapter @relation(fields: [careerChapterId], references: [id])
-  careerChapterId String
-  sortOrder       Int
+  owner              String
+  license            String
+  licenseURL String
+  createdAt          DateTime             @default(now())
+  ArtistProfileImage ArtistProfileImage[]
 }

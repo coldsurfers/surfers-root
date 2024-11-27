@@ -1,6 +1,4 @@
-import { AuthToken } from 'src/__generated__/graphql'
 import { urls } from '../../libs/constants'
-import storage from '../storage/storage'
 import { PresignedData } from './types'
 
 export const presign = async ({
@@ -12,12 +10,9 @@ export const presign = async ({
   filename: string
   filetype: 'image/*'
 }): Promise<PresignedData> => {
-  const authToken = storage?.get<AuthToken>('@wamuseum-client/auth-token')
-  const headers = new Headers()
-  headers.append('Authorization', authToken?.accessToken ?? '')
   const result = await fetch(`${urls.fileUploadPresignedServer}/${type}?filename=${filename}&filetype=${filetype}`, {
     method: 'GET',
-    headers,
+    credentials: 'include',
   })
   const data = (await result.json()) as PresignedData
 

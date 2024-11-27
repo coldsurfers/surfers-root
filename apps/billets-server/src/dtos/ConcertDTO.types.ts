@@ -32,6 +32,7 @@ export const concertDTOSerializedSchema = z.object({
   ),
   artists: z.array(
     z.object({
+      id: z.string(),
       name: z.string(),
       profileImageUrl: z.string(),
     }),
