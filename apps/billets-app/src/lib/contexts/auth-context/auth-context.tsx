@@ -29,7 +29,7 @@ export const AuthContext = createContext<{
 
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const queryClient = useQueryClient()
-  const { isLoading: isLoadingMe, data: meData, refetch } = useGetMeQuery()
+  const { isLoading: isLoadingMe, data: meData } = useGetMeQuery()
   const { mutateAsync: sendFCMToken } = useSendFCMTokenMutation()
   const { getFCMToken } = useFirebaseMessaging()
 
@@ -48,22 +48,20 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         await sendFCMToken({
           fcmToken,
         })
-        refetch()
       } catch (e) {
         console.error(e)
       }
     },
-    [getFCMToken, refetch, sendFCMToken],
+    [getFCMToken, sendFCMToken],
   )
   const logout = useCallback(async () => {
     try {
       await AsyncStorage.removeItem(storageAuthTokenKey)
       await queryClient.invalidateQueries()
-      refetch()
     } catch (e) {
       console.error(e)
     }
-  }, [queryClient, refetch])
+  }, [queryClient])
 
   return (
     <AuthContext.Provider
