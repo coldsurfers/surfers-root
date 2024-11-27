@@ -67,6 +67,15 @@ export const Header = () => {
             >
               공연 올리기
             </Button>
+            <Button
+              onClick={() => router.push('/generate-banner')}
+              style={{
+                marginRight: 12,
+                backgroundColor: colors.oc.yellow[5].value,
+              }}
+            >
+              배너 만들기
+            </Button>
             <Button onClick={handleLogout}>로그아웃</Button>
           </>
         )}
