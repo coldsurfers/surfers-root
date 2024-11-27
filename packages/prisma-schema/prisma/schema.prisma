@@ -81,6 +81,8 @@ model Venue {
   lat             Float
   lng             Float
   geohash         String
+  // @todo: i18n with tables
+  address         String?
   concerts        ConcertsOnVenues[]
   subscribedUsers UsersOnSubscribedVenues[]
   createdAt       DateTime                  @default(now())
@@ -257,7 +259,7 @@ model Copyright {
   id                 String               @id @default(uuid())
   owner              String
   license            String
-  licenseURL String
+  licenseURL         String
   createdAt          DateTime             @default(now())
   ArtistProfileImage ArtistProfileImage[]
 }
