@@ -146,7 +146,6 @@ export const ConcertDetailScreen = () => {
         <CommonBackIconButton top={40} onPress={() => navigation.goBack()} />
 
         <Modal visible={imageViewerVisible}>
-          {/* <CommonBackIconButton top={40} onPress={() => navigation.goBack()} /> */}
           <>
             <Pressable
               onPress={() => setImageViewerVisible(false)}
