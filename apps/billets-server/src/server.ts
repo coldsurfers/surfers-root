@@ -10,6 +10,7 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 import { fcmTokenDTOSerializedSchema } from './dtos'
+import { artistDTOSerializedSchema } from './dtos/ArtistDTO.types'
 import { searchDTOSerializedSchema } from './dtos/SearchDTO.types'
 import { subscribedArtistDTOSerializedSchema } from './dtos/SubscribeArtistDTO.types'
 import {
@@ -19,6 +20,8 @@ import {
 import { subscribeVenueSerializedSchema } from './dtos/SubscribeVenueDTO.types'
 import { SWAGGER_HOST } from './lib/constants'
 import { errorResponseSchema } from './lib/types'
+import { artistRoute } from './routes/artist'
+import { getArtistByIdParamsSchema } from './routes/artist/artist.types'
 import authRoute from './routes/auth.route'
 import {
   confirmAuthCodeBodySchema,
@@ -146,6 +149,8 @@ fastify.register(fastifySwagger, {
       SubscribedConcertSerializedList: subscribedConcertDTOSerializedListSchema,
       PostFCMTokenBody: postFCMTokenBodySchema,
       PostFCMTokenSuccessResponse: fcmTokenDTOSerializedSchema,
+      GetArtistByIdParams: getArtistByIdParamsSchema,
+      GetArtistByIdSuccessResponse: artistDTOSerializedSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
@@ -173,3 +178,4 @@ fastify.register(concertRoute, { prefix: '/v1/concert' })
 fastify.register(searchRoute, { prefix: '/v1/search' })
 fastify.register(subscribeRoute, { prefix: '/v1/subscribe' })
 fastify.register(fcmRoute, { prefix: '/v1/fcm' })
+fastify.register(artistRoute, { prefix: '/v1/artist' })
