@@ -137,7 +137,7 @@ export const ConcertDetailScreen = () => {
             }}
             style={{ backgroundColor: colors.oc.cyan[8].value }}
           >
-            🎫 티켓 구매하기 🎫
+            🎫 티켓 찾기 🎫
           </Button>
         </View>
         <CommonBackIconButton top={40} onPress={() => navigation.goBack()} />
