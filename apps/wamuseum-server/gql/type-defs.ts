@@ -222,6 +222,12 @@ const typeDefs = `#graphql
     response: String
   }
 
+  type Copyright {
+    id: String!
+    owner: String!
+    license: String!
+  }
+
   union AuthenticateEmailAuthRequestData = EmailAuthRequest | HttpError
 
   union CreateUserData = User | HttpError
@@ -284,6 +290,8 @@ const typeDefs = `#graphql
 
   union NotifyConcertData = RemoteNotification | HttpError
 
+  union CreateCopyrightData = Copyright | HttpError
+
   input ConcertListOrderBy {
     createdAt: String!
   }
@@ -326,6 +334,12 @@ const typeDefs = `#graphql
 
   input NotifyConcertInput {
     concertId: String!
+  }
+
+  input CreateCopyrightInput {
+    owner: String!
+    license: String!
+    artistProfileImageId: String
   }
 
   type Query {
@@ -432,6 +446,9 @@ const typeDefs = `#graphql
     notifyConcert(
       input: NotifyConcertInput!
     ): NotifyConcertData
+    createCopyright(
+      input: CreateCopyrightInput!
+    ): CreateCopyrightData
   }
 `
 

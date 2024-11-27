@@ -1,4 +1,4 @@
-import { ticketPriceResolvers } from '../src/resolvers'
+import { copyrightResolvers, ticketPriceResolvers } from '../src/resolvers'
 import artistResolvers from '../src/resolvers/artistResolvers'
 import authResolvers from '../src/resolvers/authResolvers'
 import concertPosterResolvers from '../src/resolvers/concertPosterResolvers'
@@ -17,6 +17,7 @@ const resolvers: Resolvers = {
     ...concertTicketResolvers.Query,
     ...venueResolvers.Query,
     ...ticketPriceResolvers.Query,
+    ...copyrightResolvers.Query,
   },
   Mutation: {
     ...userResolvers.Mutation,
@@ -27,6 +28,7 @@ const resolvers: Resolvers = {
     ...artistResolvers.Mutation,
     ...venueResolvers.Mutation,
     ...ticketPriceResolvers.Mutation,
+    ...copyrightResolvers.Mutation,
   },
 }
 
