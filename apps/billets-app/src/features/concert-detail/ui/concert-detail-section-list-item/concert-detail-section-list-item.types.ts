@@ -26,3 +26,8 @@ export type ConcertDetailSectionListTicketSellerItemProps = {
   siteUrl: string
   name: string
 }
+export type ConcertDetailSectionListVenueMapItemProps = {
+  latitude: number
+  longitude: number
+  address: string
+}

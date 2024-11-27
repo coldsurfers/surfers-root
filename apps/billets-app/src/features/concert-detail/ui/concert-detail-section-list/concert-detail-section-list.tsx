@@ -14,6 +14,8 @@ import {
   ConcertDetailSectionListTicketOpenDateItemProps,
   ConcertDetailSectionListTicketSellerItemProps,
   ConcertDetailSectionListTitleItemProps,
+  ConcertDetailSectionListVenueMapItemProps,
+  VENUE_MAP_HEIGHT,
 } from '../concert-detail-section-list-item'
 import {
   ConcertDetailSectionListItemT,
@@ -47,6 +49,7 @@ export const ConcertDetailSectionList = ({
       }
       switch (title) {
         case 'lineup':
+        case 'venue-map':
           // case 'venue':
           // case 'date':
           // case 'price-info':
@@ -119,6 +122,11 @@ export const ConcertDetailSectionList = ({
             />
           )
           break
+        case 'venue-map':
+          children = (
+            <ConcertDetailSectionListItem.VenueMapItem {...(info.item as ConcertDetailSectionListVenueMapItemProps)} />
+          )
+          break
         default:
           children = null
           break
@@ -132,6 +140,7 @@ export const ConcertDetailSectionList = ({
         contentContainerStyle={{
           backgroundColor: colors.oc.gray[1].value,
           flexGrow: 1,
+          paddingBottom: VENUE_MAP_HEIGHT,
         }}
         stickySectionHeadersEnabled={false}
         onScroll={Animated.event(

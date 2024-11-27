@@ -30,25 +30,6 @@ const sections: ReadonlyArray<
       },
     ],
   },
-  {
-    country: 'United States',
-    data: [
-      {
-        city: 'Minneapolis',
-        latLng: {
-          latitude: 44.9706674,
-          longitude: -93.3438777,
-        },
-      },
-      {
-        city: 'Philadelphia',
-        latLng: {
-          latitude: 39.952583,
-          longitude: -75.165222,
-        },
-      },
-    ],
-  },
 ]
 
 export const LocationSelectionScreen = () => {
