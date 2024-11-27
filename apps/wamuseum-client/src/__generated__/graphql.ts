@@ -193,6 +193,7 @@ export type CreateUserInput = {
 export type CreateVenueData = HttpError | Venue;
 
 export type CreateVenueInput = {
+  address: Scalars['String']['input'];
   lat: Scalars['Float']['input'];
   lng: Scalars['Float']['input'];
   name: Scalars['String']['input'];
@@ -601,6 +602,7 @@ export type UserWithAuthToken = {
 
 export type Venue = {
   __typename?: 'Venue';
+  address: Scalars['String']['output'];
   geohash: Scalars['String']['output'];
   id: Scalars['String']['output'];
   lat: Scalars['Float']['output'];
@@ -725,7 +727,7 @@ export type CreateConcertVenueMutationVariables = Exact<{
 }>;
 
 
-export type CreateConcertVenueMutation = { __typename?: 'Mutation', createConcertVenue?: { __typename?: 'HttpError', code: number, message: string } | { __typename?: 'Venue', id: string, name: string, lat: number, lng: number, geohash: string } | null };
+export type CreateConcertVenueMutation = { __typename?: 'Mutation', createConcertVenue?: { __typename?: 'HttpError', code: number, message: string } | { __typename?: 'Venue', id: string, name: string, lat: number, lng: number, geohash: string, address: string } | null };
 
 export type RemoveConcertVenueMutationVariables = Exact<{
   input: RemoveConcertVenueInput;
@@ -1517,6 +1519,7 @@ export const CreateConcertVenueDocument = gql`
       lat
       lng
       geohash
+      address
     }
     ... on HttpError {
       code

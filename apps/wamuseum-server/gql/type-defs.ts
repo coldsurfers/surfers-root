@@ -85,6 +85,7 @@ const typeDefs = `#graphql
     lat: Float!
     lng: Float!
     geohash: String!
+    address: String!
   }
 
   input CreateUserInput {
@@ -330,6 +331,7 @@ const typeDefs = `#graphql
     name: String!
     lat: Float!
     lng: Float!
+    address: String!
   }
 
   input CreateConcertVenueInput {
