@@ -2,6 +2,7 @@ import { AuthContext, ToastVisibleContext, ToastVisibleContextProvider } from '@
 import useSignInMutation from '@/lib/react-query/mutations/useSignInMutation'
 import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import { Button, IconButton, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
+import { useQueryClient } from '@tanstack/react-query'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { KeyboardAvoidingView, SafeAreaView, StyleSheet, View } from 'react-native'
 import { useEmailLoginScreenNavigation } from './email-login-screen.hooks'
@@ -13,6 +14,7 @@ export const EmailLoginScreen = () => {
   const { mutate, isPending: isPendingSignIn, error } = useSignInMutation()
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
+  const queryClient = useQueryClient()
 
   const onPressSignup = useCallback(() => {
     navigate('EmailSignupScreen', {})
@@ -44,27 +46,28 @@ export const EmailLoginScreen = () => {
         password,
       },
       {
-        onSuccess: (signInData) => {
+        onSuccess: async (signInData) => {
           if (!signInData) return
           const { authToken, user } = signInData
           if (authToken) {
-            login({
+            await login({
               authToken,
               user,
-            }).then(() => {
-              navigate('MainTabScreen', {
-                screen: 'HomeStackScreen',
-                params: {
-                  screen: 'HomeScreen',
-                  params: {},
-                },
-              })
+            })
+            await queryClient.invalidateQueries()
+
+            navigate('MainTabScreen', {
+              screen: 'HomeStackScreen',
+              params: {
+                screen: 'HomeScreen',
+                params: {},
+              },
             })
           }
         },
       },
     )
-  }, [email, login, mutate, navigate, password, show])
+  }, [email, login, mutate, navigate, password, queryClient, show])
 
   useEffect(() => {
     if (error && error) {
