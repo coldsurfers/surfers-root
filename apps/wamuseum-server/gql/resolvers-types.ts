@@ -191,6 +191,7 @@ export type CreateUserInput = {
 export type CreateVenueData = HttpError | Venue;
 
 export type CreateVenueInput = {
+  address: Scalars['String'];
   lat: Scalars['Float'];
   lng: Scalars['Float'];
   name: Scalars['String'];
@@ -599,6 +600,7 @@ export type UserWithAuthToken = {
 
 export type Venue = {
   __typename?: 'Venue';
+  address: Scalars['String'];
   geohash: Scalars['String'];
   id: Scalars['String'];
   lat: Scalars['Float'];
@@ -1205,6 +1207,7 @@ export type UserWithAuthTokenResolvers<ContextType = GraphqlContext, ParentType 
 };
 
 export type VenueResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Venue'] = ResolversParentTypes['Venue']> = {
+  address?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   geohash?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   lat?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;

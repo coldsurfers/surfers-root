@@ -60,12 +60,13 @@ const venueResolvers: Resolvers = {
   Mutation: {
     createVenue: async (parent, args, ctx) => {
       await authorizeUser(ctx, { requiredRole: 'staff' })
-      const { lat, lng, name } = args.input
+      const { lat, lng, name, address } = args.input
       const dto = new VenueDTO({
         lat,
         lng,
         name,
         geohash: ngeohash.encode(lat, lng, 12),
+        address,
       })
       const created = await dto.create()
       return created.serialize()

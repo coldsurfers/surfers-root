@@ -1,4 +1,4 @@
-import { Button, Spinner, colors } from '@coldsurfers/ocean-road'
+import { Button, Spinner, colors, semantics } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { format, isValid } from 'date-fns'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -171,7 +171,7 @@ const Wrapper = styled.div`
 
   width: 900px;
 
-  background-color: ${colors.oc.white.value};
+  background-color: ${semantics.color.background[2]};
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.12),
     0 1px 2px rgba(0, 0, 0, 0.24);
