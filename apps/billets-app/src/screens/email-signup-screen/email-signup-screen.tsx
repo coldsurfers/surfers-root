@@ -6,7 +6,7 @@ import React, { useCallback, useContext, useState } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
 import { useEmailSignupScreenNavigation } from './email-signup-screen.hooks'
 
-export const EmailSignupScreen = () => {
+const _EmailSignupScreen = () => {
   const { show } = useContext(ToastVisibleContext)
   const { goBack, navigate } = useEmailSignupScreenNavigation()
   const { mutate, isPending: isPendingSendConfirmEmail } = useSendEmailConfirmMutation({
@@ -42,30 +42,26 @@ export const EmailSignupScreen = () => {
   }, [])
 
   return (
+    <SafeAreaView style={styles.wrapper}>
+      <IconButton onPress={goBack} icon="←" theme="transparentDarkGray" style={styles.backButton} />
+      <TextInput
+        autoCapitalize="none"
+        onChangeText={onChangeText}
+        placeholder="이메일을 입력해주세요"
+        style={styles.textInput}
+      />
+      <Button style={styles.button} onPress={onPressNext} disabled={!validated}>
+        다음으로 이동하기
+      </Button>
+      {isPendingSendConfirmEmail && <Spinner />}
+    </SafeAreaView>
+  )
+}
+
+export const EmailSignupScreen = () => {
+  return (
     <ToastVisibleContextProvider>
-      <SafeAreaView style={styles.wrapper}>
-        <IconButton onPress={goBack} icon="←" theme="transparentDarkGray" style={styles.backButton} />
-        <TextInput
-          autoCapitalize="none"
-          onChangeText={onChangeText}
-          placeholder="이메일을 입력해주세요"
-          style={styles.textInput}
-        />
-        <Button
-          // theme="pink"
-          style={[
-            // {
-            //   backgroundColor: validated ? palettes.lightblue[400] : palettes.gray[400],
-            // },
-            styles.button,
-          ]}
-          onPress={onPressNext}
-          disabled={!validated}
-        >
-          다음으로 이동하기
-        </Button>
-        {isPendingSendConfirmEmail && <Spinner />}
-      </SafeAreaView>
+      <_EmailSignupScreen />
     </ToastVisibleContextProvider>
   )
 }
