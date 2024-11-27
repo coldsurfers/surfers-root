@@ -35,6 +35,7 @@
     "next-auth": "5.0.0-beta.18",
     "react": "*",
     "react-dom": "*",
+    "react-hook-form": "*",
     "react-spinners": "*",
     "string-width": "4.2.3",
     "typescript": "*",
