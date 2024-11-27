@@ -47,6 +47,10 @@ export default class UserDTO {
     return new UserDTO(data)
   }
 
+  get id(): string | undefined {
+    return this.props.id
+  }
+
   serialize(): UserDTOSerialized {
     return {
       id: this.props.id ?? '',

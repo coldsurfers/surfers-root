@@ -1,3 +1,4 @@
+import { ConcertSubscribeButton } from '@/features/subscribe'
 import { CONCERT_DETAIL_LIST_HEADER_HEIGHT } from '@/lib'
 import { colors } from '@coldsurfers/ocean-road'
 import React, { ReactElement, ReactNode, useCallback } from 'react'
@@ -21,7 +22,12 @@ import {
   ConcertDetailSectionListSectionT,
 } from './concert-detail-section-list.types'
 
-export const ConcertDetailSectionList = ({ sections, thumbnails }: ConcertDetailSectionListProps) => {
+export const ConcertDetailSectionList = ({
+  sections,
+  thumbnails,
+  isSubscribed,
+  onPressSubscribe,
+}: ConcertDetailSectionListProps) => {
   const [scrollY] = React.useState(new Animated.Value(0))
   const coverTranslateY = scrollY.interpolate({
     inputRange: [-4, 0, 10],
@@ -162,6 +168,9 @@ export const ConcertDetailSectionList = ({ sections, thumbnails }: ConcertDetail
               }}
               style={styles.thumbnail}
             />
+            <View style={styles.subscribeButtonPosition}>
+              <ConcertSubscribeButton onPress={onPressSubscribe} isSubscribed={!!isSubscribed} />
+            </View>
           </Animated.View>
         }
         sections={sections}
@@ -185,4 +194,5 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  subscribeButtonPosition: { position: 'absolute', right: 12, bottom: 12 },
 })

@@ -1,17 +1,18 @@
 'use client'
 
+import { useApollo } from '@/libs'
 import { Button, colors, semantics, Spinner } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
-import { usePathname, useRouter } from 'next/navigation'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { MeDocument, useLogoutMutation, useMeQuery } from '../../src/__generated__/graphql'
+import { useRouter } from 'next/navigation'
+import { useCallback, useMemo, useState } from 'react'
+import { useLogoutMutation, useMeQuery } from '../../src/__generated__/graphql'
 import { authUtils } from '../../utils'
 
 export const Header = () => {
   const router = useRouter()
-  const pathname = usePathname()
+  const apollo = useApollo({})
   const [showLoader, setShowLoader] = useState<boolean>(false)
-  const { data, refetch, client } = useMeQuery()
+  const { data } = useMeQuery()
   const [mutateLogout] = useLogoutMutation()
   const me = useMemo(() => {
     return data?.me
@@ -21,8 +22,8 @@ export const Header = () => {
     mutateLogout({
       onCompleted: () => {
         authUtils.logout().then(() => {
-          client.refetchQueries({
-            include: [MeDocument],
+          apollo.cache.reset().then(() => {
+            router.push('/auth/signin')
           })
         })
       },
@@ -31,11 +32,7 @@ export const Header = () => {
       },
     })
     setShowLoader(false)
-  }, [client, mutateLogout])
-
-  useEffect(() => {
-    refetch()
-  }, [pathname, refetch])
+  }, [apollo.cache, mutateLogout, router])
 
   return (
     <Wrapper>
@@ -69,6 +66,15 @@ export const Header = () => {
               }}
             >
               공연 올리기
+            </Button>
+            <Button
+              onClick={() => router.push('/generate-banner')}
+              style={{
+                marginRight: 12,
+                backgroundColor: colors.oc.yellow[5].value,
+              }}
+            >
+              배너 만들기
             </Button>
             <Button onClick={handleLogout}>로그아웃</Button>
           </>

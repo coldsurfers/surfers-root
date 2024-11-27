@@ -125,26 +125,7 @@ export const SearchScreen = () => {
     [navigation],
   )
 
-  const renderConcertListItem: ListRenderItem<{
-    artists: {
-      name: string
-      profileImageUrl: string
-    }[]
-    date: string
-    id: string
-    posters: {
-      imageUrl: string
-    }[]
-    tickets: {
-      formattedPrice: string
-      openDate: string
-      url: string
-    }[]
-    title: string
-    venues: {
-      venueTitle: string
-    }[]
-  }> = useCallback(
+  const renderConcertListItem: ListRenderItem<(typeof concertListData)[number]> = useCallback(
     ({ item: value }) => {
       return (
         <SearchItem
