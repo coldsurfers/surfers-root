@@ -1,6 +1,7 @@
 import { ConcertDetailSectionList, ConcertDetailSectionListSections, useToggleSubscribeConcert } from '@/features'
 import commonStyles from '@/lib/common-styles'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
+import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import useSubscribedConcertQuery from '@/lib/react-query/queries/useSubscribedConcertQuery'
 import { CommonBackIconButton } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
@@ -21,14 +22,23 @@ export const ConcertDetailScreen = () => {
   const { data: subscribedConcert } = useSubscribedConcertQuery({
     concertId: params.concertId,
   })
+  const { data: meData } = useGetMeQuery()
   const toggleSubscribeConcert = useToggleSubscribeConcert()
 
   const onPressSubscribe = useCallback(() => {
+    if (!meData) {
+      // @todo: show login modal
+      navigation.navigate('LoginStackScreen', {
+        screen: 'LoginSelectionScreen',
+        params: {},
+      })
+      return
+    }
     toggleSubscribeConcert({
       isSubscribed: !!subscribedConcert,
       concertId: params.concertId,
     })
-  }, [params.concertId, subscribedConcert, toggleSubscribeConcert])
+  }, [meData, navigation, params.concertId, subscribedConcert, toggleSubscribeConcert])
 
   const sections: ConcertDetailSectionListSections = useMemo(() => {
     if (!data) {
