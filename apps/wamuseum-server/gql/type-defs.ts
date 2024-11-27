@@ -349,6 +349,7 @@ const typeDefs = `#graphql
   input CreateCopyrightInput {
     owner: String!
     license: String!
+    licenseURL: String!
     artistProfileImageId: String
   }
 

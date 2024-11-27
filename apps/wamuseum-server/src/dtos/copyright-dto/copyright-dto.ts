@@ -15,10 +15,14 @@ export class CopyrightDTO {
     if (!this.props.owner) {
       throw Error('invalid owner')
     }
+    if (!this.props.licenseURL) {
+      throw Error('invalid license url')
+    }
     const data = await prisma.copyright.create({
       data: {
         license: this.props.license,
         owner: this.props.owner,
+        licenseURL: this.props.licenseURL,
         ArtistProfileImage: {
           connect: {
             id: artistProfileImageId,

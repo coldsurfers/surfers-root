@@ -257,6 +257,7 @@ model Copyright {
   id                 String               @id @default(uuid())
   owner              String
   license            String
+  licenseURL String
   createdAt          DateTime             @default(now())
   ArtistProfileImage ArtistProfileImage[]
 }

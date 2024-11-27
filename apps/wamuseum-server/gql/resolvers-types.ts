@@ -172,6 +172,7 @@ export type CreateCopyrightData = Copyright | HttpError;
 export type CreateCopyrightInput = {
   artistProfileImageId?: InputMaybe<Scalars['String']>;
   license: Scalars['String'];
+  licenseURL: Scalars['String'];
   owner: Scalars['String'];
 };
 

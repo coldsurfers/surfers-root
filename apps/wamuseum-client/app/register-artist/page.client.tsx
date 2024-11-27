@@ -74,6 +74,7 @@ export const RegisterArtistPageClient = () => {
                   artistProfileImageId,
                   owner: copyrightForm.owner,
                   license: copyrightForm.license,
+                  licenseURL: copyrightForm.licenseURL,
                 },
               },
               onCompleted: () => {
@@ -127,6 +128,12 @@ export const RegisterArtistPageClient = () => {
                   disabled
                   label="라이센스"
                   value={copyrightForm?.license ?? ''}
+                  onChangeText={() => {}}
+                />
+                <InputWithLabel
+                  disabled
+                  label="라이센스 URL"
+                  value={copyrightForm?.licenseURL ?? ''}
                   onChangeText={() => {}}
                 />
               </form>

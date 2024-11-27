@@ -14,19 +14,21 @@ export const CopyrightModal = ({
   onConfirm: (form: CopyrightForm) => void
 }) => {
   const { setValue, watch } = useForm<CopyrightForm>()
-  const { owner, license } = watch()
+  const { owner, license, licenseURL } = watch()
   const handleClickConfirm = useCallback(
     () =>
       onConfirm({
         owner,
         license,
+        licenseURL,
       }),
-    [license, onConfirm, owner],
+    [license, licenseURL, onConfirm, owner],
   )
   return (
     <Modal visible={visible} onClose={onClose}>
       <InputWithLabel label="저작자 이름" value={owner} onChangeText={(text) => setValue('owner', text)} />
       <InputWithLabel label="라이센스" value={license} onChangeText={(text) => setValue('license', text)} />
+      <InputWithLabel label="라이센스 URL" value={licenseURL} onChangeText={(text) => setValue('licenseURL', text)} />
       <Button onClick={handleClickConfirm}>등록하기</Button>
     </Modal>
   )

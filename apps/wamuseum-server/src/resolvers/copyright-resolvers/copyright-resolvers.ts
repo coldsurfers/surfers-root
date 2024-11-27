@@ -7,10 +7,11 @@ export const copyrightResolvers: Resolvers = {
     createCopyright: async (parent, args, ctx) => {
       try {
         await authorizeUser(ctx, { requiredRole: 'staff' })
-        const { license, owner, artistProfileImageId } = args.input
+        const { license, owner, artistProfileImageId, licenseURL } = args.input
         const dto = new CopyrightDTO({
           license,
           owner,
+          licenseURL,
         })
         const created = await dto.create({ artistProfileImageId: artistProfileImageId ?? undefined })
         return {
