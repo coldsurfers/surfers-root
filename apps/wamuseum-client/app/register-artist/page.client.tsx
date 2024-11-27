@@ -1,5 +1,6 @@
 'use client'
 
+import { CopyrightForm, CopyrightModal } from '@/features'
 import { AddButton } from '@/ui'
 import InputWithLabel from '@/ui/InputWithLabel'
 import { presign, uploadToPresignedURL } from '@/utils/fetcher'
@@ -8,7 +9,13 @@ import { Button, Spinner, Text, colors } from '@coldsurfers/ocean-road'
 import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
 import useCreateArtist from './mutations/useCreateArtist'
-import { StyledForm, StyledHeadWrapper, StyledPosterThumbnail, StyledWrapper } from './page.styled'
+import {
+  StyledCopyrightSection,
+  StyledForm,
+  StyledHeadWrapper,
+  StyledPosterThumbnail,
+  StyledWrapper,
+} from './page.styled'
 
 export const RegisterArtistPageClient = () => {
   const router = useRouter()
@@ -20,6 +27,8 @@ export const RegisterArtistPageClient = () => {
       router.push('/')
     },
   })
+  const [copyrightModalVisible, setCopyrightModalVisible] = useState(false)
+  const [copyrightForm, setCopyrightForm] = useState<CopyrightForm | null>(null)
 
   const getThumbnail = useCallback(async () => {
     pickFile(async (e) => {
@@ -81,11 +90,46 @@ export const RegisterArtistPageClient = () => {
           )}
         </StyledHeadWrapper>
         {artistProfileImageUrl && <StyledPosterThumbnail src={artistProfileImageUrl} />}
+        {artistProfileImageUrl && (
+          <StyledCopyrightSection>
+            <Text>잠깐, 사진에 저작권이 있나요?</Text>
+            <Button onClick={() => setCopyrightModalVisible(true)}>저작권 등록하기</Button>
+            {copyrightForm && (
+              <Button theme="pink" onClick={() => setCopyrightForm(null)}>
+                삭제하기
+              </Button>
+            )}
+            {copyrightForm && (
+              <form>
+                <InputWithLabel
+                  disabled
+                  label="저작자 이름"
+                  value={copyrightForm?.owner ?? ''}
+                  onChangeText={() => {}}
+                />
+                <InputWithLabel
+                  disabled
+                  label="라이센스"
+                  value={copyrightForm?.license ?? ''}
+                  onChangeText={() => {}}
+                />
+              </form>
+            )}
+          </StyledCopyrightSection>
+        )}
         <Button style={{ marginTop: 10, backgroundColor: colors.oc.black.value }} onClick={onClickRegisterArtist}>
           등록하기
         </Button>
       </StyledForm>
       {loading || uploadFileLoading ? <Spinner variant="page-overlay" /> : null}
+      <CopyrightModal
+        visible={copyrightModalVisible}
+        onConfirm={(form) => {
+          setCopyrightModalVisible(false)
+          setCopyrightForm(form)
+        }}
+        onClose={() => setCopyrightModalVisible(false)}
+      />
     </StyledWrapper>
   )
 }
