@@ -1,7 +1,10 @@
 import { colors } from '@coldsurfers/ocean-road'
-import { Text } from '@coldsurfers/ocean-road/native'
+import { Button, Text } from '@coldsurfers/ocean-road/native'
+import Clipboard from '@react-native-clipboard/clipboard'
 import { format } from 'date-fns'
-import { Image, Linking, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Image, Linking, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
+import MapView, { Marker } from 'react-native-maps'
+import { VENUE_MAP_HEIGHT } from './concert-detail-section-list-item.constants'
 import {
   ConcertDetailSectionListDateItemProps,
   ConcertDetailSectionListLineupItemProps,
@@ -10,6 +13,7 @@ import {
   ConcertDetailSectionListTicketOpenDateItemProps,
   ConcertDetailSectionListTicketSellerItemProps,
   ConcertDetailSectionListTitleItemProps,
+  ConcertDetailSectionListVenueMapItemProps,
 } from './concert-detail-section-list-item.types'
 
 export const ConcertDetailSectionListItem = () => null
@@ -72,6 +76,43 @@ ConcertDetailSectionListItem.TicketSellerItem = ({ siteUrl, name }: ConcertDetai
     </TouchableOpacity>
   )
 }
+ConcertDetailSectionListItem.VenueMapItem = ({
+  latitude,
+  longitude,
+  address,
+}: ConcertDetailSectionListVenueMapItemProps) => {
+  return (
+    <View>
+      <View style={styles.venueMapAddressWrapper}>
+        <Text style={styles.venueMapAddressText}>
+          {'📍'} {address}
+        </Text>
+        <Pressable onPress={() => Clipboard.setString(address)} style={styles.venueMapAddressCopyBtn}>
+          <Button theme="transparent">{'복사하기'}</Button>
+        </Pressable>
+      </View>
+      <MapView
+        region={{
+          latitude,
+          longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+        // pointerEvents="none"
+        style={styles.venueMap}
+      >
+        <Marker
+          coordinate={{
+            latitude,
+            longitude,
+          }}
+        >
+          <Text style={styles.venueMapMarker}>{'📍'}</Text>
+        </Marker>
+      </MapView>
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
   text: {
@@ -90,6 +131,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 12,
+    marginBottom: 12,
   },
   image: { width: 42, height: 42, borderRadius: 42 / 2 },
   name: {
@@ -106,4 +148,27 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   venueText: { marginTop: 6, color: colors.oc.gray[8].value, marginBottom: 8 },
+  venueMap: {
+    width: Dimensions.get('screen').width - 12 * 2,
+    height: VENUE_MAP_HEIGHT,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderRadius: 8,
+    marginTop: 4,
+  },
+  venueMapMarker: {
+    fontSize: 24,
+  },
+  venueMapAddressWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+  },
+  venueMapAddressText: {
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  venueMapAddressCopyBtn: {
+    marginLeft: 'auto',
+  },
 })

@@ -1437,6 +1437,8 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - react-native-maps (1.20.1):
+    - React-Core
   - react-native-mmkv (2.12.2):
     - DoubleConversion
     - glog
@@ -1731,6 +1733,8 @@ PODS:
     - React-Core
   - RNCAsyncStorage (1.24.0):
     - React-Core
+  - RNCClipboard (1.15.0):
+    - React-Core
   - RNCPicker (2.9.0):
     - React-Core
   - RNDateTimePicker (8.2.0):
@@ -1946,6 +1950,7 @@ DEPENDENCIES:
   - react-native-config (from `../../../node_modules/react-native-config`)
   - react-native-config/Extension (from `../../../node_modules/react-native-config`)
   - "react-native-geolocation (from `../../../node_modules/@react-native-community/geolocation`)"
+  - react-native-maps (from `../../../node_modules/react-native-maps`)
   - react-native-mmkv (from `../../../node_modules/react-native-mmkv`)
   - react-native-orientation-locker (from `../../../node_modules/react-native-orientation-locker`)
   - react-native-safe-area-context (from `../../../node_modules/react-native-safe-area-context`)
@@ -1979,6 +1984,7 @@ DEPENDENCIES:
   - "RNAppleAuthentication (from `../../../node_modules/@invertase/react-native-apple-authentication`)"
   - RNBootSplash (from `../../../node_modules/react-native-bootsplash`)
   - "RNCAsyncStorage (from `../../../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCClipboard (from `../../../node_modules/@react-native-clipboard/clipboard`)"
   - "RNCPicker (from `../../../node_modules/@react-native-picker/picker`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNDeviceInfo (from `../../../node_modules/react-native-device-info`)
@@ -2099,6 +2105,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native-config"
   react-native-geolocation:
     :path: "../../../node_modules/@react-native-community/geolocation"
+  react-native-maps:
+    :path: "../../../node_modules/react-native-maps"
   react-native-mmkv:
     :path: "../../../node_modules/react-native-mmkv"
   react-native-orientation-locker:
@@ -2165,6 +2173,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native-bootsplash"
   RNCAsyncStorage:
     :path: "../../../node_modules/@react-native-async-storage/async-storage"
+  RNCClipboard:
+    :path: "../../../node_modules/@react-native-clipboard/clipboard"
   RNCPicker:
     :path: "../../../node_modules/@react-native-picker/picker"
   RNDateTimePicker:
@@ -2255,6 +2265,7 @@ SPEC CHECKSUMS:
   React-microtasksnativemodule: 40cde5ee77232199dec72ea853902afb929390dc
   react-native-config: 8f7283449bbb048902f4e764affbbf24504454af
   react-native-geolocation: cc79f2a7a8c6616db25b9728670bbb2011ded918
+  react-native-maps: ee1e65647460c3d41e778071be5eda10e3da6225
   react-native-mmkv: 54f5626371820ab9385821db1bbb03b6ab62c28a
   react-native-orientation-locker: 5819fd23ca89cbac0d736fb4314745f62716d517
   react-native-safe-area-context: 142fade490cbebbe428640b8cbdb09daf17e8191
@@ -2288,6 +2299,7 @@ SPEC CHECKSUMS:
   RNAppleAuthentication: e00c76acb03351f5544373c78fa7f359bef6d5d3
   RNBootSplash: 107e51392c11c000af0fdcbd90336203068e5e5e
   RNCAsyncStorage: ec53e44dc3e75b44aa2a9f37618a49c3bc080a7a
+  RNCClipboard: 69ab8e51324d5b351f6ba72bbdb72478087a2c64
   RNCPicker: f963e01f78e546a93b98aa201501713dbda14e94
   RNDateTimePicker: 40ffda97d071a98a10fdca4fa97e3977102ccd14
   RNDeviceInfo: 1e3f62b9ec32f7754fac60bd06b8f8a27124e7f0

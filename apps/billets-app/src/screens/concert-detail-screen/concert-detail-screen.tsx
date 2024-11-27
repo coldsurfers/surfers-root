@@ -47,6 +47,10 @@ export const ConcertDetailScreen = () => {
     })
   }, [meData, navigation, params.concertId, subscribedConcert, toggleSubscribeConcert])
 
+  const firstVenue = useMemo(() => {
+    return data?.venues.at(0)
+  }, [data?.venues])
+
   const sections: ConcertDetailSectionListSections = useMemo(() => {
     if (!data) {
       return []
@@ -77,7 +81,7 @@ export const ConcertDetailScreen = () => {
         sectionHeaderTitle: '공연 장소',
         data: [
           {
-            location: `${data.venues.at(0)?.venueTitle ?? ''}`,
+            location: `${firstVenue?.venueTitle ?? ''}`,
           },
         ],
       },
@@ -89,6 +93,17 @@ export const ConcertDetailScreen = () => {
           name: artist.name,
           onPress: () => setImageViewerVisible(true),
         })),
+      },
+      {
+        title: 'venue-map',
+        sectionHeaderTitle: '공연 장소',
+        data: [
+          {
+            latitude: firstVenue?.latitude ?? 0.0,
+            longitude: firstVenue?.longitude ?? 0.0,
+            address: firstVenue?.address ?? '',
+          },
+        ],
       },
       // {
       //   title: 'ticket-open-date',
@@ -124,7 +139,7 @@ export const ConcertDetailScreen = () => {
       // },
     ]
     return innerSections
-  }, [data])
+  }, [data, firstVenue?.latitude, firstVenue?.longitude, firstVenue?.venueTitle])
 
   const firstArtist = useMemo(() => data?.artists.at(0), [data?.artists])
 
