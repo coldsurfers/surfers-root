@@ -228,6 +228,16 @@ const typeDefs = `#graphql
     license: String!
   }
 
+  type ArtistProfileImage {
+    id: String!
+    imageURL: String!
+  }
+
+  type ArtistWithProfileImage {
+    artist: Artist
+    artistProfileImage: ArtistProfileImage
+  }
+
   union AuthenticateEmailAuthRequestData = EmailAuthRequest | HttpError
 
   union CreateUserData = User | HttpError
@@ -260,7 +270,7 @@ const typeDefs = `#graphql
 
   union RemoveConcertTicketPriceData = TicketPrice | HttpError
 
-  union CreateArtistData = Artist | HttpError
+  union CreateArtistData = ArtistWithProfileImage | HttpError
 
   union SearchArtistsData = ArtistList | HttpError
 

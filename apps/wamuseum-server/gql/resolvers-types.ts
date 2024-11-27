@@ -26,6 +26,18 @@ export type ArtistList = {
   list?: Maybe<Array<Maybe<Artist>>>;
 };
 
+export type ArtistProfileImage = {
+  __typename?: 'ArtistProfileImage';
+  id: Scalars['String'];
+  imageURL: Scalars['String'];
+};
+
+export type ArtistWithProfileImage = {
+  __typename?: 'ArtistWithProfileImage';
+  artist?: Maybe<Artist>;
+  artistProfileImage?: Maybe<ArtistProfileImage>;
+};
+
 export type AuthToken = {
   __typename?: 'AuthToken';
   accessToken: Scalars['String'];
@@ -89,7 +101,7 @@ export type Copyright = {
   owner: Scalars['String'];
 };
 
-export type CreateArtistData = Artist | HttpError;
+export type CreateArtistData = ArtistWithProfileImage | HttpError;
 
 export type CreateArtistInput = {
   artistName: Scalars['String'];
@@ -664,6 +676,8 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Artist: ResolverTypeWrapper<Artist>;
   ArtistList: ResolverTypeWrapper<ArtistList>;
+  ArtistProfileImage: ResolverTypeWrapper<ArtistProfileImage>;
+  ArtistWithProfileImage: ResolverTypeWrapper<ArtistWithProfileImage>;
   AuthToken: ResolverTypeWrapper<AuthToken>;
   AuthenticateEmailAuthRequestData: ResolversTypes['EmailAuthRequest'] | ResolversTypes['HttpError'];
   AuthenticateEmailAuthRequestInput: AuthenticateEmailAuthRequestInput;
@@ -681,7 +695,7 @@ export type ResolversTypes = {
   ConcertVenueData: ResolversTypes['ConcertVenueList'] | ResolversTypes['HttpError'];
   ConcertVenueList: ResolverTypeWrapper<ConcertVenueList>;
   Copyright: ResolverTypeWrapper<Copyright>;
-  CreateArtistData: ResolversTypes['Artist'] | ResolversTypes['HttpError'];
+  CreateArtistData: ResolversTypes['ArtistWithProfileImage'] | ResolversTypes['HttpError'];
   CreateArtistInput: CreateArtistInput;
   CreateConcertArtistData: ResolversTypes['Artist'] | ResolversTypes['HttpError'];
   CreateConcertArtistInput: CreateConcertArtistInput;
@@ -756,6 +770,8 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Artist: Artist;
   ArtistList: ArtistList;
+  ArtistProfileImage: ArtistProfileImage;
+  ArtistWithProfileImage: ArtistWithProfileImage;
   AuthToken: AuthToken;
   AuthenticateEmailAuthRequestData: ResolversParentTypes['EmailAuthRequest'] | ResolversParentTypes['HttpError'];
   AuthenticateEmailAuthRequestInput: AuthenticateEmailAuthRequestInput;
@@ -773,7 +789,7 @@ export type ResolversParentTypes = {
   ConcertVenueData: ResolversParentTypes['ConcertVenueList'] | ResolversParentTypes['HttpError'];
   ConcertVenueList: ConcertVenueList;
   Copyright: Copyright;
-  CreateArtistData: ResolversParentTypes['Artist'] | ResolversParentTypes['HttpError'];
+  CreateArtistData: ResolversParentTypes['ArtistWithProfileImage'] | ResolversParentTypes['HttpError'];
   CreateArtistInput: CreateArtistInput;
   CreateConcertArtistData: ResolversParentTypes['Artist'] | ResolversParentTypes['HttpError'];
   CreateConcertArtistInput: CreateConcertArtistInput;
@@ -855,6 +871,18 @@ export type ArtistListResolvers<ContextType = GraphqlContext, ParentType extends
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ArtistProfileImageResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['ArtistProfileImage'] = ResolversParentTypes['ArtistProfileImage']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  imageURL?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ArtistWithProfileImageResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['ArtistWithProfileImage'] = ResolversParentTypes['ArtistWithProfileImage']> = {
+  artist?: Resolver<Maybe<ResolversTypes['Artist']>, ParentType, ContextType>;
+  artistProfileImage?: Resolver<Maybe<ResolversTypes['ArtistProfileImage']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type AuthTokenResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['AuthToken'] = ResolversParentTypes['AuthToken']> = {
   accessToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   refreshToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -926,7 +954,7 @@ export type CopyrightResolvers<ContextType = GraphqlContext, ParentType extends 
 };
 
 export type CreateArtistDataResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['CreateArtistData'] = ResolversParentTypes['CreateArtistData']> = {
-  __resolveType: TypeResolveFn<'Artist' | 'HttpError', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'ArtistWithProfileImage' | 'HttpError', ParentType, ContextType>;
 };
 
 export type CreateConcertArtistDataResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['CreateConcertArtistData'] = ResolversParentTypes['CreateConcertArtistData']> = {
@@ -1187,6 +1215,8 @@ export type VenueResolvers<ContextType = GraphqlContext, ParentType extends Reso
 export type Resolvers<ContextType = GraphqlContext> = {
   Artist?: ArtistResolvers<ContextType>;
   ArtistList?: ArtistListResolvers<ContextType>;
+  ArtistProfileImage?: ArtistProfileImageResolvers<ContextType>;
+  ArtistWithProfileImage?: ArtistWithProfileImageResolvers<ContextType>;
   AuthToken?: AuthTokenResolvers<ContextType>;
   AuthenticateEmailAuthRequestData?: AuthenticateEmailAuthRequestDataResolvers<ContextType>;
   Concert?: ConcertResolvers<ContextType>;
