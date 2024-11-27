@@ -80,11 +80,6 @@ export const EmailLoginScreen = () => {
     }
   }, [error, show])
 
-  // useEffect(() => {
-  //   if (!isPendingSignIn && signInData) {
-  //   }
-  // }, [isPendingSignIn, login, signInData]);
-
   return (
     <ToastVisibleContextProvider>
       <SafeAreaView style={styles.wrapper}>
