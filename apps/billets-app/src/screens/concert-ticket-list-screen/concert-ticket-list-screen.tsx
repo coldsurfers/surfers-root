@@ -96,7 +96,7 @@ export const ConcertTicketListScreen = () => {
             style={styles.ticketItemCTA}
           >
             <Text weight="medium" style={styles.ticketItemCTAText}>
-              구매하기 - {formattedPrice}부터
+              🔗 티켓찾기 - {formattedPrice}부터
             </Text>
           </Button>
         </View>
