@@ -1,4 +1,4 @@
-import { colors, Text } from '@coldsurfers/ocean-road'
+import { Button, colors, Text } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 
 export const StyledBannerPreviewWrapper = styled.div`
@@ -14,6 +14,8 @@ export const StyledBannerPreviewWrapper = styled.div`
   font-size: 24px;
   text-align: center;
   background: #fefefe;
+
+  margin-top: 2.5rem;
 `
 
 export const ArtistText = styled(Text)`
@@ -47,4 +49,8 @@ export const TitleText = styled(Text)`
   font-style: italic;
   letter-spacing: 8px;
   color: ${colors.oc.black.value};
+`
+
+export const StyledGenerateButton = styled(Button)`
+  margin-top: 2.5rem;
 `
