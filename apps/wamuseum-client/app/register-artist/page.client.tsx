@@ -8,7 +8,7 @@ import pickFile from '@/utils/pickFile'
 import { Button, Spinner, Text, colors } from '@coldsurfers/ocean-road'
 import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
-import useCreateArtist from './mutations/useCreateArtist'
+import { useCreateArtistMutation, useCreateCopyrightMutation } from 'src/__generated__/graphql'
 import {
   StyledCopyrightSection,
   StyledForm,
@@ -22,11 +22,8 @@ export const RegisterArtistPageClient = () => {
   const [artistName, setArtistName] = useState('')
   const [uploadFileLoading, setUploadFileLoading] = useState(false)
   const [artistProfileImageUrl, setArtistProfileImageUrl] = useState('')
-  const [mutate, { loading }] = useCreateArtist({
-    onCompleted: () => {
-      router.push('/')
-    },
-  })
+  const [createArtist, { loading: loadingCreateArtist }] = useCreateArtistMutation()
+  const [createCopyright, { loading: loadingCreateCopyright }] = useCreateCopyrightMutation()
   const [copyrightModalVisible, setCopyrightModalVisible] = useState(false)
   const [copyrightForm, setCopyrightForm] = useState<CopyrightForm | null>(null)
 
@@ -60,15 +57,34 @@ export const RegisterArtistPageClient = () => {
   }, [])
 
   const onClickRegisterArtist = useCallback(() => {
-    mutate({
+    createArtist({
       variables: {
         input: {
           artistName,
           imageURL: artistProfileImageUrl,
         },
       },
+      onCompleted: (data) => {
+        if (data.createArtist?.__typename === 'ArtistWithProfileImage') {
+          const artistProfileImageId = data.createArtist.artistProfileImage?.id
+          if (artistProfileImageId && !!copyrightForm) {
+            createCopyright({
+              variables: {
+                input: {
+                  artistProfileImageId,
+                  owner: copyrightForm.owner,
+                  license: copyrightForm.license,
+                },
+              },
+              onCompleted: () => {
+                router.push('/')
+              },
+            })
+          }
+        }
+      },
     })
-  }, [artistName, artistProfileImageUrl, mutate])
+  }, [artistName, artistProfileImageUrl, copyrightForm, createArtist, createCopyright, router])
 
   return (
     <StyledWrapper>
@@ -121,7 +137,7 @@ export const RegisterArtistPageClient = () => {
           등록하기
         </Button>
       </StyledForm>
-      {loading || uploadFileLoading ? <Spinner variant="page-overlay" /> : null}
+      {loadingCreateArtist || loadingCreateCopyright || uploadFileLoading ? <Spinner variant="page-overlay" /> : null}
       <CopyrightModal
         visible={copyrightModalVisible}
         onConfirm={(form) => {

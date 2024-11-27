@@ -1,0 +1,18 @@
+mutation CreateArtist($input: CreateArtistInput!) {
+  createArtist(input: $input) {
+    ... on HttpError {
+      code
+      message
+    }
+    ... on ArtistWithProfileImage {
+      artist {
+        id
+        name
+      }
+      artistProfileImage {
+        id
+        imageURL
+      }
+    }
+  }
+}

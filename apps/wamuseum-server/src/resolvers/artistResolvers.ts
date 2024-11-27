@@ -30,7 +30,7 @@ const artistResolvers: Resolvers = {
         name: args.input.artistName,
       })
       const createdArtist = await artistDTO.create()
-      if (!artistDTO.id) {
+      if (!createdArtist.id) {
         return {
           __typename: 'HttpError',
           code: 404,
@@ -38,7 +38,7 @@ const artistResolvers: Resolvers = {
         }
       }
       const profileImageDTO = new ArtistProfileImageDTO({
-        artistId: artistDTO.id,
+        artistId: createdArtist.id,
         imageURL: args.input.imageURL,
       })
       const createdProfileImage = await profileImageDTO.create()
