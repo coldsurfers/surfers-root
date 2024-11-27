@@ -34,7 +34,7 @@ export const ConcertDetailScreen = () => {
 
   const onPressSubscribe = useCallback(() => {
     if (!meData) {
-      // @todo: show login modal
+      // show login modal
       navigation.navigate('LoginStackScreen', {
         screen: 'LoginSelectionScreen',
         params: {},
@@ -139,7 +139,7 @@ export const ConcertDetailScreen = () => {
       // },
     ]
     return innerSections
-  }, [data, firstVenue?.latitude, firstVenue?.longitude, firstVenue?.venueTitle])
+  }, [data, firstVenue?.address, firstVenue?.latitude, firstVenue?.longitude, firstVenue?.venueTitle])
 
   const firstArtist = useMemo(() => data?.artists.at(0), [data?.artists])
 
@@ -147,36 +147,40 @@ export const ConcertDetailScreen = () => {
     <>
       <StatusBar hidden />
       <View style={styles.wrapper}>
-        <ConcertDetailSectionList
-          sections={sections}
-          thumbnails={data?.posters?.map((thumb) => thumb.imageUrl) ?? []}
-          isSubscribed={!!subscribedConcert}
-          onPressSubscribe={onPressSubscribe}
-        />
-        <View style={[styles.fixedBottom, { paddingBottom: bottomInset }]}>
-          <Button
-            onPress={() => {
-              navigation.navigate('ConcertTicketListScreen', {
-                concertId: params.concertId,
-              })
-            }}
-            style={{ backgroundColor: colors.oc.cyan[8].value }}
-          >
-            🎫 티켓 찾기 🎫
-          </Button>
-        </View>
-        <CommonBackIconButton top={40} onPress={() => navigation.goBack()} />
+        {isLoadingConcert ? (
+          <Spinner />
+        ) : (
+          <>
+            <ConcertDetailSectionList
+              sections={sections}
+              thumbnails={data?.posters?.map((thumb) => thumb.imageUrl) ?? []}
+              isSubscribed={!!subscribedConcert}
+              onPressSubscribe={onPressSubscribe}
+            />
+            <View style={[styles.fixedBottom, { paddingBottom: bottomInset }]}>
+              <Button
+                onPress={() => {
+                  navigation.navigate('ConcertTicketListScreen', {
+                    concertId: params.concertId,
+                  })
+                }}
+                style={{ backgroundColor: colors.oc.cyan[8].value }}
+              >
+                🎫 티켓 찾기 🎫
+              </Button>
+            </View>
+            <CommonBackIconButton top={40} onPress={() => navigation.goBack()} />
 
-        {/* Artist Profile Image Modal */}
-        {firstArtist && (
-          <ConcertDetailArtistProfileImageModal
-            visible={imageViewerVisible}
-            onClose={() => setImageViewerVisible(false)}
-            artistId={firstArtist.id}
-          />
+            {/* Artist Profile Image Modal */}
+            {firstArtist && (
+              <ConcertDetailArtistProfileImageModal
+                visible={imageViewerVisible}
+                onClose={() => setImageViewerVisible(false)}
+                artistId={firstArtist.id}
+              />
+            )}
+          </>
         )}
-
-        {isLoadingConcert ? <Spinner /> : null}
       </View>
     </>
   )

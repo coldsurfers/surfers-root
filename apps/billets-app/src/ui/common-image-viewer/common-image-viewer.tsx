@@ -1,7 +1,8 @@
 import { colors } from '@coldsurfers/ocean-road'
 import { Text } from '@coldsurfers/ocean-road/native'
-import React from 'react'
-import { Dimensions, StyleSheet } from 'react-native'
+import React, { useState } from 'react'
+import { ActivityIndicator, Dimensions, StyleSheet, View } from 'react-native'
+import FastImage from 'react-native-fast-image'
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated'
 
@@ -11,7 +12,10 @@ interface ImageViewerProps {
   caption?: string
 }
 
+const AnimatedFastImage = Animated.createAnimatedComponent(FastImage)
+
 export const CommonImageViewer = ({ imageUri, maxZoom = 3, caption }: ImageViewerProps) => {
+  const [isLoading, setIsLoading] = useState(false)
   const scale = useSharedValue(1)
   const offsetX = useSharedValue(0) // X축 이동
   const offsetY = useSharedValue(0) // Y축 이동
@@ -51,8 +55,19 @@ export const CommonImageViewer = ({ imageUri, maxZoom = 3, caption }: ImageViewe
     <GestureHandlerRootView style={styles.container}>
       <GestureDetector gesture={pinchGesture}>
         <Animated.View style={styles.imageContainer}>
-          <Animated.Image source={{ uri: imageUri }} style={[styles.image, animatedStyle]} resizeMode="contain" />
+          <AnimatedFastImage
+            source={{ uri: imageUri }}
+            onLoadStart={() => setIsLoading(true)}
+            onLoadEnd={() => setIsLoading(false)}
+            style={[styles.image, animatedStyle]}
+            resizeMode="contain"
+          />
           {caption ? <Text style={styles.caption}>{caption}</Text> : null}
+          {isLoading && (
+            <View style={styles.loading}>
+              <ActivityIndicator animating />
+            </View>
+          )}
         </Animated.View>
       </GestureDetector>
     </GestureHandlerRootView>
@@ -80,5 +95,15 @@ const styles = StyleSheet.create({
     zIndex: 9,
     fontSize: 12,
     marginHorizontal: 8,
+  },
+  loading: {
+    zIndex: 11,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })

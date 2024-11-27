@@ -2,7 +2,8 @@ import { colors } from '@coldsurfers/ocean-road'
 import { Button, Text } from '@coldsurfers/ocean-road/native'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { format } from 'date-fns'
-import { Dimensions, Image, Linking, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Linking, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
+import FastImage from 'react-native-fast-image'
 import MapView, { Marker } from 'react-native-maps'
 import { VENUE_MAP_HEIGHT } from './concert-detail-section-list-item.constants'
 import {
@@ -57,7 +58,7 @@ ConcertDetailSectionListItem.LineupItem = ({
 }: ConcertDetailSectionListLineupItemProps) => {
   return (
     <Pressable onPress={onPress} style={styles.lineupWrapper}>
-      <Image style={styles.image} source={{ uri: thumbnailUrl }} />
+      <FastImage style={styles.image} source={{ uri: thumbnailUrl }} />
       <Text style={styles.name}>{name}</Text>
     </Pressable>
   )
