@@ -82,6 +82,13 @@ export type ConcertVenueList = {
   list?: Maybe<Array<Maybe<Venue>>>;
 };
 
+export type Copyright = {
+  __typename?: 'Copyright';
+  id: Scalars['String'];
+  license: Scalars['String'];
+  owner: Scalars['String'];
+};
+
 export type CreateArtistData = Artist | HttpError;
 
 export type CreateArtistInput = {
@@ -148,6 +155,14 @@ export type CreateConcertVenueInput = {
   venueId: Scalars['String'];
 };
 
+export type CreateCopyrightData = Copyright | HttpError;
+
+export type CreateCopyrightInput = {
+  artistProfileImageId?: InputMaybe<Scalars['String']>;
+  license: Scalars['String'];
+  owner: Scalars['String'];
+};
+
 export type CreateEmailAuthRequestInput = {
   email: Scalars['String'];
 };
@@ -200,6 +215,7 @@ export type Mutation = {
   createConcertTicket?: Maybe<CreateConcertTicketData>;
   createConcertTicketPrice?: Maybe<CreateConcertTicketPriceData>;
   createConcertVenue?: Maybe<CreateConcertVenueData>;
+  createCopyright?: Maybe<CreateCopyrightData>;
   createEmailAuthRequest?: Maybe<EmailAuthRequest>;
   createUser?: Maybe<CreateUserData>;
   createVenue?: Maybe<CreateVenueData>;
@@ -254,6 +270,11 @@ export type MutationCreateConcertTicketPriceArgs = {
 
 export type MutationCreateConcertVenueArgs = {
   input: CreateConcertVenueInput;
+};
+
+
+export type MutationCreateCopyrightArgs = {
+  input: CreateCopyrightInput;
 };
 
 
@@ -659,6 +680,7 @@ export type ResolversTypes = {
   ConcertTicketsData: ResolversTypes['HttpError'] | ResolversTypes['TicketList'];
   ConcertVenueData: ResolversTypes['ConcertVenueList'] | ResolversTypes['HttpError'];
   ConcertVenueList: ResolverTypeWrapper<ConcertVenueList>;
+  Copyright: ResolverTypeWrapper<Copyright>;
   CreateArtistData: ResolversTypes['Artist'] | ResolversTypes['HttpError'];
   CreateArtistInput: CreateArtistInput;
   CreateConcertArtistData: ResolversTypes['Artist'] | ResolversTypes['HttpError'];
@@ -675,6 +697,8 @@ export type ResolversTypes = {
   CreateConcertTicketPriceInput: CreateConcertTicketPriceInput;
   CreateConcertVenueData: ResolversTypes['HttpError'] | ResolversTypes['Venue'];
   CreateConcertVenueInput: CreateConcertVenueInput;
+  CreateCopyrightData: ResolversTypes['Copyright'] | ResolversTypes['HttpError'];
+  CreateCopyrightInput: CreateCopyrightInput;
   CreateEmailAuthRequestInput: CreateEmailAuthRequestInput;
   CreateUserData: ResolversTypes['HttpError'] | ResolversTypes['User'];
   CreateUserInput: CreateUserInput;
@@ -748,6 +772,7 @@ export type ResolversParentTypes = {
   ConcertTicketsData: ResolversParentTypes['HttpError'] | ResolversParentTypes['TicketList'];
   ConcertVenueData: ResolversParentTypes['ConcertVenueList'] | ResolversParentTypes['HttpError'];
   ConcertVenueList: ConcertVenueList;
+  Copyright: Copyright;
   CreateArtistData: ResolversParentTypes['Artist'] | ResolversParentTypes['HttpError'];
   CreateArtistInput: CreateArtistInput;
   CreateConcertArtistData: ResolversParentTypes['Artist'] | ResolversParentTypes['HttpError'];
@@ -764,6 +789,8 @@ export type ResolversParentTypes = {
   CreateConcertTicketPriceInput: CreateConcertTicketPriceInput;
   CreateConcertVenueData: ResolversParentTypes['HttpError'] | ResolversParentTypes['Venue'];
   CreateConcertVenueInput: CreateConcertVenueInput;
+  CreateCopyrightData: ResolversParentTypes['Copyright'] | ResolversParentTypes['HttpError'];
+  CreateCopyrightInput: CreateCopyrightInput;
   CreateEmailAuthRequestInput: CreateEmailAuthRequestInput;
   CreateUserData: ResolversParentTypes['HttpError'] | ResolversParentTypes['User'];
   CreateUserInput: CreateUserInput;
@@ -891,6 +918,13 @@ export type ConcertVenueListResolvers<ContextType = GraphqlContext, ParentType e
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type CopyrightResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Copyright'] = ResolversParentTypes['Copyright']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  license?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  owner?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type CreateArtistDataResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['CreateArtistData'] = ResolversParentTypes['CreateArtistData']> = {
   __resolveType: TypeResolveFn<'Artist' | 'HttpError', ParentType, ContextType>;
 };
@@ -917,6 +951,10 @@ export type CreateConcertTicketPriceDataResolvers<ContextType = GraphqlContext, 
 
 export type CreateConcertVenueDataResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['CreateConcertVenueData'] = ResolversParentTypes['CreateConcertVenueData']> = {
   __resolveType: TypeResolveFn<'HttpError' | 'Venue', ParentType, ContextType>;
+};
+
+export type CreateCopyrightDataResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['CreateCopyrightData'] = ResolversParentTypes['CreateCopyrightData']> = {
+  __resolveType: TypeResolveFn<'Copyright' | 'HttpError', ParentType, ContextType>;
 };
 
 export type CreateUserDataResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['CreateUserData'] = ResolversParentTypes['CreateUserData']> = {
@@ -955,6 +993,7 @@ export type MutationResolvers<ContextType = GraphqlContext, ParentType extends R
   createConcertTicket?: Resolver<Maybe<ResolversTypes['CreateConcertTicketData']>, ParentType, ContextType, RequireFields<MutationCreateConcertTicketArgs, 'input'>>;
   createConcertTicketPrice?: Resolver<Maybe<ResolversTypes['CreateConcertTicketPriceData']>, ParentType, ContextType, RequireFields<MutationCreateConcertTicketPriceArgs, 'input'>>;
   createConcertVenue?: Resolver<Maybe<ResolversTypes['CreateConcertVenueData']>, ParentType, ContextType, RequireFields<MutationCreateConcertVenueArgs, 'input'>>;
+  createCopyright?: Resolver<Maybe<ResolversTypes['CreateCopyrightData']>, ParentType, ContextType, RequireFields<MutationCreateCopyrightArgs, 'input'>>;
   createEmailAuthRequest?: Resolver<Maybe<ResolversTypes['EmailAuthRequest']>, ParentType, ContextType, RequireFields<MutationCreateEmailAuthRequestArgs, 'input'>>;
   createUser?: Resolver<Maybe<ResolversTypes['CreateUserData']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   createVenue?: Resolver<Maybe<ResolversTypes['CreateVenueData']>, ParentType, ContextType, RequireFields<MutationCreateVenueArgs, 'input'>>;
@@ -1161,6 +1200,7 @@ export type Resolvers<ContextType = GraphqlContext> = {
   ConcertTicketsData?: ConcertTicketsDataResolvers<ContextType>;
   ConcertVenueData?: ConcertVenueDataResolvers<ContextType>;
   ConcertVenueList?: ConcertVenueListResolvers<ContextType>;
+  Copyright?: CopyrightResolvers<ContextType>;
   CreateArtistData?: CreateArtistDataResolvers<ContextType>;
   CreateConcertArtistData?: CreateConcertArtistDataResolvers<ContextType>;
   CreateConcertData?: CreateConcertDataResolvers<ContextType>;
@@ -1168,6 +1208,7 @@ export type Resolvers<ContextType = GraphqlContext> = {
   CreateConcertTicketData?: CreateConcertTicketDataResolvers<ContextType>;
   CreateConcertTicketPriceData?: CreateConcertTicketPriceDataResolvers<ContextType>;
   CreateConcertVenueData?: CreateConcertVenueDataResolvers<ContextType>;
+  CreateCopyrightData?: CreateCopyrightDataResolvers<ContextType>;
   CreateUserData?: CreateUserDataResolvers<ContextType>;
   CreateVenueData?: CreateVenueDataResolvers<ContextType>;
   EmailAuthRequest?: EmailAuthRequestResolvers<ContextType>;
