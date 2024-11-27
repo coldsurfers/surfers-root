@@ -20,6 +20,7 @@ export const artistDTOSerializedSchema = z.object({
           id: z.string(),
           owner: z.string(),
           license: z.string(),
+          licenseURL: z.string(),
         })
         .nullable(),
     }),
