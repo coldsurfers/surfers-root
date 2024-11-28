@@ -13,6 +13,7 @@ export default class SearchDTO {
       where: {
         name: {
           contains: keyword,
+          mode: 'insensitive',
         },
       },
       include: {
@@ -28,6 +29,7 @@ export default class SearchDTO {
       where: {
         name: {
           contains: keyword,
+          mode: 'insensitive',
         },
       },
     })
@@ -41,6 +43,7 @@ export default class SearchDTO {
           {
             title: {
               contains: keyword,
+              mode: 'insensitive',
             },
           },
           {
@@ -49,6 +52,7 @@ export default class SearchDTO {
                 artist: {
                   name: {
                     contains: keyword,
+                    mode: 'insensitive',
                   },
                 },
               },
@@ -60,6 +64,7 @@ export default class SearchDTO {
                 venue: {
                   name: {
                     contains: keyword,
+                    mode: 'insensitive',
                   },
                 },
               },
