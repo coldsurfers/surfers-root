@@ -12,6 +12,8 @@
     "lint": "eslint --cache \"src/**/*.{js,jsx,ts,tsx}\" \"vercel/**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "yarn lint --fix",
     "prisma:db-push": "yarn prisma db push --schema ../../packages/prisma-schema/prisma/schema.prisma",
+    "prisma:migrate-dev": "yarn prisma migrate dev --schema ../../packages/prisma-schema/prisma/schema.prisma",
+    "prisma:studio": "yarn prisma studio --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "vercel:sync-env": "vercel env pull"
   },
