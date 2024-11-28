@@ -30,12 +30,19 @@ export const LoginSelectionScreen = () => {
   const { login } = useContext(AuthContext)
   const { goBack, navigate } = useLoginSelectionScreenNavigation()
   const { mutate: mutateSignIn, isPending: isPendingMutateSignIn } = useSignInMutation({
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       if (!data) {
         return
       }
       const { user, authToken } = data
-      login({ user, authToken })
+      await login({ user, authToken })
+      navigate('MainTabScreen', {
+        screen: 'HomeStackScreen',
+        params: {
+          screen: 'HomeScreen',
+          params: {},
+        },
+      })
     },
   })
   const onPressBackButton = useCallback(() => {

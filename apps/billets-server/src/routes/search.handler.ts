@@ -14,7 +14,6 @@ export const searchListHandler: RouteHandler<{
   try {
     const { keyword } = req.query
     const data = await SearchDTO.searchList(keyword)
-
     return rep.status(200).send(data.map((value) => value.serialize()))
   } catch (e) {
     console.error(e)
