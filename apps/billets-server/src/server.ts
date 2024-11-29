@@ -55,6 +55,7 @@ import {
 } from './routes/subscribe.types'
 import userRoute from './routes/user.route'
 import { getMeResponseSchema } from './routes/user.types'
+import { venueRoute } from './routes/venue'
 
 dotenv.config()
 
@@ -179,3 +180,4 @@ fastify.register(searchRoute, { prefix: '/v1/search' })
 fastify.register(subscribeRoute, { prefix: '/v1/subscribe' })
 fastify.register(fcmRoute, { prefix: '/v1/fcm' })
 fastify.register(artistRoute, { prefix: '/v1/artist' })
+fastify.register(venueRoute, { prefix: '/v1/venue' })
