@@ -1,17 +1,17 @@
 version: '3.8'
 
 services:
-  coldsurf-io:
+  billets-web:
     platform: linux/amd64
     build:
       context: ../
-      dockerfile: ./docker/Dockerfile.coldsurf-io
+      dockerfile: ./docker/Dockerfile.billets-web
       args:
         GITHUB_TOKEN: '${GITHUB_TOKEN}'
         PORT: 4001
-    image: '${ECR_REMOTE_HOST}/coldsurf/coldsurf-io:latest'
+    image: '${ECR_REMOTE_HOST}/coldsurf/billets-web:latest'
     env_file:
-      - ../apps/coldsurf-io/.env
+      - ../apps/billets-web/.env
     ports:
       - '4001:4001'
   blog-client:
