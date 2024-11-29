@@ -2,9 +2,9 @@ import {
   ConcertDetailArtistProfileImageModal,
   ConcertDetailSectionList,
   ConcertDetailSectionListSections,
+  ConcertDetailVenueMapBottomSheet,
   useToggleSubscribeConcert,
 } from '@/features'
-import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/concert-venue-map-view'
 import commonStyles from '@/lib/common-styles'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
 import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
@@ -12,7 +12,7 @@ import useSubscribedConcertQuery from '@/lib/react-query/queries/useSubscribedCo
 import { CommonBackIconButton } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner } from '@coldsurfers/ocean-road/native'
-import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { Dimensions, StatusBar, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -186,25 +186,22 @@ export const ConcertDetailScreen = () => {
           </>
         )}
       </View>
-      <BottomSheetModalProvider>
-        <BottomSheetModal ref={mapDetailBottomSheetModalRef}>
-          <BottomSheetView style={{ paddingBottom: bottomInset }}>
-            <ConcertVenueMapView
-              region={{
-                latitude: firstVenue?.latitude ?? 0.0,
-                longitude: firstVenue?.longitude ?? 0.0,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-              }}
-              markerCoordinate={{
-                latitude: firstVenue?.latitude ?? 0.0,
-                longitude: firstVenue?.longitude ?? 0.0,
-              }}
-              size="large"
-            />
-          </BottomSheetView>
-        </BottomSheetModal>
-      </BottomSheetModalProvider>
+      {firstVenue && (
+        <ConcertDetailVenueMapBottomSheet
+          ref={mapDetailBottomSheetModalRef}
+          address={firstVenue.address}
+          region={{
+            latitude: firstVenue.latitude,
+            longitude: firstVenue.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+          markerCoordinate={{
+            latitude: firstVenue.latitude,
+            longitude: firstVenue.longitude,
+          }}
+        />
+      )}
     </>
   )
 }
