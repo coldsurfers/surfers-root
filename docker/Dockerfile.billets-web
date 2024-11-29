@@ -10,22 +10,22 @@ COPY yarn.lock ./yarn.lock
 COPY .yarnrc.yml ./.yarnrc.yml
 COPY ./tsconfig.base.json ./tsconfig.base.json
 COPY ./packages ./packages
-COPY ./apps/coldsurf-io ./apps/coldsurf-io
+COPY ./apps/billets-web ./apps/billets-web
 
-WORKDIR /surfers-root/apps/coldsurf-io
+WORKDIR /surfers-root/apps/billets-web
 ARG PORT
 ENV PORT=${PORT}
 RUN yarn install
-RUN yarn workspace @coldsurfers/coldsurf-io build
-RUN cp -r public .next/standalone/apps/coldsurf-io/public
-RUN cp -r .next/static .next/standalone/apps/coldsurf-io/.next/static
+RUN yarn workspace @coldsurfers/billets-web build
+RUN cp -r public .next/standalone/apps/billets-web/public
+RUN cp -r .next/static .next/standalone/apps/billets-web/.next/static
 
 FROM node:20.16.0-alpine
 WORKDIR /surfers-root
 ARG PORT
 ENV PORT=${PORT}
 
-COPY --from=builder /surfers-root/apps/coldsurf-io/.next .next
+COPY --from=builder /surfers-root/apps/billets-web/.next .next
 
 EXPOSE ${PORT}
-CMD ["node", ".next/standalone/apps/coldsurf-io/server.js"]
+CMD ["node", ".next/standalone/apps/billets-web/server.js"]
