@@ -15,7 +15,6 @@
   "conventionalCommits.scopes": [
     "blog-client",
     "common",
-    "coldsurf-io",
     "billets-server",
     "wamuseum-server",
     "ocean-road",

@@ -30,7 +30,7 @@ jobs:
           echo "WAMUSEUM_SERVER_MAILER_EMAIL_ADDRESS=${{ secrets.WAMUSEUM_SERVER_MAILER_EMAIL_ADDRESS }}" >> ./apps/wamuseum-server/.env
           echo "WAMUSEUM_SERVER_MAILER_EMAIL_APP_PASSWORD=${{ secrets.WAMUSEUM_SERVER_MAILER_EMAIL_APP_PASSWORD }}" >> ./apps/wamuseum-server/.env
           echo "WAMUSEUM_SERVER_MAILER_SERVICE=${{ secrets.WAMUSEUM_SERVER_MAILER_SERVICE }}" >> ./apps/wamuseum-server/.env
-          touch "./apps/coldsurf-io/.env"
+          touch "./apps/billets-web/.env"
           touch "./apps/wamuseum-client/.env"
           touch "./apps/billets-server/.env"
           touch "./apps/blog-client/.env"
