@@ -1,8 +1,9 @@
+import { z } from 'zod'
 import { prisma } from '../prisma/connect'
-import { VenueProps } from './VenueDTO.types'
+import { VenueDTOProps, venueDTOSerializedSchema } from './VenueDTO.types'
 
 export default class VenueDTO {
-  constructor(private readonly props: VenueProps) {
+  constructor(private readonly props: VenueDTOProps) {
     this.props = props
   }
 
@@ -22,5 +23,13 @@ export default class VenueDTO {
 
   get name() {
     return this.props.name
+  }
+
+  public serialize(): z.infer<typeof venueDTOSerializedSchema> {
+    const validation = venueDTOSerializedSchema.safeParse(this.props)
+    if (!validation.success) {
+      throw validation.error
+    }
+    return validation.data
   }
 }
