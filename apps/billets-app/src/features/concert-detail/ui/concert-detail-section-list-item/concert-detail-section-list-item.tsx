@@ -88,9 +88,9 @@ ConcertDetailSectionListItem.VenueMapItem = ({
         <Text style={styles.venueMapAddressText}>
           {'📍'} {address}
         </Text>
-        <Pressable onPress={() => Clipboard.setString(address)} style={styles.venueMapAddressCopyBtn}>
-          <Button theme="transparent">{'복사하기'}</Button>
-        </Pressable>
+        <Button theme="transparent" onPress={() => Clipboard.setString(address)} style={styles.venueMapAddressCopyBtn}>
+          복사하기
+        </Button>
       </View>
       <MapView
         region={{
