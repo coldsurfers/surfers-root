@@ -4,16 +4,17 @@ import {
   ConcertDetailSectionListSections,
   useToggleSubscribeConcert,
 } from '@/features'
+import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/concert-venue-map-view'
 import commonStyles from '@/lib/common-styles'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
 import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import useSubscribedConcertQuery from '@/lib/react-query/queries/useSubscribedConcertQuery'
 import { CommonBackIconButton } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
-import { Button, Spinner, Text } from '@coldsurfers/ocean-road/native'
+import { Button, Spinner } from '@coldsurfers/ocean-road/native'
 import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
-import { StatusBar, StyleSheet, View } from 'react-native'
+import { Dimensions, StatusBar, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT } from './concert-detail-screen.constants'
 import { useConcertDetailScreenNavigation, useConcertDetailScreenRoute } from './concert-detail-screen.hooks'
@@ -188,15 +189,19 @@ export const ConcertDetailScreen = () => {
       <BottomSheetModalProvider>
         <BottomSheetModal ref={mapDetailBottomSheetModalRef}>
           <BottomSheetView style={{ paddingBottom: bottomInset }}>
-            <Text>Hello bottom sheet</Text>
-            <Text>Hello bottom sheet</Text>
-            <Text>Hello bottom sheet</Text>
-            <Text>Hello bottom sheet</Text>
-            <Text>Hello bottom sheet</Text>
-            <Text>Hello bottom sheet</Text>
-            <Text>Hello bottom sheet</Text>
-            <Text>Hello bottom sheet</Text>
-            <Text>Hello bottom sheet</Text>
+            <ConcertVenueMapView
+              region={{
+                latitude: firstVenue?.latitude ?? 0.0,
+                longitude: firstVenue?.longitude ?? 0.0,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }}
+              markerCoordinate={{
+                latitude: firstVenue?.latitude ?? 0.0,
+                longitude: firstVenue?.longitude ?? 0.0,
+              }}
+              size="large"
+            />
           </BottomSheetView>
         </BottomSheetModal>
       </BottomSheetModalProvider>
@@ -223,4 +228,12 @@ const styles = StyleSheet.create({
   },
   imageViewerCloseButton: { position: 'absolute', zIndex: 99, right: 12 },
   imageViewerCloseText: { color: '#ffffff' },
+  venueMap: {
+    width: Dimensions.get('screen').width - 12 * 2,
+    height: 350,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderRadius: 8,
+    marginTop: 4,
+  },
 })

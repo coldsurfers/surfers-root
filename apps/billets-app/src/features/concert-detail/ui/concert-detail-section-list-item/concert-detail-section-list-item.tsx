@@ -1,10 +1,10 @@
+import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/concert-venue-map-view'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Text } from '@coldsurfers/ocean-road/native'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { format } from 'date-fns'
 import { Dimensions, Linking, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import MapView, { Marker } from 'react-native-maps'
 import { VENUE_MAP_HEIGHT } from './concert-detail-section-list-item.constants'
 import {
   ConcertDetailSectionListDateItemProps,
@@ -93,7 +93,7 @@ ConcertDetailSectionListItem.VenueMapItem = ({
           복사하기
         </Button>
       </View>
-      <MapView
+      <ConcertVenueMapView
         region={{
           latitude,
           longitude,
@@ -102,17 +102,11 @@ ConcertDetailSectionListItem.VenueMapItem = ({
         }}
         scrollEnabled={false}
         onPress={onPressMap}
-        style={styles.venueMap}
-      >
-        <Marker
-          coordinate={{
-            latitude,
-            longitude,
-          }}
-        >
-          <Text style={styles.venueMapMarker}>{'📍'}</Text>
-        </Marker>
-      </MapView>
+        markerCoordinate={{
+          latitude,
+          longitude,
+        }}
+      />
     </View>
   )
 }
