@@ -10,8 +10,9 @@ import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import useSubscribedConcertQuery from '@/lib/react-query/queries/useSubscribedConcertQuery'
 import { CommonBackIconButton } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
-import { Button, Spinner } from '@coldsurfers/ocean-road/native'
-import React, { useCallback, useMemo, useState } from 'react'
+import { Button, Spinner, Text } from '@coldsurfers/ocean-road/native'
+import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { StatusBar, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT } from './concert-detail-screen.constants'
@@ -29,6 +30,7 @@ export const ConcertDetailScreen = () => {
   })
   const { data: meData } = useGetMeQuery()
   const toggleSubscribeConcert = useToggleSubscribeConcert()
+  const mapDetailBottomSheetModalRef = useRef<BottomSheetModal>(null)
 
   const [imageViewerVisible, setImageViewerVisible] = useState(false)
 
@@ -102,6 +104,7 @@ export const ConcertDetailScreen = () => {
             latitude: firstVenue?.latitude ?? 0.0,
             longitude: firstVenue?.longitude ?? 0.0,
             address: firstVenue?.address ?? '',
+            onPressMap: () => mapDetailBottomSheetModalRef.current?.present(),
           },
         ],
       },
@@ -182,6 +185,21 @@ export const ConcertDetailScreen = () => {
           </>
         )}
       </View>
+      <BottomSheetModalProvider>
+        <BottomSheetModal ref={mapDetailBottomSheetModalRef}>
+          <BottomSheetView style={{ paddingBottom: bottomInset }}>
+            <Text>Hello bottom sheet</Text>
+            <Text>Hello bottom sheet</Text>
+            <Text>Hello bottom sheet</Text>
+            <Text>Hello bottom sheet</Text>
+            <Text>Hello bottom sheet</Text>
+            <Text>Hello bottom sheet</Text>
+            <Text>Hello bottom sheet</Text>
+            <Text>Hello bottom sheet</Text>
+            <Text>Hello bottom sheet</Text>
+          </BottomSheetView>
+        </BottomSheetModal>
+      </BottomSheetModalProvider>
     </>
   )
 }
