@@ -76,6 +76,15 @@ export const Header = () => {
             >
               배너 만들기
             </Button>
+            <Button
+              onClick={() => router.push('/generate-appstore-banner')}
+              style={{
+                marginRight: 12,
+                backgroundColor: colors.oc.yellow[5].value,
+              }}
+            >
+              앱 스토어 배너 만들기
+            </Button>
             <Button onClick={handleLogout}>로그아웃</Button>
           </>
         )}
