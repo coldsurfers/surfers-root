@@ -81,6 +81,7 @@ ConcertDetailSectionListItem.VenueMapItem = ({
   latitude,
   longitude,
   address,
+  onPressMap,
 }: ConcertDetailSectionListVenueMapItemProps) => {
   return (
     <View>
@@ -99,7 +100,8 @@ ConcertDetailSectionListItem.VenueMapItem = ({
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-        // pointerEvents="none"
+        scrollEnabled={false}
+        onPress={onPressMap}
         style={styles.venueMap}
       >
         <Marker
