@@ -2911,6 +2911,7 @@ __metadata:
     "@babel/preset-env": "npm:^7.20.0"
     "@babel/runtime": "npm:^7.20.0"
     "@coldsurfers/ocean-road": "workspace:*"
+    "@gorhom/bottom-sheet": "npm:^5.0.6"
     "@invertase/react-native-apple-authentication": "npm:^2.2.2"
     "@lukemorales/query-key-factory": "npm:*"
     "@react-native-async-storage/async-storage": "npm:^1.17.10"
@@ -4958,6 +4959,40 @@ __metadata:
     teeny-request: "npm:^9.0.0"
     uuid: "npm:^8.0.0"
   checksum: 10c0/549340cfd4825710dd82dd15bd59ef27d248bc8bad04982c5c97ee4c50f0c09acd24e1b5488530a35318c513a7d9f14d526fcbb050a744893e7e593135856884
+  languageName: node
+  linkType: hard
+
+"@gorhom/bottom-sheet@npm:^5.0.6":
+  version: 5.0.6
+  resolution: "@gorhom/bottom-sheet@npm:5.0.6"
+  dependencies:
+    "@gorhom/portal": "npm:1.0.14"
+    invariant: "npm:^2.2.4"
+  peerDependencies:
+    "@types/react": "*"
+    "@types/react-native": "*"
+    react: "*"
+    react-native: "*"
+    react-native-gesture-handler: ">=2.16.1"
+    react-native-reanimated: ">=3.16.0"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-native":
+      optional: true
+  checksum: 10c0/99eb540c13d13d3da844cdf598fa6b7db962088b3570d25ef3a77788a1388adf6e9b3f2f90f3bca8503041348e33a052ad0e8bb602796735368c6ca2810959a4
+  languageName: node
+  linkType: hard
+
+"@gorhom/portal@npm:1.0.14":
+  version: 1.0.14
+  resolution: "@gorhom/portal@npm:1.0.14"
+  dependencies:
+    nanoid: "npm:^3.3.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/86f33afc2ac2656a86a6f3fd1e41565419839576ede2c38333434a93a0a2fe4fb6fc18ab3360579427f2a1fc3b4564b933cc5ae1793a7e2825c93860a00b215f
   languageName: node
   linkType: hard
 
