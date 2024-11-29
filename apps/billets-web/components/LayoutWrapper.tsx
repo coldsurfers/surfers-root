@@ -2,8 +2,8 @@
 
 import styled from '@emotion/styled'
 import { PropsWithChildren } from 'react'
+import { Footer } from '../ui/footer'
 import { HEADER_HEIGHT, Header } from '../ui/header'
-import Footer from './Footer'
 
 const Container = styled.div`
   display: flex;

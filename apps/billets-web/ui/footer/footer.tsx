@@ -12,10 +12,10 @@ const Container = styled.div`
   gap: 1rem;
 `
 
-export default function Footer() {
+export function Footer() {
   return (
     <Container>
-      <p style={{ fontWeight: 'bold' }}>&copy; COLDSURF</p>
+      <p style={{ fontWeight: 'bold' }}>&copy; 2024 COLDSURF, Inc.</p>
       <Link href="/privacy-policy">
         <p>Privacy Policy</p>
       </Link>
