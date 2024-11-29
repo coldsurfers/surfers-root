@@ -1,4 +1,4 @@
-name: Coldsurf IO CI/CD Pipeline
+name: Billets Web CI/CD Pipeline
 
 on:
   workflow_dispatch: # Allows the workflow to be triggered manually
@@ -20,7 +20,7 @@ jobs:
 
       - name: Create .env file from template
         run: |
-          touch "./apps/coldsurf-io/.env"
+          touch "./apps/billets-web/.env"
           touch "./apps/wamuseum-client/.env"
           touch "./apps/billets-server/.env"
           touch "./apps/wamuseum-server/.env"
@@ -29,7 +29,7 @@ jobs:
       - name: Docker Compose build and push
         uses: ./.github/workflows/composites/docker-compose-build
         with:
-          docker_compose_service: 'coldsurf-io'
+          docker_compose_service: 'billets-web'
           aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -48,5 +48,5 @@ jobs:
           ecr_repository: ${{ secrets.ECR_REPOSITORY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           aws_region: ${{ secrets.AWS_REGION }}
-          docker_compose_service: 'coldsurf-io'
-          docker_compose_service_env_path: ./apps/coldsurf-io/.env
+          docker_compose_service: 'billets-web'
+          docker_compose_service_env_path: ./apps/billets-web/.env
