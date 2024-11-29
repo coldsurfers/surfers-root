@@ -2,8 +2,7 @@
 
 import styled from '@emotion/styled'
 import { PropsWithChildren } from 'react'
-import Header from '../features/layout/Header'
-import { HEADER_HEIGHT } from '../features/layout/Header.constants'
+import { HEADER_HEIGHT, Header } from '../ui/header'
 import Footer from './Footer'
 
 const Container = styled.div`
