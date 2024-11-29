@@ -21,6 +21,7 @@
     "ocean-road",
     "billets-app",
     "ci",
-    "wamuseum-client"
+    "wamuseum-client",
+    "billets-web"
   ]
 }
