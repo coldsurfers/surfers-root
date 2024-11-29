@@ -3,8 +3,8 @@ import styled from '@emotion/styled'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { BILLETS_APP_URL } from '../billets/billets.constants'
-import { HEADER_HEIGHT } from './Header.constants'
+import { BILLETS_APP_URL } from '../../features/billets/billets.constants'
+import { HEADER_HEIGHT } from './header.constants'
 
 const HeaderContainer = styled.div<{ $animation: 'show' | 'hide' }>`
   display: flex;
@@ -107,7 +107,7 @@ const ModalFooter = styled.div`
   justify-content: flex-end;
 `
 
-export function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   useEffect(() => {
     const { body } = document
     if (isOpen) {
@@ -146,7 +146,7 @@ export function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
   )
 }
 
-export default function Header() {
+export function Header() {
   const [animation, setAnimation] = useState<'show' | 'hide'>('show')
   const [isModalOpen, setIsModalOpen] = useState(false)
   useEffect(() => {
@@ -170,15 +170,10 @@ export default function Header() {
       <HeaderContainer $animation={animation}>
         <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
           <Link href="/">
-            <HeaderLogo
-              src="https://coldsurf-aws-s3-bucket.s3.ap-northeast-2.amazonaws.com/billets/static/billets-web/static-images/coldsurf.webp"
-              alt="coldsurf"
-              width={48}
-              height={48}
-            />
+            <HeaderLogo src="/logo.png" alt="header_logo" width={48} height={48} />
           </Link>
           <Link href="/">
-            <HeaderTitle>COLDSURF</HeaderTitle>
+            <HeaderTitle>Billets</HeaderTitle>
           </Link>
         </div>
         <WebMenuContainer>
