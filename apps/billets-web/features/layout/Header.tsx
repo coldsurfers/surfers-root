@@ -171,7 +171,7 @@ export default function Header() {
         <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
           <Link href="/">
             <HeaderLogo
-              src="https://coldsurf-aws-s3-bucket.s3.ap-northeast-2.amazonaws.com/billets/static/coldsurf-io/static-images/coldsurf.webp"
+              src="https://coldsurf-aws-s3-bucket.s3.ap-northeast-2.amazonaws.com/billets/static/billets-web/static-images/coldsurf.webp"
               alt="coldsurf"
               width={48}
               height={48}
