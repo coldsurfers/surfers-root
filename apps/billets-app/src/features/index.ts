@@ -1,5 +1,6 @@
 export * from './concert'
 export * from './concert-detail'
 export * from './location'
+export * from './map'
 export * from './subscribe'
 export * from './subscribed-concert'
