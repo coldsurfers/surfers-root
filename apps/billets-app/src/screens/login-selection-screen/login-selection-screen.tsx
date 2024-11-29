@@ -25,7 +25,7 @@ GoogleSignin.configure({
   profileImageSize: 120, // [iOS] The desired height (and width) of the profile image. Defaults to 120px
 })
 
-export const LoginSelectionScreen = () => {
+export const _LoginSelectionScreen = () => {
   const { show } = useContext(ToastVisibleContext)
   const { login } = useContext(AuthContext)
   const { goBack, navigate } = useLoginSelectionScreenNavigation()
@@ -131,53 +131,54 @@ export const LoginSelectionScreen = () => {
   }, [mutateSignIn, show])
 
   return (
+    <SafeAreaView edges={['bottom']} style={styles.wrapper}>
+      <IconButton onPress={onPressBackButton} theme="transparentDarkGray" icon="✘" style={styles.closeButtonPosition} />
+      <View style={styles.loginBox}>
+        <Button
+          style={[
+            styles.loginButton,
+            {
+              backgroundColor: color.oc.cyan[8].value,
+            },
+          ]}
+          onPress={onPressEmailLogin}
+        >
+          이메일로 계속하기
+        </Button>
+        {Platform.OS === 'ios' && (
+          <Button
+            style={[
+              styles.loginButton,
+              {
+                backgroundColor: colors.oc.black.value,
+              },
+            ]}
+            onPress={onPressAppleLogin}
+          >
+             Apple로 계속하기
+          </Button>
+        )}
+        <Button
+          style={[
+            styles.loginButton,
+            {
+              backgroundColor: GOOGLE_COLOR,
+            },
+          ]}
+          onPress={onPressGoogleLogin}
+        >
+          Google로 계속하기
+        </Button>
+      </View>
+      {isPendingMutateSignIn ? <Spinner /> : null}
+    </SafeAreaView>
+  )
+}
+
+export const LoginSelectionScreen = () => {
+  return (
     <ToastVisibleContextProvider>
-      <SafeAreaView edges={['bottom']} style={styles.wrapper}>
-        <IconButton
-          onPress={onPressBackButton}
-          theme="transparentDarkGray"
-          icon="✘"
-          style={styles.closeButtonPosition}
-        />
-        <View style={styles.loginBox}>
-          <Button
-            style={[
-              styles.loginButton,
-              {
-                backgroundColor: color.oc.cyan[8].value,
-              },
-            ]}
-            onPress={onPressEmailLogin}
-          >
-            이메일로 계속하기
-          </Button>
-          {Platform.OS === 'ios' && (
-            <Button
-              style={[
-                styles.loginButton,
-                {
-                  backgroundColor: colors.oc.black.value,
-                },
-              ]}
-              onPress={onPressAppleLogin}
-            >
-               Apple로 계속하기
-            </Button>
-          )}
-          <Button
-            style={[
-              styles.loginButton,
-              {
-                backgroundColor: GOOGLE_COLOR,
-              },
-            ]}
-            onPress={onPressGoogleLogin}
-          >
-            Google로 계속하기
-          </Button>
-        </View>
-        {isPendingMutateSignIn ? <Spinner /> : null}
-      </SafeAreaView>
+      <_LoginSelectionScreen />
     </ToastVisibleContextProvider>
   )
 }
