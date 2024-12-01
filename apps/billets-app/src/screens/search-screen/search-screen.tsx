@@ -88,6 +88,17 @@ export const SearchScreen = () => {
       }
   > = useCallback(
     ({ item }) => {
+      const onPressVenueItem = () => {
+        // @todo: navigate to venue detail screen
+      }
+      const onPressArtistItem = () => {
+        // @todo: navigate to artist detail screen
+      }
+      const onPressConcertItem = () =>
+        navigation.navigate('ConcertStackScreen', {
+          screen: 'ConcertDetailScreen',
+          params: { concertId: item.id },
+        })
       return match(item)
         .with({ type: 'artist' }, (value) => (
           <SearchItem
@@ -95,6 +106,7 @@ export const SearchScreen = () => {
             thumbnail={<SearchItemThumbnail uri={value.profileImgUrl} type="circle" />}
             title={value.name}
             subtitle="아티스트"
+            onPress={onPressArtistItem}
           />
         ))
         .with({ type: 'venue' }, (value) => (
@@ -103,6 +115,7 @@ export const SearchScreen = () => {
             thumbnail={<SearchItemTextThumbnail text={value.name.slice(0, 1)} />}
             title={value.name}
             subtitle="공연장"
+            onPress={onPressVenueItem}
           />
         ))
         .with({ type: 'concert' }, (value) => (
@@ -112,12 +125,7 @@ export const SearchScreen = () => {
             title={value.title}
             subtitle={format(new Date(value.date), 'EEE, MMM dd')}
             description={value.venueTitle}
-            onPress={() =>
-              navigation.navigate('ConcertStackScreen', {
-                screen: 'ConcertDetailScreen',
-                params: { concertId: value.id },
-              })
-            }
+            onPress={onPressConcertItem}
           />
         ))
         .otherwise(() => null)
