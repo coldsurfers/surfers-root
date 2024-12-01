@@ -1,8 +1,14 @@
 import { RouteHandler } from 'fastify'
 import { z } from 'zod'
+import ConcertDTO from '../../dtos/ConcertDTO'
 import VenueDTO from '../../dtos/VenueDTO'
 import { venueDTOSerializedSchema } from '../../dtos/VenueDTO.types'
-import { getVenueByIdParamsSchema } from './venue.types'
+import {
+  getConcertListByVenueIdParamsSchema,
+  getConcertListByVenueIdQueryStringSchema,
+  getConcertListByVenueIdSuccessResponseSchema,
+  getVenueByIdParamsSchema,
+} from './venue.types'
 
 export const getVenueByIdRoute: RouteHandler<{
   Params: z.infer<typeof getVenueByIdParamsSchema>
@@ -25,4 +31,24 @@ export const getVenueByIdRoute: RouteHandler<{
   }
 }
 
-export const getConcertListByVenueIdRoute: RouteHandler<{}> = async (req, rep) => {}
+export const getConcertListByVenueIdRoute: RouteHandler<{
+  Querystring: z.infer<typeof getConcertListByVenueIdQueryStringSchema>
+  Params: z.infer<typeof getConcertListByVenueIdParamsSchema>
+  Reply: {
+    200: z.infer<typeof getConcertListByVenueIdSuccessResponseSchema>
+    500: void
+  }
+}> = async (req, rep) => {
+  try {
+    const { venueId } = req.params
+    const { offset, size } = req.query
+    const dtos = await ConcertDTO.listByVenueId(venueId, {
+      orderBy: 'latest',
+      take: +size,
+      skip: +offset,
+    })
+    return rep.status(200).send(dtos.map((dto) => dto.serialize()))
+  } catch (e) {
+    return rep.status(500).send()
+  }
+}
