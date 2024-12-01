@@ -89,7 +89,12 @@ export const SearchScreen = () => {
   > = useCallback(
     ({ item }) => {
       const onPressVenueItem = () => {
-        // @todo: navigate to venue detail screen
+        navigation.navigate('VenueStackScreen', {
+          screen: 'VenueDetailScreen',
+          params: {
+            id: item.id,
+          },
+        })
       }
       const onPressArtistItem = () => {
         // @todo: navigate to artist detail screen
