@@ -713,7 +713,7 @@ export type ConcertVenuesQueryVariables = Exact<{
 }>;
 
 
-export type ConcertVenuesQuery = { __typename?: 'Query', concertVenues?: { __typename?: 'ConcertVenueList', list?: Array<{ __typename?: 'Venue', id: string, name: string, lat: number, lng: number, geohash: string } | null> | null } | { __typename?: 'HttpError', code: number, message: string } | null };
+export type ConcertVenuesQuery = { __typename?: 'Query', concertVenues?: { __typename?: 'ConcertVenueList', list?: Array<{ __typename?: 'Venue', id: string, name: string, lat: number, lng: number, geohash: string, address: string } | null> | null } | { __typename?: 'HttpError', code: number, message: string } | null };
 
 export type SearchConcertVenueQueryVariables = Exact<{
   keyword: Scalars['String']['input'];
@@ -1416,6 +1416,7 @@ export const ConcertVenuesDocument = gql`
         lat
         lng
         geohash
+        address
       }
     }
     ... on HttpError {
