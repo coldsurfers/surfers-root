@@ -18,6 +18,7 @@ import {
   subscribedConcertDTOSerializedListSchema,
 } from './dtos/SubscribeConcertDTO.types'
 import { subscribeVenueSerializedSchema } from './dtos/SubscribeVenueDTO.types'
+import { venueDTOSerializedSchema } from './dtos/VenueDTO.types'
 import { SWAGGER_HOST } from './lib/constants'
 import { errorResponseSchema } from './lib/types'
 import { artistRoute } from './routes/artist'
@@ -55,7 +56,7 @@ import {
 } from './routes/subscribe.types'
 import userRoute from './routes/user.route'
 import { getMeResponseSchema } from './routes/user.types'
-import { venueRoute } from './routes/venue'
+import { getVenueByIdParamsSchema, venueRoute } from './routes/venue'
 
 dotenv.config()
 
@@ -152,6 +153,8 @@ fastify.register(fastifySwagger, {
       PostFCMTokenSuccessResponse: fcmTokenDTOSerializedSchema,
       GetArtistByIdParams: getArtistByIdParamsSchema,
       GetArtistByIdSuccessResponse: artistDTOSerializedSchema,
+      GetVenueByIdParams: getVenueByIdParamsSchema,
+      GetVenueByIdSuccessResponse: venueDTOSerializedSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
