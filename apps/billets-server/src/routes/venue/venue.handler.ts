@@ -24,3 +24,5 @@ export const getVenueByIdRoute: RouteHandler<{
     return rep.status(500).send()
   }
 }
+
+export const getConcertListByVenueIdRoute: RouteHandler<{}> = async (req, rep) => {}
