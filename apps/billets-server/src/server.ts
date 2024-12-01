@@ -67,7 +67,7 @@ fastify.register(cors, {
   allowedHeaders: ['Authorization', 'Content-Type'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  origin: ['http://localhost:3000', 'https://coldsurf.io'],
+  origin: ['http://localhost:3000', 'https://billets.coldsurf.io'],
 })
 
 fastify.setValidatorCompiler(validatorCompiler)

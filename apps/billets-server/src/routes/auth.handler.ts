@@ -35,7 +35,7 @@ export const signinPreHandler = async (
     const existing = await UserDTO.findByEmail(email)
     if (provider !== 'email') {
       if (!existing) {
-        return rep.redirect('/api/auth/signup', 307)
+        return rep.redirect('/v1/auth/signup', 307)
       }
     }
   } catch (e) {

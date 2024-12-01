@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React, { PropsWithChildren, useEffect } from 'react'
 import { StatusBar } from 'react-native'
 import BootSplash from 'react-native-bootsplash'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import AppContainer from './src/AppContainer'
 
 const queryClient = new QueryClient()
@@ -27,16 +28,18 @@ const BootSplashAwaiter = ({ children }: PropsWithChildren) => {
 
 const App = () => {
   return (
-    <TabBarVisibleContextProvider>
-      <StatusBar translucent barStyle="dark-content" />
-      <QueryClientProvider client={queryClient}>
-        <AuthContextProvider>
-          <BootSplashAwaiter>
-            <AppContainer />
-          </BootSplashAwaiter>
-        </AuthContextProvider>
-      </QueryClientProvider>
-    </TabBarVisibleContextProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <TabBarVisibleContextProvider>
+        <StatusBar translucent barStyle="dark-content" />
+        <QueryClientProvider client={queryClient}>
+          <AuthContextProvider>
+            <BootSplashAwaiter>
+              <AppContainer />
+            </BootSplashAwaiter>
+          </AuthContextProvider>
+        </QueryClientProvider>
+      </TabBarVisibleContextProvider>
+    </GestureHandlerRootView>
   )
 }
 

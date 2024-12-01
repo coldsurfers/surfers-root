@@ -1,0 +1,31 @@
+FROM node:20.16.0-alpine AS builder
+WORKDIR /surfers-root
+ARG GITHUB_TOKEN
+ENV GITHUB_TOKEN=${GITHUB_TOKEN}
+
+RUN corepack enable
+
+COPY package.json ./package.json
+COPY yarn.lock ./yarn.lock
+COPY .yarnrc.yml ./.yarnrc.yml
+COPY ./tsconfig.base.json ./tsconfig.base.json
+COPY ./packages ./packages
+COPY ./apps/billets-web ./apps/billets-web
+
+WORKDIR /surfers-root/apps/billets-web
+ARG PORT
+ENV PORT=${PORT}
+RUN yarn install
+RUN yarn workspace @coldsurfers/billets-web build
+RUN cp -r public .next/standalone/apps/billets-web/public
+RUN cp -r .next/static .next/standalone/apps/billets-web/.next/static
+
+FROM node:20.16.0-alpine
+WORKDIR /surfers-root
+ARG PORT
+ENV PORT=${PORT}
+
+COPY --from=builder /surfers-root/apps/billets-web/.next .next
+
+EXPOSE ${PORT}
+CMD ["node", ".next/standalone/apps/billets-web/server.js"]

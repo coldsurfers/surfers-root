@@ -2,6 +2,7 @@ import {
   ConcertDetailArtistProfileImageModal,
   ConcertDetailSectionList,
   ConcertDetailSectionListSections,
+  ConcertDetailVenueMapBottomSheet,
   useToggleSubscribeConcert,
 } from '@/features'
 import commonStyles from '@/lib/common-styles'
@@ -11,8 +12,9 @@ import useSubscribedConcertQuery from '@/lib/react-query/queries/useSubscribedCo
 import { CommonBackIconButton } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner } from '@coldsurfers/ocean-road/native'
-import React, { useCallback, useMemo, useState } from 'react'
-import { StatusBar, StyleSheet, View } from 'react-native'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
+import { Dimensions, StatusBar, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT } from './concert-detail-screen.constants'
 import { useConcertDetailScreenNavigation, useConcertDetailScreenRoute } from './concert-detail-screen.hooks'
@@ -29,6 +31,7 @@ export const ConcertDetailScreen = () => {
   })
   const { data: meData } = useGetMeQuery()
   const toggleSubscribeConcert = useToggleSubscribeConcert()
+  const mapDetailBottomSheetModalRef = useRef<BottomSheetModal>(null)
 
   const [imageViewerVisible, setImageViewerVisible] = useState(false)
 
@@ -102,6 +105,7 @@ export const ConcertDetailScreen = () => {
             latitude: firstVenue?.latitude ?? 0.0,
             longitude: firstVenue?.longitude ?? 0.0,
             address: firstVenue?.address ?? '',
+            onPressMap: () => mapDetailBottomSheetModalRef.current?.present(),
           },
         ],
       },
@@ -182,6 +186,22 @@ export const ConcertDetailScreen = () => {
           </>
         )}
       </View>
+      {firstVenue && (
+        <ConcertDetailVenueMapBottomSheet
+          ref={mapDetailBottomSheetModalRef}
+          address={firstVenue.address}
+          region={{
+            latitude: firstVenue.latitude,
+            longitude: firstVenue.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+          markerCoordinate={{
+            latitude: firstVenue.latitude,
+            longitude: firstVenue.longitude,
+          }}
+        />
+      )}
     </>
   )
 }
@@ -205,4 +225,12 @@ const styles = StyleSheet.create({
   },
   imageViewerCloseButton: { position: 'absolute', zIndex: 99, right: 12 },
   imageViewerCloseText: { color: '#ffffff' },
+  venueMap: {
+    width: Dimensions.get('screen').width - 12 * 2,
+    height: 350,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderRadius: 8,
+    marginTop: 4,
+  },
 })
