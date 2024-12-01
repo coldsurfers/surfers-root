@@ -1,3 +1,5 @@
+import { CommonScreenLayout } from '@/ui'
+
 export const VenueDetailScreen = () => {
-  return null
+  return <CommonScreenLayout></CommonScreenLayout>
 }
