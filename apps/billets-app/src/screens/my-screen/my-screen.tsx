@@ -1,5 +1,6 @@
 import { SubscribedConcertList } from '@/features'
 import { Screens } from '@/lib'
+import { useDeactivateUserMutation } from '@/lib/react-query'
 import { CommonScreenLayout } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, ProfileThumbnail, Spinner, Text } from '@coldsurfers/ocean-road/native'
@@ -15,6 +16,32 @@ const ListHeaderComponent = () => {
   return (
     <View style={styles.listHeader}>
       <Text style={styles.listHeaderText}>프로필</Text>
+    </View>
+  )
+}
+
+const ListFooterComponent = () => {
+  const { logout } = useContext(AuthContext)
+  const { mutate: deactivateUser } = useDeactivateUserMutation({
+    onSuccess: () => {
+      logout()
+    },
+  })
+  return (
+    <View>
+      <Pressable
+        hitSlop={{
+          top: 20,
+          bottom: 20,
+          left: 20,
+          right: 20,
+        }}
+        onPress={() => {
+          deactivateUser()
+        }}
+      >
+        <Text>회원탈퇴</Text>
+      </Pressable>
     </View>
   )
 }
@@ -158,6 +185,7 @@ export const MyScreen = () => {
         sections={settingSections}
         stickySectionHeadersEnabled={false}
         ListHeaderComponent={ListHeaderComponent}
+        ListFooterComponent={ListFooterComponent}
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
       />
