@@ -27,21 +27,33 @@ const ListFooterComponent = () => {
       logout()
     },
   })
+  const onPress = useCallback(() => {
+    Alert.alert('회원탈퇴', '회원탈퇴를 하면 더 이상 해당 계정으로 로그인 할 수 없어요', [
+      {
+        style: 'destructive',
+        text: '탈퇴하기',
+        onPress: () => deactivateUser(),
+      },
+      {
+        style: 'cancel',
+        text: '취소',
+      },
+    ])
+  }, [deactivateUser])
   return (
-    <View>
-      <Pressable
+    <View style={styles.deactivateUserWrapper}>
+      <Button
+        theme="transparent"
         hitSlop={{
           top: 20,
           bottom: 20,
           left: 20,
           right: 20,
         }}
-        onPress={() => {
-          deactivateUser()
-        }}
+        onPress={onPress}
       >
-        <Text>회원탈퇴</Text>
-      </Pressable>
+        회원탈퇴
+      </Button>
     </View>
   )
 }
@@ -277,5 +289,8 @@ const styles = StyleSheet.create({
   sectionHeaderMoreAddOnButtonText: {
     fontWeight: 'bold',
     fontSize: 12,
+  },
+  deactivateUserWrapper: {
+    marginLeft: 'auto',
   },
 })
