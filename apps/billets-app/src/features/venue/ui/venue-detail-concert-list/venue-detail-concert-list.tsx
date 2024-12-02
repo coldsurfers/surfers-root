@@ -1,9 +1,7 @@
-import { HorizontalConcertItem } from '@/features/concert/ui'
 import { useVenueConcertListQuery } from '@/lib/react-query/queries/use-venue-concert-list-query'
-import { ProfileThumbnail } from '@coldsurfers/ocean-road/native'
-import format from 'date-fns/format'
 import { useCallback, useMemo } from 'react'
 import { ActivityIndicator, FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
+import { VenueDetailConcertListItem } from '../venue-detail-concert-list-item'
 import { VenueDetailTop } from '../venue-detail-top'
 
 export const VenueDetailConcertList = ({
@@ -30,22 +28,7 @@ export const VenueDetailConcertList = ({
 
   const renderItem = useCallback<ListRenderItem<(typeof venueConcertListUIData)[number]>>(
     (info) => {
-      return (
-        <HorizontalConcertItem
-          onPress={() => onPressItem?.({ concertId: info.item.id })}
-          title={info.item.title}
-          subtitle={format(new Date(info.item.date), 'EEE, MMM dd')}
-          description={info.item.venues.at(0)?.venueTitle ?? ''}
-          thumbnailComponent={
-            <ProfileThumbnail
-              type="square"
-              emptyBgText={info.item.title.at(0) ?? ''}
-              imageUrl={info.item.posters.at(0)?.imageUrl}
-              size="md"
-            />
-          }
-        />
-      )
+      return <VenueDetailConcertListItem item={info.item} onPress={() => onPressItem?.({ concertId: info.item.id })} />
     },
     [onPressItem],
   )
