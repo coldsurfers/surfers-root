@@ -1,5 +1,12 @@
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import { subscribedArtistDTOSerializedSchema } from '../dtos/SubscribeArtistDTO.types'
+import {
+  subscribeConcertDTOSerializedSchema,
+  subscribedConcertDTOSerializedListSchema,
+} from '../dtos/SubscribeConcertDTO.types'
+import { subscribeVenueSerializedSchema } from '../dtos/SubscribeVenueDTO.types'
+import { errorResponseSchema } from '../lib/error'
 import {
   getConcertSubscribeHandler,
   getSubscribedConcertListHandler,
@@ -10,19 +17,12 @@ import {
   unsubscribeConcertHandler,
   unsubscribeVenueHandler,
 } from './subscribe.handler'
-import { errorResponseSchema } from '../lib/types'
 import {
   getSubscribedConcertListQueryStringSchema,
   subscribeConcertBodySchema,
   subscribeConcertParamsSchema,
   subscribeVenueParamsSchema,
 } from './subscribe.types'
-import {
-  subscribeConcertDTOSerializedSchema,
-  subscribedConcertDTOSerializedListSchema,
-} from '../dtos/SubscribeConcertDTO.types'
-import { subscribedArtistDTOSerializedSchema } from '../dtos/SubscribeArtistDTO.types'
-import { subscribeVenueSerializedSchema } from '../dtos/SubscribeVenueDTO.types'
 
 const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
