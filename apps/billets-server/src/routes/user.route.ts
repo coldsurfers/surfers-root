@@ -18,6 +18,9 @@ const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
         ],
         response: {
           200: getMeResponseSchema,
+          401: errorResponseSchema,
+          404: errorResponseSchema,
+          500: errorResponseSchema,
         },
       },
     },

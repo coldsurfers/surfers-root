@@ -10,18 +10,31 @@ import { deactivateUserBodySchema, GetMeResponse } from './user.types'
 export const getMeHandler: RouteHandler<{
   Reply: {
     200: GetMeResponse
-    404: void
-    500: void
+    401: z.infer<typeof errorResponseSchema>
+    404: z.infer<typeof errorResponseSchema>
+    500: z.infer<typeof errorResponseSchema>
   }
 }> = async (req, rep) => {
   try {
     const userDTO = await findUserByAccessToken(req.headers.authorization ?? '')
     if (!userDTO) {
-      return rep.status(404).send()
+      return rep.status(404).send({
+        code: 'USER_NOT_FOUND',
+        message: 'user not found',
+      })
+    }
+    if (userDTO.deactivatedAt) {
+      return rep.status(401).send({
+        code: 'USER_DEACTIVATED',
+        message: 'deactivated user',
+      })
     }
     return rep.status(200).send(userDTO.serialize())
   } catch (e) {
-    return rep.status(500).send()
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    })
   }
 }
 
