@@ -20,7 +20,7 @@ import {
 import { subscribeVenueSerializedSchema } from './dtos/SubscribeVenueDTO.types'
 import { venueDTOSerializedSchema } from './dtos/VenueDTO.types'
 import { SWAGGER_HOST } from './lib/constants'
-import { errorResponseSchema } from './lib/types'
+import { errorResponseSchema } from './lib/error'
 import { artistRoute } from './routes/artist'
 import { getArtistByIdParamsSchema } from './routes/artist/artist.types'
 import authRoute from './routes/auth.route'
