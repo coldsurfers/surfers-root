@@ -1,7 +1,7 @@
 import { MutationOptions, useMutation } from '@tanstack/react-query'
-import client from '../../api/openapi-client'
 import { components } from '../../../types/api'
 import APIError from '../../api/APIError'
+import client from '../../api/openapi-client'
 
 function useSendEmailConfirmMutation(
   options: MutationOptions<
