@@ -11,25 +11,35 @@ export const VenueDetailTop = ({ venueId }: { venueId: string }) => {
     return venueDetail?.data ?? null
   }, [venueDetail?.data])
   return (
-    <View style={styles.topContainer}>
-      {isLoadingVenueDetail ? (
-        <ActivityIndicator animating />
-      ) : (
-        <Text weight="medium" style={styles.topTitle}>
-          {venueDetailUIData?.name}
-        </Text>
-      )}
+    <View>
+      <View style={styles.topContainer}>
+        {isLoadingVenueDetail ? (
+          <ActivityIndicator animating />
+        ) : (
+          <Text weight="medium" style={styles.topTitle}>
+            {venueDetailUIData?.name}
+          </Text>
+        )}
+      </View>
+      <Text weight="medium" style={styles.subText}>
+        콘서트 리스트
+      </Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   topContainer: {
-    height: 250,
+    height: 200,
     alignItems: 'center',
     justifyContent: 'center',
   },
   topTitle: {
     fontSize: 24,
+  },
+  subText: {
+    marginTop: 20,
+    marginBottom: 25,
+    fontSize: 20,
   },
 })
