@@ -49,7 +49,9 @@ export function SearchItem({
         <TouchableOpacity onPress={onPress} style={styles.itemWrapper}>
           {thumbnail}
           <View style={styles.itemInnerRight}>
-            <Text weight="bold">{title}</Text>
+            <Text weight="bold" numberOfLines={1}>
+              {title}
+            </Text>
             <Text weight="medium" style={{ color: palettes.lightblue['500'] }}>
               {subtitle}
             </Text>
@@ -71,5 +73,6 @@ const styles = StyleSheet.create({
   },
   itemInnerRight: {
     marginLeft: 8,
+    flex: 1,
   },
 })
