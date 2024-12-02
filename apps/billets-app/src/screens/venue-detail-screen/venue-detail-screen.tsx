@@ -1,8 +1,9 @@
 import { VenueDetailTop } from '@/features/venue/ui'
 import { useVenueConcertListQuery } from '@/lib/react-query/queries/use-venue-concert-list-query'
 import { CommonBackIconButton, CommonScreenLayout } from '@/ui'
+import { Text } from '@coldsurfers/ocean-road/native'
 import { useMemo } from 'react'
-import { StyleSheet } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useVenueDetailScreenNavigation, useVenueDetailScreenRoute } from './venue-detail-screen.hooks'
 
@@ -27,9 +28,24 @@ export const VenueDetailScreen = () => {
   return (
     <CommonScreenLayout>
       <CommonBackIconButton top={topInset} onPress={navigation.goBack} />
-      <VenueDetailTop venueId={route.params.id} />
+      <FlatList
+        ListHeaderComponent={<VenueDetailTop venueId={route.params.id} />}
+        data={venueConcertListUIData}
+        renderItem={(info) => {
+          return (
+            <View>
+              <Text>{info.item.title}</Text>
+            </View>
+          )
+        }}
+        contentContainerStyle={styles.contentContainer}
+      />
     </CommonScreenLayout>
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  contentContainer: {
+    paddingHorizontal: 12,
+  },
+})
