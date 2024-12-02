@@ -2,6 +2,7 @@ import { RouteHandler } from 'fastify'
 import { z } from 'zod'
 import UserDTO from '../dtos/UserDTO'
 import { userDTOSerializedSchema } from '../dtos/UserDTO.types'
+import { errorResponseSchema } from '../lib/error'
 import { decodeToken } from '../lib/jwt'
 import { findUserByAccessToken } from './user.service'
 import { GetMeResponse } from './user.types'
@@ -27,8 +28,8 @@ export const getMeHandler: RouteHandler<{
 export const deactivateUserHandler: RouteHandler<{
   Reply: {
     200: z.infer<typeof userDTOSerializedSchema>
-    401: void
-    500: void
+    401: z.infer<typeof errorResponseSchema>
+    500: z.infer<typeof errorResponseSchema>
   }
 }> = async (req, rep) => {
   try {
