@@ -1,9 +1,11 @@
+import { HorizontalConcertItem } from '@/features'
 import { VenueDetailTop } from '@/features/venue/ui'
 import { useVenueConcertListQuery } from '@/lib/react-query/queries/use-venue-concert-list-query'
 import { CommonBackIconButton, CommonScreenLayout } from '@/ui'
-import { Text } from '@coldsurfers/ocean-road/native'
+import { ProfileThumbnail } from '@coldsurfers/ocean-road/native'
+import format from 'date-fns/format'
 import { useMemo } from 'react'
-import { FlatList, StyleSheet, View } from 'react-native'
+import { FlatList, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useVenueDetailScreenNavigation, useVenueDetailScreenRoute } from './venue-detail-screen.hooks'
 
@@ -33,11 +35,30 @@ export const VenueDetailScreen = () => {
         data={venueConcertListUIData}
         renderItem={(info) => {
           return (
-            <View>
-              <Text>{info.item.title}</Text>
-            </View>
+            <HorizontalConcertItem
+              onPress={() => {
+                navigation.navigate('ConcertStackScreen', {
+                  screen: 'ConcertDetailScreen',
+                  params: {
+                    concertId: info.item.id,
+                  },
+                })
+              }}
+              title={info.item.title}
+              subtitle={format(new Date(info.item.date), 'EEE, MMM dd')}
+              description={info.item.venues.at(0)?.venueTitle ?? ''}
+              thumbnailComponent={
+                <ProfileThumbnail
+                  type="square"
+                  emptyBgText={info.item.title.at(0) ?? ''}
+                  imageUrl={info.item.posters.at(0)?.imageUrl}
+                  size="md"
+                />
+              }
+            />
           )
         }}
+        keyExtractor={(item) => item.id}
         contentContainerStyle={styles.contentContainer}
       />
     </CommonScreenLayout>
