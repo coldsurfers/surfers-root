@@ -35,21 +35,30 @@ export const deactivateUserHandler: RouteHandler<{
   try {
     const { authorization } = req.headers
     if (!authorization) {
-      return rep.status(401).send()
+      return rep.status(401).send({
+        code: 'ACCESS_TOKEN_NOT_FOUND',
+        message: 'access token not found',
+      })
     }
     const decoded = decodeToken(authorization)
     if (!decoded) {
-      return rep.status(401).send()
+      return rep.status(401).send({
+        code: 'INVALID_ACCESS_TOKEN',
+        message: 'invalid access token',
+      })
     }
     const { id: userId } = decoded
     const user = await UserDTO.findById(userId)
     if (!user) {
-      return rep.status(401).send()
+      return rep.status(401).send({
+        code: 'USER_NOT_FOUND',
+        message: 'user not found',
+      })
     }
     const userToDeactivate = new UserDTO(user)
     const deactivated = await userToDeactivate.deactivate()
     return rep.status(200).send(deactivated.serialize())
   } catch (e) {
-    return rep.status(500).send()
+    return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
   }
 }
