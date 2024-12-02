@@ -1,3 +1,4 @@
+import { HorizontalConcertItem } from '@/features/concert/ui'
 import { Text } from '@coldsurfers/ocean-road/native'
 import { ReactNode } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
@@ -46,20 +47,13 @@ export function SearchItem({
     })
     .with('concert', () => {
       return (
-        <TouchableOpacity onPress={onPress} style={styles.itemWrapper}>
-          {thumbnail}
-          <View style={styles.itemInnerRight}>
-            <Text weight="bold" numberOfLines={1}>
-              {title}
-            </Text>
-            <Text weight="medium" style={{ color: palettes.lightblue['500'] }}>
-              {subtitle}
-            </Text>
-            <Text weight="medium" style={{ color: palettes.gray['800'] }}>
-              {description}
-            </Text>
-          </View>
-        </TouchableOpacity>
+        <HorizontalConcertItem
+          title={title}
+          subtitle={subtitle}
+          description={description ?? ''}
+          thumbnailComponent={thumbnail}
+          onPress={onPress}
+        />
       )
     })
     .otherwise(() => null)

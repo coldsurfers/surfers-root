@@ -1,6 +1,6 @@
 import { SearchItem, SearchItemThumbnail } from '@/features/search/ui'
 import { CommonListEmpty } from '@/ui'
-import { Text, TextInput } from '@coldsurfers/ocean-road/native'
+import { ProfileThumbnail, Text, TextInput } from '@coldsurfers/ocean-road/native'
 import { useDebounce } from '@uidotdev/usehooks'
 import format from 'date-fns/format'
 import { useCallback, useMemo, useState } from 'react'
@@ -125,7 +125,12 @@ export const SearchScreen = () => {
           <SearchItem
             type="concert"
             thumbnail={
-              <SearchItemThumbnail type="square" emptyBgText={value.title.at(0)} uri={value.thumbnailImgUrl} />
+              <ProfileThumbnail
+                type={'square'}
+                emptyBgText={value.title.at(0) ?? ''}
+                imageUrl={value.thumbnailImgUrl ?? ''}
+                size="md"
+              />
             }
             title={value.title}
             subtitle={format(new Date(value.date), 'EEE, MMM dd')}
