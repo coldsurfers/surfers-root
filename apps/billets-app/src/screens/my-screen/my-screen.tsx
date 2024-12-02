@@ -64,7 +64,7 @@ export const MyScreen = () => {
         .with('profile', () => {
           return (
             <Pressable onPress={info.item.onPress} style={styles.profileItem}>
-              <ProfileThumbnail size="md" emptyBgText={info.item.title.at(0) ?? ''} />
+              <ProfileThumbnail type="circle" size="md" emptyBgText={info.item.title.at(0) ?? ''} />
               <Text style={[styles.profileItemText, styles.itemText]}>{info.item.title}</Text>
             </Pressable>
           )

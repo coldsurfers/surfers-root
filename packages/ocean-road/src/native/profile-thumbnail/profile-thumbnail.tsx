@@ -20,30 +20,37 @@ const PROFILE_THUMBNAIL_SIZE = {
 
 type ProfileThumbnailProps = {
   size?: 'md' | 'sm' | 'lg'
+  type?: 'square' | 'circle'
   emptyBgText: string
   imageUrl?: string
 }
 
-export const ProfileThumbnail = ({ size = 'md', emptyBgText, imageUrl }: ProfileThumbnailProps) => {
+export const ProfileThumbnail = ({ size = 'md', emptyBgText, imageUrl, type = 'square' }: ProfileThumbnailProps) => {
   const sizeStyle = useMemo(() => {
     return PROFILE_THUMBNAIL_SIZE[size]
   }, [size])
-  return (
-    <View
-      style={[
-        styles.wrapper,
-        sizeStyle,
-        {
+  const borderRadiusStyle = useMemo(() => {
+    switch (type) {
+      case 'circle':
+        return {
           borderRadius: sizeStyle.width / 2,
-        },
-      ]}
-    >
+        }
+      case 'square':
+        return { borderRadius: 4 }
+      default:
+        return {
+          borderRadius: 4,
+        }
+    }
+  }, [sizeStyle.width, type])
+  return (
+    <View style={[styles.wrapper, sizeStyle, borderRadiusStyle]}>
       {emptyBgText ? (
         <Text weight="bold" style={styles.bgText}>
           {emptyBgText}
         </Text>
       ) : null}
-      {imageUrl && <Image source={{ uri: imageUrl }} style={styles.image} />}
+      {imageUrl && <Image source={{ uri: imageUrl }} style={[styles.image, borderRadiusStyle]} />}
     </View>
   )
 }
@@ -56,6 +63,7 @@ const styles = StyleSheet.create({
   },
   bgText: {
     color: colors.oc.white.value,
+    position: 'absolute',
   },
   image: {
     width: '100%',
