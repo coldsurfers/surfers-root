@@ -1,6 +1,7 @@
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { getMeHandler } from './user.handler'
+import { userDTOSerializedSchema } from '../dtos/UserDTO.types'
+import { deactivateUserHandler, getMeHandler } from './user.handler'
 import { getMeResponseSchema } from './user.types'
 
 const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
@@ -20,6 +21,23 @@ const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
     },
     getMeHandler,
+  )
+  fastify.withTypeProvider<ZodTypeProvider>().post(
+    '/deactivate',
+    {
+      schema: {
+        tags: ['v1', 'user'],
+        security: [
+          {
+            AccessTokenAuth: [],
+          },
+        ],
+        response: {
+          200: userDTOSerializedSchema,
+        },
+      },
+    },
+    deactivateUserHandler,
   )
   done()
 }

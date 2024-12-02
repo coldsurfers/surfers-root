@@ -1,4 +1,8 @@
 import { RouteHandler } from 'fastify'
+import { z } from 'zod'
+import UserDTO from '../dtos/UserDTO'
+import { userDTOSerializedSchema } from '../dtos/UserDTO.types'
+import { decodeToken } from '../lib/jwt'
 import { findUserByAccessToken } from './user.service'
 import { GetMeResponse } from './user.types'
 
@@ -15,6 +19,35 @@ export const getMeHandler: RouteHandler<{
       return rep.status(404).send()
     }
     return rep.status(200).send(userDTO.serialize())
+  } catch (e) {
+    return rep.status(500).send()
+  }
+}
+
+export const deactivateUserHandler: RouteHandler<{
+  Reply: {
+    200: z.infer<typeof userDTOSerializedSchema>
+    401: void
+    500: void
+  }
+}> = async (req, rep) => {
+  try {
+    const { authorization } = req.headers
+    if (!authorization) {
+      return rep.status(401).send()
+    }
+    const decoded = decodeToken(authorization)
+    if (!decoded) {
+      return rep.status(401).send()
+    }
+    const { id: userId } = decoded
+    const user = await UserDTO.findById(userId)
+    if (!user) {
+      return rep.status(401).send()
+    }
+    const userToDeactivate = new UserDTO(user)
+    const deactivated = await userToDeactivate.deactivate()
+    return rep.status(200).send(deactivated.serialize())
   } catch (e) {
     return rep.status(500).send()
   }
