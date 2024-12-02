@@ -72,6 +72,54 @@ export default class ConcertDTO {
     )
   }
 
+  static async listByVenueId(
+    venueId: string,
+    options: {
+      orderBy: 'latest' | 'oldest'
+      take: number
+      skip: number
+    },
+  ) {
+    const data = await prisma.concert.findMany({
+      where: {
+        venues: {
+          some: {
+            venueId,
+          },
+        },
+        deletedAt: {
+          equals: null,
+        },
+      },
+      include: {
+        posters: {
+          select: {
+            poster: true,
+          },
+        },
+        venues: {
+          select: {
+            venue: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: options.orderBy === 'latest' ? 'desc' : 'asc',
+      },
+      take: options.take,
+      skip: options.skip,
+    })
+
+    return data.map(
+      (value) =>
+        new ConcertDTO({
+          ...value,
+          posters: value.posters.map((posterValue) => posterValue.poster),
+          venues: value.venues.map((venueValue) => venueValue.venue),
+        }),
+    )
+  }
+
   static async findById(id: string) {
     const data = await prisma.concert.findUnique({
       where: {
