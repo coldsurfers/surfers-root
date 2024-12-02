@@ -242,7 +242,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ConcertSearchSuccessResponse']
+            'application/json': components['schemas']['GetConcertListByVenueIdSuccessResponse']
           }
         }
       }
@@ -318,7 +318,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ConcertSearchSuccessResponse']
+            'application/json': components['schemas']['GetConcertListByVenueIdSuccessResponse']
           }
         }
       }
@@ -652,7 +652,7 @@ export interface paths {
       }
       requestBody: {
         content: {
-          'application/json': components['schemas']['GetArtistByIdParams']
+          'application/json': components['schemas']['GetVenueByIdParams']
         }
       }
       responses: {
@@ -705,7 +705,7 @@ export interface paths {
       }
       requestBody: {
         content: {
-          'application/json': components['schemas']['GetArtistByIdParams']
+          'application/json': components['schemas']['GetVenueByIdParams']
         }
       }
       responses: {
@@ -899,6 +899,83 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/venue/{id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['GetVenueByIdSuccessResponse']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/venue/concert-list/{venueId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query: {
+          offset: string
+          size: string
+        }
+        header?: never
+        path: {
+          venueId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['GetConcertListByVenueIdSuccessResponse']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
 }
 export type webhooks = Record<string, never>
 export interface components {
@@ -981,6 +1058,14 @@ export interface components {
       }[]
       id: string
     }
+    GetConcertListByVenueIdParams: {
+      venueId: string
+    }
+    GetConcertListByVenueIdQuerystring: {
+      offset: string
+      size: string
+    }
+    GetConcertListByVenueIdSuccessResponse: components['schemas']['ConcertDetailSuccessResponse'][]
     GetMeSuccessResponse: {
       email: string
       id: string
@@ -989,6 +1074,16 @@ export interface components {
     GetSubscribedConcertListQueryString: {
       offset: string
       size: string
+    }
+    GetVenueByIdParams: {
+      id: string
+    }
+    GetVenueByIdSuccessResponse: {
+      address: string
+      id: string
+      lat: number
+      lng: number
+      name: string
     }
     PostFCMTokenBody: {
       fcmToken: string
