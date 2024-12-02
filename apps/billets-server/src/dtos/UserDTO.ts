@@ -47,6 +47,21 @@ export default class UserDTO {
     return new UserDTO(data)
   }
 
+  async deactivate() {
+    if (!this.props.id) {
+      throw Error('id invalid')
+    }
+    const data = await prisma.user.update({
+      where: {
+        id: this.props.id,
+      },
+      data: {
+        deactivatedAt: new Date(),
+      },
+    })
+    return new UserDTO(data)
+  }
+
   get id(): string | undefined {
     return this.props.id
   }
