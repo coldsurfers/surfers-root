@@ -908,7 +908,11 @@ export interface paths {
         path?: never
         cookie?: never
       }
-      requestBody?: never
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['DeactivateUserBody']
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
@@ -1117,6 +1121,10 @@ export interface components {
     ConfirmAuthCodeSuccessResponse: {
       /** Format: email */
       email: string
+    }
+    DeactivateUserBody: {
+      /** @enum {string} */
+      type: 'deactivate'
     }
     ErrorResponse: {
       code:
