@@ -6,10 +6,15 @@ import { useVenueDetailScreenRoute } from './venue-detail-screen.hooks'
 
 export const VenueDetailScreen = () => {
   const route = useVenueDetailScreenRoute()
-  const { data: venueDetail } = useVenueDetailQuery({
+  const { data: venueDetail, isLoading: isLoadingVenueDetail } = useVenueDetailQuery({
     id: route.params.id,
   })
-  const { data: venueConcertList } = useVenueConcertListQuery({
+  const {
+    data: venueConcertList,
+    isPending: isPendingVenueConcertList,
+    isFetchingNextPage: isFetchingNextPageVenueConcerList,
+    hasNextPage: hasNextPageVenueConcertList,
+  } = useVenueConcertListQuery({
     venueId: route.params.id,
   })
 
