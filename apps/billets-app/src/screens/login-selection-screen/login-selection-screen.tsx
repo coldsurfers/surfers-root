@@ -70,12 +70,31 @@ export const _LoginSelectionScreen = () => {
           token: user.idToken,
         },
         {
-          onError: () =>
+          onError: (error) => {
+            let message = ''
+            if (error.code === 'USER_DEACTIVATED') {
+              message = '탈퇴 처리 된 계정이에요'
+              // Alert.alert('탈퇴 처리된 계정', '탈퇴 처리 된 계정이에요. 하지만 복구할 수 있어요!', [
+              //   {
+              //     text: '복구하기',
+              //     style: 'default',
+              //   },
+              //   {
+              //     text: '취소',
+              //     style: 'cancel',
+              //   },
+              // ])
+              // return
+            } else {
+              message = '구글 로그인 중 오류가 발생했어요'
+            }
             show({
               autoHide: true,
               duration: 5000,
-              message: '구글 로그인 중 오류가 발생했어요',
-            }),
+              message,
+              type: 'error',
+            })
+          },
         },
       )
     } catch (e) {
@@ -115,13 +134,31 @@ export const _LoginSelectionScreen = () => {
             token: identityToken,
           },
           {
-            onError: () =>
+            onError: (error) => {
+              let message = ''
+              if (error.code === 'USER_DEACTIVATED') {
+                message = '탈퇴 처리 된 계정이에요'
+                // Alert.alert('탈퇴 처리된 계정', '탈퇴 처리 된 계정이에요. 하지만 복구할 수 있어요!', [
+                //   {
+                //     text: '복구하기',
+                //     style: 'default',
+                //   },
+                //   {
+                //     text: '취소',
+                //     style: 'cancel',
+                //   },
+                // ])
+                // return
+              } else {
+                message = '애플 로그인 중 오류가 발생했어요'
+              }
               show({
                 type: 'error',
-                message: '애플 로그인 중 오류가 발생했어요',
+                message,
                 autoHide: true,
                 duration: 5000,
-              }),
+              })
+            },
           },
         )
       }
