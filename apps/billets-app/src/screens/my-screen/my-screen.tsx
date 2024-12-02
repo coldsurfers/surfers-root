@@ -2,7 +2,7 @@ import { SubscribedConcertList } from '@/features'
 import { Screens } from '@/lib'
 import { CommonScreenLayout } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
-import { Button, Spinner, Text } from '@coldsurfers/ocean-road/native'
+import { Button, ProfileThumbnail, Spinner, Text } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Alert, Pressable, SectionList, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import { match } from 'ts-pattern'
@@ -63,16 +63,10 @@ export const MyScreen = () => {
       return match(info.section.title)
         .with('profile', () => {
           return (
-            <View style={styles.profileItem}>
-              <View style={styles.profileItemTextWrapper}>
-                <Text weight="bold" style={styles.profileItemThumbnailText}>
-                  {info.item.title[0]}
-                </Text>
-              </View>
-              <Pressable onPress={info.item.onPress} style={styles.profileItemText}>
-                <Text style={styles.itemText}>{info.item.title}</Text>
-              </Pressable>
-            </View>
+            <Pressable onPress={info.item.onPress} style={styles.profileItem}>
+              <ProfileThumbnail type="circle" size="md" emptyBgText={info.item.title.at(0) ?? ''} />
+              <Text style={[styles.profileItemText, styles.itemText]}>{info.item.title}</Text>
+            </Pressable>
           )
         })
         .with('account', () => {

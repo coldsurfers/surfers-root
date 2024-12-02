@@ -1,9 +1,9 @@
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { searchListHandler } from './search.handler'
-import { errorResponseSchema } from '../lib/types'
-import { searchListQuerystringSchema } from './search.types'
 import { searchDTOSerializedSchema } from '../dtos/SearchDTO.types'
+import { errorResponseSchema } from '../lib/error'
+import { searchListHandler } from './search.handler'
+import { searchListQuerystringSchema } from './search.types'
 
 /**
  * /v1/search

@@ -1,5 +1,6 @@
+import { SearchItem, SearchItemThumbnail } from '@/features/search/ui'
 import { CommonListEmpty } from '@/ui'
-import { Text, TextInput } from '@coldsurfers/ocean-road/native'
+import { ProfileThumbnail, Text, TextInput } from '@coldsurfers/ocean-road/native'
 import { useDebounce } from '@uidotdev/usehooks'
 import format from 'date-fns/format'
 import { useCallback, useMemo, useState } from 'react'
@@ -15,9 +16,6 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { match } from 'ts-pattern'
 import { useShallow } from 'zustand/shallow'
-import SearchItem from '../../features/search/ui/SearchItem'
-import SearchItemTextThumbnail from '../../features/search/ui/SearchItemTextThumbnail'
-import SearchItemThumbnail from '../../features/search/ui/SearchItemThumbnail'
 import useConcertListQuery from '../../lib/react-query/queries/useConcertListQuery'
 import useSearchQuery from '../../lib/react-query/queries/useSearchQuery'
 import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocationStore'
@@ -88,36 +86,56 @@ export const SearchScreen = () => {
       }
   > = useCallback(
     ({ item }) => {
+      const onPressVenueItem = () => {
+        navigation.navigate('VenueStackScreen', {
+          screen: 'VenueDetailScreen',
+          params: {
+            id: item.id,
+          },
+        })
+      }
+      const onPressArtistItem = () => {
+        // @todo: navigate to artist detail screen
+      }
+      const onPressConcertItem = () =>
+        navigation.navigate('ConcertStackScreen', {
+          screen: 'ConcertDetailScreen',
+          params: { concertId: item.id },
+        })
       return match(item)
         .with({ type: 'artist' }, (value) => (
           <SearchItem
             type="artist"
-            thumbnail={<SearchItemThumbnail uri={value.profileImgUrl} type="circle" />}
+            thumbnail={<SearchItemThumbnail type="circle" emptyBgText={value.name.at(0)} uri={value.profileImgUrl} />}
             title={value.name}
             subtitle="아티스트"
+            onPress={onPressArtistItem}
           />
         ))
         .with({ type: 'venue' }, (value) => (
           <SearchItem
             type="venue"
-            thumbnail={<SearchItemTextThumbnail text={value.name.slice(0, 1)} />}
+            thumbnail={<SearchItemThumbnail type="circle" emptyBgText={value.name.at(0)} uri={''} />}
             title={value.name}
             subtitle="공연장"
+            onPress={onPressVenueItem}
           />
         ))
         .with({ type: 'concert' }, (value) => (
           <SearchItem
             type="concert"
-            thumbnail={<SearchItemThumbnail type="square" uri={value.thumbnailImgUrl} />}
+            thumbnail={
+              <ProfileThumbnail
+                type={'square'}
+                emptyBgText={value.title.at(0) ?? ''}
+                imageUrl={value.thumbnailImgUrl ?? ''}
+                size="md"
+              />
+            }
             title={value.title}
             subtitle={format(new Date(value.date), 'EEE, MMM dd')}
             description={value.venueTitle}
-            onPress={() =>
-              navigation.navigate('ConcertStackScreen', {
-                screen: 'ConcertDetailScreen',
-                params: { concertId: value.id },
-              })
-            }
+            onPress={onPressConcertItem}
           />
         ))
         .otherwise(() => null)
