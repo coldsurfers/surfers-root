@@ -9,12 +9,14 @@ export const HorizontalConcertItem = ({
   title,
   subtitle,
   description,
+  bottomRightAddOn,
 }: {
   onPress?: () => void
   thumbnailComponent: ReactNode
   title: string
   subtitle: string
   description: string
+  bottomRightAddOn?: ReactNode
 }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.itemWrapper}>
@@ -30,6 +32,7 @@ export const HorizontalConcertItem = ({
           {description}
         </Text>
       </View>
+      {bottomRightAddOn && <View style={styles.bottomRight}>{bottomRightAddOn}</View>}
     </TouchableOpacity>
   )
 }
@@ -43,5 +46,10 @@ const styles = StyleSheet.create({
   itemInnerRight: {
     marginLeft: 8,
     flex: 1,
+  },
+  bottomRight: {
+    position: 'absolute',
+    bottom: 8,
+    right: 8,
   },
 })
