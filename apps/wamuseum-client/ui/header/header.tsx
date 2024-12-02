@@ -85,6 +85,15 @@ export const Header = () => {
             >
               앱 스토어 배너 만들기
             </Button>
+            <Button
+              onClick={() => router.push('/generate-album-cover')}
+              style={{
+                marginRight: 12,
+                backgroundColor: colors.oc.red[5].value,
+              }}
+            >
+              앨범 커버 만들기
+            </Button>
             <Button onClick={handleLogout}>로그아웃</Button>
           </>
         )}
