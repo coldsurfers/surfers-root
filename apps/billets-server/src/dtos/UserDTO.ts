@@ -66,11 +66,16 @@ export default class UserDTO {
     return this.props.id
   }
 
+  get deactivatedAt() {
+    return this.props.deactivatedAt
+  }
+
   serialize(): UserDTOSerialized {
     return {
       id: this.props.id ?? '',
       email: this.props.email ?? '',
       provider: this.props.provider ?? '',
+      deactivatedAt: this.props.deactivatedAt ?? null,
     }
   }
 }
