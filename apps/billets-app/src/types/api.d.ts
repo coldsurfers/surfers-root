@@ -150,6 +150,24 @@ export interface paths {
             'application/json': components['schemas']['SignUpSuccessResponse']
           }
         }
+        /** @description Default Response */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
       }
     }
     delete?: never
@@ -191,6 +209,15 @@ export interface paths {
         }
         /** @description Default Response */
         400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+        /** @description Default Response */
+        401: {
           headers: {
             [name: string]: unknown
           }
@@ -864,6 +891,59 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/user/deactivate': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['GetMeSuccessResponse']
+          }
+        }
+        /** @description Default Response */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/user/me': {
     parameters: {
       query?: never
@@ -1039,7 +1119,21 @@ export interface components {
       email: string
     }
     ErrorResponse: {
-      code: string
+      code:
+        | 'INVALID_PASSWORD'
+        | 'INVALID_ACCESS_TOKEN'
+        | 'USER_NOT_FOUND'
+        | 'CONCERT_NOT_FOUND'
+        | 'SUBSCRIBED_CONCERT_NOT_FOUND'
+        | 'ARTIST_NOT_FOUND'
+        | 'VENUE_NOT_FOUND'
+        | 'SUBSCRIBED_ARTIST_NOT_FOUND'
+        | 'SUBSCRIBED_VENUE_NOT_FOUND'
+        | 'INVALID_USER'
+        | 'PASSWORD_NOT_MATCH'
+        | 'ACCESS_TOKEN_NOT_FOUND'
+        | 'USER_DEACTIVATED'
+        | 'UNKNOWN'
       message: string
     }
     GetArtistByIdParams: {
@@ -1067,6 +1161,8 @@ export interface components {
     }
     GetConcertListByVenueIdSuccessResponse: components['schemas']['ConcertDetailSuccessResponse'][]
     GetMeSuccessResponse: {
+      /** Format: date-time */
+      deactivatedAt: string | null
       email: string
       id: string
       provider: string
