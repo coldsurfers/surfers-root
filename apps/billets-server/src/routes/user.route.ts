@@ -23,7 +23,7 @@ const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
     },
     getMeHandler,
   )
-  fastify.withTypeProvider<ZodTypeProvider>().post(
+  fastify.withTypeProvider<ZodTypeProvider>().delete(
     '/deactivate',
     {
       schema: {
