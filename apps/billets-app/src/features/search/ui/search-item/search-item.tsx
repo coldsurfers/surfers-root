@@ -2,9 +2,9 @@ import { Text } from '@coldsurfers/ocean-road/native'
 import { ReactNode } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { match } from 'ts-pattern'
-import palettes from '../../../lib/palettes'
+import palettes from '../../../../lib/palettes'
 
-export default function SearchItem({
+export function SearchItem({
   type,
   thumbnail,
   title,
