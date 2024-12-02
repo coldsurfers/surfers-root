@@ -55,7 +55,7 @@ import {
   subscribeVenueParamsSchema,
 } from './routes/subscribe.types'
 import userRoute from './routes/user.route'
-import { getMeResponseSchema } from './routes/user.types'
+import { deactivateUserBodySchema, getMeResponseSchema } from './routes/user.types'
 import {
   getConcertListByVenueIdParamsSchema,
   getConcertListByVenueIdQueryStringSchema,
@@ -164,6 +164,7 @@ fastify.register(fastifySwagger, {
       GetConcertListByVenueIdParams: getConcertListByVenueIdParamsSchema,
       GetConcertListByVenueIdQuerystring: getConcertListByVenueIdQueryStringSchema,
       GetConcertListByVenueIdSuccessResponse: getConcertListByVenueIdSuccessResponseSchema,
+      DeactivateUserBody: deactivateUserBodySchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
