@@ -30,8 +30,9 @@ model UsersOnStaffs {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
+  id            String    @id @default(uuid())
+  createdAt     DateTime  @default(now())
+  deactivatedAt DateTime?
 
   email        String  @unique
   password     String?
