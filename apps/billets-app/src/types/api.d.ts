@@ -900,7 +900,8 @@ export interface paths {
     }
     get?: never
     put?: never
-    post: {
+    post?: never
+    delete: {
       parameters: {
         query?: never
         header?: never
@@ -938,7 +939,6 @@ export interface paths {
         }
       }
     }
-    delete?: never
     options?: never
     head?: never
     patch?: never
