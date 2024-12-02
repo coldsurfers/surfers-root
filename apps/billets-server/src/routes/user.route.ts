@@ -3,7 +3,7 @@ import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { userDTOSerializedSchema } from '../dtos/UserDTO.types'
 import { errorResponseSchema } from '../lib/error'
 import { deactivateUserHandler, getMeHandler } from './user.handler'
-import { getMeResponseSchema } from './user.types'
+import { deactivateUserBodySchema, getMeResponseSchema } from './user.types'
 
 const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
@@ -33,6 +33,7 @@ const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
             AccessTokenAuth: [],
           },
         ],
+        body: deactivateUserBodySchema,
         response: {
           200: userDTOSerializedSchema,
           401: errorResponseSchema,
