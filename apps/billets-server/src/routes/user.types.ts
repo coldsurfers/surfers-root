@@ -7,3 +7,7 @@ export type GetMeResponse = z.infer<typeof getMeResponseSchema>
 export const deactivateUserBodySchema = z.object({
   type: z.literal('deactivate'),
 })
+
+export const activateUserBodySchema = z.object({
+  type: z.literal('activate'),
+})
