@@ -6,7 +6,11 @@ const VenueStack = createNativeStackNavigator<VenueStackParam>()
 
 export const VenueStackNavigation = () => {
   return (
-    <VenueStack.Navigator>
+    <VenueStack.Navigator
+      screenOptions={{
+        header: () => null,
+      }}
+    >
       <VenueStack.Screen name="VenueDetailScreen" component={VenueDetailScreen} />
     </VenueStack.Navigator>
   )

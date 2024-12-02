@@ -1,10 +1,13 @@
 import { useVenueDetailQuery } from '@/lib/react-query'
 import { useVenueConcertListQuery } from '@/lib/react-query/queries/use-venue-concert-list-query'
-import { CommonScreenLayout } from '@/ui'
+import { CommonBackIconButton, CommonScreenLayout } from '@/ui'
 import { useMemo } from 'react'
-import { useVenueDetailScreenRoute } from './venue-detail-screen.hooks'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useVenueDetailScreenNavigation, useVenueDetailScreenRoute } from './venue-detail-screen.hooks'
 
 export const VenueDetailScreen = () => {
+  const { top: topInset } = useSafeAreaInsets()
+  const navigation = useVenueDetailScreenNavigation()
   const route = useVenueDetailScreenRoute()
   const { data: venueDetail, isLoading: isLoadingVenueDetail } = useVenueDetailQuery({
     id: route.params.id,
@@ -25,5 +28,9 @@ export const VenueDetailScreen = () => {
     return venueConcertList?.pages.flat() ?? []
   }, [venueConcertList?.pages])
 
-  return <CommonScreenLayout></CommonScreenLayout>
+  return (
+    <CommonScreenLayout>
+      <CommonBackIconButton top={topInset} onPress={navigation.goBack} />
+    </CommonScreenLayout>
+  )
 }
