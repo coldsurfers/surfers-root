@@ -51,6 +51,7 @@ export default class VenueDTO {
       where: {
         name: {
           contains: keyword,
+          mode: 'insensitive',
         },
       },
     })
