@@ -294,15 +294,6 @@ export const sendAuthCodeHandler: RouteHandler<{
   const { email } = req.body
 
   try {
-    const existingUser = await UserDTO.findByEmail(email)
-    if (existingUser) {
-      // @todo: I think we have to remove this after extends use case
-      return rep.status(409).send({
-        code: 'USER_ALREADY_EXISTING',
-        message: 'already existing user',
-      })
-    }
-
     const authcode = createEmailAuthCode()
     const emailAuthRequestDTO = new EmailAuthRequestDTO({
       email,
