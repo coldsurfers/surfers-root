@@ -111,6 +111,24 @@ export interface paths {
             'application/json': components['schemas']['ConfirmAuthCodeSuccessResponse']
           }
         }
+        /** @description Default Response */
+        409: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
       }
     }
     delete?: never
@@ -891,6 +909,63 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/user/activate': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['ActivateUserBody']
+        }
+      }
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['GetMeSuccessResponse']
+          }
+        }
+        /** @description Default Response */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+      }
+    }
+    trace?: never
+  }
   '/v1/user/deactivate': {
     parameters: {
       query?: never
@@ -971,6 +1046,33 @@ export interface paths {
           }
           content: {
             'application/json': components['schemas']['GetMeSuccessResponse']
+          }
+        }
+        /** @description Default Response */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+        /** @description Default Response */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
           }
         }
       }
@@ -1064,6 +1166,10 @@ export interface paths {
 export type webhooks = Record<string, never>
 export interface components {
   schemas: {
+    ActivateUserBody: {
+      /** @enum {string} */
+      type: 'activate'
+    }
     ConcertDetailParams: {
       /** Format: uuid */
       id: string
@@ -1141,6 +1247,7 @@ export interface components {
         | 'PASSWORD_NOT_MATCH'
         | 'ACCESS_TOKEN_NOT_FOUND'
         | 'USER_DEACTIVATED'
+        | 'USER_ALREADY_EXISTING'
         | 'UNKNOWN'
       message: string
     }

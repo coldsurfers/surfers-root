@@ -20,8 +20,8 @@ const _EmailSignupScreen = () => {
     },
     onError: (error) => {
       let message = '알 수 없는 오류가 발생했어요'
-      if (error.status === 409) {
-        message = error.message
+      if (error.code === 'USER_ALREADY_EXISTING') {
+        message = '이미 가입된 이메일이에요'
       }
       show({
         autoHide: true,
