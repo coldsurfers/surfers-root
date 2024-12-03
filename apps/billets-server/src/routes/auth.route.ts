@@ -29,6 +29,8 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
         body: sendAuthCodeBodySchema,
         response: {
           200: sendAuthCodeResponseSchema,
+          409: errorResponseSchema,
+          500: errorResponseSchema,
         },
       },
     },
