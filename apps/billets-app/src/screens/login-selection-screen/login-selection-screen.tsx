@@ -6,7 +6,7 @@ import { Button, IconButton, Spinner } from '@coldsurfers/ocean-road/native'
 import appleAuth from '@invertase/react-native-apple-authentication'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import React, { useCallback, useContext } from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Alert, Platform, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useLoginSelectionScreenNavigation } from './login-selection-screen.hooks'
 
@@ -71,27 +71,28 @@ export const _LoginSelectionScreen = () => {
         },
         {
           onError: (error) => {
-            let message = ''
             if (error.code === 'USER_DEACTIVATED') {
-              message = '탈퇴 처리 된 계정이에요'
-              // Alert.alert('탈퇴 처리된 계정', '탈퇴 처리 된 계정이에요. 하지만 복구할 수 있어요!', [
-              //   {
-              //     text: '복구하기',
-              //     style: 'default',
-              //   },
-              //   {
-              //     text: '취소',
-              //     style: 'cancel',
-              //   },
-              // ])
-              // return
-            } else {
-              message = '구글 로그인 중 오류가 발생했어요'
+              Alert.alert('탈퇴 처리된 계정', '탈퇴 처리 된 계정이에요. 하지만 복구할 수 있어요!', [
+                {
+                  text: '복구하기',
+                  style: 'default',
+                  onPress: () => {
+                    navigate('EmailSignupScreen', {
+                      type: 'activate-user',
+                    })
+                  },
+                },
+                {
+                  text: '취소',
+                  style: 'cancel',
+                },
+              ])
+              return
             }
             show({
               autoHide: true,
               duration: 5000,
-              message,
+              message: '구글 로그인 중 오류가 발생했어요',
               type: 'error',
             })
           },
@@ -100,7 +101,7 @@ export const _LoginSelectionScreen = () => {
     } catch (e) {
       console.error(e)
     }
-  }, [mutateSignIn, show])
+  }, [mutateSignIn, navigate, show])
 
   const onPressAppleLogin = useCallback(async () => {
     if (Platform.OS !== 'ios') {
@@ -135,26 +136,27 @@ export const _LoginSelectionScreen = () => {
           },
           {
             onError: (error) => {
-              let message = ''
               if (error.code === 'USER_DEACTIVATED') {
-                message = '탈퇴 처리 된 계정이에요'
-                // Alert.alert('탈퇴 처리된 계정', '탈퇴 처리 된 계정이에요. 하지만 복구할 수 있어요!', [
-                //   {
-                //     text: '복구하기',
-                //     style: 'default',
-                //   },
-                //   {
-                //     text: '취소',
-                //     style: 'cancel',
-                //   },
-                // ])
-                // return
-              } else {
-                message = '애플 로그인 중 오류가 발생했어요'
+                Alert.alert('탈퇴 처리된 계정', '탈퇴 처리 된 계정이에요. 하지만 복구할 수 있어요!', [
+                  {
+                    text: '복구하기',
+                    style: 'default',
+                    onPress: () => {
+                      navigate('EmailSignupScreen', {
+                        type: 'activate-user',
+                      })
+                    },
+                  },
+                  {
+                    text: '취소',
+                    style: 'cancel',
+                  },
+                ])
+                return
               }
               show({
                 type: 'error',
-                message,
+                message: '애플 로그인 중 오류가 발생했어요',
                 autoHide: true,
                 duration: 5000,
               })
@@ -165,7 +167,7 @@ export const _LoginSelectionScreen = () => {
     } catch (e) {
       console.error(e)
     }
-  }, [mutateSignIn, show])
+  }, [mutateSignIn, navigate, show])
 
   return (
     <SafeAreaView edges={['bottom']} style={styles.wrapper}>
