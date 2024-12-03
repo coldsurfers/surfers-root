@@ -19,6 +19,7 @@ export default class ArtistDTO {
       where: {
         name: {
           contains: keyword,
+          mode: 'insensitive',
         },
       },
     })
