@@ -15,7 +15,9 @@ const _EmailLoginScreen = () => {
   const [password, setPassword] = useState<string>('')
 
   const onPressSignup = useCallback(() => {
-    navigate('EmailSignupScreen', {})
+    navigate('EmailSignupScreen', {
+      type: 'email-signup',
+    })
   }, [navigate])
 
   const onPressSignIn = useCallback(() => {
