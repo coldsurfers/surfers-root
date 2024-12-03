@@ -22,7 +22,12 @@ import { venueDTOSerializedSchema } from './dtos/VenueDTO.types'
 import { SWAGGER_HOST } from './lib/constants'
 import { errorResponseSchema } from './lib/error'
 import { artistRoute } from './routes/artist'
-import { getArtistByIdParamsSchema } from './routes/artist/artist.types'
+import {
+  getArtistByIdParamsSchema,
+  getConcertListByArtistIdParamsSchema,
+  getConcertListByArtistIdQueryStringSchema,
+  getConcertListByArtistIdSuccessResponseSchema,
+} from './routes/artist/artist.types'
 import authRoute from './routes/auth.route'
 import {
   confirmAuthCodeBodySchema,
@@ -166,6 +171,9 @@ fastify.register(fastifySwagger, {
       GetConcertListByVenueIdSuccessResponse: getConcertListByVenueIdSuccessResponseSchema,
       DeactivateUserBody: deactivateUserBodySchema,
       ActivateUserBody: activateUserBodySchema,
+      GetConcertListByArtistIdParams: getConcertListByArtistIdParamsSchema,
+      GetConcertListByArtistIdQuerystring: getConcertListByArtistIdQueryStringSchema,
+      GetConcertListByArtistIdSuccessResponse: getConcertListByArtistIdSuccessResponseSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
