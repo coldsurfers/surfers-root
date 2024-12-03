@@ -18,8 +18,8 @@ export const ConcertDetailArtistProfileImageModal = ({
   const { top: topInset } = useSafeAreaInsets()
   const { data, isLoading } = useArtistQuery({ id: artistId })
   const firstImage = useMemo(() => {
-    return data?.data?.artistProfileImage.at(0)
-  }, [data?.data?.artistProfileImage])
+    return data?.artistProfileImage.at(0)
+  }, [data?.artistProfileImage])
   const firstImageCaption = useMemo(() => {
     if (!firstImage?.copyright) {
       return undefined
