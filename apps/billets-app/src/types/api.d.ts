@@ -31,6 +31,73 @@ export interface paths {
             'application/json': components['schemas']['GetArtistByIdSuccessResponse']
           }
         }
+        /** @description Default Response */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/artist/concert-list/{artistId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query: {
+          offset: string
+          size: string
+        }
+        header?: never
+        path: {
+          artistId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['GetConcertListByArtistIdSuccessResponse']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
       }
     }
     put?: never
@@ -323,7 +390,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['GetConcertListByVenueIdSuccessResponse']
+            'application/json': components['schemas']['GetConcertListByArtistIdSuccessResponse']
           }
         }
       }
@@ -399,7 +466,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['GetConcertListByVenueIdSuccessResponse']
+            'application/json': components['schemas']['GetConcertListByArtistIdSuccessResponse']
           }
         }
       }
@@ -1203,7 +1270,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['GetConcertListByVenueIdSuccessResponse']
+            'application/json': components['schemas']['GetConcertListByArtistIdSuccessResponse']
           }
         }
       }
@@ -1328,6 +1395,14 @@ export interface components {
       }[]
       id: string
     }
+    GetConcertListByArtistIdParams: {
+      artistId: string
+    }
+    GetConcertListByArtistIdQuerystring: {
+      offset: string
+      size: string
+    }
+    GetConcertListByArtistIdSuccessResponse: components['schemas']['ConcertDetailSuccessResponse'][]
     GetConcertListByVenueIdParams: {
       venueId: string
     }
