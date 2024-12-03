@@ -990,6 +990,24 @@ export interface paths {
           }
         }
         /** @description Default Response */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+        /** @description Default Response */
+        409: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+        /** @description Default Response */
         500: {
           headers: {
             [name: string]: unknown
@@ -1203,6 +1221,9 @@ export type webhooks = Record<string, never>
 export interface components {
   schemas: {
     ActivateUserBody: {
+      authCode: string
+      /** Format: email */
+      email: string
       /** @enum {string} */
       type: 'activate'
     }
