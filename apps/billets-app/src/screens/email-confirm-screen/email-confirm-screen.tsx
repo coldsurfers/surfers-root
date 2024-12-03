@@ -37,10 +37,17 @@ const _EmailConfirmScreen = () => {
       setConfirmed(true)
     },
     onError: (error) => {
+      let message = ''
+      if (error.code === 'EMAIL_AUTH_REQUEST_ALREADY_AUTHENTICATED') {
+        message = '이미 인증되었어요'
+      }
+      if (error.code === 'INVALID_EMAIL_AUTH_REQUEST' || error.code === 'EMAIL_AUTH_REQUEST_TIMEOUT') {
+        message = '인증번호가 일치하지 않거나, 인증 시간이 지났어요'
+      }
       show({
         autoHide: true,
         duration: 2000,
-        message: error.message,
+        message,
         type: 'error',
       })
     },

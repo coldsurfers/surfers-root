@@ -72,6 +72,42 @@ export interface paths {
             'application/json': components['schemas']['ConfirmAuthCodeSuccessResponse']
           }
         }
+        /** @description Default Response */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+        /** @description Default Response */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+        /** @description Default Response */
+        409: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
       }
     }
     delete?: never
@@ -1248,6 +1284,10 @@ export interface components {
         | 'ACCESS_TOKEN_NOT_FOUND'
         | 'USER_DEACTIVATED'
         | 'USER_ALREADY_EXISTING'
+        | 'EMAIL_AUTH_REQUEST_NOT_FOUND'
+        | 'INVALID_EMAIL_AUTH_REQUEST'
+        | 'EMAIL_AUTH_REQUEST_ALREADY_AUTHENTICATED'
+        | 'EMAIL_AUTH_REQUEST_TIMEOUT'
         | 'UNKNOWN'
       message: string
     }
