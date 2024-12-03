@@ -1,8 +1,14 @@
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { artistDTOSerializedSchema } from '../../dtos/ArtistDTO.types'
-import { getArtistByIdHandler } from './artist.handler'
-import { getArtistByIdParamsSchema } from './artist.types'
+import { errorResponseSchema } from '../../lib/error'
+import { getArtistByIdHandler, getConcertListByArtistIdRoute } from './artist.handler'
+import {
+  getArtistByIdParamsSchema,
+  getConcertListByArtistIdParamsSchema,
+  getConcertListByArtistIdQueryStringSchema,
+  getConcertListByArtistIdSuccessResponseSchema,
+} from './artist.types'
 
 export const artistRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
@@ -13,10 +19,27 @@ export const artistRoute: FastifyPluginCallback = (fastify, opts, done) => {
         params: getArtistByIdParamsSchema,
         response: {
           200: artistDTOSerializedSchema,
+          404: errorResponseSchema,
+          500: errorResponseSchema,
         },
       },
     },
     getArtistByIdHandler,
+  )
+  fastify.withTypeProvider<ZodTypeProvider>().get(
+    '/concert-list/:artistId',
+    {
+      schema: {
+        tags: ['v1', 'artist'],
+        querystring: getConcertListByArtistIdQueryStringSchema,
+        params: getConcertListByArtistIdParamsSchema,
+        response: {
+          200: getConcertListByArtistIdSuccessResponseSchema,
+          500: errorResponseSchema,
+        },
+      },
+    },
+    getConcertListByArtistIdRoute,
   )
   done()
 }
