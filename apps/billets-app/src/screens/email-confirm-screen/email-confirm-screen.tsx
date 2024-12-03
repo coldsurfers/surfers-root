@@ -1,6 +1,5 @@
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, IconButton, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
-import { useQueryClient } from '@tanstack/react-query'
 import React, { useCallback, useContext, useState } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
 import { AuthContext } from '../../lib/contexts/auth-context/auth-context'
@@ -14,7 +13,6 @@ import useUpdateEmailConfirmMutation from '../../lib/react-query/mutations/useUp
 import { useEmailConfirmScreenNavigation, useEmailConfirmScreenRoute } from './email-confirm-screen.hooks'
 
 const _EmailConfirmScreen = () => {
-  const queryClient = useQueryClient()
   const navigation = useEmailConfirmScreenNavigation()
   const { params } = useEmailConfirmScreenRoute()
   const { show } = useContext(ToastVisibleContext)
