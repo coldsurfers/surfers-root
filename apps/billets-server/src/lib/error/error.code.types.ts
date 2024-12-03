@@ -14,5 +14,6 @@ export const errorCodeSchema = z.union([
   z.literal('PASSWORD_NOT_MATCH'),
   z.literal('ACCESS_TOKEN_NOT_FOUND'),
   z.literal('USER_DEACTIVATED'),
+  z.literal('USER_ALREADY_EXISTING'),
   z.literal('UNKNOWN'),
 ])
