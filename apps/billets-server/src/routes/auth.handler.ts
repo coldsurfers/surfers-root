@@ -8,7 +8,7 @@ import EmailAuthRequestDTO from '../dtos/EmailAuthRequestDTO'
 import UserDTO from '../dtos/UserDTO'
 import createEmailAuthCode from '../lib/createEmailAuthCode'
 import encryptPassword from '../lib/encryptPassword'
-import { ErrorResponse } from '../lib/error'
+import { ErrorResponse, errorResponseSchema } from '../lib/error'
 import { generateAuthToken } from '../lib/jwt'
 import log from '../lib/log'
 import { sendEmail } from '../lib/mailer'
@@ -287,8 +287,8 @@ export const sendAuthCodeHandler: RouteHandler<{
   Body: SendAuthCodeBody
   Reply: {
     200: SendAuthCodeResponse
-    409: void
-    500: void
+    409: z.infer<typeof errorResponseSchema>
+    500: z.infer<typeof errorResponseSchema>
   }
 }> = async (req, rep) => {
   const { email } = req.body
@@ -296,7 +296,11 @@ export const sendAuthCodeHandler: RouteHandler<{
   try {
     const existingUser = await UserDTO.findByEmail(email)
     if (existingUser) {
-      return rep.status(409).send()
+      // @todo: I think we have to remove this after extends use case
+      return rep.status(409).send({
+        code: 'USER_ALREADY_EXISTING',
+        message: 'already existing user',
+      })
     }
 
     const authcode = createEmailAuthCode()
@@ -325,7 +329,10 @@ export const sendAuthCodeHandler: RouteHandler<{
   } catch (e) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     log((e as any).toString())
-    return rep.status(500).send()
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    })
   }
 }
 
