@@ -294,15 +294,6 @@ export const sendAuthCodeHandler: RouteHandler<{
   const { email } = req.body
 
   try {
-    const existingUser = await UserDTO.findByEmail(email)
-    if (existingUser) {
-      // @todo: I think we have to remove this after extends use case
-      return rep.status(409).send({
-        code: 'USER_ALREADY_EXISTING',
-        message: 'already existing user',
-      })
-    }
-
     const authcode = createEmailAuthCode()
     const emailAuthRequestDTO = new EmailAuthRequestDTO({
       email,
@@ -340,28 +331,40 @@ export const confirmAuthCodeHandler: RouteHandler<{
   Body: ConfirmAuthCodeBody
   Reply: {
     200: ConfirmAuthCodeResponse
-    401: void
-    404: void
-    409: void
-    500: void
+    401: z.infer<typeof errorResponseSchema>
+    404: z.infer<typeof errorResponseSchema>
+    409: z.infer<typeof errorResponseSchema>
+    500: z.infer<typeof errorResponseSchema>
   }
 }> = async (req, rep) => {
   try {
     const { authCode, email } = req.body
     const dto = await EmailAuthRequestDTO.findByEmail(email)
     if (!dto) {
-      return rep.status(404).send()
+      return rep.status(404).send({
+        code: 'EMAIL_AUTH_REQUEST_NOT_FOUND',
+        message: 'email auth request not found',
+      })
     }
     if (dto.props.email !== email || dto.props.authcode !== authCode) {
-      return rep.status(401).send()
+      return rep.status(401).send({
+        code: 'INVALID_EMAIL_AUTH_REQUEST',
+        message: 'invalid email auth request',
+      })
     }
     if (dto.props.authenticated) {
-      return rep.status(409).send()
+      return rep.status(409).send({
+        code: 'EMAIL_AUTH_REQUEST_ALREADY_AUTHENTICATED',
+        message: 'already authenticated',
+      })
     }
     if (dto.props.createdAt) {
       const diffMinutes = Math.abs(differenceInMinutes(new Date(), dto.props.createdAt))
       if (diffMinutes >= 3) {
-        return rep.status(401).send()
+        return rep.status(401).send({
+          code: 'EMAIL_AUTH_REQUEST_TIMEOUT',
+          message: 'email auth request time out',
+        })
       }
     }
     const confirmed = await dto.confirm()
@@ -370,6 +373,9 @@ export const confirmAuthCodeHandler: RouteHandler<{
     })
   } catch (e) {
     console.error(e)
-    return rep.status(500).send()
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    })
   }
 }

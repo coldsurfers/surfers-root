@@ -34,4 +34,5 @@ export const Screens = {
   SearchScreen: 'SearchScreen',
   SubscribedConcertListScreen: 'SubscribedConcertListScreen',
   VenueDetailScreen: 'VenueDetailScreen',
+  ActivateUserConfirmScreen: 'ActivateUserConfirmScreen',
 } as const

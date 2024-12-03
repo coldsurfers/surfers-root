@@ -1,5 +1,11 @@
 import { Screens } from '@/lib'
-import { EmailConfirmScreen, EmailLoginScreen, EmailSignupScreen, LoginSelectionScreen } from '@/screens'
+import {
+  ActivateUserConfirmScreen,
+  EmailConfirmScreen,
+  EmailLoginScreen,
+  EmailSignupScreen,
+  LoginSelectionScreen,
+} from '@/screens'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
 import { LoginStackParam } from './login-stack-navigation.types'
@@ -17,6 +23,7 @@ export const LoginStackNavigation = () => {
       <LoginStack.Screen name={Screens.EmailSignupScreen} component={EmailSignupScreen} />
       <LoginStack.Screen name={Screens.EmailLoginScreen} component={EmailLoginScreen} />
       <LoginStack.Screen name={Screens.EmailConfirmScreen} component={EmailConfirmScreen} />
+      <LoginStack.Screen name={Screens.ActivateUserConfirmScreen} component={ActivateUserConfirmScreen} />
     </LoginStack.Navigator>
   )
 }
