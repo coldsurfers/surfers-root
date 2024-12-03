@@ -1,5 +1,6 @@
 import { Screens } from '@/lib'
 import {
+  ActivateUserConfirmScreenParam,
   EmailConfirmScreenParam,
   EmailLoginScreenParam,
   EmailSignupScreenParam,
@@ -14,6 +15,7 @@ export type LoginStackParam = {
   [Screens.EmailSignupScreen]: EmailSignupScreenParam
   [Screens.EmailLoginScreen]: EmailLoginScreenParam
   [Screens.EmailConfirmScreen]: EmailConfirmScreenParam
+  [Screens.ActivateUserConfirmScreen]: ActivateUserConfirmScreenParam
 }
 
 export type LoginStackScreenProp<T extends keyof LoginStackParam> = CompositeScreenProps<

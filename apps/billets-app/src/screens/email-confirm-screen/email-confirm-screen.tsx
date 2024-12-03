@@ -1,6 +1,5 @@
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, IconButton, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
-import { useQueryClient } from '@tanstack/react-query'
 import React, { useCallback, useContext, useState } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
 import { AuthContext } from '../../lib/contexts/auth-context/auth-context'
@@ -14,7 +13,6 @@ import useUpdateEmailConfirmMutation from '../../lib/react-query/mutations/useUp
 import { useEmailConfirmScreenNavigation, useEmailConfirmScreenRoute } from './email-confirm-screen.hooks'
 
 const _EmailConfirmScreen = () => {
-  const queryClient = useQueryClient()
   const navigation = useEmailConfirmScreenNavigation()
   const { params } = useEmailConfirmScreenRoute()
   const { show } = useContext(ToastVisibleContext)
@@ -37,10 +35,17 @@ const _EmailConfirmScreen = () => {
       setConfirmed(true)
     },
     onError: (error) => {
+      let message = ''
+      if (error.code === 'EMAIL_AUTH_REQUEST_ALREADY_AUTHENTICATED') {
+        message = '이미 인증되었어요'
+      }
+      if (error.code === 'INVALID_EMAIL_AUTH_REQUEST' || error.code === 'EMAIL_AUTH_REQUEST_TIMEOUT') {
+        message = '인증번호가 일치하지 않거나, 인증 시간이 지났어요'
+      }
       show({
         autoHide: true,
         duration: 2000,
-        message: error.message,
+        message,
         type: 'error',
       })
     },

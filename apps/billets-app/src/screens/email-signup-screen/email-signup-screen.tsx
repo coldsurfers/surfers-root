@@ -4,25 +4,34 @@ import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import { Button, IconButton, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useState } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
-import { useEmailSignupScreenNavigation } from './email-signup-screen.hooks'
+import { match } from 'ts-pattern'
+import { useEmailSignupScreenNavigation, useEmailSignupScreenRoute } from './email-signup-screen.hooks'
 
+// @todo: refactor EmailSignupScreen to SendAuthCodeScreen
 const _EmailSignupScreen = () => {
+  const route = useEmailSignupScreenRoute()
   const { show } = useContext(ToastVisibleContext)
   const { goBack, navigate } = useEmailSignupScreenNavigation()
-  const { mutate, isPending: isPendingSendConfirmEmail } = useSendEmailConfirmMutation({
+  const { mutate: sendEmailConfirm, isPending: isPendingSendConfirmEmail } = useSendEmailConfirmMutation({
     onSuccess: (data) => {
       if (!data) {
         return
       }
-      navigate('EmailConfirmScreen', {
-        email: data.email,
-      })
+      match(route.params.type)
+        .with('activate-user', () => {
+          navigate('ActivateUserConfirmScreen', {
+            email: data.email,
+          })
+        })
+        .with('email-signup', () => {
+          navigate('EmailConfirmScreen', {
+            email: data.email,
+          })
+        })
+        .exhaustive()
     },
-    onError: (error) => {
-      let message = '알 수 없는 오류가 발생했어요'
-      if (error.status === 409) {
-        message = error.message
-      }
+    onError: () => {
+      const message = '알 수 없는 오류가 발생했어요'
       show({
         autoHide: true,
         duration: 2000,
@@ -34,8 +43,8 @@ const _EmailSignupScreen = () => {
   const [email, setEmail] = useState<string>('')
   const [validated, setValidated] = useState<boolean>(false)
   const onPressNext = useCallback(() => {
-    mutate({ email })
-  }, [mutate, email])
+    sendEmailConfirm({ email })
+  }, [sendEmailConfirm, email])
   const onChangeText = useCallback((text: string) => {
     setEmail(text)
     setValidated(validateEmail(text) !== null)
