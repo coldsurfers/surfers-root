@@ -10,4 +10,6 @@ export const deactivateUserBodySchema = z.object({
 
 export const activateUserBodySchema = z.object({
   type: z.literal('activate'),
+  authCode: z.string(),
+  email: z.string().email(),
 })

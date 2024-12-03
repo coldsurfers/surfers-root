@@ -15,5 +15,9 @@ export const errorCodeSchema = z.union([
   z.literal('ACCESS_TOKEN_NOT_FOUND'),
   z.literal('USER_DEACTIVATED'),
   z.literal('USER_ALREADY_EXISTING'),
+  z.literal('EMAIL_AUTH_REQUEST_NOT_FOUND'),
+  z.literal('INVALID_EMAIL_AUTH_REQUEST'),
+  z.literal('EMAIL_AUTH_REQUEST_ALREADY_AUTHENTICATED'),
+  z.literal('EMAIL_AUTH_REQUEST_TIMEOUT'),
   z.literal('UNKNOWN'),
 ])
