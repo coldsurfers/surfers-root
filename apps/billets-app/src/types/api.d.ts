@@ -571,7 +571,55 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    get?: never
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['SubscribedArtistDTOSerialized']
+          }
+        }
+        /** @description Default Response */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+        /** @description Default Response */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+      }
+    }
     put?: never
     post: {
       parameters: {
@@ -800,7 +848,7 @@ export interface paths {
       }
       requestBody: {
         content: {
-          'application/json': components['schemas']['GetVenueByIdParams']
+          'application/json': components['schemas']['GetSubscribeCommonParams']
         }
       }
       responses: {
@@ -853,7 +901,7 @@ export interface paths {
       }
       requestBody: {
         content: {
-          'application/json': components['schemas']['GetVenueByIdParams']
+          'application/json': components['schemas']['GetSubscribeCommonParams']
         }
       }
       responses: {
@@ -907,7 +955,55 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    get?: never
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['SubscribeVenueSerialized']
+          }
+        }
+        /** @description Default Response */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+        /** @description Default Response */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+      }
+    }
     put?: never
     post: {
       parameters: {
@@ -1419,6 +1515,9 @@ export interface components {
       email: string
       id: string
       provider: string
+    }
+    GetSubscribeCommonParams: {
+      id: string
     }
     GetSubscribedConcertListQueryString: {
       offset: string
