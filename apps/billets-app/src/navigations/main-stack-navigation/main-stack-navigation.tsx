@@ -2,6 +2,7 @@ import { AuthContext } from '@/lib'
 import { colors } from '@coldsurfers/ocean-road'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React, { useContext } from 'react'
+import { ArtistStackNavigation } from '../artist-stack-navigation'
 import { ConcertStackNavigation } from '../concert-stack-navigation'
 import { LoginStackNavigation } from '../login-stack-navigation'
 import { MainTabNavigation } from '../main-tab-navigation'
@@ -33,6 +34,13 @@ export const MainStackNavigation = () => {
       <MainStack.Screen
         name="VenueStackScreen"
         component={VenueStackNavigation}
+        options={{
+          presentation: 'card',
+        }}
+      />
+      <MainStack.Screen
+        name="ArtistStackScreen"
+        component={ArtistStackNavigation}
         options={{
           presentation: 'card',
         }}

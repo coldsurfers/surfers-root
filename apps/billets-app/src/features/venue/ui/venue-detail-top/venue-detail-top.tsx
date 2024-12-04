@@ -1,4 +1,5 @@
 import { useVenueDetailQuery } from '@/lib/react-query'
+import { colors } from '@coldsurfers/ocean-road'
 import { Text } from '@coldsurfers/ocean-road/native'
 import { useMemo } from 'react'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
@@ -16,9 +17,14 @@ export const VenueDetailTop = ({ venueId }: { venueId: string }) => {
         {isLoadingVenueDetail ? (
           <ActivityIndicator animating />
         ) : (
-          <Text weight="medium" style={styles.topTitle}>
-            {venueDetailUIData?.name}
-          </Text>
+          <View style={styles.contentContainer}>
+            <Text weight="medium" style={styles.topTitle}>
+              {venueDetailUIData?.name}
+            </Text>
+            <Text weight="regular" style={styles.subTitle}>
+              공연장
+            </Text>
+          </View>
         )}
       </View>
       <Text weight="medium" style={styles.subText}>
@@ -41,5 +47,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 25,
     fontSize: 20,
+  },
+  contentContainer: {
+    alignItems: 'center',
+  },
+  subTitle: {
+    color: colors.oc.gray[8].value,
   },
 })

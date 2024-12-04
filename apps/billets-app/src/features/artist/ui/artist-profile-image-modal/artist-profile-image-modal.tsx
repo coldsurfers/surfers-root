@@ -1,4 +1,4 @@
-import { useArtistQuery } from '@/lib/react-query'
+import { useArtistDetailQuery } from '@/lib/react-query'
 import { CommonImageViewer } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Modal, Text } from '@coldsurfers/ocean-road/native'
@@ -6,7 +6,7 @@ import { useMemo } from 'react'
 import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-export const ConcertDetailArtistProfileImageModal = ({
+export const ArtistProfileImageModal = ({
   visible,
   onClose,
   artistId,
@@ -16,10 +16,10 @@ export const ConcertDetailArtistProfileImageModal = ({
   artistId: string
 }) => {
   const { top: topInset } = useSafeAreaInsets()
-  const { data, isLoading } = useArtistQuery({ id: artistId })
+  const { data, isLoading } = useArtistDetailQuery({ id: artistId })
   const firstImage = useMemo(() => {
-    return data?.data?.artistProfileImage.at(0)
-  }, [data?.data?.artistProfileImage])
+    return data?.artistProfileImage.at(0)
+  }, [data?.artistProfileImage])
   const firstImageCaption = useMemo(() => {
     if (!firstImage?.copyright) {
       return undefined
@@ -36,7 +36,16 @@ export const ConcertDetailArtistProfileImageModal = ({
         </View>
       ) : (
         <View style={styles.contentWrapper}>
-          <Pressable onPress={onClose} style={[styles.imageViewerCloseButton, { top: topInset }]}>
+          <Pressable
+            hitSlop={{
+              top: 20,
+              left: 20,
+              right: 20,
+              bottom: 20,
+            }}
+            onPress={onClose}
+            style={[styles.imageViewerCloseButton, { top: topInset }]}
+          >
             <Text style={styles.imageViewerCloseText}>닫기</Text>
           </Pressable>
           <View style={styles.imageContainer}>
