@@ -2,7 +2,7 @@ import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/co
 import { v1QueryKeyFactory } from '@/lib/query-key-factory'
 import { useSubscribeVenueMutation, useSubscribeVenueQuery } from '@/lib/react-query'
 import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
-import { useConcertDetailScreenNavigation } from '@/screens'
+import { useConcertDetailScreenNavigation } from '@/screens/concert-detail-screen/concert-detail-screen.hooks'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, ProfileThumbnail, Text } from '@coldsurfers/ocean-road/native'
 import Clipboard from '@react-native-clipboard/clipboard'
