@@ -95,7 +95,12 @@ export const SearchScreen = () => {
         })
       }
       const onPressArtistItem = () => {
-        // @todo: navigate to artist detail screen
+        navigation.navigate('ArtistStackScreen', {
+          screen: 'ArtistDetailScreen',
+          params: {
+            artistId: item.id,
+          },
+        })
       }
       const onPressConcertItem = () =>
         navigation.navigate('ConcertStackScreen', {
