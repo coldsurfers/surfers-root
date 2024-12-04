@@ -14,7 +14,7 @@
     "test": "jest",
     "xcodebuild": "xcodebuild -workspace './ios/FstvlLifeApp.xcworkspace' -scheme 'FstvlLifeApp' -configuration 'Release' 'DEVELOPMENT_TEAM=578PDZSTMS' 'archive' '-archivePath' 'ios/build/fstvllifeapp.xcarchive' -destination 'generic/platform=iOS'",
     "xcodebuild:ipa": "xcodebuild -exportArchive -archivePath 'ios/build/fstvllifeapp.xcarchive' -exportPath './ios/build/build-ipa' -exportOptionsPlist 'ios/build/fstvllifeapp.xcarchive/Info.plist'",
-    "codegen": "npx openapi-typescript http://localhost:3001/docs/json -o src/types/api.d.ts --alphabetize && prettier --write src/types/api.d.ts"
+    "codegen": "npx openapi-typescript https://api.billets.coldsurf.io/docs/json -o src/types/api.d.ts --alphabetize && prettier --write src/types/api.d.ts"
   },
   "jest": {
     "moduleFileExtensions": [
