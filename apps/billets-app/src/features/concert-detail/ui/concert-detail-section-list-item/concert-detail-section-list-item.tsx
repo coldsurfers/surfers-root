@@ -72,6 +72,7 @@ ConcertDetailSectionListItem.LineupItem = memo(
           <Text style={styles.name}>{name}</Text>
         </View>
         <Button
+          size="sm"
           onPress={() => onPressSubscribeArtist({ isSubscribed: !!subscribeArtistData })}
           style={styles.marginLeftAuto}
         >
