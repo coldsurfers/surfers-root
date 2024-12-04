@@ -86,10 +86,13 @@ ConcertDetailSectionListItem.VenueMapItem = ({
 }: ConcertDetailSectionListVenueMapItemProps) => {
   return (
     <View>
-      <Pressable onPress={onPressProfile} style={styles.lineupWrapper}>
-        <ProfileThumbnail type="circle" size="sm" emptyBgText="Hello" />
-        <Text style={styles.name}>{venueTitle}</Text>
-      </Pressable>
+      <View style={styles.rowItem}>
+        <Pressable onPress={onPressProfile} style={styles.profileLine}>
+          <ProfileThumbnail type="circle" size="sm" emptyBgText="Hello" />
+          <Text style={styles.name}>{venueTitle}</Text>
+        </Pressable>
+        <Button style={styles.marginLeftAuto}>Follow</Button>
+      </View>
       <View style={styles.venueMapAddressWrapper}>
         <Text style={styles.venueMapAddressText}>
           {'📍'} {address}
@@ -129,7 +132,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   lineupWrapper: {
-    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 12,
@@ -173,4 +175,11 @@ const styles = StyleSheet.create({
   venueMapAddressCopyBtn: {
     marginLeft: 'auto',
   },
+  profileLine: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  marginLeftAuto: { marginLeft: 'auto' },
+  rowItem: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12 },
 })
