@@ -1,17 +1,9 @@
 import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/concert-venue-map-view'
-import { v1QueryKeyFactory } from '@/lib/query-key-factory'
-import {
-  useSubscribeArtistQuery,
-  useSubscribeVenueMutation,
-  useSubscribeVenueQuery,
-  useUnsubscribeVenueMutation,
-} from '@/lib/react-query'
-import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
+import { ArtistSubscribeButton, VenueSubscribeButton } from '@/features/subscribe'
 import { useConcertDetailScreenNavigation } from '@/screens/concert-detail-screen/concert-detail-screen.hooks'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, ProfileThumbnail, Text } from '@coldsurfers/ocean-road/native'
 import Clipboard from '@react-native-clipboard/clipboard'
-import { useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { memo } from 'react'
 import { Dimensions, Linking, StyleSheet, TouchableOpacity, View } from 'react-native'
@@ -62,21 +54,24 @@ ConcertDetailSectionListItem.TitleItem = ({ title }: ConcertDetailSectionListTit
   )
 }
 ConcertDetailSectionListItem.LineupItem = memo(
-  ({ thumbnailUrl, name, onPress, artistId, onPressSubscribeArtist }: ConcertDetailSectionListLineupItemProps) => {
-    const { data: subscribeArtistData } = useSubscribeArtistQuery({ artistId })
-
+  ({ thumbnailUrl, name, onPress, artistId }: ConcertDetailSectionListLineupItemProps) => {
+    const navigation = useConcertDetailScreenNavigation()
     return (
       <TouchableOpacity onPress={onPress} style={styles.rowItem}>
         <View style={styles.profileLine}>
           <ProfileThumbnail type="circle" size="sm" emptyBgText={name.at(0) ?? ''} imageUrl={thumbnailUrl} />
           <Text style={styles.name}>{name}</Text>
         </View>
-        <Button
-          onPress={() => onPressSubscribeArtist({ isSubscribed: !!subscribeArtistData })}
+        <ArtistSubscribeButton
+          artistId={artistId}
+          onShouldLogin={() => {
+            navigation.navigate('LoginStackScreen', {
+              screen: 'LoginSelectionScreen',
+              params: {},
+            })
+          }}
           style={styles.marginLeftAuto}
-        >
-          {subscribeArtistData ? 'Following' : 'Follow'}
-        </Button>
+        />
       </TouchableOpacity>
     )
   },
@@ -106,85 +101,7 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
     venueId,
   }: ConcertDetailSectionListVenueMapItemProps) => {
     const navigation = useConcertDetailScreenNavigation()
-    const queryClient = useQueryClient()
-    const { data: meData } = useGetMeQuery()
-    const { data: subscribeVenueData } = useSubscribeVenueQuery({ venueId })
-    const { mutate: subscribeVenue } = useSubscribeVenueMutation({
-      onMutate: async (variables) => {
-        if (!meData) {
-          navigation.navigate('LoginStackScreen', {
-            screen: 'LoginSelectionScreen',
-            params: {},
-          })
-          return
-        }
-        await queryClient.cancelQueries({
-          queryKey: v1QueryKeyFactory.venues.subscribed({
-            venueId: variables.venueId,
-          }).queryKey,
-        })
 
-        const newSubscribeVenue: Awaited<ReturnType<typeof useSubscribeVenueQuery>>['data'] = {
-          userId: meData.id,
-          venueId: variables.venueId,
-        }
-
-        queryClient.setQueryData(
-          v1QueryKeyFactory.venues.subscribed({
-            venueId: variables.venueId,
-          }).queryKey,
-          newSubscribeVenue,
-        )
-
-        return newSubscribeVenue
-      },
-      onSettled: (data) => {
-        if (!data) {
-          return
-        }
-        queryClient.invalidateQueries({
-          queryKey: v1QueryKeyFactory.venues.subscribed({
-            venueId: data.venueId,
-          }).queryKey,
-        })
-      },
-    })
-    const { mutate: unsubscribeVenue } = useUnsubscribeVenueMutation({
-      onMutate: async (variables) => {
-        if (!meData) {
-          navigation.navigate('LoginStackScreen', {
-            screen: 'LoginSelectionScreen',
-            params: {},
-          })
-          return
-        }
-        await queryClient.cancelQueries({
-          queryKey: v1QueryKeyFactory.venues.subscribed({
-            venueId: variables.venueId,
-          }).queryKey,
-        })
-
-        queryClient.setQueryData(
-          v1QueryKeyFactory.venues.subscribed({
-            venueId: variables.venueId,
-          }).queryKey,
-          null,
-        )
-
-        return null
-      },
-      onSettled: (data) => {
-        console.log(data)
-        if (!data) {
-          return
-        }
-        queryClient.invalidateQueries({
-          queryKey: v1QueryKeyFactory.venues.subscribed({
-            venueId: data.venueId,
-          }).queryKey,
-        })
-      },
-    })
     return (
       <View>
         <TouchableOpacity onPress={onPressProfile} style={styles.rowItem}>
@@ -192,23 +109,16 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
             <ProfileThumbnail type="circle" size="sm" emptyBgText={venueTitle.at(0) ?? ''} />
             <Text style={styles.name}>{venueTitle}</Text>
           </View>
-          <Button
-            size="sm"
-            onPress={() => {
-              if (subscribeVenueData) {
-                unsubscribeVenue({
-                  venueId,
-                })
-              } else {
-                subscribeVenue({
-                  venueId,
-                })
-              }
+          <VenueSubscribeButton
+            venueId={venueId}
+            onShouldLogin={() => {
+              navigation.navigate('LoginStackScreen', {
+                screen: 'LoginSelectionScreen',
+                params: {},
+              })
             }}
             style={styles.marginLeftAuto}
-          >
-            {subscribeVenueData ? 'Following' : 'Follow'}
-          </Button>
+          />
         </TouchableOpacity>
         <View style={styles.venueMapAddressWrapper}>
           <Text style={styles.venueMapAddressText}>
@@ -261,7 +171,7 @@ const styles = StyleSheet.create({
   name: {
     marginLeft: 8,
     fontWeight: '500',
-    fontSize: 16,
+    fontSize: 14,
   },
   ticketSellerText: {
     fontSize: 16,
@@ -307,7 +217,8 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     marginHorizontal: 12,
     marginVertical: 8,
-    backgroundColor: colors.oc.white.value,
-    borderRadius: 4,
+    borderRadius: 8,
+    borderColor: colors.oc.gray[4].value,
+    borderWidth: 1.5,
   },
 })

@@ -32,7 +32,6 @@ export const ArtistDetailConcertListItem = ({ item, onPress }: ArtistDetailConce
       }
       bottomRightAddOn={
         <ConcertSubscribeButton
-          size="sm"
           onPress={() => {
             if (!isLoggedIn) {
               navigation.navigate('LoginStackScreen', {
