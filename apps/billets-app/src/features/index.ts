@@ -1,3 +1,4 @@
+export * from './artist'
 export * from './concert'
 export * from './concert-detail'
 export * from './location'
