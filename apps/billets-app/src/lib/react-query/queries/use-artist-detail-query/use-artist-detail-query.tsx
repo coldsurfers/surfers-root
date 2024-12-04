@@ -21,7 +21,7 @@ type TData = Awaited<ReturnType<typeof queryFn>>
 type TError = OpenApiError
 type Options = UseQueryOptions<TData, TError>
 
-export const useArtistQuery = ({ id }: { id: string }, options?: Options) => {
+export const useArtistDetailQuery = ({ id }: { id: string }, options?: Options) => {
   return useQuery<TData, TError>({
     ...options,
     queryFn: async () => await queryFn({ id }),
