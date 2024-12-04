@@ -5,9 +5,6 @@ import {
 } from '@/features/concert-detail'
 import { useToggleSubscribeConcert } from '@/features/subscribe'
 import commonStyles from '@/lib/common-styles'
-import { v1QueryKeyFactory } from '@/lib/query-key-factory'
-import { useSubscribeArtistQuery } from '@/lib/react-query'
-import { useSubscribeArtistMutation, useUnsubscribeArtistMutation } from '@/lib/react-query/mutations'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
 import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import useSubscribedConcertQuery from '@/lib/react-query/queries/useSubscribedConcertQuery'
@@ -15,7 +12,6 @@ import { CommonBackIconButton } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner } from '@coldsurfers/ocean-road/native'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
-import { useQueryClient } from '@tanstack/react-query'
 import React, { useCallback, useMemo, useRef } from 'react'
 import { Dimensions, StatusBar, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -27,7 +23,6 @@ export const ConcertDetailScreen = () => {
   const navigation = useConcertDetailScreenNavigation()
   const { params } = useConcertDetailScreenRoute()
 
-  const queryClient = useQueryClient()
   const { data, isLoading: isLoadingConcert } = useConcertQuery({
     concertId: params.concertId,
   })
@@ -36,79 +31,6 @@ export const ConcertDetailScreen = () => {
   })
   const { data: meData } = useGetMeQuery()
   const toggleSubscribeConcert = useToggleSubscribeConcert()
-
-  const { mutate: subscribeArtist } = useSubscribeArtistMutation({
-    onMutate: async (variables) => {
-      if (!meData) {
-        navigation.navigate('LoginStackScreen', {
-          screen: 'LoginSelectionScreen',
-          params: {},
-        })
-        return
-      }
-      await queryClient.cancelQueries({
-        queryKey: v1QueryKeyFactory.artists.subscribed({
-          artistId: variables.artistId,
-        }).queryKey,
-      })
-      const newSubscribeArtist: Awaited<ReturnType<typeof useSubscribeArtistQuery>>['data'] = {
-        artistId: variables.artistId,
-        userId: meData.id,
-      }
-      queryClient.setQueryData(
-        v1QueryKeyFactory.artists.subscribed({
-          artistId: variables.artistId,
-        }).queryKey,
-        newSubscribeArtist,
-      )
-
-      return newSubscribeArtist
-    },
-    onSettled(data) {
-      if (!data) {
-        return
-      }
-      queryClient.invalidateQueries({
-        queryKey: v1QueryKeyFactory.artists.subscribed({
-          artistId: data.artistId,
-        }).queryKey,
-      })
-    },
-  })
-  const { mutate: unsubscribeArtist } = useUnsubscribeArtistMutation({
-    onMutate: async (variables) => {
-      if (!meData) {
-        navigation.navigate('LoginStackScreen', {
-          screen: 'LoginSelectionScreen',
-          params: {},
-        })
-        return
-      }
-      await queryClient.cancelQueries({
-        queryKey: v1QueryKeyFactory.artists.subscribed({
-          artistId: variables.artistId,
-        }).queryKey,
-      })
-      queryClient.setQueryData(
-        v1QueryKeyFactory.artists.subscribed({
-          artistId: variables.artistId,
-        }).queryKey,
-        null,
-      )
-
-      return null
-    },
-    onSettled(data) {
-      if (!data) {
-        return
-      }
-      queryClient.invalidateQueries({
-        queryKey: v1QueryKeyFactory.artists.subscribed({
-          artistId: data.artistId,
-        }).queryKey,
-      })
-    },
-  })
 
   const mapDetailBottomSheetModalRef = useRef<BottomSheetModal>(null)
 
@@ -180,13 +102,6 @@ export const ConcertDetailScreen = () => {
               },
             })
           },
-          onPressSubscribeArtist: ({ isSubscribed }) => {
-            if (isSubscribed) {
-              unsubscribeArtist({ artistId: artist.id })
-            } else {
-              subscribeArtist({ artistId: artist.id })
-            }
-          },
         })),
       },
       {
@@ -256,8 +171,6 @@ export const ConcertDetailScreen = () => {
     firstVenue?.longitude,
     firstVenue?.venueTitle,
     navigation,
-    subscribeArtist,
-    unsubscribeArtist,
   ])
 
   return (
