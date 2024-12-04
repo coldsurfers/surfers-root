@@ -19,10 +19,13 @@ import { decodeToken } from '../lib/jwt'
 import {
   getSubscribeCommonParamsSchema,
   GetSubscribedConcertListQueryString,
+  subscribeArtistBodySchema,
   SubscribeArtistParams,
   SubscribeConcertParams,
   subscribeVenueBodySchema,
   SubscribeVenueParams,
+  unsubscribeArtistBodySchema,
+  unsubscribeVenueBodySchema,
 } from './subscribe.types'
 
 export const getSubscribePreHandler = async (
@@ -247,6 +250,7 @@ export const unsubscribeConcertHandler: RouteHandler<{
 
 export const subscribeArtistHandler: RouteHandler<{
   Params: SubscribeArtistParams
+  Body: z.infer<typeof subscribeArtistBodySchema>
   Reply: {
     200: SubscribedArtistSerialized
     401: ErrorResponse
@@ -296,6 +300,7 @@ export const subscribeArtistHandler: RouteHandler<{
 
 export const unsubscribeArtistHandler: RouteHandler<{
   Params: SubscribeArtistParams
+  Body: z.infer<typeof unsubscribeArtistBodySchema>
   Reply: {
     200: SubscribedArtistSerialized
     401: ErrorResponse
@@ -390,6 +395,7 @@ export const subscribeVenueHandler: RouteHandler<{
 
 export const unsubscribeVenueHandler: RouteHandler<{
   Params: SubscribeVenueParams
+  Body: z.infer<typeof unsubscribeVenueBodySchema>
   Reply: {
     200: SubscribeVenueSerialized
     401: ErrorResponse

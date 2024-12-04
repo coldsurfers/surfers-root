@@ -34,3 +34,14 @@ export type GetSubscribedConcertListQueryString = z.infer<typeof getSubscribedCo
 export const subscribeVenueBodySchema = z.object({
   type: z.literal('subscribe-venue'),
 })
+
+export const subscribeArtistBodySchema = z.object({
+  type: z.literal('subscribe-artist'),
+})
+
+export const unsubscribeArtistBodySchema = z.object({
+  type: z.literal('unsubscribe-artist'),
+})
+export const unsubscribeVenueBodySchema = z.object({
+  type: z.literal('unsubscribe-venue'),
+})
