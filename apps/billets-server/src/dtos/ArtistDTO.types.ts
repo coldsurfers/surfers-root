@@ -11,6 +11,7 @@ export type ArtistDTOProps = Partial<Artist> & {
 
 export const artistDTOSerializedSchema = z.object({
   id: z.string(),
+  name: z.string(),
   artistProfileImage: z.array(
     z.object({
       id: z.string(),
