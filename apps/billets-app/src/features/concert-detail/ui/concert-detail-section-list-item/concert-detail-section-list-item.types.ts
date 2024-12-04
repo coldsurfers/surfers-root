@@ -33,4 +33,5 @@ export type ConcertDetailSectionListVenueMapItemProps = {
   onPressMap?: () => void
   onPressProfile?: () => void
   venueTitle: string
+  venueId: string
 }
