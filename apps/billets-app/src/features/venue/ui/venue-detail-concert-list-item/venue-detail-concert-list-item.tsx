@@ -25,7 +25,6 @@ export const VenueDetailConcertListItem = ({ item, onPress, onPressSubscribe }: 
       }
       bottomRightAddOn={
         <ConcertSubscribeButton
-          size="sm"
           onPress={() => onPressSubscribe({ concertId: item.id, isSubscribed: !!subscribedConcert })}
           isSubscribed={!!subscribedConcert}
         />
