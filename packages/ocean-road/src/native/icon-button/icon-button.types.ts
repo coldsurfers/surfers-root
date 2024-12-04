@@ -1,12 +1,10 @@
-import { StyleProp, ViewStyle } from 'react-native'
+import { TouchableOpacityProps } from 'react-native'
 import { ButtonTheme } from '../../button'
 
-export interface IconButtonProps {
-  onPress?: () => void
+export interface IconButtonProps extends TouchableOpacityProps {
   icon: '←' | '✘'
   size?: IconButtonSize
   theme?: ButtonTheme
-  style?: StyleProp<ViewStyle>
 }
 
 export type IconButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
