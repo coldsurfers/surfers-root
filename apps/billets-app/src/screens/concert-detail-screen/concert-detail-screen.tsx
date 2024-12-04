@@ -1,5 +1,5 @@
 import {
-  ConcertDetailArtistProfileImageModal,
+  ArtistProfileImageModal,
   ConcertDetailSectionList,
   ConcertDetailSectionListSections,
   ConcertDetailVenueMapBottomSheet,
@@ -177,7 +177,7 @@ export const ConcertDetailScreen = () => {
 
             {/* Artist Profile Image Modal */}
             {firstArtist && (
-              <ConcertDetailArtistProfileImageModal
+              <ArtistProfileImageModal
                 visible={imageViewerVisible}
                 onClose={() => setImageViewerVisible(false)}
                 artistId={firstArtist.id}

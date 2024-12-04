@@ -1,4 +1,4 @@
-import { useArtistQuery } from '@/lib/react-query'
+import { useArtistDetailQuery } from '@/lib/react-query'
 import { CommonImageViewer } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Modal, Text } from '@coldsurfers/ocean-road/native'
@@ -6,7 +6,7 @@ import { useMemo } from 'react'
 import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-export const ConcertDetailArtistProfileImageModal = ({
+export const ArtistProfileImageModal = ({
   visible,
   onClose,
   artistId,
@@ -16,7 +16,7 @@ export const ConcertDetailArtistProfileImageModal = ({
   artistId: string
 }) => {
   const { top: topInset } = useSafeAreaInsets()
-  const { data, isLoading } = useArtistQuery({ id: artistId })
+  const { data, isLoading } = useArtistDetailQuery({ id: artistId })
   const firstImage = useMemo(() => {
     return data?.artistProfileImage.at(0)
   }, [data?.artistProfileImage])
