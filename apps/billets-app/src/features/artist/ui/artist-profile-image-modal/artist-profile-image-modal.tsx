@@ -36,7 +36,16 @@ export const ArtistProfileImageModal = ({
         </View>
       ) : (
         <View style={styles.contentWrapper}>
-          <Pressable onPress={onClose} style={[styles.imageViewerCloseButton, { top: topInset }]}>
+          <Pressable
+            hitSlop={{
+              top: 20,
+              left: 20,
+              right: 20,
+              bottom: 20,
+            }}
+            onPress={onClose}
+            style={[styles.imageViewerCloseButton, { top: topInset }]}
+          >
             <Text style={styles.imageViewerCloseText}>닫기</Text>
           </Pressable>
           <View style={styles.imageContainer}>
