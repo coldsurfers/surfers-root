@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { colors } from '../../tokens'
 import { Text } from '../text'
 
@@ -9,8 +9,8 @@ const PROFILE_THUMBNAIL_SIZE = {
     height: 62,
   },
   sm: {
-    width: 30,
-    height: 30,
+    width: 42,
+    height: 42,
   },
   lg: {
     width: 92,
@@ -23,9 +23,16 @@ type ProfileThumbnailProps = {
   type?: 'square' | 'circle'
   emptyBgText: string
   imageUrl?: string
+  style?: StyleProp<ViewStyle>
 }
 
-export const ProfileThumbnail = ({ size = 'md', emptyBgText, imageUrl, type = 'square' }: ProfileThumbnailProps) => {
+export const ProfileThumbnail = ({
+  size = 'md',
+  emptyBgText,
+  imageUrl,
+  type = 'square',
+  style,
+}: ProfileThumbnailProps) => {
   const sizeStyle = useMemo(() => {
     return PROFILE_THUMBNAIL_SIZE[size]
   }, [size])
@@ -44,7 +51,7 @@ export const ProfileThumbnail = ({ size = 'md', emptyBgText, imageUrl, type = 's
     }
   }, [sizeStyle.width, type])
   return (
-    <View style={[styles.wrapper, sizeStyle, borderRadiusStyle]}>
+    <View style={[styles.wrapper, sizeStyle, borderRadiusStyle, style]}>
       {emptyBgText ? (
         <Text weight="bold" style={styles.bgText}>
           {emptyBgText}
