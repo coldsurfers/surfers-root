@@ -23,9 +23,13 @@ import {
 import {
   getSubscribeCommonParamsSchema,
   getSubscribedConcertListQueryStringSchema,
+  subscribeArtistBodySchema,
   subscribeConcertBodySchema,
   subscribeConcertParamsSchema,
+  subscribeVenueBodySchema,
   subscribeVenueParamsSchema,
+  unsubscribeArtistBodySchema,
+  unsubscribeVenueBodySchema,
 } from './subscribe.types'
 
 const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
@@ -123,6 +127,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'subscribe'],
+        body: subscribeArtistBodySchema,
         response: {
           200: subscribedArtistDTOSerializedSchema,
           401: errorResponseSchema,
@@ -140,6 +145,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'subscribe'],
+        body: unsubscribeArtistBodySchema,
         response: {
           200: subscribedArtistDTOSerializedSchema,
           401: errorResponseSchema,
@@ -175,6 +181,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
       schema: {
         tags: ['v1', 'subscribe'],
         params: subscribeVenueParamsSchema,
+        body: subscribeVenueBodySchema,
         response: {
           200: subscribeVenueSerializedSchema,
           401: errorResponseSchema,
@@ -193,6 +200,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
       schema: {
         tags: ['v1', 'subscribe'],
         params: subscribeVenueParamsSchema,
+        body: unsubscribeVenueBodySchema,
         response: {
           200: subscribeVenueSerializedSchema,
           401: errorResponseSchema,
