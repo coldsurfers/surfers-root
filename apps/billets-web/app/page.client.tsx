@@ -18,16 +18,11 @@ export function HomePageClient() {
           <StyledHomeMainTitle>Billets</StyledHomeMainTitle>
           <StyledHomeMainTitle>{'예정된\n많은 공연을\n놓치지 마세요 🎉'}</StyledHomeMainTitle>
           <Link href={BILLETS_APP_URL} style={{ display: 'inline-block' }}>
-            <Button theme="pink">Get Billets app</Button>
+            <Button theme="indigo">무료 앱 다운로드하기</Button>
           </Link>
         </div>
         <div style={{ flex: 1, borderRadius: 8 }}>
-          <StyledHomeTopImage
-            src="https://coldsurf-aws-s3-bucket.s3.ap-northeast-2.amazonaws.com/billets/static/billets-web/static-images/live-party.webp"
-            alt="live-party"
-            width={500}
-            height={500}
-          />
+          <StyledHomeTopImage src="/landing.webp" alt="live-party" width={500} height={500} />
         </div>
       </StyledHomeTop>
       <RecentList />
