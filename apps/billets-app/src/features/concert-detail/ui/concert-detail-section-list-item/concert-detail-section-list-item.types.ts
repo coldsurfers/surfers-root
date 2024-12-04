@@ -31,4 +31,6 @@ export type ConcertDetailSectionListVenueMapItemProps = {
   longitude: number
   address: string
   onPressMap?: () => void
+  onPressProfile?: () => void
+  venueTitle: string
 }

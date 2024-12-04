@@ -1,10 +1,9 @@
 import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/concert-venue-map-view'
 import { colors } from '@coldsurfers/ocean-road'
-import { Button, Text } from '@coldsurfers/ocean-road/native'
+import { Button, ProfileThumbnail, Text } from '@coldsurfers/ocean-road/native'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { format } from 'date-fns'
 import { Dimensions, Linking, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
-import FastImage from 'react-native-fast-image'
 import { VENUE_MAP_HEIGHT } from './concert-detail-section-list-item.constants'
 import {
   ConcertDetailSectionListDateItemProps,
@@ -58,7 +57,7 @@ ConcertDetailSectionListItem.LineupItem = ({
 }: ConcertDetailSectionListLineupItemProps) => {
   return (
     <Pressable onPress={onPress} style={styles.lineupWrapper}>
-      <FastImage style={styles.image} source={{ uri: thumbnailUrl }} />
+      <ProfileThumbnail type="circle" size="sm" emptyBgText={name.at(0) ?? ''} imageUrl={thumbnailUrl} />
       <Text style={styles.name}>{name}</Text>
     </Pressable>
   )
@@ -82,9 +81,15 @@ ConcertDetailSectionListItem.VenueMapItem = ({
   longitude,
   address,
   onPressMap,
+  venueTitle,
+  onPressProfile,
 }: ConcertDetailSectionListVenueMapItemProps) => {
   return (
     <View>
+      <Pressable onPress={onPressProfile} style={styles.lineupWrapper}>
+        <ProfileThumbnail type="circle" size="sm" emptyBgText="Hello" />
+        <Text style={styles.name}>{venueTitle}</Text>
+      </Pressable>
       <View style={styles.venueMapAddressWrapper}>
         <Text style={styles.venueMapAddressText}>
           {'📍'} {address}
