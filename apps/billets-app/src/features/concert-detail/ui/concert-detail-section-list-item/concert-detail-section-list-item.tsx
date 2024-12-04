@@ -1,6 +1,6 @@
 import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/concert-venue-map-view'
 import { v1QueryKeyFactory } from '@/lib/query-key-factory'
-import { useSubscribeVenueMutation, useSubscribeVenueQuery } from '@/lib/react-query'
+import { useSubscribeVenueMutation, useSubscribeVenueQuery, useUnsubscribeVenueMutation } from '@/lib/react-query'
 import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import { useConcertDetailScreenNavigation } from '@/screens/concert-detail-screen/concert-detail-screen.hooks'
 import { colors } from '@coldsurfers/ocean-road'
@@ -136,6 +136,42 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
         })
       },
     })
+    const { mutate: unsubscribeVenue } = useUnsubscribeVenueMutation({
+      onMutate: async (variables) => {
+        if (!meData) {
+          navigation.navigate('LoginStackScreen', {
+            screen: 'LoginSelectionScreen',
+            params: {},
+          })
+          return
+        }
+        await queryClient.cancelQueries({
+          queryKey: v1QueryKeyFactory.venues.subscribed({
+            venueId: variables.venueId,
+          }).queryKey,
+        })
+
+        queryClient.setQueryData(
+          v1QueryKeyFactory.venues.subscribed({
+            venueId: variables.venueId,
+          }).queryKey,
+          null,
+        )
+
+        return null
+      },
+      onSettled: (data) => {
+        console.log(data)
+        if (!data) {
+          return
+        }
+        queryClient.invalidateQueries({
+          queryKey: v1QueryKeyFactory.venues.subscribed({
+            venueId: data.venueId,
+          }).queryKey,
+        })
+      },
+    })
     return (
       <View>
         <View style={styles.rowItem}>
@@ -144,11 +180,17 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
             <Text style={styles.name}>{venueTitle}</Text>
           </Pressable>
           <Button
-            onPress={() =>
-              subscribeVenue({
-                venueId,
-              })
-            }
+            onPress={() => {
+              if (subscribeVenueData) {
+                unsubscribeVenue({
+                  venueId,
+                })
+              } else {
+                subscribeVenue({
+                  venueId,
+                })
+              }
+            }}
             style={styles.marginLeftAuto}
           >
             {subscribeVenueData ? 'Following' : 'Follow'}
