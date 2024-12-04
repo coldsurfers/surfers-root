@@ -132,7 +132,7 @@ function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
               <p>Blog</p>
             </Link>
             <Link href={BILLETS_APP_URL} onClick={onClose}>
-              <Button theme="pink">Get Billets app</Button>
+              <Button theme="indigo">무료 앱 다운로드하기</Button>
             </Link>
           </ModalContent>
           <ModalFooter>
@@ -184,7 +184,7 @@ export function Header() {
             <HeaderMenuText>Blog</HeaderMenuText>
           </HeaderMenuContainer>
           <Link href={BILLETS_APP_URL}>
-            <Button theme="pink">Get Billets app</Button>
+            <Button theme="indigo">무료 앱 다운로드하기</Button>
           </Link>
         </WebMenuContainer>
         <MobileMenuContainer>
