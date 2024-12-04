@@ -6,7 +6,7 @@ import { colors } from '../../tokens'
 
 export const StyledButton = styled.TouchableOpacity<{
   colorTheme: ButtonTheme
-  size: 'md' | 'sm'
+  size: 'lg' | 'md' | 'sm'
 }>`
   align-items: center;
   justify-content: center;
@@ -14,22 +14,24 @@ export const StyledButton = styled.TouchableOpacity<{
     disabled ? color.oc.gray[4].value : getButtonBackgroundColor(colorTheme)};
   padding: ${(props) => {
     switch (props.size) {
-      case 'md':
+      case 'lg':
         return '14px'
-      case 'sm':
+      case 'md':
         return '10px'
+      case 'sm':
       default:
-        return '14px;'
+        return '6px'
     }
   }};
   border-radius: ${(props) => {
     switch (props.size) {
+      case 'lg':
+        return '22px'
       case 'md':
-        return '22px'
-      case 'sm':
         return '16px'
+      case 'sm':
       default:
-        return '22px'
+        return '10px'
     }
   }};
   ${(props) => css`
@@ -48,12 +50,13 @@ export const StyledButtonText = styled.Text<{ colorTheme: ButtonTheme; size: 'md
   font-family: inherit;
   font-size: ${(props) => {
     switch (props.size) {
+      case 'lg':
+        return '14px'
       case 'md':
-        return '14px'
-      case 'sm':
         return '12px'
+      case 'sm':
       default:
-        return '14px'
+        return '10px'
     }
   }};
 `
