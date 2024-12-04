@@ -151,7 +151,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
   )
 
   //  venue subscribe
-  fastify.withTypeProvider<ZodTypeProvider>().post(
+  fastify.withTypeProvider<ZodTypeProvider>().get(
     '/venue/:id',
     {
       schema: {
