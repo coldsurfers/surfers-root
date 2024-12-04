@@ -3,16 +3,16 @@ import { OpenApiError } from '@/lib/api/openapi-error'
 import { useMutation, UseMutationOptions } from '@tanstack/react-query'
 
 type TVariables = {
-  artistId: string
+  venueId: string
 }
 
 type Options = UseMutationOptions<Awaited<ReturnType<typeof mutationFn>>, OpenApiError, TVariables>
 
-const mutationFn = async ({ artistId }: TVariables) => {
-  const response = await client.POST('/v1/subscribe/artist/{id}', {
+const mutationFn = async ({ venueId }: TVariables) => {
+  const response = await client.POST('/v1/subscribe/venue/{id}', {
     params: {
       path: {
-        id: artistId,
+        id: venueId,
       },
     },
   })
@@ -22,7 +22,7 @@ const mutationFn = async ({ artistId }: TVariables) => {
   return response.data
 }
 
-export const useSubscribeArtist = (options?: Options) => {
+export const useSubscribeVenueMutation = (options?: Options) => {
   return useMutation({
     ...options,
     mutationFn,
