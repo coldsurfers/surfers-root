@@ -4,4 +4,4 @@ export type ButtonProps = PropsWithChildren<{
   theme?: ButtonTheme
 }>
 
-export type ButtonTheme = 'transparent' | 'transparentDarkGray' | 'white' | 'pink' | 'indigo' | 'border'
+export type ButtonTheme = 'transparent' | 'transparentDarkGray' | 'white' | 'pink' | 'indigo'
