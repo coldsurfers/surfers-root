@@ -2,8 +2,8 @@ import {
   ConcertDetailSectionList,
   ConcertDetailSectionListSections,
   ConcertDetailVenueMapBottomSheet,
-  useToggleSubscribeConcert,
-} from '@/features'
+} from '@/features/concert-detail'
+import { useToggleSubscribeConcert } from '@/features/subscribe'
 import commonStyles from '@/lib/common-styles'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
 import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'

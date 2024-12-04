@@ -31,4 +31,5 @@ type VenueDetailConcertListItemType = {
 export type VenueDetailConcertListItemProps = {
   item: VenueDetailConcertListItemType
   onPress: (item: VenueDetailConcertListItemType) => void
+  onPressSubscribe: (params: { concertId: string; isSubscribed: boolean }) => void
 }
