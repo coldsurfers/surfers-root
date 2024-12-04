@@ -1,7 +1,8 @@
 import { useArtistDetailQuery } from '@/lib/react-query'
+import { colors } from '@coldsurfers/ocean-road'
 import { ProfileThumbnail, Text } from '@coldsurfers/ocean-road/native'
 import { useMemo } from 'react'
-import { ActivityIndicator, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native'
 
 export const ArtistDetailTop = ({ artistId }: { artistId: string }) => {
   const { data: artistDetail, isLoading: isLoadingArtistDetail } = useArtistDetailQuery({
@@ -17,15 +18,20 @@ export const ArtistDetailTop = ({ artistId }: { artistId: string }) => {
           <ActivityIndicator animating />
         ) : (
           <View style={styles.contentContainer}>
-            <ProfileThumbnail
-              emptyBgText={artistDetailUIData?.name.at(0) ?? ''}
-              imageUrl={artistDetailUIData?.artistProfileImage.at(0)?.imageURL}
-              size="lg"
-              type="circle"
-              style={styles.thumbnail}
-            />
+            <Pressable onPress={() => {}}>
+              <ProfileThumbnail
+                emptyBgText={artistDetailUIData?.name.at(0) ?? ''}
+                imageUrl={artistDetailUIData?.artistProfileImage.at(0)?.imageURL}
+                size="lg"
+                type="circle"
+                style={styles.thumbnail}
+              />
+            </Pressable>
             <Text weight="medium" style={styles.topTitle}>
               {artistDetailUIData?.name ?? ''}
+            </Text>
+            <Text weight="regular" style={styles.subTitle}>
+              아티스트
             </Text>
           </View>
         )}
@@ -56,5 +62,8 @@ const styles = StyleSheet.create({
   },
   thumbnail: {
     marginBottom: 12,
+  },
+  subTitle: {
+    color: colors.oc.gray[8].value,
   },
 })
