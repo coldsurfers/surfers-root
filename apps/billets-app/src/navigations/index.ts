@@ -1,3 +1,4 @@
+export * from './artist-stack-navigation'
 export * from './concert-stack-navigation'
 export * from './home-stack-navigation'
 export * from './login-stack-navigation'
