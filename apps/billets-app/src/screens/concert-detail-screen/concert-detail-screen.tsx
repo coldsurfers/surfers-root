@@ -112,11 +112,13 @@ export const ConcertDetailScreen = () => {
             onPressMap: () => mapDetailBottomSheetModalRef.current?.present(),
             venueTitle: firstVenue?.venueTitle ?? '',
             onPressProfile: () => {
+              if (!firstVenue?.id) {
+                return
+              }
               navigation.navigate('VenueStackScreen', {
                 screen: 'VenueDetailScreen',
-                // @todo: change this static value
                 params: {
-                  id: 'venueId',
+                  id: firstVenue.id,
                 },
               })
             },
