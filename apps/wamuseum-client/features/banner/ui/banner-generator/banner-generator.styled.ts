@@ -5,6 +5,7 @@ export const StyledBannerPreviewWrapper = styled.div`
   position: relative;
   width: 430px;
   height: 602px;
+  aspect-ratio: 430 / 602;
   overflow: hidden;
   display: flex;
   flex-direction: column;
