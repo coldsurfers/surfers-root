@@ -248,11 +248,22 @@ export const ConcertDetailScreen = () => {
       // },
     ]
     return innerSections
-  }, [data, firstVenue?.address, firstVenue?.latitude, firstVenue?.longitude, firstVenue?.venueTitle, navigation])
+  }, [
+    data,
+    firstVenue?.address,
+    firstVenue?.id,
+    firstVenue?.latitude,
+    firstVenue?.longitude,
+    firstVenue?.venueTitle,
+    navigation,
+    subscribeArtist,
+    unsubscribeArtist,
+  ])
 
   return (
     <>
       <StatusBar hidden />
+      <CommonBackIconButton top={40} onPress={navigation.goBack} />
       <View style={styles.wrapper}>
         {isLoadingConcert ? (
           <Spinner />
@@ -271,12 +282,12 @@ export const ConcertDetailScreen = () => {
                     concertId: params.concertId,
                   })
                 }}
-                style={{ backgroundColor: colors.oc.cyan[8].value }}
+                size="md"
+                style={{ backgroundColor: colors.oc.cyan[8].value, height: '100%' }}
               >
                 🎫 티켓 찾기 🎫
               </Button>
             </View>
-            <CommonBackIconButton top={40} onPress={() => navigation.goBack()} />
           </>
         )}
       </View>
