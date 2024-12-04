@@ -1,6 +1,7 @@
 import { useArtistConcertListQuery } from '@/lib/react-query'
 import { useCallback, useMemo } from 'react'
 import { ActivityIndicator, FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { ArtistDetailConcertListItem } from '../artist-detail-concert-list-item'
 import { ArtistDetailTop } from '../artist-detail-top'
 
@@ -13,6 +14,7 @@ export const ArtistDetailConcertList = ({
   onPressItem?: (params: { concertId: string }) => void
   onPressArtistProfile?: () => void
 }) => {
+  const { bottom: bottomInset } = useSafeAreaInsets()
   const {
     data: artistConcertList,
     isPending: isPendingArtistConcertList,
@@ -61,7 +63,7 @@ export const ArtistDetailConcertList = ({
       data={artistConcertListUIData}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
-      contentContainerStyle={styles.contentContainer}
+      contentContainerStyle={[styles.contentContainer, { paddingBottom: bottomInset }]}
       onEndReached={onEndReached}
     />
   )
