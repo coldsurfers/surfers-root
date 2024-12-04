@@ -1,4 +1,4 @@
-import { ArtistDetailConcertList, ArtistProfileImageModal } from '@/features'
+import { ArtistDetailConcertList, ArtistProfileImageModal } from '@/features/artist'
 import { CommonBackIconButton, CommonScreenLayout } from '@/ui'
 import { useState } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
