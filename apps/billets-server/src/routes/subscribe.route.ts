@@ -25,6 +25,7 @@ import {
   getSubscribedConcertListQueryStringSchema,
   subscribeConcertBodySchema,
   subscribeConcertParamsSchema,
+  subscribeVenueBodySchema,
   subscribeVenueParamsSchema,
 } from './subscribe.types'
 
@@ -175,6 +176,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
       schema: {
         tags: ['v1', 'subscribe'],
         params: subscribeVenueParamsSchema,
+        body: subscribeVenueBodySchema,
         response: {
           200: subscribeVenueSerializedSchema,
           401: errorResponseSchema,

@@ -21,6 +21,7 @@ import {
   GetSubscribedConcertListQueryString,
   SubscribeArtistParams,
   SubscribeConcertParams,
+  subscribeVenueBodySchema,
   SubscribeVenueParams,
 } from './subscribe.types'
 
@@ -339,6 +340,7 @@ export const unsubscribeArtistHandler: RouteHandler<{
 
 export const subscribeVenueHandler: RouteHandler<{
   Params: SubscribeVenueParams
+  Body: z.infer<typeof subscribeVenueBodySchema>
   Reply: {
     200: SubscribeVenueSerialized
     401: ErrorResponse
