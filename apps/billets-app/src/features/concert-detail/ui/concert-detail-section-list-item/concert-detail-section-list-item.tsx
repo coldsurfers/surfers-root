@@ -95,7 +95,7 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
       <View>
         <View style={styles.rowItem}>
           <Pressable onPress={onPressProfile} style={styles.profileLine}>
-            <ProfileThumbnail type="circle" size="sm" emptyBgText="Hello" />
+            <ProfileThumbnail type="circle" size="sm" emptyBgText={venueTitle.at(0) ?? ''} />
             <Text style={styles.name}>{venueTitle}</Text>
           </Pressable>
           <Button
