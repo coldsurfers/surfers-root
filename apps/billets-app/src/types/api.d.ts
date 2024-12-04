@@ -1394,6 +1394,7 @@ export interface components {
         imageURL: string
       }[]
       id: string
+      name: string
     }
     GetConcertListByArtistIdParams: {
       artistId: string

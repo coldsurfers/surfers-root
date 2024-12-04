@@ -17,8 +17,7 @@ export const ArtistDetailTop = ({ artistId }: { artistId: string }) => {
           <ActivityIndicator animating />
         ) : (
           <Text weight="medium" style={styles.topTitle}>
-            {/* @todo: change this static value to artist name value */}
-            {'name'}
+            {artistDetailUIData?.name ?? ''}
           </Text>
         )}
       </View>
