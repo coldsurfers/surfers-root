@@ -6,7 +6,16 @@ import BootSplash from 'react-native-bootsplash'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import AppContainer from './src/AppContainer'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    mutations: {
+      retry: false,
+    },
+    queries: {
+      retry: false,
+    },
+  },
+})
 
 const BootSplashAwaiter = ({ children }: PropsWithChildren) => {
   const { enable: enableFirebaseAnalytics } = useFirebaseAnalytics()

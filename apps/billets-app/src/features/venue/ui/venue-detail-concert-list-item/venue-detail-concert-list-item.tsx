@@ -1,21 +1,14 @@
 import { HorizontalConcertItem } from '@/features/concert/ui'
-import { useToggleSubscribeConcert } from '@/features/subscribe'
 import { ConcertSubscribeButton } from '@/features/subscribe/ui'
-import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import useSubscribedConcertQuery from '@/lib/react-query/queries/useSubscribedConcertQuery'
-import { useVenueDetailScreenNavigation } from '@/screens'
 import { ProfileThumbnail } from '@coldsurfers/ocean-road/native'
 import format from 'date-fns/format'
 import { VenueDetailConcertListItemProps } from './venue-detail-concert-list-item.types'
 
-export const VenueDetailConcertListItem = ({ item, onPress }: VenueDetailConcertListItemProps) => {
-  const toggleSubscribe = useToggleSubscribeConcert()
+export const VenueDetailConcertListItem = ({ item, onPress, onPressSubscribe }: VenueDetailConcertListItemProps) => {
   const { data: subscribedConcert } = useSubscribedConcertQuery({
     concertId: item.id,
   })
-  const { data: meData } = useGetMeQuery()
-  const navigation = useVenueDetailScreenNavigation()
-  const isLoggedIn = !!meData
   return (
     <HorizontalConcertItem
       onPress={() => onPress(item)}
@@ -32,17 +25,7 @@ export const VenueDetailConcertListItem = ({ item, onPress }: VenueDetailConcert
       }
       bottomRightAddOn={
         <ConcertSubscribeButton
-          size="sm"
-          onPress={() => {
-            if (!isLoggedIn) {
-              navigation.navigate('LoginStackScreen', {
-                screen: 'LoginSelectionScreen',
-                params: {},
-              })
-              return
-            }
-            toggleSubscribe({ concertId: item.id, isSubscribed: !!subscribedConcert })
-          }}
+          onPress={() => onPressSubscribe({ concertId: item.id, isSubscribed: !!subscribedConcert })}
           isSubscribed={!!subscribedConcert}
         />
       }

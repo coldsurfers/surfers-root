@@ -58,7 +58,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const logout = useCallback(async () => {
     try {
       await AsyncStorage.removeItem(storageAuthTokenKey)
-      await queryClient.invalidateQueries()
+      await queryClient.resetQueries()
     } catch (e) {
       console.error(e)
     }

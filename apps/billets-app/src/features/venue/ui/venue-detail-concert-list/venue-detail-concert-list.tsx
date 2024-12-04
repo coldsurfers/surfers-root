@@ -1,4 +1,7 @@
+import { useToggleSubscribeConcert } from '@/features/subscribe'
 import { useVenueConcertListQuery } from '@/lib/react-query/queries/use-venue-concert-list-query'
+import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
+import { useVenueDetailScreenNavigation } from '@/screens/venue-detail-screen/venue-detail-screen.hooks'
 import { useCallback, useMemo } from 'react'
 import { ActivityIndicator, FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -12,6 +15,7 @@ export const VenueDetailConcertList = ({
   venueId: string
   onPressItem?: (params: { concertId: string }) => void
 }) => {
+  const navigation = useVenueDetailScreenNavigation()
   const { bottom: bottomInset } = useSafeAreaInsets()
   const {
     data: venueConcertList,
@@ -22,6 +26,9 @@ export const VenueDetailConcertList = ({
   } = useVenueConcertListQuery({
     venueId,
   })
+  const { data: meData } = useGetMeQuery()
+  const toggleSubscribeConcert = useToggleSubscribeConcert()
+
   const venueConcertListUIData = useMemo(() => {
     return venueConcertList?.pages.flat() ?? []
   }, [venueConcertList?.pages])
@@ -30,9 +37,27 @@ export const VenueDetailConcertList = ({
 
   const renderItem = useCallback<ListRenderItem<(typeof venueConcertListUIData)[number]>>(
     (info) => {
-      return <VenueDetailConcertListItem item={info.item} onPress={() => onPressItem?.({ concertId: info.item.id })} />
+      return (
+        <VenueDetailConcertListItem
+          item={info.item}
+          onPress={() => onPressItem?.({ concertId: info.item.id })}
+          onPressSubscribe={({ concertId, isSubscribed }) => {
+            if (!meData) {
+              navigation.navigate('LoginStackScreen', {
+                screen: 'LoginSelectionScreen',
+                params: {},
+              })
+              return
+            }
+            toggleSubscribeConcert({
+              concertId,
+              isSubscribed,
+            })
+          }}
+        />
+      )
     },
-    [onPressItem],
+    [meData, navigation, onPressItem, toggleSubscribeConcert],
   )
 
   const onEndReached = useCallback(async () => {
