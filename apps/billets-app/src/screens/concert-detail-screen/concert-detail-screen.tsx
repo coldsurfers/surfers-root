@@ -195,7 +195,6 @@ export const ConcertDetailScreen = () => {
                     concertId: params.concertId,
                   })
                 }}
-                size="md"
                 style={{ backgroundColor: colors.oc.cyan[8].value, height: '100%' }}
               >
                 🎫 티켓 찾기 🎫
