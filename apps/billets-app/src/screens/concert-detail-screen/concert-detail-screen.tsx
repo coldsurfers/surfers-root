@@ -1,5 +1,4 @@
 import {
-  ArtistProfileImageModal,
   ConcertDetailSectionList,
   ConcertDetailSectionListSections,
   ConcertDetailVenueMapBottomSheet,
@@ -13,7 +12,7 @@ import { CommonBackIconButton } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner } from '@coldsurfers/ocean-road/native'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef } from 'react'
 import { Dimensions, StatusBar, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT } from './concert-detail-screen.constants'
@@ -32,8 +31,6 @@ export const ConcertDetailScreen = () => {
   const { data: meData } = useGetMeQuery()
   const toggleSubscribeConcert = useToggleSubscribeConcert()
   const mapDetailBottomSheetModalRef = useRef<BottomSheetModal>(null)
-
-  const [imageViewerVisible, setImageViewerVisible] = useState(false)
 
   const onPressSubscribe = useCallback(() => {
     if (!meData) {
@@ -150,9 +147,7 @@ export const ConcertDetailScreen = () => {
       // },
     ]
     return innerSections
-  }, [data, firstVenue?.address, firstVenue?.latitude, firstVenue?.longitude, firstVenue?.venueTitle])
-
-  const firstArtist = useMemo(() => data?.artists.at(0), [data?.artists])
+  }, [data, firstVenue?.address, firstVenue?.latitude, firstVenue?.longitude, firstVenue?.venueTitle, navigation])
 
   return (
     <>
@@ -181,15 +176,6 @@ export const ConcertDetailScreen = () => {
               </Button>
             </View>
             <CommonBackIconButton top={40} onPress={() => navigation.goBack()} />
-
-            {/* Artist Profile Image Modal */}
-            {firstArtist && (
-              <ArtistProfileImageModal
-                visible={imageViewerVisible}
-                onClose={() => setImageViewerVisible(false)}
-                artistId={firstArtist.id}
-              />
-            )}
           </>
         )}
       </View>
