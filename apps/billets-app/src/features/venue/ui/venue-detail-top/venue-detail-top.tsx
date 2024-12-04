@@ -1,10 +1,13 @@
+import { VenueSubscribeButton } from '@/features/subscribe'
 import { useVenueDetailQuery } from '@/lib/react-query'
+import { useVenueDetailScreenNavigation } from '@/screens/venue-detail-screen/venue-detail-screen.hooks'
 import { colors } from '@coldsurfers/ocean-road'
 import { Text } from '@coldsurfers/ocean-road/native'
 import { useMemo } from 'react'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 
 export const VenueDetailTop = ({ venueId }: { venueId: string }) => {
+  const navigation = useVenueDetailScreenNavigation()
   const { data: venueDetail, isLoading: isLoadingVenueDetail } = useVenueDetailQuery({
     id: venueId,
   })
@@ -24,6 +27,16 @@ export const VenueDetailTop = ({ venueId }: { venueId: string }) => {
             <Text weight="regular" style={styles.subTitle}>
               공연장
             </Text>
+            <VenueSubscribeButton
+              venueId={venueId}
+              onShouldLogin={() => {
+                navigation.navigate('LoginStackScreen', {
+                  params: {},
+                  screen: 'LoginSelectionScreen',
+                })
+              }}
+              style={styles.subscribeButton}
+            />
           </View>
         )}
       </View>
@@ -53,5 +66,9 @@ const styles = StyleSheet.create({
   },
   subTitle: {
     color: colors.oc.gray[8].value,
+    marginTop: 6,
+  },
+  subscribeButton: {
+    marginTop: 12,
   },
 })

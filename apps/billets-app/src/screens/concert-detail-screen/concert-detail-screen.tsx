@@ -2,8 +2,8 @@ import {
   ConcertDetailSectionList,
   ConcertDetailSectionListSections,
   ConcertDetailVenueMapBottomSheet,
-  useToggleSubscribeConcert,
-} from '@/features'
+} from '@/features/concert-detail'
+import { useToggleSubscribeConcert } from '@/features/subscribe'
 import commonStyles from '@/lib/common-styles'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
 import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
@@ -22,6 +22,7 @@ export const ConcertDetailScreen = () => {
   const { bottom: bottomInset } = useSafeAreaInsets()
   const navigation = useConcertDetailScreenNavigation()
   const { params } = useConcertDetailScreenRoute()
+
   const { data, isLoading: isLoadingConcert } = useConcertQuery({
     concertId: params.concertId,
   })
@@ -30,6 +31,7 @@ export const ConcertDetailScreen = () => {
   })
   const { data: meData } = useGetMeQuery()
   const toggleSubscribeConcert = useToggleSubscribeConcert()
+
   const mapDetailBottomSheetModalRef = useRef<BottomSheetModal>(null)
 
   const onPressSubscribe = useCallback(() => {
@@ -91,6 +93,7 @@ export const ConcertDetailScreen = () => {
         data: data.artists.map((artist) => ({
           thumbnailUrl: artist.profileImageUrl,
           name: artist.name,
+          artistId: artist.id,
           onPress: () => {
             navigation.navigate('ArtistStackScreen', {
               screen: 'ArtistDetailScreen',
@@ -110,6 +113,7 @@ export const ConcertDetailScreen = () => {
             longitude: firstVenue?.longitude ?? 0.0,
             address: firstVenue?.address ?? '',
             onPressMap: () => mapDetailBottomSheetModalRef.current?.present(),
+            venueId: firstVenue?.id ?? '',
             venueTitle: firstVenue?.venueTitle ?? '',
             onPressProfile: () => {
               if (!firstVenue?.id) {
@@ -159,11 +163,20 @@ export const ConcertDetailScreen = () => {
       // },
     ]
     return innerSections
-  }, [data, firstVenue?.address, firstVenue?.latitude, firstVenue?.longitude, firstVenue?.venueTitle, navigation])
+  }, [
+    data,
+    firstVenue?.address,
+    firstVenue?.id,
+    firstVenue?.latitude,
+    firstVenue?.longitude,
+    firstVenue?.venueTitle,
+    navigation,
+  ])
 
   return (
     <>
       <StatusBar hidden />
+      <CommonBackIconButton top={40} onPress={navigation.goBack} />
       <View style={styles.wrapper}>
         {isLoadingConcert ? (
           <Spinner />
@@ -182,12 +195,11 @@ export const ConcertDetailScreen = () => {
                     concertId: params.concertId,
                   })
                 }}
-                style={{ backgroundColor: colors.oc.cyan[8].value }}
+                style={{ backgroundColor: colors.oc.cyan[8].value, height: '100%' }}
               >
                 🎫 티켓 찾기 🎫
               </Button>
             </View>
-            <CommonBackIconButton top={40} onPress={() => navigation.goBack()} />
           </>
         )}
       </View>

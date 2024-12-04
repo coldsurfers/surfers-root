@@ -20,6 +20,7 @@ export interface ConcertDetailSectionListTitleItemProps {
 export type ConcertDetailSectionListLineupItemProps = {
   thumbnailUrl: string
   name: string
+  artistId: string
   onPress?: () => void
 }
 export type ConcertDetailSectionListTicketSellerItemProps = {
@@ -33,4 +34,5 @@ export type ConcertDetailSectionListVenueMapItemProps = {
   onPressMap?: () => void
   onPressProfile?: () => void
   venueTitle: string
+  venueId: string
 }

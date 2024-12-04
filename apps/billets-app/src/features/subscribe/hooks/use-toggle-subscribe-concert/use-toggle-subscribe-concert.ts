@@ -38,7 +38,7 @@ export const useToggleSubscribeConcert = () => {
         pageParams: previousSubscribedConcertList?.pageParams ?? 0,
         pages: [newSubscribedConcert, ...(previousSubscribedConcertList?.pages.flat() ?? [])],
       })
-      return newSubscribedConcert
+      return { newSubscribedConcert }
     },
     onSettled: (data) => {
       if (!data?.concertId) {
