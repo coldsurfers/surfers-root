@@ -22,7 +22,6 @@ export type ConcertDetailSectionListLineupItemProps = {
   name: string
   artistId: string
   onPress?: () => void
-  onPressSubscribeArtist: (params: { isSubscribed: boolean }) => void
 }
 export type ConcertDetailSectionListTicketSellerItemProps = {
   siteUrl: string
