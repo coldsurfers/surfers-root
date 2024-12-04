@@ -1,6 +1,7 @@
 import { StackScreens, TabScreens } from '@/lib/navigations/constants'
 import { NavigatorScreenParams } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { ArtistStackParam } from '../artist-stack-navigation'
 import { ConcertStackParam } from '../concert-stack-navigation'
 import { LoginStackParam } from '../login-stack-navigation/login-stack-navigation.types'
 import { MainTabNavigationParamList } from '../main-tab-navigation/main-tab-navigation.types'
@@ -13,6 +14,7 @@ export type MainStackNavigationParamList = {
   [StackScreens.ConcertStackScreen]: NavigatorScreenParams<ConcertStackParam>
   [StackScreens.SubscribedStackScreen]: NavigatorScreenParams<SubscribedStackParam>
   [StackScreens.VenueStackScreen]: NavigatorScreenParams<VenueStackParam>
+  [StackScreens.ArtistStackScreen]: NavigatorScreenParams<ArtistStackParam>
 }
 
 export type MainStackProp<T extends keyof MainStackNavigationParamList> = NativeStackScreenProps<
