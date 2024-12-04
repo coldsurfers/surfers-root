@@ -20,7 +20,9 @@ export interface ConcertDetailSectionListTitleItemProps {
 export type ConcertDetailSectionListLineupItemProps = {
   thumbnailUrl: string
   name: string
+  artistId: string
   onPress?: () => void
+  onPressSubscribeArtist: (params: { isSubscribed: boolean }) => void
 }
 export type ConcertDetailSectionListTicketSellerItemProps = {
   siteUrl: string
