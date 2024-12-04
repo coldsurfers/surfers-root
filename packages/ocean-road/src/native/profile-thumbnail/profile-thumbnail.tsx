@@ -9,8 +9,8 @@ const PROFILE_THUMBNAIL_SIZE = {
     height: 62,
   },
   sm: {
-    width: 30,
-    height: 30,
+    width: 42,
+    height: 42,
   },
   lg: {
     width: 92,
