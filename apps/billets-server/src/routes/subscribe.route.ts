@@ -8,8 +8,10 @@ import {
 import { subscribeVenueSerializedSchema } from '../dtos/SubscribeVenueDTO.types'
 import { errorResponseSchema } from '../lib/error'
 import {
+  getArtistSubscribeHandler,
   getConcertSubscribeHandler,
   getSubscribedConcertListHandler,
+  getSubscribePreHandler,
   subscribeArtistHandler,
   subscribeConcertHandler,
   subscribeVenueHandler,
@@ -18,6 +20,7 @@ import {
   unsubscribeVenueHandler,
 } from './subscribe.handler'
 import {
+  getSubscribeCommonParamsSchema,
   getSubscribedConcertListQueryStringSchema,
   subscribeConcertBodySchema,
   subscribeConcertParamsSchema,
@@ -46,7 +49,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'subscribe'],
-        params: subscribeConcertParamsSchema,
+        params: getSubscribeCommonParamsSchema,
         response: {
           200: subscribeConcertDTOSerializedSchema,
           401: errorResponseSchema,
@@ -54,6 +57,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
           500: errorResponseSchema,
         },
       },
+      preHandler: getSubscribePreHandler,
     },
     getConcertSubscribeHandler,
   )
@@ -96,6 +100,23 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
   )
 
   // artist subscribe
+  fastify.withTypeProvider<ZodTypeProvider>().get(
+    '/artist/:id',
+    {
+      schema: {
+        tags: ['v1', 'subscribe'],
+        params: getSubscribeCommonParamsSchema,
+        response: {
+          200: subscribedArtistDTOSerializedSchema,
+          401: errorResponseSchema,
+          404: errorResponseSchema,
+          500: errorResponseSchema,
+        },
+      },
+      preHandler: getSubscribePreHandler,
+    },
+    getArtistSubscribeHandler,
+  )
   fastify.withTypeProvider<ZodTypeProvider>().post(
     '/artist/:id',
     {
