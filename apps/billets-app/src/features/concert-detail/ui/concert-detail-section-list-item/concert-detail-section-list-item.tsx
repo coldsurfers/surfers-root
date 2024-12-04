@@ -73,6 +73,7 @@ ConcertDetailSectionListItem.LineupItem = memo(
         </View>
         <Button
           size="sm"
+          theme="border"
           onPress={() => onPressSubscribeArtist({ isSubscribed: !!subscribeArtistData })}
           style={styles.marginLeftAuto}
         >
@@ -195,6 +196,7 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
           </View>
           <Button
             size="sm"
+            theme="border"
             onPress={() => {
               if (subscribeVenueData) {
                 unsubscribeVenue({
@@ -262,7 +264,7 @@ const styles = StyleSheet.create({
   name: {
     marginLeft: 8,
     fontWeight: '500',
-    fontSize: 16,
+    fontSize: 14,
   },
   ticketSellerText: {
     fontSize: 16,
@@ -308,7 +310,8 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     marginHorizontal: 12,
     marginVertical: 8,
-    backgroundColor: colors.oc.white.value,
-    borderRadius: 4,
+    borderRadius: 8,
+    borderColor: colors.oc.gray[4].value,
+    borderWidth: 1.5,
   },
 })
