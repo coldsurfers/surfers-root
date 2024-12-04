@@ -15,21 +15,21 @@ export const StyledButton = styled.TouchableOpacity<{
   padding: ${(props) => {
     switch (props.size) {
       case 'md':
-        return '12px'
+        return '14px'
       case 'sm':
         return '10px'
       default:
-        return '12px;'
+        return '14px;'
     }
   }};
   border-radius: ${(props) => {
     switch (props.size) {
       case 'md':
-        return '20px'
+        return '22px'
       case 'sm':
         return '16px'
       default:
-        return '20px'
+        return '22px'
     }
   }};
   ${(props) => css`
