@@ -7,6 +7,10 @@ export const subscribeConcertBodySchema = z.object({
   id: z.string(),
 })
 
+export const getSubscribeCommonParamsSchema = z.object({
+  id: z.string(),
+})
+
 export type SubscribeConcertParams = z.infer<typeof subscribeConcertParamsSchema>
 
 export const subscribeArtistParamsSchema = z.object({
