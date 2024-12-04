@@ -1,9 +1,20 @@
 import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/concert-venue-map-view'
+import { v1QueryKeyFactory } from '@/lib/query-key-factory'
+import {
+  useSubscribeArtistQuery,
+  useSubscribeVenueMutation,
+  useSubscribeVenueQuery,
+  useUnsubscribeVenueMutation,
+} from '@/lib/react-query'
+import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
+import { useConcertDetailScreenNavigation } from '@/screens/concert-detail-screen/concert-detail-screen.hooks'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, ProfileThumbnail, Text } from '@coldsurfers/ocean-road/native'
 import Clipboard from '@react-native-clipboard/clipboard'
+import { useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
-import { Dimensions, Linking, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { memo } from 'react'
+import { Dimensions, Linking, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { VENUE_MAP_HEIGHT } from './concert-detail-section-list-item.constants'
 import {
   ConcertDetailSectionListDateItemProps,
@@ -50,18 +61,26 @@ ConcertDetailSectionListItem.TitleItem = ({ title }: ConcertDetailSectionListTit
     </Text>
   )
 }
-ConcertDetailSectionListItem.LineupItem = ({
-  thumbnailUrl,
-  name,
-  onPress,
-}: ConcertDetailSectionListLineupItemProps) => {
-  return (
-    <Pressable onPress={onPress} style={styles.lineupWrapper}>
-      <ProfileThumbnail type="circle" size="sm" emptyBgText={name.at(0) ?? ''} imageUrl={thumbnailUrl} />
-      <Text style={styles.name}>{name}</Text>
-    </Pressable>
-  )
-}
+ConcertDetailSectionListItem.LineupItem = memo(
+  ({ thumbnailUrl, name, onPress, artistId, onPressSubscribeArtist }: ConcertDetailSectionListLineupItemProps) => {
+    const { data: subscribeArtistData } = useSubscribeArtistQuery({ artistId })
+
+    return (
+      <TouchableOpacity onPress={onPress} style={styles.rowItem}>
+        <View style={styles.profileLine}>
+          <ProfileThumbnail type="circle" size="sm" emptyBgText={name.at(0) ?? ''} imageUrl={thumbnailUrl} />
+          <Text style={styles.name}>{name}</Text>
+        </View>
+        <Button
+          onPress={() => onPressSubscribeArtist({ isSubscribed: !!subscribeArtistData })}
+          style={styles.marginLeftAuto}
+        >
+          {subscribeArtistData ? 'Following' : 'Follow'}
+        </Button>
+      </TouchableOpacity>
+    )
+  },
+)
 ConcertDetailSectionListItem.TicketSellerItem = ({ siteUrl, name }: ConcertDetailSectionListTicketSellerItemProps) => {
   const onPressTicketSeller = (url: string) => {
     Linking.canOpenURL(url).then((canOpen) => {
@@ -76,45 +95,151 @@ ConcertDetailSectionListItem.TicketSellerItem = ({ siteUrl, name }: ConcertDetai
     </TouchableOpacity>
   )
 }
-ConcertDetailSectionListItem.VenueMapItem = ({
-  latitude,
-  longitude,
-  address,
-  onPressMap,
-  venueTitle,
-  onPressProfile,
-}: ConcertDetailSectionListVenueMapItemProps) => {
-  return (
-    <View>
-      <Pressable onPress={onPressProfile} style={styles.lineupWrapper}>
-        <ProfileThumbnail type="circle" size="sm" emptyBgText={venueTitle.at(0) ?? ''} />
-        <Text style={styles.name}>{venueTitle}</Text>
-      </Pressable>
-      <View style={styles.venueMapAddressWrapper}>
-        <Text style={styles.venueMapAddressText}>
-          {'📍'} {address}
-        </Text>
-        <Button theme="transparent" onPress={() => Clipboard.setString(address)} style={styles.venueMapAddressCopyBtn}>
-          복사하기
-        </Button>
+ConcertDetailSectionListItem.VenueMapItem = memo(
+  ({
+    latitude,
+    longitude,
+    address,
+    onPressMap,
+    venueTitle,
+    onPressProfile,
+    venueId,
+  }: ConcertDetailSectionListVenueMapItemProps) => {
+    const navigation = useConcertDetailScreenNavigation()
+    const queryClient = useQueryClient()
+    const { data: meData } = useGetMeQuery()
+    const { data: subscribeVenueData } = useSubscribeVenueQuery({ venueId })
+    const { mutate: subscribeVenue } = useSubscribeVenueMutation({
+      onMutate: async (variables) => {
+        if (!meData) {
+          navigation.navigate('LoginStackScreen', {
+            screen: 'LoginSelectionScreen',
+            params: {},
+          })
+          return
+        }
+        await queryClient.cancelQueries({
+          queryKey: v1QueryKeyFactory.venues.subscribed({
+            venueId: variables.venueId,
+          }).queryKey,
+        })
+
+        const newSubscribeVenue: Awaited<ReturnType<typeof useSubscribeVenueQuery>>['data'] = {
+          userId: meData.id,
+          venueId: variables.venueId,
+        }
+
+        queryClient.setQueryData(
+          v1QueryKeyFactory.venues.subscribed({
+            venueId: variables.venueId,
+          }).queryKey,
+          newSubscribeVenue,
+        )
+
+        return newSubscribeVenue
+      },
+      onSettled: (data) => {
+        if (!data) {
+          return
+        }
+        queryClient.invalidateQueries({
+          queryKey: v1QueryKeyFactory.venues.subscribed({
+            venueId: data.venueId,
+          }).queryKey,
+        })
+      },
+    })
+    const { mutate: unsubscribeVenue } = useUnsubscribeVenueMutation({
+      onMutate: async (variables) => {
+        if (!meData) {
+          navigation.navigate('LoginStackScreen', {
+            screen: 'LoginSelectionScreen',
+            params: {},
+          })
+          return
+        }
+        await queryClient.cancelQueries({
+          queryKey: v1QueryKeyFactory.venues.subscribed({
+            venueId: variables.venueId,
+          }).queryKey,
+        })
+
+        queryClient.setQueryData(
+          v1QueryKeyFactory.venues.subscribed({
+            venueId: variables.venueId,
+          }).queryKey,
+          null,
+        )
+
+        return null
+      },
+      onSettled: (data) => {
+        console.log(data)
+        if (!data) {
+          return
+        }
+        queryClient.invalidateQueries({
+          queryKey: v1QueryKeyFactory.venues.subscribed({
+            venueId: data.venueId,
+          }).queryKey,
+        })
+      },
+    })
+    return (
+      <View>
+        <TouchableOpacity onPress={onPressProfile} style={styles.rowItem}>
+          <View style={styles.profileLine}>
+            <ProfileThumbnail type="circle" size="sm" emptyBgText={venueTitle.at(0) ?? ''} />
+            <Text style={styles.name}>{venueTitle}</Text>
+          </View>
+          <Button
+            size="sm"
+            onPress={() => {
+              if (subscribeVenueData) {
+                unsubscribeVenue({
+                  venueId,
+                })
+              } else {
+                subscribeVenue({
+                  venueId,
+                })
+              }
+            }}
+            style={styles.marginLeftAuto}
+          >
+            {subscribeVenueData ? 'Following' : 'Follow'}
+          </Button>
+        </TouchableOpacity>
+        <View style={styles.venueMapAddressWrapper}>
+          <Text style={styles.venueMapAddressText}>
+            {'📍'} {address}
+          </Text>
+          <Button
+            theme="transparent"
+            onPress={() => Clipboard.setString(address)}
+            style={styles.venueMapAddressCopyBtn}
+          >
+            복사하기
+          </Button>
+        </View>
+        <ConcertVenueMapView
+          region={{
+            latitude,
+            longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+          scrollEnabled={false}
+          onPress={onPressMap}
+          markerCoordinate={{
+            latitude,
+            longitude,
+          }}
+        />
       </View>
-      <ConcertVenueMapView
-        region={{
-          latitude,
-          longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-        scrollEnabled={false}
-        onPress={onPressMap}
-        markerCoordinate={{
-          latitude,
-          longitude,
-        }}
-      />
-    </View>
-  )
-}
+    )
+  },
+)
 
 const styles = StyleSheet.create({
   text: {
@@ -129,11 +254,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   lineupWrapper: {
-    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 12,
-    marginBottom: 12,
   },
   image: { width: 42, height: 42, borderRadius: 42 / 2 },
   name: {
@@ -172,5 +294,20 @@ const styles = StyleSheet.create({
   },
   venueMapAddressCopyBtn: {
     marginLeft: 'auto',
+  },
+  profileLine: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  marginLeftAuto: { marginLeft: 'auto' },
+  rowItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    marginHorizontal: 12,
+    marginVertical: 8,
+    backgroundColor: colors.oc.white.value,
+    borderRadius: 4,
   },
 })

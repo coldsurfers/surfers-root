@@ -23,8 +23,10 @@ export const v1QueryKeyFactory = createQueryKeyStore({
   },
   artists: {
     detail: (params: { id: string }) => ['v1', 'artists', params],
+    subscribed: (params: { artistId: string }) => ['v1', 'artists', 'subscribed', params],
   },
   venues: {
     detail: (params: { id: string }) => ['v1', 'venues', params],
+    subscribed: (params: { venueId: string }) => ['v1', 'venues', 'subscribed', params],
   },
 })
