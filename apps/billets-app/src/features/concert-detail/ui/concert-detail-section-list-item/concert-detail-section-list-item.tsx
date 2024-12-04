@@ -87,7 +87,7 @@ ConcertDetailSectionListItem.VenueMapItem = ({
   return (
     <View>
       <Pressable onPress={onPressProfile} style={styles.lineupWrapper}>
-        <ProfileThumbnail type="circle" size="sm" emptyBgText="Hello" />
+        <ProfileThumbnail type="circle" size="sm" emptyBgText={venueTitle.at(0) ?? ''} />
         <Text style={styles.name}>{venueTitle}</Text>
       </Pressable>
       <View style={styles.venueMapAddressWrapper}>
