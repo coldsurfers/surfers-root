@@ -1,6 +1,11 @@
 import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/concert-venue-map-view'
 import { v1QueryKeyFactory } from '@/lib/query-key-factory'
-import { useSubscribeVenueMutation, useSubscribeVenueQuery, useUnsubscribeVenueMutation } from '@/lib/react-query'
+import {
+  useSubscribeArtistQuery,
+  useSubscribeVenueMutation,
+  useSubscribeVenueQuery,
+  useUnsubscribeVenueMutation,
+} from '@/lib/react-query'
 import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import { useConcertDetailScreenNavigation } from '@/screens/concert-detail-screen/concert-detail-screen.hooks'
 import { colors } from '@coldsurfers/ocean-road'
@@ -56,18 +61,26 @@ ConcertDetailSectionListItem.TitleItem = ({ title }: ConcertDetailSectionListTit
     </Text>
   )
 }
-ConcertDetailSectionListItem.LineupItem = ({
-  thumbnailUrl,
-  name,
-  onPress,
-}: ConcertDetailSectionListLineupItemProps) => {
-  return (
-    <Pressable onPress={onPress} style={styles.lineupWrapper}>
-      <ProfileThumbnail type="circle" size="sm" emptyBgText={name.at(0) ?? ''} imageUrl={thumbnailUrl} />
-      <Text style={styles.name}>{name}</Text>
-    </Pressable>
-  )
-}
+ConcertDetailSectionListItem.LineupItem = memo(
+  ({ thumbnailUrl, name, onPress, artistId, onPressSubscribeArtist }: ConcertDetailSectionListLineupItemProps) => {
+    const { data: subscribeArtistData } = useSubscribeArtistQuery({ artistId })
+
+    return (
+      <View style={styles.rowItem}>
+        <Pressable onPress={onPress} style={styles.lineupWrapper}>
+          <ProfileThumbnail type="circle" size="sm" emptyBgText={name.at(0) ?? ''} imageUrl={thumbnailUrl} />
+          <Text style={styles.name}>{name}</Text>
+        </Pressable>
+        <Button
+          onPress={() => onPressSubscribeArtist({ isSubscribed: !!subscribeArtistData })}
+          style={styles.marginLeftAuto}
+        >
+          {subscribeArtistData ? 'Following' : 'Follow'}
+        </Button>
+      </View>
+    )
+  },
+)
 ConcertDetailSectionListItem.TicketSellerItem = ({ siteUrl, name }: ConcertDetailSectionListTicketSellerItemProps) => {
   const onPressTicketSeller = (url: string) => {
     Linking.canOpenURL(url).then((canOpen) => {
@@ -242,7 +255,6 @@ const styles = StyleSheet.create({
   lineupWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 12,
     marginBottom: 12,
   },
   image: { width: 42, height: 42, borderRadius: 42 / 2 },
