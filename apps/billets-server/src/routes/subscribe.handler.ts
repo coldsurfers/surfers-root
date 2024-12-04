@@ -30,7 +30,10 @@ export const getSubscribePreHandler = async (
   }>,
   rep: FastifyReply<{
     Reply: {
-      200: z.infer<typeof subscribeConcertDTOSerializedSchema> | z.infer<typeof subscribedArtistDTOSerializedSchema>
+      200:
+        | z.infer<typeof subscribeConcertDTOSerializedSchema>
+        | z.infer<typeof subscribedArtistDTOSerializedSchema>
+        | z.infer<typeof subscribeVenueSerializedSchema>
       401: z.infer<typeof errorResponseSchema>
       404: z.infer<typeof errorResponseSchema>
       500: z.infer<typeof errorResponseSchema>
@@ -75,8 +78,8 @@ export const getConcertSubscribeHandler: RouteHandler<{
     const subscribedConcert = await SubscribeConcertDTO.findByConcertIdUserId(concertId, user!.props.id!)
     if (!subscribedConcert) {
       return rep.status(404).send({
-        code: 'CONCERT_NOT_FOUND',
-        message: 'Concert not found',
+        code: 'SUBSCRIBED_CONCERT_NOT_FOUND',
+        message: 'subscribed concert not found',
       })
     }
     return rep.status(200).send(subscribedConcert.serialize())
@@ -104,7 +107,7 @@ export const getArtistSubscribeHandler: RouteHandler<{
     if (!subscribedArtist) {
       return rep.status(404).send({
         code: 'SUBSCRIBED_ARTIST_NOT_FOUND',
-        message: 'Concert not found',
+        message: 'subscribed artist not found',
       })
     }
     return rep.status(200).send(subscribedArtist.serialize())
@@ -134,8 +137,8 @@ export const getVenueSubscribeHandler: RouteHandler<{
     const subscribedVenue = await SubscribeVenueDTO.findByVenueIdUserId(venueId, user!.id!)
     if (!subscribedVenue) {
       return rep.status(404).send({
-        code: 'SUBSCRIBED_ARTIST_NOT_FOUND',
-        message: 'Concert not found',
+        code: 'SUBSCRIBED_VENUE_NOT_FOUND',
+        message: 'subscribed venue not found',
       })
     }
     return rep.status(200).send(subscribedVenue.serialize())

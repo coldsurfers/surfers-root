@@ -12,6 +12,7 @@ import {
   getConcertSubscribeHandler,
   getSubscribedConcertListHandler,
   getSubscribePreHandler,
+  getVenueSubscribeHandler,
   subscribeArtistHandler,
   subscribeConcertHandler,
   subscribeVenueHandler,
@@ -166,7 +167,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       preHandler: getSubscribePreHandler,
     },
-    subscribeArtistHandler,
+    getVenueSubscribeHandler,
   )
   fastify.withTypeProvider<ZodTypeProvider>().post(
     '/venue/:id',
