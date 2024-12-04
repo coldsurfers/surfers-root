@@ -110,6 +110,18 @@ export const ConcertDetailScreen = () => {
             longitude: firstVenue?.longitude ?? 0.0,
             address: firstVenue?.address ?? '',
             onPressMap: () => mapDetailBottomSheetModalRef.current?.present(),
+            venueTitle: firstVenue?.venueTitle ?? '',
+            onPressProfile: () => {
+              if (!firstVenue?.id) {
+                return
+              }
+              navigation.navigate('VenueStackScreen', {
+                screen: 'VenueDetailScreen',
+                params: {
+                  id: firstVenue.id,
+                },
+              })
+            },
           },
         ],
       },

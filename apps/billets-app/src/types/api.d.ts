@@ -1325,6 +1325,7 @@ export interface components {
       title: string
       venues: {
         address: string
+        id: string
         latitude: number
         longitude: number
         venueTitle: string
