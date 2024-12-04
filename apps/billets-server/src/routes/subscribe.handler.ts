@@ -11,7 +11,7 @@ import {
   SubscribedConcertSerializedList,
 } from '../dtos/SubscribeConcertDTO.types'
 import SubscribeVenueDTO from '../dtos/SubscribeVenueDTO'
-import { SubscribeVenueSerialized } from '../dtos/SubscribeVenueDTO.types'
+import { SubscribeVenueSerialized, subscribeVenueSerializedSchema } from '../dtos/SubscribeVenueDTO.types'
 import UserDTO from '../dtos/UserDTO'
 import VenueDTO from '../dtos/VenueDTO'
 import { ErrorResponse, errorResponseSchema } from '../lib/error'
@@ -108,6 +108,37 @@ export const getArtistSubscribeHandler: RouteHandler<{
       })
     }
     return rep.status(200).send(subscribedArtist.serialize())
+  } catch (e) {
+    console.error(e)
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    })
+  }
+}
+
+export const getVenueSubscribeHandler: RouteHandler<{
+  Params: z.infer<typeof getSubscribeCommonParamsSchema>
+  Reply: {
+    200: z.infer<typeof subscribeVenueSerializedSchema>
+    401: z.infer<typeof errorResponseSchema>
+    404: z.infer<typeof errorResponseSchema>
+    500: z.infer<typeof errorResponseSchema>
+  }
+}> = async (req, rep) => {
+  try {
+    const { id: venueId } = req.params
+    const token = req.headers.authorization
+    const decoded = decodeToken(token!)
+    const user = await UserDTO.findById(decoded!.id)
+    const subscribedVenue = await SubscribeVenueDTO.findByVenueIdUserId(venueId, user!.id!)
+    if (!subscribedVenue) {
+      return rep.status(404).send({
+        code: 'SUBSCRIBED_ARTIST_NOT_FOUND',
+        message: 'Concert not found',
+      })
+    }
+    return rep.status(200).send(subscribedVenue.serialize())
   } catch (e) {
     console.error(e)
     return rep.status(500).send({

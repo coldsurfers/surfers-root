@@ -156,6 +156,23 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'subscribe'],
+        params: getSubscribeCommonParamsSchema,
+        response: {
+          200: subscribeVenueSerializedSchema,
+          401: errorResponseSchema,
+          404: errorResponseSchema,
+          500: errorResponseSchema,
+        },
+      },
+      preHandler: getSubscribePreHandler,
+    },
+    subscribeArtistHandler,
+  )
+  fastify.withTypeProvider<ZodTypeProvider>().post(
+    '/venue/:id',
+    {
+      schema: {
+        tags: ['v1', 'subscribe'],
         params: subscribeVenueParamsSchema,
         response: {
           200: subscribeVenueSerializedSchema,
