@@ -14,7 +14,7 @@ import Clipboard from '@react-native-clipboard/clipboard'
 import { useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { memo } from 'react'
-import { Dimensions, Linking, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Linking, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { VENUE_MAP_HEIGHT } from './concert-detail-section-list-item.constants'
 import {
   ConcertDetailSectionListDateItemProps,
@@ -66,18 +66,18 @@ ConcertDetailSectionListItem.LineupItem = memo(
     const { data: subscribeArtistData } = useSubscribeArtistQuery({ artistId })
 
     return (
-      <View style={styles.rowItem}>
-        <Pressable onPress={onPress} style={styles.lineupWrapper}>
+      <TouchableOpacity onPress={onPress} style={styles.rowItem}>
+        <View style={styles.profileLine}>
           <ProfileThumbnail type="circle" size="sm" emptyBgText={name.at(0) ?? ''} imageUrl={thumbnailUrl} />
           <Text style={styles.name}>{name}</Text>
-        </Pressable>
+        </View>
         <Button
           onPress={() => onPressSubscribeArtist({ isSubscribed: !!subscribeArtistData })}
           style={styles.marginLeftAuto}
         >
           {subscribeArtistData ? 'Following' : 'Follow'}
         </Button>
-      </View>
+      </TouchableOpacity>
     )
   },
 )
@@ -187,12 +187,13 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
     })
     return (
       <View>
-        <View style={styles.rowItem}>
-          <Pressable onPress={onPressProfile} style={styles.profileLine}>
+        <TouchableOpacity onPress={onPressProfile} style={styles.rowItem}>
+          <View style={styles.profileLine}>
             <ProfileThumbnail type="circle" size="sm" emptyBgText={venueTitle.at(0) ?? ''} />
             <Text style={styles.name}>{venueTitle}</Text>
-          </Pressable>
+          </View>
           <Button
+            size="sm"
             onPress={() => {
               if (subscribeVenueData) {
                 unsubscribeVenue({
@@ -208,7 +209,7 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
           >
             {subscribeVenueData ? 'Following' : 'Follow'}
           </Button>
-        </View>
+        </TouchableOpacity>
         <View style={styles.venueMapAddressWrapper}>
           <Text style={styles.venueMapAddressText}>
             {'📍'} {address}
@@ -255,7 +256,6 @@ const styles = StyleSheet.create({
   lineupWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
   },
   image: { width: 42, height: 42, borderRadius: 42 / 2 },
   name: {
@@ -298,8 +298,16 @@ const styles = StyleSheet.create({
   profileLine: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
   },
   marginLeftAuto: { marginLeft: 'auto' },
-  rowItem: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12 },
+  rowItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    marginHorizontal: 12,
+    marginVertical: 8,
+    backgroundColor: colors.oc.white.value,
+    borderRadius: 4,
+  },
 })
