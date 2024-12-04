@@ -1,5 +1,8 @@
 import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/concert-venue-map-view'
-import { useSubscribeVenueMutation } from '@/lib/react-query'
+import { v1QueryKeyFactory } from '@/lib/query-key-factory'
+import { useSubscribeVenueMutation, useSubscribeVenueQuery } from '@/lib/react-query'
+import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
+import { useConcertDetailScreenNavigation } from '@/screens'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, ProfileThumbnail, Text } from '@coldsurfers/ocean-road/native'
 import Clipboard from '@react-native-clipboard/clipboard'
@@ -89,8 +92,50 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
     onPressProfile,
     venueId,
   }: ConcertDetailSectionListVenueMapItemProps) => {
+    const navigation = useConcertDetailScreenNavigation()
     const queryClient = useQueryClient()
-    const { mutate: subscribeVenue } = useSubscribeVenueMutation({})
+    const { data: meData } = useGetMeQuery()
+    const { data: subscribeVenueData } = useSubscribeVenueQuery({ venueId })
+    const { mutate: subscribeVenue } = useSubscribeVenueMutation({
+      onMutate: async (variables) => {
+        if (!meData) {
+          navigation.navigate('LoginStackScreen', {
+            screen: 'LoginSelectionScreen',
+            params: {},
+          })
+          return
+        }
+        await queryClient.cancelQueries({
+          queryKey: v1QueryKeyFactory.venues.subscribed({
+            venueId: variables.venueId,
+          }).queryKey,
+        })
+
+        const newSubscribeVenue: Awaited<ReturnType<typeof useSubscribeVenueQuery>>['data'] = {
+          userId: meData.id,
+          venueId: variables.venueId,
+        }
+
+        queryClient.setQueryData(
+          v1QueryKeyFactory.venues.subscribed({
+            venueId: variables.venueId,
+          }).queryKey,
+          newSubscribeVenue,
+        )
+
+        return newSubscribeVenue
+      },
+      onSettled: (data) => {
+        if (!data) {
+          return
+        }
+        queryClient.invalidateQueries({
+          queryKey: v1QueryKeyFactory.venues.subscribed({
+            venueId: data.venueId,
+          }).queryKey,
+        })
+      },
+    })
     return (
       <View>
         <View style={styles.rowItem}>
@@ -99,21 +144,14 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
             <Text style={styles.name}>{venueTitle}</Text>
           </Pressable>
           <Button
-            onPress={() => {
-              subscribeVenue(
-                {
-                  venueId,
-                },
-                {
-                  onSuccess: (data) => {
-                    const { venueId } = data
-                  },
-                },
-              )
-            }}
+            onPress={() =>
+              subscribeVenue({
+                venueId,
+              })
+            }
             style={styles.marginLeftAuto}
           >
-            Follow
+            {subscribeVenueData ? 'Following' : 'Follow'}
           </Button>
         </View>
         <View style={styles.venueMapAddressWrapper}>
