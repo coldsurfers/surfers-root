@@ -94,7 +94,14 @@ export const ConcertDetailScreen = () => {
         data: data.artists.map((artist) => ({
           thumbnailUrl: artist.profileImageUrl,
           name: artist.name,
-          onPress: () => setImageViewerVisible(true),
+          onPress: () => {
+            navigation.navigate('ArtistStackScreen', {
+              screen: 'ArtistDetailScreen',
+              params: {
+                artistId: artist.id,
+              },
+            })
+          },
         })),
       },
       {

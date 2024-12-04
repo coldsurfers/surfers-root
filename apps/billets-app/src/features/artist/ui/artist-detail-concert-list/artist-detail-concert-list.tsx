@@ -7,9 +7,11 @@ import { ArtistDetailTop } from '../artist-detail-top'
 export const ArtistDetailConcertList = ({
   artistId,
   onPressItem,
+  onPressArtistProfile,
 }: {
   artistId: string
   onPressItem?: (params: { concertId: string }) => void
+  onPressArtistProfile?: () => void
 }) => {
   const {
     data: artistConcertList,
@@ -55,7 +57,7 @@ export const ArtistDetailConcertList = ({
 
   return (
     <FlatList
-      ListHeaderComponent={<ArtistDetailTop artistId={artistId} />}
+      ListHeaderComponent={<ArtistDetailTop artistId={artistId} onPressArtistProfile={onPressArtistProfile} />}
       data={artistConcertListUIData}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}

@@ -4,7 +4,13 @@ import { ProfileThumbnail, Text } from '@coldsurfers/ocean-road/native'
 import { useMemo } from 'react'
 import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native'
 
-export const ArtistDetailTop = ({ artistId }: { artistId: string }) => {
+export const ArtistDetailTop = ({
+  artistId,
+  onPressArtistProfile,
+}: {
+  artistId: string
+  onPressArtistProfile?: () => void
+}) => {
   const { data: artistDetail, isLoading: isLoadingArtistDetail } = useArtistDetailQuery({
     id: artistId,
   })
@@ -18,7 +24,7 @@ export const ArtistDetailTop = ({ artistId }: { artistId: string }) => {
           <ActivityIndicator animating />
         ) : (
           <View style={styles.contentContainer}>
-            <Pressable onPress={() => {}}>
+            <Pressable onPress={onPressArtistProfile}>
               <ProfileThumbnail
                 emptyBgText={artistDetailUIData?.name.at(0) ?? ''}
                 imageUrl={artistDetailUIData?.artistProfileImage.at(0)?.imageURL}
