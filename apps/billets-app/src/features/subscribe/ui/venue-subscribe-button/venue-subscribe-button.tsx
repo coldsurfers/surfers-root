@@ -5,7 +5,7 @@ import { Button } from '@coldsurfers/ocean-road/native'
 import { useQueryClient } from '@tanstack/react-query'
 import { VenueSubscribeButtonProps } from './venue-subscribe-button.types'
 
-export const VenueSubscribeButton = ({ venueId, onShouldLogin, style }: VenueSubscribeButtonProps) => {
+export const VenueSubscribeButton = ({ venueId, onShouldLogin, style, size = 'md' }: VenueSubscribeButtonProps) => {
   const queryClient = useQueryClient()
   const { data: meData } = useGetMeQuery()
   const { data: subscribeVenueData } = useSubscribeVenueQuery({ venueId })
@@ -81,7 +81,7 @@ export const VenueSubscribeButton = ({ venueId, onShouldLogin, style }: VenueSub
   })
   return (
     <Button
-      size="sm"
+      size={size}
       theme="border"
       onPress={() => {
         if (subscribeVenueData) {

@@ -6,7 +6,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useCallback } from 'react'
 import { ArtistSubscribeButtonProps } from './artist-subscribe-button.types'
 
-export const ArtistSubscribeButton = ({ artistId, onShouldLogin, style }: ArtistSubscribeButtonProps) => {
+export const ArtistSubscribeButton = ({ artistId, onShouldLogin, style, size = 'md' }: ArtistSubscribeButtonProps) => {
   const queryClient = useQueryClient()
   const { data: meData } = useGetMeQuery()
   const { data: subscribeArtistData } = useSubscribeArtistQuery({ artistId })
@@ -87,7 +87,7 @@ export const ArtistSubscribeButton = ({ artistId, onShouldLogin, style }: Artist
   }, [artistId, subscribeArtist, subscribeArtistData, unsubscribeArtist])
 
   return (
-    <Button size="sm" theme="border" onPress={onPress} style={style}>
+    <Button size={size} theme="border" onPress={onPress} style={style}>
       {subscribeArtistData ? 'Following' : 'Follow'}
     </Button>
   )
