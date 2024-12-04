@@ -1,4 +1,6 @@
+import { ArtistSubscribeButton } from '@/features/subscribe'
 import { useArtistDetailQuery } from '@/lib/react-query'
+import { useArtistDetailScreenNavigation } from '@/screens/artist-detail-screen/artist-detail-screen.hooks'
 import { colors } from '@coldsurfers/ocean-road'
 import { ProfileThumbnail, Text } from '@coldsurfers/ocean-road/native'
 import { useMemo } from 'react'
@@ -11,6 +13,7 @@ export const ArtistDetailTop = ({
   artistId: string
   onPressArtistProfile?: () => void
 }) => {
+  const navigation = useArtistDetailScreenNavigation()
   const { data: artistDetail, isLoading: isLoadingArtistDetail } = useArtistDetailQuery({
     id: artistId,
   })
@@ -39,6 +42,16 @@ export const ArtistDetailTop = ({
             <Text weight="regular" style={styles.subTitle}>
               아티스트
             </Text>
+            <ArtistSubscribeButton
+              artistId={artistId}
+              onShouldLogin={() => {
+                navigation.navigate('LoginStackScreen', {
+                  params: {},
+                  screen: 'LoginSelectionScreen',
+                })
+              }}
+              style={styles.subscribeButton}
+            />
           </View>
         )}
       </View>
@@ -51,7 +64,6 @@ export const ArtistDetailTop = ({
 
 const styles = StyleSheet.create({
   topContainer: {
-    height: 200,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -66,10 +78,12 @@ const styles = StyleSheet.create({
   contentContainer: {
     alignItems: 'center',
   },
-  thumbnail: {
-    marginBottom: 12,
-  },
+  thumbnail: {},
   subTitle: {
     color: colors.oc.gray[8].value,
+    marginTop: 6,
+  },
+  subscribeButton: {
+    marginTop: 12,
   },
 })
