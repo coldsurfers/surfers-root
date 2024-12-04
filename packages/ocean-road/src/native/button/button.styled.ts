@@ -1,7 +1,8 @@
 import color from '@coldsurfers/design-tokens/dist/js/color/variables'
-import styled from '@emotion/native'
+import styled, { css } from '@emotion/native'
 import { ButtonTheme } from '../../button/button.types'
 import { getButtonBackgroundColor, getButtonForegroundColor } from '../../button/button.utils'
+import { colors } from '../../tokens'
 
 export const StyledButton = styled.TouchableOpacity<{
   colorTheme: ButtonTheme
@@ -31,6 +32,11 @@ export const StyledButton = styled.TouchableOpacity<{
         return '20px'
     }
   }};
+  ${(props) => css`
+    border-width: ${props.colorTheme === 'border' && '2px'};
+    border-color: ${props.colorTheme === 'border' && colors.oc.black.value};
+  `}
+
   font-family: inherit;
 
   opacity: ${(props) => (props.colorTheme === 'transparentDarkGray' ? 0.5 : 1.0)};
