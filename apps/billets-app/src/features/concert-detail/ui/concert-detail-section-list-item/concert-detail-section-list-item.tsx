@@ -1,8 +1,11 @@
 import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/concert-venue-map-view'
+import { useSubscribeVenueMutation } from '@/lib/react-query'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, ProfileThumbnail, Text } from '@coldsurfers/ocean-road/native'
 import Clipboard from '@react-native-clipboard/clipboard'
+import { useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
+import { memo } from 'react'
 import { Dimensions, Linking, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { VENUE_MAP_HEIGHT } from './concert-detail-section-list-item.constants'
 import {
@@ -76,48 +79,73 @@ ConcertDetailSectionListItem.TicketSellerItem = ({ siteUrl, name }: ConcertDetai
     </TouchableOpacity>
   )
 }
-ConcertDetailSectionListItem.VenueMapItem = ({
-  latitude,
-  longitude,
-  address,
-  onPressMap,
-  venueTitle,
-  onPressProfile,
-}: ConcertDetailSectionListVenueMapItemProps) => {
-  return (
-    <View>
-      <View style={styles.rowItem}>
-        <Pressable onPress={onPressProfile} style={styles.profileLine}>
-          <ProfileThumbnail type="circle" size="sm" emptyBgText="Hello" />
-          <Text style={styles.name}>{venueTitle}</Text>
-        </Pressable>
-        <Button style={styles.marginLeftAuto}>Follow</Button>
+ConcertDetailSectionListItem.VenueMapItem = memo(
+  ({
+    latitude,
+    longitude,
+    address,
+    onPressMap,
+    venueTitle,
+    onPressProfile,
+    venueId,
+  }: ConcertDetailSectionListVenueMapItemProps) => {
+    const queryClient = useQueryClient()
+    const { mutate: subscribeVenue } = useSubscribeVenueMutation({})
+    return (
+      <View>
+        <View style={styles.rowItem}>
+          <Pressable onPress={onPressProfile} style={styles.profileLine}>
+            <ProfileThumbnail type="circle" size="sm" emptyBgText="Hello" />
+            <Text style={styles.name}>{venueTitle}</Text>
+          </Pressable>
+          <Button
+            onPress={() => {
+              subscribeVenue(
+                {
+                  venueId,
+                },
+                {
+                  onSuccess: (data) => {
+                    const { venueId } = data
+                  },
+                },
+              )
+            }}
+            style={styles.marginLeftAuto}
+          >
+            Follow
+          </Button>
+        </View>
+        <View style={styles.venueMapAddressWrapper}>
+          <Text style={styles.venueMapAddressText}>
+            {'📍'} {address}
+          </Text>
+          <Button
+            theme="transparent"
+            onPress={() => Clipboard.setString(address)}
+            style={styles.venueMapAddressCopyBtn}
+          >
+            복사하기
+          </Button>
+        </View>
+        <ConcertVenueMapView
+          region={{
+            latitude,
+            longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+          scrollEnabled={false}
+          onPress={onPressMap}
+          markerCoordinate={{
+            latitude,
+            longitude,
+          }}
+        />
       </View>
-      <View style={styles.venueMapAddressWrapper}>
-        <Text style={styles.venueMapAddressText}>
-          {'📍'} {address}
-        </Text>
-        <Button theme="transparent" onPress={() => Clipboard.setString(address)} style={styles.venueMapAddressCopyBtn}>
-          복사하기
-        </Button>
-      </View>
-      <ConcertVenueMapView
-        region={{
-          latitude,
-          longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-        scrollEnabled={false}
-        onPress={onPressMap}
-        markerCoordinate={{
-          latitude,
-          longitude,
-        }}
-      />
-    </View>
-  )
-}
+    )
+  },
+)
 
 const styles = StyleSheet.create({
   text: {
