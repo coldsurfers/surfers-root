@@ -630,7 +630,11 @@ export interface paths {
         }
         cookie?: never
       }
-      requestBody?: never
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['SubscribeArtistBody']
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
@@ -679,7 +683,11 @@ export interface paths {
         }
         cookie?: never
       }
-      requestBody?: never
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['UnsubscribeArtistBody']
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
@@ -1014,7 +1022,11 @@ export interface paths {
         }
         cookie?: never
       }
-      requestBody?: never
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['SubscribeVenueBody']
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
@@ -1063,7 +1075,11 @@ export interface paths {
         }
         cookie?: never
       }
-      requestBody?: never
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['UnsubscribeVenueBody']
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
@@ -1601,6 +1617,10 @@ export interface components {
       }
       user: components['schemas']['GetMeSuccessResponse']
     }
+    SubscribeArtistBody: {
+      /** @enum {string} */
+      type: 'subscribe-artist'
+    }
     SubscribeArtistParams: {
       id: string
     }
@@ -1619,12 +1639,24 @@ export interface components {
       userId: string
     }
     SubscribedConcertSerializedList: components['schemas']['SubscribeConcertDTOSerialized'][]
+    SubscribeVenueBody: {
+      /** @enum {string} */
+      type: 'subscribe-venue'
+    }
     SubscribeVenueParams: {
       id: string
     }
     SubscribeVenueSerialized: {
       userId: string
       venueId: string
+    }
+    UnsubscribeArtistBody: {
+      /** @enum {string} */
+      type: 'unsubscribe-artist'
+    }
+    UnsubscribeVenueBody: {
+      /** @enum {string} */
+      type: 'unsubscribe-venue'
     }
   }
   responses: never

@@ -15,6 +15,9 @@ const mutationFn = async ({ artistId }: TVariables) => {
         id: artistId,
       },
     },
+    body: {
+      type: 'subscribe-artist',
+    },
   })
   if (response.error) {
     throw new OpenApiError(response.error)
