@@ -2,11 +2,14 @@
 
 import { useGetLogsQuery } from '@/lib/react-query'
 import { Paragraph, PostItem } from '@/ui'
-import { media } from '@coldsurfers/ocean-road'
+import { colors, media } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { AppLocale } from 'i18n/types'
 import { useTranslations } from 'next-intl'
+import { Roboto_Mono } from 'next/font/google'
+
+const robotoMono = Roboto_Mono({ subsets: ['latin'] })
 
 const Header = styled.header`
   display: flex;
@@ -27,9 +30,14 @@ const Title = styled(Paragraph)`
   `)}
 `
 
-const About = styled(Paragraph)`
+const About = styled(Paragraph)<{ className: string }>`
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 500;
+
+  background-color: #324746;
+  border-radius: 12px;
+  padding: 1.5rem;
+  color: ${colors.oc.cyan[5].value};
 
   ${media.medium(css`
     font-size: 14px;
@@ -52,7 +60,7 @@ export default function Page({ locale }: { locale: AppLocale }) {
   return (
     <div>
       <Header>
-        <About>{t('MainPage.about')}</About>
+        <About className={robotoMono.className}>{t('MainPage.about')}</About>
       </Header>
 
       <div>
