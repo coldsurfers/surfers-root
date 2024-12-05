@@ -26,5 +26,9 @@ export const ColorSchemeToggle = () => {
     fetchColorScheme()
   }, [setTheme, theme.name])
 
-  return <Button onClick={toggleColorScheme}>Toggle</Button>
+  return (
+    <Button onClick={toggleColorScheme} theme="transparent" style={{ marginLeft: 'auto', fontSize: 20 }}>
+      {theme.name === 'darkMode' ? '☀️' : '🌕'}
+    </Button>
+  )
 }
