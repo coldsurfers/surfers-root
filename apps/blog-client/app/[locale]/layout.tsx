@@ -2,10 +2,12 @@ import Script from 'next/script'
 
 import { OceanRoadThemeRegistry, QueryClientRegistry } from '@/lib'
 import { PageLayout } from '@/ui'
+import type { ColorScheme } from '@coldsurfers/ocean-road'
 import { routing } from 'i18n/routing'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, setRequestLocale } from 'next-intl/server'
 import { Noto_Sans_KR } from 'next/font/google'
+import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { PropsWithChildren } from 'react'
 
@@ -25,6 +27,9 @@ export default async function RootLayout({
 }: PropsWithChildren<{
   params: { locale: string }
 }>) {
+  const cookieStore = await cookies()
+  const colorSchemeCookie = cookieStore.get('color-scheme')?.value as 'light' | 'dark' | undefined
+  const colorScheme: ColorScheme = colorSchemeCookie ?? 'light'
   // Ensure that the incoming `locale` is valid
   if (!routing.locales.includes(locale as never)) {
     // redirect({ href: '/', locale: 'en' })
@@ -59,17 +64,19 @@ export default async function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" type="image/png" />
       </head>
       <body className={notoSansKR.className}>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
+        {/* {colorScheme === 'userPreference' && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
               const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
               const theme = systemDark ? 'dark' : 'light';
               document.documentElement.setAttribute('data-theme', theme);
           `,
-          }}
-        />
+            }}
+          />
+        )} */}
         <NextIntlClientProvider messages={messages}>
-          <OceanRoadThemeRegistry>
+          <OceanRoadThemeRegistry colorScheme={colorScheme}>
             <QueryClientRegistry>
               <PageLayout>{children}</PageLayout>
             </QueryClientRegistry>

@@ -1,11 +1,13 @@
 'use client'
 
+import { ColorSchemeToggle } from '@/features'
 import { Link, usePathname } from 'i18n/routing'
 import {
   StyledHeaderBigContainer,
   StyledHeaderContainer,
   StyledHeaderHeading,
   StyledHeaderTitle,
+  StyledTitleAndColorScheme,
 } from './header.styled'
 
 export const Header = () => {
@@ -13,9 +15,12 @@ export const Header = () => {
 
   return (
     <StyledHeaderBigContainer>
-      <Link href={'/'}>
-        <StyledHeaderTitle as="h1">Blog, COLDSURF</StyledHeaderTitle>
-      </Link>
+      <StyledTitleAndColorScheme>
+        <Link href={'/'}>
+          <StyledHeaderTitle as="h1">Blog, COLDSURF</StyledHeaderTitle>
+        </Link>
+        <ColorSchemeToggle />
+      </StyledTitleAndColorScheme>
       <StyledHeaderContainer>
         <Link href="/surflog">
           <StyledHeaderHeading $isActive={pathname.startsWith('/surflog')}>{'🌊'}</StyledHeaderHeading>
