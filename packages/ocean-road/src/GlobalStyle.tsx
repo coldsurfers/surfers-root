@@ -12,16 +12,16 @@ export default function GlobalStyle() {
         }
 
         body {
-          background-color: white;
+          background-color: ${semantics.color.background[2]};
           color: ${semantics.color.foreground[1]};
           white-space: pre-wrap;
         }
 
-        @media (prefers-color-scheme: dark) {
+        /* @media (prefers-color-scheme: dark) {
           body {
             background-color: rgb(24, 24, 31);
           }
-        }
+        } */
 
         a {
           color: ${colors.oc.blue[5].value};
