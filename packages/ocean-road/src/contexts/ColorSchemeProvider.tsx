@@ -40,7 +40,7 @@ export const themeVariables = darkColorKeys.reduce(
   {} as Record<keyof DarkColorDesignTokens, string>,
 )
 
-const themeToStyles = (theme: Theme) => {
+export const themeToStyles = (theme: Theme) => {
   let styles = ''
   Object.keys(colors).forEach((key) => {
     styles += `  --${key}: ${colors[key as keyof typeof colors]};\n`

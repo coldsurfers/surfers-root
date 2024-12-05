@@ -1,18 +1,13 @@
 'use client'
 
-import { ColorSchemeProvider, GlobalStyle } from '@coldsurfers/ocean-road'
+import { GlobalStyle } from '@coldsurfers/ocean-road'
 import { PropsWithChildren } from 'react'
 
-export const OceanRoadThemeRegistry = ({
-  children,
-  colorScheme,
-}: PropsWithChildren<{
-  colorScheme: 'light' | 'dark'
-}>) => {
+export const OceanRoadThemeRegistry = ({ children }: PropsWithChildren) => {
   return (
-    <ColorSchemeProvider colorScheme={colorScheme}>
+    <>
       {children}
       <GlobalStyle />
-    </ColorSchemeProvider>
+    </>
   )
 }
