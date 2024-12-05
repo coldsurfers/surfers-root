@@ -2,12 +2,11 @@
 
 import { useGetUsersQuery } from '@/lib'
 import { Text } from '@coldsurfers/ocean-road'
-import 'katex/dist/katex.min.css' // For equations
-import Link from 'next/link'
+
+import { Link } from 'i18n/routing'
 import { ExtendedRecordMap } from 'notion-types'
-import 'prismjs/themes/prism-tomorrow.css' // For syntax highlighting
-import { NotionRenderer } from 'react-notion-x'
-import 'react-notion-x/src/styles.css'
+
+import { NotionRenderer } from '@/features/notion'
 import { StyledWritersPageHeader } from './page.styled'
 
 export function WritersPageClient({ recordMap }: { recordMap: ExtendedRecordMap }) {
@@ -31,7 +30,7 @@ export function WritersPageClient({ recordMap }: { recordMap: ExtendedRecordMap 
               <p>{user.name}</p>
             </div>
             <StyledWritersPageHeader>
-              <NotionRenderer recordMap={recordMap} darkMode />
+              <NotionRenderer recordMap={recordMap} />
               <Link href="/resume" style={{ marginTop: 14, fontSize: 16, marginLeft: 'auto' }}>
                 <Text style={{ textDecorationLine: 'underline' }}>Resume →</Text>
               </Link>
