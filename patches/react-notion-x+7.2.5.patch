@@ -1,0 +1,13 @@
+diff --git a/node_modules/react-notion-x/src/styles.css b/node_modules/react-notion-x/src/styles.css
+index 965860c..9c897ba 100644
+--- a/node_modules/react-notion-x/src/styles.css
++++ b/node_modules/react-notion-x/src/styles.css
+@@ -89,7 +89,7 @@
+   --notion-header-height: 45px;
+ }
+ 
+-.dark-mode {
++html.dark, .dark-mode {
+   --fg-color: rgba(255, 255, 255, 0.9);
+   --fg-color-0: var(--fg-color);
+   --fg-color-1: var(--fg-color);
