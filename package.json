@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "prepare": "husky install",
+    "postinstall": "patch-package",
     "deploy:blog": "yarn workspace @coldsurfers/blog-client deploy",
     "start:billets-web": "yarn workspace @coldsurfers/billets-web start",
     "dev:billets-web": "yarn workspace @coldsurfers/billets-web dev",
@@ -74,6 +75,8 @@
     "typescript": "*"
   },
   "dependencies": {
-    "@prisma/client": "5.21.1"
+    "@prisma/client": "5.21.1",
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0"
   }
 }
