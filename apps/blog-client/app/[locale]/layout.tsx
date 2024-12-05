@@ -2,12 +2,10 @@ import Script from 'next/script'
 
 import { OceanRoadThemeRegistry, QueryClientRegistry } from '@/lib'
 import { PageLayout } from '@/ui'
-import type { ColorScheme } from '@coldsurfers/ocean-road'
 import { routing } from 'i18n/routing'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, setRequestLocale } from 'next-intl/server'
 import { Noto_Sans_KR } from 'next/font/google'
-import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { PropsWithChildren } from 'react'
 
@@ -27,9 +25,6 @@ export default async function RootLayout({
 }: PropsWithChildren<{
   params: { locale: string }
 }>) {
-  const cookieStore = await cookies()
-  const colorSchemeCookie = cookieStore.get('color-scheme')?.value as 'light' | 'dark' | undefined
-  const colorScheme: ColorScheme = colorSchemeCookie ?? 'light'
   // Ensure that the incoming `locale` is valid
   if (!routing.locales.includes(locale as never)) {
     // redirect({ href: '/', locale: 'en' })
@@ -75,8 +70,60 @@ export default async function RootLayout({
             }}
           />
         )} */}
+        <script
+          // https://github.com/reactjs/react.dev/blob/4bae717f59787b4c741f600ee2d2decb07fba226/src/pages/_document.tsx#L103
+          dangerouslySetInnerHTML={{
+            __html: `
+                (function () {
+                  function setTheme(newTheme) {
+                    window.__theme = newTheme;
+                    if (newTheme === 'dark') {
+                      document.documentElement.classList.add('dark');
+                    } else if (newTheme === 'light') {
+                      document.documentElement.classList.remove('dark');
+                    }
+                  }
+
+                  var preferredTheme;
+                  try {
+                    preferredTheme = localStorage.getItem('theme');
+                  } catch (err) { }
+
+                  window.__setPreferredTheme = function(newTheme) {
+                    preferredTheme = newTheme;
+                    setTheme(newTheme);
+                    try {
+                      localStorage.setItem('theme', newTheme);
+                    } catch (err) { }
+                  };
+
+                  var initialTheme = preferredTheme;
+                  var darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+                  if (!initialTheme) {
+                    initialTheme = darkQuery.matches ? 'dark' : 'light';
+                  }
+                  setTheme(initialTheme);
+
+                  darkQuery.addEventListener('change', function (e) {
+                    if (!preferredTheme) {
+                      setTheme(e.matches ? 'dark' : 'light');
+                    }
+                  });
+
+                  // Detect whether the browser is Mac to display platform specific content
+                  // An example of such content can be the keyboard shortcut displayed in the search bar
+                  document.documentElement.classList.add(
+                      window.navigator.platform.includes('Mac')
+                      ? "platform-mac"
+                      : "platform-win"
+                  );
+                })();
+            `,
+          }}
+        />
         <NextIntlClientProvider messages={messages}>
-          <OceanRoadThemeRegistry colorScheme={colorScheme}>
+          <OceanRoadThemeRegistry>
             <QueryClientRegistry>
               <PageLayout>{children}</PageLayout>
             </QueryClientRegistry>
