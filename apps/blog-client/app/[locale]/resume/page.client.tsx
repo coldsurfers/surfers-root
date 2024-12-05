@@ -1,15 +1,14 @@
 'use client'
 
-import { renderBlock } from '@/features/notion'
+import { NotionRenderer } from '@/features/notion'
 import { generatePDF } from '@/features/pdf'
-import { useGetResumeQuery } from '@/lib'
 import variables from '@coldsurfers/design-tokens/dist/js/color/variables'
 import styled from '@emotion/styled'
 import { AppLocale } from 'i18n/types'
 import Link from 'next/link'
-import { Fragment, useEffect } from 'react'
+import { ExtendedRecordMap } from 'notion-types'
+import { useEffect } from 'react'
 import postStyles from '../../../styles/post.module.css'
-import ArticleCareer from './components/article.career'
 
 const Wrapper = styled.div`
   a {
@@ -19,8 +18,14 @@ const Wrapper = styled.div`
 
 const shouldGeneratePDF = process.env.NODE_ENV === 'development'
 
-export default function ResumePage({ locale }: { locale: AppLocale }) {
-  const { data } = useGetResumeQuery({ locale })
+export default function ResumePage({
+  careerRecordMap,
+  sideProjectRecordMap,
+}: {
+  locale: AppLocale
+  careerRecordMap: ExtendedRecordMap
+  sideProjectRecordMap: ExtendedRecordMap
+}) {
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout> | null = null
     if (shouldGeneratePDF) {
@@ -38,18 +43,10 @@ export default function ResumePage({ locale }: { locale: AppLocale }) {
 
   return (
     <Wrapper>
-      {data?.blocks.career && <ArticleCareer careerBlocks={data.blocks.career} />}
-
-      {data?.blocks.side && (
-        <article className={postStyles.container}>
-          <section>
-            {data.blocks.side.map((block) => (
-              // @ts-ignore
-              <Fragment key={block.id}>{renderBlock(block)}</Fragment>
-            ))}
-          </section>
-        </article>
-      )}
+      {/* career */}
+      <NotionRenderer recordMap={careerRecordMap} />
+      {/* side project */}
+      <NotionRenderer recordMap={sideProjectRecordMap} />
 
       {process.env.NODE_ENV === 'production' && (
         <article className={postStyles.container}>
