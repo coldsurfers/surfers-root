@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/blog-client",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Samuel Kraft <samuelkraft@me.com> (https://github.com/samuelkraft)",
   "contributors": [
     "Samuel Kraft <samuelkraft@me.com> (https://github.com/samuelkraft)",
@@ -38,10 +38,12 @@
     "html2pdf.js": "^0.10.2",
     "next": "14.2.3",
     "next-intl": "^3.24.0",
+    "notion-client": "*",
     "prisma": "^5.19.0",
     "prismjs": "1.29.0",
     "react": "*",
     "react-dom": "*",
+    "react-notion-x": "*",
     "react-spinners": "*",
     "react-tweet": "^3.2.0",
     "sha1": "^1.1.1",
@@ -58,6 +60,7 @@
     "@types/sha1": "~1.1.5",
     "encoding": "^0.1.13",
     "eslint": "*",
+    "notion-types": "*",
     "pm2": "*",
     "prettier": "*",
     "typescript": "*"
