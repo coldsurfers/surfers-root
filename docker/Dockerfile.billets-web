@@ -5,6 +5,7 @@ ENV GITHUB_TOKEN=${GITHUB_TOKEN}
 
 RUN corepack enable
 
+COPY ./patches ./patches
 COPY package.json ./package.json
 COPY yarn.lock ./yarn.lock
 COPY .yarnrc.yml ./.yarnrc.yml
