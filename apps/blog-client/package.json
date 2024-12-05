@@ -42,6 +42,7 @@
     "prismjs": "1.29.0",
     "react": "*",
     "react-dom": "*",
+    "react-notion-x": "*",
     "react-spinners": "*",
     "react-tweet": "^3.2.0",
     "sha1": "^1.1.1",
@@ -58,6 +59,7 @@
     "@types/sha1": "~1.1.5",
     "encoding": "^0.1.13",
     "eslint": "*",
+    "notion-types": "*",
     "pm2": "*",
     "prettier": "*",
     "typescript": "*"
