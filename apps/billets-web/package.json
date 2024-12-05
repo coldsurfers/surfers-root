@@ -25,7 +25,7 @@
     "nanoid": "^5.0.4",
     "next": "14.1.0",
     "next-auth": "beta",
-    "notion-client": "^7.1.5",
+    "notion-client": "*",
     "openapi-fetch": "^0.12.2",
     "react": "*",
     "react-dom": "*",

@@ -3044,7 +3044,7 @@ __metadata:
     nanoid: "npm:^5.0.4"
     next: "npm:14.1.0"
     next-auth: "npm:beta"
-    notion-client: "npm:^7.1.5"
+    notion-client: "npm:*"
     notion-types: "npm:*"
     openapi-fetch: "npm:^0.12.2"
     pm2: "npm:*"
@@ -3096,6 +3096,7 @@ __metadata:
     html2pdf.js: "npm:^0.10.2"
     next: "npm:14.2.3"
     next-intl: "npm:^3.24.0"
+    notion-client: "npm:*"
     notion-types: "npm:*"
     pm2: "npm:*"
     prettier: "npm:*"
@@ -26330,7 +26331,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"notion-client@npm:^7.1.5":
+"notion-client@npm:7.1.5":
   version: 7.1.5
   resolution: "notion-client@npm:7.1.5"
   dependencies:

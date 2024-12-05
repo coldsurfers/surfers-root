@@ -47,7 +47,8 @@
     "framer-motion": "11.11.13",
     "react-hook-form": "7.48.2",
     "react-notion-x": "7.2.5",
-    "notion-types": "7.1.5"
+    "notion-types": "7.1.5",
+    "notion-client": "7.1.5"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.12.1",
