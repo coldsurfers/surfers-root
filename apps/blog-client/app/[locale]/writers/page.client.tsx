@@ -1,14 +1,18 @@
 'use client'
 
 import { useGetUsersQuery } from '@/lib'
-import { Paragraph } from '@/ui'
-import { Link } from 'i18n/routing'
-import { useTranslations } from 'next-intl'
+import { Text } from '@coldsurfers/ocean-road'
+import 'katex/dist/katex.min.css' // For equations
+import Link from 'next/link'
+import { ExtendedRecordMap } from 'notion-types'
+import 'prismjs/themes/prism-tomorrow.css' // For syntax highlighting
+import { NotionRenderer } from 'react-notion-x'
+import 'react-notion-x/src/styles.css'
 import { StyledWritersPageHeader } from './page.styled'
 
-export function WritersPageClient() {
-  const t = useTranslations()
+export function WritersPageClient({ recordMap }: { recordMap: ExtendedRecordMap }) {
   const { data } = useGetUsersQuery()
+
   return (
     <div style={{ paddingTop: 24 }}>
       {data?.users.map((user) => {
@@ -27,11 +31,9 @@ export function WritersPageClient() {
               <p>{user.name}</p>
             </div>
             <StyledWritersPageHeader>
-              <Paragraph style={{ fontSize: 16, fontWeight: '400', marginTop: 12 }}>
-                {t('WritersPage.paul.about')}
-              </Paragraph>
+              <NotionRenderer recordMap={recordMap} darkMode />
               <Link href="/resume" style={{ marginTop: 14, fontSize: 16, marginLeft: 'auto' }}>
-                <Paragraph style={{ textDecorationLine: 'underline' }}>Resume →</Paragraph>
+                <Text style={{ textDecorationLine: 'underline' }}>Resume →</Text>
               </Link>
             </StyledWritersPageHeader>
           </div>
