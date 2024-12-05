@@ -1,4 +1,5 @@
 import { Global, css } from '@emotion/react'
+import { darkModeTheme, lightModeTheme, themeToStyles } from './contexts/ColorSchemeProvider'
 import { colors, semantics } from './tokens'
 
 export default function GlobalStyle() {
@@ -11,17 +12,18 @@ export default function GlobalStyle() {
           margin: 0;
         }
 
+        html {
+          ${themeToStyles(lightModeTheme)}
+        }
+        html.dark {
+          ${themeToStyles(darkModeTheme)}
+        }
+
         body {
           background-color: ${semantics.color.background[2]};
           color: ${semantics.color.foreground[1]};
           white-space: pre-wrap;
         }
-
-        /* @media (prefers-color-scheme: dark) {
-          body {
-            background-color: rgb(24, 24, 31);
-          }
-        } */
 
         a {
           color: ${colors.oc.blue[5].value};
