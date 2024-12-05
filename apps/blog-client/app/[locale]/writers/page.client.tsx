@@ -1,14 +1,17 @@
 'use client'
 
 import { useGetUsersQuery } from '@/lib'
-import { Paragraph } from '@/ui'
+import { Text } from '@coldsurfers/ocean-road'
+
 import { Link } from 'i18n/routing'
-import { useTranslations } from 'next-intl'
+import { ExtendedRecordMap } from 'notion-types'
+
+import { NotionRenderer } from '@/features/notion'
 import { StyledWritersPageHeader } from './page.styled'
 
-export function WritersPageClient() {
-  const t = useTranslations()
+export function WritersPageClient({ recordMap }: { recordMap: ExtendedRecordMap }) {
   const { data } = useGetUsersQuery()
+
   return (
     <div style={{ paddingTop: 24 }}>
       {data?.users.map((user) => {
@@ -27,11 +30,9 @@ export function WritersPageClient() {
               <p>{user.name}</p>
             </div>
             <StyledWritersPageHeader>
-              <Paragraph style={{ fontSize: 16, fontWeight: '400', marginTop: 12 }}>
-                {t('WritersPage.paul.about')}
-              </Paragraph>
+              <NotionRenderer recordMap={recordMap} />
               <Link href="/resume" style={{ marginTop: 14, fontSize: 16, marginLeft: 'auto' }}>
-                <Paragraph style={{ textDecorationLine: 'underline' }}>Resume →</Paragraph>
+                <Text style={{ textDecorationLine: 'underline' }}>Resume →</Text>
               </Link>
             </StyledWritersPageHeader>
           </div>
