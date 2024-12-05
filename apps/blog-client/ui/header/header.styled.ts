@@ -30,6 +30,10 @@ export const StyledHeaderBigContainer = styled.div`
   padding: 48px 0px 0px 0px;
 `
 
+export const StyledTitleAndColorScheme = styled.div`
+  display: flex;
+`
+
 export const StyledHeaderTitle = styled(Text)`
   margin: unset;
 `
