@@ -5,8 +5,8 @@ import { subscribedArtistDTOSerializedSchema } from '@/dtos/subscribe-artist-dto
 import {
   subscribeConcertDTOSerializedSchema,
   subscribedConcertDTOSerializedListSchema,
-} from '@/dtos/SubscribeConcertDTO.types'
-import { subscribeVenueSerializedSchema } from '@/dtos/SubscribeVenueDTO.types'
+} from '@/dtos/subscribe-concert-dto/subscribe-concert-dto.types'
+import { subscribeVenueSerializedSchema } from '@/dtos/subscribe-venue-dto/subscribe-venue-dto.types'
 import { venueDTOSerializedSchema } from '@/dtos/venue-dto/venue-dto.types'
 import authRoute from '@/routes/auth/auth.route'
 import {

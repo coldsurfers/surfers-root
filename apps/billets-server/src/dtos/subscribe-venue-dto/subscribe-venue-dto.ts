@@ -1,7 +1,7 @@
-import { prisma } from '../prisma/connect'
-import { SubscribeVenueProps, SubscribeVenueSerialized } from './SubscribeVenueDTO.types'
+import { prisma } from '../../prisma/connect'
+import { SubscribeVenueProps, SubscribeVenueSerialized } from './subscribe-venue-dto.types'
 
-export default class SubscribeVenueDTO {
+export class SubscribeVenueDTO {
   constructor(private readonly props: SubscribeVenueProps) {
     this.props = props
   }
