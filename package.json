@@ -9,11 +9,13 @@
   ],
   "scripts": {
     "prepare": "husky install",
+    "postinstall": "patch-package",
     "deploy:blog": "yarn workspace @coldsurfers/blog-client deploy",
-    "start:coldsurf-io": "yarn workspace @coldsurfers/coldsurf-io start",
-    "dev:coldsurf-io": "yarn workspace @coldsurfers/coldsurf-io dev",
+    "start:billets-web": "yarn workspace @coldsurfers/billets-web start",
+    "dev:billets-web": "yarn workspace @coldsurfers/billets-web dev",
     "dev:wamuseum-server": "yarn workspace @coldsurfers/wamuseum-server debug",
-    "dev:wamuseum-client": "yarn workspace @coldsurfers/wamuseum-client dev"
+    "dev:wamuseum-client": "yarn workspace @coldsurfers/wamuseum-client dev",
+    "dev:billets-server": "yarn workspace @coldsurfers/billets-server debug"
   },
   "resolutions": {
     "typescript": "5.6.3",
@@ -43,7 +45,11 @@
     "@emotion/styled": "11.10.6",
     "@emotion/native": "11.11.0",
     "react-spinners": "0.14.1",
-    "framer-motion": "11.11.13"
+    "framer-motion": "11.11.13",
+    "react-hook-form": "7.48.2",
+    "react-notion-x": "7.2.5",
+    "notion-types": "7.1.5",
+    "notion-client": "7.1.5"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.12.1",
@@ -69,6 +75,8 @@
     "typescript": "*"
   },
   "dependencies": {
-    "@prisma/client": "5.21.1"
+    "@prisma/client": "5.21.1",
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0"
   }
 }

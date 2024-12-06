@@ -576,12 +576,12 @@
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = FstvlLifeApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Billets;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -607,12 +607,12 @@
 				DEVELOPMENT_TEAM = 578PDZSTMS;
 				INFOPLIST_FILE = FstvlLifeApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Billets;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

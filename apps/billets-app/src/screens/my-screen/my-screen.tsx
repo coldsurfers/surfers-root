@@ -1,8 +1,9 @@
 import { SubscribedConcertList } from '@/features'
 import { Screens } from '@/lib'
+import { useDeactivateUserMutation } from '@/lib/react-query'
 import { CommonScreenLayout } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
-import { Button, Spinner, Text } from '@coldsurfers/ocean-road/native'
+import { Button, ProfileThumbnail, Spinner, Text } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Alert, Pressable, SectionList, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import { match } from 'ts-pattern'
@@ -15,6 +16,44 @@ const ListHeaderComponent = () => {
   return (
     <View style={styles.listHeader}>
       <Text style={styles.listHeaderText}>프로필</Text>
+    </View>
+  )
+}
+
+const ListFooterComponent = () => {
+  const { logout } = useContext(AuthContext)
+  const { mutate: deactivateUser } = useDeactivateUserMutation({
+    onSuccess: () => {
+      logout()
+    },
+  })
+  const onPress = useCallback(() => {
+    Alert.alert('회원탈퇴', '회원탈퇴를 하면 더 이상 해당 계정으로 로그인 할 수 없어요', [
+      {
+        style: 'destructive',
+        text: '탈퇴하기',
+        onPress: () => deactivateUser(),
+      },
+      {
+        style: 'cancel',
+        text: '취소',
+      },
+    ])
+  }, [deactivateUser])
+  return (
+    <View style={styles.deactivateUserWrapper}>
+      <Button
+        theme="transparent"
+        hitSlop={{
+          top: 20,
+          bottom: 20,
+          left: 20,
+          right: 20,
+        }}
+        onPress={onPress}
+      >
+        회원탈퇴
+      </Button>
     </View>
   )
 }
@@ -63,16 +102,10 @@ export const MyScreen = () => {
       return match(info.section.title)
         .with('profile', () => {
           return (
-            <View style={styles.profileItem}>
-              <View style={styles.profileItemTextWrapper}>
-                <Text weight="bold" style={styles.profileItemThumbnailText}>
-                  {info.item.title[0]}
-                </Text>
-              </View>
-              <Pressable onPress={info.item.onPress} style={styles.profileItemText}>
-                <Text style={styles.itemText}>{info.item.title}</Text>
-              </Pressable>
-            </View>
+            <Pressable onPress={info.item.onPress} style={styles.profileItem}>
+              <ProfileThumbnail type="circle" size="md" emptyBgText={info.item.title.at(0) ?? ''} />
+              <Text style={[styles.profileItemText, styles.itemText]}>{info.item.title}</Text>
+            </Pressable>
           )
         })
         .with('account', () => {
@@ -164,6 +197,7 @@ export const MyScreen = () => {
         sections={settingSections}
         stickySectionHeadersEnabled={false}
         ListHeaderComponent={ListHeaderComponent}
+        ListFooterComponent={ListFooterComponent}
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
       />
@@ -255,5 +289,8 @@ const styles = StyleSheet.create({
   sectionHeaderMoreAddOnButtonText: {
     fontWeight: 'bold',
     fontSize: 12,
+  },
+  deactivateUserWrapper: {
+    marginLeft: 'auto',
   },
 })

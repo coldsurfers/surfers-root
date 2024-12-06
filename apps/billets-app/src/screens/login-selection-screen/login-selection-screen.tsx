@@ -6,7 +6,7 @@ import { Button, IconButton, Spinner } from '@coldsurfers/ocean-road/native'
 import appleAuth from '@invertase/react-native-apple-authentication'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import React, { useCallback, useContext } from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Alert, Platform, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useLoginSelectionScreenNavigation } from './login-selection-screen.hooks'
 
@@ -25,17 +25,24 @@ GoogleSignin.configure({
   profileImageSize: 120, // [iOS] The desired height (and width) of the profile image. Defaults to 120px
 })
 
-export const LoginSelectionScreen = () => {
+export const _LoginSelectionScreen = () => {
   const { show } = useContext(ToastVisibleContext)
   const { login } = useContext(AuthContext)
   const { goBack, navigate } = useLoginSelectionScreenNavigation()
   const { mutate: mutateSignIn, isPending: isPendingMutateSignIn } = useSignInMutation({
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       if (!data) {
         return
       }
       const { user, authToken } = data
-      login({ user, authToken })
+      await login({ user, authToken })
+      navigate('MainTabScreen', {
+        screen: 'HomeStackScreen',
+        params: {
+          screen: 'HomeScreen',
+          params: {},
+        },
+      })
     },
   })
   const onPressBackButton = useCallback(() => {
@@ -63,18 +70,38 @@ export const LoginSelectionScreen = () => {
           token: user.idToken,
         },
         {
-          onError: () =>
+          onError: (error) => {
+            if (error.code === 'USER_DEACTIVATED') {
+              Alert.alert('탈퇴 처리된 계정', '탈퇴 처리 된 계정이에요. 하지만 복구할 수 있어요!', [
+                {
+                  text: '복구하기',
+                  style: 'default',
+                  onPress: () => {
+                    navigate('EmailSignupScreen', {
+                      type: 'activate-user',
+                    })
+                  },
+                },
+                {
+                  text: '취소',
+                  style: 'cancel',
+                },
+              ])
+              return
+            }
             show({
               autoHide: true,
               duration: 5000,
               message: '구글 로그인 중 오류가 발생했어요',
-            }),
+              type: 'error',
+            })
+          },
         },
       )
     } catch (e) {
       console.error(e)
     }
-  }, [mutateSignIn, show])
+  }, [mutateSignIn, navigate, show])
 
   const onPressAppleLogin = useCallback(async () => {
     if (Platform.OS !== 'ios') {
@@ -108,69 +135,89 @@ export const LoginSelectionScreen = () => {
             token: identityToken,
           },
           {
-            onError: () =>
+            onError: (error) => {
+              if (error.code === 'USER_DEACTIVATED') {
+                Alert.alert('탈퇴 처리된 계정', '탈퇴 처리 된 계정이에요. 하지만 복구할 수 있어요!', [
+                  {
+                    text: '복구하기',
+                    style: 'default',
+                    onPress: () => {
+                      navigate('EmailSignupScreen', {
+                        type: 'activate-user',
+                      })
+                    },
+                  },
+                  {
+                    text: '취소',
+                    style: 'cancel',
+                  },
+                ])
+                return
+              }
               show({
                 type: 'error',
                 message: '애플 로그인 중 오류가 발생했어요',
                 autoHide: true,
                 duration: 5000,
-              }),
+              })
+            },
           },
         )
       }
     } catch (e) {
       console.error(e)
     }
-  }, [mutateSignIn, show])
+  }, [mutateSignIn, navigate, show])
 
   return (
+    <SafeAreaView edges={['bottom']} style={styles.wrapper}>
+      <IconButton onPress={onPressBackButton} theme="transparentDarkGray" icon="✘" style={styles.closeButtonPosition} />
+      <View style={styles.loginBox}>
+        <Button
+          style={[
+            styles.loginButton,
+            {
+              backgroundColor: color.oc.cyan[8].value,
+            },
+          ]}
+          onPress={onPressEmailLogin}
+        >
+          이메일로 계속하기
+        </Button>
+        {Platform.OS === 'ios' && (
+          <Button
+            style={[
+              styles.loginButton,
+              {
+                backgroundColor: colors.oc.black.value,
+              },
+            ]}
+            onPress={onPressAppleLogin}
+          >
+             Apple로 계속하기
+          </Button>
+        )}
+        <Button
+          style={[
+            styles.loginButton,
+            {
+              backgroundColor: GOOGLE_COLOR,
+            },
+          ]}
+          onPress={onPressGoogleLogin}
+        >
+          Google로 계속하기
+        </Button>
+      </View>
+      {isPendingMutateSignIn ? <Spinner /> : null}
+    </SafeAreaView>
+  )
+}
+
+export const LoginSelectionScreen = () => {
+  return (
     <ToastVisibleContextProvider>
-      <SafeAreaView edges={['bottom']} style={styles.wrapper}>
-        <IconButton
-          onPress={onPressBackButton}
-          theme="transparentDarkGray"
-          icon="✘"
-          style={styles.closeButtonPosition}
-        />
-        <View style={styles.loginBox}>
-          <Button
-            style={[
-              styles.loginButton,
-              {
-                backgroundColor: color.oc.cyan[8].value,
-              },
-            ]}
-            onPress={onPressEmailLogin}
-          >
-            이메일로 계속하기
-          </Button>
-          {Platform.OS === 'ios' && (
-            <Button
-              style={[
-                styles.loginButton,
-                {
-                  backgroundColor: colors.oc.black.value,
-                },
-              ]}
-              onPress={onPressAppleLogin}
-            >
-               Apple로 계속하기
-            </Button>
-          )}
-          <Button
-            style={[
-              styles.loginButton,
-              {
-                backgroundColor: GOOGLE_COLOR,
-              },
-            ]}
-            onPress={onPressGoogleLogin}
-          >
-            Google로 계속하기
-          </Button>
-        </View>
-        {isPendingMutateSignIn ? <Spinner /> : null}
-      </SafeAreaView>
+      <_LoginSelectionScreen />
     </ToastVisibleContextProvider>
   )
 }

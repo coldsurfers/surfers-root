@@ -9,6 +9,8 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
+import { fcmTokenDTOSerializedSchema } from './dtos'
+import { artistDTOSerializedSchema } from './dtos/ArtistDTO.types'
 import { searchDTOSerializedSchema } from './dtos/SearchDTO.types'
 import { subscribedArtistDTOSerializedSchema } from './dtos/SubscribeArtistDTO.types'
 import {
@@ -16,8 +18,16 @@ import {
   subscribedConcertDTOSerializedListSchema,
 } from './dtos/SubscribeConcertDTO.types'
 import { subscribeVenueSerializedSchema } from './dtos/SubscribeVenueDTO.types'
+import { venueDTOSerializedSchema } from './dtos/VenueDTO.types'
 import { SWAGGER_HOST } from './lib/constants'
-import { errorResponseSchema } from './lib/types'
+import { errorResponseSchema } from './lib/error'
+import { artistRoute } from './routes/artist'
+import {
+  getArtistByIdParamsSchema,
+  getConcertListByArtistIdParamsSchema,
+  getConcertListByArtistIdQueryStringSchema,
+  getConcertListByArtistIdSuccessResponseSchema,
+} from './routes/artist/artist.types'
 import authRoute from './routes/auth.route'
 import {
   confirmAuthCodeBodySchema,
@@ -38,18 +48,31 @@ import {
   concertSearchParamsSchema,
   concertSearchResponseSchema,
 } from './routes/concert.types'
+import { fcmRoute, postFCMTokenBodySchema } from './routes/fcm'
 import searchRoute from './routes/search.route'
 import { searchListQuerystringSchema } from './routes/search.types'
 import subscribeRoute from './routes/subscribe.route'
 import {
+  getSubscribeCommonParamsSchema,
   getSubscribedConcertListQueryStringSchema,
+  subscribeArtistBodySchema,
   subscribeArtistParamsSchema,
   subscribeConcertBodySchema,
   subscribeConcertParamsSchema,
+  subscribeVenueBodySchema,
   subscribeVenueParamsSchema,
+  unsubscribeArtistBodySchema,
+  unsubscribeVenueBodySchema,
 } from './routes/subscribe.types'
 import userRoute from './routes/user.route'
-import { getMeResponseSchema, postFCMTokenBodySchema, postFCMTokenResponseSchema } from './routes/user.types'
+import { activateUserBodySchema, deactivateUserBodySchema, getMeResponseSchema } from './routes/user.types'
+import {
+  getConcertListByVenueIdParamsSchema,
+  getConcertListByVenueIdQueryStringSchema,
+  getConcertListByVenueIdSuccessResponseSchema,
+  getVenueByIdParamsSchema,
+  venueRoute,
+} from './routes/venue'
 
 dotenv.config()
 
@@ -61,7 +84,7 @@ fastify.register(cors, {
   allowedHeaders: ['Authorization', 'Content-Type'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  origin: ['http://localhost:3000', 'https://coldsurf.io'],
+  origin: ['http://localhost:3000', 'https://billets.coldsurf.io'],
 })
 
 fastify.setValidatorCompiler(validatorCompiler)
@@ -143,7 +166,24 @@ fastify.register(fastifySwagger, {
       GetSubscribedConcertListQueryString: getSubscribedConcertListQueryStringSchema,
       SubscribedConcertSerializedList: subscribedConcertDTOSerializedListSchema,
       PostFCMTokenBody: postFCMTokenBodySchema,
-      PostFCMTokenSuccessResponse: postFCMTokenResponseSchema,
+      PostFCMTokenSuccessResponse: fcmTokenDTOSerializedSchema,
+      GetArtistByIdParams: getArtistByIdParamsSchema,
+      GetArtistByIdSuccessResponse: artistDTOSerializedSchema,
+      GetVenueByIdParams: getVenueByIdParamsSchema,
+      GetVenueByIdSuccessResponse: venueDTOSerializedSchema,
+      GetConcertListByVenueIdParams: getConcertListByVenueIdParamsSchema,
+      GetConcertListByVenueIdQuerystring: getConcertListByVenueIdQueryStringSchema,
+      GetConcertListByVenueIdSuccessResponse: getConcertListByVenueIdSuccessResponseSchema,
+      DeactivateUserBody: deactivateUserBodySchema,
+      ActivateUserBody: activateUserBodySchema,
+      GetConcertListByArtistIdParams: getConcertListByArtistIdParamsSchema,
+      GetConcertListByArtistIdQuerystring: getConcertListByArtistIdQueryStringSchema,
+      GetConcertListByArtistIdSuccessResponse: getConcertListByArtistIdSuccessResponseSchema,
+      GetSubscribeCommonParams: getSubscribeCommonParamsSchema,
+      SubscribeVenueBody: subscribeVenueBodySchema,
+      SubscribeArtistBody: subscribeArtistBodySchema,
+      UnsubscribeVenueBody: unsubscribeVenueBodySchema,
+      UnsubscribeArtistBody: unsubscribeArtistBodySchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
@@ -170,3 +210,6 @@ fastify.register(userRoute, { prefix: '/v1/user' })
 fastify.register(concertRoute, { prefix: '/v1/concert' })
 fastify.register(searchRoute, { prefix: '/v1/search' })
 fastify.register(subscribeRoute, { prefix: '/v1/subscribe' })
+fastify.register(fcmRoute, { prefix: '/v1/fcm' })
+fastify.register(artistRoute, { prefix: '/v1/artist' })
+fastify.register(venueRoute, { prefix: '/v1/venue' })

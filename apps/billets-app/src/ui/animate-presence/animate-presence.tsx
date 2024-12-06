@@ -28,5 +28,5 @@ export const AnimatePresence = ({ children }: PropsWithChildren) => {
     })
   }, [children, opacityValue])
 
-  return <Reanimated.View style={[opacityStyles]}>{children}</Reanimated.View>
+  return <Reanimated.View style={opacityStyles}>{children}</Reanimated.View>
 }

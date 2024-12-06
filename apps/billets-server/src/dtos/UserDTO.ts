@@ -47,8 +47,42 @@ export default class UserDTO {
     return new UserDTO(data)
   }
 
+  async activate() {
+    if (!this.props.id) {
+      throw Error('id invalid')
+    }
+    const data = await prisma.user.update({
+      where: {
+        id: this.props.id,
+      },
+      data: {
+        deactivatedAt: null,
+      },
+    })
+    return new UserDTO(data)
+  }
+
+  async deactivate() {
+    if (!this.props.id) {
+      throw Error('id invalid')
+    }
+    const data = await prisma.user.update({
+      where: {
+        id: this.props.id,
+      },
+      data: {
+        deactivatedAt: new Date(),
+      },
+    })
+    return new UserDTO(data)
+  }
+
   get id(): string | undefined {
     return this.props.id
+  }
+
+  get deactivatedAt() {
+    return this.props.deactivatedAt
   }
 
   serialize(): UserDTOSerialized {
@@ -56,6 +90,7 @@ export default class UserDTO {
       id: this.props.id ?? '',
       email: this.props.email ?? '',
       provider: this.props.provider ?? '',
+      deactivatedAt: this.props.deactivatedAt ?? null,
     }
   }
 }

@@ -1,7 +1,13 @@
+import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/concert-venue-map-view'
+import { ArtistSubscribeButton, VenueSubscribeButton } from '@/features/subscribe'
+import { useConcertDetailScreenNavigation } from '@/screens/concert-detail-screen/concert-detail-screen.hooks'
 import { colors } from '@coldsurfers/ocean-road'
-import { Text } from '@coldsurfers/ocean-road/native'
+import { Button, ProfileThumbnail, Text } from '@coldsurfers/ocean-road/native'
+import Clipboard from '@react-native-clipboard/clipboard'
 import { format } from 'date-fns'
-import { Image, Linking, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { memo } from 'react'
+import { Dimensions, Linking, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { VENUE_MAP_HEIGHT } from './concert-detail-section-list-item.constants'
 import {
   ConcertDetailSectionListDateItemProps,
   ConcertDetailSectionListLineupItemProps,
@@ -10,6 +16,7 @@ import {
   ConcertDetailSectionListTicketOpenDateItemProps,
   ConcertDetailSectionListTicketSellerItemProps,
   ConcertDetailSectionListTitleItemProps,
+  ConcertDetailSectionListVenueMapItemProps,
 } from './concert-detail-section-list-item.types'
 
 export const ConcertDetailSectionListItem = () => null
@@ -46,14 +53,29 @@ ConcertDetailSectionListItem.TitleItem = ({ title }: ConcertDetailSectionListTit
     </Text>
   )
 }
-ConcertDetailSectionListItem.LineupItem = ({ thumbnailUrl, name }: ConcertDetailSectionListLineupItemProps) => {
-  return (
-    <View style={styles.lineupWrapper}>
-      <Image style={styles.image} source={{ uri: thumbnailUrl }} />
-      <Text style={styles.name}>{name}</Text>
-    </View>
-  )
-}
+ConcertDetailSectionListItem.LineupItem = memo(
+  ({ thumbnailUrl, name, onPress, artistId }: ConcertDetailSectionListLineupItemProps) => {
+    const navigation = useConcertDetailScreenNavigation()
+    return (
+      <TouchableOpacity onPress={onPress} style={styles.rowItem}>
+        <View style={styles.profileLine}>
+          <ProfileThumbnail type="circle" size="sm" emptyBgText={name.at(0) ?? ''} imageUrl={thumbnailUrl} />
+          <Text style={styles.name}>{name}</Text>
+        </View>
+        <ArtistSubscribeButton
+          artistId={artistId}
+          onShouldLogin={() => {
+            navigation.navigate('LoginStackScreen', {
+              screen: 'LoginSelectionScreen',
+              params: {},
+            })
+          }}
+          style={styles.marginLeftAuto}
+        />
+      </TouchableOpacity>
+    )
+  },
+)
 ConcertDetailSectionListItem.TicketSellerItem = ({ siteUrl, name }: ConcertDetailSectionListTicketSellerItemProps) => {
   const onPressTicketSeller = (url: string) => {
     Linking.canOpenURL(url).then((canOpen) => {
@@ -68,6 +90,66 @@ ConcertDetailSectionListItem.TicketSellerItem = ({ siteUrl, name }: ConcertDetai
     </TouchableOpacity>
   )
 }
+ConcertDetailSectionListItem.VenueMapItem = memo(
+  ({
+    latitude,
+    longitude,
+    address,
+    onPressMap,
+    venueTitle,
+    onPressProfile,
+    venueId,
+  }: ConcertDetailSectionListVenueMapItemProps) => {
+    const navigation = useConcertDetailScreenNavigation()
+
+    return (
+      <View>
+        <TouchableOpacity onPress={onPressProfile} style={styles.rowItem}>
+          <View style={styles.profileLine}>
+            <ProfileThumbnail type="circle" size="sm" emptyBgText={venueTitle.at(0) ?? ''} />
+            <Text style={styles.name}>{venueTitle}</Text>
+          </View>
+          <VenueSubscribeButton
+            venueId={venueId}
+            onShouldLogin={() => {
+              navigation.navigate('LoginStackScreen', {
+                screen: 'LoginSelectionScreen',
+                params: {},
+              })
+            }}
+            style={styles.marginLeftAuto}
+          />
+        </TouchableOpacity>
+        <View style={styles.venueMapAddressWrapper}>
+          <Text style={styles.venueMapAddressText}>
+            {'📍'} {address}
+          </Text>
+          <Button
+            theme="transparent"
+            onPress={() => Clipboard.setString(address)}
+            style={styles.venueMapAddressCopyBtn}
+          >
+            복사하기
+          </Button>
+        </View>
+        <ConcertVenueMapView
+          region={{
+            latitude,
+            longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+          scrollEnabled={false}
+          onPress={onPressMap}
+          markerCoordinate={{
+            latitude,
+            longitude,
+          }}
+        />
+      </View>
+    )
+  },
+)
 
 const styles = StyleSheet.create({
   text: {
@@ -82,16 +164,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   lineupWrapper: {
-    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 12,
   },
   image: { width: 42, height: 42, borderRadius: 42 / 2 },
   name: {
     marginLeft: 8,
     fontWeight: '500',
-    fontSize: 16,
+    fontSize: 14,
   },
   ticketSellerText: {
     fontSize: 16,
@@ -102,4 +182,43 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   venueText: { marginTop: 6, color: colors.oc.gray[8].value, marginBottom: 8 },
+  venueMap: {
+    width: Dimensions.get('screen').width - 12 * 2,
+    height: VENUE_MAP_HEIGHT,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderRadius: 8,
+    marginTop: 4,
+  },
+  venueMapMarker: {
+    fontSize: 24,
+  },
+  venueMapAddressWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+  },
+  venueMapAddressText: {
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  venueMapAddressCopyBtn: {
+    marginLeft: 'auto',
+  },
+  profileLine: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  marginLeftAuto: { marginLeft: 'auto' },
+  rowItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    marginHorizontal: 12,
+    marginVertical: 8,
+    borderRadius: 8,
+    borderColor: colors.oc.gray[4].value,
+    borderWidth: 1.5,
+  },
 })

@@ -1,7 +1,9 @@
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { getMeHandler, postFCMTokenHandler } from './user.handler'
-import { getMeResponseSchema, postFCMTokenBodySchema, postFCMTokenResponseSchema } from './user.types'
+import { userDTOSerializedSchema } from '../dtos/UserDTO.types'
+import { errorResponseSchema } from '../lib/error'
+import { activateUserHandler, deactivateUserHandler, getMeHandler } from './user.handler'
+import { activateUserBodySchema, deactivateUserBodySchema, getMeResponseSchema } from './user.types'
 
 const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
@@ -16,13 +18,16 @@ const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
         ],
         response: {
           200: getMeResponseSchema,
+          401: errorResponseSchema,
+          404: errorResponseSchema,
+          500: errorResponseSchema,
         },
       },
     },
     getMeHandler,
   )
-  fastify.withTypeProvider<ZodTypeProvider>().post(
-    '/fcm-token',
+  fastify.withTypeProvider<ZodTypeProvider>().patch(
+    '/activate',
     {
       schema: {
         tags: ['v1', 'user'],
@@ -31,13 +36,37 @@ const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
             AccessTokenAuth: [],
           },
         ],
-        body: postFCMTokenBodySchema,
+        body: activateUserBodySchema,
         response: {
-          201: postFCMTokenResponseSchema,
+          200: userDTOSerializedSchema,
+          401: errorResponseSchema,
+          404: errorResponseSchema,
+          409: errorResponseSchema,
+          500: errorResponseSchema,
         },
       },
     },
-    postFCMTokenHandler,
+    activateUserHandler,
+  )
+  fastify.withTypeProvider<ZodTypeProvider>().delete(
+    '/deactivate',
+    {
+      schema: {
+        tags: ['v1', 'user'],
+        security: [
+          {
+            AccessTokenAuth: [],
+          },
+        ],
+        body: deactivateUserBodySchema,
+        response: {
+          200: userDTOSerializedSchema,
+          401: errorResponseSchema,
+          500: errorResponseSchema,
+        },
+      },
+    },
+    deactivateUserHandler,
   )
   done()
 }

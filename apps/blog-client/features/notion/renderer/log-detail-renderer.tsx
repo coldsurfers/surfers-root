@@ -1,7 +1,7 @@
 'use client'
 
 import { LogPlatform } from '@/features/logs'
-import { Text, renderBlock } from '@/features/notion'
+import { NotionRenderer, Text } from '@/features/notion'
 import { useGetLogDetailQuery } from '@/lib/react-query/queries/use-get-log-detail-query/use-get-log-detail-query'
 import { CommonBack } from '@/ui'
 import { TagList } from '@/ui/tag-list/tag-list'
@@ -9,7 +9,7 @@ import { media } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { AppLocale } from 'i18n/types'
-import { Fragment, useMemo } from 'react'
+import { useMemo } from 'react'
 
 const Heading1 = styled.h1`
   ${media.medium(css`
@@ -28,7 +28,7 @@ export const LogDetailRenderer = ({
 }) => {
   const { data } = useGetLogDetailQuery(slug, { platform, locale })
   const page = useMemo(() => data?.page, [data])
-  const blocks = useMemo(() => data?.blocks, [data])
+  const recordMap = useMemo(() => data?.recordMap, [data?.recordMap])
 
   const pageTitle = useMemo(() => (page?.properties.Name.type === 'title' ? page.properties.Name.title : null), [page])
 
@@ -51,10 +51,7 @@ export const LogDetailRenderer = ({
       </Heading1>
       <TagList tags={tags} />
       <section>
-        {blocks?.map((block) => (
-          // @ts-ignore
-          <Fragment key={block.id}>{renderBlock(block)}</Fragment>
-        ))}
+        {recordMap && <NotionRenderer recordMap={recordMap} />}
         <CommonBack />
       </section>
     </article>

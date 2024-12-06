@@ -1,12 +1,19 @@
-import { ConcertDetailSectionList, ConcertDetailSectionListSections, useToggleSubscribeConcert } from '@/features'
+import {
+  ConcertDetailSectionList,
+  ConcertDetailSectionListSections,
+  ConcertDetailVenueMapBottomSheet,
+} from '@/features/concert-detail'
+import { useToggleSubscribeConcert } from '@/features/subscribe'
 import commonStyles from '@/lib/common-styles'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
+import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import useSubscribedConcertQuery from '@/lib/react-query/queries/useSubscribedConcertQuery'
 import { CommonBackIconButton } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner } from '@coldsurfers/ocean-road/native'
-import React, { useCallback, useMemo } from 'react'
-import { StatusBar, StyleSheet, View } from 'react-native'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import React, { useCallback, useMemo, useRef } from 'react'
+import { Dimensions, StatusBar, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT } from './concert-detail-screen.constants'
 import { useConcertDetailScreenNavigation, useConcertDetailScreenRoute } from './concert-detail-screen.hooks'
@@ -15,20 +22,36 @@ export const ConcertDetailScreen = () => {
   const { bottom: bottomInset } = useSafeAreaInsets()
   const navigation = useConcertDetailScreenNavigation()
   const { params } = useConcertDetailScreenRoute()
+
   const { data, isLoading: isLoadingConcert } = useConcertQuery({
     concertId: params.concertId,
   })
   const { data: subscribedConcert } = useSubscribedConcertQuery({
     concertId: params.concertId,
   })
+  const { data: meData } = useGetMeQuery()
   const toggleSubscribeConcert = useToggleSubscribeConcert()
 
+  const mapDetailBottomSheetModalRef = useRef<BottomSheetModal>(null)
+
   const onPressSubscribe = useCallback(() => {
+    if (!meData) {
+      // show login modal
+      navigation.navigate('LoginStackScreen', {
+        screen: 'LoginSelectionScreen',
+        params: {},
+      })
+      return
+    }
     toggleSubscribeConcert({
       isSubscribed: !!subscribedConcert,
       concertId: params.concertId,
     })
-  }, [params.concertId, subscribedConcert, toggleSubscribeConcert])
+  }, [meData, navigation, params.concertId, subscribedConcert, toggleSubscribeConcert])
+
+  const firstVenue = useMemo(() => {
+    return data?.venues.at(0)
+  }, [data?.venues])
 
   const sections: ConcertDetailSectionListSections = useMemo(() => {
     if (!data) {
@@ -60,7 +83,7 @@ export const ConcertDetailScreen = () => {
         sectionHeaderTitle: '공연 장소',
         data: [
           {
-            location: `${data.venues.at(0)?.venueTitle ?? ''}`,
+            location: `${firstVenue?.venueTitle ?? ''}`,
           },
         ],
       },
@@ -70,7 +93,41 @@ export const ConcertDetailScreen = () => {
         data: data.artists.map((artist) => ({
           thumbnailUrl: artist.profileImageUrl,
           name: artist.name,
+          artistId: artist.id,
+          onPress: () => {
+            navigation.navigate('ArtistStackScreen', {
+              screen: 'ArtistDetailScreen',
+              params: {
+                artistId: artist.id,
+              },
+            })
+          },
         })),
+      },
+      {
+        title: 'venue-map',
+        sectionHeaderTitle: '공연 장소',
+        data: [
+          {
+            latitude: firstVenue?.latitude ?? 0.0,
+            longitude: firstVenue?.longitude ?? 0.0,
+            address: firstVenue?.address ?? '',
+            onPressMap: () => mapDetailBottomSheetModalRef.current?.present(),
+            venueId: firstVenue?.id ?? '',
+            venueTitle: firstVenue?.venueTitle ?? '',
+            onPressProfile: () => {
+              if (!firstVenue?.id) {
+                return
+              }
+              navigation.navigate('VenueStackScreen', {
+                screen: 'VenueDetailScreen',
+                params: {
+                  id: firstVenue.id,
+                },
+              })
+            },
+          },
+        ],
       },
       // {
       //   title: 'ticket-open-date',
@@ -106,34 +163,62 @@ export const ConcertDetailScreen = () => {
       // },
     ]
     return innerSections
-  }, [data])
+  }, [
+    data,
+    firstVenue?.address,
+    firstVenue?.id,
+    firstVenue?.latitude,
+    firstVenue?.longitude,
+    firstVenue?.venueTitle,
+    navigation,
+  ])
 
   return (
     <>
       <StatusBar hidden />
+      <CommonBackIconButton top={40} onPress={navigation.goBack} />
       <View style={styles.wrapper}>
-        <ConcertDetailSectionList
-          sections={sections}
-          thumbnails={data?.posters?.map((thumb) => thumb.imageUrl) ?? []}
-          isSubscribed={!!subscribedConcert}
-          onPressSubscribe={onPressSubscribe}
-        />
-        <View style={[styles.fixedBottom, { paddingBottom: bottomInset }]}>
-          <Button
-            onPress={() => {
-              navigation.navigate('ConcertTicketListScreen', {
-                concertId: params.concertId,
-              })
-            }}
-            style={{ backgroundColor: colors.oc.cyan[8].value }}
-          >
-            🎫 티켓 구매하기 🎫
-          </Button>
-        </View>
-        <CommonBackIconButton top={40} onPress={() => navigation.goBack()} />
-
-        {isLoadingConcert ? <Spinner /> : null}
+        {isLoadingConcert ? (
+          <Spinner />
+        ) : (
+          <>
+            <ConcertDetailSectionList
+              sections={sections}
+              thumbnails={data?.posters?.map((thumb) => thumb.imageUrl) ?? []}
+              isSubscribed={!!subscribedConcert}
+              onPressSubscribe={onPressSubscribe}
+            />
+            <View style={[styles.fixedBottom, { paddingBottom: bottomInset }]}>
+              <Button
+                onPress={() => {
+                  navigation.navigate('ConcertTicketListScreen', {
+                    concertId: params.concertId,
+                  })
+                }}
+                style={{ backgroundColor: colors.oc.cyan[8].value, height: '100%' }}
+              >
+                🎫 티켓 찾기 🎫
+              </Button>
+            </View>
+          </>
+        )}
       </View>
+      {firstVenue && (
+        <ConcertDetailVenueMapBottomSheet
+          ref={mapDetailBottomSheetModalRef}
+          address={firstVenue.address}
+          region={{
+            latitude: firstVenue.latitude,
+            longitude: firstVenue.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+          markerCoordinate={{
+            latitude: firstVenue.latitude,
+            longitude: firstVenue.longitude,
+          }}
+        />
+      )}
     </>
   )
 }
@@ -154,5 +239,15 @@ const styles = StyleSheet.create({
     right: 0,
     height: CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT,
     ...commonStyles.shadowBox,
+  },
+  imageViewerCloseButton: { position: 'absolute', zIndex: 99, right: 12 },
+  imageViewerCloseText: { color: '#ffffff' },
+  venueMap: {
+    width: Dimensions.get('screen').width - 12 * 2,
+    height: 350,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderRadius: 8,
+    marginTop: 4,
   },
 })

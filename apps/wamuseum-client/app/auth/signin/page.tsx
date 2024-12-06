@@ -5,9 +5,9 @@ import { authUtils } from '@/utils/utils.auth'
 import { Spinner, Toast } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { AnimatePresence } from 'framer-motion'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { MeDocument, useLoginMutation } from 'src/__generated__/graphql'
+import { useLoginMutation, useMeQuery } from 'src/__generated__/graphql'
 
 const FormLayout = styled.section`
   position: absolute;
@@ -31,9 +31,28 @@ const FormLayout = styled.section`
 const SignInPage = () => {
   const router = useRouter()
   const formRef = useRef<LoginFormRefHandle>(null)
-  const [mutate, { data, loading, client }] = useLoginMutation({
+  const { data: meData } = useMeQuery()
+  const [mutate, { loading }] = useLoginMutation({
     onError: () => {
       setToastVisible(true)
+    },
+    onCompleted: (data) => {
+      if (!data?.login) return
+      const { login } = data
+      switch (login.__typename) {
+        case 'UserWithAuthToken':
+          authUtils
+            .login(login.authToken)
+            .then(() => {
+              router.push('/')
+            })
+            .catch((e) => {
+              console.error(e)
+            })
+          break
+        default:
+          break
+      }
     },
   })
   const [toastVisible, setToastVisible] = useState(false)
@@ -49,21 +68,10 @@ const SignInPage = () => {
   )
 
   useEffect(() => {
-    if (!data?.login) return
-    // eslint-disable-next-line no-shadow
-    const { login } = data
-    switch (login.__typename) {
-      case 'UserWithAuthToken':
-        authUtils.login(login.authToken).then(() => {
-          client.refetchQueries({
-            include: [MeDocument],
-          })
-        })
-        break
-      default:
-        break
+    if (meData?.me?.__typename === 'User') {
+      redirect('/')
     }
-  }, [client, data, router])
+  }, [meData])
 
   useEffect(() => {
     const onKeypress = (e: KeyboardEvent) => {

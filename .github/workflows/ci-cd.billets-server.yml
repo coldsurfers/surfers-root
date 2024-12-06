@@ -27,7 +27,7 @@ jobs:
           echo "BILLETS_SERVER_MAILER_EMAIL_ADDRESS=${{ secrets.BILLETS_SERVER_MAILER_EMAIL_ADDRESS }}" >> ./apps/billets-server/.env
           echo "BILLETS_SERVER_MAILER_EMAIL_APP_PASSWORD=${{ secrets.BILLETS_SERVER_MAILER_EMAIL_APP_PASSWORD }}" >> ./apps/billets-server/.env
           echo "BILLETS_SERVER_MAILER_SERVICE=${{ secrets.BILLETS_SERVER_MAILER_SERVICE }}" >> ./apps/billets-server/.env
-          touch "./apps/coldsurf-io/.env"
+          touch "./apps/billets-web/.env"
           touch "./apps/blog-client/.env"
           touch "./apps/wamuseum-client/.env"
           touch "./apps/wamuseum-server/.env"

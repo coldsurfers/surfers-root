@@ -1,25 +1,72 @@
-import { RouteHandler } from 'fastify'
+import { FastifyReply, FastifyRequest, RouteHandler } from 'fastify'
+import { z } from 'zod'
 import ArtistDTO from '../dtos/ArtistDTO'
 import ConcertDTO from '../dtos/ConcertDTO'
 import SubscribeArtistDTO from '../dtos/SubscribeArtistDTO'
-import { SubscribedArtistSerialized } from '../dtos/SubscribeArtistDTO.types'
+import { subscribedArtistDTOSerializedSchema, SubscribedArtistSerialized } from '../dtos/SubscribeArtistDTO.types'
 import SubscribeConcertDTO from '../dtos/SubscribeConcertDTO'
-import { SubscribedConcertSerialized, SubscribedConcertSerializedList } from '../dtos/SubscribeConcertDTO.types'
+import {
+  subscribeConcertDTOSerializedSchema,
+  SubscribedConcertSerialized,
+  SubscribedConcertSerializedList,
+} from '../dtos/SubscribeConcertDTO.types'
 import SubscribeVenueDTO from '../dtos/SubscribeVenueDTO'
-import { SubscribeVenueSerialized } from '../dtos/SubscribeVenueDTO.types'
+import { SubscribeVenueSerialized, subscribeVenueSerializedSchema } from '../dtos/SubscribeVenueDTO.types'
 import UserDTO from '../dtos/UserDTO'
 import VenueDTO from '../dtos/VenueDTO'
+import { ErrorResponse, errorResponseSchema } from '../lib/error'
 import { decodeToken } from '../lib/jwt'
-import { ErrorResponse } from '../lib/types'
 import {
+  getSubscribeCommonParamsSchema,
   GetSubscribedConcertListQueryString,
+  subscribeArtistBodySchema,
   SubscribeArtistParams,
   SubscribeConcertParams,
+  subscribeVenueBodySchema,
   SubscribeVenueParams,
+  unsubscribeArtistBodySchema,
+  unsubscribeVenueBodySchema,
 } from './subscribe.types'
 
+export const getSubscribePreHandler = async (
+  req: FastifyRequest<{
+    Params: z.infer<typeof getSubscribeCommonParamsSchema>
+  }>,
+  rep: FastifyReply<{
+    Reply: {
+      200:
+        | z.infer<typeof subscribeConcertDTOSerializedSchema>
+        | z.infer<typeof subscribedArtistDTOSerializedSchema>
+        | z.infer<typeof subscribeVenueSerializedSchema>
+      401: z.infer<typeof errorResponseSchema>
+      404: z.infer<typeof errorResponseSchema>
+      500: z.infer<typeof errorResponseSchema>
+    }
+  }>,
+) => {
+  try {
+    const token = req.headers.authorization
+    if (!token) {
+      return rep.status(401).send({ code: 'ACCESS_TOKEN_NOT_FOUND', message: 'Unauthorized' })
+    }
+    const decoded = decodeToken(token)
+    if (!decoded) {
+      return rep.status(401).send({ code: 'INVALID_ACCESS_TOKEN', message: 'Unauthorized' })
+    }
+    const user = await UserDTO.findById(decoded.id)
+    if (!user || !user.props.id) {
+      return rep.status(401).send({ code: 'INVALID_USER', message: 'Unauthorized' })
+    }
+  } catch (e) {
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    })
+  }
+}
+
 export const getConcertSubscribeHandler: RouteHandler<{
-  Params: SubscribeConcertParams
+  Params: z.infer<typeof getSubscribeCommonParamsSchema>
   Reply: {
     200: SubscribedConcertSerialized
     401: ErrorResponse
@@ -30,28 +77,81 @@ export const getConcertSubscribeHandler: RouteHandler<{
   try {
     const { id: concertId } = req.params
     const token = req.headers.authorization
-    if (!token) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
-    }
-    const decoded = decodeToken(token)
-    if (!decoded) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
-    }
-    const user = await UserDTO.findById(decoded.id)
-    if (!user || !user.props.id) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
-    }
-    const subscribedConcert = await SubscribeConcertDTO.findByConcertIdUserId(concertId, user.props.id)
+    const decoded = decodeToken(token!)
+    const user = await UserDTO.findById(decoded!.id)
+    const subscribedConcert = await SubscribeConcertDTO.findByConcertIdUserId(concertId, user!.props.id!)
     if (!subscribedConcert) {
       return rep.status(404).send({
-        code: 'NOT_FOUND',
-        message: 'Concert not found',
+        code: 'SUBSCRIBED_CONCERT_NOT_FOUND',
+        message: 'subscribed concert not found',
       })
     }
     return rep.status(200).send(subscribedConcert.serialize())
   } catch (e) {
     console.error(e)
-    return rep.status(500).send({ code: 'INTERNAL_SERVER_ERROR', message: 'internal server error' })
+    return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
+  }
+}
+
+export const getArtistSubscribeHandler: RouteHandler<{
+  Params: z.infer<typeof getSubscribeCommonParamsSchema>
+  Reply: {
+    200: z.infer<typeof subscribedArtistDTOSerializedSchema>
+    401: z.infer<typeof errorResponseSchema>
+    404: z.infer<typeof errorResponseSchema>
+    500: z.infer<typeof errorResponseSchema>
+  }
+}> = async (req, rep) => {
+  try {
+    const { id: artistId } = req.params
+    const token = req.headers.authorization
+    const decoded = decodeToken(token!)
+    const user = await UserDTO.findById(decoded!.id)
+    const subscribedArtist = await SubscribeArtistDTO.findByArtistIdUserId(artistId, user!.id!)
+    if (!subscribedArtist) {
+      return rep.status(404).send({
+        code: 'SUBSCRIBED_ARTIST_NOT_FOUND',
+        message: 'subscribed artist not found',
+      })
+    }
+    return rep.status(200).send(subscribedArtist.serialize())
+  } catch (e) {
+    console.error(e)
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    })
+  }
+}
+
+export const getVenueSubscribeHandler: RouteHandler<{
+  Params: z.infer<typeof getSubscribeCommonParamsSchema>
+  Reply: {
+    200: z.infer<typeof subscribeVenueSerializedSchema>
+    401: z.infer<typeof errorResponseSchema>
+    404: z.infer<typeof errorResponseSchema>
+    500: z.infer<typeof errorResponseSchema>
+  }
+}> = async (req, rep) => {
+  try {
+    const { id: venueId } = req.params
+    const token = req.headers.authorization
+    const decoded = decodeToken(token!)
+    const user = await UserDTO.findById(decoded!.id)
+    const subscribedVenue = await SubscribeVenueDTO.findByVenueIdUserId(venueId, user!.id!)
+    if (!subscribedVenue) {
+      return rep.status(404).send({
+        code: 'SUBSCRIBED_VENUE_NOT_FOUND',
+        message: 'subscribed venue not found',
+      })
+    }
+    return rep.status(200).send(subscribedVenue.serialize())
+  } catch (e) {
+    console.error(e)
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    })
   }
 }
 
@@ -68,20 +168,20 @@ export const subscribeConcertHandler: RouteHandler<{
     const { id: concertId } = req.params
     const token = req.headers.authorization
     if (!token) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+      return rep.status(401).send({ code: 'ACCESS_TOKEN_NOT_FOUND', message: 'Unauthorized' })
     }
     const decoded = decodeToken(token)
     if (!decoded) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+      return rep.status(401).send({ code: 'INVALID_ACCESS_TOKEN', message: 'Unauthorized' })
     }
     const user = await UserDTO.findById(decoded.id)
     if (!user || !user.props.id) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+      return rep.status(401).send({ code: 'INVALID_USER', message: 'Unauthorized' })
     }
 
     const concert = await ConcertDTO.findById(concertId)
     if (!concert || !concert.props.id) {
-      return rep.status(404).send({ code: 'NOT_FOUND', message: 'Concert not found' })
+      return rep.status(404).send({ code: 'CONCERT_NOT_FOUND', message: 'Concert not found' })
     }
 
     const subscribedConcert = await SubscribeConcertDTO.findByConcertIdUserId(concertId, user.props.id)
@@ -100,7 +200,7 @@ export const subscribeConcertHandler: RouteHandler<{
     return rep.status(200).send(data.serialize())
   } catch (e) {
     console.error(e)
-    return rep.status(500).send({ code: 'INTERNAL_SERVER_ERROR', message: 'internal server error' })
+    return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
   }
 }
 
@@ -117,26 +217,26 @@ export const unsubscribeConcertHandler: RouteHandler<{
     const { id: concertId } = req.params
     const token = req.headers.authorization
     if (!token) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+      return rep.status(401).send({ code: 'ACCESS_TOKEN_NOT_FOUND', message: 'Unauthorized' })
     }
     const decoded = decodeToken(token)
     if (!decoded) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+      return rep.status(401).send({ code: 'INVALID_ACCESS_TOKEN', message: 'Unauthorized' })
     }
     const user = await UserDTO.findById(decoded.id)
     if (!user || !user.props.id) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+      return rep.status(401).send({ code: 'USER_NOT_FOUND', message: 'Unauthorized' })
     }
 
     const concert = await ConcertDTO.findById(concertId)
     if (!concert || !concert.props.id) {
-      return rep.status(404).send({ code: 'NOT_FOUND', message: 'Concert not found' })
+      return rep.status(404).send({ code: 'CONCERT_NOT_FOUND', message: 'Concert not found' })
     }
 
     const subscribedConcert = await SubscribeConcertDTO.findByConcertIdUserId(concertId, user.props.id)
 
     if (!subscribedConcert) {
-      return rep.status(404).send({ code: 'NOT_FOUND', message: 'Concert not found' })
+      return rep.status(404).send({ code: 'SUBSCRIBED_CONCERT_NOT_FOUND', message: 'Concert not found' })
     }
 
     const data = await subscribedConcert.unsubscribeConcert()
@@ -144,12 +244,13 @@ export const unsubscribeConcertHandler: RouteHandler<{
     return rep.status(200).send(data.serialize())
   } catch (e) {
     console.error(e)
-    return rep.status(500).send({ code: 'INTERNAL_SERVER_ERROR', message: 'internal server error' })
+    return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
   }
 }
 
 export const subscribeArtistHandler: RouteHandler<{
   Params: SubscribeArtistParams
+  Body: z.infer<typeof subscribeArtistBodySchema>
   Reply: {
     200: SubscribedArtistSerialized
     401: ErrorResponse
@@ -161,20 +262,20 @@ export const subscribeArtistHandler: RouteHandler<{
     const { id: artistId } = req.params
     const token = req.headers.authorization
     if (!token) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+      return rep.status(401).send({ code: 'ACCESS_TOKEN_NOT_FOUND', message: 'Unauthorized' })
     }
     const decoded = decodeToken(token)
     if (!decoded) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+      return rep.status(401).send({ code: 'INVALID_ACCESS_TOKEN', message: 'Unauthorized' })
     }
     const user = await UserDTO.findById(decoded.id)
     if (!user || !user.props.id) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+      return rep.status(401).send({ code: 'USER_NOT_FOUND', message: 'Unauthorized' })
     }
 
     const artist = await ArtistDTO.findById(artistId)
     if (!artist || !artist.id) {
-      return rep.status(404).send({ code: 'NOT_FOUND', message: 'Artist not found' })
+      return rep.status(404).send({ code: 'ARTIST_NOT_FOUND', message: 'Artist not found' })
     }
 
     const subscribedArtist = await SubscribeArtistDTO.findByArtistIdUserId(artistId, user.props.id)
@@ -193,12 +294,13 @@ export const subscribeArtistHandler: RouteHandler<{
     return rep.status(200).send(data.serialize())
   } catch (e) {
     console.error(e)
-    return rep.status(500).send({ code: 'INTERNAL_SERVER_ERROR', message: 'internal server error' })
+    return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
   }
 }
 
 export const unsubscribeArtistHandler: RouteHandler<{
   Params: SubscribeArtistParams
+  Body: z.infer<typeof unsubscribeArtistBodySchema>
   Reply: {
     200: SubscribedArtistSerialized
     401: ErrorResponse
@@ -210,26 +312,26 @@ export const unsubscribeArtistHandler: RouteHandler<{
     const { id: artistId } = req.params
     const token = req.headers.authorization
     if (!token) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+      return rep.status(401).send({ code: 'ACCESS_TOKEN_NOT_FOUND', message: 'Unauthorized' })
     }
     const decoded = decodeToken(token)
     if (!decoded) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+      return rep.status(401).send({ code: 'INVALID_ACCESS_TOKEN', message: 'Unauthorized' })
     }
     const user = await UserDTO.findById(decoded.id)
     if (!user || !user.props.id) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+      return rep.status(401).send({ code: 'USER_NOT_FOUND', message: 'Unauthorized' })
     }
 
     const artist = await ArtistDTO.findById(artistId)
     if (!artist || !artist.id) {
-      return rep.status(404).send({ code: 'NOT_FOUND', message: 'Artist not found' })
+      return rep.status(404).send({ code: 'ARTIST_NOT_FOUND', message: 'Artist not found' })
     }
 
     const subscribedArtist = await SubscribeArtistDTO.findByArtistIdUserId(artistId, user.props.id)
 
     if (!subscribedArtist) {
-      return rep.status(404).send({ code: 'NOT_FOUND', message: 'Artist not found' })
+      return rep.status(404).send({ code: 'SUBSCRIBED_ARTIST_NOT_FOUND', message: 'Artist not found' })
     }
 
     const data = await subscribedArtist.unsubscribeArtist()
@@ -237,12 +339,13 @@ export const unsubscribeArtistHandler: RouteHandler<{
     return rep.status(200).send(data.serialize())
   } catch (e) {
     console.error(e)
-    return rep.status(500).send({ code: 'INTERNAL_SERVER_ERROR', message: 'internal server error' })
+    return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
   }
 }
 
 export const subscribeVenueHandler: RouteHandler<{
   Params: SubscribeVenueParams
+  Body: z.infer<typeof subscribeVenueBodySchema>
   Reply: {
     200: SubscribeVenueSerialized
     401: ErrorResponse
@@ -254,20 +357,20 @@ export const subscribeVenueHandler: RouteHandler<{
     const { id: venueId } = req.params
     const token = req.headers.authorization
     if (!token) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+      return rep.status(401).send({ code: 'ACCESS_TOKEN_NOT_FOUND', message: 'Unauthorized' })
     }
     const decoded = decodeToken(token)
     if (!decoded) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+      return rep.status(401).send({ code: 'INVALID_ACCESS_TOKEN', message: 'Unauthorized' })
     }
     const user = await UserDTO.findById(decoded.id)
     if (!user || !user.props.id) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+      return rep.status(401).send({ code: 'INVALID_USER', message: 'Unauthorized' })
     }
 
     const venue = await VenueDTO.findById(venueId)
     if (!venue || !venue.id) {
-      return rep.status(404).send({ code: 'NOT_FOUND', message: 'Venue not found' })
+      return rep.status(404).send({ code: 'VENUE_NOT_FOUND', message: 'Venue not found' })
     }
 
     const subscribedVenue = await SubscribeVenueDTO.findByVenueIdUserId(venueId, user.props.id)
@@ -286,12 +389,13 @@ export const subscribeVenueHandler: RouteHandler<{
     return rep.status(200).send(data.serialize())
   } catch (e) {
     console.error(e)
-    return rep.status(500).send({ code: 'INTERNAL_SERVER_ERROR', message: 'internal server error' })
+    return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
   }
 }
 
 export const unsubscribeVenueHandler: RouteHandler<{
   Params: SubscribeVenueParams
+  Body: z.infer<typeof unsubscribeVenueBodySchema>
   Reply: {
     200: SubscribeVenueSerialized
     401: ErrorResponse
@@ -303,11 +407,11 @@ export const unsubscribeVenueHandler: RouteHandler<{
     const { id: venueId } = req.params
     const token = req.headers.authorization
     if (!token) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+      return rep.status(401).send({ code: 'ACCESS_TOKEN_NOT_FOUND', message: 'Unauthorized' })
     }
     const decoded = decodeToken(token)
     if (!decoded) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+      return rep.status(401).send({ code: 'INVALID_ACCESS_TOKEN', message: 'Unauthorized' })
     }
     const user = await UserDTO.findById(decoded.id)
     if (!user || !user.props.id) {
@@ -316,13 +420,13 @@ export const unsubscribeVenueHandler: RouteHandler<{
 
     const venue = await VenueDTO.findById(venueId)
     if (!venue || !venue.id) {
-      return rep.status(404).send({ code: 'NOT_FOUND', message: 'Venue not found' })
+      return rep.status(404).send({ code: 'VENUE_NOT_FOUND', message: 'Venue not found' })
     }
 
     const subscribedVenue = await SubscribeVenueDTO.findByVenueIdUserId(venueId, user.props.id)
 
     if (!subscribedVenue) {
-      return rep.status(404).send({ code: 'NOT_FOUND', message: 'Venue not found' })
+      return rep.status(404).send({ code: 'SUBSCRIBED_VENUE_NOT_FOUND', message: 'Venue not found' })
     }
 
     const data = await subscribedVenue.unsubscribeVenue()
@@ -330,7 +434,7 @@ export const unsubscribeVenueHandler: RouteHandler<{
     return rep.status(200).send(data.serialize())
   } catch (e) {
     console.error(e)
-    return rep.status(500).send({ code: 'INTERNAL_SERVER_ERROR', message: 'internal server error' })
+    return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
   }
 }
 
@@ -345,15 +449,15 @@ export const getSubscribedConcertListHandler: RouteHandler<{
   try {
     const token = req.headers.authorization
     if (!token) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+      return rep.status(401).send({ code: 'ACCESS_TOKEN_NOT_FOUND', message: 'Unauthorized' })
     }
     const decoded = decodeToken(token)
     if (!decoded) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+      return rep.status(401).send({ code: 'INVALID_ACCESS_TOKEN', message: 'Unauthorized' })
     }
     const user = await UserDTO.findById(decoded.id)
     if (!user || !user.props.id) {
-      return rep.status(401).send({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+      return rep.status(401).send({ code: 'INVALID_USER', message: 'Unauthorized' })
     }
 
     const { offset, size } = req.query
@@ -367,6 +471,6 @@ export const getSubscribedConcertListHandler: RouteHandler<{
     return rep.status(200).send(subscribedConcerts.map((value) => value.serialize()))
   } catch (e) {
     console.error(e)
-    return rep.status(500).send({ code: 'INTERNAL_SERVER_ERROR', message: 'internal server error' })
+    return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
   }
 }

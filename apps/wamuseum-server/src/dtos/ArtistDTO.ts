@@ -2,9 +2,7 @@ import { Artist } from '@prisma/client'
 import { prisma } from '..'
 import { Artist as ArtistResolverType } from '../../gql/resolvers-types'
 
-type ArtistDTOProps = Partial<Artist> & {
-  profileImageURL?: string
-}
+type ArtistDTOProps = Partial<Artist>
 
 export default class ArtistDTO {
   props: ArtistDTOProps
@@ -21,6 +19,7 @@ export default class ArtistDTO {
       where: {
         name: {
           contains: keyword,
+          mode: 'insensitive',
         },
       },
     })
@@ -47,13 +46,6 @@ export default class ArtistDTO {
     const artist = await prisma.artist.create({
       data: {
         name: this.props.name,
-        ...(this.props.profileImageURL && {
-          artistProfileImage: {
-            create: {
-              imageURL: this.props.profileImageURL,
-            },
-          },
-        }),
       },
     })
     return new ArtistDTO(artist)
@@ -95,6 +87,10 @@ export default class ArtistDTO {
     return new ArtistDTO({
       id: data.artistId,
     })
+  }
+
+  get id() {
+    return this.props.id
   }
 
   serialize(): ArtistResolverType {

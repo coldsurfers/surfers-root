@@ -21,7 +21,7 @@ jobs:
       - name: Create .env file from template
         run: |
           echo "NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL=${{ secrets.NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL }}" >> ./apps/wamuseum-client/.env
-          touch "./apps/coldsurf-io/.env"
+          touch "./apps/billets-web/.env"
           touch "./apps/blog-client/.env"
           touch "./apps/billets-server/.env"
           touch "./apps/wamuseum-server/.env"
