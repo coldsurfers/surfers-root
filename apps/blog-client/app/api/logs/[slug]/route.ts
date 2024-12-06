@@ -9,7 +9,13 @@ import {
   queryTextlogDetail,
 } from '@/features'
 import { NextRequest, NextResponse } from 'next/server'
+import { NotionAPI } from 'notion-client'
 import { match } from 'ts-pattern'
+
+const notion = new NotionAPI({
+  authToken: process.env.NOTION_AUTH_TOKEN,
+  activeUser: process.env.NOTION_ACTIVE_USER,
+})
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const searchParams = request.nextUrl.searchParams
@@ -38,9 +44,20 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     blockId: page.id,
     withUploadCloudinary: true,
   })
+
+  const recordMap = await notion.getPage(page.id, {
+    signFileUrls: true,
+    fetchMissingBlocks: true,
+  })
+
   if (!blocks) {
     return NextResponse.json({ message: 'blocks not found' }, { status: 404 })
   }
 
-  return NextResponse.json({ page, blocks }, { status: 200 })
+  return NextResponse.json(
+    { page, blocks, recordMap },
+    {
+      status: 200,
+    },
+  )
 }
