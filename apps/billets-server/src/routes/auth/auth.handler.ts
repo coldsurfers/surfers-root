@@ -1,5 +1,5 @@
 import { AuthTokenDTO } from '@/dtos/auth-token-dto'
-import EmailAuthRequestDTO from '@/dtos/EmailAuthRequestDTO'
+import { EmailAuthRequestDTO } from '@/dtos/email-auth-request-dto'
 import UserDTO from '@/dtos/UserDTO'
 import createEmailAuthCode from '@/lib/createEmailAuthCode'
 import encryptPassword from '@/lib/encryptPassword'

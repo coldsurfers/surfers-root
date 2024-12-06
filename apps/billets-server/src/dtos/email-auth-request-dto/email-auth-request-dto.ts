@@ -1,7 +1,7 @@
-import { prisma } from '../prisma/connect'
-import { EmailAuthRequestDTOProps } from './EmailAuthRequestDTO.types'
+import { prisma } from '@/prisma/connect'
+import { EmailAuthRequestDTOProps } from './email-auth-request-dto.types'
 
-export default class EmailAuthRequestDTO {
+export class EmailAuthRequestDTO {
   props: EmailAuthRequestDTOProps
 
   constructor(props: EmailAuthRequestDTOProps) {

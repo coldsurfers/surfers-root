@@ -1,4 +1,4 @@
-import EmailAuthRequestDTO from '@/dtos/EmailAuthRequestDTO'
+import { EmailAuthRequestDTO } from '@/dtos/email-auth-request-dto'
 import UserDTO from '@/dtos/UserDTO'
 import { userDTOSerializedSchema } from '@/dtos/UserDTO.types'
 import { errorResponseSchema } from '@/lib/error'
