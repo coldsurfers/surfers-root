@@ -1,8 +1,8 @@
+import { prisma } from '@/prisma/connect'
 import { z } from 'zod'
-import { prisma } from '../prisma/connect'
-import { VenueDTOProps, venueDTOSerializedSchema } from './VenueDTO.types'
+import { VenueDTOProps, venueDTOSerializedSchema } from './venue-dto.types'
 
-export default class VenueDTO {
+export class VenueDTO {
   constructor(private readonly props: VenueDTOProps) {
     this.props = props
   }

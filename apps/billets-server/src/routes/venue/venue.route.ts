@@ -1,4 +1,4 @@
-import { venueDTOSerializedSchema } from '@/dtos/VenueDTO.types'
+import { venueDTOSerializedSchema } from '@/dtos/venue-dto/venue-dto.types'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { getConcertListByVenueIdRoute, getVenueByIdRoute } from './venue.handler'
