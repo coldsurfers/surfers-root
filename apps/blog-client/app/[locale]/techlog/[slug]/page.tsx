@@ -37,12 +37,16 @@ export async function generateMetadata({ params }: PageProps<{ slug: string }>) 
 export default async function Page({ params }: PageProps<{ slug: string }>) {
   setRequestLocale(params.locale)
   const queryClient = getQueryClient()
-  await queryClient.prefetchQuery(
-    queryKeyFactory.logs.detail(params.slug, {
-      platform: 'techlog',
-      locale: params.locale,
-    }),
-  )
+  try {
+    await queryClient.prefetchQuery(
+      queryKeyFactory.logs.detail(params.slug, {
+        platform: 'techlog',
+        locale: params.locale,
+      }),
+    )
+  } catch (e) {
+    console.error(e)
+  }
   const dehydratedState = dehydrate(queryClient)
 
   return (
