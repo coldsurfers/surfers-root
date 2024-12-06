@@ -1,6 +1,6 @@
 import { artistDTOSerializedSchema } from '@/dtos/artist-dto/artist-dto.types'
 import { fcmTokenDTOSerializedSchema } from '@/dtos/fcm-token-dto'
-import { searchDTOSerializedSchema } from '@/dtos/SearchDTO.types'
+import { searchDTOSerializedSchema } from '@/dtos/search-dto/search-dto.types'
 import { subscribedArtistDTOSerializedSchema } from '@/dtos/SubscribeArtistDTO.types'
 import {
   subscribeConcertDTOSerializedSchema,
