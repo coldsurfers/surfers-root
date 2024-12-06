@@ -1,4 +1,4 @@
-import { subscribedArtistDTOSerializedSchema } from '@/dtos/SubscribeArtistDTO.types'
+import { subscribedArtistDTOSerializedSchema } from '@/dtos/subscribe-artist-dto/subscribe-artist-dto.types'
 import {
   subscribeConcertDTOSerializedSchema,
   subscribedConcertDTOSerializedListSchema,
