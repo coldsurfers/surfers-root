@@ -1,9 +1,9 @@
+import ArtistDTO from '@/dtos/ArtistDTO'
+import { ArtistDTOSerialized } from '@/dtos/ArtistDTO.types'
+import ConcertDTO from '@/dtos/ConcertDTO'
+import { errorResponseSchema } from '@/lib/error'
 import { RouteHandler } from 'fastify'
-import { errorResponseSchema } from 'src/lib/error'
 import { z } from 'zod'
-import ArtistDTO from '../../dtos/ArtistDTO'
-import { ArtistDTOSerialized } from '../../dtos/ArtistDTO.types'
-import ConcertDTO from '../../dtos/ConcertDTO'
 import {
   GetArtistByIdParams,
   getConcertListByArtistIdParamsSchema,
