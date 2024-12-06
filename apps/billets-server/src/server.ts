@@ -21,6 +21,8 @@ import {
 import searchRoute from '@/routes/search/search.route'
 import { searchListQuerystringSchema } from '@/routes/search/search.types'
 import subscribeRoute from '@/routes/subscribe/subscribe.route'
+import userRoute from '@/routes/user/user.route'
+import { activateUserBodySchema, deactivateUserBodySchema, getMeResponseSchema } from '@/routes/user/user.types'
 import cors from '@fastify/cors'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
@@ -64,8 +66,6 @@ import {
   unsubscribeArtistBodySchema,
   unsubscribeVenueBodySchema,
 } from './routes/subscribe/subscribe.types'
-import userRoute from './routes/user.route'
-import { activateUserBodySchema, deactivateUserBodySchema, getMeResponseSchema } from './routes/user.types'
 import {
   getConcertListByVenueIdParamsSchema,
   getConcertListByVenueIdQueryStringSchema,

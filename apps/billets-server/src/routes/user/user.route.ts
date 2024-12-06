@@ -1,7 +1,7 @@
+import { userDTOSerializedSchema } from '@/dtos/UserDTO.types'
+import { errorResponseSchema } from '@/lib/error'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { userDTOSerializedSchema } from '../dtos/UserDTO.types'
-import { errorResponseSchema } from '../lib/error'
 import { activateUserHandler, deactivateUserHandler, getMeHandler } from './user.handler'
 import { activateUserBodySchema, deactivateUserBodySchema, getMeResponseSchema } from './user.types'
 
