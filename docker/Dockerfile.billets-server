@@ -26,9 +26,9 @@ WORKDIR /surfers-root
 ARG PORT
 ENV PORT=${PORT}
 
-COPY --from=builder /surfers-root/apps/billets-server/dist ./apps/billets-server/dist
+COPY --from=builder /surfers-root/apps/billets-server/build ./apps/billets-server/build
 COPY --from=builder /surfers-root/apps/billets-server/node_modules ./apps/billets-server/node_modlues
 COPY --from=builder /surfers-root/node_modules ./node_modules
 
 EXPOSE ${PORT}
-CMD ["node", "apps/billets-server/dist/src/start-server.js"]
+CMD ["node", "apps/billets-server/build/start-server.mjs"]
