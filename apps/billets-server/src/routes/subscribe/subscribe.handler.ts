@@ -11,7 +11,7 @@ import {
 import SubscribeVenueDTO from '@/dtos/SubscribeVenueDTO'
 import { SubscribeVenueSerialized, subscribeVenueSerializedSchema } from '@/dtos/SubscribeVenueDTO.types'
 import UserDTO from '@/dtos/UserDTO'
-import VenueDTO from '@/dtos/VenueDTO'
+import { VenueDTO } from '@/dtos/venue-dto'
 import { ErrorResponse, errorResponseSchema } from '@/lib/error'
 import { decodeToken } from '@/lib/jwt'
 import { FastifyReply, FastifyRequest, RouteHandler } from 'fastify'

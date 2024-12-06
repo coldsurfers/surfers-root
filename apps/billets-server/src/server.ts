@@ -7,7 +7,7 @@ import {
   subscribedConcertDTOSerializedListSchema,
 } from '@/dtos/SubscribeConcertDTO.types'
 import { subscribeVenueSerializedSchema } from '@/dtos/SubscribeVenueDTO.types'
-import { venueDTOSerializedSchema } from '@/dtos/VenueDTO.types'
+import { venueDTOSerializedSchema } from '@/dtos/venue-dto/venue-dto.types'
 import authRoute from '@/routes/auth/auth.route'
 import {
   confirmAuthCodeBodySchema,
