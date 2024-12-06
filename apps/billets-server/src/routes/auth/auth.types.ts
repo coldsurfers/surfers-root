@@ -1,6 +1,6 @@
+import { authTokenDTOSerializedSchema } from '@/dtos/AuthTokenDTO.types'
+import { userDTOSerializedSchema } from '@/dtos/UserDTO.types'
 import { z } from 'zod'
-import { userDTOSerializedSchema } from '../dtos/UserDTO.types'
-import { authTokenDTOSerializedSchema } from '../dtos/AuthTokenDTO.types'
 
 export const signInBodySchema = z.object({
   provider: z.union([z.literal('google'), z.literal('apple'), z.literal('email')]),
