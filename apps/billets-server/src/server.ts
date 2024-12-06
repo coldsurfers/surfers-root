@@ -1,3 +1,13 @@
+import { artistDTOSerializedSchema } from '@/dtos/artist-dto/artist-dto.types'
+import { fcmTokenDTOSerializedSchema } from '@/dtos/fcm-token-dto'
+import { searchDTOSerializedSchema } from '@/dtos/SearchDTO.types'
+import { subscribedArtistDTOSerializedSchema } from '@/dtos/SubscribeArtistDTO.types'
+import {
+  subscribeConcertDTOSerializedSchema,
+  subscribedConcertDTOSerializedListSchema,
+} from '@/dtos/SubscribeConcertDTO.types'
+import { subscribeVenueSerializedSchema } from '@/dtos/SubscribeVenueDTO.types'
+import { venueDTOSerializedSchema } from '@/dtos/VenueDTO.types'
 import authRoute from '@/routes/auth/auth.route'
 import {
   confirmAuthCodeBodySchema,
@@ -34,16 +44,6 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
-import { fcmTokenDTOSerializedSchema } from './dtos'
-import { artistDTOSerializedSchema } from './dtos/artist-dto/artist-dto.types'
-import { searchDTOSerializedSchema } from './dtos/SearchDTO.types'
-import { subscribedArtistDTOSerializedSchema } from './dtos/SubscribeArtistDTO.types'
-import {
-  subscribeConcertDTOSerializedSchema,
-  subscribedConcertDTOSerializedListSchema,
-} from './dtos/SubscribeConcertDTO.types'
-import { subscribeVenueSerializedSchema } from './dtos/SubscribeVenueDTO.types'
-import { venueDTOSerializedSchema } from './dtos/VenueDTO.types'
 import { SWAGGER_HOST } from './lib/constants'
 import { errorResponseSchema } from './lib/error'
 import { artistRoute } from './routes/artist'

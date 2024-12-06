@@ -1,4 +1,4 @@
-import { fcmTokenDTOSerializedSchema } from '@/dtos'
+import { fcmTokenDTOSerializedSchema } from '@/dtos/fcm-token-dto'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { postFCMTokenHandler } from './fcm.handler'

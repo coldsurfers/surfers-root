@@ -1,4 +1,4 @@
-import { FCMTokenDTO, FCMTokenDTOSerialized } from '@/dtos'
+import { FCMTokenDTO, FCMTokenDTOSerialized } from '@/dtos/fcm-token-dto'
 import { decodeToken } from '@/lib/jwt'
 import { RouteHandler } from 'fastify'
 import { PostFCMTokenBody } from './fcm.types'
