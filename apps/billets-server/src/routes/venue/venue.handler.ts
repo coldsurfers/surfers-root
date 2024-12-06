@@ -1,8 +1,8 @@
+import { ConcertDTO } from '@/dtos/concert-dto'
+import { VenueDTO } from '@/dtos/venue-dto'
+import { venueDTOSerializedSchema } from '@/dtos/venue-dto/venue-dto.types'
 import { RouteHandler } from 'fastify'
 import { z } from 'zod'
-import ConcertDTO from '../../dtos/ConcertDTO'
-import VenueDTO from '../../dtos/VenueDTO'
-import { venueDTOSerializedSchema } from '../../dtos/VenueDTO.types'
 import {
   getConcertListByVenueIdParamsSchema,
   getConcertListByVenueIdQueryStringSchema,
