@@ -1,6 +1,6 @@
 import { AuthTokenDTO } from '@/dtos/auth-token-dto'
 import { EmailAuthRequestDTO } from '@/dtos/email-auth-request-dto'
-import UserDTO from '@/dtos/UserDTO'
+import { UserDTO } from '@/dtos/user-dto'
 import createEmailAuthCode from '@/lib/createEmailAuthCode'
 import encryptPassword from '@/lib/encryptPassword'
 import { ErrorResponse, errorResponseSchema } from '@/lib/error'
