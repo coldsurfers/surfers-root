@@ -1,7 +1,7 @@
-import { prisma } from '../prisma/connect'
-import { SearchDTOProps, SearchDTOSerialized } from './SearchDTO.types'
+import { prisma } from '@/prisma/connect'
+import { SearchDTOProps, SearchDTOSerialized } from './search-dto.types'
 
-export default class SearchDTO {
+export class SearchDTO {
   props: SearchDTOProps
 
   constructor(props: SearchDTOProps) {

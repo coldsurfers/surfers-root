@@ -1,5 +1,5 @@
-import SearchDTO from '@/dtos/SearchDTO'
-import { SearchDTOSerialized } from '@/dtos/SearchDTO.types'
+import { SearchDTO } from '@/dtos/search-dto'
+import { SearchDTOSerialized } from '@/dtos/search-dto/search-dto.types'
 import { ErrorResponse } from '@/lib/error'
 import { RouteHandler } from 'fastify'
 import { SearchListQuerystring } from './search.types'
