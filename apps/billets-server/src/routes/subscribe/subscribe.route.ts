@@ -1,12 +1,12 @@
-import { FastifyPluginCallback } from 'fastify'
-import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { subscribedArtistDTOSerializedSchema } from '../dtos/SubscribeArtistDTO.types'
+import { subscribedArtistDTOSerializedSchema } from '@/dtos/SubscribeArtistDTO.types'
 import {
   subscribeConcertDTOSerializedSchema,
   subscribedConcertDTOSerializedListSchema,
-} from '../dtos/SubscribeConcertDTO.types'
-import { subscribeVenueSerializedSchema } from '../dtos/SubscribeVenueDTO.types'
-import { errorResponseSchema } from '../lib/error'
+} from '@/dtos/SubscribeConcertDTO.types'
+import { subscribeVenueSerializedSchema } from '@/dtos/SubscribeVenueDTO.types'
+import { errorResponseSchema } from '@/lib/error'
+import { FastifyPluginCallback } from 'fastify'
+import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import {
   getArtistSubscribeHandler,
   getConcertSubscribeHandler,
