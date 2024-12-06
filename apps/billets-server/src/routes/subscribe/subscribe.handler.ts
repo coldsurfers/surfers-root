@@ -13,7 +13,7 @@ import {
 } from '@/dtos/SubscribeConcertDTO.types'
 import SubscribeVenueDTO from '@/dtos/SubscribeVenueDTO'
 import { SubscribeVenueSerialized, subscribeVenueSerializedSchema } from '@/dtos/SubscribeVenueDTO.types'
-import UserDTO from '@/dtos/UserDTO'
+import { UserDTO } from '@/dtos/user-dto'
 import { VenueDTO } from '@/dtos/venue-dto'
 import { ErrorResponse, errorResponseSchema } from '@/lib/error'
 import { decodeToken } from '@/lib/jwt'

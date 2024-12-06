@@ -1,5 +1,5 @@
 import { authTokenDTOSerializedSchema } from '@/dtos/auth-token-dto'
-import { userDTOSerializedSchema } from '@/dtos/UserDTO.types'
+import { userDTOSerializedSchema } from '@/dtos/user-dto/user-dto.types'
 import { z } from 'zod'
 
 export const signInBodySchema = z.object({

@@ -1,10 +1,10 @@
 import { User } from '@prisma/client'
-import { prisma } from '../prisma/connect'
-import { UserDTOSerialized } from './UserDTO.types'
+import { prisma } from '../../prisma/connect'
+import { UserDTOSerialized } from './user-dto.types'
 
 type UserDTOProps = Partial<User>
 
-export default class UserDTO {
+export class UserDTO {
   props: UserDTOProps
 
   constructor(props: UserDTOProps) {

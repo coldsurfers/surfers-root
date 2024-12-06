@@ -1,6 +1,6 @@
 import { EmailAuthRequestDTO } from '@/dtos/email-auth-request-dto'
-import UserDTO from '@/dtos/UserDTO'
-import { userDTOSerializedSchema } from '@/dtos/UserDTO.types'
+import { UserDTO } from '@/dtos/user-dto'
+import { userDTOSerializedSchema } from '@/dtos/user-dto/user-dto.types'
 import { errorResponseSchema } from '@/lib/error'
 import { decodeToken } from '@/lib/jwt'
 import { differenceInMinutes } from 'date-fns/differenceInMinutes'
