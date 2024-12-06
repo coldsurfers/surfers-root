@@ -93,7 +93,7 @@ export const signinHandler: RouteHandler<{
     500: ErrorResponse
   }
 }> = async (req, rep) => {
-  const { email, password, provider, token } = req.body
+  const { email, password, provider, token, platform } = req.body
 
   try {
     return await match(provider)
@@ -150,9 +150,13 @@ export const signinHandler: RouteHandler<{
           })
         }
         if (value === 'google') {
+          const audience = match(platform)
+            .with('ios', () => process.env.GOOGLE_OAUTH_WEB_CLIENT_ID)
+            .with('android', () => process.env.GOOGLE_OAUTH_WEB_IOS_CLIENT_ID)
+            .exhaustive()
           await googleOAuth2Client.verifyIdToken({
             idToken: token,
-            audience: process.env.GOOGLE_OAUTH_CLIENT_ID,
+            audience,
           })
         }
         if (value === 'apple') {
@@ -192,7 +196,7 @@ export const signupHandler: RouteHandler<{
   }
 }> = async (req, rep) => {
   try {
-    const { provider, email, password, token } = req.body
+    const { provider, email, password, token, platform } = req.body
     return await match(provider)
       .with('email', async () => {
         if (!password) {
@@ -247,9 +251,13 @@ export const signupHandler: RouteHandler<{
           return rep.status(400).send()
         }
         if (value === 'google') {
+          const audience = match(platform)
+            .with('ios', () => process.env.GOOGLE_OAUTH_WEB_CLIENT_ID)
+            .with('android', () => process.env.GOOGLE_OAUTH_WEB_IOS_CLIENT_ID)
+            .exhaustive()
           await googleOAuth2Client.verifyIdToken({
             idToken: token,
-            audience: process.env.GOOGLE_OAUTH_CLIENT_ID,
+            audience,
           })
         }
         if (value === 'apple') {
