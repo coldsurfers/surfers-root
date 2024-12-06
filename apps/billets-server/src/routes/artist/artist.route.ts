@@ -1,7 +1,7 @@
+import { artistDTOSerializedSchema } from '@/dtos/artist-dto/artist-dto.types'
+import { errorResponseSchema } from '@/lib/error'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { artistDTOSerializedSchema } from '../../dtos/ArtistDTO.types'
-import { errorResponseSchema } from '../../lib/error'
 import { getArtistByIdHandler, getConcertListByArtistIdRoute } from './artist.handler'
 import {
   getArtistByIdParamsSchema,
