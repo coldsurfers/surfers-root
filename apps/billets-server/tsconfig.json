@@ -4,7 +4,17 @@
     "baseUrl": ".",
     "outDir": "dist",
     "noEmit": false,
-    "module": "CommonJS"
+    "module": "CommonJS",
+    "paths": {
+      "@/dtos": ["./src/dtos"],
+      "@/dtos/*": ["./src/dtos/*"],
+      "@/lib": ["./src/lib"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/prisma": ["./src/prisma"],
+      "@/prisma/*": ["./src/prisma/*"],
+      "@/routes": ["./src/routes"],
+      "@/routes/*": ["./src/routes/*"]
+    }
   },
   "include": ["vercel/**/*.ts", "src/**/*.ts"],
   "exclude": ["node_modules"]
