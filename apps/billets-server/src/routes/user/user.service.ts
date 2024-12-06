@@ -1,5 +1,5 @@
-import UserDTO from '../dtos/UserDTO'
-import { decodeToken } from '../lib/jwt'
+import UserDTO from '@/dtos/UserDTO'
+import { decodeToken } from '@/lib/jwt'
 
 export const findUserByAccessToken = async (accessToken: string) => {
   try {
