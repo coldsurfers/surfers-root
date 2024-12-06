@@ -35,7 +35,7 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 import { fcmTokenDTOSerializedSchema } from './dtos'
-import { artistDTOSerializedSchema } from './dtos/ArtistDTO.types'
+import { artistDTOSerializedSchema } from './dtos/artist-dto/artist-dto.types'
 import { searchDTOSerializedSchema } from './dtos/SearchDTO.types'
 import { subscribedArtistDTOSerializedSchema } from './dtos/SubscribeArtistDTO.types'
 import {

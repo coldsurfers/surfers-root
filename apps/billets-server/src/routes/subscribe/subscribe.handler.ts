@@ -1,4 +1,4 @@
-import ArtistDTO from '@/dtos/ArtistDTO'
+import { ArtistDTO } from '@/dtos/artist-dto'
 import ConcertDTO from '@/dtos/ConcertDTO'
 import SubscribeArtistDTO from '@/dtos/SubscribeArtistDTO'
 import { subscribedArtistDTOSerializedSchema, SubscribedArtistSerialized } from '@/dtos/SubscribeArtistDTO.types'

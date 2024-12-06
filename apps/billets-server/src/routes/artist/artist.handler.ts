@@ -1,5 +1,4 @@
-import ArtistDTO from '@/dtos/ArtistDTO'
-import { ArtistDTOSerialized } from '@/dtos/ArtistDTO.types'
+import { ArtistDTO, ArtistDTOSerialized } from '@/dtos/artist-dto'
 import ConcertDTO from '@/dtos/ConcertDTO'
 import { errorResponseSchema } from '@/lib/error'
 import { RouteHandler } from 'fastify'
