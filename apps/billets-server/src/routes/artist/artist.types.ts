@@ -1,5 +1,5 @@
+import { concertDTOSerializedSchema } from '@/dtos/concert-dto/concert-dto.types'
 import { z } from 'zod'
-import { concertDTOSerializedSchema } from '../../dtos/ConcertDTO.types'
 
 export const getArtistByIdParamsSchema = z.object({
   id: z.string(),
