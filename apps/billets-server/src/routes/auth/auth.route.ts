@@ -1,6 +1,6 @@
+import { errorResponseSchema } from '@/lib/error'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { errorResponseSchema } from '../lib/error'
 import {
   confirmAuthCodeHandler,
   sendAuthCodeHandler,
