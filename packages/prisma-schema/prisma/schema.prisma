@@ -30,8 +30,9 @@ model UsersOnStaffs {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
+  id            String    @id @default(uuid())
+  createdAt     DateTime  @default(now())
+  deactivatedAt DateTime?
 
   email        String  @unique
   password     String?
@@ -43,17 +44,27 @@ model User {
   subscribedConcerts UsersOnSubscribedConcerts[]
   subscribedArtists  UsersOnSubscribedArtists[]
   subscribedVenues   UsersOnSubscribedVenues[]
+  fcmTokens          UsersOnFCMTokens[]
 
   auth_token AuthToken[]
-  fcmTokens  FCMToken[]
 }
 
 model FCMToken {
-  id         String   @id @default(uuid())
-  tokenValue String
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String             @id @default(uuid())
+  tokenValue String             @unique
+  createdAt  DateTime           @default(now())
+  users      UsersOnFCMTokens[]
+}
+
+model UsersOnFCMTokens {
+  user       User     @relation(fields: [userId], references: [id])
   userId     String
+  fcmToken   FCMToken @relation(fields: [fcmTokenId], references: [id])
+  fcmTokenId String
   createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@id([userId, fcmTokenId])
 }
 
 model AuthToken {
@@ -71,6 +82,8 @@ model Venue {
   lat             Float
   lng             Float
   geohash         String
+  // @todo: i18n with tables
+  address         String?
   concerts        ConcertsOnVenues[]
   subscribedUsers UsersOnSubscribedVenues[]
   createdAt       DateTime                  @default(now())
@@ -101,6 +114,9 @@ model ArtistProfileImage {
   artistId String
 
   createdAt DateTime @default(now())
+
+  copyright   Copyright? @relation(fields: [copyrightId], references: [id])
+  copyrightId String?
 }
 
 model EmailAuthRequest {
@@ -240,27 +256,11 @@ model UsersOnSubscribedVenues {
   @@id([userId, venueId])
 }
 
-model Career {
-  id            String          @id @default(uuid())
-  company       String
-  startDate     DateTime
-  endDate       DateTime?
-  CareerChapter CareerChapter[]
-}
-
-model CareerChapter {
+model Copyright {
   id                 String               @id @default(uuid())
-  title              String
-  careerId           String
-  Career             Career               @relation(fields: [careerId], references: [id])
-  CareerSmallChapter CareerSmallChapter[]
-  sortOrder          Int
-}
-
-model CareerSmallChapter {
-  id              String        @id @default(uuid())
-  description     String        @db.Text
-  CareerChapter   CareerChapter @relation(fields: [careerChapterId], references: [id])
-  careerChapterId String
-  sortOrder       Int
+  owner              String
+  license            String
+  licenseURL         String
+  createdAt          DateTime             @default(now())
+  ArtistProfileImage ArtistProfileImage[]
 }

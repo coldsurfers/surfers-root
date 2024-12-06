@@ -9,6 +9,12 @@ export const CommonBackIconButton = ({ onPress, top }: { onPress?: () => void; t
       icon="←"
       theme="transparentDarkGray"
       onPress={onPress}
+      hitSlop={{
+        top: 20,
+        left: 20,
+        right: 20,
+        bottom: 20,
+      }}
       style={[
         styles.backButtonPosition,
         {
@@ -23,5 +29,6 @@ const styles = StyleSheet.create({
   backButtonPosition: {
     position: 'absolute',
     left: 15,
+    zIndex: 99,
   },
 })

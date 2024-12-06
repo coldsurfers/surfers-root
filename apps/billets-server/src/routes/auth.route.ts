@@ -1,11 +1,13 @@
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import { errorResponseSchema } from '../lib/error'
 import {
   confirmAuthCodeHandler,
   sendAuthCodeHandler,
   signinHandler,
   signinPreHandler,
   signupHandler,
+  signupPreHandler,
 } from './auth.handler'
 import {
   confirmAuthCodeBodySchema,
@@ -17,7 +19,6 @@ import {
   signUpBodySchema,
   signUpResponseSchema,
 } from './auth.types'
-import { errorResponseSchema } from '../lib/types'
 
 const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().post(
@@ -28,6 +29,8 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
         body: sendAuthCodeBodySchema,
         response: {
           200: sendAuthCodeResponseSchema,
+          409: errorResponseSchema,
+          500: errorResponseSchema,
         },
       },
     },
@@ -41,6 +44,10 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
         body: confirmAuthCodeBodySchema,
         response: {
           200: confirmAuthCodeResponseSchema,
+          401: errorResponseSchema,
+          404: errorResponseSchema,
+          409: errorResponseSchema,
+          500: errorResponseSchema,
         },
       },
     },
@@ -55,6 +62,8 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
         body: signInBodySchema,
         response: {
           200: signInResponseSchema,
+          401: errorResponseSchema,
+          500: errorResponseSchema,
         },
       },
       preHandler: signinPreHandler,
@@ -71,9 +80,11 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
         response: {
           201: signUpResponseSchema,
           400: errorResponseSchema,
+          401: errorResponseSchema,
           500: errorResponseSchema,
         },
       },
+      preHandler: signupPreHandler,
     },
     signupHandler,
   )

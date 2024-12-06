@@ -85,6 +85,7 @@ const typeDefs = `#graphql
     lat: Float!
     lng: Float!
     geohash: String!
+    address: String!
   }
 
   input CreateUserInput {
@@ -218,6 +219,26 @@ const typeDefs = `#graphql
     list: [Venue]
   }
 
+  type RemoteNotification {
+    response: String
+  }
+
+  type Copyright {
+    id: String!
+    owner: String!
+    license: String!
+  }
+
+  type ArtistProfileImage {
+    id: String!
+    imageURL: String!
+  }
+
+  type ArtistWithProfileImage {
+    artist: Artist
+    artistProfileImage: ArtistProfileImage
+  }
+
   union AuthenticateEmailAuthRequestData = EmailAuthRequest | HttpError
 
   union CreateUserData = User | HttpError
@@ -250,7 +271,7 @@ const typeDefs = `#graphql
 
   union RemoveConcertTicketPriceData = TicketPrice | HttpError
 
-  union CreateArtistData = Artist | HttpError
+  union CreateArtistData = ArtistWithProfileImage | HttpError
 
   union SearchArtistsData = ArtistList | HttpError
 
@@ -277,6 +298,10 @@ const typeDefs = `#graphql
   union ConcertVenueData = ConcertVenueList | HttpError
 
   union RemoveConcertVenueData = Venue | HttpError
+
+  union NotifyConcertData = RemoteNotification | HttpError
+
+  union CreateCopyrightData = Copyright | HttpError
 
   input ConcertListOrderBy {
     createdAt: String!
@@ -306,6 +331,7 @@ const typeDefs = `#graphql
     name: String!
     lat: Float!
     lng: Float!
+    address: String!
   }
 
   input CreateConcertVenueInput {
@@ -316,6 +342,17 @@ const typeDefs = `#graphql
   input RemoveConcertVenueInput {
     concertId: String!
     venueId: String!
+  }
+
+  input NotifyConcertInput {
+    concertId: String!
+  }
+
+  input CreateCopyrightInput {
+    owner: String!
+    license: String!
+    licenseURL: String!
+    artistProfileImageId: String
   }
 
   type Query {
@@ -419,6 +456,12 @@ const typeDefs = `#graphql
     removeConcertVenue(
       input: RemoveConcertVenueInput!
     ): RemoveConcertVenueData
+    notifyConcert(
+      input: NotifyConcertInput!
+    ): NotifyConcertData
+    createCopyright(
+      input: CreateCopyrightInput!
+    ): CreateCopyrightData
   }
 `
 

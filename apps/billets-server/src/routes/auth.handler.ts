@@ -2,15 +2,16 @@ import { differenceInMinutes } from 'date-fns/differenceInMinutes'
 import { FastifyReply, FastifyRequest, RouteHandler } from 'fastify'
 import { OAuth2Client } from 'google-auth-library'
 import { match } from 'ts-pattern'
+import { z } from 'zod'
 import AuthTokenDTO from '../dtos/AuthTokenDTO'
 import EmailAuthRequestDTO from '../dtos/EmailAuthRequestDTO'
 import UserDTO from '../dtos/UserDTO'
 import createEmailAuthCode from '../lib/createEmailAuthCode'
 import encryptPassword from '../lib/encryptPassword'
+import { ErrorResponse, errorResponseSchema } from '../lib/error'
 import { generateAuthToken } from '../lib/jwt'
 import log from '../lib/log'
 import { sendEmail } from '../lib/mailer'
-import { ErrorResponse } from '../lib/types'
 import verifyAppleToken from '../lib/verifyAppleToken'
 import {
   ConfirmAuthCodeBody,
@@ -19,27 +20,66 @@ import {
   SendAuthCodeResponse,
   SignInBody,
   SignInResponse,
+  signInResponseSchema,
   SignUpBody,
   SignUpResponse,
 } from './auth.types'
 
 const googleOAuth2Client = new OAuth2Client()
 
-export const signinPreHandler = async (
-  req: FastifyRequest<{ Body: SignInBody }>,
+export const signupPreHandler = async (
+  req: FastifyRequest<{
+    Body: SignUpBody
+  }>,
   rep: FastifyReply,
+) => {
+  try {
+    const { email } = req.body
+    const user = await UserDTO.findByEmail(email)
+    if (user?.deactivatedAt) {
+      return rep.status(401).send({
+        code: 'USER_DEACTIVATED',
+        message: 'this account was deactivated',
+      })
+    }
+  } catch (e) {
+    console.error(e)
+    return rep.status(500).send()
+  }
+}
+
+export const signinPreHandler = async (
+  req: FastifyRequest<{
+    Body: SignInBody
+  }>,
+  rep: FastifyReply<{
+    Reply: {
+      200: z.infer<typeof signInResponseSchema>
+      401: ErrorResponse
+      500: ErrorResponse
+    }
+  }>,
   // eslint-disable-next-line consistent-return
 ) => {
   try {
     const { provider, email } = req.body
     const existing = await UserDTO.findByEmail(email)
+    if (existing?.deactivatedAt) {
+      return rep.status(401).send({
+        code: 'USER_DEACTIVATED',
+        message: 'this account was deactivated',
+      })
+    }
     if (provider !== 'email') {
       if (!existing) {
-        return rep.redirect('/api/auth/signup', 307)
+        return rep.redirect('/v1/auth/signup', 307)
       }
     }
   } catch (e) {
-    return rep.status(500).send()
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'unknown error',
+    })
   }
 }
 
@@ -47,10 +87,10 @@ export const signinHandler: RouteHandler<{
   Body: SignInBody
   Reply: {
     200: SignInResponse
-    400: void
-    401: void
-    404: void
-    500: void
+    400: ErrorResponse
+    401: ErrorResponse
+    404: ErrorResponse
+    500: ErrorResponse
   }
 }> = async (req, rep) => {
   const { email, password, provider, token } = req.body
@@ -60,17 +100,26 @@ export const signinHandler: RouteHandler<{
       .with('email', async () => {
         const existing = await UserDTO.findByEmail(email)
         if (!existing) {
-          return rep.status(404).send()
+          return rep.status(404).send({
+            code: 'USER_NOT_FOUND',
+            message: 'user not found',
+          })
         }
         if (!existing.props.id || !password || !existing.props.passwordSalt) {
-          return rep.status(400).send()
+          return rep.status(400).send({
+            code: 'INVALID_USER',
+            message: 'invalid user',
+          })
         }
         const { encrypted } = encryptPassword({
           plain: password,
           originalSalt: existing.props.passwordSalt,
         })
         if (encrypted !== existing.props.password) {
-          return rep.status(401).send()
+          return rep.status(401).send({
+            code: 'PASSWORD_NOT_MATCH',
+            message: 'password not match',
+          })
         }
         const { accessToken, refreshToken } = generateAuthToken({
           userId: existing.props.id,
@@ -88,11 +137,17 @@ export const signinHandler: RouteHandler<{
       })
       .otherwise(async (value) => {
         if (!token) {
-          return rep.status(400).send()
+          return rep.status(400).send({
+            code: 'ACCESS_TOKEN_NOT_FOUND',
+            message: 'access token not found',
+          })
         }
         const existing = await UserDTO.findByEmail(email)
         if (!existing || !existing.props.id) {
-          return rep.status(404).send()
+          return rep.status(404).send({
+            code: 'USER_NOT_FOUND',
+            message: 'user not found',
+          })
         }
         if (value === 'google') {
           await googleOAuth2Client.verifyIdToken({
@@ -120,7 +175,10 @@ export const signinHandler: RouteHandler<{
       })
   } catch (e) {
     console.error(e)
-    return rep.status(500).send()
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'unknown error',
+    })
   }
 }
 
@@ -129,6 +187,7 @@ export const signupHandler: RouteHandler<{
   Reply: {
     201: SignUpResponse
     400: ErrorResponse
+    401: ErrorResponse
     500: ErrorResponse
   }
 }> = async (req, rep) => {
@@ -228,18 +287,13 @@ export const sendAuthCodeHandler: RouteHandler<{
   Body: SendAuthCodeBody
   Reply: {
     200: SendAuthCodeResponse
-    409: void
-    500: void
+    409: z.infer<typeof errorResponseSchema>
+    500: z.infer<typeof errorResponseSchema>
   }
 }> = async (req, rep) => {
   const { email } = req.body
 
   try {
-    const existingUser = await UserDTO.findByEmail(email)
-    if (existingUser) {
-      return rep.status(409).send()
-    }
-
     const authcode = createEmailAuthCode()
     const emailAuthRequestDTO = new EmailAuthRequestDTO({
       email,
@@ -266,7 +320,10 @@ export const sendAuthCodeHandler: RouteHandler<{
   } catch (e) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     log((e as any).toString())
-    return rep.status(500).send()
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    })
   }
 }
 
@@ -274,28 +331,40 @@ export const confirmAuthCodeHandler: RouteHandler<{
   Body: ConfirmAuthCodeBody
   Reply: {
     200: ConfirmAuthCodeResponse
-    401: void
-    404: void
-    409: void
-    500: void
+    401: z.infer<typeof errorResponseSchema>
+    404: z.infer<typeof errorResponseSchema>
+    409: z.infer<typeof errorResponseSchema>
+    500: z.infer<typeof errorResponseSchema>
   }
 }> = async (req, rep) => {
   try {
     const { authCode, email } = req.body
     const dto = await EmailAuthRequestDTO.findByEmail(email)
     if (!dto) {
-      return rep.status(404).send()
+      return rep.status(404).send({
+        code: 'EMAIL_AUTH_REQUEST_NOT_FOUND',
+        message: 'email auth request not found',
+      })
     }
     if (dto.props.email !== email || dto.props.authcode !== authCode) {
-      return rep.status(401).send()
+      return rep.status(401).send({
+        code: 'INVALID_EMAIL_AUTH_REQUEST',
+        message: 'invalid email auth request',
+      })
     }
     if (dto.props.authenticated) {
-      return rep.status(409).send()
+      return rep.status(409).send({
+        code: 'EMAIL_AUTH_REQUEST_ALREADY_AUTHENTICATED',
+        message: 'already authenticated',
+      })
     }
     if (dto.props.createdAt) {
       const diffMinutes = Math.abs(differenceInMinutes(new Date(), dto.props.createdAt))
       if (diffMinutes >= 3) {
-        return rep.status(401).send()
+        return rep.status(401).send({
+          code: 'EMAIL_AUTH_REQUEST_TIMEOUT',
+          message: 'email auth request time out',
+        })
       }
     }
     const confirmed = await dto.confirm()
@@ -304,6 +373,9 @@ export const confirmAuthCodeHandler: RouteHandler<{
     })
   } catch (e) {
     console.error(e)
-    return rep.status(500).send()
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    })
   }
 }

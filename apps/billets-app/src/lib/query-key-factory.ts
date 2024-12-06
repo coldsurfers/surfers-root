@@ -10,6 +10,8 @@ export const v1QueryKeyFactory = createQueryKeyStore({
   concerts: {
     all: ['v1', 'concerts'],
     list: (params: { latLng: LatLng }) => ['v1', 'concerts', 'list', params],
+    listByVenueId: (params: { venueId: string }) => ['v1', 'concerts', 'list', 'venueId', params],
+    listByArtistId: (params: { artistId: string }) => ['v1', 'concerts', 'list', 'artistId', params],
     searchList: (params: { keyword: string }) => ['v1', 'concerts', 'search-list', params],
     detail: (params: { concertId: string }) => ['v1', 'concerts', 'detail', params],
     subscribedList: ['v1', 'concerts', 'subscribed-list'],
@@ -18,5 +20,13 @@ export const v1QueryKeyFactory = createQueryKeyStore({
   search: {
     all: ['v1', 'search'],
     list: (params: { keyword: string }) => ['v1', 'search', 'list', params],
+  },
+  artists: {
+    detail: (params: { id: string }) => ['v1', 'artists', params],
+    subscribed: (params: { artistId: string }) => ['v1', 'artists', 'subscribed', params],
+  },
+  venues: {
+    detail: (params: { id: string }) => ['v1', 'venues', params],
+    subscribed: (params: { venueId: string }) => ['v1', 'venues', 'subscribed', params],
   },
 })

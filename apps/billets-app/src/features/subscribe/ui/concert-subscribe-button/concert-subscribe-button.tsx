@@ -1,32 +1,18 @@
-import { colors } from '@coldsurfers/ocean-road'
-import { Text } from '@coldsurfers/ocean-road/native'
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { Button } from '@coldsurfers/ocean-road/native'
+import { StyleProp, ViewStyle } from 'react-native'
 
-export const ConcertSubscribeButton = ({ onPress, isSubscribed }: { onPress?: () => void; isSubscribed: boolean }) => {
+export const ConcertSubscribeButton = ({
+  onPress,
+  isSubscribed,
+  style,
+}: {
+  onPress?: () => void
+  isSubscribed: boolean
+  style?: StyleProp<ViewStyle>
+}) => {
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={[
-        styles.concertSaveButton,
-        {
-          backgroundColor: isSubscribed ? colors.oc.black.value : colors.oc.white.value,
-        },
-      ]}
-    >
-      <Text style={styles.concertSaveButtonIcon}>❣️</Text>
-    </TouchableOpacity>
+    <Button size="sm" theme="border" onPress={onPress} style={style}>
+      {isSubscribed ? 'Following' : 'Follow'}
+    </Button>
   )
 }
-
-const styles = StyleSheet.create({
-  concertSaveButton: {
-    borderWidth: 1,
-    borderRadius: 18,
-    borderColor: colors.oc.gray[3].value,
-    width: 36,
-    height: 36,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  concertSaveButtonIcon: { fontSize: 24 },
-})

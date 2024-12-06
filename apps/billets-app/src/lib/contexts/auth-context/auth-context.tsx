@@ -1,3 +1,5 @@
+import { useFirebaseMessaging } from '@/lib/hooks'
+import { useSendFCMTokenMutation } from '@/lib/react-query'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useQueryClient } from '@tanstack/react-query'
 import React, { createContext, PropsWithChildren, useCallback } from 'react'
@@ -27,7 +29,9 @@ export const AuthContext = createContext<{
 
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const queryClient = useQueryClient()
-  const { isLoading: isLoadingMe, data: meData, refetch } = useGetMeQuery()
+  const { isLoading: isLoadingMe, data: meData } = useGetMeQuery()
+  const { mutateAsync: sendFCMToken } = useSendFCMTokenMutation()
+  const { getFCMToken } = useFirebaseMessaging()
 
   const login = useCallback(
     async ({
@@ -40,24 +44,25 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     }) => {
       try {
         await AsyncStorage.setItem(storageAuthTokenKey, JSON.stringify(authToken))
-        refetch()
+        const fcmToken = await getFCMToken()
+        await sendFCMToken({
+          fcmToken,
+        })
+        await queryClient.invalidateQueries()
       } catch (e) {
         console.error(e)
       }
     },
-    [refetch],
+    [getFCMToken, queryClient, sendFCMToken],
   )
   const logout = useCallback(async () => {
     try {
       await AsyncStorage.removeItem(storageAuthTokenKey)
-      await queryClient.invalidateQueries({
-        queryKey: useGetMeQuery.extractKey(),
-      })
-      refetch()
+      await queryClient.resetQueries()
     } catch (e) {
       console.error(e)
     }
-  }, [queryClient, refetch])
+  }, [queryClient])
 
   return (
     <AuthContext.Provider

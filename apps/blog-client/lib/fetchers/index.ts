@@ -1,6 +1,7 @@
 import { LogPlatform, queryLogs } from '@/features'
 import { PageObjectResponse, PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import { AppLocale } from 'i18n/types'
+import { ExtendedRecordMap } from 'notion-types'
 
 const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://blog.coldsurf.io'
 
@@ -31,16 +32,22 @@ export const fetchGetLogs = async ({
 }
 
 export const fetchGetLogDetail = async (slug: string, filters: { platform: string; locale: AppLocale }) => {
-  const { platform, locale } = filters
-  const response = await fetch(`${BASE_URL}/api/logs/${slug}?platform=${platform}&locale=${locale}`, {
-    method: 'GET',
-  })
-  const json = (await response.json()) as {
-    page: PageObjectResponse
-    blocks: never[]
-  }
+  try {
+    const { platform, locale } = filters
+    const response = await fetch(`${BASE_URL}/api/logs/${slug}?platform=${platform}&locale=${locale}`, {
+      method: 'GET',
+    })
+    const json = (await response.json()) as {
+      page: PageObjectResponse
+      blocks: never[]
+      recordMap: ExtendedRecordMap
+    }
 
-  return json
+    return json
+  } catch (e) {
+    console.error(e)
+    return undefined
+  }
 }
 
 export const fetchGetUsers = async () => {

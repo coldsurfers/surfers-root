@@ -4,7 +4,7 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import React, { useEffect, useRef } from 'react'
 import { Animated, StyleSheet, TouchableOpacity } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { StackScreens } from '../../lib/navigations'
+import { StackScreens } from '../../lib/navigations/constants'
 import palettes from '../../lib/palettes'
 
 interface Props extends BottomTabBarProps {

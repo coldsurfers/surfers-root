@@ -1,8 +1,18 @@
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import { subscribedArtistDTOSerializedSchema } from '../dtos/SubscribeArtistDTO.types'
 import {
+  subscribeConcertDTOSerializedSchema,
+  subscribedConcertDTOSerializedListSchema,
+} from '../dtos/SubscribeConcertDTO.types'
+import { subscribeVenueSerializedSchema } from '../dtos/SubscribeVenueDTO.types'
+import { errorResponseSchema } from '../lib/error'
+import {
+  getArtistSubscribeHandler,
   getConcertSubscribeHandler,
   getSubscribedConcertListHandler,
+  getSubscribePreHandler,
+  getVenueSubscribeHandler,
   subscribeArtistHandler,
   subscribeConcertHandler,
   subscribeVenueHandler,
@@ -10,19 +20,17 @@ import {
   unsubscribeConcertHandler,
   unsubscribeVenueHandler,
 } from './subscribe.handler'
-import { errorResponseSchema } from '../lib/types'
 import {
+  getSubscribeCommonParamsSchema,
   getSubscribedConcertListQueryStringSchema,
+  subscribeArtistBodySchema,
   subscribeConcertBodySchema,
   subscribeConcertParamsSchema,
+  subscribeVenueBodySchema,
   subscribeVenueParamsSchema,
+  unsubscribeArtistBodySchema,
+  unsubscribeVenueBodySchema,
 } from './subscribe.types'
-import {
-  subscribeConcertDTOSerializedSchema,
-  subscribedConcertDTOSerializedListSchema,
-} from '../dtos/SubscribeConcertDTO.types'
-import { subscribedArtistDTOSerializedSchema } from '../dtos/SubscribeArtistDTO.types'
-import { subscribeVenueSerializedSchema } from '../dtos/SubscribeVenueDTO.types'
 
 const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
@@ -46,7 +54,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'subscribe'],
-        params: subscribeConcertParamsSchema,
+        params: getSubscribeCommonParamsSchema,
         response: {
           200: subscribeConcertDTOSerializedSchema,
           401: errorResponseSchema,
@@ -54,6 +62,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
           500: errorResponseSchema,
         },
       },
+      preHandler: getSubscribePreHandler,
     },
     getConcertSubscribeHandler,
   )
@@ -96,11 +105,29 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
   )
 
   // artist subscribe
+  fastify.withTypeProvider<ZodTypeProvider>().get(
+    '/artist/:id',
+    {
+      schema: {
+        tags: ['v1', 'subscribe'],
+        params: getSubscribeCommonParamsSchema,
+        response: {
+          200: subscribedArtistDTOSerializedSchema,
+          401: errorResponseSchema,
+          404: errorResponseSchema,
+          500: errorResponseSchema,
+        },
+      },
+      preHandler: getSubscribePreHandler,
+    },
+    getArtistSubscribeHandler,
+  )
   fastify.withTypeProvider<ZodTypeProvider>().post(
     '/artist/:id',
     {
       schema: {
         tags: ['v1', 'subscribe'],
+        body: subscribeArtistBodySchema,
         response: {
           200: subscribedArtistDTOSerializedSchema,
           401: errorResponseSchema,
@@ -118,6 +145,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'subscribe'],
+        body: unsubscribeArtistBodySchema,
         response: {
           200: subscribedArtistDTOSerializedSchema,
           401: errorResponseSchema,
@@ -130,12 +158,30 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
   )
 
   //  venue subscribe
+  fastify.withTypeProvider<ZodTypeProvider>().get(
+    '/venue/:id',
+    {
+      schema: {
+        tags: ['v1', 'subscribe'],
+        params: getSubscribeCommonParamsSchema,
+        response: {
+          200: subscribeVenueSerializedSchema,
+          401: errorResponseSchema,
+          404: errorResponseSchema,
+          500: errorResponseSchema,
+        },
+      },
+      preHandler: getSubscribePreHandler,
+    },
+    getVenueSubscribeHandler,
+  )
   fastify.withTypeProvider<ZodTypeProvider>().post(
     '/venue/:id',
     {
       schema: {
         tags: ['v1', 'subscribe'],
         params: subscribeVenueParamsSchema,
+        body: subscribeVenueBodySchema,
         response: {
           200: subscribeVenueSerializedSchema,
           401: errorResponseSchema,
@@ -154,6 +200,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
       schema: {
         tags: ['v1', 'subscribe'],
         params: subscribeVenueParamsSchema,
+        body: unsubscribeVenueBodySchema,
         response: {
           200: subscribeVenueSerializedSchema,
           401: errorResponseSchema,

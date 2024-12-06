@@ -6,7 +6,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { KeyboardAvoidingView, SafeAreaView, StyleSheet, View } from 'react-native'
 import { useEmailLoginScreenNavigation } from './email-login-screen.hooks'
 
-export const EmailLoginScreen = () => {
+const _EmailLoginScreen = () => {
   const { show } = useContext(ToastVisibleContext)
   const { login } = useContext(AuthContext)
   const { navigate, goBack } = useEmailLoginScreenNavigation()
@@ -15,7 +15,9 @@ export const EmailLoginScreen = () => {
   const [password, setPassword] = useState<string>('')
 
   const onPressSignup = useCallback(() => {
-    navigate('EmailSignupScreen', {})
+    navigate('EmailSignupScreen', {
+      type: 'email-signup',
+    })
   }, [navigate])
 
   const onPressSignIn = useCallback(() => {
@@ -44,21 +46,21 @@ export const EmailLoginScreen = () => {
         password,
       },
       {
-        onSuccess: (signInData) => {
+        onSuccess: async (signInData) => {
           if (!signInData) return
           const { authToken, user } = signInData
           if (authToken) {
-            login({
+            await login({
               authToken,
               user,
-            }).then(() => {
-              navigate('MainTabScreen', {
-                screen: 'HomeStackScreen',
-                params: {
-                  screen: 'HomeScreen',
-                  params: {},
-                },
-              })
+            })
+
+            navigate('MainTabScreen', {
+              screen: 'HomeStackScreen',
+              params: {
+                screen: 'HomeScreen',
+                params: {},
+              },
             })
           }
         },
@@ -77,34 +79,35 @@ export const EmailLoginScreen = () => {
     }
   }, [error, show])
 
-  // useEffect(() => {
-  //   if (!isPendingSignIn && signInData) {
-  //   }
-  // }, [isPendingSignIn, login, signInData]);
+  return (
+    <SafeAreaView style={styles.wrapper}>
+      <IconButton icon="←" onPress={goBack} theme="transparentDarkGray" style={styles.backButton} />
+      <KeyboardAvoidingView style={styles.innerWrapper} behavior="padding">
+        <View style={styles.formWrapper}>
+          <TextInput placeholder="이메일" onChangeText={(text) => setEmail(text)} autoCapitalize="none" />
+          <TextInput
+            placeholder="비밀번호"
+            onChangeText={(text) => setPassword(text)}
+            secureTextEntry
+            style={styles.textInputSpace}
+          />
+          <Button onPress={onPressSignIn} style={styles.buttonSpace}>
+            로그인하기
+          </Button>
+          <Button theme="pink" onPress={onPressSignup} style={styles.buttonSpace}>
+            이메일로 가입하기
+          </Button>
+        </View>
+      </KeyboardAvoidingView>
+      {isPendingSignIn ? <Spinner /> : null}
+    </SafeAreaView>
+  )
+}
 
+export const EmailLoginScreen = () => {
   return (
     <ToastVisibleContextProvider>
-      <SafeAreaView style={styles.wrapper}>
-        <IconButton icon="←" onPress={goBack} theme="transparentDarkGray" style={styles.backButton} />
-        <KeyboardAvoidingView style={styles.innerWrapper} behavior="padding">
-          <View style={styles.formWrapper}>
-            <TextInput placeholder="이메일" onChangeText={(text) => setEmail(text)} autoCapitalize="none" />
-            <TextInput
-              placeholder="비밀번호"
-              onChangeText={(text) => setPassword(text)}
-              secureTextEntry
-              style={styles.textInputSpace}
-            />
-            <Button onPress={onPressSignIn} style={styles.buttonSpace}>
-              로그인하기
-            </Button>
-            <Button theme="pink" onPress={onPressSignup} style={styles.buttonSpace}>
-              이메일로 가입하기
-            </Button>
-          </View>
-        </KeyboardAvoidingView>
-        {isPendingSignIn ? <Spinner /> : null}
-      </SafeAreaView>
+      <_EmailLoginScreen />
     </ToastVisibleContextProvider>
   )
 }

@@ -26,7 +26,10 @@ jobs:
           echo "CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}" >> ./apps/blog-client/.env
           echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> ./apps/blog-client/.env
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> ./apps/blog-client/.env
-          touch "./apps/coldsurf-io/.env"
+          echo "NOTION_AUTH_TOKEN=${{ secrets.NOTION_AUTH_TOKEN }}" >> ./apps/blog-client/.env
+          echo "NOTION_ACTIVE_USER=${{ secrets.NOTION_ACTIVE_USER }}" >> ./apps/blog-client/.env
+          echo "NOTION_FILE_TOKEN=${{ secrets.NOTION_FILE_TOKEN }}" >> ./apps/blog-client/.env
+          touch "./apps/billets-web/.env"
           touch "./apps/wamuseum-client/.env"
           touch "./apps/billets-server/.env"
           touch "./apps/wamuseum-server/.env"

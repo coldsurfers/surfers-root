@@ -1,27 +1,32 @@
-'use client'
+import { ApolloHydrationBoundary, initializeApollo } from '@/libs'
+import { COOKIE_ACCESS_TOKEN_KEY } from '@/utils/constants'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
+import { PropsWithChildren } from 'react'
+import { MeDocument, MeQuery } from 'src/__generated__/graphql'
 
-import { Spinner } from '@coldsurfers/ocean-road'
-import { useRouter } from 'next/navigation'
-import { PropsWithChildren, useEffect } from 'react'
-import { useMeQuery } from 'src/__generated__/graphql'
+export default async function AuthLayout({ children }: PropsWithChildren) {
+  const cookieStore = await cookies()
+  const accessToken = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY)?.value
+  const apolloClient = initializeApollo({ token: accessToken })
 
-export default function AuthLayout({ children }: PropsWithChildren) {
-  const { data, loading } = useMeQuery()
-  const router = useRouter()
-
-  useEffect(() => {
-    if (!data || !data.me) return
-    switch (data.me.__typename) {
-      case 'User':
-        router.push('/')
-        break
-      default:
-        break
+  let redirectPath: string | null = null
+  try {
+    const response = await apolloClient.query<MeQuery>({
+      query: MeDocument,
+    })
+    if (response.data.me?.__typename === 'User') {
+      redirectPath = '/'
     }
-  }, [data, router])
-
-  if (loading) {
-    return <Spinner variant="page-overlay" />
+  } catch (e) {
+    console.error(e)
+  } finally {
+    if (redirectPath) {
+      redirect(redirectPath)
+    }
   }
-  return children
+
+  const initialState = JSON.parse(JSON.stringify(apolloClient.cache.extract()))
+
+  return <ApolloHydrationBoundary initialState={initialState}>{children}</ApolloHydrationBoundary>
 }

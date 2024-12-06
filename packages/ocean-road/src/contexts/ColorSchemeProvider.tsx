@@ -40,7 +40,7 @@ export const themeVariables = darkColorKeys.reduce(
   {} as Record<keyof DarkColorDesignTokens, string>,
 )
 
-const themeToStyles = (theme: Theme) => {
+export const themeToStyles = (theme: Theme) => {
   let styles = ''
   Object.keys(colors).forEach((key) => {
     styles += `  --${key}: ${colors[key as keyof typeof colors]};\n`
@@ -59,7 +59,15 @@ const themeToStyles = (theme: Theme) => {
   return styles
 }
 
-const ThemeContext: Context<Theme> = createContext<Theme>(lightModeTheme)
+type ThemeContextValue = {
+  theme: Theme
+  setTheme: (theme: ColorScheme) => void
+}
+
+const ThemeContext: Context<ThemeContextValue> = createContext<ThemeContextValue>({
+  theme: lightModeTheme,
+  setTheme: () => {},
+})
 
 const getTheme = (colorScheme?: ColorScheme) =>
   colorScheme === 'dark' ||
@@ -93,7 +101,14 @@ const ColorSchemeProvider = ({
   }, [colorScheme, handlePrefChange])
 
   return (
-    <ThemeContext.Provider value={theme}>
+    <ThemeContext.Provider
+      value={{
+        theme: theme,
+        setTheme: (theme: ColorScheme) => {
+          setTheme(getTheme(theme))
+        },
+      }}
+    >
       <style
         dangerouslySetInnerHTML={{
           __html:

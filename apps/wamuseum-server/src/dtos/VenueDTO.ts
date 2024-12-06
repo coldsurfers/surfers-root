@@ -12,8 +12,8 @@ export default class VenueDTO {
   }
 
   async create() {
-    const { lat, lng, name, geohash } = this.props
-    if (!lat || !lng || !name || !geohash) {
+    const { lat, lng, name, geohash, address } = this.props
+    if (!lat || !lng || !name || !geohash || !address) {
       throw Error('invalid props')
     }
     const data = await prisma.venue.create({
@@ -22,6 +22,7 @@ export default class VenueDTO {
         lng,
         name,
         geohash,
+        address,
       },
     })
     return new VenueDTO(data)
@@ -50,6 +51,7 @@ export default class VenueDTO {
       where: {
         name: {
           contains: keyword,
+          mode: 'insensitive',
         },
       },
     })
@@ -95,6 +97,7 @@ export default class VenueDTO {
       lat: this.props.lat ?? 0.0,
       lng: this.props.lng ?? 0.0,
       name: this.props.name ?? '',
+      address: this.props.address ?? '',
     }
   }
 }

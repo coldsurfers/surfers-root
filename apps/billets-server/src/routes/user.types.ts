@@ -4,13 +4,12 @@ import { userDTOSerializedSchema } from '../dtos/UserDTO.types'
 export const getMeResponseSchema = userDTOSerializedSchema
 export type GetMeResponse = z.infer<typeof getMeResponseSchema>
 
-export const postFCMTokenBodySchema = z.object({
-  fcmToken: z.string(),
+export const deactivateUserBodySchema = z.object({
+  type: z.literal('deactivate'),
 })
-export type PostFCMTokenBody = z.infer<typeof postFCMTokenBodySchema>
 
-export const postFCMTokenResponseSchema = z.object({
-  userId: z.string(),
-  fcmToken: z.string(),
+export const activateUserBodySchema = z.object({
+  type: z.literal('activate'),
+  authCode: z.string(),
+  email: z.string().email(),
 })
-export type PostFCMTokenResponse = z.infer<typeof postFCMTokenResponseSchema>

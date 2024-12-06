@@ -20,8 +20,7 @@ const getPosterThumbnailsPresigned: RouteHandler<{
       return rep.status(400).send()
     }
 
-    const { authorization } = req.headers
-    await authorizeUser({ token: authorization }, { requiredRole: 'staff' })
+    await authorizeUser({ token: req.cookies['accessToken'] }, { requiredRole: 'staff' })
 
     const { filename, filetype } = queryValidation.data
 
@@ -48,6 +47,7 @@ const getPosterThumbnailsPresigned: RouteHandler<{
 
     return rep.status(200).send(post)
   } catch (e) {
+    console.error(e)
     return rep.status(500).send()
   }
 }
@@ -68,8 +68,7 @@ const getArtistProfileImagesPresigned: RouteHandler<{
       return rep.status(400).send()
     }
 
-    const { authorization } = req.headers
-    await authorizeUser({ token: authorization }, { requiredRole: 'staff' })
+    await authorizeUser({ token: req.cookies.accessToken }, { requiredRole: 'staff' })
 
     const { filename, filetype } = queryValidation.data
 
@@ -96,6 +95,7 @@ const getArtistProfileImagesPresigned: RouteHandler<{
 
     return rep.status(200).send(post)
   } catch (e) {
+    console.error(e)
     return rep.status(500).send()
   }
 }
