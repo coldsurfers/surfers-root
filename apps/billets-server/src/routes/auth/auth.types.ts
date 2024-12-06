@@ -1,4 +1,4 @@
-import { authTokenDTOSerializedSchema } from '@/dtos/AuthTokenDTO.types'
+import { authTokenDTOSerializedSchema } from '@/dtos/auth-token-dto'
 import { userDTOSerializedSchema } from '@/dtos/UserDTO.types'
 import { z } from 'zod'
 

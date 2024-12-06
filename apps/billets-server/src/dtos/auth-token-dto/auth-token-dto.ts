@@ -1,7 +1,7 @@
-import { prisma } from '../prisma/connect'
-import { AuthTokenDTOProps, AuthTokenDTOSerialized } from './AuthTokenDTO.types'
+import { prisma } from '../../prisma/connect'
+import { AuthTokenDTOProps, AuthTokenDTOSerialized } from './auth-token-dto.types'
 
-export default class AuthTokenDTO {
+export class AuthTokenDTO {
   props: AuthTokenDTOProps
 
   constructor(props: AuthTokenDTOProps) {
