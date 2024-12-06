@@ -18,6 +18,8 @@ import {
   concertSearchParamsSchema,
   concertSearchResponseSchema,
 } from '@/routes/concert/concert.types'
+import searchRoute from '@/routes/search/search.route'
+import { searchListQuerystringSchema } from '@/routes/search/search.types'
 import cors from '@fastify/cors'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
@@ -49,8 +51,6 @@ import {
   getConcertListByArtistIdSuccessResponseSchema,
 } from './routes/artist/artist.types'
 import { fcmRoute, postFCMTokenBodySchema } from './routes/fcm'
-import searchRoute from './routes/search.route'
-import { searchListQuerystringSchema } from './routes/search.types'
 import subscribeRoute from './routes/subscribe.route'
 import {
   getSubscribeCommonParamsSchema,
