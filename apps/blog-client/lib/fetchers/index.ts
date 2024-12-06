@@ -32,17 +32,22 @@ export const fetchGetLogs = async ({
 }
 
 export const fetchGetLogDetail = async (slug: string, filters: { platform: string; locale: AppLocale }) => {
-  const { platform, locale } = filters
-  const response = await fetch(`${BASE_URL}/api/logs/${slug}?platform=${platform}&locale=${locale}`, {
-    method: 'GET',
-  })
-  const json = (await response.json()) as {
-    page: PageObjectResponse
-    blocks: never[]
-    recordMap: ExtendedRecordMap
-  }
+  try {
+    const { platform, locale } = filters
+    const response = await fetch(`${BASE_URL}/api/logs/${slug}?platform=${platform}&locale=${locale}`, {
+      method: 'GET',
+    })
+    const json = (await response.json()) as {
+      page: PageObjectResponse
+      blocks: never[]
+      recordMap: ExtendedRecordMap
+    }
 
-  return json
+    return json
+  } catch (e) {
+    console.error(e)
+    return undefined
+  }
 }
 
 export const fetchGetUsers = async () => {
