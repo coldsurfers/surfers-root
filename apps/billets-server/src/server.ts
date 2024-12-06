@@ -1,3 +1,38 @@
+import { artistDTOSerializedSchema } from '@/dtos/artist-dto/artist-dto.types'
+import { fcmTokenDTOSerializedSchema } from '@/dtos/fcm-token-dto'
+import { searchDTOSerializedSchema } from '@/dtos/search-dto/search-dto.types'
+import { subscribedArtistDTOSerializedSchema } from '@/dtos/subscribe-artist-dto/subscribe-artist-dto.types'
+import {
+  subscribeConcertDTOSerializedSchema,
+  subscribedConcertDTOSerializedListSchema,
+} from '@/dtos/subscribe-concert-dto/subscribe-concert-dto.types'
+import { subscribeVenueSerializedSchema } from '@/dtos/subscribe-venue-dto/subscribe-venue-dto.types'
+import { venueDTOSerializedSchema } from '@/dtos/venue-dto/venue-dto.types'
+import authRoute from '@/routes/auth/auth.route'
+import {
+  confirmAuthCodeBodySchema,
+  confirmAuthCodeResponseSchema,
+  sendAuthCodeBodySchema,
+  sendAuthCodeResponseSchema,
+  signInBodySchema,
+  signInResponseSchema,
+  signUpBodySchema,
+  signUpResponseSchema,
+} from '@/routes/auth/auth.types'
+import concertRoute from '@/routes/concert/concert.route'
+import {
+  concertDetailParamsSchema,
+  concertDetailResponseSchema,
+  concertListQueryStringSchema,
+  concertListResponseSchema,
+  concertSearchParamsSchema,
+  concertSearchResponseSchema,
+} from '@/routes/concert/concert.types'
+import searchRoute from '@/routes/search/search.route'
+import { searchListQuerystringSchema } from '@/routes/search/search.types'
+import subscribeRoute from '@/routes/subscribe/subscribe.route'
+import userRoute from '@/routes/user/user.route'
+import { activateUserBodySchema, deactivateUserBodySchema, getMeResponseSchema } from '@/routes/user/user.types'
 import cors from '@fastify/cors'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
@@ -9,16 +44,6 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
-import { fcmTokenDTOSerializedSchema } from './dtos'
-import { artistDTOSerializedSchema } from './dtos/ArtistDTO.types'
-import { searchDTOSerializedSchema } from './dtos/SearchDTO.types'
-import { subscribedArtistDTOSerializedSchema } from './dtos/SubscribeArtistDTO.types'
-import {
-  subscribeConcertDTOSerializedSchema,
-  subscribedConcertDTOSerializedListSchema,
-} from './dtos/SubscribeConcertDTO.types'
-import { subscribeVenueSerializedSchema } from './dtos/SubscribeVenueDTO.types'
-import { venueDTOSerializedSchema } from './dtos/VenueDTO.types'
 import { SWAGGER_HOST } from './lib/constants'
 import { errorResponseSchema } from './lib/error'
 import { artistRoute } from './routes/artist'
@@ -28,30 +53,7 @@ import {
   getConcertListByArtistIdQueryStringSchema,
   getConcertListByArtistIdSuccessResponseSchema,
 } from './routes/artist/artist.types'
-import authRoute from './routes/auth.route'
-import {
-  confirmAuthCodeBodySchema,
-  confirmAuthCodeResponseSchema,
-  sendAuthCodeBodySchema,
-  sendAuthCodeResponseSchema,
-  signInBodySchema,
-  signInResponseSchema,
-  signUpBodySchema,
-  signUpResponseSchema,
-} from './routes/auth.types'
-import concertRoute from './routes/concert.route'
-import {
-  concertDetailParamsSchema,
-  concertDetailResponseSchema,
-  concertListQueryStringSchema,
-  concertListResponseSchema,
-  concertSearchParamsSchema,
-  concertSearchResponseSchema,
-} from './routes/concert.types'
 import { fcmRoute, postFCMTokenBodySchema } from './routes/fcm'
-import searchRoute from './routes/search.route'
-import { searchListQuerystringSchema } from './routes/search.types'
-import subscribeRoute from './routes/subscribe.route'
 import {
   getSubscribeCommonParamsSchema,
   getSubscribedConcertListQueryStringSchema,
@@ -63,9 +65,7 @@ import {
   subscribeVenueParamsSchema,
   unsubscribeArtistBodySchema,
   unsubscribeVenueBodySchema,
-} from './routes/subscribe.types'
-import userRoute from './routes/user.route'
-import { activateUserBodySchema, deactivateUserBodySchema, getMeResponseSchema } from './routes/user.types'
+} from './routes/subscribe/subscribe.types'
 import {
   getConcertListByVenueIdParamsSchema,
   getConcertListByVenueIdQueryStringSchema,
