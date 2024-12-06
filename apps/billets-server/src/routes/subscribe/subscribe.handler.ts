@@ -1,7 +1,10 @@
 import { ArtistDTO } from '@/dtos/artist-dto'
 import { ConcertDTO } from '@/dtos/concert-dto'
-import SubscribeArtistDTO from '@/dtos/SubscribeArtistDTO'
-import { subscribedArtistDTOSerializedSchema, SubscribedArtistSerialized } from '@/dtos/SubscribeArtistDTO.types'
+import { SubscribeArtistDTO } from '@/dtos/subscribe-artist-dto'
+import {
+  subscribedArtistDTOSerializedSchema,
+  SubscribedArtistSerialized,
+} from '@/dtos/subscribe-artist-dto/subscribe-artist-dto.types'
 import SubscribeConcertDTO from '@/dtos/SubscribeConcertDTO'
 import {
   subscribeConcertDTOSerializedSchema,

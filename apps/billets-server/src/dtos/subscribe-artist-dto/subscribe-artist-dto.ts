@@ -1,7 +1,7 @@
-import { prisma } from '../prisma/connect'
-import { SubscribeArtistDTOProps, SubscribedArtistSerialized } from './SubscribeArtistDTO.types'
+import { prisma } from '@/prisma/connect'
+import { SubscribeArtistDTOProps, SubscribedArtistSerialized } from './subscribe-artist-dto.types'
 
-export default class SubscribeArtistDTO {
+export class SubscribeArtistDTO {
   constructor(private readonly props: SubscribeArtistDTOProps) {
     this.props = props
   }
