@@ -1,4 +1,4 @@
-import ConcertDTO from '@/dtos/ConcertDTO'
+import { ConcertDTO } from '@/dtos/concert-dto'
 import geohashUtils from '@/lib/geohashUtils'
 import { LatLng } from '@/lib/types'
 

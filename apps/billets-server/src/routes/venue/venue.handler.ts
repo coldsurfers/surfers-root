@@ -1,4 +1,4 @@
-import ConcertDTO from '@/dtos/ConcertDTO'
+import { ConcertDTO } from '@/dtos/concert-dto'
 import VenueDTO from '@/dtos/VenueDTO'
 import { venueDTOSerializedSchema } from '@/dtos/VenueDTO.types'
 import { RouteHandler } from 'fastify'
