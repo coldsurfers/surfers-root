@@ -1,4 +1,4 @@
-import { artistDTOSerializedSchema } from '@/dtos/ArtistDTO.types'
+import { artistDTOSerializedSchema } from '@/dtos/artist-dto/artist-dto.types'
 import { errorResponseSchema } from '@/lib/error'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
