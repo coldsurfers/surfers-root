@@ -1,5 +1,5 @@
 import { ArtistDTO, ArtistDTOSerialized } from '@/dtos/artist-dto'
-import ConcertDTO from '@/dtos/ConcertDTO'
+import { ConcertDTO } from '@/dtos/concert-dto'
 import { errorResponseSchema } from '@/lib/error'
 import { RouteHandler } from 'fastify'
 import { z } from 'zod'

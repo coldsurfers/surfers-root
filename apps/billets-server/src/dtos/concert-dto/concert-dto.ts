@@ -1,7 +1,7 @@
-import { prisma } from '../prisma/connect'
-import { ConcertDTOProps, ConcertDTOSerialized } from './ConcertDTO.types'
+import { prisma } from '../../prisma/connect'
+import { ConcertDTOProps, ConcertDTOSerialized } from './concert-dto.types'
 
-export default class ConcertDTO {
+export class ConcertDTO {
   props: ConcertDTOProps
 
   constructor(props: ConcertDTOProps) {

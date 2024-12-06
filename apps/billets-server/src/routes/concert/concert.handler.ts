@@ -1,4 +1,4 @@
-import ConcertDTO from '@/dtos/ConcertDTO'
+import { ConcertDTO } from '@/dtos/concert-dto'
 import { LatLng } from '@/lib/types'
 import { RouteHandler } from 'fastify'
 import { concertList, concertSearchList } from './concert.service'
