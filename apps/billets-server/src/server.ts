@@ -1,4 +1,4 @@
-import authRoute from '@/routes/auth.route'
+import authRoute from '@/routes/auth/auth.route'
 import {
   confirmAuthCodeBodySchema,
   confirmAuthCodeResponseSchema,
@@ -8,7 +8,16 @@ import {
   signInResponseSchema,
   signUpBodySchema,
   signUpResponseSchema,
-} from '@/routes/auth.types'
+} from '@/routes/auth/auth.types'
+import concertRoute from '@/routes/concert/concert.route'
+import {
+  concertDetailParamsSchema,
+  concertDetailResponseSchema,
+  concertListQueryStringSchema,
+  concertListResponseSchema,
+  concertSearchParamsSchema,
+  concertSearchResponseSchema,
+} from '@/routes/concert/concert.types'
 import cors from '@fastify/cors'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
@@ -39,15 +48,6 @@ import {
   getConcertListByArtistIdQueryStringSchema,
   getConcertListByArtistIdSuccessResponseSchema,
 } from './routes/artist/artist.types'
-import concertRoute from './routes/concert.route'
-import {
-  concertDetailParamsSchema,
-  concertDetailResponseSchema,
-  concertListQueryStringSchema,
-  concertListResponseSchema,
-  concertSearchParamsSchema,
-  concertSearchResponseSchema,
-} from './routes/concert.types'
 import { fcmRoute, postFCMTokenBodySchema } from './routes/fcm'
 import searchRoute from './routes/search.route'
 import { searchListQuerystringSchema } from './routes/search.types'
