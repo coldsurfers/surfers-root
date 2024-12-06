@@ -1,7 +1,7 @@
+import SearchDTO from '@/dtos/SearchDTO'
+import { SearchDTOSerialized } from '@/dtos/SearchDTO.types'
+import { ErrorResponse } from '@/lib/error'
 import { RouteHandler } from 'fastify'
-import SearchDTO from '../dtos/SearchDTO'
-import { SearchDTOSerialized } from '../dtos/SearchDTO.types'
-import { ErrorResponse } from '../lib/error'
 import { SearchListQuerystring } from './search.types'
 
 export const searchListHandler: RouteHandler<{
