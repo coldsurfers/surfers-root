@@ -1,21 +1,21 @@
-import { FastifyReply, FastifyRequest, RouteHandler } from 'fastify'
-import { z } from 'zod'
-import ArtistDTO from '../dtos/ArtistDTO'
-import ConcertDTO from '../dtos/ConcertDTO'
-import SubscribeArtistDTO from '../dtos/SubscribeArtistDTO'
-import { subscribedArtistDTOSerializedSchema, SubscribedArtistSerialized } from '../dtos/SubscribeArtistDTO.types'
-import SubscribeConcertDTO from '../dtos/SubscribeConcertDTO'
+import ArtistDTO from '@/dtos/ArtistDTO'
+import ConcertDTO from '@/dtos/ConcertDTO'
+import SubscribeArtistDTO from '@/dtos/SubscribeArtistDTO'
+import { subscribedArtistDTOSerializedSchema, SubscribedArtistSerialized } from '@/dtos/SubscribeArtistDTO.types'
+import SubscribeConcertDTO from '@/dtos/SubscribeConcertDTO'
 import {
   subscribeConcertDTOSerializedSchema,
   SubscribedConcertSerialized,
   SubscribedConcertSerializedList,
-} from '../dtos/SubscribeConcertDTO.types'
-import SubscribeVenueDTO from '../dtos/SubscribeVenueDTO'
-import { SubscribeVenueSerialized, subscribeVenueSerializedSchema } from '../dtos/SubscribeVenueDTO.types'
-import UserDTO from '../dtos/UserDTO'
-import VenueDTO from '../dtos/VenueDTO'
-import { ErrorResponse, errorResponseSchema } from '../lib/error'
-import { decodeToken } from '../lib/jwt'
+} from '@/dtos/SubscribeConcertDTO.types'
+import SubscribeVenueDTO from '@/dtos/SubscribeVenueDTO'
+import { SubscribeVenueSerialized, subscribeVenueSerializedSchema } from '@/dtos/SubscribeVenueDTO.types'
+import UserDTO from '@/dtos/UserDTO'
+import VenueDTO from '@/dtos/VenueDTO'
+import { ErrorResponse, errorResponseSchema } from '@/lib/error'
+import { decodeToken } from '@/lib/jwt'
+import { FastifyReply, FastifyRequest, RouteHandler } from 'fastify'
+import { z } from 'zod'
 import {
   getSubscribeCommonParamsSchema,
   GetSubscribedConcertListQueryString,
