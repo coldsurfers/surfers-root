@@ -5,14 +5,17 @@ import {
   subscribedArtistDTOSerializedSchema,
   SubscribedArtistSerialized,
 } from '@/dtos/subscribe-artist-dto/subscribe-artist-dto.types'
-import SubscribeConcertDTO from '@/dtos/SubscribeConcertDTO'
+import { SubscribeConcertDTO } from '@/dtos/subscribe-concert-dto'
 import {
   subscribeConcertDTOSerializedSchema,
   SubscribedConcertSerialized,
   SubscribedConcertSerializedList,
-} from '@/dtos/SubscribeConcertDTO.types'
-import SubscribeVenueDTO from '@/dtos/SubscribeVenueDTO'
-import { SubscribeVenueSerialized, subscribeVenueSerializedSchema } from '@/dtos/SubscribeVenueDTO.types'
+} from '@/dtos/subscribe-concert-dto/subscribe-concert-dto.types'
+import { SubscribeVenueDTO } from '@/dtos/subscribe-venue-dto'
+import {
+  SubscribeVenueSerialized,
+  subscribeVenueSerializedSchema,
+} from '@/dtos/subscribe-venue-dto/subscribe-venue-dto.types'
 import { UserDTO } from '@/dtos/user-dto'
 import { VenueDTO } from '@/dtos/venue-dto'
 import { ErrorResponse, errorResponseSchema } from '@/lib/error'

@@ -1,7 +1,7 @@
-import { prisma } from '../prisma/connect'
-import { SubscribeConcertDTOProps, SubscribedConcertSerialized } from './SubscribeConcertDTO.types'
+import { prisma } from '../../prisma/connect'
+import { SubscribeConcertDTOProps, SubscribedConcertSerialized } from './subscribe-concert-dto.types'
 
-export default class SubscribeConcertDTO {
+export class SubscribeConcertDTO {
   props: SubscribeConcertDTOProps
 
   constructor(props: SubscribeConcertDTOProps) {
