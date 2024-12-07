@@ -1,4 +1,5 @@
 import { ConcertSubscribeButton } from '@/features/subscribe'
+import { colors } from '@coldsurfers/ocean-road'
 import { useCallback } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
@@ -120,9 +121,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 12,
   },
-  concertTitle: { fontWeight: 'bold', fontSize: 18 },
-  concertFormattedDate: { marginTop: 8 },
-  concertVenue: { marginTop: 8 },
+  concertTitle: { fontWeight: 'bold', fontSize: 18, lineHeight: 20, color: colors.oc.black.value },
+  concertFormattedDate: { marginTop: 8, fontSize: 14, lineHeight: 16, color: colors.oc.black.value },
+  concertVenue: { marginTop: 8, color: colors.oc.black.value, fontSize: 14, lineHeight: 16 },
   concertListContentContainer: {
     paddingHorizontal: 12,
     marginTop: 12,
