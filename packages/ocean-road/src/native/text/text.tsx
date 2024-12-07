@@ -1,4 +1,5 @@
 import { Platform, Text as RNText, StyleSheet } from 'react-native'
+import { colors } from '../../tokens'
 import { TextProps } from './text.types'
 
 export const Text = ({ children, weight = 'regular', style, ...others }: TextProps) => {
@@ -10,7 +11,7 @@ export const Text = ({ children, weight = 'regular', style, ...others }: TextPro
     bold: styles.bold,
   }
   return (
-    <RNText {...others} style={[fontFamilySet[weight], style]}>
+    <RNText {...others} style={[fontFamilySet[weight], { color: colors.oc.black.value }, style]}>
       {children}
     </RNText>
   )
