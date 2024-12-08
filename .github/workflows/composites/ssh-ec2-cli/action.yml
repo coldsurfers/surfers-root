@@ -57,7 +57,12 @@ runs:
       run: |
         # Install AWS CLI on the runner
         sudo apt-get update
-        sudo apt-get install -y awscli --fix-missing
+        sudo apt-get install -y python3-pip
+        pip3 install awscli --upgrade --user
+        echo 'export PATH=$PATH:~/.local/bin' >> ~/.bashrc
+        source ~/.bashrc
+
+        aws --version
 
         # Use the PEM file to SSH into the EC2 instance
         ssh -o StrictHostKeyChecking=no -i ec2-key.pem $EC2_USER@$EC2_HOST << 'EOF'
