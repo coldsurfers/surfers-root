@@ -2,19 +2,18 @@ import useConcertListQuery from '@/lib/react-query/queries/useConcertListQuery'
 import { useUserCurrentLocationStore } from '@/lib/stores/userCurrentLocationStore'
 import { CommonListEmpty } from '@/ui'
 import { format } from 'date-fns'
-import { useCallback, useMemo, useState } from 'react'
+import { forwardRef, useCallback, useMemo, useState } from 'react'
 import { ActivityIndicator, FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
 import { useShallow } from 'zustand/shallow'
 import { ConcertListItem } from '../concert-list-item'
 import { ConcertListItemT } from './concert-list.types'
 
-export const ConcertList = ({
-  onPressItem,
-  onPressSubscribe,
-}: {
+type ConcertListProps = {
   onPressItem?: (item: ConcertListItemT) => void
   onPressSubscribe?: (item: ConcertListItemT, options: { isSubscribed: boolean }) => void
-}) => {
+}
+
+export const ConcertList = forwardRef<FlatList, ConcertListProps>(({ onPressItem, onPressSubscribe }, ref) => {
   const [isRefreshing, setIsRefreshing] = useState(false)
   const { latitude, longitude } = useUserCurrentLocationStore(
     useShallow((state) => ({
@@ -80,6 +79,8 @@ export const ConcertList = ({
 
   return (
     <FlatList
+      scrollsToTop
+      ref={ref}
       data={concertList}
       keyExtractor={(item) => item.id}
       renderItem={renderItem}
@@ -99,7 +100,7 @@ export const ConcertList = ({
       onRefresh={onRefresh}
     />
   )
-}
+})
 
 const styles = StyleSheet.create({
   concertListContentContainer: {
