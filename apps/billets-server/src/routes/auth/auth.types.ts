@@ -7,7 +7,7 @@ export const signInBodySchema = z.object({
   email: z.string(),
   password: z.string().optional(),
   token: z.string().optional(),
-  platform: z.union([z.literal('android'), z.literal('ios')]),
+  platform: z.union([z.literal('android'), z.literal('ios')]).optional(),
 })
 
 export type SignInBody = z.infer<typeof signInBodySchema>
@@ -48,7 +48,7 @@ export const signUpBodySchema = z.object({
   email: z.string(),
   password: z.string().optional(),
   token: z.string().optional(),
-  platform: z.union([z.literal('android'), z.literal('ios')]),
+  platform: z.union([z.literal('android'), z.literal('ios')]).optional(),
 })
 
 export type SignUpBody = z.infer<typeof signUpBodySchema>
