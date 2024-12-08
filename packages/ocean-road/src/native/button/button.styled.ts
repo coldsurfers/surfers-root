@@ -44,7 +44,7 @@ export const StyledButton = styled.TouchableOpacity<{
   opacity: ${(props) => (props.colorTheme === 'transparentDarkGray' ? 0.5 : 1.0)};
 `
 
-export const StyledButtonText = styled.Text<{ colorTheme: ButtonTheme; size: 'md' | 'sm' }>`
+export const StyledButtonText = styled.Text<{ colorTheme: ButtonTheme; size: 'md' | 'sm' | 'lg' }>`
   font-weight: 700;
   color: ${({ colorTheme }) => getButtonForegroundColor(colorTheme)};
   font-family: inherit;

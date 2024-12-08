@@ -4,7 +4,6 @@ import { Text } from '@coldsurfers/ocean-road/native'
 import { useCallback } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import commonStyles from '../../../../lib/common-styles'
 import palettes from '../../../../lib/palettes'
 import useSubscribedConcertQuery from '../../../../lib/react-query/queries/useSubscribedConcertQuery'
 
@@ -44,10 +43,7 @@ export const ConcertListItem = ({
     <Pressable
       onPress={handlePress}
       style={[
-        {
-          ...styles.concertListItem,
-          ...commonStyles.shadowBox,
-        },
+        styles.concertListItem,
         {
           width: size === 'small' ? 140 : '100%',
         },
@@ -61,48 +57,51 @@ export const ConcertListItem = ({
             height: size === 'small' ? 120 : 250,
           },
         ]}
-      />
-      <Text
-        numberOfLines={size === 'small' ? 2 : 0}
-        style={[
-          styles.concertTitle,
-          {
-            fontSize: size === 'small' ? 14 : 18,
-          },
-        ]}
       >
-        {title}
-      </Text>
-      <View style={styles.concertInfoWrapper}>
-        <View>
+        {onPressSubscribe && (
+          <View style={styles.subscribeBtnWrapper}>
+            <ConcertSubscribeButton onPress={handlePressSubscribe} isSubscribed={!!subscribedConcertData} />
+          </View>
+        )}
+      </FastImage>
+      <View style={styles.bottom}>
+        <View style={styles.concertInfoWrapper}>
           <Text
+            numberOfLines={size === 'small' ? 2 : 0}
             style={[
-              styles.concertFormattedDate,
+              styles.concertTitle,
               {
-                fontSize: size === 'small' ? 12 : 14,
+                fontSize: size === 'small' ? 14 : 18,
               },
             ]}
           >
-            {date}
+            {title}
           </Text>
-          {venue ? (
+          <View>
             <Text
               style={[
-                styles.concertVenue,
+                styles.concertFormattedDate,
                 {
                   fontSize: size === 'small' ? 12 : 14,
                 },
               ]}
             >
-              {venue}
+              {date}
             </Text>
-          ) : null}
-        </View>
-        {onPressSubscribe && (
-          <View style={{ marginLeft: 'auto' }}>
-            <ConcertSubscribeButton onPress={handlePressSubscribe} isSubscribed={!!subscribedConcertData} />
+            {venue ? (
+              <Text
+                style={[
+                  styles.concertVenue,
+                  {
+                    fontSize: size === 'small' ? 12 : 14,
+                  },
+                ]}
+              >
+                {venue}
+              </Text>
+            ) : null}
           </View>
-        )}
+        </View>
       </View>
     </Pressable>
   )
@@ -113,14 +112,18 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: palettes.white,
     marginBottom: 12,
-    padding: 12,
     borderRadius: 8,
+    borderWidth: 1.5,
+    borderColor: colors.oc.black.value,
   },
   concertThumbnail: {
     width: '100%',
     height: 250,
-    borderRadius: 8,
-    marginBottom: 12,
+    backgroundColor: 'black',
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    borderBottomColor: colors.oc.black.value,
+    borderBottomWidth: 1.5,
   },
   concertTitle: { fontWeight: 'bold', fontSize: 18, lineHeight: 20, color: colors.oc.black.value },
   concertFormattedDate: { marginTop: 8, fontSize: 14, lineHeight: 16, color: colors.oc.black.value },
@@ -131,10 +134,7 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
     flexGrow: 1,
   },
-  concertInfoWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
+  concertInfoWrapper: {},
   concertSaveButton: {
     marginLeft: 'auto',
     borderWidth: 1,
@@ -146,4 +146,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   concertSaveButtonIcon: { fontSize: 24 },
+  bottom: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+  },
+  subscribeBtnWrapper: { position: 'absolute', right: 12, bottom: 12 },
 })
