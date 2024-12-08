@@ -186,6 +186,7 @@ export const SearchScreen = () => {
             keyExtractor={(item) => `${item.type}-${item.id}`}
             style={styles.list}
             contentContainerStyle={styles.contentContainer}
+            showsVerticalScrollIndicator={false}
             ListEmptyComponent={
               isLoadingSearch ? (
                 <View style={styles.emptyWrapper}>
@@ -205,6 +206,7 @@ export const SearchScreen = () => {
             contentContainerStyle={styles.contentContainer}
             keyExtractor={(item) => item.id}
             renderItem={renderConcertListItem}
+            showsVerticalScrollIndicator={false}
           />
         </KeyboardAvoidingView>
       )}

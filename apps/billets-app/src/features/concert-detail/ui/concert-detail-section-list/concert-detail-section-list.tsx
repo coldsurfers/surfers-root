@@ -194,7 +194,6 @@ export const ConcertDetailSectionList = ({
 const styles = StyleSheet.create({
   headerWrapper: {
     backgroundColor: colors.oc.gray[1].value,
-    marginBottom: 4,
   },
   commonContentWrapper: {
     backgroundColor: colors.oc.gray[1].value,
