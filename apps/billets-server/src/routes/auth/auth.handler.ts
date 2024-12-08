@@ -93,7 +93,7 @@ export const signinHandler: RouteHandler<{
     500: ErrorResponse
   }
 }> = async (req, rep) => {
-  const { email, password, provider, token, platform } = req.body
+  const { email, password, provider, token, platform = 'ios' } = req.body
 
   try {
     return await match(provider)
@@ -196,7 +196,7 @@ export const signupHandler: RouteHandler<{
   }
 }> = async (req, rep) => {
   try {
-    const { provider, email, password, token, platform } = req.body
+    const { provider, email, password, token, platform = 'ios' } = req.body
     return await match(provider)
       .with('email', async () => {
         if (!password) {
