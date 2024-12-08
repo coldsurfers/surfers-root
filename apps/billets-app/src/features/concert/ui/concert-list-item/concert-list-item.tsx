@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   concertThumbnail: {
     width: '100%',
     height: 250,
-    backgroundColor: 'black',
+    backgroundColor: colors.oc.white.value,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     borderBottomColor: colors.oc.black.value,

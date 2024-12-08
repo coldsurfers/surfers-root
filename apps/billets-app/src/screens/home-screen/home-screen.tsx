@@ -1,7 +1,8 @@
 import { CurrentLocationTracker, LocationSelector, LocationSelectorModal, useToggleSubscribeConcert } from '@/features'
 import { AnimatePresence } from '@/ui'
-import { useCallback, useState } from 'react'
-import { StyleSheet } from 'react-native'
+import { useScrollToTop } from '@react-navigation/native'
+import { useCallback, useRef, useState } from 'react'
+import { FlatList, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useShallow } from 'zustand/shallow'
 import { ConcertList } from '../../features/concert'
@@ -12,6 +13,7 @@ import { useHomeScreenNavigation } from './home-screen.hooks'
 
 export const HomeScreen = () => {
   const navigation = useHomeScreenNavigation()
+  const listRef = useRef<FlatList>(null)
   const [locationModalVisible, setLocationModalVisible] = useState(false)
   const { latitude, longitude } = useUserCurrentLocationStore(
     useShallow((state) => ({
@@ -52,11 +54,14 @@ export const HomeScreen = () => {
     [meData, navigation, toggleSubscribeConcert],
   )
 
+  useScrollToTop(listRef)
+
   return (
     <SafeAreaView edges={['top']} style={styles.wrapper}>
       {latitude === null && longitude === null && <CurrentLocationTracker />}
       <LocationSelector onPress={() => setLocationModalVisible(true)} />
       <ConcertList
+        ref={listRef}
         onPressItem={(item) => onPressConcertListItem(item.id)}
         onPressSubscribe={(item, { isSubscribed }) =>
           onPressSubscribeConcertListItem({
