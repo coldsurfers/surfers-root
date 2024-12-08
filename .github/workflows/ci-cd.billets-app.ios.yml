@@ -29,8 +29,8 @@ jobs:
       - name: Create .env file from template
         run: |
           echo "PLATFORM=production" >> ./apps/billets-app/.env
-          echo "GOOGLE_SIGNIN_WEB_CLIENT_ID=${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}" >> ./apps/billets-app/.env.production
-          echo "GOOGLE_SIGNIN_WEB_IOS_CLIENT_ID=${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}" >> ./apps/billets-app/.env.production
+          echo "GOOGLE_SIGNIN_WEB_CLIENT_ID=${{ secrets.GOOGLE_OAUTH_WEB_CLIENT_ID }}" >> ./apps/billets-app/.env.production
+          echo "GOOGLE_SIGNIN_WEB_IOS_CLIENT_ID=${{ secrets.GOOGLE_OAUTH_WEB_IOS_CLIENT_ID }}" >> ./apps/billets-app/.env.production
 
       - name: Create fastlane .env file from template
         run: |
