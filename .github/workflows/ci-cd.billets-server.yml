@@ -22,7 +22,8 @@ jobs:
         run: |
           echo "BILLETS_APP_APPLE_BUNDLE_ID=${{ secrets.BILLETS_APP_APPLE_BUNDLE_ID }}" >> ./apps/billets-server/.env
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> ./apps/billets-server/.env
-          echo "GOOGLE_OAUTH_CLIENT_ID=${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}" >> ./apps/billets-server/.env
+          echo "GOOGLE_OAUTH_WEB_CLIENT_ID=${{ secrets.GOOGLE_OAUTH_WEB_CLIENT_ID }}" >> ./apps/billets-server/.env
+          echo "GOOGLE_OAUTH_WEB_IOS_CLIENT_ID=${{ secrets.GOOGLE_OAUTH_WEB_IOS_CLIENT_ID }}" >> ./apps/billets-server/.env
           echo "BILLETS_SERVER_JWT_SECRET=${{ secrets.BILLETS_SERVER_JWT_SECRET }}" >> ./apps/billets-server/.env
           echo "BILLETS_SERVER_MAILER_EMAIL_ADDRESS=${{ secrets.BILLETS_SERVER_MAILER_EMAIL_ADDRESS }}" >> ./apps/billets-server/.env
           echo "BILLETS_SERVER_MAILER_EMAIL_APP_PASSWORD=${{ secrets.BILLETS_SERVER_MAILER_EMAIL_APP_PASSWORD }}" >> ./apps/billets-server/.env
