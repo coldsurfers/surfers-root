@@ -68,6 +68,11 @@ export const _LoginSelectionScreen = () => {
           provider: 'google',
           email,
           token: user.idToken,
+          platform: Platform.select({
+            ios: 'ios',
+            android: 'android',
+            default: 'android',
+          }),
         },
         {
           onError: (error) => {
@@ -133,6 +138,11 @@ export const _LoginSelectionScreen = () => {
             provider: 'apple',
             email: email,
             token: identityToken,
+            platform: Platform.select({
+              ios: 'ios',
+              android: 'android',
+              default: 'android',
+            }),
           },
           {
             onError: (error) => {
