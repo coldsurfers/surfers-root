@@ -1,5 +1,5 @@
 import { SearchItem, SearchItemThumbnail } from '@/features/search/ui'
-import { CommonListEmpty } from '@/ui'
+import { CommonListEmpty, CommonScreenLayout } from '@/ui'
 import { ProfileThumbnail, Text, TextInput } from '@coldsurfers/ocean-road/native'
 import { useDebounce } from '@uidotdev/usehooks'
 import format from 'date-fns/format'
@@ -13,7 +13,6 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { match } from 'ts-pattern'
 import { useShallow } from 'zustand/shallow'
 import useConcertListQuery from '../../lib/react-query/queries/useConcertListQuery'
@@ -170,14 +169,16 @@ export const SearchScreen = () => {
   )
 
   return (
-    <SafeAreaView edges={['top']} style={styles.wrapper}>
-      <TextInput
-        value={searchKeyword}
-        onChangeText={setSearchKeyword}
-        autoCapitalize="none"
-        placeholder={'검색할 단어 🔎'}
-        clearButtonMode="while-editing"
-      />
+    <CommonScreenLayout style={styles.wrapper}>
+      <View style={styles.topInputWrapper}>
+        <TextInput
+          value={searchKeyword}
+          onChangeText={setSearchKeyword}
+          autoCapitalize="none"
+          placeholder={'검색할 단어 🔎'}
+          clearButtonMode="while-editing"
+        />
+      </View>
       {searchKeyword ? (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
           <FlatList
@@ -210,7 +211,7 @@ export const SearchScreen = () => {
           />
         </KeyboardAvoidingView>
       )}
-    </SafeAreaView>
+    </CommonScreenLayout>
   )
 }
 
@@ -240,5 +241,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginTop: 12,
+  },
+  topInputWrapper: {
+    paddingTop: 8,
+    paddingBottom: 8,
   },
 })
