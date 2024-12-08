@@ -47,6 +47,7 @@
     "react-notion-x": "*",
     "react-spinners": "*",
     "react-tweet": "^3.2.0",
+    "react-tweet-embed": "^2.0.0",
     "sha1": "^1.1.1",
     "ts-pattern": "*",
     "zod": "^3.23.8",
