@@ -7,6 +7,7 @@ import { ExtendedRecordMap } from 'notion-types'
 import 'prismjs/themes/prism-tomorrow.css' // For syntax highlighting
 import { NotionRenderer as NR } from 'react-notion-x'
 import 'react-notion-x/src/styles.css'
+import { Tweet as TweetEmbed } from 'react-tweet'
 
 const Code = dynamic(() =>
   import('react-notion-x/build/third-party/code').then(async (m) => {
@@ -16,7 +17,7 @@ const Code = dynamic(() =>
       import('prismjs/components/prism-markup.js'),
       import('prismjs/components/prism-bash.js'),
       import('prismjs/components/prism-c.js'),
-      import('prismjs/components/prism-cpp.js'),
+      // import('prismjs/components/prism-cpp.js'),
       import('prismjs/components/prism-csharp.js'),
       import('prismjs/components/prism-docker.js'),
       import('prismjs/components/prism-java.js'),
@@ -50,6 +51,10 @@ const Code = dynamic(() =>
 // comment
 // const Collection = dynamic(() => import('react-notion-x/build/third-party/collection').then((m) => m.Collection))
 
+function Tweet({ id }: { id: string }) {
+  return <TweetEmbed id={id} />
+}
+
 export const NotionRenderer = ({ recordMap }: { recordMap: ExtendedRecordMap }) => {
   return (
     <NR
@@ -58,7 +63,7 @@ export const NotionRenderer = ({ recordMap }: { recordMap: ExtendedRecordMap }) 
         Code,
         Collection: () => null,
         nextLink: Link,
-        Embed: () => null,
+        Tweet,
       }}
       mapImageUrl={(url, block) => {
         return `/api/notion-image-proxy?url=${url}&id=${block.id}`
