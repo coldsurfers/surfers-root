@@ -151,8 +151,8 @@ export const signinHandler: RouteHandler<{
         }
         if (value === 'google') {
           const audience = match(platform)
-            .with('ios', () => process.env.GOOGLE_OAUTH_WEB_CLIENT_ID)
-            .with('android', () => process.env.GOOGLE_OAUTH_WEB_IOS_CLIENT_ID)
+            .with('ios', () => process.env.GOOGLE_OAUTH_WEB_IOS_CLIENT_ID)
+            .with('android', () => process.env.GOOGLE_OAUTH_WEB_CLIENT_ID)
             .exhaustive()
           await googleOAuth2Client.verifyIdToken({
             idToken: token,
@@ -252,8 +252,8 @@ export const signupHandler: RouteHandler<{
         }
         if (value === 'google') {
           const audience = match(platform)
-            .with('ios', () => process.env.GOOGLE_OAUTH_WEB_CLIENT_ID)
-            .with('android', () => process.env.GOOGLE_OAUTH_WEB_IOS_CLIENT_ID)
+            .with('ios', () => process.env.GOOGLE_OAUTH_WEB_IOS_CLIENT_ID)
+            .with('android', () => process.env.GOOGLE_OAUTH_CLIENT_ID)
             .exhaustive()
           await googleOAuth2Client.verifyIdToken({
             idToken: token,
