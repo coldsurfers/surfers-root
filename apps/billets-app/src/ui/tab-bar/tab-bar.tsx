@@ -125,9 +125,8 @@ const styles = StyleSheet.create({
   emoji: {
     marginBottom: 4,
     fontSize: 20,
-    lineHeight: 25,
   },
-  tabBarTitle: { color: colors.oc.white.value, fontWeight: '500', fontSize: 14, lineHeight: 20 },
+  tabBarTitle: { color: colors.oc.white.value, fontWeight: '500', fontSize: 14 },
   tabBarTitleFocused: {
     fontWeight: '800',
   },

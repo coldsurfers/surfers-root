@@ -125,9 +125,9 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.oc.black.value,
     borderBottomWidth: 1.5,
   },
-  concertTitle: { fontWeight: 'bold', fontSize: 18, lineHeight: 20, color: colors.oc.black.value },
-  concertFormattedDate: { marginTop: 8, fontSize: 14, lineHeight: 16, color: colors.oc.black.value },
-  concertVenue: { marginTop: 8, color: colors.oc.black.value, fontSize: 14, lineHeight: 16 },
+  concertTitle: { fontWeight: 'bold', fontSize: 18, color: colors.oc.black.value },
+  concertFormattedDate: { marginTop: 8, fontSize: 14, color: colors.oc.black.value },
+  concertVenue: { marginTop: 8, color: colors.oc.black.value, fontSize: 14 },
   concertListContentContainer: {
     paddingHorizontal: 12,
     marginTop: 12,

@@ -10,8 +10,10 @@ export const Text = ({ children, weight = 'regular', style, ...others }: TextPro
     medium: styles.medium,
     bold: styles.bold,
   }
+  const flattenedStyles = StyleSheet.flatten(style)
+  const lineHeight = (flattenedStyles?.fontSize ?? 0) * 1.5
   return (
-    <RNText {...others} style={[fontFamilySet[weight], { color: colors.oc.black.value }, style]}>
+    <RNText {...others} style={[fontFamilySet[weight], styles.defaultColor, { lineHeight: lineHeight }, style]}>
       {children}
     </RNText>
   )
@@ -53,4 +55,5 @@ const styles = StyleSheet.create({
       default: 'inherit',
     }),
   },
+  defaultColor: { color: colors.oc.black.value },
 })

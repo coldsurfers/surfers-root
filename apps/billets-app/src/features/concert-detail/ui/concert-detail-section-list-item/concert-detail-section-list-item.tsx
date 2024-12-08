@@ -180,8 +180,10 @@ const styles = StyleSheet.create({
   },
   dateText: {
     marginTop: 6,
+    fontSize: 14,
+    color: colors.oc.black.value,
   },
-  venueText: { marginTop: 6, color: colors.oc.gray[8].value, marginBottom: 8 },
+  venueText: { marginTop: 6, color: colors.oc.gray[8].value, marginBottom: 8, fontSize: 14 },
   venueMap: {
     width: Dimensions.get('screen').width - 12 * 2,
     height: VENUE_MAP_HEIGHT,
