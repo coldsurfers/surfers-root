@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
   bgText: {
     color: colors.oc.white.value,
     position: 'absolute',
+    fontSize: 14,
   },
   image: {
     width: '100%',

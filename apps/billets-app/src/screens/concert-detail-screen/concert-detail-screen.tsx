@@ -15,11 +15,10 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import React, { useCallback, useMemo, useRef } from 'react'
 import { Dimensions, StatusBar, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT } from './concert-detail-screen.constants'
 import { useConcertDetailScreenNavigation, useConcertDetailScreenRoute } from './concert-detail-screen.hooks'
 
 export const ConcertDetailScreen = () => {
-  const { bottom: bottomInset } = useSafeAreaInsets()
+  const { bottom: bottomInset, top: topInset } = useSafeAreaInsets()
   const navigation = useConcertDetailScreenNavigation()
   const { params } = useConcertDetailScreenRoute()
 
@@ -176,7 +175,7 @@ export const ConcertDetailScreen = () => {
   return (
     <>
       <StatusBar hidden />
-      <CommonBackIconButton top={40} onPress={navigation.goBack} />
+      <CommonBackIconButton top={topInset} onPress={navigation.goBack} />
       <View style={styles.wrapper}>
         {isLoadingConcert ? (
           <Spinner />
@@ -188,14 +187,14 @@ export const ConcertDetailScreen = () => {
               isSubscribed={!!subscribedConcert}
               onPressSubscribe={onPressSubscribe}
             />
-            <View style={[styles.fixedBottom, { paddingBottom: bottomInset }]}>
+            <View style={[styles.fixedBottom]}>
               <Button
                 onPress={() => {
                   navigation.navigate('ConcertTicketListScreen', {
                     concertId: params.concertId,
                   })
                 }}
-                style={{ backgroundColor: colors.oc.cyan[8].value, height: '100%' }}
+                style={{ backgroundColor: colors.oc.cyan[8].value, marginBottom: bottomInset }}
               >
                 🎫 티켓 찾기 🎫
               </Button>
@@ -231,13 +230,13 @@ const styles = StyleSheet.create({
   fixedBottom: {
     backgroundColor: colors.oc.white.value,
     paddingTop: 14,
+    paddingBottom: 14,
     paddingHorizontal: 14,
-    width: '100%',
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    height: CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT,
+    justifyContent: 'center',
     ...commonStyles.shadowBox,
   },
   imageViewerCloseButton: { position: 'absolute', zIndex: 99, right: 12 },

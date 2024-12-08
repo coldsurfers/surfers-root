@@ -14,7 +14,7 @@ export const ArtistDetailConcertList = ({
   onPressItem?: (params: { concertId: string }) => void
   onPressArtistProfile?: () => void
 }) => {
-  const { bottom: bottomInset } = useSafeAreaInsets()
+  const { bottom: bottomInset, top: topInset } = useSafeAreaInsets()
   const {
     data: artistConcertList,
     isPending: isPendingArtistConcertList,
@@ -63,7 +63,10 @@ export const ArtistDetailConcertList = ({
       data={artistConcertListUIData}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
-      contentContainerStyle={[styles.contentContainer, { paddingBottom: bottomInset }]}
+      contentContainerStyle={[
+        styles.contentContainer,
+        { paddingBottom: bottomInset ? bottomInset : 12, paddingTop: topInset ? topInset : 12 },
+      ]}
       onEndReached={onEndReached}
     />
   )
