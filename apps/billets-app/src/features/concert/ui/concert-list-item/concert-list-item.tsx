@@ -1,6 +1,7 @@
 import { ConcertSubscribeButton } from '@/features/subscribe'
+import { Text } from '@coldsurfers/ocean-road/native'
 import { useCallback } from 'react'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import commonStyles from '../../../../lib/common-styles'
 import palettes from '../../../../lib/palettes'
