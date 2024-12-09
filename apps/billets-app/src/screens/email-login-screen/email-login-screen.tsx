@@ -1,7 +1,7 @@
 import { AuthContext, ToastVisibleContext, ToastVisibleContextProvider } from '@/lib'
 import useSignInMutation from '@/lib/react-query/mutations/useSignInMutation'
 import color from '@coldsurfers/design-tokens/dist/js/color/variables'
-import { Button, IconButton, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
+import { Button, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { KeyboardAvoidingView, SafeAreaView, StyleSheet, View } from 'react-native'
 import { useEmailLoginScreenNavigation } from './email-login-screen.hooks'
@@ -9,7 +9,7 @@ import { useEmailLoginScreenNavigation } from './email-login-screen.hooks'
 const _EmailLoginScreen = () => {
   const { show } = useContext(ToastVisibleContext)
   const { login } = useContext(AuthContext)
-  const { navigate, goBack } = useEmailLoginScreenNavigation()
+  const { navigate } = useEmailLoginScreenNavigation()
   const { mutate, isPending: isPendingSignIn, error } = useSignInMutation()
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -81,7 +81,6 @@ const _EmailLoginScreen = () => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <IconButton icon="←" onPress={goBack} theme="transparentDarkGray" style={styles.backButton} />
       <KeyboardAvoidingView style={styles.innerWrapper} behavior="padding">
         <View style={styles.formWrapper}>
           <TextInput placeholder="이메일" onChangeText={(text) => setEmail(text)} autoCapitalize="none" />

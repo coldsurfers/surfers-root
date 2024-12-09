@@ -36,4 +36,5 @@ export const StyledToastPressable = styled.Pressable<{ type: ToastType }>`
 export const StyledToastText = styled(Text)`
   font-weight: 700;
   color: ${color.oc.white.value};
+  font-size: 14px;
 `

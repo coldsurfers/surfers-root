@@ -1,5 +1,5 @@
 import { colors } from '@coldsurfers/ocean-road'
-import { Button, IconButton, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
+import { Button, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useState } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
 import { AuthContext } from '../../lib/contexts/auth-context/auth-context'
@@ -146,7 +146,6 @@ const _EmailConfirmScreen = () => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <IconButton icon="←" theme="transparentDarkGray" onPress={goBack} style={styles.backButton} />
       {confirmed ? (
         <>
           <TextInput
