@@ -1,4 +1,3 @@
-import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useState } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
@@ -20,7 +19,6 @@ const _EmailConfirmScreen = () => {
   const [confirmText, setConfirmText] = useState<string>('')
   const [passwordText, setPasswordText] = useState<string>('')
   const [passwordConfirmText, setPasswordConfirmText] = useState<string>('')
-  const { goBack } = useEmailConfirmScreenNavigation()
   const { login } = useContext(AuthContext)
   const { mutate: mutateEmailConfirm, isPending: isLoadingEmailConfirm } = useUpdateEmailConfirmMutation({
     onSuccess: (data) => {
@@ -200,7 +198,6 @@ export const EmailConfirmScreen = () => {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: colors.oc.white.value,
   },
   backButton: {
     marginLeft: 16,
