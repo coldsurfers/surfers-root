@@ -3,9 +3,12 @@ import { Button } from '@coldsurfers/ocean-road'
 import { DragEvent, useCallback, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { exportBanner } from '../../utils'
-import { DndFileZone } from '../dnd-file-zone'
-import { APPSTORE_BANNER_SIZE } from './appstore-banner-generator.constants'
-import { StyledBannerImg, StyledGeneratorWrapper, StyledPromotionText } from './appstore-banner-generator.styled'
+import {
+  StyledBannerImg,
+  StyledDndFileZone,
+  StyledGeneratorWrapper,
+  StyledPromotionText,
+} from './appstore-banner-generator.styled'
 import { AppstoreBannerGeneratorForm } from './appstore-banner-generator.types'
 
 export const AppstoreBannerGenerator = () => {
@@ -45,17 +48,10 @@ export const AppstoreBannerGenerator = () => {
         value={backgroundColor}
         onChangeText={(text) => setValue('backgroundColor', text)}
       />
-      <DndFileZone
-        ref={bannerRef}
-        bgColor={backgroundColor}
-        width={APPSTORE_BANNER_SIZE.width / 2}
-        height={APPSTORE_BANNER_SIZE.height / 2}
-        aspectRatio={`${APPSTORE_BANNER_SIZE.width} / ${APPSTORE_BANNER_SIZE.height}`}
-        onFileDrop={onFileDrop}
-      >
+      <StyledDndFileZone ref={bannerRef} $bgColor={backgroundColor} onFileDrop={onFileDrop}>
         <StyledPromotionText as="h1">{promotionText}</StyledPromotionText>
         {previewUrl && <StyledBannerImg src={previewUrl} />}
-      </DndFileZone>
+      </StyledDndFileZone>
       <Button onClick={handleExport}>이미지 다운로드</Button>
     </StyledGeneratorWrapper>
   )
