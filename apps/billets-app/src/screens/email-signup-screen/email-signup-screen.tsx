@@ -1,9 +1,9 @@
 import { ToastVisibleContext, ToastVisibleContextProvider, validateEmail } from '@/lib'
 import useSendEmailConfirmMutation from '@/lib/react-query/mutations/useSendEmailConfirmMutation'
-import color from '@coldsurfers/design-tokens/dist/js/color/variables'
+import { CommonScreenLayout } from '@/ui'
 import { Button, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useState } from 'react'
-import { SafeAreaView, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { match } from 'ts-pattern'
 import { useEmailSignupScreenNavigation, useEmailSignupScreenRoute } from './email-signup-screen.hooks'
 
@@ -51,7 +51,7 @@ const _EmailSignupScreen = () => {
   }, [])
 
   return (
-    <SafeAreaView style={styles.wrapper}>
+    <CommonScreenLayout>
       <TextInput
         autoCapitalize="none"
         onChangeText={onChangeText}
@@ -62,7 +62,7 @@ const _EmailSignupScreen = () => {
         다음으로 이동하기
       </Button>
       {isPendingSendConfirmEmail && <Spinner />}
-    </SafeAreaView>
+    </CommonScreenLayout>
   )
 }
 
@@ -77,7 +77,6 @@ export const EmailSignupScreen = () => {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: color.oc.white.value,
   },
   backButton: {
     marginLeft: 16,
