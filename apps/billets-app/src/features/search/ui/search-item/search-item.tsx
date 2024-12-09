@@ -25,8 +25,10 @@ export function SearchItem({
       <TouchableOpacity onPress={onPress} style={styles.itemWrapper}>
         {thumbnail}
         <View style={styles.itemInnerRight}>
-          <Text weight="bold">{title}</Text>
-          <Text weight="medium" style={{ color: palettes.gray['800'] }}>
+          <Text weight="bold" style={styles.itemTitle}>
+            {title}
+          </Text>
+          <Text weight="medium" style={styles.itemSubtitle}>
             {subtitle}
           </Text>
         </View>
@@ -37,8 +39,10 @@ export function SearchItem({
         <TouchableOpacity onPress={onPress} style={styles.itemWrapper}>
           {thumbnail}
           <View style={styles.itemInnerRight}>
-            <Text weight="bold">{title}</Text>
-            <Text weight="medium" style={{ color: palettes.gray['800'] }}>
+            <Text weight="bold" style={styles.itemTitle}>
+              {title}
+            </Text>
+            <Text weight="medium" style={styles.itemSubtitle}>
               {subtitle}
             </Text>
           </View>
@@ -69,4 +73,6 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     flex: 1,
   },
+  itemTitle: { fontSize: 14 },
+  itemSubtitle: { color: palettes.gray['800'], fontSize: 14 },
 })

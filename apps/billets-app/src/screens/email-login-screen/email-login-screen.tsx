@@ -1,9 +1,9 @@
 import { AuthContext, ToastVisibleContext, ToastVisibleContextProvider } from '@/lib'
 import useSignInMutation from '@/lib/react-query/mutations/useSignInMutation'
-import color from '@coldsurfers/design-tokens/dist/js/color/variables'
+import { CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { Button, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { KeyboardAvoidingView, SafeAreaView, StyleSheet, View } from 'react-native'
+import { KeyboardAvoidingView, StyleSheet, View } from 'react-native'
 import { useEmailLoginScreenNavigation } from './email-login-screen.hooks'
 
 const _EmailLoginScreen = () => {
@@ -80,7 +80,7 @@ const _EmailLoginScreen = () => {
   }, [error, show])
 
   return (
-    <SafeAreaView style={styles.wrapper}>
+    <CommonScreenLayout>
       <KeyboardAvoidingView style={styles.innerWrapper} behavior="padding">
         <View style={styles.formWrapper}>
           <TextInput placeholder="이메일" onChangeText={(text) => setEmail(text)} autoCapitalize="none" />
@@ -99,7 +99,7 @@ const _EmailLoginScreen = () => {
         </View>
       </KeyboardAvoidingView>
       {isPendingSignIn ? <Spinner /> : null}
-    </SafeAreaView>
+    </CommonScreenLayout>
   )
 }
 
@@ -114,7 +114,6 @@ export const EmailLoginScreen = () => {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: color.oc.white.value,
   },
   backButton: {
     marginLeft: 16,
@@ -126,6 +125,7 @@ const styles = StyleSheet.create({
   },
   formWrapper: {
     width: 280,
+    marginTop: -NAVIGATION_HEADER_HEIGHT,
   },
   textInputSpace: {
     marginTop: 12,
