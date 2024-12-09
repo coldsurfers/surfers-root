@@ -1,7 +1,7 @@
 import InputWithLabel from '@/ui/InputWithLabel'
 import { Button } from '@coldsurfers/ocean-road'
 import { Cinzel, Merriweather } from '@next/font/google'
-import { ChangeEventHandler, useCallback, useRef, useState } from 'react'
+import { ChangeEventHandler, DragEvent, useCallback, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { exportBanner } from '../../utils'
 import {
@@ -42,21 +42,19 @@ export const AlbumCoverBannerGenerator = () => {
     }
   }, [])
 
+  const onFileDrop = useCallback((e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    const droppedFiles = Array.from(e.dataTransfer.files)
+    const [bannerImgFile] = droppedFiles
+    setPreviewUrl(URL.createObjectURL(bannerImgFile))
+  }, [])
+
   return (
     <StyledGeneratorWrapper>
       <input type="file" onChange={onFileInputChange} />
       <InputWithLabel label="아티스트" value={artist} onChangeText={(text) => setValue('artist', text)} />
       <InputWithLabel label="앨범 타이틀" value={albumTitle} onChangeText={(text) => setValue('albumTitle', text)} />
-      <StyledDndFileZone
-        ref={bannerRef}
-        $bgColor={bgColor}
-        onFileDrop={(e) => {
-          e.preventDefault()
-          const droppedFiles = Array.from(e.dataTransfer.files)
-          const [bannerImgFile] = droppedFiles
-          setPreviewUrl(URL.createObjectURL(bannerImgFile))
-        }}
-      >
+      <StyledDndFileZone ref={bannerRef} $bgColor={bgColor} onFileDrop={onFileDrop}>
         <div className={artistFont.className} style={{ marginTop: '1rem', marginBottom: '0.5rem' }}>
           <StyledArtistText>{artist}</StyledArtistText>
         </div>
