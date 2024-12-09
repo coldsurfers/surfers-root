@@ -1,11 +1,12 @@
 import { forwardRef, useState } from 'react'
-import { DropHereText, StyledBannerImg, StyledBannerZone } from './dnd-file-zone.styled'
+import { DropHereText, StyledBannerZone } from './dnd-file-zone.styled'
 import { DndFileZoneProps } from './dnd-file-zone.types'
 
 export const DndFileZone = forwardRef<HTMLDivElement, DndFileZoneProps>(
-  ({ bgColor, children, width, height, aspectRatio }, ref) => {
+  ({ bgColor, children, width, height, aspectRatio, onFileDrop }, ref) => {
     const [isDragging, setIsDragging] = useState(false)
-    const [previewUrl, setPreviewUrl] = useState('')
+    const [isFileDropped, setIsFileDropped] = useState(false)
+
     return (
       <StyledBannerZone
         ref={ref}
@@ -23,17 +24,14 @@ export const DndFileZone = forwardRef<HTMLDivElement, DndFileZoneProps>(
           setIsDragging(false)
         }}
         onDrop={(e) => {
-          e.preventDefault()
-          const droppedFiles = Array.from(e.dataTransfer.files)
-          const [bannerImgFile] = droppedFiles
-          setPreviewUrl(URL.createObjectURL(bannerImgFile))
+          onFileDrop(e)
+          setIsFileDropped(true)
           setIsDragging(false)
         }}
-        $shouldShowBorder={!previewUrl}
+        $shouldShowBorder={!isFileDropped}
         $isDragging={isDragging}
       >
         {children}
-        {previewUrl && <StyledBannerImg src={previewUrl} />}
         {isDragging && <DropHereText as="h2">Drop Here!</DropHereText>}
       </StyledBannerZone>
     )
