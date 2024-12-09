@@ -1,13 +1,13 @@
 import { AuthContext, decodeJwt, GOOGLE_SIGNIN_OPTIONS, ToastVisibleContext, ToastVisibleContextProvider } from '@/lib'
 import useSignInMutation from '@/lib/react-query/mutations/useSignInMutation'
+import { CommonScreenLayout } from '@/ui'
 import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import { colors } from '@coldsurfers/ocean-road'
-import { Button, IconButton, Spinner } from '@coldsurfers/ocean-road/native'
+import { Button, Spinner } from '@coldsurfers/ocean-road/native'
 import appleAuth from '@invertase/react-native-apple-authentication'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import React, { useCallback, useContext } from 'react'
 import { Alert, Platform, StyleSheet, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { useLoginSelectionScreenNavigation } from './login-selection-screen.hooks'
 
 const GOOGLE_COLOR = '#4284F3'
@@ -180,8 +180,7 @@ export const _LoginSelectionScreen = () => {
   }, [mutateSignIn, navigate, show])
 
   return (
-    <SafeAreaView edges={['bottom']} style={styles.wrapper}>
-      <IconButton onPress={onPressBackButton} theme="transparentDarkGray" icon="✘" style={styles.closeButtonPosition} />
+    <CommonScreenLayout edges={['bottom']} style={styles.wrapper}>
       <View style={styles.loginBox}>
         <Button
           style={[
@@ -220,7 +219,7 @@ export const _LoginSelectionScreen = () => {
         </Button>
       </View>
       {isPendingMutateSignIn ? <Spinner /> : null}
-    </SafeAreaView>
+    </CommonScreenLayout>
   )
 }
 
@@ -235,7 +234,6 @@ export const LoginSelectionScreen = () => {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: colors.oc.white.value,
     alignItems: 'center',
     justifyContent: 'center',
   },

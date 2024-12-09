@@ -1,6 +1,6 @@
 import commonStyles from '@/lib/common-styles'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
-import { CommonBackIconButton, CommonScreenLayout } from '@/ui'
+import { CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Text } from '@coldsurfers/ocean-road/native'
 import { format } from 'date-fns'
@@ -107,7 +107,7 @@ export const ConcertTicketListScreen = () => {
   }, [])
 
   return (
-    <CommonScreenLayout edges={[]}>
+    <CommonScreenLayout style={{ marginTop: -NAVIGATION_HEADER_HEIGHT }}>
       <FlatList
         style={styles.listStyle}
         contentContainerStyle={{
@@ -125,7 +125,6 @@ export const ConcertTicketListScreen = () => {
         }
         bounces={false}
       />
-      <CommonBackIconButton top={topInset} onPress={() => navigation.goBack()} />
     </CommonScreenLayout>
   )
 }
