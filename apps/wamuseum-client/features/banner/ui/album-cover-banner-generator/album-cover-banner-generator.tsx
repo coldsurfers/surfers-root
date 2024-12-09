@@ -8,7 +8,7 @@ import {
   StyledAlbumTitleText,
   StyledArtistText,
   StyledBannerImg,
-  StyledBannerWrapper,
+  StyledDndFileZone,
   StyledGeneratorWrapper,
   StyledLine,
 } from './album-cover-banner-generator.styled'
@@ -47,7 +47,16 @@ export const AlbumCoverBannerGenerator = () => {
       <input type="file" onChange={onFileInputChange} />
       <InputWithLabel label="아티스트" value={artist} onChangeText={(text) => setValue('artist', text)} />
       <InputWithLabel label="앨범 타이틀" value={albumTitle} onChangeText={(text) => setValue('albumTitle', text)} />
-      <StyledBannerWrapper ref={bannerRef} $bgColor={bgColor}>
+      <StyledDndFileZone
+        ref={bannerRef}
+        $bgColor={bgColor}
+        onFileDrop={(e) => {
+          e.preventDefault()
+          const droppedFiles = Array.from(e.dataTransfer.files)
+          const [bannerImgFile] = droppedFiles
+          setPreviewUrl(URL.createObjectURL(bannerImgFile))
+        }}
+      >
         <div className={artistFont.className} style={{ marginTop: '1rem', marginBottom: '0.5rem' }}>
           <StyledArtistText>{artist}</StyledArtistText>
         </div>
@@ -56,7 +65,7 @@ export const AlbumCoverBannerGenerator = () => {
           <StyledAlbumTitleText>{albumTitle}</StyledAlbumTitleText>
         </div>
         {previewUrl && <StyledBannerImg src={previewUrl} />}
-      </StyledBannerWrapper>
+      </StyledDndFileZone>
       <Button onClick={handleExport}>이미지 다운로드</Button>
     </StyledGeneratorWrapper>
   )
