@@ -1,5 +1,5 @@
 import { SearchItem, SearchItemThumbnail } from '@/features/search/ui'
-import { CommonListEmpty, CommonScreenLayout } from '@/ui'
+import { CommonListEmpty, CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { ProfileThumbnail, Text, TextInput } from '@coldsurfers/ocean-road/native'
 import { useDebounce } from '@uidotdev/usehooks'
 import format from 'date-fns/format'
@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   FlatList,
   KeyboardAvoidingView,
+  KeyboardAvoidingViewProps,
   ListRenderItem,
   Platform,
   StyleSheet,
@@ -19,6 +20,17 @@ import useConcertListQuery from '../../lib/react-query/queries/useConcertListQue
 import useSearchQuery from '../../lib/react-query/queries/useSearchQuery'
 import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocationStore'
 import { useSearchScreenNavigation } from './search-screen.hooks'
+
+const KeyboardAvoidWrapper = (props: KeyboardAvoidingViewProps) => {
+  return (
+    <KeyboardAvoidingView
+      {...props}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={NAVIGATION_HEADER_HEIGHT}
+      style={{ flex: 1 }}
+    />
+  )
+}
 
 export const SearchScreen = () => {
   const navigation = useSearchScreenNavigation()
@@ -180,7 +192,7 @@ export const SearchScreen = () => {
         />
       </View>
       {searchKeyword ? (
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
+        <KeyboardAvoidWrapper>
           <FlatList
             data={searchListData}
             renderItem={renderSearchListItem}
@@ -198,9 +210,9 @@ export const SearchScreen = () => {
               ) : null
             }
           />
-        </KeyboardAvoidingView>
+        </KeyboardAvoidWrapper>
       ) : (
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
+        <KeyboardAvoidWrapper>
           <FlatList
             data={concertListData}
             ListHeaderComponent={<Text weight="bold">현재 지역의 공연</Text>}
@@ -209,7 +221,7 @@ export const SearchScreen = () => {
             renderItem={renderConcertListItem}
             showsVerticalScrollIndicator={false}
           />
-        </KeyboardAvoidingView>
+        </KeyboardAvoidWrapper>
       )}
     </CommonScreenLayout>
   )
