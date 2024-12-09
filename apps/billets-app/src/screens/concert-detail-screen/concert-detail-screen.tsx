@@ -8,14 +8,13 @@ import commonStyles from '@/lib/common-styles'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
 import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import useSubscribedConcertQuery from '@/lib/react-query/queries/useSubscribedConcertQuery'
-import { CommonBackIconButton } from '@/ui'
+import { NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner } from '@coldsurfers/ocean-road/native'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import React, { useCallback, useMemo, useRef } from 'react'
-import { Dimensions, StatusBar, StyleSheet, View } from 'react-native'
+import { Dimensions, Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT } from './concert-detail-screen.constants'
 import { useConcertDetailScreenNavigation, useConcertDetailScreenRoute } from './concert-detail-screen.hooks'
 
 export const ConcertDetailScreen = () => {
@@ -174,9 +173,8 @@ export const ConcertDetailScreen = () => {
   ])
 
   return (
-    <>
-      <StatusBar hidden />
-      <CommonBackIconButton top={40} onPress={navigation.goBack} />
+    <View style={{ flex: 1, marginTop: -NAVIGATION_HEADER_HEIGHT }}>
+      <StatusBar hidden={Platform.OS === 'ios'} />
       <View style={styles.wrapper}>
         {isLoadingConcert ? (
           <Spinner />
@@ -188,14 +186,14 @@ export const ConcertDetailScreen = () => {
               isSubscribed={!!subscribedConcert}
               onPressSubscribe={onPressSubscribe}
             />
-            <View style={[styles.fixedBottom, { paddingBottom: bottomInset }]}>
+            <View style={[styles.fixedBottom]}>
               <Button
                 onPress={() => {
                   navigation.navigate('ConcertTicketListScreen', {
                     concertId: params.concertId,
                   })
                 }}
-                style={{ backgroundColor: colors.oc.cyan[8].value, height: '100%' }}
+                style={{ backgroundColor: colors.oc.cyan[8].value, marginBottom: bottomInset }}
               >
                 🎫 티켓 찾기 🎫
               </Button>
@@ -219,7 +217,7 @@ export const ConcertDetailScreen = () => {
           }}
         />
       )}
-    </>
+    </View>
   )
 }
 
@@ -231,13 +229,13 @@ const styles = StyleSheet.create({
   fixedBottom: {
     backgroundColor: colors.oc.white.value,
     paddingTop: 14,
+    paddingBottom: 14,
     paddingHorizontal: 14,
-    width: '100%',
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    height: CONCERT_DETAIL_FIXED_BOTTOM_HEIGHT,
+    justifyContent: 'center',
     ...commonStyles.shadowBox,
   },
   imageViewerCloseButton: { position: 'absolute', zIndex: 99, right: 12 },

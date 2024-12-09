@@ -22,13 +22,13 @@ export const HorizontalConcertItem = ({
     <TouchableOpacity onPress={onPress} style={styles.itemWrapper}>
       {thumbnailComponent}
       <View style={styles.itemInnerRight}>
-        <Text weight="bold" numberOfLines={1}>
+        <Text weight="bold" numberOfLines={1} style={[styles.textTitle]}>
           {title}
         </Text>
-        <Text weight="medium" style={{ color: colors.oc.gray[7].value }}>
+        <Text weight="medium" style={styles.text}>
           {subtitle}
         </Text>
-        <Text weight="medium" style={{ color: colors.oc.gray[8].value }}>
+        <Text weight="medium" style={styles.textDescription}>
           {description}
         </Text>
       </View>
@@ -51,5 +51,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 8,
     right: 8,
+  },
+  text: {
+    fontSize: 14,
+    color: colors.oc.gray[7].value,
+  },
+  textDescription: {
+    color: colors.oc.gray[8].value,
+    fontSize: 14,
+  },
+  textTitle: {
+    color: colors.oc.black.value,
+    fontSize: 14,
   },
 })
