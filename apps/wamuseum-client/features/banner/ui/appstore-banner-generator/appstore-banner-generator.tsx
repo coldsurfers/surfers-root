@@ -1,9 +1,8 @@
 import InputWithLabel from '@/ui/InputWithLabel'
 import { Button } from '@coldsurfers/ocean-road'
-import { saveAs } from 'file-saver'
-import { toJpeg } from 'html-to-image'
 import { ChangeEventHandler, useCallback, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { exportBanner } from '../../utils'
 import {
   StyledBannerImg,
   StyledBannerWrapper,
@@ -20,12 +19,12 @@ export const AppstoreBannerGenerator = () => {
 
   const handleExport = useCallback(async () => {
     if (bannerRef.current) {
-      try {
-        const dataUrl = await toJpeg(bannerRef.current, { quality: 0.95, width: 1320, height: 2868 })
-        saveAs(dataUrl, 'banner.jpeg')
-      } catch (error) {
-        console.error('Error exporting banner:', error)
-      }
+      exportBanner(bannerRef.current, {
+        size: {
+          width: 1320,
+          height: 2868,
+        },
+      })
     }
   }, [])
 
