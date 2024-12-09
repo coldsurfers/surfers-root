@@ -1,19 +1,15 @@
 import InputWithLabel from '@/ui/InputWithLabel'
 import { Button } from '@coldsurfers/ocean-road'
-import { ChangeEventHandler, useCallback, useRef, useState } from 'react'
+import { useCallback, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { exportBanner } from '../../utils'
-import {
-  StyledBannerImg,
-  StyledBannerWrapper,
-  StyledGeneratorWrapper,
-  StyledPromotionText,
-} from './appstore-banner-generator.styled'
+import { DndFileZone } from '../dnd-file-zone'
+import { APPSTORE_BANNER_SIZE } from './appstore-banner-generator.constants'
+import { StyledGeneratorWrapper, StyledPromotionText } from './appstore-banner-generator.styled'
 import { AppstoreBannerGeneratorForm } from './appstore-banner-generator.types'
 
 export const AppstoreBannerGenerator = () => {
   const bannerRef = useRef<HTMLDivElement>(null)
-  const [previewUrl, setPreviewUrl] = useState('')
   const { watch, setValue } = useForm<AppstoreBannerGeneratorForm>()
   const { promotionText, backgroundColor } = watch()
 
@@ -28,16 +24,8 @@ export const AppstoreBannerGenerator = () => {
     }
   }, [])
 
-  const onFileInputChange = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
-    const selectedFile = e.target.files?.item(0)
-    if (selectedFile) {
-      setPreviewUrl(URL.createObjectURL(selectedFile))
-    }
-  }, [])
-
   return (
     <StyledGeneratorWrapper>
-      <input type="file" onChange={onFileInputChange} />
       <InputWithLabel
         label="프로모션 텍스트"
         value={promotionText}
@@ -49,10 +37,15 @@ export const AppstoreBannerGenerator = () => {
         value={backgroundColor}
         onChangeText={(text) => setValue('backgroundColor', text)}
       />
-      <StyledBannerWrapper ref={bannerRef} $bgColor={backgroundColor}>
+      <DndFileZone
+        ref={bannerRef}
+        bgColor={backgroundColor}
+        width={APPSTORE_BANNER_SIZE.width / 2}
+        height={APPSTORE_BANNER_SIZE.height / 2}
+        aspectRatio={`${APPSTORE_BANNER_SIZE.width} / ${APPSTORE_BANNER_SIZE.height}`}
+      >
         <StyledPromotionText as="h1">{promotionText}</StyledPromotionText>
-        <StyledBannerImg src={previewUrl} />
-      </StyledBannerWrapper>
+      </DndFileZone>
       <Button onClick={handleExport}>이미지 다운로드</Button>
     </StyledGeneratorWrapper>
   )
