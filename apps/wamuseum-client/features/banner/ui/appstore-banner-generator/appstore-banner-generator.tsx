@@ -1,12 +1,11 @@
 import InputWithLabel from '@/ui/InputWithLabel'
 import { Button } from '@coldsurfers/ocean-road'
-import { saveAs } from 'file-saver'
-import { toJpeg } from 'html-to-image'
-import { ChangeEventHandler, useCallback, useRef, useState } from 'react'
+import { DragEvent, useCallback, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { exportBanner } from '../../utils'
 import {
   StyledBannerImg,
-  StyledBannerWrapper,
+  StyledDndFileZone,
   StyledGeneratorWrapper,
   StyledPromotionText,
 } from './appstore-banner-generator.styled'
@@ -14,31 +13,30 @@ import { AppstoreBannerGeneratorForm } from './appstore-banner-generator.types'
 
 export const AppstoreBannerGenerator = () => {
   const bannerRef = useRef<HTMLDivElement>(null)
-  const [previewUrl, setPreviewUrl] = useState('')
   const { watch, setValue } = useForm<AppstoreBannerGeneratorForm>()
   const { promotionText, backgroundColor } = watch()
+  const [previewUrl, setPreviewUrl] = useState('')
 
   const handleExport = useCallback(async () => {
     if (bannerRef.current) {
-      try {
-        const dataUrl = await toJpeg(bannerRef.current, { quality: 0.95, width: 1320, height: 2868 })
-        saveAs(dataUrl, 'banner.jpeg')
-      } catch (error) {
-        console.error('Error exporting banner:', error)
-      }
+      exportBanner(bannerRef.current, {
+        size: {
+          width: 1320,
+          height: 2868,
+        },
+      })
     }
   }, [])
 
-  const onFileInputChange = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
-    const selectedFile = e.target.files?.item(0)
-    if (selectedFile) {
-      setPreviewUrl(URL.createObjectURL(selectedFile))
-    }
+  const onFileDrop = useCallback((e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    const droppedFiles = Array.from(e.dataTransfer.files)
+    const [bannerImgFile] = droppedFiles
+    setPreviewUrl(URL.createObjectURL(bannerImgFile))
   }, [])
 
   return (
     <StyledGeneratorWrapper>
-      <input type="file" onChange={onFileInputChange} />
       <InputWithLabel
         label="프로모션 텍스트"
         value={promotionText}
@@ -50,10 +48,10 @@ export const AppstoreBannerGenerator = () => {
         value={backgroundColor}
         onChangeText={(text) => setValue('backgroundColor', text)}
       />
-      <StyledBannerWrapper ref={bannerRef} $bgColor={backgroundColor}>
+      <StyledDndFileZone ref={bannerRef} $bgColor={backgroundColor} onFileDrop={onFileDrop}>
         <StyledPromotionText as="h1">{promotionText}</StyledPromotionText>
-        <StyledBannerImg src={previewUrl} />
-      </StyledBannerWrapper>
+        {previewUrl && <StyledBannerImg src={previewUrl} />}
+      </StyledDndFileZone>
       <Button onClick={handleExport}>이미지 다운로드</Button>
     </StyledGeneratorWrapper>
   )
