@@ -1,5 +1,6 @@
 import { colors, Text } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
+import { DndFileZone } from '../dnd-file-zone'
 
 export const StyledGeneratorWrapper = styled.div`
   display: flex;
@@ -8,7 +9,7 @@ export const StyledGeneratorWrapper = styled.div`
   justify-content: center;
 `
 
-export const StyledBannerWrapper = styled.div<{ $bgColor: string }>`
+export const StyledDndFileZone = styled(DndFileZone)<{ $bgColor: string }>`
   width: 548px;
   height: 548px;
   background: ${(props) => props.$bgColor};
