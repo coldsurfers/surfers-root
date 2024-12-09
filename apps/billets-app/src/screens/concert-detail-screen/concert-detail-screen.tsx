@@ -8,17 +8,17 @@ import commonStyles from '@/lib/common-styles'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
 import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import useSubscribedConcertQuery from '@/lib/react-query/queries/useSubscribedConcertQuery'
-import { CommonBackIconButton } from '@/ui'
+import { NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner } from '@coldsurfers/ocean-road/native'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import React, { useCallback, useMemo, useRef } from 'react'
-import { Dimensions, StatusBar, StyleSheet, View } from 'react-native'
+import { Dimensions, Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useConcertDetailScreenNavigation, useConcertDetailScreenRoute } from './concert-detail-screen.hooks'
 
 export const ConcertDetailScreen = () => {
-  const { bottom: bottomInset, top: topInset } = useSafeAreaInsets()
+  const { bottom: bottomInset } = useSafeAreaInsets()
   const navigation = useConcertDetailScreenNavigation()
   const { params } = useConcertDetailScreenRoute()
 
@@ -173,9 +173,8 @@ export const ConcertDetailScreen = () => {
   ])
 
   return (
-    <>
-      <StatusBar hidden />
-      <CommonBackIconButton top={topInset} onPress={navigation.goBack} />
+    <View style={{ flex: 1, marginTop: -NAVIGATION_HEADER_HEIGHT }}>
+      <StatusBar hidden={Platform.OS === 'ios'} />
       <View style={styles.wrapper}>
         {isLoadingConcert ? (
           <Spinner />
@@ -218,7 +217,7 @@ export const ConcertDetailScreen = () => {
           }}
         />
       )}
-    </>
+    </View>
   )
 }
 

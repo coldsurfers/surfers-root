@@ -12,14 +12,6 @@ import palettes from '../../lib/palettes'
 import { useMyScreenNavigation } from './my-screen.hooks'
 import { MyScreenSettingSectionListData, MyScreenSettingSectionListSectionT } from './my-screen.types'
 
-const ListHeaderComponent = () => {
-  return (
-    <View style={styles.listHeader}>
-      <Text style={styles.listHeaderText}>프로필</Text>
-    </View>
-  )
-}
-
 const ListFooterComponent = () => {
   const { logout } = useContext(AuthContext)
   const { mutate: deactivateUser } = useDeactivateUserMutation({
@@ -196,7 +188,6 @@ export const MyScreen = () => {
         style={styles.sectionList}
         sections={settingSections}
         stickySectionHeadersEnabled={false}
-        ListHeaderComponent={ListHeaderComponent}
         ListFooterComponent={ListFooterComponent}
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}

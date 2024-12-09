@@ -175,7 +175,7 @@ export const SearchScreen = () => {
           value={searchKeyword}
           onChangeText={setSearchKeyword}
           autoCapitalize="none"
-          placeholder={'검색할 단어 🔎'}
+          placeholder={'🔎 어떤 공연을 찾고 싶으세요?'}
           clearButtonMode="while-editing"
         />
       </View>
