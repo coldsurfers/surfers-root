@@ -16,8 +16,8 @@ export const exportBanner = async (
   try {
     const dataUrl = await toJpeg(element, {
       quality: 0.95,
-      canvasHeight: width,
-      canvasWidth: height,
+      canvasWidth: width,
+      canvasHeight: height,
     })
     saveAs(dataUrl, 'banner.jpeg')
   } catch (error) {
