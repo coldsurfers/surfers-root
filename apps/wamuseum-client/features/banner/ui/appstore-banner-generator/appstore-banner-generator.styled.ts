@@ -14,3 +14,9 @@ export const StyledPromotionText = styled(Text)`
   font-size: 3.5vw;
   margin: 2.5rem 0px 0px 0px;
 `
+
+export const StyledBannerImg = styled.img`
+  width: 100%;
+  height: 100%;
+  margin-top: -1rem;
+`
