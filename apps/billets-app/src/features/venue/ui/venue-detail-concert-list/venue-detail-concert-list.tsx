@@ -88,6 +88,7 @@ export const VenueDetailConcertList = ({
       keyExtractor={(item) => item.id}
       contentContainerStyle={[styles.contentContainer, { paddingBottom: bottomInset }]}
       onEndReached={onEndReached}
+      style={{ flex: 1 }}
     />
   )
 }
@@ -95,6 +96,7 @@ export const VenueDetailConcertList = ({
 const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: 12,
+    flexGrow: 1,
   },
   loading: {
     ...StyleSheet.absoluteFillObject,

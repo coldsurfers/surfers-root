@@ -6,7 +6,7 @@ import { Edges, SafeAreaView } from 'react-native-safe-area-context'
 export const CommonScreenLayout = ({
   children,
   style,
-  edges = ['top'],
+  edges = [],
 }: PropsWithChildren<{
   edges?: Edges
   style?: StyleProp<ViewStyle>

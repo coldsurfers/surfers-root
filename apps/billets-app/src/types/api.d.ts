@@ -1594,6 +1594,7 @@ export interface components {
     SignInBody: {
       email: string
       password?: string
+      platform?: 'android' | 'ios'
       provider: 'google' | 'apple' | 'email'
       token?: string
     }
@@ -1607,6 +1608,7 @@ export interface components {
     SignUpBody: {
       email: string
       password?: string
+      platform?: 'android' | 'ios'
       provider: 'google' | 'apple' | 'email'
       token?: string
     }

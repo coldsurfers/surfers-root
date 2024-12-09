@@ -1,4 +1,5 @@
 import { Platform, Text as RNText, StyleSheet } from 'react-native'
+import { colors } from '../../tokens'
 import { TextProps } from './text.types'
 
 export const Text = ({ children, weight = 'regular', style, ...others }: TextProps) => {
@@ -9,8 +10,10 @@ export const Text = ({ children, weight = 'regular', style, ...others }: TextPro
     medium: styles.medium,
     bold: styles.bold,
   }
+  const flattenedStyles = StyleSheet.flatten(style)
+  const lineHeight = (flattenedStyles?.fontSize ?? 0) * 1.5
   return (
-    <RNText {...others} style={[fontFamilySet[weight], style]}>
+    <RNText {...others} style={[fontFamilySet[weight], styles.defaultColor, { lineHeight: lineHeight }, style]}>
       {children}
     </RNText>
   )
@@ -52,4 +55,5 @@ const styles = StyleSheet.create({
       default: 'inherit',
     }),
   },
+  defaultColor: { color: colors.oc.black.value },
 })

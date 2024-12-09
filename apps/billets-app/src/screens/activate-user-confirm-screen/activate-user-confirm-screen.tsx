@@ -1,6 +1,6 @@
 import { ToastVisibleContext, ToastVisibleContextProvider } from '@/lib'
 import { useActivateUserMutation } from '@/lib/react-query'
-import { CommonBackIconButton, CommonScreenLayout } from '@/ui'
+import { CommonScreenLayout } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
 import { useCallback, useContext, useState } from 'react'
@@ -60,7 +60,6 @@ const Screen = () => {
   }, [activateUser, confirmText, navigation, route.params.email, show])
   return (
     <CommonScreenLayout>
-      <CommonBackIconButton top={topInset} />
       <TextInput
         placeholder="인증번호를 입력해주세요"
         keyboardType="number-pad"
