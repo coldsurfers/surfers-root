@@ -1,10 +1,9 @@
 import InputWithLabel from '@/ui/InputWithLabel'
 import { Button } from '@coldsurfers/ocean-road'
 import { Cinzel, Merriweather } from '@next/font/google'
-import saveAs from 'file-saver'
-import { toJpeg } from 'html-to-image'
 import { ChangeEventHandler, useCallback, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { exportBanner } from '../../utils'
 import {
   StyledAlbumTitleText,
   StyledArtistText,
@@ -34,16 +33,12 @@ export const AlbumCoverBannerGenerator = () => {
 
   const handleExport = useCallback(async () => {
     if (bannerRef.current) {
-      try {
-        const dataUrl = await toJpeg(bannerRef.current, {
-          quality: 0.95,
-          canvasHeight: 3000,
-          canvasWidth: 3000,
-        })
-        saveAs(dataUrl, 'banner.jpeg')
-      } catch (error) {
-        console.error('Error exporting banner:', error)
-      }
+      exportBanner(bannerRef.current, {
+        size: {
+          width: 3000,
+          height: 3000,
+        },
+      })
     }
   }, [])
 
