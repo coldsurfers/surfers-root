@@ -1,6 +1,6 @@
 import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import { useCallback, useState } from 'react'
-import { TextInput as RNTextInput, StyleSheet } from 'react-native'
+import { Platform, TextInput as RNTextInput, StyleSheet } from 'react-native'
 import { TextInputProps } from './text-input.types'
 
 export const TextInput = (props: TextInputProps) => {
@@ -34,8 +34,16 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     paddingLeft: 16,
     paddingRight: 16,
-    paddingTop: 16,
-    paddingBottom: 16,
+    paddingTop: Platform.select({
+      android: 10,
+      ios: 16,
+      default: 10,
+    }),
+    paddingBottom: Platform.select({
+      android: 10,
+      ios: 16,
+      default: 10,
+    }),
     backgroundColor: color.oc.white.value,
   },
   focused: {

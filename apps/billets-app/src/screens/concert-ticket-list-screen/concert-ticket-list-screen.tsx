@@ -1,6 +1,6 @@
 import commonStyles from '@/lib/common-styles'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
-import { CommonBackIconButton, CommonScreenLayout } from '@/ui'
+import { CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Text } from '@coldsurfers/ocean-road/native'
 import { format } from 'date-fns'
@@ -84,8 +84,10 @@ export const ConcertTicketListScreen = () => {
           <Text style={styles.ticketItemEmoji}>🎫</Text>
           <View style={styles.ticketItemPriceWrapper}>
             <Text style={styles.ticketItemSeller}>{seller}</Text>
-            <Text>최저가 {formattedPrice}</Text>
-            <Text>{format(new Date(openDate), 'yyyy년 MM월 dd일 HH시 mm분 오픈')}</Text>
+            <Text style={{ fontSize: 14, marginTop: 4 }}>최저가 {formattedPrice}</Text>
+            <Text style={{ fontSize: 14, marginTop: 4 }}>
+              {format(new Date(openDate), 'yyyy년 MM월 dd일 HH시 mm분 오픈')}
+            </Text>
           </View>
         </View>
         <View style={styles.ticketItemBottom}>
@@ -105,7 +107,7 @@ export const ConcertTicketListScreen = () => {
   }, [])
 
   return (
-    <CommonScreenLayout edges={[]}>
+    <CommonScreenLayout style={{ marginTop: -NAVIGATION_HEADER_HEIGHT }}>
       <FlatList
         style={styles.listStyle}
         contentContainerStyle={{
@@ -123,7 +125,6 @@ export const ConcertTicketListScreen = () => {
         }
         bounces={false}
       />
-      <CommonBackIconButton top={topInset} onPress={() => navigation.goBack()} />
     </CommonScreenLayout>
   )
 }
@@ -148,15 +149,16 @@ const styles = StyleSheet.create({
   ticketItemEmoji: { fontSize: 24 },
   ticketItemPriceWrapper: { marginLeft: 12 },
   ticketItemBottom: { marginTop: 12 },
-  ticketItemCTA: { backgroundColor: colors.oc.cyan[8].value },
-  ticketItemCTAText: { color: colors.oc.white.value },
+  ticketItemCTA: { backgroundColor: colors.oc.cyan[8].value, alignItems: 'center', justifyContent: 'center' },
+  ticketItemCTAText: { color: colors.oc.white.value, fontSize: 14 },
   headerImageWrapper: { width: '100%', height: Dimensions.get('screen').height / 2 },
   headerImage: { width: '100%', height: '100%' },
   headerContentWrapper: { marginTop: 24, paddingHorizontal: 12 },
   headerTitle: { fontSize: 20 },
-  headerDate: { marginTop: 6 },
-  headerVenue: { marginTop: 6, color: colors.oc.gray[8].value },
+  headerDate: { marginTop: 6, fontSize: 14 },
+  headerVenue: { marginTop: 6, color: colors.oc.gray[8].value, fontSize: 14 },
   ticketItemSeller: {
     fontWeight: '600',
+    fontSize: 14,
   },
 })
