@@ -37,6 +37,7 @@ export const concertListHandler: RouteHandler<{
     const response = list.map((value) => value.serialize())
     return rep.status(200).send(response)
   } catch (e) {
+    console.error(e)
     return rep.status(500).send()
   }
 }
