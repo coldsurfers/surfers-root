@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { LatLng } from '../../types/LatLng'
-import { currentLocationStorage } from '../storage/hooks/current-location-storage'
+import { currentLocationStorage } from '../storage/current-location-storage'
 
 export interface UserCurrentLocationStoreState {
   latitude: number | null

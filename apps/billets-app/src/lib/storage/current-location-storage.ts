@@ -1,7 +1,7 @@
-import { UserCurrentLocationStore } from '../../stores/userCurrentLocationStore'
-import { mmkvKeys } from '../constants'
-import { mmkvInstance } from '../mmkvInstance'
 import { PersistStorage } from 'zustand/middleware'
+import { UserCurrentLocationStore } from '../stores/userCurrentLocationStore'
+import { mmkvKeys } from './constants'
+import { mmkvInstance } from './mmkvInstance'
 
 const key = mmkvKeys.currentLocation
 
