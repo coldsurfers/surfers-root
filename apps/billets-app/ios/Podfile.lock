@@ -1739,8 +1739,6 @@ PODS:
     - React-Core
   - RNBootSplash (6.2.6):
     - React-Core
-  - RNCAsyncStorage (1.24.0):
-    - React-Core
   - RNCClipboard (1.15.0):
     - React-Core
   - RNCPicker (2.9.0):
@@ -1993,7 +1991,6 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../../../node_modules/react-native/ReactCommon`)
   - "RNAppleAuthentication (from `../../../node_modules/@invertase/react-native-apple-authentication`)"
   - RNBootSplash (from `../../../node_modules/react-native-bootsplash`)
-  - "RNCAsyncStorage (from `../../../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../../../node_modules/@react-native-clipboard/clipboard`)"
   - "RNCPicker (from `../../../node_modules/@react-native-picker/picker`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
@@ -2186,8 +2183,6 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/@invertase/react-native-apple-authentication"
   RNBootSplash:
     :path: "../../../node_modules/react-native-bootsplash"
-  RNCAsyncStorage:
-    :path: "../../../node_modules/@react-native-async-storage/async-storage"
   RNCClipboard:
     :path: "../../../node_modules/@react-native-clipboard/clipboard"
   RNCPicker:
@@ -2316,7 +2311,6 @@ SPEC CHECKSUMS:
   ReactCommon: d5e70af52fb05bd546fd7f002c549f57116c59e4
   RNAppleAuthentication: e00c76acb03351f5544373c78fa7f359bef6d5d3
   RNBootSplash: 107e51392c11c000af0fdcbd90336203068e5e5e
-  RNCAsyncStorage: ec53e44dc3e75b44aa2a9f37618a49c3bc080a7a
   RNCClipboard: 69ab8e51324d5b351f6ba72bbdb72478087a2c64
   RNCPicker: f963e01f78e546a93b98aa201501713dbda14e94
   RNDateTimePicker: 40ffda97d071a98a10fdca4fa97e3977102ccd14
