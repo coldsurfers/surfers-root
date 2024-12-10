@@ -99,7 +99,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 12
         versionName "1.3.2"
-        resValue "string", "CodePushDeploymentKey", project.env.get("CODE_PUSH_DEPLOYMENT_KEY") ?: ""
+        resValue "string", "CodePushDeploymentKey", project.env.get("ANDROID_CODE_PUSH_DEPLOYMENT_KEY") ?: ""
     }
 
     signingConfigs {
