@@ -4,10 +4,12 @@ import {
   ConcertDetailVenueMapBottomSheet,
 } from '@/features/concert-detail'
 import { useToggleSubscribeConcert } from '@/features/subscribe'
+import { useEffectOnce, useStoreReview } from '@/lib'
 import commonStyles from '@/lib/common-styles'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
 import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import useSubscribedConcertQuery from '@/lib/react-query/queries/useSubscribedConcertQuery'
+import { concertDetailCountForStoreReviewStorage } from '@/lib/storage'
 import { NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner } from '@coldsurfers/ocean-road/native'
@@ -21,6 +23,7 @@ export const ConcertDetailScreen = () => {
   const { bottom: bottomInset } = useSafeAreaInsets()
   const navigation = useConcertDetailScreenNavigation()
   const { params } = useConcertDetailScreenRoute()
+  const { requestReview } = useStoreReview()
 
   const { data, isLoading: isLoadingConcert } = useConcertQuery({
     concertId: params.concertId,
@@ -172,6 +175,21 @@ export const ConcertDetailScreen = () => {
     navigation,
   ])
 
+  useEffectOnce(() => {
+    const existingCount = concertDetailCountForStoreReviewStorage.get() ?? 0
+    concertDetailCountForStoreReviewStorage.set(existingCount + 1)
+
+    return () => {
+      const count = concertDetailCountForStoreReviewStorage.get()
+      if (!count) {
+        return
+      }
+      if (count % 10 === 0) {
+        requestReview()
+      }
+    }
+  })
+
   return (
     <View style={{ flex: 1, marginTop: -NAVIGATION_HEADER_HEIGHT }}>
       <StatusBar hidden={Platform.OS === 'ios'} />
@@ -239,7 +257,7 @@ const styles = StyleSheet.create({
     ...commonStyles.shadowBox,
   },
   imageViewerCloseButton: { position: 'absolute', zIndex: 99, right: 12 },
-  imageViewerCloseText: { color: '#ffffff' },
+  imageViewerCloseText: { color: colors.oc.white.value },
   venueMap: {
     width: Dimensions.get('screen').width - 12 * 2,
     height: 350,
