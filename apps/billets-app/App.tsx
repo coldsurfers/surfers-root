@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React, { PropsWithChildren, useEffect, useState } from 'react'
 import { StatusBar, View } from 'react-native'
 import BootSplash from 'react-native-bootsplash'
-import codePush, { DownloadProgress } from 'react-native-code-push'
+import codePush, { DownloadProgress, RemotePackage } from 'react-native-code-push'
 import Config from 'react-native-config'
 import FastImage from 'react-native-fast-image'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -62,40 +62,40 @@ const BootSplashAwaiter = ({ children }: PropsWithChildren) => {
   const [progress, setProgress] = useState<DownloadProgress | null>(null)
 
   useEffect(() => {
-    const init = async () => {
+    const init = async (): Promise<{
+      existingUpdate: RemotePackage | null
+    }> => {
       try {
         await enableFirebaseAnalytics(true)
         await enableFirebaseCrashlytics(true)
+        const existingUpdate = await codePush.checkForUpdate(Config.CODE_PUSH_DEPLOYMENT_KEY)
+        return {
+          existingUpdate,
+        }
       } catch (e) {
-        console.error('Error enabling Firebase services:', e)
+        console.error(e)
+        return {
+          existingUpdate: null,
+        }
       }
     }
 
-    const handleCodepushUpdate = async () => {
-      try {
-        await codePush.sync(
-          {
-            installMode: codePush.InstallMode.IMMEDIATE,
-            deploymentKey: Config.CODE_PUSH_DEPLOYMENT_KEY,
-          },
-          (status) => {
-            if (status === codePush.SyncStatus.UP_TO_DATE || status === codePush.SyncStatus.UPDATE_INSTALLED) {
-              setProgress(null)
-            }
-          },
-          (progress) => {
-            setProgress(progress)
-          },
-        )
-      } catch (e) {
-        console.error('CodePush update error:', e)
-      }
-      BootSplash.hide({ fade: true })
-    }
-
-    init().finally(() => {
-      handleCodepushUpdate()
-    })
+    init()
+      .then(async ({ existingUpdate }) => {
+        if (!existingUpdate) {
+          await BootSplash.hide({ fade: true })
+          return
+        }
+        const downloadedPackage = await existingUpdate.download((progress) => {
+          setProgress(progress)
+        })
+        await downloadedPackage?.install(codePush.InstallMode.IMMEDIATE)
+        BootSplash.hide({ fade: true })
+      })
+      .catch((e) => {
+        console.error(e)
+        BootSplash.hide({ fade: true })
+      })
   }, [enableFirebaseAnalytics, enableFirebaseCrashlytics])
 
   return <>{progress ? <CodepushUpdateScreen progress={progress} /> : children}</>
