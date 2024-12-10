@@ -1,13 +1,13 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { storageAuthTokenKey } from './contexts/constants'
+import { mmkvKeys } from './storage/constants'
+import { mmkvInstance } from './storage/mmkvInstance'
 
 export default async function getAccessToken() {
-  const token = await AsyncStorage.getItem(storageAuthTokenKey)
-  if (!token) {
+  const authToken = mmkvInstance.getString(mmkvKeys.authToken)
+  if (!authToken) {
     return null
   }
   try {
-    const parsedToken = JSON.parse(token) as {
+    const parsedToken = JSON.parse(authToken) as {
       accessToken: string
       refreshToken: string
     }

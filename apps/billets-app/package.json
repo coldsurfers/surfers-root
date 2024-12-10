@@ -35,7 +35,6 @@
     "@gorhom/bottom-sheet": "^5.0.6",
     "@invertase/react-native-apple-authentication": "^2.2.2",
     "@lukemorales/query-key-factory": "*",
-    "@react-native-async-storage/async-storage": "^1.17.10",
     "@react-native-clipboard/clipboard": "^1.15.0",
     "@react-native-community/datetimepicker": "^8.2.0",
     "@react-native-community/geolocation": "^3.4.0",
