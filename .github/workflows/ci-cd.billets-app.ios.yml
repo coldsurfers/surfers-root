@@ -34,6 +34,8 @@ jobs:
           echo "PLATFORM=production" >> ./apps/billets-app/.env
           echo "GOOGLE_SIGNIN_WEB_CLIENT_ID=${{ secrets.GOOGLE_OAUTH_WEB_CLIENT_ID }}" >> ./apps/billets-app/.env.production
           echo "GOOGLE_SIGNIN_WEB_IOS_CLIENT_ID=${{ secrets.GOOGLE_OAUTH_WEB_IOS_CLIENT_ID }}" >> ./apps/billets-app/.env.production
+          echo "IOS_CODE_PUSH_DEPLOYMENT_KEY=${{ secrets.IOS_PRODUCTION_CODE_PUSH_DEPLOYMENT_KEY }}" >> ./apps/billets-app/.env.production
+          echo "ANDROID_CODE_PUSH_DEPLOYMENT_KEY=${{ secrets.ANDROID_PRODUCTION_CODE_PUSH_DEPLOYMENT_KEY }}" >> ./apps/billets-app/.env.production
 
       - name: Create fastlane .env file from template
         run: |

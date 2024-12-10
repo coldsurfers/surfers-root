@@ -4,7 +4,7 @@ import { colors } from '@coldsurfers/ocean-road'
 import { Text } from '@coldsurfers/ocean-road/native'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React, { PropsWithChildren, useEffect, useState } from 'react'
-import { StatusBar, View } from 'react-native'
+import { Platform, StatusBar, View } from 'react-native'
 import BootSplash from 'react-native-bootsplash'
 import codePush, { DownloadProgress, RemotePackage } from 'react-native-code-push'
 import Config from 'react-native-config'
@@ -68,7 +68,14 @@ const BootSplashAwaiter = ({ children }: PropsWithChildren) => {
       try {
         await enableFirebaseAnalytics(true)
         await enableFirebaseCrashlytics(true)
-        const existingUpdate = __DEV__ ? null : await codePush.checkForUpdate(Config.CODE_PUSH_DEPLOYMENT_KEY)
+        const existingUpdate = __DEV__
+          ? null
+          : await codePush.checkForUpdate(
+              Platform.select({
+                ios: Config.IOS_CODE_PUSH_DEPLOYMENT_KEY,
+                android: Config.ANDROID_CODE_PUSH_DEPLOYMENT_KEY,
+              }),
+            )
         return {
           existingUpdate,
         }
