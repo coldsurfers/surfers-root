@@ -1,6 +1,8 @@
 import { PrismaClient } from '@prisma/client'
 
-export const prisma = new PrismaClient()
+export const prisma = new PrismaClient({
+  log: ['warn', 'info', 'error'],
+})
 
 export async function connect() {
   await prisma.$connect()
