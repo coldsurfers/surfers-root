@@ -1,8 +1,12 @@
 import { AuthContextProvider, TabBarVisibleContextProvider, useFirebaseAnalytics, useFirebaseCrashlytics } from '@/lib'
+import { CommonScreenLayout } from '@/ui'
+import { Text } from '@coldsurfers/ocean-road/native'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import React, { PropsWithChildren, useEffect } from 'react'
+import React, { PropsWithChildren, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 import BootSplash from 'react-native-bootsplash'
+import codePush, { DownloadProgress } from 'react-native-code-push'
+import Config from 'react-native-config'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import AppContainer from './src/AppContainer'
 
@@ -17,9 +21,18 @@ const queryClient = new QueryClient({
   },
 })
 
+const CodepushUpdateScreen = ({ progress }: { progress: DownloadProgress }) => {
+  return (
+    <CommonScreenLayout>
+      <Text>{JSON.stringify(progress)}</Text>
+    </CommonScreenLayout>
+  )
+}
+
 const BootSplashAwaiter = ({ children }: PropsWithChildren) => {
   const { enable: enableFirebaseAnalytics } = useFirebaseAnalytics()
   const { enable: enableFirebaseCrashlytics } = useFirebaseCrashlytics()
+  const [progress, setProgress] = useState<DownloadProgress | null>(null)
 
   useEffect(() => {
     const init = async () => {
@@ -29,10 +42,20 @@ const BootSplashAwaiter = ({ children }: PropsWithChildren) => {
 
     init().finally(async () => {
       await BootSplash.hide({ fade: true })
+      const update = await codePush.checkForUpdate(Config.CODE_PUSH_DEPLOYMENT_KEY)
+      if (update) {
+        await update.download((progress) => {
+          if (progress.receivedBytes === progress.totalBytes) {
+            setProgress(null)
+            return
+          }
+          setProgress(progress)
+        })
+      }
     })
   }, [enableFirebaseAnalytics, enableFirebaseCrashlytics])
 
-  return <>{children}</>
+  return <>{progress ? <CodepushUpdateScreen progress={progress} /> : children}</>
 }
 
 const App = () => {
@@ -52,4 +75,4 @@ const App = () => {
   )
 }
 
-export default App
+export default codePush(App)
