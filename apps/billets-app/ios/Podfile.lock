@@ -1903,6 +1903,8 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - RNStoreReview (0.4.3):
+    - React-Core
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
@@ -2005,6 +2007,7 @@ DEPENDENCIES:
   - RNPermissions (from `../../../node_modules/react-native-permissions`)
   - RNReanimated (from `../../../node_modules/react-native-reanimated`)
   - RNScreens (from `../../../node_modules/react-native-screens`)
+  - RNStoreReview (from `../../../node_modules/react-native-store-review`)
   - Yoga (from `../../../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -2211,6 +2214,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../../../node_modules/react-native-screens"
+  RNStoreReview:
+    :path: "../../../node_modules/react-native-store-review"
   Yoga:
     :path: "../../../node_modules/react-native/ReactCommon/yoga"
 
@@ -2325,6 +2330,7 @@ SPEC CHECKSUMS:
   RNPermissions: a4c964f030841f35d918ab3248df9dec9db5f44d
   RNReanimated: f2083d93a37ce46bfc46dba51498b5a40273e246
   RNScreens: 16b782596e80e475b7f3ec769c9a97d789d9b0ed
+  RNStoreReview: 31dbfd0dac2eea9675f0b84f1dd3261c2110c337
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
