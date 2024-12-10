@@ -24,7 +24,7 @@ const queryClient = new QueryClient({
 })
 
 const CodepushUpdateScreen = ({ progress }: { progress: DownloadProgress }) => {
-  const percentage = `${(progress.receivedBytes / progress.totalBytes) * 100}%`
+  const percentage = `${Math.floor((progress.receivedBytes / progress.totalBytes) * 100)}%`
   return (
     <CommonScreenLayout style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 12 }}>
       <FastImage
@@ -86,15 +86,16 @@ const BootSplashAwaiter = ({ children }: PropsWithChildren) => {
           await BootSplash.hide({ fade: true })
           return
         }
+        BootSplash.hide({ fade: true })
         const downloadedPackage = await existingUpdate.download((progress) => {
           setProgress(progress)
         })
         await downloadedPackage?.install(codePush.InstallMode.IMMEDIATE)
-        BootSplash.hide({ fade: true })
       })
       .catch((e) => {
         console.error(e)
         BootSplash.hide({ fade: true })
+        setProgress(null)
       })
   }, [enableFirebaseAnalytics, enableFirebaseCrashlytics])
 
