@@ -68,7 +68,7 @@ const BootSplashAwaiter = ({ children }: PropsWithChildren) => {
       try {
         await enableFirebaseAnalytics(true)
         await enableFirebaseCrashlytics(true)
-        const existingUpdate = await codePush.checkForUpdate(Config.CODE_PUSH_DEPLOYMENT_KEY)
+        const existingUpdate = __DEV__ ? null : await codePush.checkForUpdate(Config.CODE_PUSH_DEPLOYMENT_KEY)
         return {
           existingUpdate,
         }
@@ -118,4 +118,4 @@ const App = () => {
   )
 }
 
-export default codePush(App)
+export default __DEV__ ? App : codePush(App)
