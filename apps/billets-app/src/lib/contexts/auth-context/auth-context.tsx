@@ -1,11 +1,11 @@
 import { useFirebaseMessaging } from '@/lib/hooks'
 import { useSendFCMTokenMutation } from '@/lib/react-query'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { mmkvKeys } from '@/lib/storage/constants'
+import { mmkvInstance } from '@/lib/storage/mmkvInstance'
 import { useQueryClient } from '@tanstack/react-query'
 import React, { createContext, PropsWithChildren, useCallback } from 'react'
 import { components } from '../../../types/api'
 import useGetMeQuery from '../../react-query/queries/useGetMeQuery'
-import { storageAuthTokenKey } from '../constants'
 
 export type User = components['schemas']['GetMeSuccessResponse'] | null
 
@@ -43,7 +43,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
       }
     }) => {
       try {
-        await AsyncStorage.setItem(storageAuthTokenKey, JSON.stringify(authToken))
+        mmkvInstance.set(mmkvKeys.authToken, JSON.stringify(authToken))
         const fcmToken = await getFCMToken()
         await sendFCMToken({
           fcmToken,
@@ -57,7 +57,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   )
   const logout = useCallback(async () => {
     try {
-      await AsyncStorage.removeItem(storageAuthTokenKey)
+      mmkvInstance.delete(mmkvKeys.authToken)
       await queryClient.resetQueries()
     } catch (e) {
       console.error(e)

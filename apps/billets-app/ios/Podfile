@@ -21,7 +21,10 @@ end
 node_require('react-native/scripts/react_native_pods.rb')
 node_require('react-native-permissions/scripts/setup.rb')
 
-platform :ios, min_ios_version_supported
+#platform :ios, min_ios_version_supported
+# react-native-code-push min version is 15.5
+# https://github.com/microsoft/react-native-code-push/blob/master/CodePush.podspec#L13
+platform :ios, '15.5'
 prepare_react_native_project!
 
 linkage = ENV['USE_FRAMEWORKS']

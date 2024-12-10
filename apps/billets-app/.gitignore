@@ -88,6 +88,7 @@ ios/tmp.xcconfig
 .env.development
 .env.production
 .env
+.env.staging
 
 release.keystore
 
