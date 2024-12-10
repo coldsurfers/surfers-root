@@ -6,6 +6,7 @@ apply plugin: "com.google.firebase.crashlytics"
 
 project.ext.envConfigFiles = [
     debug: ".env.development",
+    staging: ".env.stage",
     release: ".env.production",
     anothercustombuild: ".env.production",
 ]
@@ -118,6 +119,17 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+        }
+        staging {
+            signingConfig signingConfigs.release
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            // Detox-specific additions to pro-guard
+            proguardFile "${rootProject.projectDir}/../node_modules/detox/android/detox/proguard-rules-app.pro"
+            firebaseCrashlytics {
+                nativeSymbolUploadEnabled true
+                unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/release/out/lib'
+            }
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
