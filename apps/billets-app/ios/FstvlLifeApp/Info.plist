@@ -25,16 +25,6 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>fstvllife</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fstvllife</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.452563542780-t3cq05rbpnp82lj8tmpcq2djov8f9reg</string>
@@ -75,6 +65,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>47</string>
+	<key>CodePushDeploymentKey</key>
+	<string>$(IOS_CODE_PUSH_DEPLOYMENT_KEY)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -132,7 +124,5 @@
 	<string>Light</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-  	<key>CodePushDeploymentKey</key>
-  	<string>$(IOS_CODE_PUSH_DEPLOYMENT_KEY)</string>
 </dict>
 </plist>
