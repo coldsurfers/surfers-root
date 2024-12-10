@@ -41,16 +41,21 @@ const BootSplashAwaiter = ({ children }: PropsWithChildren) => {
     }
 
     init().finally(async () => {
-      await BootSplash.hide({ fade: true })
       const update = await codePush.checkForUpdate(Config.CODE_PUSH_DEPLOYMENT_KEY)
       if (update) {
-        await update.download((progress) => {
+        update.download((progress) => {
           if (progress.receivedBytes === progress.totalBytes) {
             setProgress(null)
+            codePush.sync({
+              installMode: codePush.InstallMode.IMMEDIATE,
+            })
             return
           }
           setProgress(progress)
+          BootSplash.hide({ fade: true })
         })
+      } else {
+        BootSplash.hide({ fade: true })
       }
     })
   }, [enableFirebaseAnalytics, enableFirebaseCrashlytics])
