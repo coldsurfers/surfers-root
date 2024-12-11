@@ -1,8 +1,15 @@
+import { Platform } from 'react-native'
 import Config from 'react-native-config'
 
 const appConfig = {
-  'name': 'FstvlLifeApp',
-  'displayName': 'FstvlLifeApp',
+  'name': Platform.select({
+    android: 'Billets',
+    ios: 'FstvlLifeApp',
+  }),
+  'displayName': Platform.select({
+    android: 'Billets',
+    ios: 'FstvlLifeApp',
+  }),
   'react-native-google-mobile-ads': {
     android_app_id: Config.GOOGLE_MOBILE_ADS_ANDROID_APP_ID,
     ios_app_id: Config.GOOGLE_MOBILE_ADS_IOS_APP_ID,
