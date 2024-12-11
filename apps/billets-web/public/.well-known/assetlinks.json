@@ -3,7 +3,7 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.fstvllifeapp",
+      "package_name": "com.fstvllife.android",
       "sha256_cert_fingerprints": [
         "EA:CB:9B:C4:E8:87:ED:27:9F:7D:87:F4:BE:7D:1F:E5:D3:27:2C:73:92:1F:B5:EA:56:D3:2B:21:FA:B2:A6:82"
       ]
