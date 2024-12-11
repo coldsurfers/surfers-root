@@ -1,4 +1,4 @@
-package com.fstvllifeapp
+package com.fstvllife.android
 
 import android.app.Application
 import com.facebook.react.PackageList
