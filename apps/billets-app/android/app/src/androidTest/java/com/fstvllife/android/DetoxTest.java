@@ -1,4 +1,4 @@
-package com.fstvllifeapp;
+package com.fstvllife.android;
 
 import com.wix.detox.Detox;
 import com.wix.detox.config.DetoxConfig;

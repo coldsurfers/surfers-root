@@ -92,12 +92,12 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.fstvllifeapp"
+    namespace "com.fstvllife.android"
     defaultConfig {
-        applicationId "com.fstvllifeapp"
+        applicationId "com.fstvllife.android"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 12
+        versionCode 13
         versionName "1.4.0"
         resValue "string", "CodePushDeploymentKey", project.env.get("ANDROID_CODE_PUSH_DEPLOYMENT_KEY") ?: ""
     }
