@@ -8,6 +8,8 @@ declare module 'react-native-config' {
     ANDROID_CODE_PUSH_DEPLOYMENT_KEY?: string
     GOOGLE_MOBILE_ADS_ANDROID_APP_ID?: string
     GOOGLE_MOBILE_ADS_IOS_APP_ID?: string
+    GOOGLE_MOBILE_ADS_IOS_INTERSTITIAL_ID?: string
+    GOOGLE_MOBILE_ADS_ANDROID_INTERSTITIAL_ID?: string
   }
 
   export const Config: NativeConfig
