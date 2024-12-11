@@ -3,13 +3,17 @@ import {
   ConcertDetailSectionListSections,
   ConcertDetailVenueMapBottomSheet,
 } from '@/features/concert-detail'
+import { useInterstitialAd } from '@/features/google-ads'
 import { useToggleSubscribeConcert } from '@/features/subscribe'
 import { useEffectOnce, useStoreReview } from '@/lib'
 import commonStyles from '@/lib/common-styles'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
 import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import useSubscribedConcertQuery from '@/lib/react-query/queries/useSubscribedConcertQuery'
-import { concertDetailCountForStoreReviewStorage } from '@/lib/storage'
+import {
+  concertDetailCountForStoreReviewStorage,
+  concertTicketBtnPressCountForInterstitialAdStorage,
+} from '@/lib/storage'
 import { NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner } from '@coldsurfers/ocean-road/native'
@@ -33,6 +37,15 @@ export const ConcertDetailScreen = () => {
   })
   const { data: meData } = useGetMeQuery()
   const toggleSubscribeConcert = useToggleSubscribeConcert()
+
+  const { show, loaded } = useInterstitialAd({
+    onAdOpened: () => console.log('opened'),
+    onAdClosed: () => {
+      navigation.navigate('ConcertTicketListScreen', {
+        concertId: params.concertId,
+      })
+    },
+  })
 
   const mapDetailBottomSheetModalRef = useRef<BottomSheetModal>(null)
 
@@ -190,6 +203,20 @@ export const ConcertDetailScreen = () => {
     }
   })
 
+  const onPressTicketBtn = useCallback(async () => {
+    const prevCount = concertTicketBtnPressCountForInterstitialAdStorage.get() ?? 0
+    const nextCount = prevCount + 1
+    concertTicketBtnPressCountForInterstitialAdStorage.set(nextCount)
+    const shouldShowAd = nextCount % 5 === 0 && loaded
+    if (shouldShowAd) {
+      await show()
+    } else {
+      navigation.navigate('ConcertTicketListScreen', {
+        concertId: params.concertId,
+      })
+    }
+  }, [loaded, navigation, params.concertId, show])
+
   return (
     <View style={{ flex: 1, marginTop: -NAVIGATION_HEADER_HEIGHT }}>
       <StatusBar hidden={Platform.OS === 'ios'} />
@@ -205,14 +232,7 @@ export const ConcertDetailScreen = () => {
               onPressSubscribe={onPressSubscribe}
             />
             <View style={[styles.fixedBottom]}>
-              <Button
-                onPress={() => {
-                  navigation.navigate('ConcertTicketListScreen', {
-                    concertId: params.concertId,
-                  })
-                }}
-                style={{ backgroundColor: colors.oc.cyan[8].value, marginBottom: bottomInset }}
-              >
+              <Button onPress={onPressTicketBtn} style={[styles.ticketBtn, { marginBottom: bottomInset }]}>
                 🎫 티켓 찾기 🎫
               </Button>
             </View>
@@ -265,5 +285,8 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
     borderRadius: 8,
     marginTop: 4,
+  },
+  ticketBtn: {
+    backgroundColor: colors.oc.cyan[8].value,
   },
 })
