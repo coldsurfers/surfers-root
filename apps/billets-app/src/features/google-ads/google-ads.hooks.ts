@@ -3,7 +3,15 @@ import { Platform, StatusBar } from 'react-native'
 import { AdEventType } from 'react-native-google-mobile-ads'
 import { googleAdsUtils } from './google-ads.utils'
 
-export const useInterstitialAd = ({ autoLoadOnMount = true }: { autoLoadOnMount?: boolean }) => {
+export const useInterstitialAd = ({
+  autoLoadOnMount = true,
+  onAdClosed,
+  onAdOpened,
+}: {
+  autoLoadOnMount?: boolean
+  onAdOpened?: () => void
+  onAdClosed?: () => void
+}) => {
   const [interstitialAd] = useState(() => googleAdsUtils.createInterstitialAd())
   const [loaded, setLoaded] = useState(false)
 
@@ -20,12 +28,14 @@ export const useInterstitialAd = ({ autoLoadOnMount = true }: { autoLoadOnMount?
         // Prevent the close button from being unreachable by hiding the status bar on iOS
         StatusBar.setHidden(true)
       }
+      onAdOpened?.()
     })
 
     const unsubscribeClosed = interstitialAd.addAdEventListener(AdEventType.CLOSED, () => {
       if (Platform.OS === 'ios') {
         StatusBar.setHidden(false)
       }
+      onAdClosed?.()
     })
 
     if (autoLoadOnMount) {
@@ -37,7 +47,7 @@ export const useInterstitialAd = ({ autoLoadOnMount = true }: { autoLoadOnMount?
       unsubscribeLoaded()
       unsubscribeOpened()
     }
-  }, [autoLoadOnMount, interstitialAd])
+  }, [autoLoadOnMount, interstitialAd, onAdClosed, onAdOpened])
 
   return {
     loaded,
