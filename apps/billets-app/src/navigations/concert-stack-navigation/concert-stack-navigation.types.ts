@@ -1,16 +1,17 @@
-import { ConcertDetailScreenParam } from '@/screens'
-import { ConcertTicketListScreenParam } from '@/screens/concert-ticket-list-screen/concert-ticket-list-screen.types'
+import { zodNavigation, ZodNavigationParamList, ZodNavigationParams, zodScreen } from '@/lib'
+import { ConcertDetailScreenParams, ConcertTicketListScreenParams } from '@/screens'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { Screens } from '../../lib/navigations/constants'
-import { MainStackProp } from '../main-stack-navigation'
+import { MainStackScreenProps } from '../main-stack-navigation'
 
-export type ConcertStackParam = {
-  [Screens.ConcertDetailScreen]: ConcertDetailScreenParam
-  [Screens.ConcertTicketListScreen]: ConcertTicketListScreenParam
-}
+export type ConcertStackParams = ZodNavigationParams<typeof zodNavigation.ConcertStackNavigation>
 
-export type ConcertStackScreenProp<T extends keyof ConcertStackParam> = CompositeScreenProps<
-  NativeStackScreenProps<ConcertStackParam, T>,
-  MainStackProp<'ConcertStackScreen'>
+export type ConcertStackParamList = ZodNavigationParamList<{
+  [zodScreen.ConcertDetailScreen.name]: ConcertDetailScreenParams
+  [zodScreen.ConcertTicketListScreen.name]: ConcertTicketListScreenParams
+}>
+
+export type ConcertStackScreenProps<T extends keyof ConcertStackParamList> = CompositeScreenProps<
+  NativeStackScreenProps<ConcertStackParamList, T>,
+  MainStackScreenProps<typeof zodNavigation.ConcertStackNavigation.name>
 >

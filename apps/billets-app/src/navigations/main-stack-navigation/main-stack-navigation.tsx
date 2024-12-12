@@ -23,23 +23,23 @@ export const MainStackNavigation = () => {
         },
       }}
     >
-      <MainStack.Screen name="MainTabScreen" component={MainTabNavigation} />
+      <MainStack.Screen name="MainTabNavigation" component={MainTabNavigation} />
       <MainStack.Screen
-        name="ConcertStackScreen"
+        name="ConcertStackNavigation"
         component={ConcertStackNavigation}
         options={{
           presentation: 'card',
         }}
       />
       <MainStack.Screen
-        name="VenueStackScreen"
+        name="VenueStackNavigation"
         component={VenueStackNavigation}
         options={{
           presentation: 'card',
         }}
       />
       <MainStack.Screen
-        name="ArtistStackScreen"
+        name="ArtistStackNavigation"
         component={ArtistStackNavigation}
         options={{
           presentation: 'card',
@@ -47,14 +47,14 @@ export const MainStackNavigation = () => {
       />
       {user ? null : (
         <MainStack.Screen
-          name="LoginStackScreen"
+          name="LoginStackNavigation"
           component={LoginStackNavigation}
           options={{ presentation: 'fullScreenModal' }}
         />
       )}
       {user ? (
         <MainStack.Screen
-          name="SubscribedStackScreen"
+          name="SubscribedStackNavigation"
           component={SubscribedStackNavigation}
           options={{
             presentation: 'card',

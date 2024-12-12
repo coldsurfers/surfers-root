@@ -1,10 +1,10 @@
+import { zodNavigation } from '@/lib'
 import { colors } from '@coldsurfers/ocean-road'
 import { Text } from '@coldsurfers/ocean-road/native'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import React, { useEffect, useRef } from 'react'
 import { Animated, StyleSheet, TouchableOpacity } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { StackScreens } from '../../lib/navigations/constants'
 import palettes from '../../lib/palettes'
 
 interface Props extends BottomTabBarProps {
@@ -52,24 +52,16 @@ export const TabBar = (props: Props) => {
               : route.name
         const emoji = () => {
           switch (route.name) {
-            case StackScreens.HomeStackScreen:
+            case zodNavigation.HomeStackNavigation.name:
               return '🏠'
-            case StackScreens.SearchStackScreen:
+            case zodNavigation.SearchStackNavigation.name:
               return '🔎'
-            case StackScreens.ConcertStackScreen:
+            case zodNavigation.ConcertStackNavigation.name:
               return '📰'
-            case StackScreens.FundingStackScreen:
-              return '💰'
-            case StackScreens.ContentsStackScreen:
-              return '🗞'
-            case StackScreens.CommunityStackScreen:
-              return '🎙'
-            case StackScreens.MyStackScreen:
+            case zodNavigation.MyStackNavigation.name:
               return '🙂'
-            case StackScreens.CalendarStackScreen:
-              return '🗓'
-            case StackScreens.ConcertSearchStackScreen:
-              return '🔎'
+            default:
+              return ''
           }
         }
 

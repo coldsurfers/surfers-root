@@ -1,9 +1,9 @@
 import { ArtistDetailScreen } from '@/screens'
 import { NavigationHeader } from '@/ui'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { ArtistStackParam } from './artist-stack-navigation.types'
+import { ArtistStackParamList } from './artist-stack-navigation.types'
 
-const Stack = createNativeStackNavigator<ArtistStackParam>()
+const Stack = createNativeStackNavigator<ArtistStackParamList>()
 
 export const ArtistStackNavigation = () => {
   return (

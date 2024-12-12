@@ -65,7 +65,7 @@ ConcertDetailSectionListItem.LineupItem = memo(
         <ArtistSubscribeButton
           artistId={artistId}
           onShouldLogin={() => {
-            navigation.navigate('LoginStackScreen', {
+            navigation.navigate('LoginStackNavigation', {
               screen: 'LoginSelectionScreen',
               params: {},
             })
@@ -112,7 +112,7 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
           <VenueSubscribeButton
             venueId={venueId}
             onShouldLogin={() => {
-              navigation.navigate('LoginStackScreen', {
+              navigation.navigate('LoginStackNavigation', {
                 screen: 'LoginSelectionScreen',
                 params: {},
               })
