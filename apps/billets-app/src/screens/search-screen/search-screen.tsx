@@ -1,6 +1,6 @@
 import { SearchItem, SearchItemThumbnail } from '@/features/search/ui'
 import { CommonListEmpty, CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
-import { ProfileThumbnail, Text, TextInput } from '@coldsurfers/ocean-road/native'
+import { Button, ProfileThumbnail, Text, TextInput } from '@coldsurfers/ocean-road/native'
 import { useDebounce } from '@uidotdev/usehooks'
 import format from 'date-fns/format'
 import { useCallback, useMemo, useState } from 'react'
@@ -223,6 +223,13 @@ export const SearchScreen = () => {
           />
         </KeyboardAvoidWrapper>
       )}
+      <Button
+        onPress={() => {
+          navigation.navigate('ConcertMapScreen', {})
+        }}
+      >
+        맵으로 보기
+      </Button>
     </CommonScreenLayout>
   )
 }
