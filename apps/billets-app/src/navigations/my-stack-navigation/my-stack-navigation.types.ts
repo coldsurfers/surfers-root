@@ -1,14 +1,14 @@
+import { ZodNavigationParamList, ZodNavigationParams } from '@/lib'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { Screens } from '../../lib/navigations/constants'
-import { MyScreenParam } from '../../screens/my-screen/my-screen.types'
-import { MainTabProp } from '../main-tab-navigation/main-tab-navigation.types'
+import { zodNavigation, zodScreen } from '../../lib/navigations/constants'
+import { MainTabScreensProps } from '../main-tab-navigation/main-tab-navigation.types'
 
-export type MyStackParam = {
-  [Screens.MyScreen]: MyScreenParam
-}
+export type MyStackParams = ZodNavigationParams<typeof zodNavigation.MyStackNavigation>
 
-export type MyStackProp<T extends keyof MyStackParam> = CompositeScreenProps<
-  NativeStackScreenProps<MyStackParam, T>,
-  MainTabProp<'MyStackScreen'>
+export type MyStackParamList = ZodNavigationParamList<[typeof zodScreen.MyScreen]>
+
+export type MyStackProp<T extends keyof MyStackParamList> = CompositeScreenProps<
+  NativeStackScreenProps<MyStackParamList, T>,
+  MainTabScreensProps<typeof zodNavigation.MyStackNavigation.name>
 >

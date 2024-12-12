@@ -1,6 +1,6 @@
-import { ConcertStackScreenProp } from '@/navigations'
+import { zodScreen, ZodScreenParams } from '@/lib'
+import { ConcertStackScreenProps } from '@/navigations'
 
-export type ConcertDetailScreenParam = {
-  concertId: string
-}
-export type ConcertDetailScreenProp = ConcertStackScreenProp<'ConcertDetailScreen'>
+export type ConcertDetailScreenParams = ZodScreenParams<typeof zodScreen.ConcertDetailScreen>
+
+export type ConcertDetailScreenProps = ConcertStackScreenProps<typeof zodScreen.ConcertDetailScreen.name>

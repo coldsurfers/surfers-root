@@ -1,17 +1,16 @@
+import { ZodNavigationParamList, ZodNavigationParams } from '@/lib'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { Screens } from '../../lib/navigations/constants'
-import { HomeScreenParams } from '../../screens/home-screen/home-screen.types'
-import { MainTabProp } from '../main-tab-navigation/main-tab-navigation.types'
+import { zodNavigation, zodScreen } from '../../lib/navigations/constants'
+import { MainTabScreensProps } from '../main-tab-navigation/main-tab-navigation.types'
 
-export type HomeStackParam = {
-  [Screens.HomeScreen]: HomeScreenParams
-  [Screens.LocationSelectionScreen]: {
-    //
-  }
-}
+export type HomeStackParams = ZodNavigationParams<typeof zodNavigation.HomeStackNavigation>
 
-export type HomeStackScreenProps<T extends keyof HomeStackParam> = CompositeScreenProps<
-  NativeStackScreenProps<HomeStackParam, T>,
-  MainTabProp<'HomeStackScreen'>
+export type HomeStackParamList = ZodNavigationParamList<
+  [typeof zodScreen.HomeScreen, typeof zodScreen.LocationSelectionScreen]
+>
+
+export type HomeStackScreenProps<T extends keyof HomeStackParamList> = CompositeScreenProps<
+  NativeStackScreenProps<HomeStackParamList, T>,
+  MainTabScreensProps<typeof zodNavigation.HomeStackNavigation.name>
 >

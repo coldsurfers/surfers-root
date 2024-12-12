@@ -1,5 +1,7 @@
-import { LoginStackScreenProp } from '../../navigations/login-stack-navigation/login-stack-navigation.types'
+import { zodScreen } from '@/lib'
+import { z } from 'zod'
+import { LoginStackScreenProps } from '../../navigations/login-stack-navigation/login-stack-navigation.types'
 
-export type LoginSelectionScreenParam = {}
+export type LoginSelectionScreenParams = z.infer<typeof zodScreen.LoginSelectionScreen.params>
 
-export type LoginSelectionScreenProp = LoginStackScreenProp<'LoginSelectionScreen'>
+export type LoginSelectionScreenProps = LoginStackScreenProps<typeof zodScreen.LoginSelectionScreen.name>

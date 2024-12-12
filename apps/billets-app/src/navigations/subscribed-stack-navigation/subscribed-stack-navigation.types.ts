@@ -1,14 +1,14 @@
-import { SubscribedConcertListScreenParam } from '@/screens'
+import { ZodNavigationParamList, ZodNavigationParams } from '@/lib'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { Screens } from '../../lib/navigations/constants'
-import { MainStackProp } from '../main-stack-navigation'
+import { zodNavigation, zodScreen } from '../../lib/navigations/constants'
+import { MainStackScreenProps } from '../main-stack-navigation'
 
-export type SubscribedStackParam = {
-  [Screens.SubscribedConcertListScreen]: SubscribedConcertListScreenParam
-}
+export type SubscribedStackParams = ZodNavigationParams<typeof zodNavigation.SubscribedStackNavigation>
 
-export type SubscribedStackScreenProp<T extends keyof SubscribedStackParam> = CompositeScreenProps<
-  NativeStackScreenProps<SubscribedStackParam, T>,
-  MainStackProp<'ConcertStackScreen'>
+export type SubscribedStackParamList = ZodNavigationParamList<[typeof zodScreen.SubscribedConcertListScreen]>
+
+export type SubscribedStackScreenProps<T extends keyof SubscribedStackParamList> = CompositeScreenProps<
+  NativeStackScreenProps<SubscribedStackParamList, T>,
+  MainStackScreenProps<typeof zodNavigation.SubscribedStackNavigation.name>
 >
