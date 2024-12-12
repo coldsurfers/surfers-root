@@ -1,10 +1,10 @@
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { EmailConfirmScreenProp } from './email-confirm-screen.types'
+import { EmailConfirmScreenProps } from './email-confirm-screen.types'
 
 export const useEmailConfirmScreenNavigation = () => {
-  return useNavigation<EmailConfirmScreenProp['navigation']>()
+  return useNavigation<EmailConfirmScreenProps['navigation']>()
 }
 
 export const useEmailConfirmScreenRoute = () => {
-  return useRoute<EmailConfirmScreenProp['route']>()
+  return useRoute<EmailConfirmScreenProps['route']>()
 }

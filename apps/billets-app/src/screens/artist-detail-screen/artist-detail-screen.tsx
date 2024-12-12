@@ -13,7 +13,7 @@ export const ArtistDetailScreen = () => {
       <ArtistDetailConcertList
         artistId={route.params.artistId}
         onPressItem={({ concertId }) => {
-          navigation.navigate('ConcertStackScreen', {
+          navigation.navigate('ConcertStackNavigation', {
             screen: 'ConcertDetailScreen',
             params: {
               concertId,

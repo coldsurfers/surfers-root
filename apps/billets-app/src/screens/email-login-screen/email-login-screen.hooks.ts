@@ -1,5 +1,5 @@
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { EmailLoginScreenProp } from './email-login-screen.type'
+import { EmailLoginScreenProps } from './email-login-screen.type'
 
-export const useEmailLoginScreenNavigation = () => useNavigation<EmailLoginScreenProp['navigation']>()
-export const useEmailLoginScreenRoute = () => useRoute<EmailLoginScreenProp['route']>()
+export const useEmailLoginScreenNavigation = () => useNavigation<EmailLoginScreenProps['navigation']>()
+export const useEmailLoginScreenRoute = () => useRoute<EmailLoginScreenProps['route']>()

@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-web",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "scripts": {
     "build": "next build",
     "create:env:ci": "yarn ts-node ./libs/createDotEnv.ts",
