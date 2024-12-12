@@ -16,7 +16,7 @@ export const HomeStackNavigation = () => {
         }}
       />
       <HomeStack.Screen
-        name="HomeScreen"
+        name="LocationSelectionScreen"
         component={LocationSelectionScreen}
         options={{
           header: () => null,
