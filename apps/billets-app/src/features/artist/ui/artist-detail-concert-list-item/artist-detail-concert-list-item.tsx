@@ -34,7 +34,7 @@ export const ArtistDetailConcertListItem = ({ item, onPress }: ArtistDetailConce
         <ConcertSubscribeButton
           onPress={() => {
             if (!isLoggedIn) {
-              navigation.navigate('LoginStackScreen', {
+              navigation.navigate('LoginStackNavigation', {
                 screen: 'LoginSelectionScreen',
                 params: {},
               })

@@ -45,7 +45,7 @@ export const ArtistDetailTop = ({
             <ArtistSubscribeButton
               artistId={artistId}
               onShouldLogin={() => {
-                navigation.navigate('LoginStackScreen', {
+                navigation.navigate('LoginStackNavigation', {
                   params: {},
                   screen: 'LoginSelectionScreen',
                 })

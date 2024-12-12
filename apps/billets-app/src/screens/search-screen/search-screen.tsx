@@ -98,7 +98,7 @@ export const SearchScreen = () => {
   > = useCallback(
     ({ item }) => {
       const onPressVenueItem = () => {
-        navigation.navigate('VenueStackScreen', {
+        navigation.navigate('VenueStackNavigation', {
           screen: 'VenueDetailScreen',
           params: {
             id: item.id,
@@ -106,7 +106,7 @@ export const SearchScreen = () => {
         })
       }
       const onPressArtistItem = () => {
-        navigation.navigate('ArtistStackScreen', {
+        navigation.navigate('ArtistStackNavigation', {
           screen: 'ArtistDetailScreen',
           params: {
             artistId: item.id,
@@ -114,7 +114,7 @@ export const SearchScreen = () => {
         })
       }
       const onPressConcertItem = () =>
-        navigation.navigate('ConcertStackScreen', {
+        navigation.navigate('ConcertStackNavigation', {
           screen: 'ConcertDetailScreen',
           params: { concertId: item.id },
         })
@@ -169,7 +169,7 @@ export const SearchScreen = () => {
           subtitle={format(new Date(value.date), 'EEE, MMM dd')}
           description={value.venues.at(0)?.venueTitle ?? ''}
           onPress={() =>
-            navigation.navigate('ConcertStackScreen', {
+            navigation.navigate('ConcertStackNavigation', {
               screen: 'ConcertDetailScreen',
               params: { concertId: value.id },
             })

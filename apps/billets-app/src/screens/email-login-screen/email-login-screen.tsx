@@ -55,8 +55,8 @@ const _EmailLoginScreen = () => {
               user,
             })
 
-            navigate('MainTabScreen', {
-              screen: 'HomeStackScreen',
+            navigate('MainTabNavigation', {
+              screen: 'HomeStackNavigation',
               params: {
                 screen: 'HomeScreen',
                 params: {},
