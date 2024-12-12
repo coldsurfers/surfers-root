@@ -1,26 +1,8 @@
+import { permissionsUtils } from '@/features/permissions/permissions.utils'
 import { useCallback, useEffect } from 'react'
-import { AppState, Platform } from 'react-native'
-import { PERMISSIONS, check, request } from 'react-native-permissions'
+import { AppState } from 'react-native'
 import geolocationUtils from '../../../lib/geolocationUtils'
 import { useUserCurrentLocationStore } from '../../../lib/stores/userCurrentLocationStore'
-
-const checkPermission = async () => {
-  const permission =
-    Platform.OS === 'ios' ? PERMISSIONS.IOS.LOCATION_WHEN_IN_USE : PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
-  const result = await check(permission)
-  return result
-}
-
-const requestPermission = async (options?: { iOSAlways: boolean }) => {
-  const permission =
-    Platform.OS === 'ios'
-      ? options?.iOSAlways
-        ? PERMISSIONS.IOS.LOCATION_ALWAYS
-        : PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
-      : PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
-  const result = await request(permission)
-  return result
-}
 
 export const CurrentLocationTracker = () => {
   const setUserCurrentLocation = useUserCurrentLocationStore((state) => state.setUserCurrentLocation)
@@ -39,11 +21,11 @@ export const CurrentLocationTracker = () => {
   }, [setUserCurrentLocation])
 
   useEffect(() => {
-    checkPermission().then((result) => {
+    permissionsUtils.checkLocationPermission().then((result) => {
       if (result === 'granted') {
         initializeLocation()
       } else {
-        requestPermission().then((result) => {
+        permissionsUtils.requestLocationPermission().then((result) => {
           if (result === 'granted') {
             initializeLocation()
           }
