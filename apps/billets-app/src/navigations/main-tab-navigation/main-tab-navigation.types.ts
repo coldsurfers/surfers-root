@@ -1,19 +1,28 @@
+import { zodNavigation, ZodNavigationParamList, ZodNavigationParams } from '@/lib'
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { StackScreens } from '../../lib/navigations/constants'
-import { HomeStackParam } from '../home-stack-navigation/home-stack-navigation.types'
-import { MainStackNavigationParamList } from '../main-stack-navigation'
-import { MyStackParam } from '../my-stack-navigation/my-stack-navigation.types'
-import { SearchStackParam } from '../search-stack-navigation'
+import { HomeStackParamList } from '../home-stack-navigation'
+import { MainStackNavigationParamList, MainStackScreenProps } from '../main-stack-navigation'
+import { MyStackParamList } from '../my-stack-navigation'
+import { SearchStackParamList } from '../search-stack-navigation'
 
-export type MainTabNavigationParamList = {
-  [StackScreens.HomeStackScreen]: NavigatorScreenParams<HomeStackParam>
-  [StackScreens.SearchStackScreen]: NavigatorScreenParams<SearchStackParam>
-  [StackScreens.MyStackScreen]: NavigatorScreenParams<MyStackParam>
-}
+export type MainTabParams = ZodNavigationParams<typeof zodNavigation.MainTabNavigation>
 
-export type MainTabProp<T extends keyof MainTabNavigationParamList> = CompositeScreenProps<
-  BottomTabScreenProps<MainTabNavigationParamList, T>,
-  NativeStackScreenProps<MainStackNavigationParamList, 'MainTabScreen'>
+export type MainTabParamList = ZodNavigationParamList<{
+  [zodNavigation.HomeStackNavigation.name]: NavigatorScreenParams<HomeStackParamList>
+  [zodNavigation.SearchStackNavigation.name]: NavigatorScreenParams<SearchStackParamList>
+  [zodNavigation.MyStackNavigation.name]: NavigatorScreenParams<MyStackParamList>
+}>
+
+// ZodNavigationParamList<
+//   [
+//     typeof zodNavigation.HomeStackNavigation,
+//     typeof zodNavigation.SearchStackNavigation,
+//     typeof zodNavigation.MyStackNavigation,
+//   ]
+// >
+
+export type MainTabScreensProps<T extends keyof MainTabParamList> = CompositeScreenProps<
+  BottomTabScreenProps<MainTabParamList, T>,
+  MainStackScreenProps<keyof MainStackNavigationParamList>
 >

@@ -1,10 +1,9 @@
+import { zodScreen, ZodScreenParams } from '@/lib'
 import { SectionListData } from 'react-native'
-import { MyStackProp } from '../../navigations/my-stack-navigation/my-stack-navigation.types'
+import { MyStackScreenProps } from '../../navigations/my-stack-navigation/my-stack-navigation.types'
 
-export type MyScreenParam = {
-  //
-}
-export type MyScreenProp = MyStackProp<'MyScreen'>
+export type MyScreenParams = ZodScreenParams<typeof zodScreen.MyScreen>
+export type MyScreenProps = MyStackScreenProps<'MyScreen'>
 
 export type MyScreenSettingSectionListSectionT = {
   title: 'profile' | 'account' | 'saved'

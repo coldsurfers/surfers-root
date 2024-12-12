@@ -1,9 +1,9 @@
 import { HomeScreen, LocationSelectionScreen } from '@/screens'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
-import { HomeStackParam } from './home-stack-navigation.types'
+import { HomeStackParamList } from './home-stack-navigation.types'
 
-const HomeStack = createNativeStackNavigator<HomeStackParam>()
+const HomeStack = createNativeStackNavigator<HomeStackParamList>()
 
 export const HomeStackNavigation = () => {
   return (
@@ -16,7 +16,7 @@ export const HomeStackNavigation = () => {
         }}
       />
       <HomeStack.Screen
-        name="LocationSelectionScreen"
+        name="HomeScreen"
         component={LocationSelectionScreen}
         options={{
           header: () => null,

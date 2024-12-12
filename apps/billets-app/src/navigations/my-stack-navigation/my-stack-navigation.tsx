@@ -3,9 +3,9 @@ import { MyScreen } from '@/screens'
 import { NavigationHeader } from '@/ui'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React, { useContext } from 'react'
-import { MyStackParam } from './my-stack-navigation.types'
+import { MyStackParamList } from './my-stack-navigation.types'
 
-const Stack = createNativeStackNavigator<MyStackParam>()
+const Stack = createNativeStackNavigator<MyStackParamList>()
 
 export const MyStackNavigation = () => {
   const { user } = useContext(AuthContext)

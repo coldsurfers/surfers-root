@@ -1,9 +1,9 @@
 import { VenueDetailScreen } from '@/screens'
 import { NavigationHeader } from '@/ui'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { VenueStackParam } from './venue-stack-navigation.types'
+import { VenueStackParamList } from './venue-stack-navigation.types'
 
-const VenueStack = createNativeStackNavigator<VenueStackParam>()
+const VenueStack = createNativeStackNavigator<VenueStackParamList>()
 
 export const VenueStackNavigation = () => {
   return (

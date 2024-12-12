@@ -62,8 +62,8 @@ const _EmailConfirmScreen = () => {
       })
       setTimeout(async () => {
         await login({ user, authToken })
-        navigation.navigate('MainTabScreen', {
-          screen: 'HomeStackScreen',
+        navigation.navigate('MainTabNavigation', {
+          screen: 'HomeStackNavigation',
           params: {
             screen: 'HomeScreen',
             params: {},

@@ -1,9 +1,9 @@
 import { SubscribedConcertListScreen } from '@/screens'
 import { NavigationHeader } from '@/ui'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { SubscribedStackParam } from './subscribed-stack-navigation.types'
+import { SubscribedStackParamList } from './subscribed-stack-navigation.types'
 
-const SubscribedStack = createNativeStackNavigator<SubscribedStackParam>()
+const SubscribedStack = createNativeStackNavigator<SubscribedStackParamList>()
 
 export const SubscribedStackNavigation = () => {
   return (

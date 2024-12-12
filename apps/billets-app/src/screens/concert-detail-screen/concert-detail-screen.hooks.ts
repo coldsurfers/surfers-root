@@ -1,10 +1,10 @@
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { ConcertDetailScreenProp } from './concert-detail-screen.types'
+import { ConcertDetailScreenProps } from './concert-detail-screen.types'
 
 export const useConcertDetailScreenNavigation = () => {
-  return useNavigation<ConcertDetailScreenProp['navigation']>()
+  return useNavigation<ConcertDetailScreenProps['navigation']>()
 }
 
 export const useConcertDetailScreenRoute = () => {
-  return useRoute<ConcertDetailScreenProp['route']>()
+  return useRoute<ConcertDetailScreenProps['route']>()
 }
