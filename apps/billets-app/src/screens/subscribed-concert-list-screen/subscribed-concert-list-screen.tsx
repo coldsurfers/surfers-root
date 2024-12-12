@@ -7,7 +7,7 @@ export const SubscribedConcertListScreen = () => {
   const navigation = useSubscribedConcertListScreenNavigation()
   const onPressItem = useCallback(
     (concertId: string) => {
-      navigation.navigate('ConcertStackScreen', {
+      navigation.navigate('ConcertStackNavigation', {
         screen: 'ConcertDetailScreen',
         params: {
           concertId,

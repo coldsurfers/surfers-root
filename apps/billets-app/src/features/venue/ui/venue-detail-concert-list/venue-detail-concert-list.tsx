@@ -43,7 +43,7 @@ export const VenueDetailConcertList = ({
           onPress={() => onPressItem?.({ concertId: info.item.id })}
           onPressSubscribe={({ concertId, isSubscribed }) => {
             if (!meData) {
-              navigation.navigate('LoginStackScreen', {
+              navigation.navigate('LoginStackNavigation', {
                 screen: 'LoginSelectionScreen',
                 params: {},
               })

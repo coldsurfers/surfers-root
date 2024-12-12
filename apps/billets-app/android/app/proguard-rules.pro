@@ -9,4 +9,4 @@
 
 # Add any project specific keep options here:
 
--keep class com.fstvllifeapp.BuildConfig { *; }
+-keep class com.fstvllife.android.BuildConfig { *; }

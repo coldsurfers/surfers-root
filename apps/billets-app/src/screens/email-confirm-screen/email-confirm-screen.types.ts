@@ -1,7 +1,6 @@
-import { LoginStackScreenProp } from '@/navigations'
+import { zodScreen, ZodScreenParams } from '@/lib'
+import { LoginStackScreenProps } from '@/navigations'
 
-export type EmailConfirmScreenParam = {
-  email: string
-}
+export type EmailConfirmScreenParams = ZodScreenParams<typeof zodScreen.EmailConfirmScreen>
 
-export type EmailConfirmScreenProp = LoginStackScreenProp<'EmailConfirmScreen'>
+export type EmailConfirmScreenProps = LoginStackScreenProps<typeof zodScreen.EmailConfirmScreen.name>

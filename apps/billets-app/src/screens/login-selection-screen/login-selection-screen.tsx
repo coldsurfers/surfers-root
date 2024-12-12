@@ -39,8 +39,8 @@ export const _LoginSelectionScreen = () => {
       }
       const { user, authToken } = data
       await login({ user, authToken })
-      navigate('MainTabScreen', {
-        screen: 'HomeStackScreen',
+      navigate('MainTabNavigation', {
+        screen: 'HomeStackNavigation',
         params: {
           screen: 'HomeScreen',
           params: {},

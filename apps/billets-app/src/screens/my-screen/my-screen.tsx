@@ -1,5 +1,4 @@
 import { SubscribedConcertList } from '@/features'
-import { Screens } from '@/lib'
 import { useDeactivateUserMutation } from '@/lib/react-query'
 import { CommonScreenLayout } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
@@ -55,14 +54,14 @@ export const MyScreen = () => {
   const { user, logout, isLoading } = useContext(AuthContext)
   const [settingSections, setSettingSections] = useState<Array<MyScreenSettingSectionListData>>([])
   const onPressLoginButton = useCallback(() => {
-    navigation.navigate('LoginStackScreen', {
+    navigation.navigate('LoginStackNavigation', {
       screen: 'LoginSelectionScreen',
       params: {},
     })
   }, [navigation])
   const onPressSubscribedConcertListItem = useCallback(
     (concertId: string) => {
-      navigation.navigate('ConcertStackScreen', {
+      navigation.navigate('ConcertStackNavigation', {
         screen: 'ConcertDetailScreen',
         params: { concertId },
       })
@@ -134,8 +133,8 @@ export const MyScreen = () => {
         moreAddOn: {
           uiText: '더 보기',
           onPress: () => {
-            navigation.navigate('SubscribedStackScreen', {
-              screen: Screens.SubscribedConcertListScreen,
+            navigation.navigate('SubscribedStackNavigation', {
+              screen: 'SubscribedConcertListScreen',
               params: {},
             })
           },
@@ -158,7 +157,7 @@ export const MyScreen = () => {
                   text: '로그아웃',
                   onPress: async () => {
                     await logout()
-                    navigation.navigate('HomeStackScreen', {
+                    navigation.navigate('HomeStackNavigation', {
                       screen: 'HomeScreen',
                       params: {},
                     })

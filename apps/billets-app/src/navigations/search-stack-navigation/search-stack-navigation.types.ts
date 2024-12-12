@@ -1,14 +1,16 @@
-import { Screens } from '@/lib'
-import { SearchScreenParams } from '@/screens/search-screen/search-screen.types'
+import { zodNavigation, ZodNavigationParamList, ZodNavigationParams, zodScreen } from '@/lib'
+import { SearchScreenParams } from '@/screens'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { MainTabProp } from '../main-tab-navigation'
+import { MainTabScreensProps } from '../main-tab-navigation'
 
-export type SearchStackParam = {
-  [Screens.SearchScreen]: SearchScreenParams
-}
+export type SearchStackParams = ZodNavigationParams<typeof zodNavigation.SearchStackNavigation>
 
-export type SearchStackProp<T extends keyof SearchStackParam> = CompositeScreenProps<
-  NativeStackScreenProps<SearchStackParam, T>,
-  MainTabProp<'SearchStackScreen'>
+export type SearchStackParamList = ZodNavigationParamList<{
+  [zodScreen.SearchScreen.name]: SearchScreenParams
+}>
+
+export type SearchStackScreenProps<T extends keyof SearchStackParamList> = CompositeScreenProps<
+  NativeStackScreenProps<SearchStackParamList, T>,
+  MainTabScreensProps<typeof zodNavigation.SearchStackNavigation.name>
 >

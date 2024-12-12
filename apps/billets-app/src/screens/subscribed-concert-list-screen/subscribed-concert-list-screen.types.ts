@@ -1,6 +1,7 @@
-import { SubscribedStackScreenProp } from '@/navigations/subscribed-stack-navigation/subscribed-stack-navigation.types'
+import { zodScreen, ZodScreenParams } from '@/lib'
+import { SubscribedStackScreenProps } from '@/navigations'
 
-export type SubscribedConcertListScreenParam = {
-  //
-}
-export type SubscribedConcertListScreenProp = SubscribedStackScreenProp<'SubscribedConcertListScreen'>
+export type SubscribedConcertListScreenParams = ZodScreenParams<typeof zodScreen.SubscribedConcertListScreen>
+export type SubscribedConcertListScreenProps = SubscribedStackScreenProps<
+  typeof zodScreen.SubscribedConcertListScreen.name
+>

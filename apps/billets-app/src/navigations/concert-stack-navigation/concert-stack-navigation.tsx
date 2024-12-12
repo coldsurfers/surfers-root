@@ -1,11 +1,10 @@
-import { Screens } from '@/lib'
 import { ConcertDetailScreen, ConcertTicketListScreen } from '@/screens'
 import { NavigationHeader } from '@/ui'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
-import { ConcertStackParam } from './concert-stack-navigation.types'
+import { ConcertStackParamList } from './concert-stack-navigation.types'
 
-const Stack = createNativeStackNavigator<ConcertStackParam>()
+const Stack = createNativeStackNavigator<ConcertStackParamList>()
 
 export const ConcertStackNavigation = () => {
   return (
@@ -15,7 +14,7 @@ export const ConcertStackNavigation = () => {
       }}
     >
       <Stack.Screen
-        name={Screens.ConcertDetailScreen}
+        name="ConcertDetailScreen"
         component={ConcertDetailScreen}
         options={{
           header: (props) => (
@@ -31,7 +30,7 @@ export const ConcertStackNavigation = () => {
         }}
       />
       <Stack.Screen
-        name={Screens.ConcertTicketListScreen}
+        name="ConcertTicketListScreen"
         component={ConcertTicketListScreen}
         options={{
           animation: 'fade',

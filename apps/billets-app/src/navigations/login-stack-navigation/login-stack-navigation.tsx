@@ -1,4 +1,3 @@
-import { Screens } from '@/lib'
 import {
   ActivateUserConfirmScreen,
   EmailConfirmScreen,
@@ -9,9 +8,9 @@ import {
 import { NavigationHeader } from '@/ui'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
-import { LoginStackParam } from './login-stack-navigation.types'
+import { LoginStackParamList } from './login-stack-navigation.types'
 
-const LoginStack = createNativeStackNavigator<LoginStackParam>()
+const LoginStack = createNativeStackNavigator<LoginStackParamList>()
 
 export const LoginStackNavigation = () => {
   return (
@@ -21,7 +20,7 @@ export const LoginStackNavigation = () => {
       }}
     >
       <LoginStack.Screen
-        name={Screens.LoginSelectionScreen}
+        name="LoginSelectionScreen"
         component={LoginSelectionScreen}
         options={{
           header: (props) => (
@@ -36,7 +35,7 @@ export const LoginStackNavigation = () => {
         }}
       />
       <LoginStack.Screen
-        name={Screens.EmailSignupScreen}
+        name="EmailSignupScreen"
         component={EmailSignupScreen}
         options={{
           header: (props) => (
@@ -51,7 +50,7 @@ export const LoginStackNavigation = () => {
         }}
       />
       <LoginStack.Screen
-        name={Screens.EmailLoginScreen}
+        name="EmailLoginScreen"
         component={EmailLoginScreen}
         options={{
           header: (props) => (
@@ -66,7 +65,7 @@ export const LoginStackNavigation = () => {
         }}
       />
       <LoginStack.Screen
-        name={Screens.EmailConfirmScreen}
+        name="EmailConfirmScreen"
         component={EmailConfirmScreen}
         options={{
           header: (props) => (
@@ -81,7 +80,7 @@ export const LoginStackNavigation = () => {
         }}
       />
       <LoginStack.Screen
-        name={Screens.ActivateUserConfirmScreen}
+        name="ActivateUserConfirmScreen"
         component={ActivateUserConfirmScreen}
         options={{
           header: (props) => (
