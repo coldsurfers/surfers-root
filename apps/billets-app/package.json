@@ -72,6 +72,7 @@
     "react-native-screens": "^3.34.0",
     "react-native-store-review": "^0.4.3",
     "react-native-webview": "^11.26.1",
+    "supercluster": "^8.0.1",
     "ts-pattern": "*",
     "zustand": "*"
   },
