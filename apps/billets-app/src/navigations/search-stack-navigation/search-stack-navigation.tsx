@@ -34,6 +34,7 @@ const SearchStackNavigation = () => {
         component={ConcertMapScreen}
         options={{
           header: () => null,
+          animation: 'fade_from_bottom',
         }}
       />
     </SearchStack.Navigator>
