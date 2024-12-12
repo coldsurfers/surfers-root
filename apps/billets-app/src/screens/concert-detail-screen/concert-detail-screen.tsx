@@ -39,7 +39,7 @@ export const ConcertDetailScreen = () => {
   const onPressSubscribe = useCallback(() => {
     if (!meData) {
       // show login modal
-      navigation.navigate('LoginStackScreen', {
+      navigation.navigate('LoginStackNavigation', {
         screen: 'LoginSelectionScreen',
         params: {},
       })
@@ -97,7 +97,7 @@ export const ConcertDetailScreen = () => {
           name: artist.name,
           artistId: artist.id,
           onPress: () => {
-            navigation.navigate('ArtistStackScreen', {
+            navigation.navigate('ArtistStackNavigation', {
               screen: 'ArtistDetailScreen',
               params: {
                 artistId: artist.id,
@@ -121,7 +121,7 @@ export const ConcertDetailScreen = () => {
               if (!firstVenue?.id) {
                 return
               }
-              navigation.navigate('VenueStackScreen', {
+              navigation.navigate('VenueStackNavigation', {
                 screen: 'VenueDetailScreen',
                 params: {
                   id: firstVenue.id,

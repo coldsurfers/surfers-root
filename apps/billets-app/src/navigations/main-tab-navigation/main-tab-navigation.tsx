@@ -1,13 +1,12 @@
-import { StackScreens } from '@/lib'
 import { TabBar } from '@/ui'
 import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react'
 import { HomeStackNavigation } from '../home-stack-navigation'
 import { MyStackNavigation } from '../my-stack-navigation'
 import SearchStackNavigation from '../search-stack-navigation/search-stack-navigation'
-import { MainTabNavigationParamList } from './main-tab-navigation.types'
+import { MainTabParamList } from './main-tab-navigation.types'
 
-const Tab = createBottomTabNavigator<MainTabNavigationParamList>()
+const Tab = createBottomTabNavigator<MainTabParamList>()
 
 const renderTabBar = (props: BottomTabBarProps) => <TabBar {...props} />
 
@@ -19,7 +18,7 @@ export const MainTabNavigation = () => {
           header: () => null,
           tabBarLabel: '홈',
         }}
-        name={StackScreens.HomeStackScreen}
+        name="HomeStackNavigation"
         component={HomeStackNavigation}
       />
       <Tab.Screen
@@ -27,7 +26,7 @@ export const MainTabNavigation = () => {
           header: () => null,
           tabBarLabel: '검색',
         }}
-        name={StackScreens.SearchStackScreen}
+        name="SearchStackNavigation"
         component={SearchStackNavigation}
       />
       <Tab.Screen
@@ -35,7 +34,7 @@ export const MainTabNavigation = () => {
           header: () => null,
           tabBarLabel: 'MY',
         }}
-        name={StackScreens.MyStackScreen}
+        name="MyStackNavigation"
         component={MyStackNavigation}
       />
       {/* <Tab.Screen

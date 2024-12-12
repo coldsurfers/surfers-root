@@ -28,7 +28,7 @@ export const HomeScreen = () => {
 
   const onPressConcertListItem = useCallback(
     (concertId: string) => {
-      navigation.navigate('ConcertStackScreen', {
+      navigation.navigate('ConcertStackNavigation', {
         screen: 'ConcertDetailScreen',
         params: { concertId },
       })
@@ -39,7 +39,7 @@ export const HomeScreen = () => {
   const onPressSubscribeConcertListItem = useCallback(
     ({ isSubscribed, concertId }: { isSubscribed: boolean; concertId: string }) => {
       if (!meData) {
-        navigation.navigate('LoginStackScreen', {
+        navigation.navigate('LoginStackNavigation', {
           screen: 'LoginSelectionScreen',
           params: {},
         })

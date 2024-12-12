@@ -2,7 +2,6 @@ import { MainStackNavigationParamList } from '@/navigations'
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import { LinkingOptions } from '@react-navigation/native'
 import { Linking } from 'react-native'
-import { TabScreens } from './constants'
 
 const NAVIGATION_IDS = ['home', 'my', 'search', 'concert-detail']
 
@@ -42,23 +41,23 @@ function buildDeepLinkFromNotificationData(data: FirebaseMessagingTypes.RemoteMe
 export const deepLinking: LinkingOptions<MainStackNavigationParamList> = {
   prefixes: ['billets://', 'https://billets.coldsurf.io'],
   config: {
-    initialRouteName: TabScreens.MainTabScreen,
+    initialRouteName: 'MainTabNavigation',
     screens: {
-      MainTabScreen: {
+      MainTabNavigation: {
         path: '/',
         screens: {
-          HomeStackScreen: {
+          HomeStackNavigation: {
             path: '/home',
           },
-          MyStackScreen: {
+          MyStackNavigation: {
             path: '/my',
           },
-          SearchStackScreen: {
+          SearchStackNavigation: {
             path: '/search',
           },
         },
       },
-      ConcertStackScreen: {
+      ConcertStackNavigation: {
         screens: {
           ConcertDetailScreen: {
             path: '/concert-detail/:concertId',

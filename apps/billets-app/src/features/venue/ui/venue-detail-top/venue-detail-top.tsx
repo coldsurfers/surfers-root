@@ -30,9 +30,9 @@ export const VenueDetailTop = ({ venueId }: { venueId: string }) => {
             <VenueSubscribeButton
               venueId={venueId}
               onShouldLogin={() => {
-                navigation.navigate('LoginStackScreen', {
-                  params: {},
+                navigation.navigate('LoginStackNavigation', {
                   screen: 'LoginSelectionScreen',
+                  params: {},
                 })
               }}
               style={styles.subscribeButton}

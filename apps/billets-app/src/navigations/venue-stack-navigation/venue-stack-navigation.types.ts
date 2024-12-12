@@ -1,14 +1,15 @@
+import { ZodNavigationParamList } from '@/lib'
 import { VenueDetailScreenParam } from '@/screens'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { Screens } from '../../lib/navigations/constants'
-import { MainStackProp } from '../main-stack-navigation'
+import { zodNavigation, zodScreen } from '../../lib/navigations/constants'
+import { MainStackScreenProps } from '../main-stack-navigation'
 
-export type VenueStackParam = {
-  [Screens.VenueDetailScreen]: VenueDetailScreenParam
-}
+export type VenueStackParamList = ZodNavigationParamList<{
+  [zodScreen.VenueDetailScreen.name]: VenueDetailScreenParam
+}>
 
-export type VenueStackScreenProp<T extends keyof VenueStackParam> = CompositeScreenProps<
-  NativeStackScreenProps<VenueStackParam, T>,
-  MainStackProp<'ConcertStackScreen'>
+export type VenueStackScreenProp<T extends keyof VenueStackParamList> = CompositeScreenProps<
+  NativeStackScreenProps<VenueStackParamList, T>,
+  MainStackScreenProps<typeof zodNavigation.VenueStackNavigation.name>
 >
