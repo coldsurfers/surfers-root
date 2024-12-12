@@ -1,4 +1,5 @@
 import { SearchScreen } from '@/screens'
+import { ConcertMapScreen } from '@/screens/concert-map-screen'
 import { NavigationHeader } from '@/ui'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { SearchStackParamList } from './search-stack-navigation.types'
@@ -26,6 +27,13 @@ const SearchStackNavigation = () => {
               }}
             />
           ),
+        }}
+      />
+      <SearchStack.Screen
+        name="ConcertMapScreen"
+        component={ConcertMapScreen}
+        options={{
+          header: () => null,
         }}
       />
     </SearchStack.Navigator>
