@@ -5,20 +5,23 @@ import { useCallback, useMemo, useState } from 'react'
 import { Text, View } from 'react-native'
 import MapView, { Marker, type Region } from 'react-native-maps'
 import Supercluster from 'supercluster'
+import { z } from 'zod'
 import { useShallow } from 'zustand/shallow'
 
-interface Point {
-  type: 'Feature'
-  properties: {
-    cluster?: boolean
-    pointCount?: number
-    id: string
-  }
-  geometry: {
-    type: 'Point'
-    coordinates: [number, number]
-  }
-}
+const pointSchema = z.object({
+  type: z.literal('Feature'),
+  id: z.number(),
+  properties: z.object({
+    cluster: z.boolean().optional(),
+    cluster_id: z.number().optional(),
+    point_count: z.number().optional(),
+    point_count_abbreviated: z.number().optional(),
+  }),
+  geometry: z.object({
+    type: z.literal('Point'),
+    coordinates: z.array(z.number()),
+  }),
+})
 
 export const ConcertMapScreen = () => {
   const { lat, lng } = useUserCurrentLocationStore(
@@ -29,11 +32,21 @@ export const ConcertMapScreen = () => {
   )
 
   // Example points - replace with your actual data
-  const points: Point[] = useMemo(
+  const points = useMemo<z.infer<typeof pointSchema>[]>(
     () => [
       {
+        id: 1,
         type: 'Feature',
-        properties: { id: '1' },
+        properties: { cluster_id: 1 },
+        geometry: {
+          type: 'Point',
+          coordinates: [lng ?? -122.4324, lat ?? 37.78825],
+        },
+      },
+      {
+        id: 2,
+        type: 'Feature',
+        properties: { cluster_id: 2 },
         geometry: {
           type: 'Point',
           coordinates: [lng ?? -122.4324, lat ?? 37.78825],
@@ -41,15 +54,8 @@ export const ConcertMapScreen = () => {
       },
       {
         type: 'Feature',
-        properties: { id: '2' },
-        geometry: {
-          type: 'Point',
-          coordinates: [lng ?? -122.4324, lat ?? 37.78825],
-        },
-      },
-      {
-        type: 'Feature',
-        properties: { id: '3' },
+        id: 3,
+        properties: { cluster_id: 3 },
         geometry: {
           type: 'Point',
           coordinates: [lng ?? -122.4325, lat ?? 37.7882],
@@ -68,7 +74,7 @@ export const ConcertMapScreen = () => {
     })
   }, [])
 
-  const [clusters, setClusters] = useState<Point[]>([])
+  const [clusters, setClusters] = useState<z.infer<typeof pointSchema>[]>([])
 
   const getGeohashesForRegion = (region: Region, zoomLevel: number) => {
     const { latitude, longitude, latitudeDelta, longitudeDelta } = region
@@ -113,7 +119,14 @@ export const ConcertMapScreen = () => {
 
       supercluster.load(points)
       const clusters = supercluster.getClusters(bbox, zoomLevel)
-      setClusters(clusters)
+      const clustersValidation = pointSchema.array().safeParse(clusters)
+
+      if (clustersValidation.success) {
+        setClusters(clustersValidation.data)
+      } else {
+        console.log(clusters)
+        console.error(clustersValidation.error)
+      }
 
       console.log('Zoom level:', zoomLevel)
       console.log('Geohashes:', geohashes)
@@ -174,7 +187,7 @@ export const ConcertMapScreen = () => {
 
           return (
             <Marker
-              key={properties.id}
+              key={properties.cluster_id}
               coordinate={{ latitude, longitude }}
               // Add your custom marker component or image here
             />
