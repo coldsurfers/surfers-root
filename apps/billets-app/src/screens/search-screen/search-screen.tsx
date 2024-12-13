@@ -1,12 +1,14 @@
 import { SearchItem, SearchItemThumbnail } from '@/features/search/ui'
 import { CommonListEmpty, CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { Button, ProfileThumbnail, Text, TextInput } from '@coldsurfers/ocean-road/native'
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { useDebounce } from '@uidotdev/usehooks'
 import format from 'date-fns/format'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   ActivityIndicator,
   FlatList,
+  Keyboard,
   KeyboardAvoidingView,
   KeyboardAvoidingViewProps,
   ListRenderItem,
@@ -34,7 +36,9 @@ const KeyboardAvoidWrapper = (props: KeyboardAvoidingViewProps) => {
 
 export const SearchScreen = () => {
   const navigation = useSearchScreenNavigation()
+  const bottomTabBarHeight = useBottomTabBarHeight()
   const [searchKeyword, setSearchKeyword] = useState('')
+  const [keyboardHeight, setKeyboardHeight] = useState(0)
   const debouncedSearchKeyword = useDebounce(searchKeyword, 350)
   const {
     data: searchData,
@@ -180,6 +184,20 @@ export const SearchScreen = () => {
     [navigation],
   )
 
+  useEffect(() => {
+    const keyboardWillShowEmitterSubscription = Keyboard.addListener('keyboardWillShow', (e) => {
+      setKeyboardHeight(e.endCoordinates.height)
+    })
+    const keyboardWillHideEmitterSubscription = Keyboard.addListener('keyboardWillHide', () => {
+      setKeyboardHeight(0)
+    })
+
+    return () => {
+      keyboardWillShowEmitterSubscription.remove()
+      keyboardWillHideEmitterSubscription.remove()
+    }
+  }, [])
+
   return (
     <CommonScreenLayout style={styles.wrapper}>
       <View style={styles.topInputWrapper}>
@@ -221,15 +239,22 @@ export const SearchScreen = () => {
             renderItem={renderConcertListItem}
             showsVerticalScrollIndicator={false}
           />
+          <Button
+            theme="border"
+            style={[
+              styles.floatingButton,
+              {
+                bottom: keyboardHeight > 0 ? keyboardHeight - bottomTabBarHeight : 12,
+              },
+            ]}
+            onPress={() => {
+              navigation.navigate('ConcertMapScreen', {})
+            }}
+          >
+            맵으로 보기
+          </Button>
         </KeyboardAvoidWrapper>
       )}
-      <Button
-        onPress={() => {
-          navigation.navigate('ConcertMapScreen', {})
-        }}
-      >
-        맵으로 보기
-      </Button>
     </CommonScreenLayout>
   )
 }
@@ -240,6 +265,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
     paddingVertical: 12,
+    paddingBottom: 120,
   },
   emptyWrapper: {
     flex: 1,
@@ -265,4 +291,5 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 8,
   },
+  floatingButton: { width: 120, alignSelf: 'center', position: 'absolute', right: 0 },
 })
