@@ -34,7 +34,8 @@ export const getLocationConcertsHandler: RouteHandler<{
     const { latitude, longitude, latitudeDelta, longitudeDelta, zoomLevel } = getLocationConcertsHandlerQueryAdapter(
       queryStringValidation.data,
     )
-    const precision = Math.max(1, Math.min(12, Math.floor(zoomLevel / 2)))
+    const calculatedPrecision = Math.max(1, Math.min(12, Math.floor(zoomLevel / 2)))
+    const maxPrecision = calculatedPrecision >= 5 ? 5 : calculatedPrecision
 
     // Calculate the corners of the visible region
     const northLat = latitude + latitudeDelta / 2
@@ -43,11 +44,11 @@ export const getLocationConcertsHandler: RouteHandler<{
     const eastLng = longitude + longitudeDelta / 2
 
     // Get geohashes for the corners
-    const northEast = geohash.encode(northLat, eastLng, precision)
-    const northWest = geohash.encode(northLat, westLng, precision)
-    const southEast = geohash.encode(southLat, eastLng, precision)
-    const southWest = geohash.encode(southLat, westLng, precision)
-    const center = geohash.encode(latitude, longitude, precision)
+    const northEast = geohash.encode(northLat, eastLng, maxPrecision)
+    const northWest = geohash.encode(northLat, westLng, maxPrecision)
+    const southEast = geohash.encode(southLat, eastLng, maxPrecision)
+    const southWest = geohash.encode(southLat, westLng, maxPrecision)
+    const center = geohash.encode(latitude, longitude, maxPrecision)
 
     const geohashes = [...new Set([northEast, northWest, southEast, southWest, center])]
     const data = await LocationConcertDTO.listByGeohashes(geohashes)
