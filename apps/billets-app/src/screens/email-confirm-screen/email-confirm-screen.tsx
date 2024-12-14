@@ -1,3 +1,4 @@
+import { $api } from '@/lib/api/openapi-client'
 import { Button, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useState } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
@@ -7,8 +8,6 @@ import {
   ToastVisibleContextProvider,
 } from '../../lib/contexts/toast-visible-context/toast-visible-context'
 import palettes from '../../lib/palettes'
-import useSignupEmailMutation from '../../lib/react-query/mutations/useSignupEmailMutation'
-import useUpdateEmailConfirmMutation from '../../lib/react-query/mutations/useUpdateEmailConfirmMutation'
 import { useEmailConfirmScreenNavigation, useEmailConfirmScreenRoute } from './email-confirm-screen.hooks'
 
 const _EmailConfirmScreen = () => {
@@ -20,35 +19,39 @@ const _EmailConfirmScreen = () => {
   const [passwordText, setPasswordText] = useState<string>('')
   const [passwordConfirmText, setPasswordConfirmText] = useState<string>('')
   const { login } = useContext(AuthContext)
-  const { mutate: mutateEmailConfirm, isPending: isLoadingEmailConfirm } = useUpdateEmailConfirmMutation({
-    onSuccess: (data) => {
-      if (!data) {
-        return
-      }
-      show({
-        autoHide: true,
-        duration: 2000,
-        message: '이메일 인증이 완료되었어요',
-      })
-      setConfirmed(true)
+  const { mutate: mutateEmailConfirm, isPending: isLoadingEmailConfirm } = $api.useMutation(
+    'post',
+    '/v1/auth/email/confirm-auth-code',
+    {
+      onSuccess: (data) => {
+        if (!data) {
+          return
+        }
+        show({
+          autoHide: true,
+          duration: 2000,
+          message: '이메일 인증이 완료되었어요',
+        })
+        setConfirmed(true)
+      },
+      onError: (error) => {
+        let message = ''
+        if (error.code === 'EMAIL_AUTH_REQUEST_ALREADY_AUTHENTICATED') {
+          message = '이미 인증되었어요'
+        }
+        if (error.code === 'INVALID_EMAIL_AUTH_REQUEST' || error.code === 'EMAIL_AUTH_REQUEST_TIMEOUT') {
+          message = '인증번호가 일치하지 않거나, 인증 시간이 지났어요'
+        }
+        show({
+          autoHide: true,
+          duration: 2000,
+          message,
+          type: 'error',
+        })
+      },
     },
-    onError: (error) => {
-      let message = ''
-      if (error.code === 'EMAIL_AUTH_REQUEST_ALREADY_AUTHENTICATED') {
-        message = '이미 인증되었어요'
-      }
-      if (error.code === 'INVALID_EMAIL_AUTH_REQUEST' || error.code === 'EMAIL_AUTH_REQUEST_TIMEOUT') {
-        message = '인증번호가 일치하지 않거나, 인증 시간이 지났어요'
-      }
-      show({
-        autoHide: true,
-        duration: 2000,
-        message,
-        type: 'error',
-      })
-    },
-  })
-  const { mutate: mutateSignupEmail, isPending: isLoadingSignupEmail } = useSignupEmailMutation({
+  )
+  const { mutate: mutateSignupEmail, isPending: isLoadingSignupEmail } = $api.useMutation('post', '/v1/auth/signup', {
     onSuccess: async (data) => {
       if (!data) {
         return
@@ -98,8 +101,10 @@ const _EmailConfirmScreen = () => {
       return
     }
     mutateEmailConfirm({
-      email: params.email,
-      authCode: confirmText,
+      body: {
+        email: params.email,
+        authCode: confirmText,
+      },
     })
   }, [confirmText, isLoadingEmailConfirm, mutateEmailConfirm, params.email])
 
@@ -136,9 +141,11 @@ const _EmailConfirmScreen = () => {
       return
     }
     mutateSignupEmail({
-      email: params.email,
-      password: passwordText,
-      provider: 'email',
+      body: {
+        email: params.email,
+        password: passwordText,
+        provider: 'email',
+      },
     })
   }, [isLoadingSignupEmail, mutateSignupEmail, params.email, passwordConfirmText, passwordText, show])
 
