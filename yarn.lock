@@ -2932,6 +2932,7 @@ __metadata:
     "@react-navigation/native-stack": "npm:^6.9.17"
     "@tanstack/eslint-plugin-query": "npm:^5.58.1"
     "@tanstack/react-query": "npm:*"
+    "@types/lodash.uniqby": "npm:^4"
     "@types/ngeohash": "npm:*"
     "@types/react": "npm:^18.2.6"
     "@types/react-test-renderer": "npm:^18.0.0"
@@ -2950,6 +2951,7 @@ __metadata:
     eslint-plugin-prettier: "npm:^5.2.1"
     jest: "npm:^29.6.3"
     jwt-decode: "npm:^4.0.0"
+    lodash.uniqby: "npm:^4.7.0"
     metro-react-native-babel-preset: "npm:0.73.7"
     ngeohash: "npm:*"
     openapi-fetch: "npm:^0.12.2"
@@ -11360,7 +11362,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.167":
+"@types/lodash.uniqby@npm:^4":
+  version: 4.7.9
+  resolution: "@types/lodash.uniqby@npm:4.7.9"
+  dependencies:
+    "@types/lodash": "npm:*"
+  checksum: 10c0/b508927c8bd9a840c629169f8573d0f33a12c7232b4315785537f25914dec441323c54ba609f75fdefaa53f7ecd56f29bd6f598c3920ade45532b8eab76bf044
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*, @types/lodash@npm:^4.14.167":
   version: 4.17.13
   resolution: "@types/lodash@npm:4.17.13"
   checksum: 10c0/c3d0b7efe7933ac0369b99f2f7bff9240d960680fdb74b41ed4bd1b3ca60cca1e31fe4046d9abbde778f941a41bc2a75eb629abf8659fa6c27b66efbbb0802a9
