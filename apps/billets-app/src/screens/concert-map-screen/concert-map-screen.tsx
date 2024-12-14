@@ -2,7 +2,6 @@ import { $api } from '@/lib/api/openapi-client'
 import { useUserCurrentLocationStore } from '@/lib/stores/userCurrentLocationStore'
 import { CommonScreenLayout } from '@/ui'
 import uniqBy from 'lodash.uniqby'
-import geohash from 'ngeohash'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Text, View } from 'react-native'
 import MapView, { Marker, type Region } from 'react-native-maps'
@@ -32,7 +31,6 @@ type MapRegionWithZoomLevel = Region & {
 
 const getZoomLevel = (latitudeDelta: number): number => {
   const calculatedZoomLevel = Math.round(Math.log(360 / latitudeDelta) / Math.LN2)
-  // return calculatedZoomLevel >= 5 ? 5 : calculatedZoomLevel
   return calculatedZoomLevel
 }
 
@@ -86,61 +84,14 @@ export const ConcertMapScreen = () => {
       })
       const validation = pointSchema.array().safeParse(newPoints)
       if (validation.error) {
+        console.error(validation.error)
         return prevPoints
       }
 
-      return uniqBy([...prevPoints, ...validation.data], 'originalId')
+      const newValue = uniqBy([...prevPoints, ...validation.data], 'originalId')
+      return newValue
     })
   }, [locationConcerts])
-  // const points = useMemo<z.infer<typeof pointSchema>[]>(() => {
-  //   if (!locationConcerts) {
-  //     return []
-  //   }
-  //   return locationConcerts.map((locationConcert, index) => {
-  //     return {
-  //       id: index,
-  //       type: 'Feature',
-  //       properties: { cluster_id: index },
-  //       geometry: {
-  //         type: 'Point',
-  //         coordinates: [locationConcert.longitude, locationConcert.latitude],
-  //       },
-  //     }
-  //   })
-  // }, [locationConcerts])
-  // const points = useMemo<z.infer<typeof pointSchema>[]>(
-  //   () => [
-  //     {
-  //       id: 1,
-  //       type: 'Feature',
-  //       properties: { cluster_id: 1 },
-  //       geometry: {
-  //         type: 'Point',
-  //         coordinates: [lng ?? -122.4324, lat ?? 37.78825],
-  //       },
-  //     },
-  //     {
-  //       id: 2,
-  //       type: 'Feature',
-  //       properties: { cluster_id: 2 },
-  //       geometry: {
-  //         type: 'Point',
-  //         coordinates: [lng ?? -122.4324, lat ?? 37.78825],
-  //       },
-  //     },
-  //     {
-  //       type: 'Feature',
-  //       id: 3,
-  //       properties: { cluster_id: 3 },
-  //       geometry: {
-  //         type: 'Point',
-  //         coordinates: [lng ?? -122.4325, lat ?? 37.7882],
-  //       },
-  //     },
-  //     // Add more points as needed
-  //   ],
-  //   [lat, lng],
-  // )
 
   const supercluster = useMemo(() => {
     return new Supercluster({
@@ -152,60 +103,34 @@ export const ConcertMapScreen = () => {
 
   const [clusters, setClusters] = useState<z.infer<typeof pointSchema>[]>([])
 
-  const getGeohashesForRegion = (region: Region, zoomLevel: number) => {
-    const { latitude, longitude, latitudeDelta, longitudeDelta } = region
-    const precision = Math.max(1, Math.min(12, Math.floor(zoomLevel / 2)))
+  const updateClusters = useCallback((region: Region) => {
+    setMapRegionWithZoomLevel({
+      ...region,
+      zoomLevel: getZoomLevel(region.latitudeDelta),
+    })
+  }, [])
 
-    // Calculate the corners of the visible region
-    const northLat = latitude + latitudeDelta / 2
-    const southLat = latitude - latitudeDelta / 2
-    const westLng = longitude - longitudeDelta / 2
-    const eastLng = longitude + longitudeDelta / 2
+  useEffect(() => {
+    const region = mapRegionWithZoomLevel
+    const zoomLevel = getZoomLevel(region.latitudeDelta)
 
-    // Get geohashes for the corners
-    const northEast = geohash.encode(northLat, eastLng, precision)
-    const northWest = geohash.encode(northLat, westLng, precision)
-    const southEast = geohash.encode(southLat, eastLng, precision)
-    const southWest = geohash.encode(southLat, westLng, precision)
+    const bbox = [
+      region.longitude - region.longitudeDelta,
+      region.latitude - region.latitudeDelta,
+      region.longitude + region.longitudeDelta,
+      region.latitude + region.latitudeDelta,
+    ] as [number, number, number, number]
 
-    return {
-      northEast,
-      northWest,
-      southEast,
-      southWest,
-      center: geohash.encode(latitude, longitude, precision),
+    supercluster.load(points)
+    const clusters = supercluster.getClusters(bbox, zoomLevel)
+    const clustersValidation = pointSchema.array().safeParse(clusters)
+
+    if (clustersValidation.success) {
+      setClusters(clustersValidation.data)
+    } else {
+      console.error(clustersValidation.error)
     }
-  }
-
-  const updateClusters = useCallback(
-    (region: Region) => {
-      setMapRegionWithZoomLevel({
-        ...region,
-        zoomLevel: getZoomLevel(region.latitudeDelta),
-      })
-      const zoomLevel = getZoomLevel(region.latitudeDelta)
-      // const geohashes = getGeohashesForRegion(region, zoomLevel)
-
-      const bbox = [
-        region.longitude - region.longitudeDelta,
-        region.latitude - region.latitudeDelta,
-        region.longitude + region.longitudeDelta,
-        region.latitude + region.latitudeDelta,
-      ] as [number, number, number, number]
-
-      supercluster.load(points)
-      const clusters = supercluster.getClusters(bbox, zoomLevel)
-      const clustersValidation = pointSchema.array().safeParse(clusters)
-
-      if (clustersValidation.success) {
-        setClusters(clustersValidation.data)
-      } else {
-        console.log(clusters)
-        console.error(clustersValidation.error)
-      }
-    },
-    [points, supercluster],
-  )
+  }, [mapRegionWithZoomLevel, points, supercluster])
 
   return (
     <CommonScreenLayout>
