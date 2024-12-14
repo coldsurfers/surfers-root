@@ -1,5 +1,5 @@
 import { SubscribedConcertList } from '@/features'
-import { useDeactivateUserMutation } from '@/lib/react-query'
+import { $api } from '@/lib/api/openapi-client'
 import { CommonScreenLayout } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, ProfileThumbnail, Spinner, Text } from '@coldsurfers/ocean-road/native'
@@ -13,17 +13,20 @@ import { MyScreenSettingSectionListData, MyScreenSettingSectionListSectionT } fr
 
 const ListFooterComponent = () => {
   const { logout } = useContext(AuthContext)
-  const { mutate: deactivateUser } = useDeactivateUserMutation({
-    onSuccess: () => {
-      logout()
-    },
+  const { mutate: deactivateUser } = $api.useMutation('delete', '/v1/user/deactivate', {
+    onSuccess: () => logout(),
   })
   const onPress = useCallback(() => {
     Alert.alert('회원탈퇴', '회원탈퇴를 하면 더 이상 해당 계정으로 로그인 할 수 없어요', [
       {
         style: 'destructive',
         text: '탈퇴하기',
-        onPress: () => deactivateUser(),
+        onPress: () =>
+          deactivateUser({
+            body: {
+              type: 'deactivate',
+            },
+          }),
       },
       {
         style: 'cancel',

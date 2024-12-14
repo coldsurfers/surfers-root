@@ -1,5 +1,6 @@
+import { $api } from '@/lib/api/openapi-client'
 import { v1QueryKeyFactory } from '@/lib/query-key-factory'
-import { useSubscribeArtistMutation, useSubscribeArtistQuery, useUnsubscribeArtistMutation } from '@/lib/react-query'
+import { useSubscribeArtistQuery } from '@/lib/react-query'
 import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import { Button } from '@coldsurfers/ocean-road/native'
 import { useQueryClient } from '@tanstack/react-query'
@@ -10,24 +11,25 @@ export const ArtistSubscribeButton = ({ artistId, onShouldLogin, style, size = '
   const queryClient = useQueryClient()
   const { data: meData } = useGetMeQuery()
   const { data: subscribeArtistData } = useSubscribeArtistQuery({ artistId })
-  const { mutate: subscribeArtist } = useSubscribeArtistMutation({
+  const { mutate: subscribeArtist } = $api.useMutation('post', '/v1/subscribe/artist/{id}', {
     onMutate: async (variables) => {
       if (!meData) {
         onShouldLogin()
         return
       }
+      const { id: artistId } = variables.params.path
       await queryClient.cancelQueries({
         queryKey: v1QueryKeyFactory.artists.subscribed({
-          artistId: variables.artistId,
+          artistId,
         }).queryKey,
       })
       const newSubscribeArtist: Awaited<ReturnType<typeof useSubscribeArtistQuery>>['data'] = {
-        artistId: variables.artistId,
+        artistId,
         userId: meData.id,
       }
       queryClient.setQueryData(
         v1QueryKeyFactory.artists.subscribed({
-          artistId: variables.artistId,
+          artistId,
         }).queryKey,
         newSubscribeArtist,
       )
@@ -45,20 +47,21 @@ export const ArtistSubscribeButton = ({ artistId, onShouldLogin, style, size = '
       })
     },
   })
-  const { mutate: unsubscribeArtist } = useUnsubscribeArtistMutation({
+  const { mutate: unsubscribeArtist } = $api.useMutation('delete', '/v1/subscribe/artist/{id}', {
     onMutate: async (variables) => {
       if (!meData) {
         onShouldLogin()
         return
       }
+      const { id: artistId } = variables.params.path
       await queryClient.cancelQueries({
         queryKey: v1QueryKeyFactory.artists.subscribed({
-          artistId: variables.artistId,
+          artistId,
         }).queryKey,
       })
       queryClient.setQueryData(
         v1QueryKeyFactory.artists.subscribed({
-          artistId: variables.artistId,
+          artistId,
         }).queryKey,
         null,
       )
@@ -80,9 +83,27 @@ export const ArtistSubscribeButton = ({ artistId, onShouldLogin, style, size = '
   const onPress = useCallback(() => {
     const isSubscribed = !!subscribeArtistData
     if (isSubscribed) {
-      unsubscribeArtist({ artistId })
+      unsubscribeArtist({
+        body: {
+          type: 'unsubscribe-artist',
+        },
+        params: {
+          path: {
+            id: artistId,
+          },
+        },
+      })
     } else {
-      subscribeArtist({ artistId })
+      subscribeArtist({
+        body: {
+          type: 'subscribe-artist',
+        },
+        params: {
+          path: {
+            id: artistId,
+          },
+        },
+      })
     }
   }, [artistId, subscribeArtist, subscribeArtistData, unsubscribeArtist])
 
