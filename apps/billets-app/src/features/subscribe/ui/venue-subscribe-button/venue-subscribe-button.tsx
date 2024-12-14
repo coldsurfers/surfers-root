@@ -1,5 +1,6 @@
+import { $api } from '@/lib/api/openapi-client'
 import { v1QueryKeyFactory } from '@/lib/query-key-factory'
-import { useSubscribeVenueMutation, useSubscribeVenueQuery, useUnsubscribeVenueMutation } from '@/lib/react-query'
+import { useSubscribeVenueQuery } from '@/lib/react-query'
 import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import { Button } from '@coldsurfers/ocean-road/native'
 import { useQueryClient } from '@tanstack/react-query'
@@ -9,26 +10,27 @@ export const VenueSubscribeButton = ({ venueId, onShouldLogin, style, size = 'md
   const queryClient = useQueryClient()
   const { data: meData } = useGetMeQuery()
   const { data: subscribeVenueData } = useSubscribeVenueQuery({ venueId })
-  const { mutate: subscribeVenue } = useSubscribeVenueMutation({
+  const { mutate: subscribeVenue } = $api.useMutation('post', '/v1/subscribe/venue/{id}', {
     onMutate: async (variables) => {
       if (!meData) {
         onShouldLogin()
         return
       }
+      const { id: venueId } = variables.params.path
       await queryClient.cancelQueries({
         queryKey: v1QueryKeyFactory.venues.subscribed({
-          venueId: variables.venueId,
+          venueId,
         }).queryKey,
       })
 
       const newSubscribeVenue: Awaited<ReturnType<typeof useSubscribeVenueQuery>>['data'] = {
         userId: meData.id,
-        venueId: variables.venueId,
+        venueId,
       }
 
       queryClient.setQueryData(
         v1QueryKeyFactory.venues.subscribed({
-          venueId: variables.venueId,
+          venueId,
         }).queryKey,
         newSubscribeVenue,
       )
@@ -46,21 +48,22 @@ export const VenueSubscribeButton = ({ venueId, onShouldLogin, style, size = 'md
       })
     },
   })
-  const { mutate: unsubscribeVenue } = useUnsubscribeVenueMutation({
+  const { mutate: unsubscribeVenue } = $api.useMutation('delete', '/v1/subscribe/venue/{id}', {
     onMutate: async (variables) => {
       if (!meData) {
         onShouldLogin()
         return
       }
+      const { id: venueId } = variables.params.path
       await queryClient.cancelQueries({
         queryKey: v1QueryKeyFactory.venues.subscribed({
-          venueId: variables.venueId,
+          venueId,
         }).queryKey,
       })
 
       queryClient.setQueryData(
         v1QueryKeyFactory.venues.subscribed({
-          venueId: variables.venueId,
+          venueId,
         }).queryKey,
         null,
       )
@@ -86,11 +89,25 @@ export const VenueSubscribeButton = ({ venueId, onShouldLogin, style, size = 'md
       onPress={() => {
         if (subscribeVenueData) {
           unsubscribeVenue({
-            venueId,
+            body: {
+              type: 'unsubscribe-venue',
+            },
+            params: {
+              path: {
+                id: venueId,
+              },
+            },
           })
         } else {
           subscribeVenue({
-            venueId,
+            body: {
+              type: 'subscribe-venue',
+            },
+            params: {
+              path: {
+                id: venueId,
+              },
+            },
           })
         }
       }}

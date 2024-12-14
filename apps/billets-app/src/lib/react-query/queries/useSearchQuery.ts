@@ -1,9 +1,9 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query'
-import client from '../../api/openapi-client'
+import { fetchClient } from '../../api/openapi-client'
 import { v1QueryKeyFactory } from '../../query-key-factory'
 
 const queryFn = async (params: TQueryParams) => {
-  const response = await client.GET('/v1/search/', {
+  const response = await fetchClient.GET('/v1/search/', {
     params: {
       query: {
         keyword: params.keyword,
