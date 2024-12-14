@@ -2953,6 +2953,7 @@ __metadata:
     metro-react-native-babel-preset: "npm:0.73.7"
     ngeohash: "npm:*"
     openapi-fetch: "npm:^0.12.2"
+    openapi-react-query: "npm:^0.2.8"
     patch-package: "npm:^8.0.0"
     prettier: "npm:3.3.3"
     react: "npm:18.3.1"
@@ -27391,6 +27392,18 @@ __metadata:
   dependencies:
     openapi-typescript-helpers: "npm:^0.0.15"
   checksum: 10c0/f882c73e8681039a37f1702d08a0ed91e896cc00ee189418febd07b48a8885f6ea6ac7b3850c1f124e34151569d3bf4ce57949f067b36afd0e513e4a31302c15
+  languageName: node
+  linkType: hard
+
+"openapi-react-query@npm:^0.2.8":
+  version: 0.2.8
+  resolution: "openapi-react-query@npm:0.2.8"
+  dependencies:
+    openapi-typescript-helpers: "npm:^0.0.15"
+  peerDependencies:
+    "@tanstack/react-query": ^5.25.0
+    openapi-fetch: ^0.13.3
+  checksum: 10c0/0b122e64a693422fbf037b43abc954472df73201c1d5fc36b0d7bd11a5681dc06b581f063dfd5a1e27e11ded38d73a6fb0283243031a1ec8948f730bdd285eac
   languageName: node
   linkType: hard
 
