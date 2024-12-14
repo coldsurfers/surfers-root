@@ -2998,7 +2998,7 @@ __metadata:
     "@prisma/client": "npm:*"
     "@types/crypto-js": "npm:^4.1.1"
     "@types/jsonwebtoken": "npm:^9.0.1"
-    "@types/ngeohash": "npm:^0.6.8"
+    "@types/ngeohash": "npm:*"
     "@types/nodemailer": "npm:^6.4.15"
     "@types/nodemailer-smtp-transport": "npm:^2.7.8"
     "@vercel/node": "npm:^2.9.0"
@@ -3016,7 +3016,7 @@ __metadata:
     jwks-rsa: "npm:^3.1.0"
     jwt-decode: "npm:^3.1.2"
     lint-staged: "npm:^13.1.0"
-    ngeohash: "npm:^0.6.3"
+    ngeohash: "npm:*"
     nodemailer: "npm:^6.9.14"
     nodemailer-smtp-transport: "npm:^2.7.4"
     pm2: "npm:*"
@@ -3253,6 +3253,7 @@ __metadata:
   dependencies:
     "@prisma/client": "npm:5.21.1"
     "@tanstack/eslint-plugin-query": "npm:^5.12.1"
+    "@types/ngeohash": "npm:0.6.8"
     "@types/node": "npm:*"
     "@types/react": "npm:*"
     "@types/react-dom": "npm:*"
@@ -3419,7 +3420,7 @@ __metadata:
     "@prisma/client": "npm:5.21.1"
     "@types/crypto-js": "npm:^4.1.1"
     "@types/jsonwebtoken": "npm:^9.0.6"
-    "@types/ngeohash": "npm:^0.6.8"
+    "@types/ngeohash": "npm:*"
     "@types/node": "npm:*"
     "@types/nodemailer": "npm:^6.4.7"
     "@types/nodemailer-smtp-transport": "npm:^2.7.5"
@@ -3436,7 +3437,7 @@ __metadata:
     graphql: "npm:^16.8.1"
     jsonwebtoken: "npm:^9.0.0"
     jwt-decode: "npm:^3.1.2"
-    ngeohash: "npm:^0.6.3"
+    ngeohash: "npm:*"
     nodemailer: "npm:^6.8.0"
     nodemailer-smtp-transport: "npm:^2.7.4"
     pm2: "npm:*"
@@ -11402,7 +11403,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ngeohash@npm:^0.6.8":
+"@types/ngeohash@npm:*, @types/ngeohash@npm:0.6.8":
   version: 0.6.8
   resolution: "@types/ngeohash@npm:0.6.8"
   checksum: 10c0/c8ed570a1cb2930d7765bca6e294a0845327475d2a38b83afab6d76c544606bb463b8e823284f1a27b484075195acba6975543bf550c8e6c96c42ab628978c65
@@ -26629,7 +26630,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ngeohash@npm:^0.6.3":
+"ngeohash@npm:0.6.3":
   version: 0.6.3
   resolution: "ngeohash@npm:0.6.3"
   checksum: 10c0/2b7752ac4d7d3de1de89048d6aa885de573fea435ae3aa41a5287cc1bd86dbb78241884dc343ccb32b59b2479ec1f530d0495e9249956ca8ec7d016abefa32fe
