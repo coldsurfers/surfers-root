@@ -44,6 +44,7 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
+import { locationConcertDTOSerializedSchema } from './dtos/location-concert-dto'
 import { SWAGGER_HOST } from './lib/constants'
 import { errorResponseSchema } from './lib/error'
 import { artistRoute } from './routes/artist'
@@ -54,6 +55,8 @@ import {
   getConcertListByArtistIdSuccessResponseSchema,
 } from './routes/artist/artist.types'
 import { fcmRoute, postFCMTokenBodySchema } from './routes/fcm'
+import { locationRoute } from './routes/location/location.route'
+import { getLocationConcertsQueryStringSchema } from './routes/location/location.types'
 import {
   getSubscribeCommonParamsSchema,
   getSubscribedConcertListQueryStringSchema,
@@ -184,6 +187,8 @@ fastify.register(fastifySwagger, {
       SubscribeArtistBody: subscribeArtistBodySchema,
       UnsubscribeVenueBody: unsubscribeVenueBodySchema,
       UnsubscribeArtistBody: unsubscribeArtistBodySchema,
+      GetLocationConcertsQueryString: getLocationConcertsQueryStringSchema,
+      LocationConcertDTOSerialized: locationConcertDTOSerializedSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
@@ -213,3 +218,4 @@ fastify.register(subscribeRoute, { prefix: '/v1/subscribe' })
 fastify.register(fcmRoute, { prefix: '/v1/fcm' })
 fastify.register(artistRoute, { prefix: '/v1/artist' })
 fastify.register(venueRoute, { prefix: '/v1/venue' })
+fastify.register(locationRoute, { prefix: '/v1/location' })
