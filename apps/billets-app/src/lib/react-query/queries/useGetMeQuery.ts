@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
-import client from '../../api/openapi-client'
+import { fetchClient } from '../../api/openapi-client'
 import { v1QueryKeyFactory } from '../../query-key-factory'
 
 const queryFn = async () => {
-  const data = await client.GET('/v1/user/me')
+  const data = await fetchClient.GET('/v1/user/me')
   return data.data ?? null
 }
 

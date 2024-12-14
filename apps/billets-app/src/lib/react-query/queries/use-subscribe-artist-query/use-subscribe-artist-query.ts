@@ -1,4 +1,4 @@
-import client from '@/lib/api/openapi-client'
+import { fetchClient } from '@/lib/api/openapi-client'
 import { OpenApiError } from '@/lib/api/openapi-error'
 import { v1QueryKeyFactory } from '@/lib/query-key-factory'
 import { useQuery, UseQueryOptions } from '@tanstack/react-query'
@@ -6,7 +6,7 @@ import { useQuery, UseQueryOptions } from '@tanstack/react-query'
 type Options = UseQueryOptions<Awaited<ReturnType<typeof queryFn>>, OpenApiError>
 
 const queryFn = async ({ artistId }: { artistId: string }) => {
-  const response = await client.GET('/v1/subscribe/artist/{id}', {
+  const response = await fetchClient.GET('/v1/subscribe/artist/{id}', {
     params: {
       path: {
         id: artistId,

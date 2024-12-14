@@ -3,12 +3,12 @@ import { MainStackNavigation, MainStackNavigationParamList } from '@/navigations
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
 import React, { useCallback, useEffect, useRef } from 'react'
 import { ActivityIndicator } from 'react-native'
-import { useSendFCMTokenMutation } from './lib/react-query'
+import { $api } from './lib/api/openapi-client'
 
 const AppContainer = () => {
   const { logScreenView } = useFirebaseAnalytics()
   const { requestPermission, getFCMToken, subscribeTopic } = useFirebaseMessaging()
-  const { mutate: sendFCMToken } = useSendFCMTokenMutation()
+  const { mutate: sendFCMToken } = $api.useMutation('post', '/v1/fcm/token')
 
   useAppleAuth()
 
@@ -21,7 +21,9 @@ const AppContainer = () => {
           getFCMToken().then((token) => {
             // send fcm token to server
             sendFCMToken({
-              fcmToken: token,
+              body: {
+                fcmToken: token,
+              },
             })
           })
         }

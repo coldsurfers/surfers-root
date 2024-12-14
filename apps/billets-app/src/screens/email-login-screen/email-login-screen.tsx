@@ -1,5 +1,5 @@
 import { AuthContext, ToastVisibleContext, ToastVisibleContextProvider } from '@/lib'
-import useSignInMutation from '@/lib/react-query/mutations/useSignInMutation'
+import { $api } from '@/lib/api/openapi-client'
 import { CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { Button, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
@@ -10,7 +10,7 @@ const _EmailLoginScreen = () => {
   const { show } = useContext(ToastVisibleContext)
   const { login } = useContext(AuthContext)
   const { navigate } = useEmailLoginScreenNavigation()
-  const { mutate, isPending: isPendingSignIn, error } = useSignInMutation()
+  const { mutate, isPending: isPendingSignIn, error } = $api.useMutation('post', '/v1/auth/signin')
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 
@@ -41,9 +41,11 @@ const _EmailLoginScreen = () => {
     }
     mutate(
       {
-        provider: 'email',
-        email,
-        password,
+        body: {
+          provider: 'email',
+          email,
+          password,
+        },
       },
       {
         onSuccess: async (signInData) => {

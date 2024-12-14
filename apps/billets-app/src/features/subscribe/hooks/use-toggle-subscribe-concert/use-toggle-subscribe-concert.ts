@@ -1,6 +1,5 @@
+import { $api } from '@/lib/api/openapi-client'
 import { v1QueryKeyFactory } from '@/lib/query-key-factory'
-import useSubscribeConcertMutation from '@/lib/react-query/mutations/useSubscribeConcertMutation'
-import useUnsubscribeConcertMutation from '@/lib/react-query/mutations/useUnsubscribeConcertMutation'
 import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import useSubscribedConcertListQuery from '@/lib/react-query/queries/useSubscribedConcertListQuery'
 import useSubscribedConcertQuery from '@/lib/react-query/queries/useSubscribedConcertQuery'
@@ -11,11 +10,12 @@ export const useToggleSubscribeConcert = () => {
   const queryClient = useQueryClient()
   const { data: meData } = useGetMeQuery()
 
-  const { mutate: mutateSubscribeConcert } = useSubscribeConcertMutation({
+  const { mutate: mutateSubscribeConcert } = $api.useMutation('post', '/v1/subscribe/concert/{id}', {
     onMutate: async (variables) => {
+      const { id: concertId } = variables.params.path
       await queryClient.cancelQueries({
         queryKey: v1QueryKeyFactory.concerts.subscribed({
-          concertId: variables.id,
+          concertId,
         }).queryKey,
       })
       if (!meData) {
@@ -25,14 +25,11 @@ export const useToggleSubscribeConcert = () => {
         Awaited<ReturnType<typeof useSubscribedConcertListQuery>>['data']
       >(v1QueryKeyFactory.concerts.subscribedList.queryKey)
       const newSubscribedConcert: Awaited<ReturnType<typeof useSubscribedConcertQuery>['data']> = {
-        concertId: variables.id,
+        concertId,
         userId: meData.id,
       }
 
-      queryClient.setQueryData(
-        v1QueryKeyFactory.concerts.subscribed({ concertId: variables.id }).queryKey,
-        newSubscribedConcert,
-      )
+      queryClient.setQueryData(v1QueryKeyFactory.concerts.subscribed({ concertId }).queryKey, newSubscribedConcert)
       queryClient.setQueryData(v1QueryKeyFactory.concerts.subscribedList.queryKey, {
         ...previousSubscribedConcertList,
         pageParams: previousSubscribedConcertList?.pageParams ?? 0,
@@ -54,11 +51,12 @@ export const useToggleSubscribeConcert = () => {
       })
     },
   })
-  const { mutate: mutateUnsubscribeConcert } = useUnsubscribeConcertMutation({
+  const { mutate: mutateUnsubscribeConcert } = $api.useMutation('delete', '/v1/subscribe/concert/{id}', {
     onMutate: async (variables) => {
+      const { id: concertId } = variables.params.path
       await queryClient.cancelQueries({
         queryKey: v1QueryKeyFactory.concerts.subscribed({
-          concertId: variables.id,
+          concertId,
         }).queryKey,
       })
       const previousSubscribedConcertList = queryClient.getQueryData<
@@ -66,14 +64,14 @@ export const useToggleSubscribeConcert = () => {
       >(v1QueryKeyFactory.concerts.subscribedList.queryKey)
       queryClient.setQueryData(
         v1QueryKeyFactory.concerts.subscribed({
-          concertId: variables.id,
+          concertId,
         }).queryKey,
         null,
       )
       queryClient.setQueryData(v1QueryKeyFactory.concerts.subscribedList.queryKey, {
         ...previousSubscribedConcertList,
         pageParams: previousSubscribedConcertList?.pageParams ?? 0,
-        pages: (previousSubscribedConcertList?.pages.flat() ?? []).filter((v) => v?.concertId !== variables.id),
+        pages: (previousSubscribedConcertList?.pages.flat() ?? []).filter((v) => v?.concertId !== concertId),
       })
       return null
     },
@@ -95,9 +93,19 @@ export const useToggleSubscribeConcert = () => {
   const subscribeConcert = useCallback(
     ({ isSubscribed, concertId }: { isSubscribed: boolean; concertId: string }) => {
       if (isSubscribed) {
-        mutateUnsubscribeConcert({ id: concertId })
+        mutateUnsubscribeConcert({
+          body: { id: concertId },
+          params: {
+            path: { id: concertId },
+          },
+        })
       } else {
-        mutateSubscribeConcert({ id: concertId })
+        mutateSubscribeConcert({
+          body: { id: concertId },
+          params: {
+            path: { id: concertId },
+          },
+        })
       }
     },
     [mutateSubscribeConcert, mutateUnsubscribeConcert],
