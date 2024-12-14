@@ -518,6 +518,65 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/location/concert': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query: {
+          latitude: string
+          latitudeDelta: string
+          longitude: string
+          longitudeDelta: string
+          zoomLevel: string
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['LocationConcertDTOSerialized'][]
+          }
+        }
+        /** @description Default Response */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/search/': {
     parameters: {
       query?: never
@@ -1473,6 +1532,7 @@ export interface components {
       code:
         | 'INVALID_PASSWORD'
         | 'INVALID_ACCESS_TOKEN'
+        | 'INVALID_QUERY_STRING'
         | 'USER_NOT_FOUND'
         | 'CONCERT_NOT_FOUND'
         | 'SUBSCRIBED_CONCERT_NOT_FOUND'
@@ -1525,6 +1585,13 @@ export interface components {
       size: string
     }
     GetConcertListByVenueIdSuccessResponse: components['schemas']['ConcertDetailSuccessResponse'][]
+    GetLocationConcertsQueryString: {
+      latitude: string
+      latitudeDelta: string
+      longitude: string
+      longitudeDelta: string
+      zoomLevel: string
+    }
     GetMeSuccessResponse: {
       /** Format: date-time */
       deactivatedAt: string | null
@@ -1548,6 +1615,12 @@ export interface components {
       lat: number
       lng: number
       name: string
+    }
+    LocationConcertDTOSerialized: {
+      id: string
+      latitude: number
+      longitude: number
+      title: string
     }
     PostFCMTokenBody: {
       fcmToken: string
