@@ -49,8 +49,10 @@ export const getLocationConcertsHandler: RouteHandler<{
     const southEast = geohash.encode(southLat, eastLng, maxPrecision)
     const southWest = geohash.encode(southLat, westLng, maxPrecision)
     const center = geohash.encode(latitude, longitude, maxPrecision)
+    const nearbyGeohashes = geohash.neighbors(center)
+    const bboxes = geohash.bboxes(southLat, westLng, northLat, eastLng, maxPrecision)
 
-    const geohashes = [...new Set([northEast, northWest, southEast, southWest, center])]
+    const geohashes = [...new Set([northEast, northWest, southEast, southWest, center, ...nearbyGeohashes, ...bboxes])]
     const data = await LocationConcertDTO.listByGeohashes(geohashes)
 
     return rep.status(200).send(data.map((value) => value.serialize()))
