@@ -2932,8 +2932,11 @@ __metadata:
     "@react-navigation/native-stack": "npm:^6.9.17"
     "@tanstack/eslint-plugin-query": "npm:^5.58.1"
     "@tanstack/react-query": "npm:*"
+    "@types/lodash.uniqby": "npm:^4"
+    "@types/ngeohash": "npm:*"
     "@types/react": "npm:^18.2.6"
     "@types/react-test-renderer": "npm:^18.0.0"
+    "@types/supercluster": "npm:^7.1.3"
     "@typescript-eslint/eslint-plugin": "npm:^5.29.0"
     "@typescript-eslint/parser": "npm:^5.29.0"
     "@uidotdev/usehooks": "npm:^2.4.1"
@@ -2948,8 +2951,11 @@ __metadata:
     eslint-plugin-prettier: "npm:^5.2.1"
     jest: "npm:^29.6.3"
     jwt-decode: "npm:^4.0.0"
+    lodash.uniqby: "npm:^4.7.0"
     metro-react-native-babel-preset: "npm:0.73.7"
+    ngeohash: "npm:*"
     openapi-fetch: "npm:^0.12.2"
+    openapi-react-query: "npm:^0.2.8"
     patch-package: "npm:^8.0.0"
     prettier: "npm:3.3.3"
     react: "npm:18.3.1"
@@ -2974,6 +2980,7 @@ __metadata:
     react-native-webview: "npm:^11.26.1"
     react-test-renderer: "npm:18.3.1"
     reactotron-react-native: "npm:^5.1.8"
+    supercluster: "npm:^8.0.1"
     ts-pattern: "npm:*"
     typescript: "npm:5.6.3"
     zustand: "npm:*"
@@ -11180,6 +11187,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/geojson@npm:*":
+  version: 7946.0.15
+  resolution: "@types/geojson@npm:7946.0.15"
+  checksum: 10c0/535d21ceaa01717cfdacc8f3dcbb7bc60a04361f401d80e60be22ce8dea23d669e4d0026c2c3da1168e807ee5ad4c9b2b4913ecd78eb0aabbcf76e92dc69808d
+  languageName: node
+  linkType: hard
+
 "@types/geojson@npm:^7946.0.13":
   version: 7946.0.14
   resolution: "@types/geojson@npm:7946.0.14"
@@ -11348,7 +11362,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.167":
+"@types/lodash.uniqby@npm:^4":
+  version: 4.7.9
+  resolution: "@types/lodash.uniqby@npm:4.7.9"
+  dependencies:
+    "@types/lodash": "npm:*"
+  checksum: 10c0/b508927c8bd9a840c629169f8573d0f33a12c7232b4315785537f25914dec441323c54ba609f75fdefaa53f7ecd56f29bd6f598c3920ade45532b8eab76bf044
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*, @types/lodash@npm:^4.14.167":
   version: 4.17.13
   resolution: "@types/lodash@npm:4.17.13"
   checksum: 10c0/c3d0b7efe7933ac0369b99f2f7bff9240d960680fdb74b41ed4bd1b3ca60cca1e31fe4046d9abbde778f941a41bc2a75eb629abf8659fa6c27b66efbbb0802a9
@@ -11712,6 +11735,15 @@ __metadata:
   version: 0.0.30
   resolution: "@types/strip-json-comments@npm:0.0.30"
   checksum: 10c0/90509e345ac16c79f7aa7d7ef52e388e5be923f3456cf8052d36ee0eb4abc5ec4080c5f010f78cf01f5599546577eb3724256bc698663e86f0fe08a5a3fb7f68
+  languageName: node
+  linkType: hard
+
+"@types/supercluster@npm:^7.1.3":
+  version: 7.1.3
+  resolution: "@types/supercluster@npm:7.1.3"
+  dependencies:
+    "@types/geojson": "npm:*"
+  checksum: 10c0/0d55dad98df0990fc38a7bb64dc23dda46014187c0d7638e6f2b6717ba8931b13e5b1d394789833a2ac822014c977ef64623dffd81a0bbf39e52c53c8183741f
   languageName: node
   linkType: hard
 
@@ -24295,6 +24327,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"kdbush@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "kdbush@npm:4.0.2"
+  checksum: 10c0/d50183b299c57e2573114e902ab47aed7494be3ca41b66d456779ecc3b2f153f491de341f9609965414784f728894f9a9001152eb9f3a40cd3755521c06a45a3
+  languageName: node
+  linkType: hard
+
 "keyv@npm:^4.0.0, keyv@npm:^4.5.3":
   version: 4.5.4
   resolution: "keyv@npm:4.5.4"
@@ -27364,6 +27403,18 @@ __metadata:
   dependencies:
     openapi-typescript-helpers: "npm:^0.0.15"
   checksum: 10c0/f882c73e8681039a37f1702d08a0ed91e896cc00ee189418febd07b48a8885f6ea6ac7b3850c1f124e34151569d3bf4ce57949f067b36afd0e513e4a31302c15
+  languageName: node
+  linkType: hard
+
+"openapi-react-query@npm:^0.2.8":
+  version: 0.2.8
+  resolution: "openapi-react-query@npm:0.2.8"
+  dependencies:
+    openapi-typescript-helpers: "npm:^0.0.15"
+  peerDependencies:
+    "@tanstack/react-query": ^5.25.0
+    openapi-fetch: ^0.13.3
+  checksum: 10c0/0b122e64a693422fbf037b43abc954472df73201c1d5fc36b0d7bd11a5681dc06b581f063dfd5a1e27e11ded38d73a6fb0283243031a1ec8948f730bdd285eac
   languageName: node
   linkType: hard
 
@@ -33149,6 +33200,15 @@ __metadata:
     qs: "npm:^6.11.0"
     semver: "npm:^7.3.8"
   checksum: 10c0/016416fc9c3d3a04fb648bc0efb3d3d5c9d96da00de47e4a625d9976d28c6c37ab0a7f185f2c3ec6d653ee8bb522f70fba0c1072aea7774341a6c0269a9fa77f
+  languageName: node
+  linkType: hard
+
+"supercluster@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "supercluster@npm:8.0.1"
+  dependencies:
+    kdbush: "npm:^4.0.2"
+  checksum: 10c0/79121e6dbff67b3036ea6651f3baddb942478830ba3ecbc27455715ab5bd269de8381dc04618c0c15963346ea2ed0f81cd5f767c2978a63e2841807c73445d57
   languageName: node
   linkType: hard
 

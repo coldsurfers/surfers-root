@@ -1,5 +1,5 @@
 import { AuthContext, decodeJwt, GOOGLE_SIGNIN_OPTIONS, ToastVisibleContext, ToastVisibleContextProvider } from '@/lib'
-import useSignInMutation from '@/lib/react-query/mutations/useSignInMutation'
+import { $api } from '@/lib/api/openapi-client'
 import { CommonScreenLayout } from '@/ui'
 import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import { colors } from '@coldsurfers/ocean-road'
@@ -32,7 +32,7 @@ export const _LoginSelectionScreen = () => {
   const { show } = useContext(ToastVisibleContext)
   const { login } = useContext(AuthContext)
   const { navigate } = useLoginSelectionScreenNavigation()
-  const { mutate: mutateSignIn, isPending: isPendingMutateSignIn } = useSignInMutation({
+  const { mutate: mutateSignIn, isPending: isPendingMutateSignIn } = $api.useMutation('post', '/v1/auth/signin', {
     onSuccess: async (data) => {
       if (!data) {
         return
@@ -65,14 +65,16 @@ export const _LoginSelectionScreen = () => {
       }
       mutateSignIn(
         {
-          provider: 'google',
-          email,
-          token: user.idToken,
-          platform: Platform.select({
-            ios: 'ios',
-            android: 'android',
-            default: 'android',
-          }),
+          body: {
+            provider: 'google',
+            email,
+            token: user.idToken,
+            platform: Platform.select({
+              ios: 'ios',
+              android: 'android',
+              default: 'android',
+            }),
+          },
         },
         {
           onError: (error) => {
@@ -135,14 +137,16 @@ export const _LoginSelectionScreen = () => {
         }
         mutateSignIn(
           {
-            provider: 'apple',
-            email: email,
-            token: identityToken,
-            platform: Platform.select({
-              ios: 'ios',
-              android: 'android',
-              default: 'android',
-            }),
+            body: {
+              provider: 'apple',
+              email: email,
+              token: identityToken,
+              platform: Platform.select({
+                ios: 'ios',
+                android: 'android',
+                default: 'android',
+              }),
+            },
           },
           {
             onError: (error) => {
