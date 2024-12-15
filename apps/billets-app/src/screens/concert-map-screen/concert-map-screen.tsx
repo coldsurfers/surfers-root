@@ -1,4 +1,4 @@
-import { ConcertMapMarker, getZoomLevel, mapPointSchema } from '@/features'
+import { ConcertMapMarker, getZoomLevel, mapPointSchema, useMapRegionWithZoomLevel } from '@/features'
 import { $api } from '@/lib/api/openapi-client'
 import { useUserCurrentLocationStore } from '@/lib/stores/userCurrentLocationStore'
 import { CommonScreenLayout } from '@/ui'
@@ -9,10 +9,6 @@ import MapView, { Camera, type Region } from 'react-native-maps'
 import Supercluster from 'supercluster'
 import { z } from 'zod'
 import { useShallow } from 'zustand/shallow'
-
-type MapRegionWithZoomLevel = Region & {
-  zoomLevel: number
-}
 
 export const ConcertMapScreen = () => {
   const { lat, lng } = useUserCurrentLocationStore(
@@ -30,14 +26,10 @@ export const ConcertMapScreen = () => {
       }),
   )
 
-  const [mapRegionWithZoomLevel, setMapRegionWithZoomLevel] = useState<MapRegionWithZoomLevel>({
+  const { mapRegionWithZoomLevel, setMapRegionWithZoomLevel } = useMapRegionWithZoomLevel({
     latitude: lat ?? 37.78825,
     longitude: lng ?? -122.4324,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-    zoomLevel: getZoomLevel(0.0922),
   })
-
   const { data: locationConcerts } = $api.useQuery('get', '/v1/location/concert', {
     params: {
       query: {
@@ -83,12 +75,15 @@ export const ConcertMapScreen = () => {
 
   const [clusters, setClusters] = useState<z.infer<typeof mapPointSchema>[]>([])
 
-  const updateClusters = useCallback((region: Region) => {
-    setMapRegionWithZoomLevel({
-      ...region,
-      zoomLevel: getZoomLevel(region.latitudeDelta),
-    })
-  }, [])
+  const updateClusters = useCallback(
+    (region: Region) => {
+      setMapRegionWithZoomLevel({
+        ...region,
+        zoomLevel: getZoomLevel(region.latitudeDelta),
+      })
+    },
+    [setMapRegionWithZoomLevel],
+  )
 
   useEffect(() => {
     const region = mapRegionWithZoomLevel
