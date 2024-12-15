@@ -1,10 +1,12 @@
 import { $api } from '@/lib/api/openapi-client'
 import { useUserCurrentLocationStore } from '@/lib/stores/userCurrentLocationStore'
 import { CommonScreenLayout } from '@/ui'
+import { colors } from '@coldsurfers/ocean-road'
+import { Text } from '@coldsurfers/ocean-road/native'
 import uniqBy from 'lodash.uniqby'
-import { useCallback, useEffect, useState } from 'react'
-import { Text, View } from 'react-native'
-import MapView, { Marker, type Region } from 'react-native-maps'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { StyleSheet, View } from 'react-native'
+import MapView, { Camera, Marker, type Region } from 'react-native-maps'
 import Supercluster from 'supercluster'
 import { z } from 'zod'
 import { useShallow } from 'zustand/shallow'
@@ -132,23 +134,25 @@ export const ConcertMapScreen = () => {
     }
   }, [mapRegionWithZoomLevel, points, supercluster])
 
+  const initialCamera = useMemo<Camera>(() => {
+    return {
+      center: {
+        ...mapRegionWithZoomLevel,
+      },
+      pitch: 180,
+      heading: 0,
+      zoom: mapRegionWithZoomLevel.zoomLevel,
+    }
+  }, [mapRegionWithZoomLevel])
+
   return (
     <CommonScreenLayout>
       <MapView
         onRegionChangeComplete={updateClusters}
         initialRegion={mapRegionWithZoomLevel}
-        initialCamera={{
-          center: {
-            ...mapRegionWithZoomLevel,
-          },
-          pitch: 180,
-          heading: 0,
-          zoom: mapRegionWithZoomLevel.zoomLevel,
-        }}
+        initialCamera={initialCamera}
         zoomEnabled
-        style={{
-          flex: 1,
-        }}
+        style={styles.map}
       >
         {clusters.map((point) => {
           const { properties, geometry } = point
@@ -157,18 +161,10 @@ export const ConcertMapScreen = () => {
           if (properties.cluster) {
             return (
               <Marker key={`cluster-${properties.cluster_id}`} coordinate={{ latitude, longitude }}>
-                <View
-                  style={{
-                    backgroundColor: '#007AFF',
-                    borderRadius: 20,
-                    padding: 8,
-                    width: 40,
-                    height: 40,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Text style={{ color: '#fff', fontWeight: 'bold' }}>{properties.point_count}</Text>
+                <View style={styles.circleMarker}>
+                  <Text weight="bold" style={styles.markerText}>
+                    {properties.point_count}
+                  </Text>
                 </View>
               </Marker>
             )
@@ -180,17 +176,7 @@ export const ConcertMapScreen = () => {
               coordinate={{ latitude, longitude }}
               // Add your custom marker component or image here
             >
-              <View
-                style={{
-                  backgroundColor: '#007AFF',
-                  borderRadius: 20,
-                  padding: 8,
-                  width: 40,
-                  height: 40,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              />
+              <View style={styles.circleMarker} />
             </Marker>
           )
         })}
@@ -198,3 +184,19 @@ export const ConcertMapScreen = () => {
     </CommonScreenLayout>
   )
 }
+
+const styles = StyleSheet.create({
+  map: {
+    flex: 1,
+  },
+  circleMarker: {
+    backgroundColor: colors.oc.blue[8].value,
+    borderRadius: 20,
+    padding: 8,
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  markerText: { color: colors.oc.white.value },
+})
