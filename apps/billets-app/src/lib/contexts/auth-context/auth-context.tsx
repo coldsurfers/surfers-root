@@ -1,5 +1,6 @@
 import { useFirebaseMessaging } from '@/lib/hooks'
-import { useSendFCMTokenMutation } from '@/lib/react-query'
+// import { useSendFCMTokenMutation } from '@/lib/react-query'
+import { $api } from '@/lib/api/openapi-client'
 import { mmkvKeys } from '@/lib/storage/constants'
 import { mmkvInstance } from '@/lib/storage/mmkvInstance'
 import { useQueryClient } from '@tanstack/react-query'
@@ -30,7 +31,7 @@ export const AuthContext = createContext<{
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const queryClient = useQueryClient()
   const { isLoading: isLoadingMe, data: meData } = useGetMeQuery()
-  const { mutateAsync: sendFCMToken } = useSendFCMTokenMutation()
+  const { mutateAsync: sendFCMToken } = $api.useMutation('post', '/v1/fcm/token')
   const { getFCMToken } = useFirebaseMessaging()
 
   const login = useCallback(
@@ -46,7 +47,9 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         mmkvInstance.set(mmkvKeys.authToken, JSON.stringify(authToken))
         const fcmToken = await getFCMToken()
         await sendFCMToken({
-          fcmToken,
+          body: {
+            fcmToken,
+          },
         })
         await queryClient.invalidateQueries()
       } catch (e) {

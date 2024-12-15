@@ -1,9 +1,9 @@
 import { UseQueryOptions, useQuery } from '@tanstack/react-query'
-import client from '../../api/openapi-client'
+import { fetchClient } from '../../api/openapi-client'
 import { v1QueryKeyFactory } from '../../query-key-factory'
 
 const queryFn = async (variables: { concertId: string }) => {
-  const response = await client.GET('/v1/concert/{id}', {
+  const response = await fetchClient.GET('/v1/concert/{id}', {
     params: {
       path: {
         id: variables.concertId,
