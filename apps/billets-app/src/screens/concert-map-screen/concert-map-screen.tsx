@@ -1,4 +1,4 @@
-import { ConcertMapMarker, mapPointSchema } from '@/features'
+import { ConcertMapMarker, getZoomLevel, mapPointSchema } from '@/features'
 import { $api } from '@/lib/api/openapi-client'
 import { useUserCurrentLocationStore } from '@/lib/stores/userCurrentLocationStore'
 import { CommonScreenLayout } from '@/ui'
@@ -12,11 +12,6 @@ import { useShallow } from 'zustand/shallow'
 
 type MapRegionWithZoomLevel = Region & {
   zoomLevel: number
-}
-
-const getZoomLevel = (latitudeDelta: number): number => {
-  const calculatedZoomLevel = Math.round(Math.log(360 / latitudeDelta) / Math.LN2)
-  return calculatedZoomLevel
 }
 
 export const ConcertMapScreen = () => {
