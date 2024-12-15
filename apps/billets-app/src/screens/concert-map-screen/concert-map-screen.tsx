@@ -2,7 +2,7 @@ import { $api } from '@/lib/api/openapi-client'
 import { useUserCurrentLocationStore } from '@/lib/stores/userCurrentLocationStore'
 import { CommonScreenLayout } from '@/ui'
 import uniqBy from 'lodash.uniqby'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Text, View } from 'react-native'
 import MapView, { Marker, type Region } from 'react-native-maps'
 import Supercluster from 'supercluster'
@@ -40,6 +40,14 @@ export const ConcertMapScreen = () => {
       lat: state.latitude,
       lng: state.longitude,
     })),
+  )
+  const [supercluster] = useState(
+    () =>
+      new Supercluster({
+        radius: 40,
+        maxZoom: 16,
+        minZoom: 1,
+      }),
   )
 
   const [mapRegionWithZoomLevel, setMapRegionWithZoomLevel] = useState<MapRegionWithZoomLevel>({
@@ -92,14 +100,6 @@ export const ConcertMapScreen = () => {
       return newValue
     })
   }, [locationConcerts])
-
-  const supercluster = useMemo(() => {
-    return new Supercluster({
-      radius: 40,
-      maxZoom: 16,
-      minZoom: 1,
-    })
-  }, [])
 
   const [clusters, setClusters] = useState<z.infer<typeof pointSchema>[]>([])
 
