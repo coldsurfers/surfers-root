@@ -1,3 +1,4 @@
+import { mapPointSchema } from '@/features'
 import { $api } from '@/lib/api/openapi-client'
 import { useUserCurrentLocationStore } from '@/lib/stores/userCurrentLocationStore'
 import { CommonScreenLayout } from '@/ui'
@@ -10,22 +11,6 @@ import MapView, { Camera, Marker, type Region } from 'react-native-maps'
 import Supercluster from 'supercluster'
 import { z } from 'zod'
 import { useShallow } from 'zustand/shallow'
-
-const pointSchema = z.object({
-  type: z.literal('Feature'),
-  id: z.number(),
-  originalId: z.string().uuid().optional(),
-  properties: z.object({
-    cluster: z.boolean().optional(),
-    cluster_id: z.number().optional(),
-    point_count: z.number().optional(),
-    point_count_abbreviated: z.number().optional(),
-  }),
-  geometry: z.object({
-    type: z.literal('Point'),
-    coordinates: z.array(z.number()),
-  }),
-})
 
 type MapRegionWithZoomLevel = Region & {
   zoomLevel: number
@@ -73,7 +58,7 @@ export const ConcertMapScreen = () => {
   })
 
   // Example points - replace with your actual data
-  const [points, setPoints] = useState<z.infer<typeof pointSchema>[]>([])
+  const [points, setPoints] = useState<z.infer<typeof mapPointSchema>[]>([])
 
   useEffect(() => {
     if (!locationConcerts) {
@@ -90,9 +75,9 @@ export const ConcertMapScreen = () => {
             type: 'Point',
             coordinates: [locationConcert.longitude, locationConcert.latitude],
           },
-        } satisfies z.infer<typeof pointSchema>
+        } satisfies z.infer<typeof mapPointSchema>
       })
-      const validation = pointSchema.array().safeParse(newPoints)
+      const validation = mapPointSchema.array().safeParse(newPoints)
       if (validation.error) {
         console.error(validation.error)
         return prevPoints
@@ -103,7 +88,7 @@ export const ConcertMapScreen = () => {
     })
   }, [locationConcerts])
 
-  const [clusters, setClusters] = useState<z.infer<typeof pointSchema>[]>([])
+  const [clusters, setClusters] = useState<z.infer<typeof mapPointSchema>[]>([])
 
   const updateClusters = useCallback((region: Region) => {
     setMapRegionWithZoomLevel({
@@ -125,7 +110,7 @@ export const ConcertMapScreen = () => {
 
     supercluster.load(points)
     const clusters = supercluster.getClusters(bbox, zoomLevel)
-    const clustersValidation = pointSchema.array().safeParse(clusters)
+    const clustersValidation = mapPointSchema.array().safeParse(clusters)
 
     if (clustersValidation.success) {
       setClusters(clustersValidation.data)
