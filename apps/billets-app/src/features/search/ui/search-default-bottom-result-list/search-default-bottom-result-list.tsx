@@ -1,5 +1,5 @@
 import useConcertListQuery from '@/lib/react-query/queries/useConcertListQuery'
-import { useSearchScreenNavigation } from '@/screens/search-screen'
+import { useSearchScreenNavigation } from '@/screens/search-screen/search-screen.hooks'
 import { colors } from '@coldsurfers/ocean-road'
 import { Text } from '@coldsurfers/ocean-road/native'
 import { BottomSheetFlatList } from '@gorhom/bottom-sheet'
