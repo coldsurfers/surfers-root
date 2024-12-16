@@ -1,13 +1,23 @@
 import { useUserCurrentLocationStore } from '@/lib/stores/userCurrentLocationStore'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { StyleSheet } from 'react-native'
 import MapView, { Camera, Region } from 'react-native-maps'
+import { z } from 'zod'
 import { useShallow } from 'zustand/shallow'
 import { useMapPoints, useMapRegionWithZoomLevel, useSuperCluster } from '../../hooks'
+import { mapPointSchema } from '../../map.types'
 import { getZoomLevel } from '../../utils'
 import { ConcertMapMarker } from '../concert-map-marker'
 
-export const ConcertMapView = () => {
+export const ConcertMapView = ({
+  onChangeClusters,
+  onChangePoints,
+  onChangeVisiblePoints,
+}: {
+  onChangeClusters?: (clusters: z.infer<typeof mapPointSchema>[]) => void
+  onChangePoints?: (concerts: z.infer<typeof mapPointSchema>[]) => void
+  onChangeVisiblePoints?: (concerts: z.infer<typeof mapPointSchema>[]) => void
+}) => {
   const { lat, lng } = useUserCurrentLocationStore(
     useShallow((state) => ({
       lat: state.latitude,
@@ -19,7 +29,7 @@ export const ConcertMapView = () => {
     longitude: lng ?? -122.4324,
   })
 
-  const { points } = useMapPoints({
+  const { points, visiblePoints } = useMapPoints({
     mapRegionWithZoomLevel,
   })
 
@@ -48,6 +58,12 @@ export const ConcertMapView = () => {
       zoom: mapRegionWithZoomLevel.zoomLevel,
     }
   }, [mapRegionWithZoomLevel])
+
+  useEffect(() => {
+    onChangeClusters?.(clusters)
+    onChangePoints?.(points)
+    onChangeVisiblePoints?.(visiblePoints)
+  }, [clusters, onChangeClusters, onChangePoints, onChangeVisiblePoints, points, visiblePoints])
 
   return (
     <MapView
