@@ -16,7 +16,7 @@ const SearchStackNavigation = () => {
   )
   const searchScreenOptions = useMemo<NativeStackNavigationOptions>(
     () => ({
-      header: SearchScreenNavigationHeader,
+      header: (props) => <SearchScreenNavigationHeader {...props} />,
     }),
     [],
   )
