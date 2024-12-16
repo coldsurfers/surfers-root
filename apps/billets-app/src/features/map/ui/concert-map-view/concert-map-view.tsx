@@ -13,10 +13,19 @@ export const ConcertMapView = ({
   onChangeClusters,
   onChangePoints,
   onChangeVisiblePoints,
+  onChangeLocationConcerts,
 }: {
   onChangeClusters?: (clusters: z.infer<typeof mapPointSchema>[]) => void
-  onChangePoints?: (concerts: z.infer<typeof mapPointSchema>[]) => void
-  onChangeVisiblePoints?: (concerts: z.infer<typeof mapPointSchema>[]) => void
+  onChangePoints?: (points: z.infer<typeof mapPointSchema>[]) => void
+  onChangeVisiblePoints?: (visiblePoints: z.infer<typeof mapPointSchema>[]) => void
+  onChangeLocationConcerts?: (
+    locationConcerts: {
+      id: string
+      latitude: number
+      longitude: number
+      title: string
+    }[],
+  ) => void
 }) => {
   const { lat, lng } = useUserCurrentLocationStore(
     useShallow((state) => ({
@@ -29,7 +38,7 @@ export const ConcertMapView = ({
     longitude: lng ?? -122.4324,
   })
 
-  const { points, visiblePoints } = useMapPoints({
+  const { points, visiblePoints, locationConcerts } = useMapPoints({
     mapRegionWithZoomLevel,
   })
 
@@ -63,7 +72,17 @@ export const ConcertMapView = ({
     onChangeClusters?.(clusters)
     onChangePoints?.(points)
     onChangeVisiblePoints?.(visiblePoints)
-  }, [clusters, onChangeClusters, onChangePoints, onChangeVisiblePoints, points, visiblePoints])
+    onChangeLocationConcerts?.(locationConcerts ?? [])
+  }, [
+    clusters,
+    locationConcerts,
+    onChangeClusters,
+    onChangeLocationConcerts,
+    onChangePoints,
+    onChangeVisiblePoints,
+    points,
+    visiblePoints,
+  ])
 
   return (
     <MapView

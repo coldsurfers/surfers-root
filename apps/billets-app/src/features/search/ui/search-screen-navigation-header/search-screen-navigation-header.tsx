@@ -1,9 +1,12 @@
 import { NavigationHeader } from '@/ui/navigation-header'
-import { TextInput } from '@coldsurfers/ocean-road/native'
+import { colors } from '@coldsurfers/ocean-road'
+import { Button, Text, TextInput } from '@coldsurfers/ocean-road/native'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
+import { X as XIcon } from 'lucide-react-native'
 import { memo, useMemo, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 import { useShallow } from 'zustand/shallow'
+import { getSearchFilterUIValue } from '../../store'
 import { useSearchStore } from '../../store/search-store'
 
 export const SearchScreenNavigationHeader = memo((props: NativeStackHeaderProps) => {
@@ -12,6 +15,12 @@ export const SearchScreenNavigationHeader = memo((props: NativeStackHeaderProps)
     useShallow((state) => ({
       keyword: state.keyword,
       setKeyword: state.setKeyword,
+    })),
+  )
+  const { selectedLocationFilter, setSelectedLocationFilter } = useSearchStore(
+    useShallow((state) => ({
+      selectedLocationFilter: state.selectedLocationFilter,
+      setSelectedLocationFilter: state.setSelectedLocationFilter,
     })),
   )
   const options = useMemo(
@@ -37,6 +46,27 @@ export const SearchScreenNavigationHeader = memo((props: NativeStackHeaderProps)
             placeholder={placeholder}
             clearButtonMode="while-editing"
           />
+          <View style={styles.filters}>
+            {selectedLocationFilter !== null && (
+              <Button size="sm" theme="border" style={styles.filterBtn}>
+                <Text style={styles.filterText}>{getSearchFilterUIValue(selectedLocationFilter)}</Text>
+                {selectedLocationFilter !== 'current-location' && (
+                  <Pressable
+                    hitSlop={{
+                      top: 8,
+                      left: 8,
+                      right: 8,
+                      bottom: 8,
+                    }}
+                    onPress={() => setSelectedLocationFilter(null)}
+                    style={styles.filterXIconBtn}
+                  >
+                    <XIcon size={14} color={colors.oc.black.value} strokeWidth={3} />
+                  </Pressable>
+                )}
+              </Button>
+            )}
+          </View>
         </View>
       }
     />
@@ -48,5 +78,15 @@ const styles = StyleSheet.create({
     paddingTop: 14,
     paddingBottom: 8,
     paddingHorizontal: 14,
+  },
+  filters: {
+    marginTop: 14,
+  },
+  filterText: { fontSize: 12 },
+  filterXIconBtn: { marginLeft: 4 },
+  filterBtn: {
+    alignSelf: 'baseline',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 })
