@@ -1,3 +1,4 @@
+import { ConcertMapView } from '@/features'
 import { useSearchStore } from '@/features/search/store'
 import { SearchBottomKeywordResultList, SearchDefaultBottomResultList } from '@/features/search/ui'
 import { CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
@@ -10,7 +11,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Keyboard, KeyboardAvoidingView, KeyboardAvoidingViewProps, Platform, StyleSheet } from 'react-native'
 import { useShallow } from 'zustand/shallow'
 import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocationStore'
-import { ConcertMapScreen } from '../concert-map-screen'
 
 const KeyboardAvoidWrapper = (props: KeyboardAvoidingViewProps) => {
   return (
@@ -64,7 +64,7 @@ export const SearchScreen = () => {
     <BottomSheetModalProvider>
       <KeyboardAvoidWrapper>
         <CommonScreenLayout style={styles.wrapper}>
-          <ConcertMapScreen />
+          <ConcertMapView />
           <BottomSheet
             ref={bottomSheetRef}
             index={2}

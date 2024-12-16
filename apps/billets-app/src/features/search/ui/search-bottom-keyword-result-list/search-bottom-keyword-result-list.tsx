@@ -1,5 +1,5 @@
 import { $api } from '@/lib/api/openapi-client'
-import { useSearchScreenNavigation } from '@/screens/search-screen'
+import { useSearchScreenNavigation } from '@/screens/search-screen/search-screen.hooks'
 import { CommonListEmpty } from '@/ui/common-list-empty'
 import { colors } from '@coldsurfers/ocean-road'
 import { ProfileThumbnail } from '@coldsurfers/ocean-road/native'
