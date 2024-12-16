@@ -1,5 +1,5 @@
-import { ConcertMapView } from '@/features'
-import { getViewMode, SearchStoreSnapIndex, useSearchStore } from '@/features/search/store'
+import { ConcertMapView, mapPointSchema } from '@/features'
+import { getViewMode, SearchStoreLocationConcert, SearchStoreSnapIndex, useSearchStore } from '@/features/search/store'
 import { FULLY_EXPANDED_SNAP_INDEX } from '@/features/search/store/search-store.constants'
 import { SearchBottomList } from '@/features/search/ui'
 import commonStyles from '@/lib/common-styles'
@@ -12,6 +12,7 @@ import { useDebounce } from '@uidotdev/usehooks'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Keyboard, KeyboardAvoidingView, KeyboardAvoidingViewProps, Platform, StyleSheet, View } from 'react-native'
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import { z } from 'zod'
 import { useShallow } from 'zustand/shallow'
 import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocationStore'
 
@@ -52,9 +53,14 @@ export const SearchScreen = () => {
       setSnapIndex: state.setSnapIndex,
     })),
   )
+  const { locationConcerts, setLocationConcerts } = useSearchStore(
+    useShallow((state) => ({
+      locationConcerts: state.locationConcerts,
+      setLocationConcerts: state.setLocationConcerts,
+    })),
+  )
 
   const [pointsLength, setPointsLength] = useState(0)
-
   const [keyboardHeight, setKeyboardHeight] = useState(0)
   const debouncedSearchKeyword = useDebounce(searchKeyword, 350)
 
@@ -110,12 +116,24 @@ export const SearchScreen = () => {
     (index: number) => {
       setSnapIndex(index as SearchStoreSnapIndex)
       const viewMode = getViewMode(index as SearchStoreSnapIndex)
-      setViewMode(viewMode)
       if (viewMode === 'map') {
         setSelectedLocationFilter('map-location')
+        setViewMode(viewMode)
+      } else {
+        setViewMode('list')
       }
     },
     [setSelectedLocationFilter, setSnapIndex, setViewMode],
+  )
+
+  const onChangeVisiblePoints = useCallback((points: z.TypeOf<typeof mapPointSchema>[]) => {
+    setPointsLength(points.length)
+  }, [])
+  const onChangeLocationConcerts = useCallback(
+    (concerts: SearchStoreLocationConcert[]) => {
+      setLocationConcerts(concerts)
+    },
+    [setLocationConcerts],
   )
 
   return (
@@ -124,10 +142,8 @@ export const SearchScreen = () => {
         <CommonScreenLayout style={styles.wrapper}>
           {viewMode === 'map' && (
             <ConcertMapView
-              onChangeVisiblePoints={(points) => setPointsLength(points.length)}
-              onChangeLocationConcerts={(concerts) => {
-                console.log(concerts)
-              }}
+              onChangeVisiblePoints={onChangeVisiblePoints}
+              onChangeLocationConcerts={onChangeLocationConcerts}
             />
           )}
           <BottomSheet
@@ -145,6 +161,7 @@ export const SearchScreen = () => {
                 debouncedSearchKeyword={debouncedSearchKeyword}
                 latitude={latitude}
                 longitude={longitude}
+                locationConcerts={locationConcerts}
               />
             ) : (
               <View style={{ flex: 1, backgroundColor: colors.oc.gray[1].value, paddingHorizontal: 14 }}>
