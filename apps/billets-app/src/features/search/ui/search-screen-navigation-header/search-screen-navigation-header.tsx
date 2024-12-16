@@ -3,11 +3,12 @@ import { colors } from '@coldsurfers/ocean-road'
 import { Button, Text, TextInput } from '@coldsurfers/ocean-road/native'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 import { X as XIcon } from 'lucide-react-native'
-import { memo, useMemo, useState } from 'react'
+import { memo, useCallback, useMemo, useState } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
 import { useShallow } from 'zustand/shallow'
 import { getSearchFilterUIValue } from '../../store'
 import { useSearchStore } from '../../store/search-store'
+import { FULLY_EXPANDED_SNAP_INDEX } from '../../store/search-store.constants'
 
 export const SearchScreenNavigationHeader = memo((props: NativeStackHeaderProps) => {
   const [placeholder, setPlaceholder] = useState('🔎 어떤 공연을 찾고 싶으세요?')
@@ -23,6 +24,12 @@ export const SearchScreenNavigationHeader = memo((props: NativeStackHeaderProps)
       setSelectedLocationFilter: state.setSelectedLocationFilter,
     })),
   )
+  const { setSnapIndex, setViewMode } = useSearchStore(
+    useShallow((state) => ({
+      setSnapIndex: state.setSnapIndex,
+      setViewMode: state.setViewMode,
+    })),
+  )
   const options = useMemo(
     () => ({
       ...props.options,
@@ -31,6 +38,13 @@ export const SearchScreenNavigationHeader = memo((props: NativeStackHeaderProps)
     }),
     [props.options],
   )
+
+  const onPressFilterXIcon = useCallback(() => {
+    setSelectedLocationFilter(null)
+    setSnapIndex(FULLY_EXPANDED_SNAP_INDEX)
+    setViewMode('list')
+  }, [setSelectedLocationFilter, setSnapIndex, setViewMode])
+
   return (
     <NavigationHeader
       {...props}
@@ -58,7 +72,7 @@ export const SearchScreenNavigationHeader = memo((props: NativeStackHeaderProps)
                       right: 8,
                       bottom: 8,
                     }}
-                    onPress={() => setSelectedLocationFilter(null)}
+                    onPress={onPressFilterXIcon}
                     style={styles.filterXIconBtn}
                   >
                     <XIcon size={14} color={colors.oc.black.value} strokeWidth={3} />

@@ -1,5 +1,6 @@
 import { ConcertMapView } from '@/features'
-import { useSearchStore } from '@/features/search/store'
+import { getViewMode, SearchStoreSnapIndex, useSearchStore } from '@/features/search/store'
+import { FULLY_EXPANDED_SNAP_INDEX } from '@/features/search/store/search-store.constants'
 import { SearchBottomList } from '@/features/search/ui'
 import commonStyles from '@/lib/common-styles'
 import { CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
@@ -27,34 +28,31 @@ const KeyboardAvoidWrapper = (props: KeyboardAvoidingViewProps) => {
   )
 }
 
-const FULLY_EXPANDED_SNAP_INDEX = 1
-
-const getViewMode = (snapIndex: number) => {
-  if (snapIndex === FULLY_EXPANDED_SNAP_INDEX) {
-    return 'list'
-  }
-  return 'map'
-}
-
 export const SearchScreen = () => {
   const bottomTabBarHeight = useBottomTabBarHeight()
   const bottomSheetRef = useRef<BottomSheet>(null)
   const bottomBtnOpacityValue = useSharedValue(1.0)
   const [floatingBtnVisible, setFloatingBtnVisible] = useState(Boolean(FULLY_EXPANDED_SNAP_INDEX))
-  const [snapIndex, setSnapIndex] = useState(FULLY_EXPANDED_SNAP_INDEX)
   const snapPoints = useMemo(() => ['10%', '100%'], [])
   const { keyword: searchKeyword } = useSearchStore(
     useShallow((state) => ({
       keyword: state.keyword,
     })),
   )
-  const { selectedLocationFilter, setSelectedLocationFilter } = useSearchStore(
+  const { setSelectedLocationFilter } = useSearchStore(
     useShallow((state) => ({
-      selectedLocationFilter: state.selectedLocationFilter,
       setSelectedLocationFilter: state.setSelectedLocationFilter,
     })),
   )
-  const [viewMode, setViewMode] = useState<'map' | 'list'>(getViewMode(snapIndex))
+  const { viewMode, setViewMode, snapIndex, setSnapIndex } = useSearchStore(
+    useShallow((state) => ({
+      viewMode: state.viewMode,
+      setViewMode: state.setViewMode,
+      snapIndex: state.snapIndex,
+      setSnapIndex: state.setSnapIndex,
+    })),
+  )
+
   const [pointsLength, setPointsLength] = useState(0)
 
   const [keyboardHeight, setKeyboardHeight] = useState(0)
@@ -103,17 +101,22 @@ export const SearchScreen = () => {
     setSnapIndex(0)
     setSelectedLocationFilter('map-location')
     setViewMode('map')
-  }, [setSelectedLocationFilter])
+  }, [setSelectedLocationFilter, setSnapIndex, setViewMode])
   const floatingBtnOpacityStyle = useAnimatedStyle(() => ({
     opacity: bottomBtnOpacityValue.value,
   }))
 
-  useEffect(() => {
-    if (selectedLocationFilter === null) {
-      setSnapIndex(FULLY_EXPANDED_SNAP_INDEX)
-      setViewMode('list')
-    }
-  }, [selectedLocationFilter, snapIndex])
+  const onChangeBottomSheet = useCallback(
+    (index: number) => {
+      setSnapIndex(index as SearchStoreSnapIndex)
+      const viewMode = getViewMode(index as SearchStoreSnapIndex)
+      setViewMode(viewMode)
+      if (viewMode === 'map') {
+        setSelectedLocationFilter('map-location')
+      }
+    },
+    [setSelectedLocationFilter, setSnapIndex, setViewMode],
+  )
 
   return (
     <BottomSheetModalProvider>
@@ -130,7 +133,7 @@ export const SearchScreen = () => {
           <BottomSheet
             ref={bottomSheetRef}
             index={snapIndex}
-            onChange={(index) => setSnapIndex(index)}
+            onChange={onChangeBottomSheet}
             snapPoints={snapPoints}
             enablePanDownToClose={false}
             handleComponent={handleComponent}
