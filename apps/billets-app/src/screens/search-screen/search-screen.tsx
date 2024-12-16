@@ -1,13 +1,16 @@
+import { useSearchStore } from '@/features/search/store'
 import { SearchItem, SearchItemThumbnail } from '@/features/search/ui'
 import { CommonListEmpty, CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
-import { Button, ProfileThumbnail, Text, TextInput } from '@coldsurfers/ocean-road/native'
+import { colors } from '@coldsurfers/ocean-road'
+import { Button, ProfileThumbnail, Text } from '@coldsurfers/ocean-road/native'
+import BottomSheet, { BottomSheetFlatList, BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
+import { useFocusEffect } from '@react-navigation/native'
 import { useDebounce } from '@uidotdev/usehooks'
 import format from 'date-fns/format'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   ActivityIndicator,
-  FlatList,
   Keyboard,
   KeyboardAvoidingView,
   KeyboardAvoidingViewProps,
@@ -21,6 +24,7 @@ import { useShallow } from 'zustand/shallow'
 import useConcertListQuery from '../../lib/react-query/queries/useConcertListQuery'
 import useSearchQuery from '../../lib/react-query/queries/useSearchQuery'
 import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocationStore'
+import { ConcertMapScreen } from '../concert-map-screen'
 import { useSearchScreenNavigation } from './search-screen.hooks'
 
 const KeyboardAvoidWrapper = (props: KeyboardAvoidingViewProps) => {
@@ -37,7 +41,14 @@ const KeyboardAvoidWrapper = (props: KeyboardAvoidingViewProps) => {
 export const SearchScreen = () => {
   const navigation = useSearchScreenNavigation()
   const bottomTabBarHeight = useBottomTabBarHeight()
-  const [searchKeyword, setSearchKeyword] = useState('')
+  const bottomSheetRef = useRef<BottomSheet>(null)
+  const snapPoints = useMemo(() => ['10%', '50%', '100%'], [])
+  const { keyword: searchKeyword } = useSearchStore(
+    useShallow((state) => ({
+      keyword: state.keyword,
+    })),
+  )
+
   const [keyboardHeight, setKeyboardHeight] = useState(0)
   const debouncedSearchKeyword = useDebounce(searchKeyword, 350)
   const {
@@ -198,47 +209,53 @@ export const SearchScreen = () => {
     }
   }, [])
 
+  const handleComponent = useMemo(() => null, [])
+  const onPressMapFloatingBtn = useCallback(() => bottomSheetRef.current?.snapToIndex(0), [])
+
   return (
-    <CommonScreenLayout style={styles.wrapper}>
-      <View style={styles.topInputWrapper}>
-        <TextInput
-          value={searchKeyword}
-          onChangeText={setSearchKeyword}
-          autoCapitalize="none"
-          placeholder={'🔎 어떤 공연을 찾고 싶으세요?'}
-          clearButtonMode="while-editing"
-        />
-      </View>
-      {searchKeyword ? (
-        <KeyboardAvoidWrapper>
-          <FlatList
-            data={searchListData}
-            renderItem={renderSearchListItem}
-            keyExtractor={(item) => `${item.type}-${item.id}`}
-            style={styles.list}
-            contentContainerStyle={styles.contentContainer}
-            showsVerticalScrollIndicator={false}
-            ListEmptyComponent={
-              isLoadingSearch ? (
-                <View style={styles.emptyWrapper}>
-                  <ActivityIndicator size="large" />
-                </View>
-              ) : isFetchedSearch ? (
-                <CommonListEmpty emptyText={`🥺\n앗,\n해당하는\n정보가 없어요!`} />
-              ) : null
-            }
-          />
-        </KeyboardAvoidWrapper>
-      ) : (
-        <KeyboardAvoidWrapper>
-          <FlatList
-            data={concertListData}
-            ListHeaderComponent={<Text weight="bold">현재 지역의 공연</Text>}
-            contentContainerStyle={styles.contentContainer}
-            keyExtractor={(item) => item.id}
-            renderItem={renderConcertListItem}
-            showsVerticalScrollIndicator={false}
-          />
+    <BottomSheetModalProvider>
+      <KeyboardAvoidWrapper>
+        <CommonScreenLayout style={styles.wrapper}>
+          <ConcertMapScreen />
+          <BottomSheet
+            ref={bottomSheetRef}
+            index={2}
+            snapPoints={snapPoints}
+            enablePanDownToClose={false}
+            handleComponent={handleComponent}
+            animateOnMount={false}
+          >
+            {searchKeyword ? (
+              <BottomSheetFlatList
+                data={searchListData}
+                focusHook={useFocusEffect}
+                renderItem={renderSearchListItem}
+                keyExtractor={(item) => `${item.type}-${item.id}`}
+                style={styles.list}
+                contentContainerStyle={styles.contentContainer}
+                showsVerticalScrollIndicator={false}
+                ListEmptyComponent={
+                  isLoadingSearch ? (
+                    <View style={styles.emptyWrapper}>
+                      <ActivityIndicator size="large" />
+                    </View>
+                  ) : isFetchedSearch ? (
+                    <CommonListEmpty emptyText={`🥺\n앗,\n해당하는\n정보가 없어요!`} />
+                  ) : null
+                }
+              />
+            ) : (
+              <BottomSheetFlatList
+                data={concertListData}
+                focusHook={useFocusEffect}
+                ListHeaderComponent={<Text weight="bold">현재 지역의 공연</Text>}
+                contentContainerStyle={styles.contentContainer}
+                keyExtractor={(item) => item.id}
+                renderItem={renderConcertListItem}
+                showsVerticalScrollIndicator={false}
+              />
+            )}
+          </BottomSheet>
           <Button
             theme="border"
             style={[
@@ -247,25 +264,25 @@ export const SearchScreen = () => {
                 bottom: keyboardHeight > 0 ? keyboardHeight - bottomTabBarHeight : 12,
               },
             ]}
-            onPress={() => {
-              navigation.navigate('ConcertMapScreen', {})
-            }}
+            onPress={onPressMapFloatingBtn}
           >
             맵으로 보기
           </Button>
-        </KeyboardAvoidWrapper>
-      )}
-    </CommonScreenLayout>
+        </CommonScreenLayout>
+      </KeyboardAvoidWrapper>
+    </BottomSheetModalProvider>
   )
 }
 
 const styles = StyleSheet.create({
-  wrapper: { flex: 1, paddingHorizontal: 14 },
+  wrapper: { flex: 1 },
   list: { flex: 1 },
   contentContainer: {
     flexGrow: 1,
     paddingVertical: 12,
     paddingBottom: 120,
+    paddingHorizontal: 14,
+    backgroundColor: colors.oc.gray[1].value,
   },
   emptyWrapper: {
     flex: 1,
