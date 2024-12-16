@@ -228,6 +228,7 @@ export const SearchScreen = () => {
             {searchKeyword ? (
               <BottomSheetFlatList
                 data={searchListData}
+                bounces={false}
                 focusHook={useFocusEffect}
                 renderItem={renderSearchListItem}
                 keyExtractor={(item) => `${item.type}-${item.id}`}
@@ -247,6 +248,7 @@ export const SearchScreen = () => {
             ) : (
               <BottomSheetFlatList
                 data={concertListData}
+                bounces={false}
                 focusHook={useFocusEffect}
                 ListHeaderComponent={<Text weight="bold">현재 지역의 공연</Text>}
                 contentContainerStyle={styles.contentContainer}
