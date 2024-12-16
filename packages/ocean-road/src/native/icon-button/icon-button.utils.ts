@@ -3,33 +3,58 @@ import { css } from '@emotion/native'
 import { ButtonTheme } from '../../button'
 import { IconButtonSize } from './icon-button.types'
 
+export const sizes = {
+  xs: 20,
+  sm: 24,
+  md: 28,
+  lg: 32,
+  xl: 36,
+}
+
+const sizesStringify = (size: IconButtonSize) => {
+  switch (size) {
+    case 'xs':
+      return `${sizes.xs}px`
+    case 'sm':
+      return `${sizes.sm}px`
+    case 'md':
+      return `${sizes.md}px`
+    case 'lg':
+      return `${sizes.lg}px`
+    case 'xl':
+      return `${sizes.xl}px`
+    default:
+      return `${sizes.xs}px`
+  }
+}
+
 const xsStyles = css`
-  width: 20px;
-  height: 20px;
+  width: ${sizesStringify('xs')};
+  height: ${sizesStringify('xs')};
   border-radius: 10px;
 `
 
 const smStyles = css`
-  width: 24px;
-  height: 24px;
+  width: ${sizesStringify('sm')};
+  height: ${sizesStringify('sm')};
   border-radius: 12px;
 `
 
 const mdStyles = css`
-  width: 28px;
-  height: 28px;
+  width: ${sizesStringify('md')};
+  height: ${sizesStringify('md')};
   border-radius: 14px;
 `
 
 const lgStyles = css`
-  width: 32px;
-  height: 32px;
+  width: ${sizesStringify('lg')};
+  height: ${sizesStringify('lg')};
   border-radius: 16px;
 `
 
 const xlStyles = css`
-  width: 36px;
-  height: 36px;
+  width: ${sizesStringify('xl')};
+  height: ${sizesStringify('xl')};
   border-radius: 18px;
 `
 
