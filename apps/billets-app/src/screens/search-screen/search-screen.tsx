@@ -9,8 +9,11 @@ import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Keyboard, KeyboardAvoidingView, KeyboardAvoidingViewProps, Platform, StyleSheet } from 'react-native'
+import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { useShallow } from 'zustand/shallow'
 import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocationStore'
+
+const AnimatedButton = Animated.createAnimatedComponent(Button)
 
 const KeyboardAvoidWrapper = (props: KeyboardAvoidingViewProps) => {
   return (
@@ -23,10 +26,15 @@ const KeyboardAvoidWrapper = (props: KeyboardAvoidingViewProps) => {
   )
 }
 
+const FULLY_EXPANDED_SNAP_INDEX = 1
+
 export const SearchScreen = () => {
   const bottomTabBarHeight = useBottomTabBarHeight()
   const bottomSheetRef = useRef<BottomSheet>(null)
-  const snapPoints = useMemo(() => ['10%', '50%', '100%'], [])
+  const bottomBtnOpacityValue = useSharedValue(1.0)
+  const [floatingBtnVisible, setFloatingBtnVisible] = useState(Boolean(FULLY_EXPANDED_SNAP_INDEX))
+  const [snapIndex, setSnapIndex] = useState(FULLY_EXPANDED_SNAP_INDEX)
+  const snapPoints = useMemo(() => ['10%', '100%'], [])
   const { keyword: searchKeyword } = useSearchStore(
     useShallow((state) => ({
       keyword: state.keyword,
@@ -57,8 +65,26 @@ export const SearchScreen = () => {
     }
   }, [])
 
+  useEffect(() => {
+    const visible = snapIndex === FULLY_EXPANDED_SNAP_INDEX
+    const preUpdate = () => {
+      if (visible) {
+        setFloatingBtnVisible(true)
+      }
+    }
+    preUpdate()
+    bottomBtnOpacityValue.value = withTiming(visible ? 1.0 : 0.0, { duration: 200 }, (finished) => {
+      if (finished) {
+        runOnJS(setFloatingBtnVisible)(visible)
+      }
+    })
+  }, [bottomBtnOpacityValue, snapIndex])
+
   const handleComponent = useMemo(() => null, [])
-  const onPressMapFloatingBtn = useCallback(() => bottomSheetRef.current?.snapToIndex(0), [])
+  const onPressMapFloatingBtn = useCallback(() => setSnapIndex(0), [])
+  const floatingBtnOpacityStyle = useAnimatedStyle(() => ({
+    opacity: bottomBtnOpacityValue.value,
+  }))
 
   return (
     <BottomSheetModalProvider>
@@ -67,7 +93,8 @@ export const SearchScreen = () => {
           <ConcertMapView />
           <BottomSheet
             ref={bottomSheetRef}
-            index={2}
+            index={snapIndex}
+            onChange={(index) => setSnapIndex(index)}
             snapPoints={snapPoints}
             enablePanDownToClose={false}
             handleComponent={handleComponent}
@@ -79,18 +106,21 @@ export const SearchScreen = () => {
               <SearchDefaultBottomResultList latitude={latitude} longitude={longitude} />
             )}
           </BottomSheet>
-          <Button
-            theme="border"
-            style={[
-              styles.floatingButton,
-              {
-                bottom: keyboardHeight > 0 ? keyboardHeight - bottomTabBarHeight : 12,
-              },
-            ]}
-            onPress={onPressMapFloatingBtn}
-          >
-            맵으로 보기
-          </Button>
+          {floatingBtnVisible && (
+            <AnimatedButton
+              theme="border"
+              style={[
+                styles.floatingButton,
+                {
+                  bottom: keyboardHeight > 0 ? keyboardHeight - bottomTabBarHeight : 12,
+                },
+                floatingBtnOpacityStyle,
+              ]}
+              onPress={onPressMapFloatingBtn}
+            >
+              맵으로 보기
+            </AnimatedButton>
+          )}
         </CommonScreenLayout>
       </KeyboardAvoidWrapper>
     </BottomSheetModalProvider>
