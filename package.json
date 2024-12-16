@@ -50,7 +50,9 @@
     "react-notion-x": "7.2.5",
     "notion-types": "7.1.5",
     "notion-client": "7.1.5",
-    "ngeohash": "0.6.3"
+    "ngeohash": "0.6.3",
+    "lucide-react-native": "0.468.0",
+    "react-native-svg": "15.10.1"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.12.1",
