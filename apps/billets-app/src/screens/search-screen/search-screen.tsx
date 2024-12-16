@@ -1,14 +1,15 @@
 import { ConcertMapView } from '@/features'
 import { useSearchStore } from '@/features/search/store'
-import { SearchBottomKeywordResultList, SearchDefaultBottomResultList } from '@/features/search/ui'
+import { SearchBottomList } from '@/features/search/ui'
+import commonStyles from '@/lib/common-styles'
 import { CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
-import { Button } from '@coldsurfers/ocean-road/native'
+import { Button, Text } from '@coldsurfers/ocean-road/native'
 import BottomSheet, { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Keyboard, KeyboardAvoidingView, KeyboardAvoidingViewProps, Platform, StyleSheet } from 'react-native'
+import { Keyboard, KeyboardAvoidingView, KeyboardAvoidingViewProps, Platform, StyleSheet, View } from 'react-native'
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { useShallow } from 'zustand/shallow'
 import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocationStore'
@@ -28,6 +29,13 @@ const KeyboardAvoidWrapper = (props: KeyboardAvoidingViewProps) => {
 
 const FULLY_EXPANDED_SNAP_INDEX = 1
 
+const getViewMode = (snapIndex: number) => {
+  if (snapIndex === FULLY_EXPANDED_SNAP_INDEX) {
+    return 'list'
+  }
+  return 'map'
+}
+
 export const SearchScreen = () => {
   const bottomTabBarHeight = useBottomTabBarHeight()
   const bottomSheetRef = useRef<BottomSheet>(null)
@@ -40,6 +48,14 @@ export const SearchScreen = () => {
       keyword: state.keyword,
     })),
   )
+  const { selectedLocationFilter, setSelectedLocationFilter } = useSearchStore(
+    useShallow((state) => ({
+      selectedLocationFilter: state.selectedLocationFilter,
+      setSelectedLocationFilter: state.setSelectedLocationFilter,
+    })),
+  )
+  const [viewMode, setViewMode] = useState<'map' | 'list'>(getViewMode(snapIndex))
+  const [pointsLength, setPointsLength] = useState(0)
 
   const [keyboardHeight, setKeyboardHeight] = useState(0)
   const debouncedSearchKeyword = useDebounce(searchKeyword, 350)
@@ -80,17 +96,37 @@ export const SearchScreen = () => {
     })
   }, [bottomBtnOpacityValue, snapIndex])
 
-  const handleComponent = useMemo(() => null, [])
-  const onPressMapFloatingBtn = useCallback(() => setSnapIndex(0), [])
+  const handleComponent = useMemo(() => {
+    return snapIndex === FULLY_EXPANDED_SNAP_INDEX ? null : undefined
+  }, [snapIndex])
+  const onPressMapFloatingBtn = useCallback(() => {
+    setSnapIndex(0)
+    setSelectedLocationFilter('map-location')
+    setViewMode('map')
+  }, [setSelectedLocationFilter])
   const floatingBtnOpacityStyle = useAnimatedStyle(() => ({
     opacity: bottomBtnOpacityValue.value,
   }))
+
+  useEffect(() => {
+    if (selectedLocationFilter === null) {
+      setSnapIndex(FULLY_EXPANDED_SNAP_INDEX)
+      setViewMode('list')
+    }
+  }, [selectedLocationFilter, snapIndex])
 
   return (
     <BottomSheetModalProvider>
       <KeyboardAvoidWrapper>
         <CommonScreenLayout style={styles.wrapper}>
-          <ConcertMapView />
+          {viewMode === 'map' && (
+            <ConcertMapView
+              onChangeVisiblePoints={(points) => setPointsLength(points.length)}
+              onChangeLocationConcerts={(concerts) => {
+                console.log(concerts)
+              }}
+            />
+          )}
           <BottomSheet
             ref={bottomSheetRef}
             index={snapIndex}
@@ -98,12 +134,21 @@ export const SearchScreen = () => {
             snapPoints={snapPoints}
             enablePanDownToClose={false}
             handleComponent={handleComponent}
+            handleStyle={styles.handleStyle}
             animateOnMount={false}
           >
-            {debouncedSearchKeyword ? (
-              <SearchBottomKeywordResultList keyword={debouncedSearchKeyword} />
+            {viewMode === 'list' ? (
+              <SearchBottomList
+                debouncedSearchKeyword={debouncedSearchKeyword}
+                latitude={latitude}
+                longitude={longitude}
+              />
             ) : (
-              <SearchDefaultBottomResultList latitude={latitude} longitude={longitude} />
+              <View style={{ flex: 1, backgroundColor: colors.oc.gray[1].value, paddingHorizontal: 14 }}>
+                <Text weight="bold" style={styles.guideFont}>
+                  이 지역의 공연 수 {pointsLength}개
+                </Text>
+              </View>
             )}
           </BottomSheet>
           {floatingBtnVisible && (
@@ -162,4 +207,13 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   floatingButton: { width: 120, alignSelf: 'center', position: 'absolute', right: 0 },
+  handleStyle: {
+    backgroundColor: colors.oc.gray[1].value,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    ...commonStyles.topShadowBox,
+  },
+  guideFont: {
+    fontSize: 16,
+  },
 })
