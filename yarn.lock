@@ -2952,7 +2952,7 @@ __metadata:
     jest: "npm:^29.6.3"
     jwt-decode: "npm:^4.0.0"
     lodash.uniqby: "npm:^4.7.0"
-    lucide-react-native: "npm:^0.468.0"
+    lucide-react-native: "npm:*"
     metro-react-native-babel-preset: "npm:0.73.7"
     ngeohash: "npm:*"
     openapi-fetch: "npm:^0.12.2"
@@ -2978,7 +2978,7 @@ __metadata:
     react-native-safe-area-context: "npm:^4.11.0"
     react-native-screens: "npm:^3.34.0"
     react-native-store-review: "npm:^0.4.3"
-    react-native-svg: "npm:^15.10.1"
+    react-native-svg: "npm:*"
     react-native-webview: "npm:^11.26.1"
     react-test-renderer: "npm:18.3.1"
     reactotron-react-native: "npm:^5.1.8"
@@ -3217,9 +3217,11 @@ __metadata:
     "@typescript-eslint/parser": "npm:^5.53.0"
     eslint: "npm:*"
     framer-motion: "npm:*"
+    lucide-react-native: "npm:*"
     prettier: "npm:*"
     react: "npm:*"
     react-dom: "npm:*"
+    react-native-svg: "npm:*"
     react-spinners: "npm:*"
     release-it: "npm:*"
     rollup: "npm:^3.20.7"
@@ -25068,7 +25070,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react-native@npm:^0.468.0":
+"lucide-react-native@npm:0.468.0":
   version: 0.468.0
   resolution: "lucide-react-native@npm:0.468.0"
   peerDependencies:
@@ -30057,7 +30059,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-svg@npm:^15.10.1":
+"react-native-svg@npm:15.10.1":
   version: 15.10.1
   resolution: "react-native-svg@npm:15.10.1"
   dependencies:
