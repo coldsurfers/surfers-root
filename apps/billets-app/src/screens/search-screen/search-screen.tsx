@@ -1,27 +1,16 @@
 import { useSearchStore } from '@/features/search/store'
-import { SearchBottomKeywordResultList, SearchItem, SearchItemThumbnail } from '@/features/search/ui'
+import { SearchBottomKeywordResultList, SearchDefaultBottomResultList } from '@/features/search/ui'
 import { CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
-import { Button, Text } from '@coldsurfers/ocean-road/native'
-import BottomSheet, { BottomSheetFlatList, BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import { Button } from '@coldsurfers/ocean-road/native'
+import BottomSheet, { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
-import { useFocusEffect } from '@react-navigation/native'
 import { useDebounce } from '@uidotdev/usehooks'
-import format from 'date-fns/format'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  KeyboardAvoidingViewProps,
-  ListRenderItem,
-  Platform,
-  StyleSheet,
-} from 'react-native'
+import { Keyboard, KeyboardAvoidingView, KeyboardAvoidingViewProps, Platform, StyleSheet } from 'react-native'
 import { useShallow } from 'zustand/shallow'
-import useConcertListQuery from '../../lib/react-query/queries/useConcertListQuery'
 import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocationStore'
 import { ConcertMapScreen } from '../concert-map-screen'
-import { useSearchScreenNavigation } from './search-screen.hooks'
 
 const KeyboardAvoidWrapper = (props: KeyboardAvoidingViewProps) => {
   return (
@@ -35,7 +24,6 @@ const KeyboardAvoidWrapper = (props: KeyboardAvoidingViewProps) => {
 }
 
 export const SearchScreen = () => {
-  const navigation = useSearchScreenNavigation()
   const bottomTabBarHeight = useBottomTabBarHeight()
   const bottomSheetRef = useRef<BottomSheet>(null)
   const snapPoints = useMemo(() => ['10%', '50%', '100%'], [])
@@ -53,44 +41,6 @@ export const SearchScreen = () => {
       latitude: state.latitude ? +`${state.latitude}`.substring(0, 7) : null,
       longitude: state.longitude ? +`${state.longitude}`.substring(0, 8) : null,
     })),
-  )
-
-  const { data: concertList } = useConcertListQuery(
-    {
-      latLng: {
-        latitude: latitude!,
-        longitude: longitude!,
-      },
-    },
-    {
-      enabled: !!latitude && !!longitude,
-      refetchOnWindowFocus: false,
-    },
-  )
-
-  const concertListData = useMemo(() => {
-    return concertList?.pages.flat() ?? []
-  }, [concertList])
-
-  const renderConcertListItem: ListRenderItem<(typeof concertListData)[number]> = useCallback(
-    ({ item: value }) => {
-      return (
-        <SearchItem
-          type="concert"
-          thumbnail={<SearchItemThumbnail type="square" uri={value.posters.at(0)?.imageUrl ?? ''} />}
-          title={value.title}
-          subtitle={format(new Date(value.date), 'EEE, MMM dd')}
-          description={value.venues.at(0)?.venueTitle ?? ''}
-          onPress={() =>
-            navigation.navigate('ConcertStackNavigation', {
-              screen: 'ConcertDetailScreen',
-              params: { concertId: value.id },
-            })
-          }
-        />
-      )
-    },
-    [navigation],
   )
 
   useEffect(() => {
@@ -126,16 +76,7 @@ export const SearchScreen = () => {
             {debouncedSearchKeyword ? (
               <SearchBottomKeywordResultList keyword={debouncedSearchKeyword} />
             ) : (
-              <BottomSheetFlatList
-                data={concertListData}
-                bounces={false}
-                focusHook={useFocusEffect}
-                ListHeaderComponent={<Text weight="bold">현재 지역의 공연</Text>}
-                contentContainerStyle={styles.contentContainer}
-                keyExtractor={(item) => item.id}
-                renderItem={renderConcertListItem}
-                showsVerticalScrollIndicator={false}
-              />
+              <SearchDefaultBottomResultList latitude={latitude} longitude={longitude} />
             )}
           </BottomSheet>
           <Button
