@@ -1,8 +1,8 @@
 import { useSearchStore } from '@/features/search/store'
-import { SearchItem, SearchItemThumbnail } from '@/features/search/ui'
-import { CommonListEmpty, CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
+import { SearchBottomKeywordResultList, SearchItem, SearchItemThumbnail } from '@/features/search/ui'
+import { CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
-import { Button, ProfileThumbnail, Text } from '@coldsurfers/ocean-road/native'
+import { Button, Text } from '@coldsurfers/ocean-road/native'
 import BottomSheet, { BottomSheetFlatList, BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { useFocusEffect } from '@react-navigation/native'
@@ -10,19 +10,15 @@ import { useDebounce } from '@uidotdev/usehooks'
 import format from 'date-fns/format'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
-  ActivityIndicator,
   Keyboard,
   KeyboardAvoidingView,
   KeyboardAvoidingViewProps,
   ListRenderItem,
   Platform,
   StyleSheet,
-  View,
 } from 'react-native'
-import { match } from 'ts-pattern'
 import { useShallow } from 'zustand/shallow'
 import useConcertListQuery from '../../lib/react-query/queries/useConcertListQuery'
-import useSearchQuery from '../../lib/react-query/queries/useSearchQuery'
 import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocationStore'
 import { ConcertMapScreen } from '../concert-map-screen'
 import { useSearchScreenNavigation } from './search-screen.hooks'
@@ -51,16 +47,6 @@ export const SearchScreen = () => {
 
   const [keyboardHeight, setKeyboardHeight] = useState(0)
   const debouncedSearchKeyword = useDebounce(searchKeyword, 350)
-  const {
-    data: searchData,
-    isLoading: isLoadingSearch,
-    isFetched: isFetchedSearch,
-  } = useSearchQuery(
-    { keyword: debouncedSearchKeyword },
-    {
-      enabled: !!debouncedSearchKeyword,
-    },
-  )
 
   const { latitude, longitude } = useUserCurrentLocationStore(
     useShallow((state) => ({
@@ -82,97 +68,9 @@ export const SearchScreen = () => {
     },
   )
 
-  const searchListData = useMemo(() => {
-    return searchData ?? []
-  }, [searchData])
-
   const concertListData = useMemo(() => {
     return concertList?.pages.flat() ?? []
   }, [concertList])
-
-  const renderSearchListItem: ListRenderItem<
-    | {
-        id: string
-        name: string
-        profileImgUrl: string
-        type: 'artist'
-      }
-    | {
-        id: string
-        name: string
-        type: 'venue'
-      }
-    | {
-        date: string
-        id: string
-        thumbnailImgUrl: string
-        title: string
-        type: 'concert'
-        venueTitle: string
-      }
-  > = useCallback(
-    ({ item }) => {
-      const onPressVenueItem = () => {
-        navigation.navigate('VenueStackNavigation', {
-          screen: 'VenueDetailScreen',
-          params: {
-            id: item.id,
-          },
-        })
-      }
-      const onPressArtistItem = () => {
-        navigation.navigate('ArtistStackNavigation', {
-          screen: 'ArtistDetailScreen',
-          params: {
-            artistId: item.id,
-          },
-        })
-      }
-      const onPressConcertItem = () =>
-        navigation.navigate('ConcertStackNavigation', {
-          screen: 'ConcertDetailScreen',
-          params: { concertId: item.id },
-        })
-      return match(item)
-        .with({ type: 'artist' }, (value) => (
-          <SearchItem
-            type="artist"
-            thumbnail={<SearchItemThumbnail type="circle" emptyBgText={value.name.at(0)} uri={value.profileImgUrl} />}
-            title={value.name}
-            subtitle="아티스트"
-            onPress={onPressArtistItem}
-          />
-        ))
-        .with({ type: 'venue' }, (value) => (
-          <SearchItem
-            type="venue"
-            thumbnail={<SearchItemThumbnail type="circle" emptyBgText={value.name.at(0)} uri={''} />}
-            title={value.name}
-            subtitle="공연장"
-            onPress={onPressVenueItem}
-          />
-        ))
-        .with({ type: 'concert' }, (value) => (
-          <SearchItem
-            type="concert"
-            thumbnail={
-              <ProfileThumbnail
-                type={'square'}
-                emptyBgText={value.title.at(0) ?? ''}
-                imageUrl={value.thumbnailImgUrl ?? ''}
-                size="md"
-              />
-            }
-            title={value.title}
-            subtitle={format(new Date(value.date), 'EEE, MMM dd')}
-            description={value.venueTitle}
-            onPress={onPressConcertItem}
-          />
-        ))
-        .otherwise(() => null)
-    },
-    [navigation],
-  )
 
   const renderConcertListItem: ListRenderItem<(typeof concertListData)[number]> = useCallback(
     ({ item: value }) => {
@@ -225,26 +123,8 @@ export const SearchScreen = () => {
             handleComponent={handleComponent}
             animateOnMount={false}
           >
-            {searchKeyword ? (
-              <BottomSheetFlatList
-                data={searchListData}
-                bounces={false}
-                focusHook={useFocusEffect}
-                renderItem={renderSearchListItem}
-                keyExtractor={(item) => `${item.type}-${item.id}`}
-                style={styles.list}
-                contentContainerStyle={styles.contentContainer}
-                showsVerticalScrollIndicator={false}
-                ListEmptyComponent={
-                  isLoadingSearch ? (
-                    <View style={styles.emptyWrapper}>
-                      <ActivityIndicator size="large" />
-                    </View>
-                  ) : isFetchedSearch ? (
-                    <CommonListEmpty emptyText={`🥺\n앗,\n해당하는\n정보가 없어요!`} />
-                  ) : null
-                }
-              />
+            {debouncedSearchKeyword ? (
+              <SearchBottomKeywordResultList keyword={debouncedSearchKeyword} />
             ) : (
               <BottomSheetFlatList
                 data={concertListData}

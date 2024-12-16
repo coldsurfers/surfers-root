@@ -1,3 +1,4 @@
+export * from './search-bottom-keyword-result-list'
 export * from './search-item'
 export * from './search-item-thumbnail'
 export * from './search-screen-navigation-header'
