@@ -3,7 +3,7 @@ import { IconButton, Text } from '@coldsurfers/ocean-road/native'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 import { ReactNode, useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { NAVIGATION_HEADER_HEIGHT } from './navigation-header.constants'
 
 export const NavigationHeader = (
@@ -11,7 +11,6 @@ export const NavigationHeader = (
     searchBarComponent?: ReactNode
   },
 ) => {
-  const { top: topInset } = useSafeAreaInsets()
   const hideBackButton = useMemo(() => {
     return props.options.headerBackVisible === false
   }, [props.options.headerBackVisible])
@@ -41,7 +40,7 @@ export const NavigationHeader = (
             onPress={() => props.navigation.goBack()}
             theme="transparentDarkGray"
             icon="←"
-            style={[styles.rightClose, { top: topInset + 14 }]}
+            style={[styles.rightClose]}
           />
         )}
         {props.options.title && (
@@ -54,7 +53,7 @@ export const NavigationHeader = (
             onPress={() => props.navigation.goBack()}
             theme="transparentDarkGray"
             icon="✘"
-            style={[styles.leftClose, { top: topInset + 14 }]}
+            style={[styles.leftClose]}
           />
         )}
       </View>
