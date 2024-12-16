@@ -2,9 +2,10 @@ import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/co
 import { ArtistSubscribeButton, VenueSubscribeButton } from '@/features/subscribe'
 import { useConcertDetailScreenNavigation } from '@/screens/concert-detail-screen/concert-detail-screen.hooks'
 import { colors } from '@coldsurfers/ocean-road'
-import { Button, ProfileThumbnail, Text } from '@coldsurfers/ocean-road/native'
+import { ProfileThumbnail, Text } from '@coldsurfers/ocean-road/native'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { format } from 'date-fns'
+import { Copy, MapPin } from 'lucide-react-native'
 import { memo } from 'react'
 import { Dimensions, Linking, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { VENUE_MAP_HEIGHT } from './concert-detail-section-list-item.constants'
@@ -121,16 +122,11 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
           />
         </TouchableOpacity>
         <View style={styles.venueMapAddressWrapper}>
-          <Text style={styles.venueMapAddressText}>
-            {'📍'} {address}
-          </Text>
-          <Button
-            theme="transparent"
-            onPress={() => Clipboard.setString(address)}
-            style={styles.venueMapAddressCopyBtn}
-          >
-            복사하기
-          </Button>
+          <MapPin />
+          <Text style={styles.venueMapAddressText}>{address}</Text>
+          <TouchableOpacity onPress={() => Clipboard.setString(address)} style={styles.venueMapAddressCopyBtn}>
+            <Copy />
+          </TouchableOpacity>
         </View>
         <ConcertVenueMapView
           region={{
@@ -198,11 +194,13 @@ const styles = StyleSheet.create({
   venueMapAddressWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingBottom: 12,
     paddingHorizontal: 12,
+    paddingTop: 4,
   },
   venueMapAddressText: {
     fontSize: 16,
-    marginBottom: 8,
+    marginLeft: 4,
   },
   venueMapAddressCopyBtn: {
     marginLeft: 'auto',
