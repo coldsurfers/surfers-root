@@ -1,12 +1,16 @@
 import { colors } from '@coldsurfers/ocean-road'
 import { IconButton, Text } from '@coldsurfers/ocean-road/native'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
-import { useMemo } from 'react'
+import { ReactNode, useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { NAVIGATION_HEADER_HEIGHT } from './navigation-header.constants'
 
-export const NavigationHeader = (props: NativeStackHeaderProps) => {
+export const NavigationHeader = (
+  props: NativeStackHeaderProps & {
+    searchBarComponent?: ReactNode
+  },
+) => {
   const { top: topInset } = useSafeAreaInsets()
   const hideBackButton = useMemo(() => {
     return props.options.headerBackVisible === false
@@ -23,34 +27,38 @@ export const NavigationHeader = (props: NativeStackHeaderProps) => {
   return (
     <SafeAreaView
       edges={['top']}
-      style={{
-        height: NAVIGATION_HEADER_HEIGHT,
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: props.options.headerTransparent ? 'transparent' : colors.oc.gray[1].value,
-      }}
+      style={[
+        styles.safeAreaView,
+        {
+          height: props.searchBarComponent ? 'auto' : NAVIGATION_HEADER_HEIGHT,
+          backgroundColor: props.options.headerTransparent ? 'transparent' : colors.oc.gray[1].value,
+        },
+      ]}
     >
-      {!showRightClose && !hideBackButton && (
-        <IconButton
-          onPress={() => props.navigation.goBack()}
-          theme="transparentDarkGray"
-          icon="←"
-          style={[styles.rightClose, { top: topInset + 14 }]}
-        />
-      )}
-      {props.options.title && (
-        <View style={styles.headerTitleWrapper}>
-          <Text style={styles.headerTitle}>{props.options.title}</Text>
-        </View>
-      )}
-      {showRightClose && (
-        <IconButton
-          onPress={() => props.navigation.goBack()}
-          theme="transparentDarkGray"
-          icon="✘"
-          style={[styles.leftClose, { top: topInset + 14 }]}
-        />
-      )}
+      <View style={styles.innerContent}>
+        {!showRightClose && !hideBackButton && (
+          <IconButton
+            onPress={() => props.navigation.goBack()}
+            theme="transparentDarkGray"
+            icon="←"
+            style={[styles.rightClose, { top: topInset + 14 }]}
+          />
+        )}
+        {props.options.title && (
+          <View style={styles.headerTitleWrapper}>
+            <Text style={styles.headerTitle}>{props.options.title}</Text>
+          </View>
+        )}
+        {showRightClose && (
+          <IconButton
+            onPress={() => props.navigation.goBack()}
+            theme="transparentDarkGray"
+            icon="✘"
+            style={[styles.leftClose, { top: topInset + 14 }]}
+          />
+        )}
+      </View>
+      {props.searchBarComponent && props.searchBarComponent}
     </SafeAreaView>
   )
 }
@@ -66,4 +74,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 12,
   },
+  safeAreaView: {
+    justifyContent: 'center',
+  },
+  innerContent: { flexDirection: 'row', alignItems: 'center' },
 })
