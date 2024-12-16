@@ -1,6 +1,7 @@
 import { colors } from '@coldsurfers/ocean-road'
 import { IconButton, Text } from '@coldsurfers/ocean-road/native'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
+import { MoveLeft } from 'lucide-react-native'
 import { ReactNode, useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -39,9 +40,11 @@ export const NavigationHeader = (
           <IconButton
             onPress={() => props.navigation.goBack()}
             theme="transparentDarkGray"
-            icon="←"
+            icon="MoveLeft"
             style={[styles.rightClose]}
-          />
+          >
+            <MoveLeft />
+          </IconButton>
         )}
         {props.options.title && (
           <View style={styles.headerTitleWrapper}>
@@ -52,7 +55,7 @@ export const NavigationHeader = (
           <IconButton
             onPress={() => props.navigation.goBack()}
             theme="transparentDarkGray"
-            icon="✘"
+            icon="X"
             style={[styles.leftClose]}
           />
         )}
