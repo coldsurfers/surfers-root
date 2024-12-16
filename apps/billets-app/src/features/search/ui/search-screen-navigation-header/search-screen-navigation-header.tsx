@@ -30,6 +30,11 @@ export const SearchScreenNavigationHeader = memo((props: NativeStackHeaderProps)
       setViewMode: state.setViewMode,
     })),
   )
+  const { setLocationConcerts } = useSearchStore(
+    useShallow((state) => ({
+      setLocationConcerts: state.setLocationConcerts,
+    })),
+  )
   const options = useMemo(
     () => ({
       ...props.options,
@@ -43,7 +48,8 @@ export const SearchScreenNavigationHeader = memo((props: NativeStackHeaderProps)
     setSelectedLocationFilter(null)
     setSnapIndex(FULLY_EXPANDED_SNAP_INDEX)
     setViewMode('list')
-  }, [setSelectedLocationFilter, setSnapIndex, setViewMode])
+    setLocationConcerts([])
+  }, [setLocationConcerts, setSelectedLocationFilter, setSnapIndex, setViewMode])
 
   return (
     <NavigationHeader
