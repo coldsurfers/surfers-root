@@ -18,6 +18,8 @@ import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocatio
 
 const AnimatedButton = Animated.createAnimatedComponent(Button)
 
+const DEFAULT_BOTTOM_BTN_BOTTOM_VALUE = 12
+
 const KeyboardAvoidWrapper = (props: KeyboardAvoidingViewProps) => {
   return (
     <KeyboardAvoidingView
@@ -33,7 +35,7 @@ export const SearchScreen = () => {
   const bottomTabBarHeight = useBottomTabBarHeight()
   const bottomSheetRef = useRef<BottomSheet>(null)
   const bottomBtnOpacityValue = useSharedValue(1.0)
-  const bottomBtnBottomValue = useSharedValue(12)
+  const bottomBtnBottomValue = useSharedValue(DEFAULT_BOTTOM_BTN_BOTTOM_VALUE)
   const [floatingBtnVisible, setFloatingBtnVisible] = useState(Boolean(FULLY_EXPANDED_SNAP_INDEX))
   const snapPoints = useMemo(() => ['10%', '100%'], [])
   const { keyword: searchKeyword } = useSearchStore(
@@ -62,7 +64,6 @@ export const SearchScreen = () => {
   )
 
   const [pointsLength, setPointsLength] = useState(0)
-  const [keyboardHeight, setKeyboardHeight] = useState(0)
   const debouncedSearchKeyword = useDebounce(searchKeyword, 350)
 
   const { latitude, longitude } = useUserCurrentLocationStore(
@@ -74,12 +75,10 @@ export const SearchScreen = () => {
 
   useEffect(() => {
     const keyboardWillShowEmitterSubscription = Keyboard.addListener('keyboardWillShow', (e) => {
-      setKeyboardHeight(e.endCoordinates.height)
       bottomBtnBottomValue.value = withTiming(e.endCoordinates.height - bottomTabBarHeight, { duration: 250 })
     })
     const keyboardWillHideEmitterSubscription = Keyboard.addListener('keyboardWillHide', () => {
-      setKeyboardHeight(0)
-      bottomBtnBottomValue.value = withTiming(12, { duration: 250 })
+      bottomBtnBottomValue.value = withTiming(DEFAULT_BOTTOM_BTN_BOTTOM_VALUE, { duration: 250 })
     })
 
     return () => {
