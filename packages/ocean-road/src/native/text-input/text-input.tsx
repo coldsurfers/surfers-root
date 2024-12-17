@@ -1,9 +1,9 @@
 import color from '@coldsurfers/design-tokens/dist/js/color/variables'
-import { useCallback, useState } from 'react'
+import { forwardRef, memo, useCallback, useState } from 'react'
 import { Platform, TextInput as RNTextInput, StyleSheet } from 'react-native'
 import { TextInputProps } from './text-input.types'
 
-export const TextInput = (props: TextInputProps) => {
+const _TextInput = forwardRef<RNTextInput, TextInputProps>((props, ref) => {
   const [focused, setFocused] = useState<boolean>(false)
   const onFocus = useCallback(() => {
     setFocused(true)
@@ -13,6 +13,7 @@ export const TextInput = (props: TextInputProps) => {
   }, [])
   return (
     <RNTextInput
+      ref={ref}
       placeholderTextColor={'#b0b6b7'}
       onFocus={onFocus}
       onBlur={onBlur}
@@ -25,7 +26,9 @@ export const TextInput = (props: TextInputProps) => {
       ]}
     />
   )
-}
+})
+
+export const TextInput = memo(_TextInput)
 
 const styles = StyleSheet.create({
   textInput: {

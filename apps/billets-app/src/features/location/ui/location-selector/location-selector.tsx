@@ -1,4 +1,6 @@
-import { Text } from '@coldsurfers/ocean-road/native'
+import commonStyles from '@/lib/common-styles'
+import { colors } from '@coldsurfers/ocean-road'
+import { MapPin } from 'lucide-react-native'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 
 export const LocationSelector = ({ onPress }: { onPress: () => void }) => (
@@ -13,13 +15,22 @@ export const LocationSelector = ({ onPress }: { onPress: () => void }) => (
       }}
       style={styles.button}
     >
-      <Text style={styles.emoji}>📍</Text>
+      <MapPin size={24} />
     </TouchableOpacity>
   </View>
 )
 
 const styles = StyleSheet.create({
-  wrapper: { display: 'flex', flexDirection: 'row' },
-  button: { marginLeft: 'auto', marginRight: 12 },
-  emoji: { fontSize: 24 },
+  wrapper: { display: 'flex', flexDirection: 'row', paddingBottom: 12 },
+  button: {
+    marginLeft: 'auto',
+    marginRight: 12,
+    backgroundColor: colors.oc.white.value,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...commonStyles.shadowBox,
+  },
 })

@@ -1,0 +1,1 @@
+export const FULLY_EXPANDED_SNAP_INDEX = 1
