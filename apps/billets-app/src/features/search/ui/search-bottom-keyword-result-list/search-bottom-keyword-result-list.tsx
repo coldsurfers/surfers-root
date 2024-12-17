@@ -1,32 +1,16 @@
 import { $api } from '@/lib/api/openapi-client'
 import { useSearchScreenNavigation } from '@/screens/search-screen/search-screen.hooks'
-import { CommonListEmpty } from '@/ui/common-list-empty'
 import { colors } from '@coldsurfers/ocean-road'
 import { ProfileThumbnail } from '@coldsurfers/ocean-road/native'
 import { BottomSheetFlatList } from '@gorhom/bottom-sheet'
 import { useFocusEffect } from '@react-navigation/native'
 import format from 'date-fns/format'
 import { useCallback, useMemo } from 'react'
-import { ActivityIndicator, ListRenderItem, StyleSheet, View } from 'react-native'
+import { ListRenderItem, StyleSheet } from 'react-native'
 import { match } from 'ts-pattern'
+import { SearchBottomKeywordResultListEmpty } from '../search-bottom-keyword-result-list-empty'
 import { SearchItem } from '../search-item'
 import { SearchItemThumbnail } from '../search-item-thumbnail'
-
-const ListEmptyComponent = ({
-  isLoadingSearch,
-  isFetchedSearch,
-}: {
-  isLoadingSearch: boolean
-  isFetchedSearch: boolean
-}) => {
-  return isLoadingSearch ? (
-    <View style={styles.emptyWrapper}>
-      <ActivityIndicator size="large" />
-    </View>
-  ) : isFetchedSearch ? (
-    <CommonListEmpty emptyText={`🥺\n앗,\n해당하는\n정보가 없어요!`} />
-  ) : null
-}
 
 export const SearchBottomKeywordResultList = ({ keyword }: { keyword: string }) => {
   const navigation = useSearchScreenNavigation()
@@ -147,7 +131,9 @@ export const SearchBottomKeywordResultList = ({ keyword }: { keyword: string }) 
       style={styles.list}
       contentContainerStyle={styles.contentContainer}
       showsVerticalScrollIndicator={false}
-      ListEmptyComponent={<ListEmptyComponent isLoadingSearch={isLoadingSearch} isFetchedSearch={isFetchedSearch} />}
+      ListEmptyComponent={
+        <SearchBottomKeywordResultListEmpty isLoadingSearch={isLoadingSearch} isFetchedSearch={isFetchedSearch} />
+      }
     />
   )
 }
@@ -160,10 +146,5 @@ const styles = StyleSheet.create({
     paddingBottom: 120,
     paddingHorizontal: 14,
     backgroundColor: colors.oc.gray[1].value,
-  },
-  emptyWrapper: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 })
