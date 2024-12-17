@@ -1,8 +1,9 @@
+import { icons } from 'lucide-react-native'
 import { TouchableOpacityProps } from 'react-native'
 import { ButtonTheme } from '../../button'
 
 export interface IconButtonProps extends TouchableOpacityProps {
-  icon: '←' | '✘'
+  icon: keyof typeof icons
   size?: IconButtonSize
   theme?: ButtonTheme
 }

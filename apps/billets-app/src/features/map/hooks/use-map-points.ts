@@ -23,24 +23,26 @@ export const useMapPoints = ({ mapRegionWithZoomLevel }: { mapRegionWithZoomLeve
   )
 
   const [points, setPoints] = useState<z.infer<typeof mapPointSchema>[]>([])
+  const [visiblePoints, setVisiblePoints] = useState<z.infer<typeof mapPointSchema>[]>([])
 
   useEffect(() => {
     if (!locationConcerts) {
       return
     }
+    const newPoints = locationConcerts.map((locationConcert, index) => {
+      return {
+        id: index,
+        originalId: locationConcert.id,
+        type: 'Feature',
+        properties: { cluster_id: index },
+        geometry: {
+          type: 'Point',
+          coordinates: [locationConcert.longitude, locationConcert.latitude],
+        },
+      } satisfies z.infer<typeof mapPointSchema>
+    })
+    setVisiblePoints(newPoints)
     setPoints((prevPoints) => {
-      const newPoints = locationConcerts.map((locationConcert, index) => {
-        return {
-          id: index,
-          originalId: locationConcert.id,
-          type: 'Feature',
-          properties: { cluster_id: index },
-          geometry: {
-            type: 'Point',
-            coordinates: [locationConcert.longitude, locationConcert.latitude],
-          },
-        } satisfies z.infer<typeof mapPointSchema>
-      })
       const validation = mapPointSchema.array().safeParse(newPoints)
       if (validation.error) {
         console.error(validation.error)
@@ -57,5 +59,6 @@ export const useMapPoints = ({ mapRegionWithZoomLevel }: { mapRegionWithZoomLeve
     isLoadingLocationConcerts,
     points,
     setPoints,
+    visiblePoints,
   }
 }
