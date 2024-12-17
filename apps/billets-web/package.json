@@ -41,7 +41,7 @@
     "@types/node": "*",
     "@types/react": "*",
     "@types/react-dom": "*",
-    "eslint": "*",
+    "eslint": "8.57.0",
     "notion-types": "*",
     "pm2": "*",
     "postcss": "^8.4.35",
