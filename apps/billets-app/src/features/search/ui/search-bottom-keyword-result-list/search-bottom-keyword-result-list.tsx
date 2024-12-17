@@ -8,9 +8,11 @@ import format from 'date-fns/format'
 import { useCallback, useMemo } from 'react'
 import { ListRenderItem, StyleSheet } from 'react-native'
 import { match } from 'ts-pattern'
+import { z } from 'zod'
 import { SearchBottomKeywordResultListEmpty } from '../search-bottom-keyword-result-list-empty'
 import { SearchItem } from '../search-item'
 import { SearchItemThumbnail } from '../search-item-thumbnail'
+import { searchBottomKeywordListItemSchema } from './search-bottom-keyword-result-list.types'
 
 export const SearchBottomKeywordResultList = ({ keyword }: { keyword: string }) => {
   const navigation = useSearchScreenNavigation()
@@ -37,27 +39,7 @@ export const SearchBottomKeywordResultList = ({ keyword }: { keyword: string }) 
     return searchData ?? []
   }, [searchData])
 
-  const renderSearchListItem: ListRenderItem<
-    | {
-        id: string
-        name: string
-        profileImgUrl: string
-        type: 'artist'
-      }
-    | {
-        id: string
-        name: string
-        type: 'venue'
-      }
-    | {
-        date: string
-        id: string
-        thumbnailImgUrl: string
-        title: string
-        type: 'concert'
-        venueTitle: string
-      }
-  > = useCallback(
+  const renderSearchListItem: ListRenderItem<z.infer<typeof searchBottomKeywordListItemSchema>> = useCallback(
     ({ item }) => {
       const onPressVenueItem = () => {
         navigation.navigate('VenueStackNavigation', {
