@@ -8,6 +8,8 @@ export type SearchStoreLocationConcert = {
   title: string
 }
 
+// @todo: refactor later to divide search store and map store
+
 export interface SearchStoreState {
   keyword: string
   selectedLocationFilter: SearchStoreLocationFilterType | null

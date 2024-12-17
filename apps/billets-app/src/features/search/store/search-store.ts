@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { FULLY_EXPANDED_SNAP_INDEX } from './search-store.constants'
 import { SearchStore } from './search-store.types'
 
+// @todo: refactor later to divide search store and map store
 export const useSearchStore = create<SearchStore>((set) => ({
   keyword: '',
   selectedLocationFilter: null,
