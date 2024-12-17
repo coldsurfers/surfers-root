@@ -73,11 +73,17 @@ export const ConcertMapView = memo(
       onChangeClusters?.(clusters)
       onChangePoints?.(points)
       onChangeVisiblePoints?.(visiblePoints)
-    }, [clusters, onChangeClusters, onChangePoints, onChangeVisiblePoints, points, visiblePoints])
-
-    useEffect(() => {
       onChangeLocationConcerts?.(locationConcerts ?? [])
-    }, [locationConcerts, onChangeLocationConcerts])
+    }, [
+      clusters,
+      locationConcerts,
+      onChangeClusters,
+      onChangeLocationConcerts,
+      onChangePoints,
+      onChangeVisiblePoints,
+      points,
+      visiblePoints,
+    ])
 
     return (
       <MapView
