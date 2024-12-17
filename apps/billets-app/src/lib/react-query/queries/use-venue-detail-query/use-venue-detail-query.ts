@@ -1,9 +1,9 @@
-import client from '@/lib/api/openapi-client'
+import { fetchClient } from '@/lib/api/openapi-client'
 import { v1QueryKeyFactory } from '@/lib/query-key-factory'
 import { useQuery, UseQueryOptions } from '@tanstack/react-query'
 
 const queryFn = async ({ id }: { id: string }) => {
-  const response = await client.GET('/v1/venue/{id}', {
+  const response = await fetchClient.GET('/v1/venue/{id}', {
     params: {
       path: {
         id,

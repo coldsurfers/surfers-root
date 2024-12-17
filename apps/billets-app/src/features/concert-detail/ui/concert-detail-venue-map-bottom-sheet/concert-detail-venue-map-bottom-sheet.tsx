@@ -10,8 +10,9 @@ import {
   BottomSheetView,
 } from '@gorhom/bottom-sheet'
 import Clipboard from '@react-native-clipboard/clipboard'
+import { Copy } from 'lucide-react-native'
 import React, { forwardRef, useCallback } from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { ConcertDetailVenueMapBottomSheetProps } from './concert-detail-venue-map-bottom-sheet.types'
 
@@ -41,9 +42,9 @@ export const ConcertDetailVenueMapBottomSheet = forwardRef<BottomSheetModal, Con
                 </Text>
                 <Text style={{ fontSize: 14 }}>{address}</Text>
               </View>
-              <Button theme="transparent" onPress={() => Clipboard.setString(address)} style={{ marginLeft: 'auto' }}>
-                복사하기
-              </Button>
+              <TouchableOpacity onPress={() => Clipboard.setString(address)} style={{ marginLeft: 'auto' }}>
+                <Copy />
+              </TouchableOpacity>
             </View>
             <View style={styles.lineView}>
               <Button

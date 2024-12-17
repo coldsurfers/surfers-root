@@ -1,5 +1,5 @@
 import { ToastVisibleContext, ToastVisibleContextProvider } from '@/lib'
-import { useActivateUserMutation } from '@/lib/react-query'
+import { $api } from '@/lib/api/openapi-client'
 import { CommonScreenLayout } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
@@ -18,15 +18,16 @@ const Screen = () => {
   const route = useActivateUserConfirmScreenRoute()
   const [confirmText, setConfirmText] = useState('')
 
-  const { mutate: activateUser, isPending: isPendingActivateUser } = useActivateUserMutation({
-    onSuccess: () => {},
-  })
+  const { mutate: activateUser, isPending: isPendingActivateUser } = $api.useMutation('patch', '/v1/user/activate')
 
   const onPressActivateUser = useCallback(() => {
     activateUser(
       {
-        authCode: confirmText,
-        email: route.params.email,
+        body: {
+          type: 'activate',
+          authCode: confirmText,
+          email: route.params.email,
+        },
       },
       {
         onSuccess: () => {

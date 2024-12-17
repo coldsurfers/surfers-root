@@ -1,9 +1,9 @@
-import client from '@/lib/api/openapi-client'
+import { fetchClient } from '@/lib/api/openapi-client'
 import { v1QueryKeyFactory } from '@/lib/query-key-factory'
 import { InfiniteData, useInfiniteQuery, UseInfiniteQueryOptions } from '@tanstack/react-query'
 
 const queryFn = async ({ artistId, offset, size }: { artistId: string; offset: number; size: number }) => {
-  const response = await client.GET('/v1/artist/concert-list/{artistId}', {
+  const response = await fetchClient.GET('/v1/artist/concert-list/{artistId}', {
     params: {
       path: {
         artistId,
