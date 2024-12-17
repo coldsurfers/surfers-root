@@ -155,6 +155,8 @@ export const SearchScreen = () => {
             onChange={onChangeBottomSheet}
             snapPoints={snapPoints}
             enablePanDownToClose={false}
+            enableHandlePanningGesture={!searchKeyword}
+            enableContentPanningGesture={!searchKeyword}
             handleComponent={handleComponent}
             handleStyle={styles.handleStyle}
             animateOnMount={false}
@@ -176,7 +178,7 @@ export const SearchScreen = () => {
           </BottomSheet>
         </CommonScreenLayout>
       </KeyboardAvoidWrapper>
-      {floatingBtnVisible && (
+      {floatingBtnVisible && !searchKeyword && (
         <AnimatedButton
           theme="border"
           style={[styles.floatingButton, floatingBtnOpacityStyle]}

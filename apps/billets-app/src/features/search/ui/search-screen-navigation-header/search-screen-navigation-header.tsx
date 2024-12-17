@@ -44,12 +44,23 @@ export const SearchScreenNavigationHeader = memo((props: NativeStackHeaderProps)
     [props.options],
   )
 
-  const onPressFilterXIcon = useCallback(() => {
+  const initializeState = useCallback(() => {
     setSelectedLocationFilter(null)
     setSnapIndex(FULLY_EXPANDED_SNAP_INDEX)
     setViewMode('list')
     setLocationConcerts([])
   }, [setLocationConcerts, setSelectedLocationFilter, setSnapIndex, setViewMode])
+
+  const onPressFilterXIcon = useCallback(() => {
+    initializeState()
+  }, [initializeState])
+  const onChangeText = useCallback(
+    (text: string) => {
+      setKeyword(text)
+      initializeState()
+    },
+    [initializeState, setKeyword],
+  )
 
   return (
     <NavigationHeader
@@ -59,7 +70,7 @@ export const SearchScreenNavigationHeader = memo((props: NativeStackHeaderProps)
         <View style={styles.topInputWrapper}>
           <TextInput
             value={keyword}
-            onChangeText={setKeyword}
+            onChangeText={onChangeText}
             onFocus={() => setPlaceholder('')}
             onBlur={() => setPlaceholder('🔎 어떤 공연을 찾고 싶으세요?')}
             autoCapitalize="none"
