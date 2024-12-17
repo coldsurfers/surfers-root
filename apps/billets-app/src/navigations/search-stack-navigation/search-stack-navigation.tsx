@@ -1,33 +1,37 @@
+import { SearchScreenNavigationHeader } from '@/features'
 import { SearchScreen } from '@/screens'
-import { NavigationHeader } from '@/ui'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { ConcertMapScreen } from '@/screens/concert-map-screen'
+import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack'
+import { useMemo } from 'react'
 import { SearchStackParamList } from './search-stack-navigation.types'
 
 const SearchStack = createNativeStackNavigator<SearchStackParamList>()
 
 const SearchStackNavigation = () => {
+  const navigationScreenOptions = useMemo<NativeStackNavigationOptions>(
+    () => ({
+      header: () => null,
+    }),
+    [],
+  )
+  const searchScreenOptions = useMemo<NativeStackNavigationOptions>(
+    () => ({
+      header: (props) => <SearchScreenNavigationHeader {...props} />,
+    }),
+    [],
+  )
+  const concertScreenOptions = useMemo<NativeStackNavigationOptions>(
+    () => ({
+      header: () => null,
+      animation: 'fade_from_bottom',
+    }),
+    [],
+  )
+
   return (
-    <SearchStack.Navigator
-      screenOptions={{
-        header: () => null,
-      }}
-    >
-      <SearchStack.Screen
-        name="SearchScreen"
-        component={SearchScreen}
-        options={{
-          header: (props) => (
-            <NavigationHeader
-              {...props}
-              options={{
-                ...props.options,
-                title: '검색',
-                headerBackVisible: false,
-              }}
-            />
-          ),
-        }}
-      />
+    <SearchStack.Navigator screenOptions={navigationScreenOptions}>
+      <SearchStack.Screen name="SearchScreen" component={SearchScreen} options={searchScreenOptions} />
+      <SearchStack.Screen name="ConcertMapScreen" component={ConcertMapScreen} options={concertScreenOptions} />
     </SearchStack.Navigator>
   )
 }

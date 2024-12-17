@@ -1,12 +1,12 @@
 import { InfiniteData, UseInfiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query'
-import client from '../../api/openapi-client'
 import { LatLng } from '../../../types/LatLng'
+import { fetchClient } from '../../api/openapi-client'
 import { v1QueryKeyFactory } from '../../query-key-factory'
 
 const DEFAULT_SIZE = 20
 
 const queryFn = async (offset: number, size: number, latLng: LatLng) => {
-  const response = await client.GET('/v1/concert/', {
+  const response = await fetchClient.GET('/v1/concert/', {
     params: {
       query: {
         offset: `${offset}`,

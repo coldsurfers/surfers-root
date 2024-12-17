@@ -2,6 +2,7 @@ import { zodNavigation } from '@/lib'
 import { colors } from '@coldsurfers/ocean-road'
 import { Text } from '@coldsurfers/ocean-road/native'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
+import { House, Search, Smile } from 'lucide-react-native'
 import React, { useEffect, useRef } from 'react'
 import { Animated, StyleSheet, TouchableOpacity } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -50,18 +51,17 @@ export const TabBar = (props: Props) => {
             : options.title !== undefined
               ? options.title
               : route.name
-        const emoji = () => {
+        const renderIcon = () => {
+          const strokeWidth = isFocused ? 2.5 : 1.5
           switch (route.name) {
             case zodNavigation.HomeStackNavigation.name:
-              return '🏠'
+              return <House color={colors.oc.white.value} strokeWidth={strokeWidth} />
             case zodNavigation.SearchStackNavigation.name:
-              return '🔎'
-            case zodNavigation.ConcertStackNavigation.name:
-              return '📰'
+              return <Search color={colors.oc.white.value} strokeWidth={strokeWidth} />
             case zodNavigation.MyStackNavigation.name:
-              return '🙂'
+              return <Smile color={colors.oc.white.value} strokeWidth={strokeWidth} />
             default:
-              return ''
+              return null
           }
         }
 
@@ -91,7 +91,7 @@ export const TabBar = (props: Props) => {
             onLongPress={onLongPress}
             style={styles.tabBarButton}
           >
-            <Text style={styles.emoji}>{emoji()}</Text>
+            {renderIcon()}
             <Text style={[styles.tabBarTitle, isFocused && styles.tabBarTitleFocused]}>
               {typeof label === 'string' && label}
             </Text>

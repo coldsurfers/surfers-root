@@ -1,9 +1,9 @@
-import client from '@/lib/api/openapi-client'
+import { fetchClient } from '@/lib/api/openapi-client'
 import { v1QueryKeyFactory } from '@/lib/query-key-factory'
 import { InfiniteData, useInfiniteQuery, UseInfiniteQueryOptions } from '@tanstack/react-query'
 
 const queryFn = async ({ venueId, offset, size }: { venueId: string; offset: number; size: number }) => {
-  const response = await client.GET('/v1/venue/concert-list/{venueId}', {
+  const response = await fetchClient.GET('/v1/venue/concert-list/{venueId}', {
     params: {
       path: {
         venueId,

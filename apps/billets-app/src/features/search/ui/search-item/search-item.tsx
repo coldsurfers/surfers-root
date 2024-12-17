@@ -1,25 +1,13 @@
 import { HorizontalConcertItem } from '@/features/concert/ui'
+import { colors } from '@coldsurfers/ocean-road'
 import { Text } from '@coldsurfers/ocean-road/native'
-import { ReactNode } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { match } from 'ts-pattern'
 import palettes from '../../../../lib/palettes'
+import { SearchItemThumbnail } from '../search-item-thumbnail'
+import { SearchItemProps } from './search-item.types'
 
-export function SearchItem({
-  type,
-  thumbnail,
-  title,
-  subtitle,
-  description,
-  onPress,
-}: {
-  type: 'artist' | 'venue' | 'concert'
-  thumbnail: ReactNode
-  title: string
-  subtitle: string
-  description?: string
-  onPress?: () => void
-}) {
+export function SearchItem({ type, thumbnail, title, subtitle, description, onPress }: SearchItemProps) {
   return match(type)
     .with('artist', () => (
       <TouchableOpacity onPress={onPress} style={styles.itemWrapper}>
@@ -63,6 +51,18 @@ export function SearchItem({
     .otherwise(() => null)
 }
 
+SearchItem.Skeleton = () => {
+  return (
+    <TouchableOpacity style={[styles.itemWrapper, { alignItems: 'flex-start' }]}>
+      <SearchItemThumbnail.Skeleton />
+      <View style={styles.itemInnerRight}>
+        <View style={styles.skeletonTitle} />
+        <View style={styles.skeletonSubtitle} />
+      </View>
+    </TouchableOpacity>
+  )
+}
+
 const styles = StyleSheet.create({
   itemWrapper: {
     flexDirection: 'row',
@@ -75,4 +75,12 @@ const styles = StyleSheet.create({
   },
   itemTitle: { fontSize: 14 },
   itemSubtitle: { color: palettes.gray['800'], fontSize: 14 },
+  skeletonTitle: {
+    width: '100%',
+    backgroundColor: colors.oc.gray[4].value,
+    height: 24,
+    marginBottom: 4,
+    borderRadius: 4,
+  },
+  skeletonSubtitle: { width: '100%', backgroundColor: colors.oc.gray[4].value, height: 16, borderRadius: 4 },
 })
