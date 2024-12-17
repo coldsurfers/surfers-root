@@ -33,6 +33,7 @@ export const SearchScreen = () => {
   const bottomTabBarHeight = useBottomTabBarHeight()
   const bottomSheetRef = useRef<BottomSheet>(null)
   const bottomBtnOpacityValue = useSharedValue(1.0)
+  const bottomBtnBottomValue = useSharedValue(12)
   const [floatingBtnVisible, setFloatingBtnVisible] = useState(Boolean(FULLY_EXPANDED_SNAP_INDEX))
   const snapPoints = useMemo(() => ['10%', '100%'], [])
   const { keyword: searchKeyword } = useSearchStore(
@@ -74,16 +75,18 @@ export const SearchScreen = () => {
   useEffect(() => {
     const keyboardWillShowEmitterSubscription = Keyboard.addListener('keyboardWillShow', (e) => {
       setKeyboardHeight(e.endCoordinates.height)
+      bottomBtnBottomValue.value = withTiming(e.endCoordinates.height - bottomTabBarHeight, { duration: 250 })
     })
     const keyboardWillHideEmitterSubscription = Keyboard.addListener('keyboardWillHide', () => {
       setKeyboardHeight(0)
+      bottomBtnBottomValue.value = withTiming(12, { duration: 250 })
     })
 
     return () => {
       keyboardWillShowEmitterSubscription.remove()
       keyboardWillHideEmitterSubscription.remove()
     }
-  }, [])
+  }, [bottomBtnBottomValue, bottomTabBarHeight])
 
   useEffect(() => {
     const visible = snapIndex === FULLY_EXPANDED_SNAP_INDEX
@@ -110,6 +113,7 @@ export const SearchScreen = () => {
   }, [setSelectedLocationFilter, setSnapIndex, setViewMode])
   const floatingBtnOpacityStyle = useAnimatedStyle(() => ({
     opacity: bottomBtnOpacityValue.value,
+    bottom: bottomBtnBottomValue.value,
   }))
 
   const onChangeBottomSheet = useCallback(
@@ -171,23 +175,17 @@ export const SearchScreen = () => {
               </View>
             )}
           </BottomSheet>
-          {floatingBtnVisible && (
-            <AnimatedButton
-              theme="border"
-              style={[
-                styles.floatingButton,
-                {
-                  bottom: keyboardHeight > 0 ? keyboardHeight - bottomTabBarHeight : 12,
-                },
-                floatingBtnOpacityStyle,
-              ]}
-              onPress={onPressMapFloatingBtn}
-            >
-              맵으로 보기
-            </AnimatedButton>
-          )}
         </CommonScreenLayout>
       </KeyboardAvoidWrapper>
+      {floatingBtnVisible && (
+        <AnimatedButton
+          theme="border"
+          style={[styles.floatingButton, floatingBtnOpacityStyle]}
+          onPress={onPressMapFloatingBtn}
+        >
+          맵으로 보기
+        </AnimatedButton>
+      )}
     </BottomSheetModalProvider>
   )
 }
