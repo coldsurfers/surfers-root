@@ -36,6 +36,12 @@ export const SearchDefaultBottomResultList = ({
 
   const renderConcertListItem: ListRenderItem<(typeof concertListUIData)[number]> = useCallback(
     ({ item: value }) => {
+      const onPress = () => {
+        navigation.navigate('ConcertStackNavigation', {
+          screen: 'ConcertDetailScreen',
+          params: { concertId: value.id },
+        })
+      }
       return (
         <SearchItem
           type="concert"
@@ -43,12 +49,7 @@ export const SearchDefaultBottomResultList = ({
           title={value.title}
           subtitle={format(new Date(value.date), 'EEE, MMM dd')}
           description={value.venues.at(0)?.venueTitle ?? ''}
-          onPress={() =>
-            navigation.navigate('ConcertStackNavigation', {
-              screen: 'ConcertDetailScreen',
-              params: { concertId: value.id },
-            })
-          }
+          onPress={onPress}
         />
       )
     },
