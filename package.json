@@ -3,10 +3,16 @@
   "private": true,
   "version": "1.0.0",
   "packageManager": "yarn@4.2.2",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/eslint",
+      "**/eslint/**"
+    ]
+  },
   "scripts": {
     "prepare": "husky install",
     "postinstall": "patch-package",
@@ -26,7 +32,6 @@
     "react-dom": "18.2.0",
     "husky": "9.0.11",
     "lint-staged": "15.2.2",
-    "eslint": "8.57.0",
     "@types/react-native": "0.70.8",
     "react-native": "0.75.3",
     "react-native-web": "0.19.13",
