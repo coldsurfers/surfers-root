@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingTop: 10,
-    backgroundColor: '#6F8EA3',
+    backgroundColor: colors.oc.cyan[8].value,
   },
   tabBarButton: {
     flex: 1,
