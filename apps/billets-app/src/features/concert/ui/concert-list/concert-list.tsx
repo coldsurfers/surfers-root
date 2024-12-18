@@ -104,7 +104,7 @@ export const ConcertList = forwardRef<FlatList, ConcertListProps>(({ onPressItem
 
 const styles = StyleSheet.create({
   concertListContentContainer: {
-    paddingHorizontal: 12,
+    paddingHorizontal: 16,
     marginTop: 12,
     paddingBottom: 24,
     flexGrow: 1,
