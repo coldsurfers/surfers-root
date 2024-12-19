@@ -1,4 +1,10 @@
-import { CurrentLocationTracker, LocationSelector, LocationSelectorModal, useToggleSubscribeConcert } from '@/features'
+import {
+  CurrentLocationTracker,
+  LocationSelector,
+  LocationSelectorModal,
+  useToggleSubscribeConcert,
+  useUserCurrentLocationStore,
+} from '@/features'
 import { ConcertListItemT } from '@/features/concert/ui/concert-list/concert-list.types'
 import { AnimatePresence } from '@/ui'
 import { useScrollToTop } from '@react-navigation/native'
@@ -9,7 +15,6 @@ import { useShallow } from 'zustand/shallow'
 import { ConcertList } from '../../features/concert'
 import palettes from '../../lib/palettes'
 import useGetMeQuery from '../../lib/react-query/queries/useGetMeQuery'
-import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocationStore'
 import { useHomeScreenNavigation } from './home-screen.hooks'
 
 export const HomeScreen = () => {

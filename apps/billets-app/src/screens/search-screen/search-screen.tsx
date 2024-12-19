@@ -1,4 +1,4 @@
-import { ConcertMapView, mapPointSchema } from '@/features'
+import { ConcertMapView, mapPointSchema, useUserCurrentLocationStore } from '@/features'
 import { getViewMode, SearchStoreLocationConcert, SearchStoreSnapIndex, useSearchStore } from '@/features/search/store'
 import { FULLY_EXPANDED_SNAP_INDEX } from '@/features/search/store/search-store.constants'
 import { SearchBottomList } from '@/features/search/ui'
@@ -14,7 +14,6 @@ import { Keyboard, KeyboardAvoidingView, KeyboardAvoidingViewProps, Platform, St
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { z } from 'zod'
 import { useShallow } from 'zustand/shallow'
-import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocationStore'
 
 const AnimatedButton = Animated.createAnimatedComponent(Button)
 
