@@ -179,7 +179,7 @@ export const SearchScreen = () => {
                 locationConcerts={locationConcerts}
               />
             ) : (
-              <View style={{ flex: 1, backgroundColor: colors.oc.gray[1].value, paddingHorizontal: 14 }}>
+              <View style={styles.guideBox}>
                 <Text weight="bold" style={styles.guideFont}>
                   이 지역의 공연 수 {pointsLength}개
                 </Text>
@@ -242,6 +242,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 8,
     ...commonStyles.topShadowBox,
   },
+  guideBox: { flex: 1, backgroundColor: colors.oc.gray[1].value, paddingHorizontal: 14 },
   guideFont: {
     fontSize: 16,
   },
