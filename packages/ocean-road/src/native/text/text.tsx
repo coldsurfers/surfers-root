@@ -11,9 +11,12 @@ export const Text = ({ children, weight = 'regular', style, ...others }: TextPro
     bold: styles.bold,
   }
   const flattenedStyles = StyleSheet.flatten(style)
-  const lineHeight = (flattenedStyles?.fontSize ?? 0) * 1.5
+  const lineHeight = (flattenedStyles?.fontSize ?? 0) * 1.25
   return (
-    <RNText {...others} style={[fontFamilySet[weight], styles.defaultColor, { lineHeight: lineHeight }, style]}>
+    <RNText
+      {...others}
+      style={[fontFamilySet[weight], styles.defaultColor, { lineHeight: lineHeight, letterSpacing: 0.24 }, style]}
+    >
       {children}
     </RNText>
   )

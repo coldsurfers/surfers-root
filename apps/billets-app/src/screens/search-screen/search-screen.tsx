@@ -1,8 +1,9 @@
-import { ConcertMapView, mapPointSchema } from '@/features'
+import { ConcertMapView, mapPointSchema, useUserCurrentLocationStore } from '@/features'
 import { getViewMode, SearchStoreLocationConcert, SearchStoreSnapIndex, useSearchStore } from '@/features/search/store'
 import { FULLY_EXPANDED_SNAP_INDEX } from '@/features/search/store/search-store.constants'
 import { SearchBottomList } from '@/features/search/ui'
 import commonStyles from '@/lib/common-styles'
+import { useUIStore } from '@/lib/stores'
 import { CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Text } from '@coldsurfers/ocean-road/native'
@@ -14,7 +15,6 @@ import { Keyboard, KeyboardAvoidingView, KeyboardAvoidingViewProps, Platform, St
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { z } from 'zod'
 import { useShallow } from 'zustand/shallow'
-import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocationStore'
 
 const AnimatedButton = Animated.createAnimatedComponent(Button)
 
@@ -60,6 +60,13 @@ export const SearchScreen = () => {
     useShallow((state) => ({
       locationConcerts: state.locationConcerts,
       setLocationConcerts: state.setLocationConcerts,
+    })),
+  )
+
+  const { hideBottomTabBar, showBottomTabBar } = useUIStore(
+    useShallow((state) => ({
+      hideBottomTabBar: state.hideBottomTabBar,
+      showBottomTabBar: state.showBottomTabBar,
     })),
   )
 
@@ -109,7 +116,8 @@ export const SearchScreen = () => {
     setSnapIndex(0)
     setSelectedLocationFilter('map-location')
     setViewMode('map')
-  }, [setSelectedLocationFilter, setSnapIndex, setViewMode])
+    hideBottomTabBar()
+  }, [hideBottomTabBar, setSelectedLocationFilter, setSnapIndex, setViewMode])
   const floatingBtnOpacityStyle = useAnimatedStyle(() => ({
     opacity: bottomBtnOpacityValue.value,
     bottom: bottomBtnBottomValue.value,
@@ -122,11 +130,13 @@ export const SearchScreen = () => {
       if (viewMode === 'map') {
         setSelectedLocationFilter('map-location')
         setViewMode(viewMode)
+        hideBottomTabBar()
       } else {
         setViewMode('list')
+        showBottomTabBar()
       }
     },
-    [setSelectedLocationFilter, setSnapIndex, setViewMode],
+    [hideBottomTabBar, setSelectedLocationFilter, setSnapIndex, setViewMode, showBottomTabBar],
   )
 
   const onChangeVisiblePoints = useCallback((points: z.TypeOf<typeof mapPointSchema>[]) => {
@@ -169,7 +179,7 @@ export const SearchScreen = () => {
                 locationConcerts={locationConcerts}
               />
             ) : (
-              <View style={{ flex: 1, backgroundColor: colors.oc.gray[1].value, paddingHorizontal: 14 }}>
+              <View style={styles.guideBox}>
                 <Text weight="bold" style={styles.guideFont}>
                   이 지역의 공연 수 {pointsLength}개
                 </Text>
@@ -232,6 +242,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 8,
     ...commonStyles.topShadowBox,
   },
+  guideBox: { flex: 1, backgroundColor: colors.oc.gray[1].value, paddingHorizontal: 14 },
   guideFont: {
     fontSize: 16,
   },

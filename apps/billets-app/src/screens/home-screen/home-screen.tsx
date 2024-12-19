@@ -1,4 +1,11 @@
-import { CurrentLocationTracker, LocationSelector, LocationSelectorModal, useToggleSubscribeConcert } from '@/features'
+import {
+  CurrentLocationTracker,
+  LocationSelector,
+  LocationSelectorModal,
+  useToggleSubscribeConcert,
+  useUserCurrentLocationStore,
+} from '@/features'
+import { ConcertListItemT } from '@/features/concert/ui/concert-list/concert-list.types'
 import { AnimatePresence } from '@/ui'
 import { useScrollToTop } from '@react-navigation/native'
 import { useCallback, useRef, useState } from 'react'
@@ -8,7 +15,6 @@ import { useShallow } from 'zustand/shallow'
 import { ConcertList } from '../../features/concert'
 import palettes from '../../lib/palettes'
 import useGetMeQuery from '../../lib/react-query/queries/useGetMeQuery'
-import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocationStore'
 import { useHomeScreenNavigation } from './home-screen.hooks'
 
 export const HomeScreen = () => {
@@ -56,6 +62,20 @@ export const HomeScreen = () => {
 
   useScrollToTop(listRef)
 
+  const onPressSubscribe = useCallback(
+    (
+      item: ConcertListItemT,
+      options: {
+        isSubscribed: boolean
+      },
+    ) =>
+      onPressSubscribeConcertListItem({
+        isSubscribed: options.isSubscribed,
+        concertId: item.id,
+      }),
+    [onPressSubscribeConcertListItem],
+  )
+
   return (
     <SafeAreaView edges={['top']} style={styles.wrapper}>
       {latitude === null && longitude === null && <CurrentLocationTracker />}
@@ -63,12 +83,7 @@ export const HomeScreen = () => {
       <ConcertList
         ref={listRef}
         onPressItem={(item) => onPressConcertListItem(item.id)}
-        onPressSubscribe={(item, { isSubscribed }) =>
-          onPressSubscribeConcertListItem({
-            isSubscribed,
-            concertId: item.id,
-          })
-        }
+        onPressSubscribe={onPressSubscribe}
       />
       <AnimatePresence>
         {locationModalVisible && (
