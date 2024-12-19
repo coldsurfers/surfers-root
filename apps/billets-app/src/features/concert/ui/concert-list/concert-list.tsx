@@ -1,5 +1,5 @@
+import { useUserCurrentLocationStore } from '@/features/location/stores'
 import useConcertListQuery from '@/lib/react-query/queries/useConcertListQuery'
-import { useUserCurrentLocationStore } from '@/lib/stores/userCurrentLocationStore'
 import { CommonListEmpty } from '@/ui'
 import { format } from 'date-fns'
 import { forwardRef, useCallback, useMemo, useState } from 'react'

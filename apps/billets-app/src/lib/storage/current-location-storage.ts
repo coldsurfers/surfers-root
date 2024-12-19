@@ -1,5 +1,5 @@
+import { UserCurrentLocationStore } from '@/features/location/stores'
 import { PersistStorage } from 'zustand/middleware'
-import { UserCurrentLocationStore } from '../stores/userCurrentLocationStore'
 import { mmkvKeys } from './constants'
 import { mmkvInstance } from './mmkvInstance'
 
