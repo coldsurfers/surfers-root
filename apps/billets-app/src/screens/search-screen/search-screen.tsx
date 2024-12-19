@@ -3,6 +3,7 @@ import { getViewMode, SearchStoreLocationConcert, SearchStoreSnapIndex, useSearc
 import { FULLY_EXPANDED_SNAP_INDEX } from '@/features/search/store/search-store.constants'
 import { SearchBottomList } from '@/features/search/ui'
 import commonStyles from '@/lib/common-styles'
+import { useUIStore } from '@/lib/stores'
 import { CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Text } from '@coldsurfers/ocean-road/native'
@@ -62,6 +63,13 @@ export const SearchScreen = () => {
     })),
   )
 
+  const { hideBottomTabBar, showBottomTabBar } = useUIStore(
+    useShallow((state) => ({
+      hideBottomTabBar: state.hideBottomTabBar,
+      showBottomTabBar: state.showBottomTabBar,
+    })),
+  )
+
   const [pointsLength, setPointsLength] = useState(0)
   const debouncedSearchKeyword = useDebounce(searchKeyword, 350)
 
@@ -108,7 +116,8 @@ export const SearchScreen = () => {
     setSnapIndex(0)
     setSelectedLocationFilter('map-location')
     setViewMode('map')
-  }, [setSelectedLocationFilter, setSnapIndex, setViewMode])
+    hideBottomTabBar()
+  }, [hideBottomTabBar, setSelectedLocationFilter, setSnapIndex, setViewMode])
   const floatingBtnOpacityStyle = useAnimatedStyle(() => ({
     opacity: bottomBtnOpacityValue.value,
     bottom: bottomBtnBottomValue.value,
@@ -121,11 +130,13 @@ export const SearchScreen = () => {
       if (viewMode === 'map') {
         setSelectedLocationFilter('map-location')
         setViewMode(viewMode)
+        hideBottomTabBar()
       } else {
         setViewMode('list')
+        showBottomTabBar()
       }
     },
-    [setSelectedLocationFilter, setSnapIndex, setViewMode],
+    [hideBottomTabBar, setSelectedLocationFilter, setSnapIndex, setViewMode, showBottomTabBar],
   )
 
   const onChangeVisiblePoints = useCallback((points: z.TypeOf<typeof mapPointSchema>[]) => {
