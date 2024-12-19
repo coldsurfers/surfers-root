@@ -10,6 +10,9 @@ export const IconButton = ({
   theme = 'transparent',
   size = 'md',
   style,
+  color,
+  strokeWidth,
+  fill,
   ...otherProps
 }: IconButtonProps) => {
   const TargetIcon = Icons[icon]
@@ -19,7 +22,12 @@ export const IconButton = ({
       style={[getIconButtonSizeStyles(size), getIconButtonBackgroundStyles(theme), style]}
       onPress={onPress}
     >
-      <TargetIcon size={sizes[size] - 12} strokeWidth={4} color={colors.oc.white.value} />
+      <TargetIcon
+        fill={fill}
+        size={sizes[size] - 12}
+        strokeWidth={strokeWidth ?? 4}
+        color={color ?? colors.oc.white.value}
+      />
     </StyledIconButtonContainer>
   )
 }

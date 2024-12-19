@@ -1,18 +1,7 @@
+import { currentLocationStorage } from '@/lib/storage'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { LatLng } from '../../types/LatLng'
-import { currentLocationStorage } from '../storage/current-location-storage'
-
-export interface UserCurrentLocationStoreState {
-  latitude: number | null
-  longitude: number | null
-}
-
-export interface UserCurrentLocationStoreAction {
-  setUserCurrentLocation: (payload: LatLng) => void
-}
-
-export type UserCurrentLocationStore = UserCurrentLocationStoreState & UserCurrentLocationStoreAction
+import { UserCurrentLocationStore } from './user-current-location-store.types'
 
 export const useUserCurrentLocationStore = create<UserCurrentLocationStore>()(
   persist(
