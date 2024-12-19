@@ -1,21 +1,26 @@
 import { zodNavigation } from '@/lib'
+import { useUIStore } from '@/lib/stores/ui-store'
 import { colors } from '@coldsurfers/ocean-road'
 import { Text } from '@coldsurfers/ocean-road/native'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { House, Search, Smile } from 'lucide-react-native'
-import React, { useEffect, useRef } from 'react'
+import React, { memo, useEffect, useRef } from 'react'
 import { Animated, StyleSheet, TouchableOpacity } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useShallow } from 'zustand/shallow'
 import palettes from '../../lib/palettes'
 
 interface Props extends BottomTabBarProps {
   hidden?: boolean
 }
 
-export const TabBar = (props: Props) => {
+export const TabBar = memo((props: Props) => {
   const { navigation, state, descriptors, hidden } = props
   const hiddenAnimationValue = useRef(new Animated.Value(0)).current
   const { bottom: bottomInset } = useSafeAreaInsets()
+  const { bottomTabBarVisible } = useUIStore(
+    useShallow((state) => ({ bottomTabBarVisible: state.bottomTabBarVisible })),
+  )
 
   useEffect(() => {
     Animated.timing(hiddenAnimationValue, {
@@ -24,6 +29,10 @@ export const TabBar = (props: Props) => {
       useNativeDriver: false,
     }).start()
   }, [hidden, hiddenAnimationValue])
+
+  if (!bottomTabBarVisible) {
+    return null
+  }
 
   return (
     <Animated.View
@@ -100,7 +109,7 @@ export const TabBar = (props: Props) => {
       })}
     </Animated.View>
   )
-}
+})
 
 const styles = StyleSheet.create({
   tabBar: {
