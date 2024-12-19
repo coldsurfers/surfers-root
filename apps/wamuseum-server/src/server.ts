@@ -62,6 +62,15 @@ fastify.register(
       method: ['OPTIONS', 'GET'],
       handler: FileUploadController.getPosterThumbnailsPresigned,
     })
+    await instance.route({
+      url: '/health-check',
+      method: ['OPTIONS', 'GET'],
+      handler: (req, rep) => {
+        return rep.status(200).send({
+          status: 'ok',
+        })
+      },
+    })
     done()
   },
   {
