@@ -2,7 +2,7 @@ import { permissionsUtils } from '@/features/permissions/permissions.utils'
 import { useCallback, useEffect } from 'react'
 import { AppState } from 'react-native'
 import geolocationUtils from '../../../lib/geolocationUtils'
-import { useUserCurrentLocationStore } from '../../../lib/stores/userCurrentLocationStore'
+import { useUserCurrentLocationStore } from '../stores'
 
 export const CurrentLocationTracker = () => {
   const setUserCurrentLocation = useUserCurrentLocationStore((state) => state.setUserCurrentLocation)

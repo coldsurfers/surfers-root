@@ -6,7 +6,7 @@ const BASE_TOP = 40
 export const CommonBackIconButton = ({ onPress, top }: { onPress?: () => void; top?: number }) => {
   return (
     <IconButton
-      icon="←"
+      icon="ArrowLeft"
       theme="transparentDarkGray"
       onPress={onPress}
       hitSlop={{
