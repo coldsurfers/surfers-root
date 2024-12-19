@@ -1,4 +1,4 @@
-import { useUserCurrentLocationStore } from '@/lib/stores/userCurrentLocationStore'
+import { useUserCurrentLocationStore } from '@/features/location'
 import { memo, useCallback, useEffect, useMemo } from 'react'
 import { StyleSheet } from 'react-native'
 import MapView, { Camera, Region } from 'react-native-maps'

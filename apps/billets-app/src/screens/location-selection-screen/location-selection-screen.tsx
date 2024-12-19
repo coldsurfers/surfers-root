@@ -1,9 +1,9 @@
+import { useUserCurrentLocationStore } from '@/features/location/stores'
 import { Text, TextInput } from '@coldsurfers/ocean-road/native'
 import { useCallback, useMemo, useState } from 'react'
 import { SectionList, SectionListData, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import palettes from '../../lib/palettes'
-import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocationStore'
 import { LatLng } from '../../types/LatLng'
 import { useLocationSelectionScreenNavigation } from './location-selection-screen.hooks'
 

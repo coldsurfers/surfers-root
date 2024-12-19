@@ -46,6 +46,7 @@ export const ConcertListItem = ({
         styles.concertListItem,
         {
           width: size === 'small' ? 140 : '100%',
+          padding: size === 'small' ? 0 : 12,
         },
       ]}
     >
@@ -54,7 +55,8 @@ export const ConcertListItem = ({
         style={[
           styles.concertThumbnail,
           {
-            height: size === 'small' ? 120 : 250,
+            borderBottomLeftRadius: size === 'small' ? 0 : 8,
+            borderBottomRightRadius: size === 'small' ? 0 : 8,
           },
         ]}
       >
@@ -64,14 +66,24 @@ export const ConcertListItem = ({
           </View>
         )}
       </FastImage>
-      <View style={styles.bottom}>
+      <View
+        style={[
+          styles.bottom,
+          {
+            paddingLeft: size === 'small' ? 8 : 0,
+            paddingRight: size === 'small' ? 8 : 0,
+            marginTop: size === 'small' ? 8 : 16,
+            marginBottom: size === 'small' ? 8 : 4,
+          },
+        ]}
+      >
         <View style={styles.concertInfoWrapper}>
           <Text
             numberOfLines={size === 'small' ? 2 : 0}
             style={[
               styles.concertTitle,
               {
-                fontSize: size === 'small' ? 14 : 18,
+                fontSize: size === 'small' ? 14 : 20,
               },
             ]}
           >
@@ -83,6 +95,7 @@ export const ConcertListItem = ({
                 styles.concertFormattedDate,
                 {
                   fontSize: size === 'small' ? 12 : 14,
+                  marginTop: size === 'small' ? 4 : 8,
                 },
               ]}
             >
@@ -110,24 +123,27 @@ export const ConcertListItem = ({
 const styles = StyleSheet.create({
   concertListItem: {
     width: '100%',
-    backgroundColor: palettes.white,
-    marginBottom: 12,
+    backgroundColor: 'transparent',
+    marginBottom: 16,
     borderRadius: 8,
     borderWidth: 1.5,
-    borderColor: colors.oc.black.value,
+    borderColor: colors.oc.cyan[8].value,
   },
   concertThumbnail: {
     width: '100%',
-    height: 250,
+    aspectRatio: 1 / 1,
     backgroundColor: colors.oc.white.value,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    borderBottomColor: colors.oc.black.value,
-    borderBottomWidth: 1.5,
+    borderRadius: 8,
   },
-  concertTitle: { fontWeight: 'bold', fontSize: 18, color: colors.oc.black.value },
-  concertFormattedDate: { marginTop: 8, fontSize: 14, color: colors.oc.black.value },
-  concertVenue: { marginTop: 8, color: colors.oc.black.value, fontSize: 14 },
+  concertTitle: { fontWeight: 'bold', color: colors.oc.black.value },
+  concertFormattedDate: {
+    fontSize: 14,
+    color: colors.oc.cyan['9'].value,
+  },
+  concertVenue: {
+    color: colors.oc.gray[7].value,
+    fontSize: 14,
+  },
   concertListContentContainer: {
     paddingHorizontal: 12,
     marginTop: 12,
@@ -149,7 +165,6 @@ const styles = StyleSheet.create({
   bottom: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 12,
   },
   subscribeBtnWrapper: { position: 'absolute', right: 12, bottom: 12 },
 })
