@@ -70,7 +70,7 @@ jobs:
           aws ecs update-service \
             --cluster $CLUSTER_NAME \
             --service $SERVICE_NAME \
-            --task-definition $NEW_TASK_DEFINITION_ARN
+            --task-definition $NEW_TASK_DEFINITION_ARN > /dev/null 2>&1
 
       - name: Verify ECS service status
         run: |
@@ -79,22 +79,4 @@ jobs:
 
           aws ecs describe-services \
             --cluster $CLUSTER_NAME \
-            --services $SERVICE_NAME
-
-      # - name: Terraform apply
-      #   uses: ./.github/workflows/composites/terraform-apply
-      #   with:
-      #     working_directory: ./terraform/
-      #     aws_security_group_id: ${{ secrets.AWS_SECURITY_GROUP_ID }}
-
-      # - name: SSH ec2 and run cli
-      #   uses: ./.github/workflows/composites/ssh-ec2-cli
-      #   with:
-      #     ec2_pem_key: ${{ secrets.EC2_PEM_KEY }}
-      #     ec2_host: ${{ secrets.EC2_HOST }}
-      #     ec2_user: ${{ secrets.EC2_USER }}
-      #     ecr_repository: ${{ secrets.ECR_REPOSITORY }}
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     aws_region: ${{ secrets.AWS_REGION }}
-      #     docker_compose_service: 'billets-web'
-      #     docker_compose_service_env_path: ./apps/billets-web/.env
+            --services $SERVICE_NAME > /dev/null 2>&1
