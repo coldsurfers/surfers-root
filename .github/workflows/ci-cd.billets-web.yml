@@ -42,6 +42,45 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           docker_image_tag: ${{ env.TAG_NAME }}
 
+      - name: Update ECS task definition
+        id: update-task-def
+        run: |
+          NEW_IMAGE_URI='${{ secrets.ECR_REPOSITORY }}/coldsurf/billets-web:${{ env.TAG_NAME }}'
+
+          aws ecs describe-task-definition \
+            --task-definition ${{ secrets.ECS_TASK_DEFINITION }} \
+            --query "taskDefinition" \
+            --output json > task-def.json
+
+          jq --arg IMAGE "$NEW_IMAGE_URI" '.containerDefinitions[0].image = $IMAGE | del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' task-def.json > new-task-def.json
+
+          NEW_TASK_DEFINITION_ARN=$(aws ecs register-task-definition \
+            --cli-input-json file://new-task-def.json \
+            --query "taskDefinition.taskDefinitionArn" \
+            --output text)
+
+          echo "NEW_TASK_DEFINITION_ARN=$NEW_TASK_DEFINITION_ARN" >> $GITHUB_ENV
+
+      - name: Update ECS service
+        run: |
+          CLUSTER_NAME=${{ secrets.ECS_CLUSTER  }}
+          SERVICE_NAME=${{ secrets.ECS_SERVICE  }}
+          NEW_TASK_DEFINITION_ARN=${{ env.NEW_TASK_DEFINITION_ARN }}
+
+          aws ecs update-service \
+            --cluster $CLUSTER_NAME \
+            --service $SERVICE_NAME \
+            --task-definition $NEW_TASK_DEFINITION_ARN
+
+      - name: Verify ECS service status
+        run: |
+          CLUSTER_NAME=${{ secrets.ECS_CLUSTER }}
+          SERVICE_NAME=${{ secrets.ECS_SERVICE }}
+
+          aws ecs describe-services \
+            --cluster $CLUSTER_NAME \
+            --services $SERVICE_NAME
+
       # - name: Terraform apply
       #   uses: ./.github/workflows/composites/terraform-apply
       #   with:
