@@ -22,7 +22,7 @@ services:
       args:
         GITHUB_TOKEN: '${GITHUB_TOKEN}'
         PORT: 4000
-    image: '${ECR_REMOTE_HOST}/coldsurf/blog-client:latest'
+    image: '${ECR_REMOTE_HOST}/coldsurf/${ECR_SERVICE_NAME}:${ECR_IMAGE_TAG}'
     env_file:
       - ../apps/blog-client/.env
     ports:
