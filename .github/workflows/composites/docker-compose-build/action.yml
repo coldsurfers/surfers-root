@@ -38,5 +38,7 @@ runs:
       env:
         ECR_REMOTE_HOST: ${{ inputs.aws_ecr_repository }}
         GITHUB_TOKEN: ${{ inputs.github_token }}
+        ECR_SERVICE_NAME: ${{ inputs.docker_compose_service }}
+        ECR_IMAGE_TAG: ${{ inputs.docker_image_tag }}
       run: |
         docker-compose -f ./docker/docker-compose.yml push ${{ inputs.docker_compose_service }}
