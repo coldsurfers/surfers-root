@@ -21,6 +21,12 @@ jobs:
           aws_region: ${{ secrets.AWS_REGION }}
           aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
 
+      - name: Get the tag name
+        id: get_tag
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+
       - name: Create .env file from template
         run: |
           echo "NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL=${{ secrets.NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL }}" >> ./apps/wamuseum-client/.env
