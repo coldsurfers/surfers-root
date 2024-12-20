@@ -28,27 +28,73 @@ jobs:
           touch "./apps/wamuseum-server/.env"
           touch "./apps/blog-client/.env"
 
+      - name: Get the tag name
+        id: get_tag
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+
       - name: Docker Compose build and push
         uses: ./.github/workflows/composites/docker-compose-build
         with:
           docker_compose_service: 'billets-web'
           aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          docker_image_tag: ${{ env.TAG_NAME }}
 
-      - name: Terraform apply
-        uses: ./.github/workflows/composites/terraform-apply
-        with:
-          working_directory: ./terraform/
-          aws_security_group_id: ${{ secrets.AWS_SECURITY_GROUP_ID }}
+      - name: Update ECS task definition
+        id: update-task-def
+        run: |
+          NEW_IMAGE_URI='${{ secrets.ECR_REPOSITORY }}/coldsurf/billets-web:${{ env.TAG_NAME }}'
 
-      - name: SSH ec2 and run cli
-        uses: ./.github/workflows/composites/ssh-ec2-cli
-        with:
-          ec2_pem_key: ${{ secrets.EC2_PEM_KEY }}
-          ec2_host: ${{ secrets.EC2_HOST }}
-          ec2_user: ${{ secrets.EC2_USER }}
-          ecr_repository: ${{ secrets.ECR_REPOSITORY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          aws_region: ${{ secrets.AWS_REGION }}
-          docker_compose_service: 'billets-web'
-          docker_compose_service_env_path: ./apps/billets-web/.env
+          aws ecs describe-task-definition \
+            --task-definition ${{ secrets.ECS_TASK_DEFINITION }} \
+            --query "taskDefinition" \
+            --output json > task-def.json
+
+          jq --arg IMAGE "$NEW_IMAGE_URI" '.containerDefinitions[0].image = $IMAGE | del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' task-def.json > new-task-def.json
+
+          NEW_TASK_DEFINITION_ARN=$(aws ecs register-task-definition \
+            --cli-input-json file://new-task-def.json \
+            --query "taskDefinition.taskDefinitionArn" \
+            --output text)
+
+          echo "NEW_TASK_DEFINITION_ARN=$NEW_TASK_DEFINITION_ARN" >> $GITHUB_ENV
+
+      - name: Update ECS service
+        run: |
+          CLUSTER_NAME=${{ secrets.ECS_CLUSTER  }}
+          SERVICE_NAME=${{ secrets.ECS_SERVICE  }}
+          NEW_TASK_DEFINITION_ARN=${{ env.NEW_TASK_DEFINITION_ARN }}
+
+          aws ecs update-service \
+            --cluster $CLUSTER_NAME \
+            --service $SERVICE_NAME \
+            --task-definition $NEW_TASK_DEFINITION_ARN
+
+      - name: Verify ECS service status
+        run: |
+          CLUSTER_NAME=${{ secrets.ECS_CLUSTER }}
+          SERVICE_NAME=${{ secrets.ECS_SERVICE }}
+
+          aws ecs describe-services \
+            --cluster $CLUSTER_NAME \
+            --services $SERVICE_NAME
+
+      # - name: Terraform apply
+      #   uses: ./.github/workflows/composites/terraform-apply
+      #   with:
+      #     working_directory: ./terraform/
+      #     aws_security_group_id: ${{ secrets.AWS_SECURITY_GROUP_ID }}
+
+      # - name: SSH ec2 and run cli
+      #   uses: ./.github/workflows/composites/ssh-ec2-cli
+      #   with:
+      #     ec2_pem_key: ${{ secrets.EC2_PEM_KEY }}
+      #     ec2_host: ${{ secrets.EC2_HOST }}
+      #     ec2_user: ${{ secrets.EC2_USER }}
+      #     ecr_repository: ${{ secrets.ECR_REPOSITORY }}
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     aws_region: ${{ secrets.AWS_REGION }}
+      #     docker_compose_service: 'billets-web'
+      #     docker_compose_service_env_path: ./apps/billets-web/.env
