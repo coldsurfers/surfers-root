@@ -10,6 +10,9 @@ inputs:
   github_token:
     description: 'github token for ci'
     required: true
+  docker_image_tag:
+    description: 'docker image tag'
+    required: true
 
 runs:
   using: 'composite'
@@ -30,6 +33,8 @@ runs:
       env:
         ECR_REMOTE_HOST: ${{ inputs.aws_ecr_repository }}
         GITHUB_TOKEN: ${{ inputs.github_token }}
+        ECR_SERVICE_NAME: ${{ inputs.docker_compose_service }}
+        ECR_IMAGE_TAG: ${{ inputs.docker_image_tag }}
       run: |
         docker-compose -f ./docker/docker-compose.yml build ${{ inputs.docker_compose_service }}
 
