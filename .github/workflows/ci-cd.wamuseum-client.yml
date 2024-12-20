@@ -35,21 +35,14 @@ jobs:
           docker_compose_service: 'wamuseum-client'
           aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          docker_image_tag: ${{ env.TAG_NAME }}
 
-      - name: Terraform apply
-        uses: ./.github/workflows/composites/terraform-apply
+      - name: Update ECS
+        uses: ./.github/workflows/composites/update-ecs-task-def-service
         with:
-          working_directory: ./terraform/
-          aws_security_group_id: ${{ secrets.AWS_SECURITY_GROUP_ID }}
-
-      - name: SSH ec2 and run cli
-        uses: ./.github/workflows/composites/ssh-ec2-cli
-        with:
-          ec2_pem_key: ${{ secrets.EC2_PEM_KEY }}
-          ec2_host: ${{ secrets.EC2_HOST }}
-          ec2_user: ${{ secrets.EC2_USER }}
-          ecr_repository: ${{ secrets.ECR_REPOSITORY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          aws_region: ${{ secrets.AWS_REGION }}
-          docker_compose_service: 'wamuseum-client'
-          docker_compose_service_env_path: ./apps/wamuseum-client/.env
+          aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
+          docker_image_name: 'wamuseum-client'
+          tag_name: ${{ env.TAG_NAME }}
+          ecs_task_definition: ${{ secrets.ECS_TASK_DEFINITION }}
+          ecs_service: ${{ secrets.ECS_SERVICE }}
+          ecs_cluster: ${{ secrets.ECS_CLUSTER }}

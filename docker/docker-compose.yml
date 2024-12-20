@@ -35,7 +35,7 @@ services:
       args:
         GITHUB_TOKEN: '${GITHUB_TOKEN}'
         PORT: 4002
-    image: '${ECR_REMOTE_HOST}/coldsurf/wamuseum-client:latest'
+    image: '${ECR_REMOTE_HOST}/coldsurf/${ECR_SERVICE_NAME}:${ECR_IMAGE_TAG}'
     env_file:
       - ../apps/wamuseum-client/.env
     ports:
