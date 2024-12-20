@@ -52,7 +52,7 @@ jobs:
             --query "taskDefinition" \
             --output json > task-def.json
 
-          jq --arg IMAGE "$NEW_IMAGE_URI" '.containerDefinitions[0].image = $IMAGE | del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' task-def.json > new-task-def.json
+          jq --arg IMAGE "$NEW_IMAGE_URI" '.containerDefinitions[3].image = $IMAGE | del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' task-def.json > new-task-def.json
 
           NEW_TASK_DEFINITION_ARN=$(aws ecs register-task-definition \
             --cli-input-json file://new-task-def.json \
