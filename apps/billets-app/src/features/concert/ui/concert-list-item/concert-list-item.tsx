@@ -4,8 +4,12 @@ import { Text } from '@coldsurfers/ocean-road/native'
 import { useCallback } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import palettes from '../../../../lib/palettes'
 import useSubscribedConcertQuery from '../../../../lib/react-query/queries/useSubscribedConcertQuery'
+import {
+  getConcertListBottomWrapperDynamicStyles,
+  getConcertListItemWrapperDynamicStyles,
+  getConcertListThumbnailWrapperDynamicStyles,
+} from './concert-list-item.utils'
 
 export const ConcertListItem = ({
   concertId,
@@ -40,25 +44,10 @@ export const ConcertListItem = ({
   }, [onPressSubscribe, subscribedConcertData, concertId])
 
   return (
-    <Pressable
-      onPress={handlePress}
-      style={[
-        styles.concertListItem,
-        {
-          width: size === 'small' ? 140 : '100%',
-          padding: size === 'small' ? 0 : 12,
-        },
-      ]}
-    >
+    <Pressable onPress={handlePress} style={[styles.concertListItem, getConcertListItemWrapperDynamicStyles(size)]}>
       <FastImage
         source={{ uri: thumbnailUrl }}
-        style={[
-          styles.concertThumbnail,
-          {
-            borderBottomLeftRadius: size === 'small' ? 0 : 8,
-            borderBottomRightRadius: size === 'small' ? 0 : 8,
-          },
-        ]}
+        style={[styles.concertThumbnail, getConcertListThumbnailWrapperDynamicStyles(size)]}
       >
         {onPressSubscribe && (
           <View style={styles.subscribeBtnWrapper}>
@@ -66,17 +55,7 @@ export const ConcertListItem = ({
           </View>
         )}
       </FastImage>
-      <View
-        style={[
-          styles.bottom,
-          {
-            paddingLeft: size === 'small' ? 8 : 0,
-            paddingRight: size === 'small' ? 8 : 0,
-            marginTop: size === 'small' ? 8 : 16,
-            marginBottom: size === 'small' ? 8 : 4,
-          },
-        ]}
-      >
+      <View style={[styles.bottom, getConcertListBottomWrapperDynamicStyles(size)]}>
         <View style={styles.concertInfoWrapper}>
           <Text
             numberOfLines={size === 'small' ? 2 : 0}
@@ -120,6 +99,29 @@ export const ConcertListItem = ({
   )
 }
 
+ConcertListItem.Skeleton = ({ size = 'large' }: { size?: 'small' | 'large' }) => {
+  return (
+    <Pressable style={[styles.concertListItem, getConcertListItemWrapperDynamicStyles(size)]}>
+      <View
+        style={[styles.concertThumbnail, getConcertListThumbnailWrapperDynamicStyles(size), styles.skeletonBackground]}
+      />
+      <View style={[styles.bottom, getConcertListBottomWrapperDynamicStyles(size)]}>
+        <View style={{ width: '100%' }}>
+          <View style={styles.skeletonTitle} />
+          <View
+            style={[
+              styles.skeletonSubtitle,
+              {
+                marginTop: size === 'small' ? 4 : 8,
+              },
+            ]}
+          />
+        </View>
+      </View>
+    </Pressable>
+  )
+}
+
 const styles = StyleSheet.create({
   concertListItem: {
     width: '100%',
@@ -151,20 +153,24 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   concertInfoWrapper: {},
-  concertSaveButton: {
-    marginLeft: 'auto',
-    borderWidth: 1,
-    borderRadius: 18,
-    borderColor: palettes.gray['300'],
-    width: 36,
-    height: 36,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  concertSaveButtonIcon: { fontSize: 24 },
   bottom: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   subscribeBtnWrapper: { position: 'absolute', right: 12, bottom: 12 },
+  skeletonBackground: {
+    backgroundColor: colors.oc.gray[3].value,
+  },
+  skeletonTitle: {
+    width: '80%',
+    backgroundColor: colors.oc.gray[3].value,
+    height: 24,
+    borderRadius: 8,
+  },
+  skeletonSubtitle: {
+    width: '20%',
+    backgroundColor: colors.oc.gray[3].value,
+    height: 24,
+    borderRadius: 8,
+  },
 })

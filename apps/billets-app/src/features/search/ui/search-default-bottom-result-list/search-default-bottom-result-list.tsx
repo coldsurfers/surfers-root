@@ -10,23 +10,16 @@ import { ListRenderItem, StyleSheet } from 'react-native'
 import { SearchItem } from '../search-item'
 import { SearchItemThumbnail } from '../search-item-thumbnail'
 
-export const SearchDefaultBottomResultList = ({
-  latitude,
-  longitude,
-}: {
-  latitude: number | null
-  longitude: number | null
-}) => {
+export const SearchDefaultBottomResultList = ({ latitude, longitude }: { latitude: number; longitude: number }) => {
   const navigation = useSearchScreenNavigation()
   const { data: concertList } = useConcertListQuery(
     {
       latLng: {
-        latitude: latitude!,
-        longitude: longitude!,
+        latitude,
+        longitude,
       },
     },
     {
-      enabled: !!latitude && !!longitude,
       refetchOnWindowFocus: false,
     },
   )
