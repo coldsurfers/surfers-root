@@ -1,4 +1,4 @@
-import { SubscribedConcertList } from '@/features'
+import { SubscribedConcertList, SubscribedConcertListSkeleton } from '@/features'
 import { $api } from '@/lib/api/openapi-client'
 import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import { CommonScreenLayout, MyScreenLandingLayout } from '@/ui'
@@ -116,7 +116,11 @@ const SuspenseMyScreen = () => {
           )
         })
         .with('saved', () => {
-          return <SubscribedConcertList onPressItem={onPressSubscribedConcertListItem} />
+          return (
+            <Suspense fallback={<SubscribedConcertListSkeleton />}>
+              <SubscribedConcertList onPressItem={onPressSubscribedConcertListItem} />
+            </Suspense>
+          )
         })
         .exhaustive()
     },
