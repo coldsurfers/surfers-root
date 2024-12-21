@@ -1,13 +1,12 @@
 import { SubscribedConcertList } from '@/features'
 import { $api } from '@/lib/api/openapi-client'
-import { CommonScreenLayout } from '@/ui'
+import { CommonScreenLayout, MyScreenLandingLayout } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, ProfileThumbnail, Spinner, Text } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Alert, Pressable, SectionList, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import { match } from 'ts-pattern'
 import { AuthContext } from '../../lib/contexts/auth-context/auth-context'
-import palettes from '../../lib/palettes'
 import { useMyScreenNavigation } from './my-screen.hooks'
 import { MyScreenSettingSectionListData, MyScreenSettingSectionListSectionT } from './my-screen.types'
 
@@ -196,15 +195,7 @@ export const MyScreen = () => {
       />
     </CommonScreenLayout>
   ) : (
-    <CommonScreenLayout style={styles.wrapper}>
-      <Text weight="bold" style={styles.loginText}>
-        {`🎉\n예정된 많은\n공연을\n놓치지 마세요`}
-      </Text>
-      <Text style={styles.loginSubText}>{`로그인 후 찜하기를 사용해보세요`}</Text>
-      <Button style={styles.loginButton} onPress={onPressLoginButton}>
-        로그인 / 회원가입
-      </Button>
-    </CommonScreenLayout>
+    <MyScreenLandingLayout onPressLoginButton={onPressLoginButton} />
   )
 }
 
@@ -214,11 +205,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.oc.gray[1].value,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  loginButtonTitle: {
-    color: colors.oc.white.value,
-    fontWeight: '700',
-    fontSize: 14,
   },
   sectionListContentContainer: {
     backgroundColor: colors.oc.gray[1].value,
@@ -234,17 +220,6 @@ const styles = StyleSheet.create({
   },
   itemText: { fontWeight: '700', fontSize: 18 },
   sectionList: { backgroundColor: colors.oc.gray[1].value },
-  loginButton: {
-    backgroundColor: palettes.lightblue[500],
-    marginTop: 16,
-  },
-  loginText: { fontSize: 24, textAlign: 'center' },
-  loginSubText: {
-    fontSize: 16,
-    textAlign: 'center',
-    color: palettes.gray[500],
-    marginTop: 8,
-  },
   profileItem: {
     flexDirection: 'row',
     alignItems: 'center',
