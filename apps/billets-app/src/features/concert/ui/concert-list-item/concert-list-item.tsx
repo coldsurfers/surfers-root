@@ -108,6 +108,7 @@ ConcertListItem.Skeleton = ({ size = 'large' }: { size?: 'small' | 'large' }) =>
       <View style={[styles.bottom, getConcertListBottomWrapperDynamicStyles(size)]}>
         <View style={{ width: '100%' }}>
           <View style={styles.skeletonTitle} />
+          {size === 'small' && <View style={styles.skeletonTitle} />}
           <View
             style={[
               styles.skeletonSubtitle,
