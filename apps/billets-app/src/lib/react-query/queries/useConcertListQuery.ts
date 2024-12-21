@@ -1,4 +1,4 @@
-import { InfiniteData, UseInfiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query'
+import { InfiniteData, useSuspenseInfiniteQuery, UseSuspenseInfiniteQueryOptions } from '@tanstack/react-query'
 import { LatLng } from '../../../types/LatLng'
 import { fetchClient } from '../../api/openapi-client'
 import { v1QueryKeyFactory } from '../../query-key-factory'
@@ -28,7 +28,7 @@ type TPageParam = number
 function useConcertListQuery(
   params: TQueryParams,
   options?: Partial<
-    UseInfiniteQueryOptions<
+    UseSuspenseInfiniteQueryOptions<
       TQueryData,
       TError,
       InfiniteData<TQueryData, TQueryParams>,
@@ -38,7 +38,7 @@ function useConcertListQuery(
     >
   >,
 ) {
-  return useInfiniteQuery<TQueryData, TError, InfiniteData<TQueryData, TQueryParams>, TQueryKey, TPageParam>({
+  return useSuspenseInfiniteQuery<TQueryData, TError, InfiniteData<TQueryData, TQueryParams>, TQueryKey, TPageParam>({
     ...options,
     initialPageParam: 0,
     queryKey: v1QueryKeyFactory.concerts.list(params).queryKey,

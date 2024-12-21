@@ -13,10 +13,11 @@ export type MyScreenSettingSectionListSectionT = {
     onPress: () => void
   }
 }
+export type MyScreenSettingSectionListSectionDataT = {
+  title: string
+  onPress: () => void
+}
 export type MyScreenSettingSectionListData = SectionListData<
-  {
-    title: string
-    onPress: () => void
-  },
+  MyScreenSettingSectionListSectionDataT,
   MyScreenSettingSectionListSectionT
 >

@@ -1,6 +1,6 @@
 import { fetchClient } from '@/lib/api/openapi-client'
 import { v1QueryKeyFactory } from '@/lib/query-key-factory'
-import { InfiniteData, useInfiniteQuery, UseInfiniteQueryOptions } from '@tanstack/react-query'
+import { InfiniteData, useSuspenseInfiniteQuery, UseSuspenseInfiniteQueryOptions } from '@tanstack/react-query'
 
 const DEFAULT_SIZE = 20
 
@@ -23,11 +23,18 @@ type TQueryKey = (typeof v1QueryKeyFactory)['concerts']['subscribedList']['query
 type TPageParam = number
 
 type Options = Partial<
-  UseInfiniteQueryOptions<TQueryData, TError, InfiniteData<TQueryData, TQueryParams>, TQueryData, TQueryKey, TPageParam>
+  UseSuspenseInfiniteQueryOptions<
+    TQueryData,
+    TError,
+    InfiniteData<TQueryData, TQueryParams>,
+    TQueryData,
+    TQueryKey,
+    TPageParam
+  >
 >
 
 const useSubscribedConcertListQuery = (options?: Options) => {
-  return useInfiniteQuery({
+  return useSuspenseInfiniteQuery({
     ...options,
     initialPageParam: 0,
     queryKey: v1QueryKeyFactory.concerts.subscribedList.queryKey,

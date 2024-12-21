@@ -22,6 +22,9 @@ export const SearchBottomList = memo(
     if (locationConcerts.length > 0) {
       return <SearchLocationConcertList locationConcerts={locationConcerts} />
     }
-    return <SearchDefaultBottomResultList latitude={latitude} longitude={longitude} />
+    if (latitude !== null && longitude !== null) {
+      return <SearchDefaultBottomResultList latitude={latitude} longitude={longitude} />
+    }
+    return null
   },
 )

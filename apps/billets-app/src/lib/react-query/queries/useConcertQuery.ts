@@ -1,4 +1,4 @@
-import { UseQueryOptions, useQuery } from '@tanstack/react-query'
+import { UseSuspenseQueryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { fetchClient } from '../../api/openapi-client'
 import { v1QueryKeyFactory } from '../../query-key-factory'
 
@@ -20,9 +20,9 @@ type TQueryKey = ReturnType<(typeof v1QueryKeyFactory)['concerts']['detail']>['q
 
 function useConcertQuery(
   variables: { concertId: string },
-  options?: UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
+  options?: UseSuspenseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
 ) {
-  return useQuery<TQueryFnData, TError, TData, TQueryKey>({
+  return useSuspenseQuery<TQueryFnData, TError, TData, TQueryKey>({
     ...options,
     queryFn: () => queryFn(variables),
     queryKey: v1QueryKeyFactory.concerts.detail(variables).queryKey,

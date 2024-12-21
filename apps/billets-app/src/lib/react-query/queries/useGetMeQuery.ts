@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { fetchClient } from '../../api/openapi-client'
 import { v1QueryKeyFactory } from '../../query-key-factory'
 
@@ -8,10 +8,9 @@ const queryFn = async () => {
 }
 
 function useGetMeQuery() {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: useGetMeQuery.extractKey(),
     queryFn,
-    retry: false,
   })
 }
 

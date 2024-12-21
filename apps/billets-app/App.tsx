@@ -1,9 +1,9 @@
-import { AuthContextProvider, TabBarVisibleContextProvider, useFirebaseAnalytics, useFirebaseCrashlytics } from '@/lib'
+import { AuthContextProvider, useFirebaseAnalytics, useFirebaseCrashlytics } from '@/lib'
 import { CommonScreenLayout } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
-import { Text } from '@coldsurfers/ocean-road/native'
+import { Spinner, Text } from '@coldsurfers/ocean-road/native'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import React, { PropsWithChildren, useEffect, useState } from 'react'
+import React, { PropsWithChildren, Suspense, useEffect, useState } from 'react'
 import { Platform, StatusBar, View } from 'react-native'
 import BootSplash from 'react-native-bootsplash'
 import codePush, { DownloadProgress, RemotePackage } from 'react-native-code-push'
@@ -112,16 +112,16 @@ const BootSplashAwaiter = ({ children }: PropsWithChildren) => {
 const App = () => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <TabBarVisibleContextProvider>
-        <StatusBar translucent barStyle="dark-content" />
-        <QueryClientProvider client={queryClient}>
+      <StatusBar translucent barStyle="dark-content" />
+      <QueryClientProvider client={queryClient}>
+        <Suspense fallback={<Spinner positionCenter />}>
           <AuthContextProvider>
             <BootSplashAwaiter>
               <AppContainer />
             </BootSplashAwaiter>
           </AuthContextProvider>
-        </QueryClientProvider>
-      </TabBarVisibleContextProvider>
+        </Suspense>
+      </QueryClientProvider>
     </GestureHandlerRootView>
   )
 }
