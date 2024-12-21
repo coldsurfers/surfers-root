@@ -4,12 +4,16 @@ import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import { CommonScreenLayout, MyScreenLandingLayout } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, ProfileThumbnail, Spinner, Text } from '@coldsurfers/ocean-road/native'
-import React, { Suspense, useCallback, useContext, useEffect, useState } from 'react'
+import React, { Suspense, useCallback, useContext, useMemo } from 'react'
 import { Alert, Pressable, SectionList, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import { match } from 'ts-pattern'
 import { AuthContext } from '../../lib/contexts/auth-context/auth-context'
 import { useMyScreenNavigation } from './my-screen.hooks'
-import { MyScreenSettingSectionListData, MyScreenSettingSectionListSectionT } from './my-screen.types'
+import {
+  MyScreenSettingSectionListData,
+  MyScreenSettingSectionListSectionDataT,
+  MyScreenSettingSectionListSectionT,
+} from './my-screen.types'
 
 const ListFooterComponent = () => {
   const { logout } = useContext(AuthContext)
@@ -56,7 +60,6 @@ const SuspenseMyScreen = () => {
   const navigation = useMyScreenNavigation()
   const { logout } = useContext(AuthContext)
   const { data: user } = useGetMeQuery()
-  const [settingSections, setSettingSections] = useState<Array<MyScreenSettingSectionListData>>([])
   const onPressLoginButton = useCallback(() => {
     navigation.navigate('LoginStackNavigation', {
       screen: 'LoginSelectionScreen',
@@ -120,12 +123,11 @@ const SuspenseMyScreen = () => {
     [onPressSubscribedConcertListItem],
   )
 
-  useEffect(() => {
+  const sections = useMemo<MyScreenSettingSectionListData[]>(() => {
     if (!user) {
-      return
+      return []
     }
-
-    setSettingSections([
+    return [
       {
         title: 'profile',
         uiTitle: '🙂 마이 프로필',
@@ -165,7 +167,6 @@ const SuspenseMyScreen = () => {
                       screen: 'HomeScreen',
                       params: {},
                     })
-                    setSettingSections([])
                   },
                 },
               ])
@@ -173,15 +174,15 @@ const SuspenseMyScreen = () => {
           },
         ],
       },
-    ])
+    ]
   }, [logout, navigation, user])
 
   return user ? (
     <CommonScreenLayout>
-      <SectionList
+      <SectionList<MyScreenSettingSectionListSectionDataT, MyScreenSettingSectionListSectionT>
         contentContainerStyle={styles.sectionListContentContainer}
         style={styles.sectionList}
-        sections={settingSections}
+        sections={sections}
         stickySectionHeadersEnabled={false}
         ListFooterComponent={ListFooterComponent}
         renderSectionHeader={renderSectionHeader}
