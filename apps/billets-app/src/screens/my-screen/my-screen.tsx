@@ -1,9 +1,10 @@
 import { SubscribedConcertList } from '@/features'
 import { $api } from '@/lib/api/openapi-client'
+import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import { CommonScreenLayout, MyScreenLandingLayout } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, ProfileThumbnail, Spinner, Text } from '@coldsurfers/ocean-road/native'
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { Suspense, useCallback, useContext, useEffect, useState } from 'react'
 import { Alert, Pressable, SectionList, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import { match } from 'ts-pattern'
 import { AuthContext } from '../../lib/contexts/auth-context/auth-context'
@@ -51,9 +52,10 @@ const ListFooterComponent = () => {
   )
 }
 
-export const MyScreen = () => {
+const SuspenseMyScreen = () => {
   const navigation = useMyScreenNavigation()
-  const { user, logout, isLoading } = useContext(AuthContext)
+  const { logout } = useContext(AuthContext)
+  const { data: user } = useGetMeQuery()
   const [settingSections, setSettingSections] = useState<Array<MyScreenSettingSectionListData>>([])
   const onPressLoginButton = useCallback(() => {
     navigation.navigate('LoginStackNavigation', {
@@ -174,14 +176,6 @@ export const MyScreen = () => {
     ])
   }, [logout, navigation, user])
 
-  if (isLoading) {
-    return (
-      <View style={styles.wrapper}>
-        <Spinner />
-      </View>
-    )
-  }
-
   return user ? (
     <CommonScreenLayout>
       <SectionList
@@ -196,6 +190,14 @@ export const MyScreen = () => {
     </CommonScreenLayout>
   ) : (
     <MyScreenLandingLayout onPressLoginButton={onPressLoginButton} />
+  )
+}
+
+export const MyScreen = () => {
+  return (
+    <Suspense fallback={<Spinner positionCenter />}>
+      <SuspenseMyScreen />
+    </Suspense>
   )
 }
 
