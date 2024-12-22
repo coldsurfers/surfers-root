@@ -59,7 +59,6 @@ export class ConcertDTO {
         },
       },
       orderBy: {
-        // createdAt: orderBy === 'latest' ? 'desc' : 'asc',
         date: 'asc',
       },
       take,
