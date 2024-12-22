@@ -19,6 +19,9 @@ inputs:
   ecs_cluster:
     description: 'AWS ECS cluster to update'
     required: true
+  ecs_container_definition_index:
+    description: 'AWS ECS container definition index to update'
+    required: true
 
 runs:
   using: 'composite'
@@ -34,7 +37,7 @@ runs:
             --query "taskDefinition" \
             --output json > task-def.json
 
-        jq --arg IMAGE "$NEW_IMAGE_URI" '.containerDefinitions[3].image = $IMAGE | del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' task-def.json > new-task-def.json
+        jq --arg IMAGE "$NEW_IMAGE_URI" '.containerDefinitions[${{ inputs.ecs_container_definition_index }}].image = $IMAGE | del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' task-def.json > new-task-def.json
 
         NEW_TASK_DEFINITION_ARN=$(aws ecs register-task-definition \
             --cli-input-json file://new-task-def.json \
