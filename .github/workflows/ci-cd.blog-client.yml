@@ -59,3 +59,4 @@ jobs:
           ecs_task_definition: ${{ secrets.ECS_TASK_DEFINITION }}
           ecs_service: ${{ secrets.ECS_SERVICE }}
           ecs_cluster: ${{ secrets.ECS_CLUSTER }}
+          ecs_container_definition_index: 2
