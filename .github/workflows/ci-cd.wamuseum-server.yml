@@ -67,6 +67,6 @@ jobs:
           docker_image_name: 'wamuseum-server'
           tag_name: ${{ env.TAG_NAME }}
           ecs_task_definition: ${{ secrets.ECS_TASK_DEFINITION }}
-          ecs_service: ${{ secrets.ECS_SERVICE }}
+          ecs_service: 'wamuseum-server'
           ecs_cluster: ${{ secrets.ECS_CLUSTER }}
           ecs_container_definition_index: 0
