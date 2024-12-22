@@ -48,6 +48,7 @@ jobs:
           docker_compose_service: 'blog-client'
           aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          docker_image_tag: ${{ env.TAG_NAME }}
 
       - name: Update ECS
         uses: ./.github/workflows/composites/update-ecs-task-def-service
