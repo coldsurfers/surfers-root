@@ -49,6 +49,6 @@ jobs:
           docker_image_name: 'billets-web'
           tag_name: ${{ env.TAG_NAME }}
           ecs_task_definition: ${{ secrets.ECS_TASK_DEFINITION }}
-          ecs_service: ${{ secrets.ECS_SERVICE }}
+          ecs_service: 'billets-web'
           ecs_cluster: ${{ secrets.ECS_CLUSTER }}
           ecs_container_definition_index: 3
