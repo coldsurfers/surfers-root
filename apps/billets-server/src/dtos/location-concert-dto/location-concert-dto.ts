@@ -19,6 +19,12 @@ export class LocationConcertDTO {
             },
           },
         },
+        date: {
+          gte: new Date(),
+        },
+      },
+      orderBy: {
+        date: 'asc',
       },
       include: {
         venues: {
