@@ -1,5 +1,5 @@
 import { Copyright } from '@prisma/client'
-import { prisma } from '../..'
+import { prisma } from '../../libs/db/db.utils'
 import { CopyrightDTOSerialized } from './copyright-dto.types'
 
 export class CopyrightDTO {
