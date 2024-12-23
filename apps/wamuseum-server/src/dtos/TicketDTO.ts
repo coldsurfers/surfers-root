@@ -1,6 +1,6 @@
 import { Ticket } from '@prisma/client'
-import { prisma } from '..'
 import { Ticket as TicketResolverType } from '../../gql/resolvers-types'
+import { prisma } from '../libs/db/db.utils'
 
 export default class TicketDTO {
   props: Partial<Ticket>

@@ -1,6 +1,6 @@
 import { Venue } from '@prisma/client'
-import { prisma } from '..'
 import { Venue as VenueResolverType } from '../../gql/resolvers-types'
+import { prisma } from '../libs/db/db.utils'
 
 type VenueDTOProps = Partial<Venue>
 
