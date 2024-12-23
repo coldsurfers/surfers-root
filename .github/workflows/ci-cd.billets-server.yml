@@ -70,6 +70,9 @@ jobs:
       - name: install dependencies
         run: yarn install
 
+      - name: build app
+        run: yarn workspace @coldsurfers/billets-server build
+
       - name: serverless login
         run: |
           SERVERLESS_ACCESS_KEY=${{ secrets.SERVERLESS_ACCESS_KEY }}
