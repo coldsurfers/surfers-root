@@ -70,6 +70,11 @@ jobs:
       - name: install dependencies
         run: yarn install
 
+      - name: serverless login
+        run: |
+          SERVERLESS_ACCESS_KEY=${{ secrets.SERVERLESS_ACCESS_KEY }}
+          echo "SERVERLESS_ACCESS_KEY=$SERVERLESS_ACCESS_KEY" >> $GITHUB_ENV
+
       - name: run serverless deploy
         working-directory: ./apps/billets-server
         run: yarn serverless:deploy:prod
