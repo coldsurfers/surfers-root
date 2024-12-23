@@ -1,10 +1,11 @@
-import { useCallback, useMemo, useState } from 'react'
-import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
-import useGetMeQuery from '../../../../lib/react-query/queries/useGetMeQuery'
+import { ConcertListItem } from '@/features/concert'
+import { Suspense, useCallback, useMemo, useState } from 'react'
+import { FlatList, ListRenderItem, View } from 'react-native'
 import useSubscribedConcertListQuery from '../../../../lib/react-query/queries/useSubscribedConcertListQuery'
 import { SubscribedConcertListItem } from '../subscribed-concert-list-item'
+import { subscribedConcertListStyles } from './subscribed-concert-list.styles'
 
-const ItemSeparator = () => <View style={styles.itemSeparator} />
+const ItemSeparator = () => <View style={subscribedConcertListStyles.itemSeparator} />
 
 export function SubscribedConcertList({
   onPressItem,
@@ -16,7 +17,6 @@ export function SubscribedConcertList({
   listHeaderComponent?: React.ComponentType<unknown>
 }) {
   const [isRefreshing, setIsRefreshing] = useState(false)
-  const { data: meData } = useGetMeQuery()
   const {
     data: concertListData,
     fetchNextPage,
@@ -25,20 +25,20 @@ export function SubscribedConcertList({
     hasNextPage,
     isPending,
     refetch,
-  } = useSubscribedConcertListQuery({
-    enabled: !!meData,
-  })
+  } = useSubscribedConcertListQuery()
   const listData = useMemo(() => {
     return concertListData?.pages.flatMap((page) => page).filter((v) => !!v) ?? []
   }, [concertListData])
   const renderItem = useCallback<ListRenderItem<(typeof listData)[number]>>(
     (info) => {
       return (
-        <SubscribedConcertListItem
-          concertId={info.item.concertId}
-          onPress={onPressItem}
-          size={horizontal ? 'small' : 'large'}
-        />
+        <Suspense fallback={<ConcertListItem.Skeleton size={horizontal ? 'small' : 'large'} />}>
+          <SubscribedConcertListItem
+            concertId={info.item.concertId}
+            onPress={onPressItem}
+            size={horizontal ? 'small' : 'large'}
+          />
+        </Suspense>
       )
     },
     [horizontal, onPressItem],
@@ -67,7 +67,7 @@ export function SubscribedConcertList({
       keyExtractor={(item, index) => `${item.concertId}-${index}`}
       renderItem={renderItem}
       ItemSeparatorComponent={ItemSeparator}
-      contentContainerStyle={styles.contentContainer}
+      contentContainerStyle={subscribedConcertListStyles.contentContainer}
       ListHeaderComponent={listHeaderComponent}
       onEndReached={horizontal ? undefined : onEndReached}
       onRefresh={horizontal ? undefined : onRefresh}
@@ -78,13 +78,3 @@ export function SubscribedConcertList({
     />
   )
 }
-
-const styles = StyleSheet.create({
-  contentContainer: {
-    paddingHorizontal: 16,
-    marginTop: 12,
-  },
-  itemSeparator: {
-    width: 10,
-  },
-})

@@ -1,4 +1,10 @@
-import { ConcertMapView, mapPointSchema, useUserCurrentLocationStore } from '@/features'
+import {
+  ConcertMapView,
+  getZoomLevel,
+  mapPointSchema,
+  useMapRegionWithZoomLevel,
+  useUserCurrentLocationStore,
+} from '@/features'
 import { getViewMode, SearchStoreLocationConcert, SearchStoreSnapIndex, useSearchStore } from '@/features/search/store'
 import { FULLY_EXPANDED_SNAP_INDEX } from '@/features/search/store/search-store.constants'
 import { SearchBottomList } from '@/features/search/ui'
@@ -12,6 +18,7 @@ import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Keyboard, KeyboardAvoidingView, KeyboardAvoidingViewProps, Platform, StyleSheet, View } from 'react-native'
+import { Region } from 'react-native-maps'
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { z } from 'zod'
 import { useShallow } from 'zustand/shallow'
@@ -43,9 +50,10 @@ export const SearchScreen = () => {
       keyword: state.keyword,
     })),
   )
-  const { setSelectedLocationFilter } = useSearchStore(
+  const { setSelectedLocationFilter, selectedLocationFilter } = useSearchStore(
     useShallow((state) => ({
       setSelectedLocationFilter: state.setSelectedLocationFilter,
+      selectedLocationFilter: state.selectedLocationFilter,
     })),
   )
   const { viewMode, setViewMode, snapIndex, setSnapIndex } = useSearchStore(
@@ -79,6 +87,11 @@ export const SearchScreen = () => {
       longitude: state.longitude ? +`${state.longitude}`.substring(0, 8) : null,
     })),
   )
+
+  const { mapRegionWithZoomLevel, setMapRegionWithZoomLevel, initialize } = useMapRegionWithZoomLevel({
+    latitude: latitude ?? 37.78825,
+    longitude: longitude ?? -122.4324,
+  })
 
   useEffect(() => {
     const keyboardWillShowEmitterSubscription = Keyboard.addListener('keyboardWillShow', (e) => {
@@ -149,14 +162,36 @@ export const SearchScreen = () => {
     [setLocationConcerts],
   )
 
+  const onRegionChangeComplete = useCallback(
+    (region: Region) => {
+      setMapRegionWithZoomLevel({
+        ...region,
+        zoomLevel: getZoomLevel(region.latitudeDelta),
+      })
+    },
+    [setMapRegionWithZoomLevel],
+  )
+
+  useEffect(() => {
+    if (selectedLocationFilter === 'current-location' || selectedLocationFilter === null) {
+      initialize({
+        latitude: latitude ?? 37.78825,
+        longitude: longitude ?? -122.4324,
+      })
+      setLocationConcerts(null)
+    }
+  }, [initialize, latitude, longitude, selectedLocationFilter, setLocationConcerts])
+
   return (
     <BottomSheetModalProvider>
       <KeyboardAvoidWrapper>
         <CommonScreenLayout style={styles.wrapper}>
           {viewMode === 'map' && (
             <ConcertMapView
+              mapRegionWithZoomLevel={mapRegionWithZoomLevel}
               onChangeVisiblePoints={onChangeVisiblePoints}
               onChangeLocationConcerts={onChangeLocationConcerts}
+              onRegionChangeComplete={onRegionChangeComplete}
             />
           )}
           <BottomSheet
