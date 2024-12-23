@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-server",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "license": "MIT",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,10 @@
     "prisma:migrate-dev": "yarn prisma migrate dev --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "prisma:studio": "yarn prisma studio --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma",
-    "vercel:sync-env": "vercel env pull"
+    "vercel:sync-env": "vercel env pull",
+    "serverless:offline": "npx serverless offline --httpPort 3001",
+    "serverless:deploy:dev": "yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage dev",
+    "serverless:deploy:prod": "yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage prod"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -30,6 +33,7 @@
   "dependencies": {
     "@coldsurfers/prisma-schema": "workspace:*",
     "@coldsurfers/zod-schema": "workspace:*",
+    "@fastify/aws-lambda": "^5.0.0",
     "@fastify/cors": "*",
     "@fastify/swagger": "^9.0.0",
     "@fastify/swagger-ui": "^5.0.1",
@@ -66,6 +70,9 @@
     "pm2": "*",
     "prettier": "*",
     "prisma": "*",
+    "serverless-dotenv-plugin": "^6.0.0",
+    "serverless-offline": "^14.4.0",
+    "serverless-plugin-monorepo": "^0.11.0",
     "ts-node-dev": "^2.0.0",
     "tsup": "^8.3.5",
     "typescript": "*"
