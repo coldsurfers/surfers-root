@@ -1,7 +1,7 @@
 import { Concert } from '@prisma/client'
 import { GraphQLError } from 'graphql'
-import { prisma } from '..'
 import { Concert as ConcertResolverType } from '../../gql/resolvers-types'
+import { prisma } from '../libs/db/db.utils'
 
 export default class ConcertDTO {
   props: Partial<Concert>

@@ -1,5 +1,5 @@
 import { ArtistProfileImage } from '@prisma/client'
-import { prisma } from '../..'
+import { prisma } from '../../libs/db/db.utils'
 import {
   ArtistProfileImageDTOSerialized,
   artistProfileImageDTOSerializedSchema,

@@ -8,72 +8,70 @@ import resolvers from '../gql/resolvers'
 import typeDefs from '../gql/type-defs'
 import FileUploadController from '../routes/file-upload/file-upload.controller'
 
-export const fastify = Fastify({
-  logger: process.env.NODE_ENV === 'development',
-})
+export async function startApp() {
+  const fastify = Fastify({
+    logger: process.env.NODE_ENV === 'development',
+  })
+  fastify.register(cors, {
+    allowedHeaders: ['Authorization', 'Content-Type'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    origin: ['http://localhost:3000', 'https://wamuseum.coldsurf.io'],
+  })
 
-fastify.register(
-  async (instance, opts, done) => {
-    const apollo = new ApolloServer<GraphqlContext>({
-      typeDefs,
-      resolvers,
-      plugins: [fastifyApolloDrainPlugin(fastify)],
-      introspection: process.env.NODE_ENV === 'development',
-    })
-    await apollo.start()
-    await instance.register(cors, {
-      allowedHeaders: ['Authorization', 'Content-Type'],
-      credentials: true,
-      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-      origin: ['http://localhost:3000', 'https://wamuseum.coldsurf.io'],
-    })
+  fastify.register(cookie, {
+    parseOptions: {
+      sameSite: 'none',
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== 'development',
+      domain: process.env.NODE_ENV !== 'development' ? '.coldsurf.io' : undefined,
+    },
+  })
 
-    await instance.register(cookie, {
-      parseOptions: {
-        sameSite: 'none',
-        httpOnly: true,
-        secure: process.env.NODE_ENV !== 'development',
-        domain: process.env.NODE_ENV !== 'development' ? '.coldsurf.io' : undefined,
+  fastify.route({
+    url: '/api/presigned/artist-profile-images',
+    method: ['OPTIONS', 'GET'],
+    handler: FileUploadController.getArtistProfileImagesPresigned,
+  })
+  fastify.route({
+    url: '/api/presigned/poster-thumbnails',
+    method: ['OPTIONS', 'GET'],
+    handler: FileUploadController.getPosterThumbnailsPresigned,
+  })
+  fastify.route({
+    url: '/api/health-check',
+    method: ['OPTIONS', 'GET'],
+    handler: (req, rep) => {
+      return rep.status(200).send({
+        status: 'ok',
+      })
+    },
+  })
+
+  const apollo = new ApolloServer<GraphqlContext>({
+    typeDefs,
+    resolvers,
+    plugins: [fastifyApolloDrainPlugin(fastify)],
+    introspection: process.env.IS_OFFLINE === 'true',
+  })
+
+  await apollo.start()
+
+  fastify.route({
+    url: '/api/graphql',
+    method: ['POST', 'OPTIONS', 'GET'],
+    handler: fastifyApolloHandler(apollo, {
+      context: async (request) => {
+        /**
+         * client side 에서 보낼때에는 request.cookies를 참조
+         * server side 에서 보낼때에는 request.headers를 참조
+         */
+        return {
+          token: request.cookies.accessToken ?? request.headers.authorization,
+        }
       },
-    })
+    }),
+  })
 
-    await instance.route({
-      url: '/graphql',
-      method: ['POST', 'OPTIONS', 'GET'],
-      handler: fastifyApolloHandler(apollo, {
-        context: async (request) => {
-          /**
-           * client side 에서 보낼때에는 request.cookies를 참조
-           * server side 에서 보낼때에는 request.headers를 참조
-           */
-          return {
-            token: request.cookies.accessToken ?? request.headers.authorization,
-          }
-        },
-      }),
-    })
-    await instance.route({
-      url: '/presigned/artist-profile-images',
-      method: ['OPTIONS', 'GET'],
-      handler: FileUploadController.getArtistProfileImagesPresigned,
-    })
-    await instance.route({
-      url: '/presigned/poster-thumbnails',
-      method: ['OPTIONS', 'GET'],
-      handler: FileUploadController.getPosterThumbnailsPresigned,
-    })
-    await instance.route({
-      url: '/health-check',
-      method: ['OPTIONS', 'GET'],
-      handler: (req, rep) => {
-        return rep.status(200).send({
-          status: 'ok',
-        })
-      },
-    })
-    done()
-  },
-  {
-    prefix: '/api',
-  },
-)
+  return fastify
+}
