@@ -1,6 +1,6 @@
 import { Poster } from '@prisma/client'
-import { prisma } from '..'
 import { Poster as PosterResolver } from '../../gql/resolvers-types'
+import { prisma } from '../libs/db/db.utils'
 
 type PosterDTOProps = Partial<Poster>
 

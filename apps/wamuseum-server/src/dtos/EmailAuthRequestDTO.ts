@@ -1,6 +1,6 @@
 import { EmailAuthRequest } from '@prisma/client'
-import { prisma } from '..'
 import { EmailAuthRequest as EmailAuthRequestResolverType } from '../../gql/resolvers-types'
+import { prisma } from '../libs/db/db.utils'
 import { createEmailAuthCode } from '../utils/createEmailAuthcode'
 
 export default class EmailAuthRequestDTO {

@@ -1,5 +1,5 @@
 import { Staff } from '@prisma/client'
-import { prisma } from '..'
+import { prisma } from '../libs/db/db.utils'
 
 export default class StaffDTO {
   props: Partial<Staff>

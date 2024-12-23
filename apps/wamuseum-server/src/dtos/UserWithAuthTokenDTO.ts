@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { AuthToken, User } from '@prisma/client'
-import { prisma } from '..'
 import { UserWithAuthToken } from '../../gql/resolvers-types'
+import { prisma } from '../libs/db/db.utils'
 
 type UserWithAuthTokenDTOPropsType = Partial<AuthToken> & {
   user?: Partial<User>
