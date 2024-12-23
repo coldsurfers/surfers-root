@@ -20,7 +20,9 @@
     "prisma:studio": "yarn prisma studio --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "vercel:sync-env": "vercel env pull",
-    "serverless:offline": "npx serverless offline --httpPort 3001"
+    "serverless:offline": "npx serverless offline --httpPort 3001",
+    "serverless:deploy:dev": "yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage dev",
+    "serverless:deploy:prod": "yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage prod"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
