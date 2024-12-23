@@ -12,7 +12,10 @@
     "dev:file-upload": "ts-node-dev --respawn --transpile-only ./src/dev-server/file-upload-server.ts",
     "lint": "eslint --cache \"src/**/*.{js,jsx,ts,tsx}\" \"vercel/**/*.{js,jsx,ts,tsx}\"",
     "prisma:db-push": "yarn prisma db push --schema ../../packages/prisma-schema/prisma/schema.prisma",
-    "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma"
+    "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma",
+    "serverless:offline": "npx serverless offline --httpPort 3003",
+    "serverless:deploy:dev": "yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage dev",
+    "serverless:deploy:prod": "yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage prod"
   },
   "dependencies": {
     "@apollo/server": "^4.10.0",
@@ -59,6 +62,9 @@
     "eslint": "*",
     "pm2": "*",
     "prisma": "*",
+    "serverless-dotenv-plugin": "*",
+    "serverless-offline": "*",
+    "serverless-plugin-monorepo": "*",
     "ts-node-dev": "^2.0.0",
     "tsup": "*",
     "typescript": "*"
