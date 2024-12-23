@@ -6,6 +6,7 @@ import {
   useUserCurrentLocationStore,
 } from '@/features'
 import { ConcertListItemT } from '@/features/concert/ui/concert-list/concert-list.types'
+import { useShowBottomTabBar } from '@/lib'
 import { AnimatePresence, CommonScreenLayout } from '@/ui'
 import { useScrollToTop } from '@react-navigation/native'
 import { Suspense, useCallback, useRef, useState } from 'react'
@@ -19,6 +20,7 @@ const SuspenseHomeScreen = () => {
   const navigation = useHomeScreenNavigation()
   const listRef = useRef<FlatList>(null)
   useScrollToTop(listRef)
+  useShowBottomTabBar()
 
   const [locationModalVisible, setLocationModalVisible] = useState(false)
   const { latitude, longitude } = useUserCurrentLocationStore(
