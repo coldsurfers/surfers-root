@@ -1,6 +1,6 @@
 import { User } from '@prisma/client'
-import { prisma } from '..'
 import { User as UserResolverType } from '../../gql/resolvers-types'
+import { prisma } from '../libs/db/db.utils'
 
 export default class UserDTO {
   props: Partial<User>
