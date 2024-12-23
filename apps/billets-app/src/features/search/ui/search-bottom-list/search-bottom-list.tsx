@@ -14,12 +14,12 @@ export const SearchBottomList = memo(
     debouncedSearchKeyword: string
     latitude: number | null
     longitude: number | null
-    locationConcerts: SearchStoreLocationConcert[]
+    locationConcerts: SearchStoreLocationConcert[] | null
   }) => {
     if (debouncedSearchKeyword) {
       return <SearchBottomKeywordResultList keyword={debouncedSearchKeyword} />
     }
-    if (locationConcerts.length > 0) {
+    if (Array.isArray(locationConcerts)) {
       return <SearchLocationConcertList locationConcerts={locationConcerts} />
     }
     if (latitude !== null && longitude !== null) {
