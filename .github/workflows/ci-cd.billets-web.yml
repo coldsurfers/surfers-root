@@ -44,6 +44,13 @@ jobs:
       - name: install dependencies
         run: yarn install
 
+      - name: vercel pull
+        working-directory: ./apps/billets-web
+        run: |
+          VERCEL_ORG_ID=${{ secrets.VERCEL_ORG_ID }} \
+          VERCEL_PROJECT_ID=${{ secrets.BILLETS_WEB_VERCEL_PROJECT_ID }} \
+          npx vercel pull --yes --token=${{ secrets.VERCEL_TOKEN }}
+
       - name: vercel build
         working-directory: ./apps/billets-web
         run: |
