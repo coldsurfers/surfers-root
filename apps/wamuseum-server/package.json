@@ -5,20 +5,14 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf dist && NODE_OPTIONS='--max-old-space-size=4096' tsc && cp -r ./assets ./dist/assets",
-    "build:vercel": "vercel build --prod",
+    "build": "tsup && cp -r ./assets ./build/assets",
     "codegen": "graphql-codegen --config ./gql/codegen.yml",
-    "debug:vercel": "npx vercel dev --listen 3001",
-    "debug": "NODE_ENV=development npx ts-node-dev ./src/start-server.ts",
-    "deploy:vercel": "vercel",
-    "deploy": "pm2 start ecosystem.config.js",
-    "dev": "ts-node-dev --transpile-only --respawn ./src/dev-server/gql-server.ts",
+    "dev": "tsup --watch",
+    "watch": "tsup --watch --onSuccess 'node ./build/start-server.mjs'",
     "dev:file-upload": "ts-node-dev --respawn --transpile-only ./src/dev-server/file-upload-server.ts",
     "lint": "eslint --cache \"src/**/*.{js,jsx,ts,tsx}\" \"vercel/**/*.{js,jsx,ts,tsx}\"",
     "prisma:db-push": "yarn prisma db push --schema ../../packages/prisma-schema/prisma/schema.prisma",
-    "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma",
-    "start": "node --experimental-specifier-resolution=node ./dist/index.js",
-    "vercel:sync-env": "vercel env pull"
+    "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma"
   },
   "dependencies": {
     "@apollo/server": "^4.10.0",
