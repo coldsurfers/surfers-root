@@ -15,7 +15,8 @@
     "dev:billets-web": "yarn workspace @coldsurfers/billets-web dev",
     "dev:wamuseum-server": "yarn workspace @coldsurfers/wamuseum-server debug",
     "dev:wamuseum-client": "yarn workspace @coldsurfers/wamuseum-client dev",
-    "dev:billets-server": "yarn workspace @coldsurfers/billets-server debug"
+    "dev:billets-server": "yarn workspace @coldsurfers/billets-server debug",
+    "prisma:generate": "yarn workspace @coldsurfers/prisma-schema generate"
   },
   "resolutions": {
     "typescript": "5.6.3",
