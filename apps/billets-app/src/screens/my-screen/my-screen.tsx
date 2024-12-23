@@ -1,4 +1,5 @@
 import { SubscribedConcertList, SubscribedConcertListSkeleton } from '@/features'
+import { useShowBottomTabBar } from '@/lib'
 import { $api } from '@/lib/api/openapi-client'
 import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import { CommonScreenLayout, MyScreenLandingLayout } from '@/ui'
@@ -60,6 +61,9 @@ const SuspenseMyScreen = () => {
   const navigation = useMyScreenNavigation()
   const { logout } = useContext(AuthContext)
   const { data: user } = useGetMeQuery()
+
+  useShowBottomTabBar()
+
   const onPressLoginButton = useCallback(() => {
     navigation.navigate('LoginStackNavigation', {
       screen: 'LoginSelectionScreen',
