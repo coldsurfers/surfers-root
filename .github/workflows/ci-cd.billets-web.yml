@@ -12,13 +12,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Log in to Amazon ECR
-        uses: ./.github/workflows/composites/ecr-login
-        with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: ${{ secrets.AWS_REGION }}
-          aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
+      # - name: Log in to Amazon ECR
+      #   uses: ./.github/workflows/composites/ecr-login
+      #   with:
+      #     aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws_region: ${{ secrets.AWS_REGION }}
+      #     aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
 
       - name: Create .env file from template
         run: |
@@ -28,27 +28,57 @@ jobs:
           touch "./apps/wamuseum-server/.env"
           touch "./apps/blog-client/.env"
 
-      - name: Get the tag name
-        id: get_tag
+          - name: setup node
+          uses: actions/setup-node@v2
+          with:
+            node-version: '20.16.0'
+
+      - name: corepack enable
+        run: corepack enable
+
+      - name: setup yarnrc
         run: |
-          TAG_NAME=${GITHUB_REF#refs/tags/}
-          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> $GITHUB_ENV
 
-      - name: Docker Compose build and push
-        uses: ./.github/workflows/composites/docker-compose-build
-        with:
-          docker_compose_service: 'billets-web'
-          aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          docker_image_tag: ${{ env.TAG_NAME }}
+      - name: install dependencies
+        run: yarn install
 
-      - name: Update ECS
-        uses: ./.github/workflows/composites/update-ecs-task-def-service
-        with:
-          aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
-          docker_image_name: 'billets-web'
-          tag_name: ${{ env.TAG_NAME }}
-          ecs_task_definition: ${{ secrets.ECS_TASK_DEFINITION }}
-          ecs_service: 'billets-web'
-          ecs_cluster: ${{ secrets.ECS_CLUSTER }}
-          ecs_container_definition_index: 3
+      - name: vercel build
+        working-directory: ./apps/billets-web
+        run: |
+          VERCEL_ORG_ID=${{ secrets.VERCEL_ORG_ID }} \
+          VERCEL_PROJECT_ID=${{ secrets.BILLETS_WEB_VERCEL_PROJECT_ID }} \
+          npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: vercel deploy
+        working-directory: ./apps/billets-web
+        run: |
+          VERCEL_ORG_ID=${{ secrets.VERCEL_ORG_ID }} \
+          VERCEL_PROJECT_ID=${{ secrets.BILLETS_WEB_VERCEL_PROJECT_ID }} \
+          npx vercel deploy --prod --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+
+      # - name: Get the tag name
+      #   id: get_tag
+      #   run: |
+      #     TAG_NAME=${GITHUB_REF#refs/tags/}
+      #     echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+
+      # - name: Docker Compose build and push
+      #   uses: ./.github/workflows/composites/docker-compose-build
+      #   with:
+      #     docker_compose_service: 'billets-web'
+      #     aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     docker_image_tag: ${{ env.TAG_NAME }}
+
+      # - name: Update ECS
+      #   uses: ./.github/workflows/composites/update-ecs-task-def-service
+      #   with:
+      #     aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
+      #     docker_image_name: 'billets-web'
+      #     tag_name: ${{ env.TAG_NAME }}
+      #     ecs_task_definition: ${{ secrets.ECS_TASK_DEFINITION }}
+      #     ecs_service: 'billets-web'
+      #     ecs_cluster: ${{ secrets.ECS_CLUSTER }}
+      #     ecs_container_definition_index: 3
