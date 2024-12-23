@@ -3498,7 +3498,7 @@ __metadata:
     serverless-plugin-monorepo: "npm:^0.11.0"
     ts-node-dev: "npm:^2.0.0"
     ts-pattern: "npm:*"
-    tsup: "npm:^8.3.5"
+    tsup: "npm:*"
     typescript: "npm:*"
     zod: "npm:*"
   languageName: unknown
@@ -3920,6 +3920,7 @@ __metadata:
     pm2: "npm:*"
     prisma: "npm:*"
     ts-node-dev: "npm:^2.0.0"
+    tsup: "npm:*"
     typescript: "npm:*"
     uuidv4: "npm:^6.2.13"
     zod: "npm:*"
@@ -35963,7 +35964,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsup@npm:^8.3.5":
+"tsup@npm:8.3.5":
   version: 8.3.5
   resolution: "tsup@npm:8.3.5"
   dependencies:
