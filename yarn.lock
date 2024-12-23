@@ -3513,7 +3513,9 @@ __metadata:
     "@emotion/react": "npm:*"
     "@emotion/styled": "npm:*"
     "@lukemorales/query-key-factory": "npm:*"
+    "@next/env": "npm:^15.1.2"
     "@react-oauth/google": "npm:^0.12.1"
+    "@swc/helpers": "npm:^0.5.15"
     "@tanstack/react-query": "npm:*"
     "@tosspayments/payment-widget-sdk": "npm:^0.10.2"
     "@types/node": "npm:*"
@@ -3539,6 +3541,7 @@ __metadata:
     react-notion-x: "npm:*"
     react-spinners: "npm:*"
     sharp: "npm:^0.33.5"
+    styled-jsx: "npm:^5.1.6"
     tailwindcss: "npm:^3.4.1"
     ts-node: "npm:^10.9.2"
     typescript: "npm:*"
@@ -7890,6 +7893,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@next/env@npm:^15.1.2":
+  version: 15.1.2
+  resolution: "@next/env@npm:15.1.2"
+  checksum: 10c0/07f2b258bd0e8937bfd33515c48b920491d9c281de5f1fa58c4c222dc8e7e0ad3745ca6035bfef788f07d9a39c583bc18cb0cdfbaa8c2177761d9c2bbdd9592f
+  languageName: node
+  linkType: hard
+
 "@next/eslint-plugin-next@npm:13.1.1":
   version: 13.1.1
   resolution: "@next/eslint-plugin-next@npm:13.1.1"
@@ -12227,6 +12237,15 @@ __metadata:
     "@swc/counter": "npm:^0.1.3"
     tslib: "npm:^2.4.0"
   checksum: 10c0/21a9b9cfe7e00865f9c9f3eb4c1cc5b397143464f7abee76a2c5366e591e06b0155b5aac93fe8269ef8d548df253f6fd931e9ddfc0fd12efd405f90f45506e7d
+  languageName: node
+  linkType: hard
+
+"@swc/helpers@npm:^0.5.15":
+  version: 0.5.15
+  resolution: "@swc/helpers@npm:0.5.15"
+  dependencies:
+    tslib: "npm:^2.8.0"
+  checksum: 10c0/33002f74f6f885f04c132960835fdfc474186983ea567606db62e86acd0680ca82f34647e8e610f4e1e422d1c16fce729dde22cd3b797ab1fd9061a825dabca4
   languageName: node
   linkType: hard
 
@@ -34884,6 +34903,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"styled-jsx@npm:^5.1.6":
+  version: 5.1.6
+  resolution: "styled-jsx@npm:5.1.6"
+  dependencies:
+    client-only: "npm:0.0.1"
+  peerDependencies:
+    react: ">= 16.8.0 || 17.x.x || ^18.0.0-0 || ^19.0.0-0"
+  peerDependenciesMeta:
+    "@babel/core":
+      optional: true
+    babel-plugin-macros:
+      optional: true
+  checksum: 10c0/ace50e7ea5ae5ae6a3b65a50994c51fca6ae7df9c7ecfd0104c36be0b4b3a9c5c1a2374d16e2a11e256d0b20be6d47256d768ecb4f91ab390f60752a075780f5
+  languageName: node
+  linkType: hard
+
 "styleq@npm:^0.1.3":
   version: 0.1.3
   resolution: "styleq@npm:0.1.3"
@@ -35932,7 +35967,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:2":
+"tslib@npm:2, tslib@npm:^2.8.0":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10c0/9c4759110a19c53f992d9aae23aac5ced636e99887b51b9e61def52611732872ff7668757d4e4c61f19691e36f4da981cd9485e869b4a7408d689f6bf1f14e62
