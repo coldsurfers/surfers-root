@@ -62,6 +62,11 @@ jobs:
       - name: corepack enable
         run: corepack enable
 
+      - name: setup yarnrc
+        run: |
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> $GITHUB_ENV
+
       - name: install dependencies
         run: yarn install
 
