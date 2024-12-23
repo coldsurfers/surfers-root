@@ -45,9 +45,9 @@ jobs:
           echo "BILLETS_SERVER_MAILER_SERVICE=${{ secrets.BILLETS_SERVER_MAILER_SERVICE }}" >> ./apps/billets-server/.env
           echo "PRISMA_CLI_BINARY_TARGETS=${{ secrets.PRISMA_CLI_BINARY_TARGETS }}" >> ./apps/billets-server/.env
           echo "SERVERLESS_ORG=${{ secrets.SERVERLESS_ORG }}" >> ./apps/billets-server/.env
-          echo "SERVERLESS_DEPLOYMENT_BUCKET=${{ secrets.SERVERLESS_DEPLOYMENT_BUCKET }}" >> ./apps/billets-server/.env
-          echo "SERVERLESS_APP=${{ secrets.SERVERLESS_APP }}" >> ./apps/billets-server/.env
-          echo "SERVERLESS_SERVICE=${{ secrets.SERVERLESS_SERVICE }}" >> ./apps/billets-server/.env
+          echo "SERVERLESS_DEPLOYMENT_BUCKET=${{ secrets.BILLETS_SERVER_SERVERLESS_DEPLOYMENT_BUCKET }}" >> ./apps/billets-server/.env
+          echo "SERVERLESS_APP=${{ secrets.BILLETS_SERVER_SERVERLESS_APP }}" >> ./apps/billets-server/.env
+          echo "SERVERLESS_SERVICE=${{ secrets.BILLETS_SERVER_SERVERLESS_SERVICE }}" >> ./apps/billets-server/.env
           echo "SERVERLESS_REGION=${{ secrets.SERVERLESS_REGION }}" >> ./apps/billets-server/.env
           # touch "./apps/billets-web/.env"
           # touch "./apps/blog-client/.env"
