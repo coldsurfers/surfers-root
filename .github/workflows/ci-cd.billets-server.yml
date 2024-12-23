@@ -55,6 +55,7 @@ jobs:
           # touch "./apps/wamuseum-server/.env"
 
       - name: run serverless deploy
+        working-directory: ./apps/billets-server
         run: |
           yarn install
           yarn serverless:deploy:prod
