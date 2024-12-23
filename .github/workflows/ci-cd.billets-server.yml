@@ -57,6 +57,7 @@ jobs:
       - name: run serverless deploy
         working-directory: ./apps/billets-server
         run: |
+          yarn corepack enable
           yarn install
           yarn serverless:deploy:prod
 
