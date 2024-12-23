@@ -15,7 +15,7 @@ export interface SearchStoreState {
   selectedLocationFilter: SearchStoreLocationFilterType | null
   snapIndex: SearchStoreSnapIndex
   viewMode: SearchStoreViewMode
-  locationConcerts: SearchStoreLocationConcert[]
+  locationConcerts: SearchStoreLocationConcert[] | null
 }
 
 export interface SearchStoreActions {
@@ -23,6 +23,6 @@ export interface SearchStoreActions {
   setSelectedLocationFilter: (filter: SearchStoreLocationFilterType | null) => void
   setSnapIndex: (index: SearchStoreSnapIndex) => void
   setViewMode: (mode: SearchStoreViewMode) => void
-  setLocationConcerts: (locationConcerts: SearchStoreLocationConcert[]) => void
+  setLocationConcerts: (locationConcerts: SearchStoreLocationConcert[] | null) => void
 }
 export type SearchStore = SearchStoreState & SearchStoreActions
