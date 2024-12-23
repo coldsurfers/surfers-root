@@ -54,12 +54,20 @@ jobs:
           # touch "./apps/wamuseum-client/.env"
           # touch "./apps/wamuseum-server/.env"
 
+      - name: setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.16.0'
+
+      - name: corepack enable
+        run: corepack enable
+
+      - name: install dependencies
+        run: yarn install
+
       - name: run serverless deploy
         working-directory: ./apps/billets-server
-        run: |
-          yarn corepack enable
-          yarn install
-          yarn serverless:deploy:prod
+        run: yarn serverless:deploy:prod
 
       # - name: Docker Compose build and push
       #   uses: ./.github/workflows/composites/docker-compose-build
