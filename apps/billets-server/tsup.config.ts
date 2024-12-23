@@ -1,11 +1,11 @@
 import { defineConfig } from 'tsup'
 
 export default defineConfig({
-  entry: ['src/start-server.ts'],
+  entry: ['src/start-server.ts', 'src/lambda.ts'],
   outDir: 'build',
   target: 'node18',
   platform: 'node',
-  format: ['esm'],
+  format: ['cjs'],
   splitting: false,
   sourcemap: true,
   minify: false,
