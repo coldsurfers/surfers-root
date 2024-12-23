@@ -1,8 +1,10 @@
 {
   "name": "@coldsurfers/billets-web",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "scripts": {
     "build": "next build",
+    "build:vercel": "npx vercel build --prod",
+    "deploy:vercel": "npx vercel deploy --prod --prebuilt",
     "create:env:ci": "yarn ts-node ./libs/createDotEnv.ts",
     "dev": "next dev",
     "deploy": "pm2 start ecosystem.config.js",
@@ -16,7 +18,9 @@
     "@emotion/react": "*",
     "@emotion/styled": "*",
     "@lukemorales/query-key-factory": "*",
+    "@next/env": "^15.1.2",
     "@react-oauth/google": "^0.12.1",
+    "@swc/helpers": "^0.5.15",
     "@tanstack/react-query": "*",
     "@tosspayments/payment-widget-sdk": "^0.10.2",
     "autoprefixer": "^10.4.17",
@@ -33,6 +37,7 @@
     "react-notion-x": "*",
     "react-spinners": "*",
     "sharp": "^0.33.5",
+    "styled-jsx": "^5.1.6",
     "tailwindcss": "^3.4.1",
     "zod": "*",
     "zustand": "*"
