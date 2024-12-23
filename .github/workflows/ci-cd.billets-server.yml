@@ -13,19 +13,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Log in to Amazon ECR
-        uses: ./.github/workflows/composites/ecr-login
-        with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: ${{ secrets.AWS_REGION }}
-          aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
-
-      - name: Get the tag name
-        id: get_tag
+      - name: Log in to AWS
         run: |
-          TAG_NAME=${GITHUB_REF#refs/tags/}
-          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region ${{ secrets.AWS_REGION }}
+
+      # - name: Log in to Amazon ECR
+      #   uses: ./.github/workflows/composites/ecr-login
+      #   with:
+      #     aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws_region: ${{ secrets.AWS_REGION }}
+      #     aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
+
+      # - name: Get the tag name
+      #   id: get_tag
+      #   run: |
+      #     TAG_NAME=${GITHUB_REF#refs/tags/}
+      #     echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
 
       - name: Create .env file from template
         run: |
@@ -37,26 +43,38 @@ jobs:
           echo "BILLETS_SERVER_MAILER_EMAIL_ADDRESS=${{ secrets.BILLETS_SERVER_MAILER_EMAIL_ADDRESS }}" >> ./apps/billets-server/.env
           echo "BILLETS_SERVER_MAILER_EMAIL_APP_PASSWORD=${{ secrets.BILLETS_SERVER_MAILER_EMAIL_APP_PASSWORD }}" >> ./apps/billets-server/.env
           echo "BILLETS_SERVER_MAILER_SERVICE=${{ secrets.BILLETS_SERVER_MAILER_SERVICE }}" >> ./apps/billets-server/.env
-          touch "./apps/billets-web/.env"
-          touch "./apps/blog-client/.env"
-          touch "./apps/wamuseum-client/.env"
-          touch "./apps/wamuseum-server/.env"
+          echo "PRISMA_CLI_BINARY_TARGETS=${{ secrets.PRISMA_CLI_BINARY_TARGETS }}" >> ./apps/billets-server/.env
+          echo "SERVERLESS_ORG=${{ secrets.SERVERLESS_ORG }}" >> ./apps/billets-server/.env
+          echo "SERVERLESS_DEPLOYMENT_BUCKET=${{ secrets.SERVERLESS_DEPLOYMENT_BUCKET }}" >> ./apps/billets-server/.env
+          echo "SERVERLESS_APP=${{ secrets.SERVERLESS_APP }}" >> ./apps/billets-server/.env
+          echo "SERVERLESS_SERVICE=${{ secrets.SERVERLESS_SERVICE }}" >> ./apps/billets-server/.env
+          echo "SERVERLESS_REGION=${{ secrets.SERVERLESS_REGION }}" >> ./apps/billets-server/.env
+          # touch "./apps/billets-web/.env"
+          # touch "./apps/blog-client/.env"
+          # touch "./apps/wamuseum-client/.env"
+          # touch "./apps/wamuseum-server/.env"
 
-      - name: Docker Compose build and push
-        uses: ./.github/workflows/composites/docker-compose-build
-        with:
-          docker_compose_service: 'billets-server'
-          aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          docker_image_tag: ${{ env.TAG_NAME }}
+      - name: run serverless deploy
+        working-directory: ./apps/billets-server
+        run: |
+          yarn install
+          yarn serverless:deploy:prod
 
-      - name: Update ECS
-        uses: ./.github/workflows/composites/update-ecs-task-def-service
-        with:
-          aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
-          docker_image_name: 'billets-server'
-          tag_name: ${{ env.TAG_NAME }}
-          ecs_task_definition: ${{ secrets.ECS_TASK_DEFINITION }}
-          ecs_service: 'billets-server'
-          ecs_cluster: ${{ secrets.ECS_CLUSTER }}
-          ecs_container_definition_index: 4
+      # - name: Docker Compose build and push
+      #   uses: ./.github/workflows/composites/docker-compose-build
+      #   with:
+      #     docker_compose_service: 'billets-server'
+      #     aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     docker_image_tag: ${{ env.TAG_NAME }}
+
+      # - name: Update ECS
+      #   uses: ./.github/workflows/composites/update-ecs-task-def-service
+      #   with:
+      #     aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
+      #     docker_image_name: 'billets-server'
+      #     tag_name: ${{ env.TAG_NAME }}
+      #     ecs_task_definition: ${{ secrets.ECS_TASK_DEFINITION }}
+      #     ecs_service: 'billets-server'
+      #     ecs_cluster: ${{ secrets.ECS_CLUSTER }}
+      #     ecs_container_definition_index: 4
