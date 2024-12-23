@@ -17,3 +17,4 @@ src/data/
 assets/firebase/firebase-service-account-key.json
 
 build/
+.serverless
