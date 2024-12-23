@@ -178,8 +178,9 @@ export const SearchScreen = () => {
         latitude: latitude ?? 37.78825,
         longitude: longitude ?? -122.4324,
       })
+      setLocationConcerts(null)
     }
-  }, [initialize, latitude, longitude, selectedLocationFilter])
+  }, [initialize, latitude, longitude, selectedLocationFilter, setLocationConcerts])
 
   return (
     <BottomSheetModalProvider>
