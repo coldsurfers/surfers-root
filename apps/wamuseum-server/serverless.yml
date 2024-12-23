@@ -1,0 +1,30 @@
+org: ${env:SERVERLESS_ORG}
+app: ${env:SERVERLESS_APP}
+service: ${env:SERVERLESS_SERVICE}
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'dev'} # Default stage is 'dev'
+  region: ${env:SERVERLESS_REGION}
+  timeout: 10
+  logs:
+    httpApi: true
+  deploymentBucket:
+    name: ${env:SERVERLESS_DEPLOYMENT_BUCKET}
+
+functions:
+  api:
+    handler: build/lambda.handler
+    events:
+      - httpApi: # REST API configuration
+          path: /
+          method: ANY
+      - httpApi:
+          path: /{proxy+} # Catch-all route
+          method: ANY # Match any HTTP method
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+  - serverless-plugin-monorepo

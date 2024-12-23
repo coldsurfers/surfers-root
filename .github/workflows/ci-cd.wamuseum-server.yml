@@ -13,19 +13,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Log in to Amazon ECR
-        uses: ./.github/workflows/composites/ecr-login
-        with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: ${{ secrets.AWS_REGION }}
-          aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
+      # - name: Log in to Amazon ECR
+      #   uses: ./.github/workflows/composites/ecr-login
+      #   with:
+      #     aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws_region: ${{ secrets.AWS_REGION }}
+      #     aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
 
-      - name: Get the tag name
-        id: get_tag
-        run: |
-          TAG_NAME=${GITHUB_REF#refs/tags/}
-          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+      # - name: Get the tag name
+      #   id: get_tag
+      #   run: |
+      #     TAG_NAME=${GITHUB_REF#refs/tags/}
+      #     echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
 
       - name: Create .env file from template
         run: |
@@ -39,10 +39,15 @@ jobs:
           echo "WAMUSEUM_SERVER_MAILER_EMAIL_ADDRESS=${{ secrets.WAMUSEUM_SERVER_MAILER_EMAIL_ADDRESS }}" >> ./apps/wamuseum-server/.env
           echo "WAMUSEUM_SERVER_MAILER_EMAIL_APP_PASSWORD=${{ secrets.WAMUSEUM_SERVER_MAILER_EMAIL_APP_PASSWORD }}" >> ./apps/wamuseum-server/.env
           echo "WAMUSEUM_SERVER_MAILER_SERVICE=${{ secrets.WAMUSEUM_SERVER_MAILER_SERVICE }}" >> ./apps/wamuseum-server/.env
-          touch "./apps/billets-web/.env"
-          touch "./apps/wamuseum-client/.env"
-          touch "./apps/billets-server/.env"
-          touch "./apps/blog-client/.env"
+          echo "SERVERLESS_ORG=${{ secrets.SERVERLESS_ORG }}" >> ./apps/wamuseum-server/.env
+          echo "SERVERLESS_DEPLOYMENT_BUCKET=${{ secrets.WAMUSEUM_SERVER_SERVERLESS_DEPLOYMENT_BUCKET }}" >> ./apps/wamuseum-server/.env
+          echo "SERVERLESS_APP=${{ secrets.WAMUSEUM_SERVER_SERVERLESS_APP }}" >> ./apps/wamuseum-server/.env
+          echo "SERVERLESS_SERVICE=${{ secrets.WAMUSEUM_SERVER_SERVERLESS_SERVICE }}" >> ./apps/wamuseum-server/.env
+          echo "SERVERLESS_REGION=${{ secrets.SERVERLESS_REGION }}" >> ./apps/wamuseum-server/.env
+          # touch "./apps/billets-web/.env"
+          # touch "./apps/wamuseum-client/.env"
+          # touch "./apps/billets-server/.env"
+          # touch "./apps/blog-client/.env"
 
       - name: Create firebase service account key file
         env:
@@ -52,21 +57,49 @@ jobs:
           echo "$BILLETS_FIREBASE_SERVICE_ACCOUNT_KEY_FILE" > "$WAMUSEUM_SERVER_BILLETS_FIREBASE_SERVICE_ACCOUNT_KEY_FILE_PATH"
         working-directory: ./apps/wamuseum-server
 
-      - name: Docker Compose build and push
-        uses: ./.github/workflows/composites/docker-compose-build
+      - name: setup node
+        uses: actions/setup-node@v2
         with:
-          docker_compose_service: 'wamuseum-server'
-          aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          docker_image_tag: ${{ env.TAG_NAME }}
+          node-version: '20.16.0'
 
-      - name: Update ECS
-        uses: ./.github/workflows/composites/update-ecs-task-def-service
-        with:
-          aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
-          docker_image_name: 'wamuseum-server'
-          tag_name: ${{ env.TAG_NAME }}
-          ecs_task_definition: ${{ secrets.ECS_TASK_DEFINITION }}
-          ecs_service: 'wamuseum-server'
-          ecs_cluster: ${{ secrets.ECS_CLUSTER }}
-          ecs_container_definition_index: 0
+      - name: corepack enable
+        run: corepack enable
+
+      - name: setup yarnrc
+        run: |
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> $GITHUB_ENV
+
+      - name: install dependencies
+        run: yarn install
+
+      - name: build app
+        run: yarn workspace @coldsurfers/wamuseum-server build
+
+      - name: serverless login
+        run: |
+          SERVERLESS_ACCESS_KEY=${{ secrets.SERVERLESS_ACCESS_KEY }}
+          echo "SERVERLESS_ACCESS_KEY=$SERVERLESS_ACCESS_KEY" >> $GITHUB_ENV
+
+      - name: run serverless deploy
+        working-directory: ./apps/wamuseum-server
+        run: yarn serverless:deploy:prod
+
+      # - name: Docker Compose build and push
+      #   uses: ./.github/workflows/composites/docker-compose-build
+      #   with:
+      #     docker_compose_service: 'wamuseum-server'
+      #     aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     docker_image_tag: ${{ env.TAG_NAME }}
+
+      # - name: Update ECS
+      #   uses: ./.github/workflows/composites/update-ecs-task-def-service
+      #   with:
+      #     aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
+      #     docker_image_name: 'wamuseum-server'
+      #     tag_name: ${{ env.TAG_NAME }}
+      #     ecs_task_definition: ${{ secrets.ECS_TASK_DEFINITION }}
+      #     ecs_service: 'wamuseum-server'
+      #     ecs_cluster: ${{ secrets.ECS_CLUSTER }}
+      #     ecs_container_definition_index: 0

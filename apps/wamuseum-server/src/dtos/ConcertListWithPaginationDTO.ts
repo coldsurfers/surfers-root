@@ -1,5 +1,5 @@
-import { prisma } from '..'
 import { ConcertListWithPagination } from '../../gql/resolvers-types'
+import { prisma } from '../libs/db/db.utils'
 import ConcertDTO from './ConcertDTO'
 
 export default class ConcertListWithPaginationDTO {
