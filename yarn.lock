@@ -3493,9 +3493,9 @@ __metadata:
     pm2: "npm:*"
     prettier: "npm:*"
     prisma: "npm:*"
-    serverless-dotenv-plugin: "npm:^6.0.0"
-    serverless-offline: "npm:^14.4.0"
-    serverless-plugin-monorepo: "npm:^0.11.0"
+    serverless-dotenv-plugin: "npm:*"
+    serverless-offline: "npm:*"
+    serverless-plugin-monorepo: "npm:*"
     ts-node-dev: "npm:^2.0.0"
     ts-pattern: "npm:*"
     tsup: "npm:*"
@@ -3919,6 +3919,9 @@ __metadata:
     nodemailer-smtp-transport: "npm:^2.7.4"
     pm2: "npm:*"
     prisma: "npm:*"
+    serverless-dotenv-plugin: "npm:*"
+    serverless-offline: "npm:*"
+    serverless-plugin-monorepo: "npm:*"
     ts-node-dev: "npm:^2.0.0"
     tsup: "npm:*"
     typescript: "npm:*"
@@ -33460,7 +33463,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"serverless-dotenv-plugin@npm:^6.0.0":
+"serverless-dotenv-plugin@npm:6.0.0":
   version: 6.0.0
   resolution: "serverless-dotenv-plugin@npm:6.0.0"
   dependencies:
@@ -33473,7 +33476,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"serverless-offline@npm:^14.4.0":
+"serverless-offline@npm:14.4.0":
   version: 14.4.0
   resolution: "serverless-offline@npm:14.4.0"
   dependencies:
@@ -33509,7 +33512,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"serverless-plugin-monorepo@npm:^0.11.0":
+"serverless-plugin-monorepo@npm:0.11.0":
   version: 0.11.0
   resolution: "serverless-plugin-monorepo@npm:0.11.0"
   dependencies:
