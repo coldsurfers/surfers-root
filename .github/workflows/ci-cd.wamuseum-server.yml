@@ -14,24 +14,11 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Log in to AWS
-        run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set region ${{ secrets.AWS_REGION }}
-
-      # - name: Log in to Amazon ECR
-      #   uses: ./.github/workflows/composites/ecr-login
-      #   with:
-      #     aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws_region: ${{ secrets.AWS_REGION }}
-      #     aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
-
-      # - name: Get the tag name
-      #   id: get_tag
-      #   run: |
-      #     TAG_NAME=${GITHUB_REF#refs/tags/}
-      #     echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+        uses: ./.github/workflows/composites/aws-login
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.AWS_REGION }}
 
       - name: Create .env file from template
         run: |
@@ -50,10 +37,6 @@ jobs:
           echo "SERVERLESS_APP=${{ secrets.WAMUSEUM_SERVER_SERVERLESS_APP }}" >> ./apps/wamuseum-server/.env
           echo "SERVERLESS_SERVICE=${{ secrets.WAMUSEUM_SERVER_SERVERLESS_SERVICE }}" >> ./apps/wamuseum-server/.env
           echo "SERVERLESS_REGION=${{ secrets.SERVERLESS_REGION }}" >> ./apps/wamuseum-server/.env
-          # touch "./apps/billets-web/.env"
-          # touch "./apps/wamuseum-client/.env"
-          # touch "./apps/billets-server/.env"
-          # touch "./apps/blog-client/.env"
 
       - name: Create firebase service account key file
         env:
@@ -90,22 +73,3 @@ jobs:
       - name: run serverless deploy
         working-directory: ./apps/wamuseum-server
         run: yarn serverless:deploy:prod
-
-      # - name: Docker Compose build and push
-      #   uses: ./.github/workflows/composites/docker-compose-build
-      #   with:
-      #     docker_compose_service: 'wamuseum-server'
-      #     aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     docker_image_tag: ${{ env.TAG_NAME }}
-
-      # - name: Update ECS
-      #   uses: ./.github/workflows/composites/update-ecs-task-def-service
-      #   with:
-      #     aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
-      #     docker_image_name: 'wamuseum-server'
-      #     tag_name: ${{ env.TAG_NAME }}
-      #     ecs_task_definition: ${{ secrets.ECS_TASK_DEFINITION }}
-      #     ecs_service: 'wamuseum-server'
-      #     ecs_cluster: ${{ secrets.ECS_CLUSTER }}
-      #     ecs_container_definition_index: 0

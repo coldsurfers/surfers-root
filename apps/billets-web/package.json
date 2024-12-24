@@ -4,13 +4,13 @@
   "scripts": {
     "build": "next build",
     "build:vercel": "npx vercel build --prod",
-    "deploy:vercel": "npx vercel deploy --prod --prebuilt",
+    "codegen": "npx openapi-typescript https://api.billets.coldsurf.io/docs/json -o types/api.d.ts --alphabetize && prettier --write src/types/api.d.ts",
     "create:env:ci": "yarn ts-node ./libs/createDotEnv.ts",
-    "dev": "next dev",
     "deploy": "pm2 start ecosystem.config.js",
+    "deploy:vercel": "npx vercel deploy --prod --prebuilt",
+    "dev": "next dev",
     "lint": "next lint --fix && prettier --write .",
-    "start": "next start",
-    "codegen": "npx openapi-typescript https://api.billets.coldsurf.io/docs/json -o types/api.d.ts --alphabetize && prettier --write src/types/api.d.ts"
+    "start": "next start"
   },
   "dependencies": {
     "@coldsurfers/ocean-road": "workspace:*",
@@ -18,9 +18,7 @@
     "@emotion/react": "*",
     "@emotion/styled": "*",
     "@lukemorales/query-key-factory": "*",
-    "@next/env": "^15.1.2",
     "@react-oauth/google": "^0.12.1",
-    "@swc/helpers": "^0.5.15",
     "@tanstack/react-query": "*",
     "@tosspayments/payment-widget-sdk": "^0.10.2",
     "autoprefixer": "^10.4.17",
@@ -37,7 +35,6 @@
     "react-notion-x": "*",
     "react-spinners": "*",
     "sharp": "^0.33.5",
-    "styled-jsx": "^5.1.6",
     "tailwindcss": "^3.4.1",
     "zod": "*",
     "zustand": "*"
@@ -52,6 +49,7 @@
     "postcss": "^8.4.35",
     "prettier": "*",
     "prettier-plugin-tailwindcss": "^0.5.11",
+    "sst": "*",
     "ts-node": "^10.9.2",
     "typescript": "*",
     "typescript-plugin-css-modules": "^5.0.2"

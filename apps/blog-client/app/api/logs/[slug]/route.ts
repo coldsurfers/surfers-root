@@ -42,7 +42,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   }
   const blocks = await getBlocks({
     blockId: page.id,
-    withUploadCloudinary: true,
+    withUploadCloudinary: false,
   })
 
   const recordMap = await notion.getPage(page.id, {
