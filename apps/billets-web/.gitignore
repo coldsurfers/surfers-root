@@ -45,3 +45,10 @@ prisma/schema.prisma
 !.yarn/plugins
 !.yarn/sdks
 !.yarn/versions
+
+# sst
+.sst
+
+
+# open-next
+.open-next

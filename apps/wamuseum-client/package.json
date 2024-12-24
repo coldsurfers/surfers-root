@@ -5,13 +5,13 @@
   "scripts": {
     "build": "NODE_OPTIONS='--max-old-space-size=4096' next build",
     "compile": "npx graphql-codegen-esm --config ./gql/codegen.yml",
-    "postcompile": "yarn lint:fix",
+    "deploy": "pm2 start ecosystem.config.js",
     "dev": "next dev",
     "lint": "next lint",
     "lint:fix": "yarn lint --fix && prettier --write .",
+    "postcompile": "yarn lint:fix",
     "prepare": "husky install",
     "start": "next start",
-    "deploy": "pm2 start ecosystem.config.js",
     "watch": "graphql-codegen -w"
   },
   "dependencies": {
@@ -54,6 +54,7 @@
     "eslint": "*",
     "pm2": "*",
     "prettier": "*",
+    "sst": "*",
     "strip-ansi": "^7.1.0",
     "ts-node": "^10.9.2"
   },
