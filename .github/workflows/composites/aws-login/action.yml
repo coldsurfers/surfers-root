@@ -1,0 +1,23 @@
+name: 'AWS login composite action'
+description: 'AWS login'
+inputs:
+  aws_access_key_id:
+    description: 'AWS access key id'
+    required: true
+  aws_secret_access_key:
+    description: 'AWS secret access key'
+    required: true
+  aws_region:
+    description: 'AWS region'
+    required: true
+    default: 'ap-northeast-2'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Log in to AWS
+      shell: bash
+      run: |
+        aws configure set aws_access_key_id ${{ inputs.aws_access_key_id }}
+        aws configure set aws_secret_access_key ${{ inputs.aws_secret_access_key }}
+        aws configure set region ${{ inputs.aws_region }}
