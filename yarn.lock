@@ -3835,12 +3835,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@coldsurfers/surf-tree@workspace:apps/surf-tree"
   dependencies:
+    "@coldsurfers/ocean-road": "workspace:*"
+    "@emotion/css": "npm:*"
+    "@emotion/react": "npm:*"
+    "@emotion/styled": "npm:*"
     "@eslint/eslintrc": "npm:^3"
     "@types/node": "npm:*"
     "@types/react": "npm:^19"
     "@types/react-dom": "npm:^19"
     eslint: "npm:^9"
     eslint-config-next: "npm:15.1.0"
+    framer-motion: "npm:*"
     next: "npm:15.1.0"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
