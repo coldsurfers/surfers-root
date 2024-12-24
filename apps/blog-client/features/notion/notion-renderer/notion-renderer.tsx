@@ -5,7 +5,8 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { ExtendedRecordMap } from 'notion-types'
 import 'prismjs/themes/prism-tomorrow.css' // For syntax highlighting
-import { NotionRenderer as NR } from 'react-notion-x'
+import { useCallback, useMemo } from 'react'
+import { NotionRenderer as NR, type MapImageUrlFn, type NotionComponents } from 'react-notion-x'
 import 'react-notion-x/src/styles.css'
 import { Tweet as TweetEmbed } from 'react-tweet'
 
@@ -56,19 +57,24 @@ function Tweet({ id }: { id: string }) {
 }
 
 export const NotionRenderer = ({ recordMap }: { recordMap: ExtendedRecordMap }) => {
-  return (
-    <NR
-      recordMap={recordMap}
-      components={{
-        Code,
-        Collection: () => null,
-        nextLink: Link,
-        Tweet,
-      }}
-      mapImageUrl={(url, block) => {
-        return `/api/notion-image-proxy?url=${url}&id=${block.id}`
-      }}
-      previewImages={true}
-    />
-  )
+  const components = useMemo<Partial<NotionComponents>>(() => {
+    return {
+      Code,
+      Collection: () => null,
+      nextLink: Link,
+      Tweet,
+    }
+  }, [])
+  const mapImageUrl = useCallback<MapImageUrlFn>((url, block) => {
+    if (!url) {
+      return ''
+    }
+    const isNotionImage = url.startsWith('https://prod-files-secure.s3.us-west-2.amazonaws.com')
+    if (isNotionImage) {
+      return `/api/notion-image-proxy?url=${encodeURIComponent(url)}&id=${block.id}`
+    }
+    return url
+  }, [])
+
+  return <NR recordMap={recordMap} components={components} mapImageUrl={mapImageUrl} previewImages />
 }
