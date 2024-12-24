@@ -18,5 +18,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "libs/createDotEnv.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules","sst.config.ts","sst.config.ts"]
 }

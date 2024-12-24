@@ -8,16 +8,16 @@
   ],
   "scripts": {
     "build": "next build",
-    "sitemap": "next-sitemap",
     "deploy": "yarn sitemap && pm2 start ecosystem.config.js",
     "deploy:prebuilt": "npx vercel build --prod && npx vercel deploy --prod --prebuilt",
     "dev": "next dev",
     "lint:fix": "next lint --fix && prettier --write .",
-    "start": "next start",
-    "start:standalone": "cp -r public .next/standalone/apps/blog-client/public && cp -r .next/static .next/standalone/apps/blog-client/.next/static && node .next/standalone/apps/blog-client/server.js",
-    "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "prisma:db-push": "yarn prisma db push --schema ../../packages/prisma-schema/prisma/schema.prisma",
-    "prisma:migrate": "yarn prisma migrate dev --schema ../../packages/prisma-schema/prisma/schema.prisma"
+    "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma",
+    "prisma:migrate": "yarn prisma migrate dev --schema ../../packages/prisma-schema/prisma/schema.prisma",
+    "sitemap": "next-sitemap",
+    "start": "next start",
+    "start:standalone": "cp -r public .next/standalone/apps/blog-client/public && cp -r .next/static .next/standalone/apps/blog-client/.next/static && node .next/standalone/apps/blog-client/server.js"
   },
   "dependencies": {
     "@coldsurfers/cloudinary-utils": "workspace:*",
@@ -64,6 +64,7 @@
     "notion-types": "*",
     "pm2": "*",
     "prettier": "*",
+    "sst": "*",
     "typescript": "*"
   },
   "resolutions": {
