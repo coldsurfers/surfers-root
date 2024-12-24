@@ -13,43 +13,36 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Log in to Amazon ECR
-        uses: ./.github/workflows/composites/ecr-login
+      - name: Log in to AWS
+        uses: ./.github/workflows/composites/aws-login
         with:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: ${{ secrets.AWS_REGION }}
-          aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
-
-      - name: Get the tag name
-        id: get_tag
-        run: |
-          TAG_NAME=${GITHUB_REF#refs/tags/}
-          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
 
       - name: Create .env file from template
+        working-directory: ./apps/wamuseum-client
         run: |
-          echo "NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL=${{ secrets.NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL }}" >> ./apps/wamuseum-client/.env
-          touch "./apps/billets-web/.env"
-          touch "./apps/blog-client/.env"
-          touch "./apps/billets-server/.env"
-          touch "./apps/wamuseum-server/.env"
+          echo "NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL=${{ secrets.NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL }}" >> .env
+          echo "WAMUSEUM_CLIENT_DOMAIN_NAME=${{ secrets.WAMUSEUM_CLIENT_DOMAIN_NAME }}" >> .env
+          echo "WAMUSEUM_CLIENT_DOMAIN_CERT_ARN=${{ secrets.WAMUSEUM_CLIENT_DOMAIN_CERT_ARN }}" >> .env
 
-      - name: Docker Compose build and push
-        uses: ./.github/workflows/composites/docker-compose-build
+      - name: setup node
+        uses: actions/setup-node@v2
         with:
-          docker_compose_service: 'wamuseum-client'
-          aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          docker_image_tag: ${{ env.TAG_NAME }}
+          node-version: '20.16.0'
 
-      - name: Update ECS
-        uses: ./.github/workflows/composites/update-ecs-task-def-service
-        with:
-          aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
-          docker_image_name: 'wamuseum-client'
-          tag_name: ${{ env.TAG_NAME }}
-          ecs_task_definition: ${{ secrets.ECS_TASK_DEFINITION }}
-          ecs_service: 'wamuseum-client'
-          ecs_cluster: ${{ secrets.ECS_CLUSTER }}
-          ecs_container_definition_index: 1
+      - name: corepack enable
+        run: corepack enable
+
+      - name: setup yarnrc
+        run: |
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> $GITHUB_ENV
+
+      - name: install dependencies
+        run: yarn install
+
+      - name: sst deploy
+        working-directory: ./apps/wamuseum-client
+        run: npx sst deploy --stage production
