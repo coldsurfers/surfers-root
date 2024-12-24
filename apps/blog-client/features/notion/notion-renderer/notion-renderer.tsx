@@ -66,7 +66,7 @@ export const NotionRenderer = ({ recordMap }: { recordMap: ExtendedRecordMap }) 
     }
   }, [])
   const mapImageUrl = useCallback<MapImageUrlFn>((url, block) => {
-    const isNotionImage = url.startsWith('https://prod-files-secure.s3.us-west-2.amazonaws.com')
+    const isNotionImage = url?.startsWith('https://prod-files-secure.s3.us-west-2.amazonaws.com')
     if (isNotionImage) {
       return `/api/notion-image-proxy?url=${url}&id=${block.id}`
     }
