@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { ExtendedRecordMap } from 'notion-types'
 import 'prismjs/themes/prism-tomorrow.css' // For syntax highlighting
 import { useCallback, useMemo } from 'react'
-import { NotionRenderer as NR } from 'react-notion-x'
+import { NotionRenderer as NR, type MapImageUrlFn, type NotionComponents } from 'react-notion-x'
 import 'react-notion-x/src/styles.css'
 import { Tweet as TweetEmbed } from 'react-tweet'
 
