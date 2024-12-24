@@ -60,7 +60,7 @@
     "@types/react-dom": "*",
     "@types/sha1": "~1.1.5",
     "encoding": "^0.1.13",
-    "eslint": "*",
+    "eslint": "8.57.0",
     "notion-types": "*",
     "pm2": "*",
     "prettier": "*",

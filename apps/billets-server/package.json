@@ -61,7 +61,7 @@
     "@types/nodemailer": "^6.4.15",
     "@types/nodemailer-smtp-transport": "^2.7.8",
     "del-cli": "*",
-    "eslint": "*",
+    "eslint": "8.57.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.0",
     "pm2": "*",

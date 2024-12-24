@@ -22,6 +22,7 @@
     "ci",
     "wamuseum-client",
     "billets-web",
-    "prisma-schema"
+    "prisma-schema",
+    "surf-tree"
   ]
 }
