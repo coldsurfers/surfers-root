@@ -1,6 +1,6 @@
 import { Artist } from '@prisma/client'
-import { prisma } from '..'
 import { Artist as ArtistResolverType } from '../../gql/resolvers-types'
+import { prisma } from '../libs/db/db.utils'
 
 type ArtistDTOProps = Partial<Artist>
 

@@ -1,21 +1,22 @@
-import { useUserCurrentLocationStore } from '@/lib/stores/userCurrentLocationStore'
-import { memo, useCallback, useEffect, useMemo } from 'react'
+import { memo, useEffect, useMemo } from 'react'
 import { StyleSheet } from 'react-native'
 import MapView, { Camera, Region } from 'react-native-maps'
 import { z } from 'zod'
-import { useShallow } from 'zustand/shallow'
-import { useMapPoints, useMapRegionWithZoomLevel, useSuperCluster } from '../../hooks'
+import { MapRegionWithZoomLevel, useMapPoints, useSuperCluster } from '../../hooks'
 import { mapPointSchema } from '../../map.types'
-import { getZoomLevel } from '../../utils'
 import { ConcertMapMarker } from '../concert-map-marker'
 
 export const ConcertMapView = memo(
   ({
+    mapRegionWithZoomLevel,
     onChangeClusters,
     onChangePoints,
     onChangeVisiblePoints,
     onChangeLocationConcerts,
+    onRegionChangeComplete,
   }: {
+    mapRegionWithZoomLevel: MapRegionWithZoomLevel
+    onRegionChangeComplete: (region: Region) => void
     onChangeClusters?: (clusters: z.infer<typeof mapPointSchema>[]) => void
     onChangePoints?: (points: z.infer<typeof mapPointSchema>[]) => void
     onChangeVisiblePoints?: (visiblePoints: z.infer<typeof mapPointSchema>[]) => void
@@ -28,17 +29,6 @@ export const ConcertMapView = memo(
       }[],
     ) => void
   }) => {
-    const { lat, lng } = useUserCurrentLocationStore(
-      useShallow((state) => ({
-        lat: state.latitude,
-        lng: state.longitude,
-      })),
-    )
-    const { mapRegionWithZoomLevel, setMapRegionWithZoomLevel } = useMapRegionWithZoomLevel({
-      latitude: lat ?? 37.78825,
-      longitude: lng ?? -122.4324,
-    })
-
     const { points, visiblePoints, locationConcerts } = useMapPoints({
       mapRegionWithZoomLevel,
     })
@@ -47,16 +37,6 @@ export const ConcertMapView = memo(
       mapRegionWithZoomLevel,
       points,
     })
-
-    const onRegionChangeComplete = useCallback(
-      (region: Region) => {
-        setMapRegionWithZoomLevel({
-          ...region,
-          zoomLevel: getZoomLevel(region.latitudeDelta),
-        })
-      },
-      [setMapRegionWithZoomLevel],
-    )
 
     const initialCamera = useMemo<Camera>(() => {
       return {

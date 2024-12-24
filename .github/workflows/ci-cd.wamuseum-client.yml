@@ -13,43 +13,36 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Log in to Amazon ECR
-        uses: ./.github/workflows/composites/ecr-login
+      - name: Log in to AWS
+        uses: ./.github/workflows/composites/aws-login
         with:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: ${{ secrets.AWS_REGION }}
-          aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
 
       - name: Create .env file from template
+        working-directory: ./apps/wamuseum-client
         run: |
-          echo "NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL=${{ secrets.NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL }}" >> ./apps/wamuseum-client/.env
-          touch "./apps/billets-web/.env"
-          touch "./apps/blog-client/.env"
-          touch "./apps/billets-server/.env"
-          touch "./apps/wamuseum-server/.env"
+          echo "NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL=${{ secrets.NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL }}" >> .env
+          echo "WAMUSEUM_CLIENT_DOMAIN_NAME=${{ secrets.WAMUSEUM_CLIENT_DOMAIN_NAME }}" >> .env
+          echo "WAMUSEUM_CLIENT_DOMAIN_CERT_ARN=${{ secrets.WAMUSEUM_CLIENT_DOMAIN_CERT_ARN }}" >> .env
 
-      - name: Docker Compose build and push
-        uses: ./.github/workflows/composites/docker-compose-build
+      - name: setup node
+        uses: actions/setup-node@v2
         with:
-          docker_compose_service: 'wamuseum-client'
-          aws_ecr_repository: ${{ secrets.ECR_REPOSITORY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          node-version: '20.16.0'
 
-      - name: Terraform apply
-        uses: ./.github/workflows/composites/terraform-apply
-        with:
-          working_directory: ./terraform/
-          aws_security_group_id: ${{ secrets.AWS_SECURITY_GROUP_ID }}
+      - name: corepack enable
+        run: corepack enable
 
-      - name: SSH ec2 and run cli
-        uses: ./.github/workflows/composites/ssh-ec2-cli
-        with:
-          ec2_pem_key: ${{ secrets.EC2_PEM_KEY }}
-          ec2_host: ${{ secrets.EC2_HOST }}
-          ec2_user: ${{ secrets.EC2_USER }}
-          ecr_repository: ${{ secrets.ECR_REPOSITORY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          aws_region: ${{ secrets.AWS_REGION }}
-          docker_compose_service: 'wamuseum-client'
-          docker_compose_service_env_path: ./apps/wamuseum-client/.env
+      - name: setup yarnrc
+        run: |
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> $GITHUB_ENV
+
+      - name: install dependencies
+        run: yarn install
+
+      - name: sst deploy
+        working-directory: ./apps/wamuseum-client
+        run: npx sst deploy --stage production

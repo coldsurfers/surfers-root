@@ -1,6 +1,6 @@
 import { Price } from '@prisma/client'
-import { prisma } from '../..'
 import { TicketPrice } from '../../../gql/resolvers-types'
+import { prisma } from '../../libs/db/db.utils'
 
 export class TicketPriceDTO {
   props: Partial<Price>

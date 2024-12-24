@@ -1,0 +1,69 @@
+name: 'Update ecs task definitions and service action'
+description: 'Update ecs task definitions and service'
+inputs:
+  aws_ecr_repository:
+    description: 'AWS ecr repository address'
+    required: true
+  docker_image_name:
+    description: 'AWS ECR docker image name to update'
+    required: true
+  tag_name:
+    description: 'AWS ECS service tag name to update'
+    required: true
+  ecs_task_definition:
+    description: 'AWS ECS task definition to update'
+    required: true
+  ecs_service:
+    description: 'AWS ECS service to update'
+    required: true
+  ecs_cluster:
+    description: 'AWS ECS cluster to update'
+    required: true
+  ecs_container_definition_index:
+    description: 'AWS ECS container definition index to update'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Update ECS task definition
+      shell: bash
+      id: update-task-def
+      run: |
+        NEW_IMAGE_URI='${{ inputs.aws_ecr_repository }}/coldsurf/${{ inputs.docker_image_name }}:${{ inputs.tag_name }}'
+
+        aws ecs describe-task-definition \
+            --task-definition ${{ inputs.ecs_task_definition }} \
+            --query "taskDefinition" \
+            --output json > task-def.json
+
+        jq --arg IMAGE "$NEW_IMAGE_URI" '.containerDefinitions[${{ inputs.ecs_container_definition_index }}].image = $IMAGE | del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' task-def.json > new-task-def.json
+
+        NEW_TASK_DEFINITION_ARN=$(aws ecs register-task-definition \
+            --cli-input-json file://new-task-def.json \
+            --query "taskDefinition.taskDefinitionArn" \
+            --output text)
+
+        echo "NEW_TASK_DEFINITION_ARN=$NEW_TASK_DEFINITION_ARN" >> $GITHUB_ENV
+
+    - name: Update ECS service
+      shell: bash
+      run: |
+        CLUSTER_NAME=${{ inputs.ecs_cluster  }}
+        SERVICE_NAME=${{ inputs.ecs_service  }}
+        NEW_TASK_DEFINITION_ARN=${{ env.NEW_TASK_DEFINITION_ARN }}
+
+        aws ecs update-service \
+          --cluster $CLUSTER_NAME \
+          --service $SERVICE_NAME \
+          --task-definition $NEW_TASK_DEFINITION_ARN > /dev/null 2>&1
+
+    - name: Verify ECS service status
+      shell: bash
+      run: |
+        CLUSTER_NAME=${{ inputs.ecs_cluster }}
+        SERVICE_NAME=${{ inputs.ecs_service }}
+
+        aws ecs describe-services \
+          --cluster $CLUSTER_NAME \
+          --services $SERVICE_NAME > /dev/null 2>&1

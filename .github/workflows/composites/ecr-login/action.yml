@@ -23,4 +23,5 @@ runs:
       run: |
         aws configure set aws_access_key_id ${{ inputs.aws_access_key_id }}
         aws configure set aws_secret_access_key ${{ inputs.aws_secret_access_key }}
+        aws configure set region ${{ inputs.aws_region }}
         aws ecr get-login-password --region ${{ inputs.aws_region }} | docker login --username AWS --password-stdin ${{ inputs.aws_ecr_repository }}
