@@ -21,13 +21,13 @@ export async function GET(request: NextRequest) {
   const careerBlocks = careerPage?.id
     ? await getBlocks({
         blockId: careerPage.id,
-        withUploadCloudinary: true,
+        withUploadCloudinary: false,
       })
     : []
   const sideProjectCareerBlocks = sideProjectCareerPage?.id
     ? await getBlocks({
         blockId: sideProjectCareerPage?.id,
-        withUploadCloudinary: true,
+        withUploadCloudinary: false,
       })
     : []
 
