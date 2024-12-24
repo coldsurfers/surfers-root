@@ -1,3 +1,4 @@
+import { CommonListEmpty } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { BottomSheetFlatList } from '@gorhom/bottom-sheet'
 import { useFocusEffect } from '@react-navigation/native'
@@ -49,6 +50,7 @@ export const SearchLocationConcertList = memo(({ locationConcerts }: SearchLocat
       onEndReached={onEndReached}
       style={styles.list}
       contentContainerStyle={styles.contentContainer}
+      ListEmptyComponent={<CommonListEmpty emptyText={`🥺\n앗,\n해당하는\n정보가 없어요!`} />}
       ListFooterComponent={isLoading ? <ActivityIndicator animating style={styles.indicator} /> : null}
     />
   )

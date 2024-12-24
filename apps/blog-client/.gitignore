@@ -49,3 +49,10 @@ tempfile.jpg
 
 public/**/sitemap.xml
 public/**/sitemap-0.xml
+
+# sst
+.sst
+
+
+# open-next
+.open-next

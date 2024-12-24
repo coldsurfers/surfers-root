@@ -1,5 +1,6 @@
-import { Button } from '@coldsurfers/ocean-road/native'
-import { StyleProp, ViewStyle } from 'react-native'
+import { colors } from '@coldsurfers/ocean-road'
+import { IconButton } from '@coldsurfers/ocean-road/native'
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
 export const ConcertSubscribeButton = ({
   onPress,
@@ -11,8 +12,20 @@ export const ConcertSubscribeButton = ({
   style?: StyleProp<ViewStyle>
 }) => {
   return (
-    <Button size="sm" theme="border" onPress={onPress} style={style}>
-      {isSubscribed ? 'Following' : 'Follow'}
-    </Button>
+    <IconButton
+      onPress={onPress}
+      style={[styles.bgColor, style]}
+      icon={'Heart'}
+      size="lg"
+      color={colors.oc.cyan[9].value}
+      strokeWidth={isSubscribed ? 1 : 2.5}
+      fill={isSubscribed ? colors.oc.cyan[9].value : 'transparent'}
+    />
   )
 }
+
+const styles = StyleSheet.create({
+  bgColor: {
+    backgroundColor: colors.oc.gray[4].value,
+  },
+})

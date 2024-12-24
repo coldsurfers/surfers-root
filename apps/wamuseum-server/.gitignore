@@ -15,3 +15,6 @@ src/data/
 !.yarn/versions
 
 assets/firebase/firebase-service-account-key.json
+
+build/
+.serverless

@@ -1,14 +1,16 @@
 {
   "name": "@coldsurfers/billets-web",
-  "version": "1.0.4",
+  "version": "1.0.12",
   "scripts": {
     "build": "next build",
+    "build:vercel": "npx vercel build --prod",
+    "codegen": "npx openapi-typescript https://api.billets.coldsurf.io/docs/json -o types/api.d.ts --alphabetize && prettier --write src/types/api.d.ts",
     "create:env:ci": "yarn ts-node ./libs/createDotEnv.ts",
-    "dev": "next dev",
     "deploy": "pm2 start ecosystem.config.js",
+    "deploy:vercel": "npx vercel deploy --prod --prebuilt",
+    "dev": "next dev",
     "lint": "next lint --fix && prettier --write .",
-    "start": "next start",
-    "codegen": "npx openapi-typescript https://api.billets.coldsurf.io/docs/json -o types/api.d.ts --alphabetize && prettier --write src/types/api.d.ts"
+    "start": "next start"
   },
   "dependencies": {
     "@coldsurfers/ocean-road": "workspace:*",
@@ -47,6 +49,7 @@
     "postcss": "^8.4.35",
     "prettier": "*",
     "prettier-plugin-tailwindcss": "^0.5.11",
+    "sst": "*",
     "ts-node": "^10.9.2",
     "typescript": "*",
     "typescript-plugin-css-modules": "^5.0.2"

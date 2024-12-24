@@ -14,6 +14,7 @@ module.exports = {
           '@/lib': './src/lib',
           '@/ui': './src/ui',
           '@/features': './src/features',
+          '@/types': './src/types',
         },
       },
     ],

@@ -1,19 +1,27 @@
-import { CurrentLocationTracker, LocationSelector, LocationSelectorModal, useToggleSubscribeConcert } from '@/features'
-import { AnimatePresence } from '@/ui'
+import {
+  CurrentLocationTracker,
+  LocationSelector,
+  LocationSelectorModal,
+  useToggleSubscribeConcert,
+  useUserCurrentLocationStore,
+} from '@/features'
+import { ConcertListItemT } from '@/features/concert/ui/concert-list/concert-list.types'
+import { useShowBottomTabBar } from '@/lib'
+import { AnimatePresence, CommonScreenLayout } from '@/ui'
 import { useScrollToTop } from '@react-navigation/native'
-import { useCallback, useRef, useState } from 'react'
-import { FlatList, StyleSheet } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { Suspense, useCallback, useRef, useState } from 'react'
+import { FlatList } from 'react-native'
 import { useShallow } from 'zustand/shallow'
-import { ConcertList } from '../../features/concert'
-import palettes from '../../lib/palettes'
+import { ConcertList, ConcertListSkeleton } from '../../features/concert'
 import useGetMeQuery from '../../lib/react-query/queries/useGetMeQuery'
-import { useUserCurrentLocationStore } from '../../lib/stores/userCurrentLocationStore'
 import { useHomeScreenNavigation } from './home-screen.hooks'
 
-export const HomeScreen = () => {
+const SuspenseHomeScreen = () => {
   const navigation = useHomeScreenNavigation()
   const listRef = useRef<FlatList>(null)
+  useScrollToTop(listRef)
+  useShowBottomTabBar()
+
   const [locationModalVisible, setLocationModalVisible] = useState(false)
   const { latitude, longitude } = useUserCurrentLocationStore(
     useShallow((state) => ({
@@ -27,10 +35,10 @@ export const HomeScreen = () => {
   const toggleSubscribeConcert = useToggleSubscribeConcert()
 
   const onPressConcertListItem = useCallback(
-    (concertId: string) => {
+    (item: ConcertListItemT) => {
       navigation.navigate('ConcertStackNavigation', {
         screen: 'ConcertDetailScreen',
-        params: { concertId },
+        params: { concertId: item.id },
       })
     },
     [navigation],
@@ -54,22 +62,39 @@ export const HomeScreen = () => {
     [meData, navigation, toggleSubscribeConcert],
   )
 
-  useScrollToTop(listRef)
+  const onPressSubscribe = useCallback(
+    (
+      item: ConcertListItemT,
+      options: {
+        isSubscribed: boolean
+      },
+    ) =>
+      onPressSubscribeConcertListItem({
+        isSubscribed: options.isSubscribed,
+        concertId: item.id,
+      }),
+    [onPressSubscribeConcertListItem],
+  )
+
+  const showLocationModal = useCallback(() => {
+    setLocationModalVisible(true)
+  }, [])
 
   return (
-    <SafeAreaView edges={['top']} style={styles.wrapper}>
+    <CommonScreenLayout edges={['top']}>
       {latitude === null && longitude === null && <CurrentLocationTracker />}
-      <LocationSelector onPress={() => setLocationModalVisible(true)} />
-      <ConcertList
-        ref={listRef}
-        onPressItem={(item) => onPressConcertListItem(item.id)}
-        onPressSubscribe={(item, { isSubscribed }) =>
-          onPressSubscribeConcertListItem({
-            isSubscribed,
-            concertId: item.id,
-          })
-        }
-      />
+      <LocationSelector onPress={showLocationModal} />
+      {latitude !== null && longitude !== null && (
+        <Suspense fallback={<ConcertListSkeleton />}>
+          <ConcertList
+            ref={listRef}
+            onPressItem={onPressConcertListItem}
+            onPressSubscribe={onPressSubscribe}
+            latitude={latitude}
+            longitude={longitude}
+          />
+        </Suspense>
+      )}
       <AnimatePresence>
         {locationModalVisible && (
           <LocationSelectorModal
@@ -78,59 +103,14 @@ export const HomeScreen = () => {
           />
         )}
       </AnimatePresence>
-    </SafeAreaView>
+    </CommonScreenLayout>
   )
 }
 
-const styles = StyleSheet.create({
-  wrapper: { flex: 1, backgroundColor: palettes.gray['100'] },
-  concertListItem: {
-    width: '100%',
-    backgroundColor: palettes.white,
-    marginBottom: 12,
-    padding: 12,
-    borderRadius: 8,
-  },
-  concertThumbnail: {
-    width: '100%',
-    height: 250,
-    borderRadius: 8,
-    marginBottom: 12,
-  },
-  concertTitle: { fontWeight: 'bold', fontSize: 18 },
-  concertFormattedDate: { marginTop: 8 },
-  concertVenue: { marginTop: 8 },
-  concertListContentContainer: {
-    paddingHorizontal: 12,
-    marginTop: 12,
-    paddingBottom: 24,
-    flexGrow: 1,
-  },
-  loadingIndicatorWrapper: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  emptyWrapper: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  emptyEmoji: { fontSize: 28 },
-  emptyDesc: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginTop: 12,
-  },
-  concertInfoWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  concertSaveButton: {
-    marginLeft: 'auto',
-    borderWidth: 1,
-    borderRadius: 18,
-    borderColor: palettes.gray['300'],
-    width: 36,
-    height: 36,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})
+export const HomeScreen = () => {
+  return (
+    <Suspense fallback={<ConcertListSkeleton />}>
+      <SuspenseHomeScreen />
+    </Suspense>
+  )
+}

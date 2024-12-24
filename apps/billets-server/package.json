@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-server",
-  "version": "1.1.1",
+  "version": "1.1.7",
   "license": "MIT",
   "main": "index.js",
   "scripts": {
@@ -8,9 +8,7 @@
     "build": "yarn tsup",
     "dev": "tsup --watch",
     "watch": "tsup --watch --onSuccess 'node ./build/start-server.mjs'",
-    "debug:vercel": "npx vercel dev --listen 3001",
     "debug": "npx nodemon",
-    "deploy:vercel": "vercel",
     "deploy": "pm2 start ecosystem.config.js",
     "clean": "del build",
     "lint": "eslint --cache \"src/**/*.{js,jsx,ts,tsx}\" \"vercel/**/*.{js,jsx,ts,tsx}\"",
@@ -19,7 +17,9 @@
     "prisma:migrate-dev": "yarn prisma migrate dev --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "prisma:studio": "yarn prisma studio --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma",
-    "vercel:sync-env": "vercel env pull"
+    "serverless:offline": "npx serverless offline --httpPort 3001",
+    "serverless:deploy:dev": "yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage dev",
+    "serverless:deploy:prod": "yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage prod"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -30,6 +30,7 @@
   "dependencies": {
     "@coldsurfers/prisma-schema": "workspace:*",
     "@coldsurfers/zod-schema": "workspace:*",
+    "@fastify/aws-lambda": "*",
     "@fastify/cors": "*",
     "@fastify/swagger": "^9.0.0",
     "@fastify/swagger-ui": "^5.0.1",
@@ -66,8 +67,11 @@
     "pm2": "*",
     "prettier": "*",
     "prisma": "*",
+    "serverless-dotenv-plugin": "*",
+    "serverless-offline": "*",
+    "serverless-plugin-monorepo": "*",
     "ts-node-dev": "^2.0.0",
-    "tsup": "^8.3.5",
+    "tsup": "*",
     "typescript": "*"
   },
   "packageManager": "yarn@4.2.2"

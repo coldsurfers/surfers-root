@@ -1,15 +1,20 @@
-import { SubscribedConcertList } from '@/features'
+import { SubscribedConcertList, SubscribedConcertListSkeleton } from '@/features'
+import { useShowBottomTabBar } from '@/lib'
 import { $api } from '@/lib/api/openapi-client'
-import { CommonScreenLayout } from '@/ui'
+import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
+import { CommonScreenLayout, MyScreenLandingLayout } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, ProfileThumbnail, Spinner, Text } from '@coldsurfers/ocean-road/native'
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { Suspense, useCallback, useContext, useMemo } from 'react'
 import { Alert, Pressable, SectionList, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import { match } from 'ts-pattern'
 import { AuthContext } from '../../lib/contexts/auth-context/auth-context'
-import palettes from '../../lib/palettes'
 import { useMyScreenNavigation } from './my-screen.hooks'
-import { MyScreenSettingSectionListData, MyScreenSettingSectionListSectionT } from './my-screen.types'
+import {
+  MyScreenSettingSectionListData,
+  MyScreenSettingSectionListSectionDataT,
+  MyScreenSettingSectionListSectionT,
+} from './my-screen.types'
 
 const ListFooterComponent = () => {
   const { logout } = useContext(AuthContext)
@@ -52,10 +57,13 @@ const ListFooterComponent = () => {
   )
 }
 
-export const MyScreen = () => {
+const SuspenseMyScreen = () => {
   const navigation = useMyScreenNavigation()
-  const { user, logout, isLoading } = useContext(AuthContext)
-  const [settingSections, setSettingSections] = useState<Array<MyScreenSettingSectionListData>>([])
+  const { logout } = useContext(AuthContext)
+  const { data: user } = useGetMeQuery()
+
+  useShowBottomTabBar()
+
   const onPressLoginButton = useCallback(() => {
     navigation.navigate('LoginStackNavigation', {
       screen: 'LoginSelectionScreen',
@@ -112,19 +120,22 @@ export const MyScreen = () => {
           )
         })
         .with('saved', () => {
-          return <SubscribedConcertList onPressItem={onPressSubscribedConcertListItem} />
+          return (
+            <Suspense fallback={<SubscribedConcertListSkeleton />}>
+              <SubscribedConcertList onPressItem={onPressSubscribedConcertListItem} />
+            </Suspense>
+          )
         })
         .exhaustive()
     },
     [onPressSubscribedConcertListItem],
   )
 
-  useEffect(() => {
+  const sections = useMemo<MyScreenSettingSectionListData[]>(() => {
     if (!user) {
-      return
+      return []
     }
-
-    setSettingSections([
+    return [
       {
         title: 'profile',
         uiTitle: '🙂 마이 프로필',
@@ -164,7 +175,6 @@ export const MyScreen = () => {
                       screen: 'HomeScreen',
                       params: {},
                     })
-                    setSettingSections([])
                   },
                 },
               ])
@@ -172,23 +182,15 @@ export const MyScreen = () => {
           },
         ],
       },
-    ])
+    ]
   }, [logout, navigation, user])
-
-  if (isLoading) {
-    return (
-      <View style={styles.wrapper}>
-        <Spinner />
-      </View>
-    )
-  }
 
   return user ? (
     <CommonScreenLayout>
-      <SectionList
+      <SectionList<MyScreenSettingSectionListSectionDataT, MyScreenSettingSectionListSectionT>
         contentContainerStyle={styles.sectionListContentContainer}
         style={styles.sectionList}
-        sections={settingSections}
+        sections={sections}
         stickySectionHeadersEnabled={false}
         ListFooterComponent={ListFooterComponent}
         renderSectionHeader={renderSectionHeader}
@@ -196,15 +198,15 @@ export const MyScreen = () => {
       />
     </CommonScreenLayout>
   ) : (
-    <CommonScreenLayout style={styles.wrapper}>
-      <Text weight="bold" style={styles.loginText}>
-        {`🎉\n예정된 많은\n공연을\n놓치지 마세요`}
-      </Text>
-      <Text style={styles.loginSubText}>{`로그인 후 찜하기를 사용해보세요`}</Text>
-      <Button style={styles.loginButton} onPress={onPressLoginButton}>
-        로그인 / 회원가입
-      </Button>
-    </CommonScreenLayout>
+    <MyScreenLandingLayout onPressLoginButton={onPressLoginButton} />
+  )
+}
+
+export const MyScreen = () => {
+  return (
+    <Suspense fallback={<Spinner positionCenter />}>
+      <SuspenseMyScreen />
+    </Suspense>
   )
 }
 
@@ -214,11 +216,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.oc.gray[1].value,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  loginButtonTitle: {
-    color: colors.oc.white.value,
-    fontWeight: '700',
-    fontSize: 14,
   },
   sectionListContentContainer: {
     backgroundColor: colors.oc.gray[1].value,
@@ -234,17 +231,6 @@ const styles = StyleSheet.create({
   },
   itemText: { fontWeight: '700', fontSize: 18 },
   sectionList: { backgroundColor: colors.oc.gray[1].value },
-  loginButton: {
-    backgroundColor: palettes.lightblue[500],
-    marginTop: 16,
-  },
-  loginText: { fontSize: 24, textAlign: 'center' },
-  loginSubText: {
-    fontSize: 16,
-    textAlign: 'center',
-    color: palettes.gray[500],
-    marginTop: 8,
-  },
   profileItem: {
     flexDirection: 'row',
     alignItems: 'center',

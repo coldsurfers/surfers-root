@@ -42,6 +42,9 @@ export class ConcertDTO {
         deletedAt: {
           equals: null,
         },
+        date: {
+          gte: new Date(),
+        },
       },
       include: {
         posters: {
@@ -56,7 +59,7 @@ export class ConcertDTO {
         },
       },
       orderBy: {
-        createdAt: orderBy === 'latest' ? 'desc' : 'asc',
+        date: 'asc',
       },
       take,
       skip,
