@@ -1,9 +1,9 @@
-import { TopCard, PageLayout } from './(ui)'
+import { PageLayout, TopCard } from './(ui)'
 
 export default function ShevilPage() {
   return (
     <PageLayout>
-      <TopCard />
+      <TopCard backgroundImageUrl="/shevil-hero.webp" />
     </PageLayout>
   )
 }
