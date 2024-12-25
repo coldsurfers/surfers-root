@@ -1,3 +1,11 @@
+'use client'
+
+import { StyledTopCard } from './top-card.styled'
+
 export function TopCard() {
-  return null
+  return (
+    <StyledTopCard>
+      <div>TopCard</div>
+    </StyledTopCard>
+  )
 }
