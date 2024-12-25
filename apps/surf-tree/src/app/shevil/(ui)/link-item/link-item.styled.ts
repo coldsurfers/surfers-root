@@ -1,9 +1,8 @@
 import { media, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import Link from 'next/link'
 
-export const StyledLinkItem = styled(Link)`
+export const StyledLinkItemContainer = styled.div`
   padding-left: 44px;
   padding-right: 44px;
   min-height: 64px !important;
@@ -16,6 +15,8 @@ export const StyledLinkItem = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  transform: translate(0px, 0px);
 
   &:hover {
     transform: translate(4px, 4px);
@@ -36,4 +37,14 @@ export const StyledLinkItemText = styled(Text)`
   font-size: 16px;
   font-weight: bold;
   color: ${semantics.color.foreground[1]};
+  text-align: center;
+`
+
+export const StyledShareButton = styled.button`
+  background-color: initial;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+  right: 6px;
+  position: absolute;
 `
