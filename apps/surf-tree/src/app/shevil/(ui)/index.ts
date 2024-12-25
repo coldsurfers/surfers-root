@@ -1,3 +1,5 @@
 export * from './hero-info'
+export * from './link-item'
+export * from './link-items-layout'
 export * from './page-layout'
 export * from './top-card'
