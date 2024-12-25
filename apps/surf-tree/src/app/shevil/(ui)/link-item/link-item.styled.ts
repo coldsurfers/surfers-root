@@ -7,7 +7,7 @@ export const StyledLinkItem = styled(Link)`
   padding-left: 44px;
   padding-right: 44px;
   min-height: 64px !important;
-  background-color: ${semantics.color.background[3]};
+  background-color: ${semantics.color.background[4]};
 
   border-radius: 30px;
   border: 2px solid ${semantics.color.border[2]};
