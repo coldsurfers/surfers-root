@@ -1,17 +1,11 @@
-import { semantics, Text } from '@coldsurfers/ocean-road'
+import { Text } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
-import Link from 'next/link'
 
-export const StyledHeaderLinkBadge = styled(Link)`
-  border-radius: 32px;
-  border: 1px solid ${semantics.color.border[2]};
-  padding: 1rem;
-`
-
-export const StyledHeaderHeading = styled(Text)<{ $isActive: boolean }>`
+export const StyledHeaderHeading = styled.p<{ $isActive: boolean }>`
   margin-bottom: 20px;
   text-transform: uppercase;
-  font-size: 24px;
+  font-size: 32px;
+  line-height: 32px;
   letter-spacing: 0.5px;
   font-weight: bold;
 `
@@ -19,7 +13,6 @@ export const StyledHeaderHeading = styled(Text)<{ $isActive: boolean }>`
 export const StyledHeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
   gap: 20px;
   margin-top: 24px;
 
