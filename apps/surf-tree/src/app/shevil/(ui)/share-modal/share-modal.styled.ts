@@ -1,7 +1,8 @@
 import { media, semantics } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import { X as CloseIcon, Link2 as LinkIcon } from 'lucide-react'
+import { Check as CheckIcon, X as CloseIcon, Link2 as LinkIcon } from 'lucide-react'
+import Link from 'next/link'
 
 export const ShareModalContent = styled.div`
   background: ${semantics.color.background['3']};
@@ -53,7 +54,7 @@ export const ShareModalBody = styled.div`
   padding-bottom: 0.25rem;
 `
 
-export const SharedCard = styled.div`
+export const SharedCard = styled(Link)`
   border-radius: 24px;
   background-color: ${semantics.color.background[2]};
   padding: 1rem;
@@ -66,6 +67,12 @@ export const SharedCard = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+
+  ${media.small(css`
+    margin-left: 0rem;
+    margin-right: 0rem;
+  `)}
 `
 
 export const SharedCardThumbnail = styled.div<{ $backgroundImage: string }>`
@@ -97,6 +104,7 @@ export const SharedModalFunctionLinkButton = styled.button`
   justify-content: center;
   cursor: pointer;
   margin-right: 1rem;
+  width: 4.5rem;
 `
 
 export const SharedModalFunctionLinkCircle = styled.div`
@@ -112,5 +120,9 @@ export const SharedModalFunctionLinkCircle = styled.div`
 `
 
 export const SharedModalFunctionLinkIcon = styled(LinkIcon)`
+  color: ${semantics.color.foreground[1]};
+`
+
+export const SharedModalFunctionCheckIcon = styled(CheckIcon)`
   color: ${semantics.color.foreground[1]};
 `
