@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/surf-tree",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "private": true,
   "scripts": {
     "build": "next build",
@@ -19,8 +19,11 @@
     "next": "15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-lite-youtube-embed": "^2.4.0",
     "sst": "*",
-    "zod": "*"
+    "ts-pattern": "*",
+    "zod": "*",
+    "zustand": "*"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

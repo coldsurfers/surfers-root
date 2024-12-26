@@ -1,41 +1,25 @@
-'use client'
-
-import { useState } from 'react'
+import { Metadata } from 'next/types'
+import { LinkItems, ShareModal } from './(components)'
 import { shevilData } from './(data)'
-import { Link } from './(data)/data.types'
-import { useToggle } from './(hooks)'
-import { HeroInfo, LinkItem, LinkItemsLayout, PageLayout, ShareModal, TopCard } from './(ui)'
+import { HeroInfo, PageLayout, TopCard } from './(ui)'
+
+export const metadata: Metadata = {
+  title: 'Shevil | SurfTree',
+  description: shevilData.subtitle,
+  icons: {
+    icon: '/icons/favicon.ico',
+  },
+}
 
 export default function ShevilPage() {
-  const [shareModalVisible, toggleShareModalVisible] = useToggle()
-  const [sharedLink, setSharedLink] = useState<Link | null>(null)
   return (
     <>
       <PageLayout>
         <TopCard backgroundImageUrl={shevilData.profileImageUrl} />
         <HeroInfo title={shevilData.title} subtitle={shevilData.subtitle} />
-        <LinkItemsLayout>
-          {shevilData.links.map((link) => (
-            <LinkItem
-              key={link.title}
-              href={link.url}
-              title={link.title}
-              onClickShare={() => {
-                toggleShareModalVisible()
-                setSharedLink(link)
-              }}
-            />
-          ))}
-        </LinkItemsLayout>
+        <LinkItems />
       </PageLayout>
-      <ShareModal
-        visible={shareModalVisible}
-        sharedLink={sharedLink}
-        onClose={() => {
-          toggleShareModalVisible()
-          setSharedLink(null)
-        }}
-      />
+      <ShareModal />
     </>
   )
 }
