@@ -1,6 +1,7 @@
 import { media, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
+import { EllipsisVertical } from 'lucide-react'
 
 export const StyledLinkItemContainer = styled.div`
   padding-left: 44px;
@@ -47,4 +48,10 @@ export const StyledShareButton = styled.button`
   z-index: 1;
   right: 6px;
   position: absolute;
+`
+
+export const StyledShareIcon = styled(EllipsisVertical)`
+  width: 24px;
+  height: 24px;
+  color: ${semantics.color.foreground[1]};
 `

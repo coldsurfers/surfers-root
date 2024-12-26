@@ -1,8 +1,7 @@
 'use client'
 
-import { EllipsisVertical } from 'lucide-react'
 import Link from 'next/link'
-import { StyledLinkItemContainer, StyledLinkItemText, StyledShareButton } from './link-item.styled'
+import { StyledLinkItemContainer, StyledLinkItemText, StyledShareButton, StyledShareIcon } from './link-item.styled'
 import { LinkItemProps } from './link-item.types'
 
 export function LinkItem({ href, title }: LinkItemProps) {
@@ -17,7 +16,7 @@ export function LinkItem({ href, title }: LinkItemProps) {
         <StyledLinkItemText as="span">{title}</StyledLinkItemText>
       </Link>
       <StyledShareButton onClick={(e) => e.stopPropagation()}>
-        <EllipsisVertical width={16} height={16} />
+        <StyledShareIcon />
       </StyledShareButton>
     </StyledLinkItemContainer>
   )
