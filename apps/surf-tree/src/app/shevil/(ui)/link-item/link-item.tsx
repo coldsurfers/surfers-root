@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { StyledLinkItemContainer, StyledLinkItemText, StyledShareButton, StyledShareIcon } from './link-item.styled'
 import { LinkItemProps } from './link-item.types'
 
-export function LinkItem({ href, title }: LinkItemProps) {
+export function LinkItem({ href, title, onClickShare }: LinkItemProps) {
   return (
     <StyledLinkItemContainer>
       <Link
@@ -15,7 +15,12 @@ export function LinkItem({ href, title }: LinkItemProps) {
       >
         <StyledLinkItemText as="span">{title}</StyledLinkItemText>
       </Link>
-      <StyledShareButton onClick={(e) => e.stopPropagation()}>
+      <StyledShareButton
+        onClick={(e) => {
+          e.stopPropagation()
+          onClickShare?.()
+        }}
+      >
         <StyledShareIcon />
       </StyledShareButton>
     </StyledLinkItemContainer>
