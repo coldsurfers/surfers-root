@@ -1,33 +1,49 @@
 'use client'
 
 import { Modal, Text } from '@coldsurfers/ocean-road'
-import { useLayoutEffect, useState } from 'react'
-import { OGInfo, parseOG } from '../../(utils)'
+import { useEffect, useState } from 'react'
+import { OGInfo } from '../../(utils)'
 import {
   SharedCard,
+  SharedCardThumbnail,
   ShareModalBody,
   ShareModalCloseButton,
   ShareModalContent,
   ShareModalHeader,
   StyledCloseIcon,
 } from './share-modal.styled'
-import { ShareModalProps } from './share-modal.types'
+import { fetchOGJsonResponseSchema, ShareModalProps } from './share-modal.types'
 
 export function ShareModal({ visible, onClose, sharedLink }: ShareModalProps) {
   const [isLoadingParse, setIsLoadingParse] = useState(false)
   const [ogInfo, setOGInfo] = useState<OGInfo | null>(null)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setIsLoadingParse(true)
-    async function initOG() {
-      const ogInfo = await parseOG(sharedLink?.url || '')
-      setOGInfo(ogInfo)
+    async function fetchOG(url: string) {
+      const response = await fetch('/api/og-info?siteUrl=' + url)
+      const json = await response.json()
+      console.log(json)
+      const validation = fetchOGJsonResponseSchema.safeParse(json)
+      if (validation.success) {
+        setOGInfo(validation.data)
+      } else {
+        console.error(validation.error)
+      }
       setIsLoadingParse(false)
     }
-    initOG()
+
+    if (sharedLink?.url) {
+      fetchOG(sharedLink.url)
+    }
   }, [sharedLink?.url])
 
-  console.log(ogInfo)
+  useEffect(() => {
+    if (!visible) {
+      setIsLoadingParse(false)
+      setOGInfo(null)
+    }
+  }, [visible])
 
   return (
     <Modal visible={visible} onClose={onClose}>
@@ -42,19 +58,28 @@ export function ShareModal({ visible, onClose, sharedLink }: ShareModalProps) {
         </ShareModalHeader>
         <ShareModalBody>
           <SharedCard>
-            <div
-              style={{
-                backgroundImage: `url(${ogInfo?.image})`,
-                backgroundSize: 'cover',
-                width: 20,
-                height: 20,
-              }}
-            />
-            <Text as="h4" style={{ margin: 'unset' }}>
-              {sharedLink?.title}
+            <SharedCardThumbnail $backgroundImage={ogInfo?.image ?? ''} />
+            <Text as="h2" style={{ margin: 'unset' }}>
+              {ogInfo?.title}
             </Text>
-            <Text as="p" style={{ margin: 'unset' }}>
+            <Text
+              as="p"
+              style={{
+                margin: 'unset',
+                marginTop: '1rem',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                maxWidth: '100%',
+              }}
+            >
               {sharedLink?.url}
+            </Text>
+            <Text
+              numberOfLines={3}
+              as="p"
+              style={{ margin: 'unset', marginTop: '1rem', textOverflow: 'ellipsis', overflow: 'hidden' }}
+            >
+              {ogInfo?.description}
             </Text>
           </SharedCard>
         </ShareModalBody>
