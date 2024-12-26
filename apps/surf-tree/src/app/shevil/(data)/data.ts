@@ -4,9 +4,14 @@ export const urls = []
 
 export const shevilData: TreeData = {
   title: 'Shevil',
-  subtitle: 'imcoldsurf@gmail.com',
+  subtitle: 'contact: imcoldsurf@gmail.com',
   profileImageUrl: '/shevil-hero.webp',
   links: [
+    {
+      title: 'We made a bubble balloon',
+      url: 'https://www.youtube.com/watch?v=Jib5RkoCS00',
+      isHighlighted: true,
+    },
     {
       title: 'YOUTUBE',
       url: 'https://www.youtube.com/@shevil',
