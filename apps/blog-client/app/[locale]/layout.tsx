@@ -3,6 +3,7 @@ import Script from 'next/script'
 import { OceanRoadThemeRegistry, QueryClientRegistry } from '@/lib'
 import { PageLayout } from '@/ui'
 import { routing } from 'i18n/routing'
+import { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, setRequestLocale } from 'next-intl/server'
 import { Noto_Sans_KR } from 'next/font/google'
@@ -14,9 +15,14 @@ const notoSansKR = Noto_Sans_KR({ subsets: ['latin'] })
 const metaTitle = 'Blog | Coldsurf'
 const metaDescription = 'blog, about software techs and tech industry.'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: metaTitle,
   description: metaDescription,
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico',
+  },
 }
 
 export default async function RootLayout({
@@ -56,7 +62,7 @@ export default async function RootLayout({
           </Script>
         )}
         <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/favicon.ico" type="image/png" />
       </head>
       <body className={notoSansKR.className}>
         {/* {colorScheme === 'userPreference' && (
