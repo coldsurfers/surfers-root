@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'Support Artists by making their own links | SurfTree',
   description: 'Create your own artist links and share them with the world',
+  icons: {
+    icon: '/icons/favicon.ico',
+    shortcut: '/icons/favicon.ico',
+    apple: '/icons/favicon.ico',
+  },
 }
 
 export default function RootLayout({
