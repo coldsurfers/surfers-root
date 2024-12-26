@@ -1,0 +1,10 @@
+.custom-yt-lite {
+  border-radius: 1.5rem;
+}
+
+.custom-yt-lite > .custom-lty-playbtn {
+  border-radius: 50%;
+  border: none;
+  width: 48px;
+  height: 48px;
+}
