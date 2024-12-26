@@ -28,7 +28,14 @@ export default function ShevilPage() {
           ))}
         </LinkItemsLayout>
       </PageLayout>
-      <ShareModal visible={shareModalVisible} sharedLink={sharedLink} onClose={() => toggleShareModalVisible()} />
+      <ShareModal
+        visible={shareModalVisible}
+        sharedLink={sharedLink}
+        onClose={() => {
+          toggleShareModalVisible()
+          setSharedLink(null)
+        }}
+      />
     </>
   )
 }

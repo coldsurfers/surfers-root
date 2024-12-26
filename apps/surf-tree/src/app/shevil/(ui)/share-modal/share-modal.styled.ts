@@ -48,7 +48,23 @@ export const SharedCard = styled.div`
   border-radius: 24px;
   background-color: ${semantics.color.background[2]};
   padding: 1rem;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
   margin-bottom: 1rem;
-  margin-left: 2rem;
-  margin-right: 2rem;
+  margin-left: 4rem;
+  margin-right: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
+
+export const SharedCardThumbnail = styled.div<{ $backgroundImage: string }>`
+  background-image: url(${(props) => props.$backgroundImage});
+  background-size: cover;
+  background-position: center;
+  height: 120px;
+  aspect-ratio: 1 / 1;
+  border-radius: 24px;
+  margin-bottom: 1rem;
 `
