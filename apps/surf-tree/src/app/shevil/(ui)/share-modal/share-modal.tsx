@@ -3,13 +3,12 @@
 import { Modal, Text } from '@coldsurfers/ocean-road'
 import { useEffect, useState } from 'react'
 import { OGInfo } from '../../(utils)'
+import { PoweredBy } from '../powered-by'
 import { functionLinks } from './(data)'
+import { CopyLinkButton } from './(ui)/copy-link-button'
 import {
   SharedCard,
   SharedCardThumbnail,
-  SharedModalFunctionLinkButton,
-  SharedModalFunctionLinkCircle,
-  SharedModalFunctionLinkIcon,
   SharedModalFunctionLinks,
   ShareModalBody,
   ShareModalCloseButton,
@@ -61,7 +60,7 @@ export function ShareModal({ visible, onClose, sharedLink }: ShareModalProps) {
           </ShareModalCloseButton>
         </ShareModalHeader>
         <ShareModalBody>
-          <SharedCard>
+          <SharedCard href={sharedLink?.url ?? ''} target="_blank" rel="noopener noreferrer">
             <SharedCardThumbnail $backgroundImage={ogInfo?.image ?? ''} />
             <Text as="h2" style={{ margin: 'unset' }}>
               {ogInfo?.title}
@@ -85,26 +84,17 @@ export function ShareModal({ visible, onClose, sharedLink }: ShareModalProps) {
             >
               {ogInfo?.description}
             </Text>
+            {/* </Link> */}
           </SharedCard>
           <SharedModalFunctionLinks>
             {functionLinks.map((item) => {
-              return (
-                <SharedModalFunctionLinkButton
-                  key={item.type}
-                  onClick={() => {
-                    if (item.type === 'COPY_LINK') {
-                      navigator.clipboard.writeText(sharedLink?.url ?? '')
-                    }
-                  }}
-                >
-                  <SharedModalFunctionLinkCircle>
-                    {item.type === 'COPY_LINK' && <SharedModalFunctionLinkIcon />}
-                  </SharedModalFunctionLinkCircle>
-                  <Text>{item.title}</Text>
-                </SharedModalFunctionLinkButton>
-              )
+              if (item.type === 'COPY_LINK') {
+                return <CopyLinkButton key={item.type} copyUrl={sharedLink?.url ?? ''} />
+              }
+              return null
             })}
           </SharedModalFunctionLinks>
+          <PoweredBy />
         </ShareModalBody>
       </ShareModalContent>
     </Modal>
