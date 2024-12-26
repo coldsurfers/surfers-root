@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { shevilData } from './(data)'
 import { Link } from './(data)/data.types'
 import { useToggle } from './(hooks)'
-import { HeroInfo, LinkItem, LinkItemsLayout, PageLayout, ShareModal, TopCard } from './(ui)'
+import { HeroInfo, HighlightedLink, LinkItem, LinkItemsLayout, PageLayout, ShareModal, TopCard } from './(ui)'
 
 export default function ShevilPage() {
   const [shareModalVisible, toggleShareModalVisible] = useToggle()
@@ -14,6 +14,7 @@ export default function ShevilPage() {
       <PageLayout>
         <TopCard backgroundImageUrl={shevilData.profileImageUrl} />
         <HeroInfo title={shevilData.title} subtitle={shevilData.subtitle} />
+        <HighlightedLink />
         <LinkItemsLayout>
           {shevilData.links.map((link) => (
             <LinkItem
