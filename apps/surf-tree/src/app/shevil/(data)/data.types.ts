@@ -7,4 +7,5 @@ export type TreeData = {
   title: string
   subtitle: string
   links: Link[]
+  profileImageUrl: string
 }
