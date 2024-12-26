@@ -1,6 +1,6 @@
 'use client'
 
-import { Text } from '@coldsurfers/ocean-road'
+import { colors, Text } from '@coldsurfers/ocean-road'
 import { motion, useAnimation } from 'framer-motion'
 import { useCallback, useEffect, useState } from 'react'
 import LiteYouTubeEmbed from 'react-lite-youtube-embed'
@@ -71,7 +71,9 @@ export function HighlightedLink(props: HighlightedLinkProps) {
               />
               {!isClicked && (
                 <StyledYoutubeEmbedOverlay>
-                  <Text>{title}</Text>
+                  <Text as="p" style={{ color: colors.oc.white.value }}>
+                    {title}
+                  </Text>
                 </StyledYoutubeEmbedOverlay>
               )}
             </>
