@@ -3851,6 +3851,7 @@ __metadata:
     next: "npm:15.1.0"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
+    sst: "npm:*"
     typescript: "npm:*"
     zod: "npm:*"
   languageName: unknown
