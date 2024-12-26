@@ -2,7 +2,8 @@
 
 import { semantics } from '@coldsurfers/ocean-road'
 import Link from 'next/link'
-import { StyledLinkItemContainer, StyledLinkItemText, StyledShareButton, StyledShareIcon } from './link-item.styled'
+import { ShareButton } from '../share-button'
+import { StyledLinkItemContainer, StyledLinkItemText } from './link-item.styled'
 import { LinkItemProps } from './link-item.types'
 
 export function LinkItem({ href, title, onClickShare }: LinkItemProps) {
@@ -33,19 +34,15 @@ export function LinkItem({ href, title, onClickShare }: LinkItemProps) {
       >
         <StyledLinkItemText as="span">{title}</StyledLinkItemText>
       </Link>
-      <StyledShareButton
-        whileHover={{
-          scale: 1.1, // Button scales up slightly on hover
-          backgroundColor: semantics.color.background[2], // Changes background color
-        }}
-        whileTap={{ scale: 0.9 }}
-        onClick={(e) => {
-          e.stopPropagation()
-          onClickShare?.()
+      <div
+        style={{
+          right: '6px',
+          position: 'absolute',
+          zIndex: 1,
         }}
       >
-        <StyledShareIcon />
-      </StyledShareButton>
+        <ShareButton onClickShare={onClickShare} />
+      </div>
     </StyledLinkItemContainer>
   )
 }
