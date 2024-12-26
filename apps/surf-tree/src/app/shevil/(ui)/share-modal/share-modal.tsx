@@ -64,17 +64,19 @@ export function ShareModal({ visible, onClose, sharedLink }: ShareModalProps) {
         <ShareModalBody>
           <SharedCard href={sharedLink?.url ?? ''} target="_blank" rel="noopener noreferrer">
             <SharedCardThumbnail $backgroundImage={ogInfo?.image ?? ''} />
-            <Text as="h2" style={{ margin: 'unset' }}>
+            <Text as="h2" style={{ margin: 'unset', textAlign: 'center' }}>
               {ogInfo?.title}
             </Text>
             <Text
               as="p"
+              numberOfLines={1}
               style={{
                 margin: 'unset',
                 marginTop: '1rem',
                 textOverflow: 'ellipsis',
                 overflow: 'hidden',
                 maxWidth: '100%',
+                textAlign: 'center',
               }}
             >
               {sharedLink?.url}

@@ -4,6 +4,7 @@ import { semantics } from '../tokens'
 export const StyledTextContainer = styled.span<{ numberOfLines?: number }>`
   color: ${semantics.color.foreground[1]};
   white-space: pre-wrap;
+  line-height: 1.25;
 
   ${({ numberOfLines }) =>
     numberOfLines &&
