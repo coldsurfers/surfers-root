@@ -1,6 +1,8 @@
 'use client'
 
-import { Modal, Text } from '@coldsurfers/ocean-road'
+import { Modal, semantics, Text } from '@coldsurfers/ocean-road'
+import { motion } from 'framer-motion'
+import { LoaderCircle } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { OGInfo } from '../../(utils)'
 import { PoweredBy } from '../powered-by'
@@ -17,6 +19,8 @@ import {
   StyledCloseIcon,
 } from './share-modal.styled'
 import { fetchOGJsonResponseSchema, ShareModalProps } from './share-modal.types'
+
+const MotionIcon = motion(LoaderCircle)
 
 export function ShareModal({ visible, onClose, sharedLink }: ShareModalProps) {
   const [isLoadingParse, setIsLoadingParse] = useState(false)
@@ -62,19 +66,46 @@ export function ShareModal({ visible, onClose, sharedLink }: ShareModalProps) {
           </ShareModalCloseButton>
         </ShareModalHeader>
         <ShareModalBody>
-          <SharedCard href={sharedLink?.url ?? ''} target="_blank" rel="noopener noreferrer">
-            <SharedCardThumbnail $backgroundImage={ogInfo?.image ?? ''} />
-            <Text as="h2" style={{ margin: 'unset' }}>
+          <SharedCard
+            href={sharedLink?.url ?? ''}
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{
+              scale: 1.025,
+              boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+            }}
+          >
+            <SharedCardThumbnail $backgroundImage={ogInfo?.image ?? ''}>
+              {isLoadingParse && (
+                <MotionIcon
+                  color={semantics.color.foreground[1]}
+                  animate={{
+                    rotate: 360, // Rotates the element 360 degrees
+                  }}
+                  width={32}
+                  height={32}
+                  transition={{
+                    repeat: Infinity, // Loops the animation infinitely
+                    duration: 0.5, // Each full rotation takes 2 seconds
+                    ease: 'linear', // Smooth, constant speed
+                  }}
+                />
+              )}
+            </SharedCardThumbnail>
+            <Text as="h2" style={{ margin: 'unset', textAlign: 'center' }}>
               {ogInfo?.title}
             </Text>
             <Text
               as="p"
+              numberOfLines={1}
               style={{
                 margin: 'unset',
                 marginTop: '1rem',
                 textOverflow: 'ellipsis',
                 overflow: 'hidden',
                 maxWidth: '100%',
+                textAlign: 'center',
+                fontSize: '14px',
               }}
             >
               {sharedLink?.url}
@@ -82,11 +113,16 @@ export function ShareModal({ visible, onClose, sharedLink }: ShareModalProps) {
             <Text
               numberOfLines={3}
               as="p"
-              style={{ margin: 'unset', marginTop: '1rem', textOverflow: 'ellipsis', overflow: 'hidden' }}
+              style={{
+                margin: 'unset',
+                marginTop: '1rem',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                fontSize: '14px',
+              }}
             >
               {ogInfo?.description}
             </Text>
-            {/* </Link> */}
           </SharedCard>
           <SharedModalFunctionLinks>
             {functionLinks.map((item) => {
