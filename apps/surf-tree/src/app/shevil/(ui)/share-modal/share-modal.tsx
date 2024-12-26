@@ -1,6 +1,8 @@
 'use client'
 
-import { Modal, Text } from '@coldsurfers/ocean-road'
+import { Modal, semantics, Text } from '@coldsurfers/ocean-road'
+import { motion } from 'framer-motion'
+import { LoaderCircle } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { OGInfo } from '../../(utils)'
 import { PoweredBy } from '../powered-by'
@@ -17,6 +19,8 @@ import {
   StyledCloseIcon,
 } from './share-modal.styled'
 import { fetchOGJsonResponseSchema, ShareModalProps } from './share-modal.types'
+
+const MotionIcon = motion(LoaderCircle)
 
 export function ShareModal({ visible, onClose, sharedLink }: ShareModalProps) {
   const [isLoadingParse, setIsLoadingParse] = useState(false)
@@ -71,7 +75,23 @@ export function ShareModal({ visible, onClose, sharedLink }: ShareModalProps) {
               boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
             }}
           >
-            <SharedCardThumbnail $backgroundImage={ogInfo?.image ?? ''} />
+            <SharedCardThumbnail $backgroundImage={ogInfo?.image ?? ''}>
+              {isLoadingParse && (
+                <MotionIcon
+                  color={semantics.color.foreground[1]}
+                  animate={{
+                    rotate: 360, // Rotates the element 360 degrees
+                  }}
+                  width={32}
+                  height={32}
+                  transition={{
+                    repeat: Infinity, // Loops the animation infinitely
+                    duration: 0.5, // Each full rotation takes 2 seconds
+                    ease: 'linear', // Smooth, constant speed
+                  }}
+                />
+              )}
+            </SharedCardThumbnail>
             <Text as="h2" style={{ margin: 'unset', textAlign: 'center' }}>
               {ogInfo?.title}
             </Text>
