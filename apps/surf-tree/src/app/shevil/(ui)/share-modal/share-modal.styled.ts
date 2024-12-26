@@ -1,7 +1,7 @@
 import { media, semantics } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import { X as CloseIcon } from 'lucide-react'
+import { X as CloseIcon, Link2 as LinkIcon } from 'lucide-react'
 
 export const ShareModalContent = styled.div`
   background: ${semantics.color.background['3']};
@@ -73,7 +73,44 @@ export const SharedCardThumbnail = styled.div<{ $backgroundImage: string }>`
   background-size: cover;
   background-position: center;
   height: 120px;
+  min-height: 120px;
   aspect-ratio: 1 / 1;
   border-radius: 24px;
   margin-bottom: 1rem;
+`
+
+export const SharedModalFunctionLinks = styled.div`
+  display: flex;
+  align-items: center;
+  padding-top: 1rem;
+  padding-bottom: 2.5rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+`
+
+export const SharedModalFunctionLinkButton = styled.button`
+  background: initial;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-right: 1rem;
+`
+
+export const SharedModalFunctionLinkCircle = styled.div`
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${semantics.color.background[2]};
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+`
+
+export const SharedModalFunctionLinkIcon = styled(LinkIcon)`
+  color: ${semantics.color.foreground[1]};
 `

@@ -3,9 +3,14 @@
 import { Modal, Text } from '@coldsurfers/ocean-road'
 import { useEffect, useState } from 'react'
 import { OGInfo } from '../../(utils)'
+import { functionLinks } from './(data)'
 import {
   SharedCard,
   SharedCardThumbnail,
+  SharedModalFunctionLinkButton,
+  SharedModalFunctionLinkCircle,
+  SharedModalFunctionLinkIcon,
+  SharedModalFunctionLinks,
   ShareModalBody,
   ShareModalCloseButton,
   ShareModalContent,
@@ -81,6 +86,25 @@ export function ShareModal({ visible, onClose, sharedLink }: ShareModalProps) {
               {ogInfo?.description}
             </Text>
           </SharedCard>
+          <SharedModalFunctionLinks>
+            {functionLinks.map((item) => {
+              return (
+                <SharedModalFunctionLinkButton
+                  key={item.type}
+                  onClick={() => {
+                    if (item.type === 'COPY_LINK') {
+                      navigator.clipboard.writeText(sharedLink?.url ?? '')
+                    }
+                  }}
+                >
+                  <SharedModalFunctionLinkCircle>
+                    {item.type === 'COPY_LINK' && <SharedModalFunctionLinkIcon />}
+                  </SharedModalFunctionLinkCircle>
+                  <Text>{item.title}</Text>
+                </SharedModalFunctionLinkButton>
+              )
+            })}
+          </SharedModalFunctionLinks>
         </ShareModalBody>
       </ShareModalContent>
     </Modal>
