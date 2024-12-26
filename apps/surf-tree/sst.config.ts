@@ -18,7 +18,7 @@ export default $config({
     }
   },
   async run() {
-    new sst.aws.Nextjs('SurfTree', {
+    new sst.aws.Nextjs('SurfTreeWeb', {
       domain: {
         name: process.env.SURF_TREE_DOMAIN_NAME!,
         cert: process.env.SURF_TREE_DOMAIN_CERT_ARN!,
