@@ -87,6 +87,10 @@ export const SharedCardThumbnail = styled.div<{ $backgroundImage: string }>`
   aspect-ratio: 1 / 1;
   border-radius: 24px;
   margin-bottom: 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 export const SharedModalFunctionLinks = styled.div`
