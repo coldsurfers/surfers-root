@@ -1,7 +1,7 @@
 'use client'
 
 import { Text } from '@coldsurfers/ocean-road'
-import { useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   SharedModalFunctionCheckIcon,
   SharedModalFunctionLinkButton,
@@ -11,17 +11,25 @@ import {
 
 export function CopyLinkButton({ copyUrl }: { copyUrl: string }) {
   const [isEffecting, setIsEffecting] = useState(false)
-  const timeoutRef = useState<ReturnType<typeof setTimeout> | null>(null)
-  const handleClick = () => {
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const handleClick = useCallback(() => {
     if (timeoutRef.current) {
-      return
+      clearTimeout(timeoutRef.current)
     }
     setIsEffecting(true)
     navigator.clipboard.writeText(copyUrl)
     timeoutRef.current = setTimeout(() => {
       setIsEffecting(false)
     }, 2500)
-  }
+  }, [copyUrl])
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+    }
+  }, [])
 
   return (
     <SharedModalFunctionLinkButton onClick={handleClick}>
