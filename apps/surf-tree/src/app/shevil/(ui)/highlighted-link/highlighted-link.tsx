@@ -1,11 +1,14 @@
 'use client'
 
-import { Text } from '@coldsurfers/ocean-road'
+import { colors, Text } from '@coldsurfers/ocean-road'
 import { motion, useAnimation } from 'framer-motion'
 import { useCallback, useEffect, useState } from 'react'
 import LiteYouTubeEmbed from 'react-lite-youtube-embed'
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
 import { match } from 'ts-pattern'
+import { useShallow } from 'zustand/shallow'
+import { useCommonStore } from '../../(stores)'
+import { ShareButton } from '../share-button'
 import { StyledHighlightedLinkLayout, StyledYoutubeEmbedOverlay } from './highlighted-link.styled'
 import { HighlightedLinkProps } from './highlighted-link.types'
 import './youtube-embed.css'
@@ -13,6 +16,12 @@ import './youtube-embed.css'
 export function HighlightedLink(props: HighlightedLinkProps) {
   const controls = useAnimation()
   const [isClicked, setIsClicked] = useState(false)
+  const { setSharedLink, toggleShareModalVisible } = useCommonStore(
+    useShallow((state) => ({
+      setSharedLink: state.setSharedLink,
+      toggleShareModalVisible: state.toggleShareModalVisible,
+    })),
+  )
 
   const triggerShake = useCallback(() => {
     controls.start({
@@ -62,12 +71,26 @@ export function HighlightedLink(props: HighlightedLinkProps) {
               />
               {!isClicked && (
                 <StyledYoutubeEmbedOverlay>
-                  <Text>{title}</Text>
+                  <Text as="p" style={{ color: colors.oc.white.value }}>
+                    {title}
+                  </Text>
                 </StyledYoutubeEmbedOverlay>
               )}
             </>
           ))
           .exhaustive()}
+        <div style={{ position: 'absolute', bottom: '0.5rem', right: '0.5rem', zIndex: 2 }}>
+          <ShareButton
+            onClickShare={() => {
+              setSharedLink({
+                isHighlighted: true,
+                title: props.title,
+                url: `https://www.youtube.com/watch?v=${props.youtubeId}`,
+              })
+              toggleShareModalVisible()
+            }}
+          />
+        </div>
       </StyledHighlightedLinkLayout>
     </motion.div>
   )
