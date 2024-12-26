@@ -3851,7 +3851,9 @@ __metadata:
     next: "npm:15.1.0"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
+    react-lite-youtube-embed: "npm:^2.4.0"
     sst: "npm:*"
+    ts-pattern: "npm:*"
     typescript: "npm:*"
     zod: "npm:*"
   languageName: unknown
@@ -32093,6 +32095,16 @@ __metadata:
   version: 3.0.4
   resolution: "react-lifecycles-compat@npm:3.0.4"
   checksum: 10c0/1d0df3c85af79df720524780f00c064d53a9dd1899d785eddb7264b378026979acbddb58a4b7e06e7d0d12aa1494fd5754562ee55d32907b15601068dae82c27
+  languageName: node
+  linkType: hard
+
+"react-lite-youtube-embed@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "react-lite-youtube-embed@npm:2.4.0"
+  peerDependencies:
+    react: ">=18.2.0"
+    react-dom: ">=18.2.0"
+  checksum: 10c0/a6820c3950d45922c4d2a19c8e4b6e97c65e622fec3ef7e88ea6600a89c24a70f0658a88c4a227a919a0b0dff744656e378e9c033ad56cfcb7c590e7a943cffe
   languageName: node
   linkType: hard
 

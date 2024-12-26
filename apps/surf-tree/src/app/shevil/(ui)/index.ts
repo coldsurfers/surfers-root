@@ -1,5 +1,6 @@
 export * from './footer'
 export * from './hero-info'
+export * from './highlighted-link'
 export * from './link-item'
 export * from './link-items-layout'
 export * from './page-layout'

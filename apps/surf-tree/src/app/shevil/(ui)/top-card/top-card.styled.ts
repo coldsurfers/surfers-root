@@ -15,5 +15,6 @@ export const StyledTopCard = styled.div<{ $backgroundImageUrl: string }>`
   ${media.small(css`
     width: 100%;
     border-radius: 0rem;
+    height: 20rem;
   `)}
 `
