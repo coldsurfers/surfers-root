@@ -1,4 +1,5 @@
-import { semantics } from '@coldsurfers/ocean-road'
+import { media, semantics } from '@coldsurfers/ocean-road'
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { X as CloseIcon } from 'lucide-react'
 
@@ -10,7 +11,15 @@ export const ShareModalContent = styled.div`
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.12),
     0 1px 2px rgba(0, 0, 0, 0.24);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  ${media.medium(css`
+    width: 100%;
+    max-width: 100%;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  `)}
 `
 
 export const ShareModalHeader = styled.div`
