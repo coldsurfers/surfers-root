@@ -48,6 +48,8 @@ export function ShareModal({ visible, onClose, sharedLink }: ShareModalProps) {
     }
   }, [visible])
 
+  console.log(isLoadingParse)
+
   return (
     <Modal visible={visible} onClose={onClose}>
       <ShareModalContent>
