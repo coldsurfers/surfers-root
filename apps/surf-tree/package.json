@@ -22,7 +22,8 @@
     "react-lite-youtube-embed": "^2.4.0",
     "sst": "*",
     "ts-pattern": "*",
-    "zod": "*"
+    "zod": "*",
+    "zustand": "*"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

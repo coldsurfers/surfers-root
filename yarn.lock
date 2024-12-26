@@ -3856,6 +3856,7 @@ __metadata:
     ts-pattern: "npm:*"
     typescript: "npm:*"
     zod: "npm:*"
+    zustand: "npm:*"
   languageName: unknown
   linkType: soft
 
