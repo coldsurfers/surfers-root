@@ -4,7 +4,8 @@ import styled from '@emotion/styled'
 import { motion } from 'framer-motion'
 import { EllipsisVertical } from 'lucide-react'
 
-export const StyledLinkItemContainer = styled.div`
+export const StyledLinkItemContainer = styled(motion.div)`
+  display: inline-block;
   padding-left: 44px;
   padding-right: 44px;
   min-height: 64px !important;
@@ -17,17 +18,6 @@ export const StyledLinkItemContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
-  transform: translate(0px, 0px);
-
-  &:hover {
-    transform: translate(4px, 4px);
-    box-shadow: ${semantics.color.border[2]} 4px 4px 0px 0px;
-  }
-  &:active {
-    transform: translate(4px, 4px);
-    box-shadow: ${semantics.color.border[2]} 4px 4px 0px 0px;
-  }
 
   ${media.small(css`
     margin-left: 24px;
