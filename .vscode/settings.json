@@ -23,6 +23,7 @@
     "wamuseum-client",
     "billets-web",
     "prisma-schema",
-    "surf-tree"
+    "surf-tree",
+    "coldsurf-io"
   ]
 }
