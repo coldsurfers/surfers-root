@@ -1,15 +1,15 @@
 import { colors, media } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
+import Image from 'next/image'
 
-export const StyledTopCard = styled.div<{ $backgroundImageUrl: string }>`
+export const StyledTopCard = styled(Image)`
   border-radius: 1.5rem;
   background: ${colors.oc.violet[2].value};
   width: 580px;
   height: 28rem;
-  background-image: url(${(props) => props.$backgroundImageUrl});
-  background-position: 50%;
-  background-size: cover;
+  object-fit: cover;
+  object-position: 50%;
   mask: radial-gradient(100% 100% at center top, #000 60%, transparent 100%);
 
   ${media.small(css`
