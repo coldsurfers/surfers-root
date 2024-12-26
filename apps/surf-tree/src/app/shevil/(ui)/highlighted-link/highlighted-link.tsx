@@ -1,7 +1,8 @@
 'use client'
 
 import { Text } from '@coldsurfers/ocean-road'
-import { motion } from 'framer-motion'
+import { motion, useAnimation } from 'framer-motion'
+import { useCallback, useEffect, useState } from 'react'
 import LiteYouTubeEmbed from 'react-lite-youtube-embed'
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
 import { match } from 'ts-pattern'
@@ -10,24 +11,45 @@ import { HighlightedLinkProps } from './highlighted-link.types'
 import './youtube-embed.css'
 
 export function HighlightedLink(props: HighlightedLinkProps) {
+  const controls = useAnimation()
+  const [isClicked, setIsClicked] = useState(false)
+
+  const triggerShake = useCallback(() => {
+    controls.start({
+      rotate: [0, 2, -2, 2, -2, 0],
+      x: [0, -2, 2, -2, 2, 0],
+      y: [0, 1, -1, 1, -1, 0],
+      transition: { duration: 0.5, ease: 'easeInOut', repeat: Infinity, repeatDelay: 1 },
+    })
+  }, [controls])
+
+  useEffect(() => {
+    triggerShake()
+  }, [triggerShake])
+
+  useEffect(() => {
+    if (isClicked) {
+      controls.start({
+        rotate: 0, // Reset rotation to initial state
+        y: 0, // Reset position to initial state
+        x: 0,
+        transition: { duration: 0.4, ease: 'easeOut', repeat: 0 }, // Smooth transition back
+      })
+    }
+  }, [controls, isClicked])
+
   return (
     <motion.div
       style={{
         display: 'inline-block',
       }}
-      animate={{
-        rotate: [0, 2, -2, 2, -2, 0], // Rotates slightly to create the "top edges shake" effect
-        x: [0, -2, 2, -2, 2, 0], // Adds slight horizontal movement
-        y: [0, 1, -1, 1, -1, 0], // Adds slight vertical movement
-      }}
-      transition={{
-        duration: 0.5, // Total duration of the shake
-        ease: 'easeInOut',
-        repeat: Infinity, // Set the number of repetitions (Infinity for continuous)
-        repeatDelay: 1, // Delay between repetitions
-      }}
+      animate={controls}
     >
-      <StyledHighlightedLinkLayout>
+      <StyledHighlightedLinkLayout
+        onClick={() => {
+          setIsClicked(true)
+        }}
+      >
         {match(props)
           .with({ type: 'youtube' }, ({ youtubeId, title }) => (
             <>
@@ -36,10 +58,13 @@ export function HighlightedLink(props: HighlightedLinkProps) {
                 title="YouTube video player"
                 wrapperClass="yt-lite custom-yt-lite"
                 playerClass="lty-playbtn custom-lty-playbtn"
+                muted
               />
-              <StyledYoutubeEmbedOverlay>
-                <Text>{title}</Text>
-              </StyledYoutubeEmbedOverlay>
+              {!isClicked && (
+                <StyledYoutubeEmbedOverlay>
+                  <Text>{title}</Text>
+                </StyledYoutubeEmbedOverlay>
+              )}
             </>
           ))
           .exhaustive()}
