@@ -51,7 +51,7 @@
     "@types/file-saver": "^2",
     "@types/react": "*",
     "@types/react-dom": "*",
-    "eslint": "*",
+    "eslint": "8.57.0",
     "pm2": "*",
     "prettier": "*",
     "sst": "*",

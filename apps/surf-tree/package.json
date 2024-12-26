@@ -1,0 +1,35 @@
+{
+  "name": "@coldsurfers/surf-tree",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "lint": "next lint",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@coldsurfers/ocean-road": "workspace:*",
+    "@emotion/css": "*",
+    "@emotion/react": "*",
+    "@emotion/styled": "*",
+    "cheerio": "^1.0.0",
+    "framer-motion": "*",
+    "lucide-react": "^0.469.0",
+    "next": "15.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sst": "*",
+    "zod": "*"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/node": "*",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.0",
+    "typescript": "*"
+  },
+  "packageManager": "yarn@4.2.2"
+}
