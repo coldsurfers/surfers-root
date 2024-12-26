@@ -39,6 +39,7 @@ export const StyledLinkItemText = styled(Text)`
   font-weight: bold;
   color: ${semantics.color.foreground[1]};
   text-align: center;
+  line-height: 64px;
 `
 
 export const StyledShareButton = styled.button`
