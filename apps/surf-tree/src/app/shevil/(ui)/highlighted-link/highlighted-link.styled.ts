@@ -1,9 +1,12 @@
-import { media } from '@coldsurfers/ocean-road'
+import { media, semantics } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 
 export const StyledHighlightedLinkLayout = styled.div`
   transform: translateY(-1rem);
+
+  border-radius: 30px;
+  box-shadow: ${semantics.color.border[2]} 8px 8px 0px 0px;
 
   ${media.small(css`
     margin-left: 24px;
