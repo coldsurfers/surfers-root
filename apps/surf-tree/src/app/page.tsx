@@ -8,7 +8,11 @@ const TITLE = 'Welcome to SurfTree'
 const SUBTITLE = 'Moving to COLDSURF main page in 5 seconds'
 
 export default function Home() {
-  useLayoutEffect(() => {}, [])
+  useLayoutEffect(() => {
+    setTimeout(() => {
+      window.location.href = 'https://coldsurf.io'
+    }, TIME_DURATION)
+  }, [])
 
   return (
     <>
