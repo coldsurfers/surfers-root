@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import type { PropsWithChildren } from 'react'
 import { shevilData } from './(data)'
 
 export const metadata: Metadata = {
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function ShevilLayout({ children }) {
+export default function ShevilLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <body>{children}</body>
