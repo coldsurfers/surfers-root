@@ -14,26 +14,34 @@ inputs:
   work_dir:
     description: 'working directory'
     required: true
+  github_token:
+    description: 'github token for ci'
+    required: true
 
 runs:
   using: 'composite'
   steps:
     - name: setup node
       uses: actions/setup-node@v2
+      shell: bash
       with:
         node-version: '20.16.0'
 
     - name: corepack enable
+      shell: bash
       run: corepack enable
 
     - name: setup yarnrc
+      shell: bash
       run: |
-        GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN=${{ inputs.github_token }}
         echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> $GITHUB_ENV
 
     - name: install dependencies
+      shell: bash
       run: yarn install
 
     - name: sst deploy
+      shell: bash
       working-directory: ${{ inputs.work_dir }}
       run: npx sst deploy --stage production
