@@ -1,6 +1,6 @@
 import { semantics, Text } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
-import Link from 'next/link'
+import { Link } from 'i18n/routing'
 
 export const StyledHeaderLinkBadge = styled(Link)`
   border-radius: 32px;
