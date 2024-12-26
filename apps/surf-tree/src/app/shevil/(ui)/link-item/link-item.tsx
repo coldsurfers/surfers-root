@@ -1,6 +1,5 @@
 'use client'
 
-import { semantics } from '@coldsurfers/ocean-road'
 import Link from 'next/link'
 import { ShareButton } from '../share-button'
 import { StyledLinkItemContainer, StyledLinkItemText } from './link-item.styled'
@@ -11,7 +10,6 @@ export function LinkItem({ href, title, onClickShare }: LinkItemProps) {
     <StyledLinkItemContainer
       whileHover={{
         transform: 'translate(4px, 4px)',
-        boxShadow: semantics.color.border[2] + ' 4px 4px 0px 0px',
         transition: {
           duration: 0.05,
           ease: 'easeInOut',
@@ -19,7 +17,6 @@ export function LinkItem({ href, title, onClickShare }: LinkItemProps) {
       }}
       whileTap={{
         transform: 'translate(4px, 4px)',
-        boxShadow: semantics.color.border[2] + ' 4px 4px 0px 0px',
         transition: {
           duration: 0.05,
           ease: 'easeInOut',
