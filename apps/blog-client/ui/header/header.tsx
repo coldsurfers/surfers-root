@@ -1,13 +1,11 @@
 'use client'
 
-import { ColorSchemeToggle } from '@/features'
-import { Link, usePathname } from 'i18n/routing'
+import { usePathname } from 'i18n/routing'
 import {
   StyledHeaderBigContainer,
   StyledHeaderContainer,
   StyledHeaderHeading,
-  StyledHeaderTitle,
-  StyledTitleAndColorScheme,
+  StyledHeaderLinkBadge,
 } from './header.styled'
 
 export const Header = () => {
@@ -15,34 +13,28 @@ export const Header = () => {
 
   return (
     <StyledHeaderBigContainer>
-      <StyledTitleAndColorScheme>
-        <Link href={'/'}>
-          <StyledHeaderTitle as="h1">Blog, COLDSURF</StyledHeaderTitle>
-        </Link>
-        <ColorSchemeToggle />
-      </StyledTitleAndColorScheme>
       <StyledHeaderContainer>
-        <Link href="/surflog">
-          <StyledHeaderHeading $isActive={pathname.startsWith('/surflog')}>{'🌊'}</StyledHeaderHeading>
-        </Link>
-        <Link href="/techlog">
-          <StyledHeaderHeading $isActive={pathname.startsWith('/techlog')}>{'💻'}</StyledHeaderHeading>
-        </Link>
-        <Link href="/soundlog">
-          <StyledHeaderHeading $isActive={pathname.startsWith('/soundlog')}>{'🎧'}</StyledHeaderHeading>
-        </Link>
-        <Link href="/filmlog">
-          <StyledHeaderHeading $isActive={pathname.startsWith('/filmlog')}>{'🎥'}</StyledHeaderHeading>
-        </Link>
-        <Link href="/textlog">
-          <StyledHeaderHeading $isActive={pathname.startsWith('/textlog')}>{'📖'}</StyledHeaderHeading>
-        </Link>
-        <Link href="/squarelog">
-          <StyledHeaderHeading $isActive={pathname.startsWith('/squarelog')}>{'📷'}</StyledHeaderHeading>
-        </Link>
-        <Link href="/writers">
-          <StyledHeaderHeading $isActive={pathname.startsWith('/writers')}>{'🧑🏻‍💻'}</StyledHeaderHeading>
-        </Link>
+        <StyledHeaderLinkBadge href="/surflog">
+          <StyledHeaderHeading $isActive={pathname.startsWith('/surflog')}>{'LIFE'}</StyledHeaderHeading>
+        </StyledHeaderLinkBadge>
+        <StyledHeaderLinkBadge href="/techlog">
+          <StyledHeaderHeading $isActive={pathname.startsWith('/techlog')}>{'TECH'}</StyledHeaderHeading>
+        </StyledHeaderLinkBadge>
+        <StyledHeaderLinkBadge href="/soundlog">
+          <StyledHeaderHeading $isActive={pathname.startsWith('/soundlog')}>{'MUSIC'}</StyledHeaderHeading>
+        </StyledHeaderLinkBadge>
+        <StyledHeaderLinkBadge href="/filmlog">
+          <StyledHeaderHeading $isActive={pathname.startsWith('/filmlog')}>{'VIDEO'}</StyledHeaderHeading>
+        </StyledHeaderLinkBadge>
+        <StyledHeaderLinkBadge href="/textlog">
+          <StyledHeaderHeading $isActive={pathname.startsWith('/textlog')}>{'TEXT'}</StyledHeaderHeading>
+        </StyledHeaderLinkBadge>
+        <StyledHeaderLinkBadge href="/squarelog">
+          <StyledHeaderHeading $isActive={pathname.startsWith('/squarelog')}>{'PHOTO'}</StyledHeaderHeading>
+        </StyledHeaderLinkBadge>
+        <StyledHeaderLinkBadge href="/writers">
+          <StyledHeaderHeading $isActive={pathname.startsWith('/writers')}>{'ABOUT'}</StyledHeaderHeading>
+        </StyledHeaderLinkBadge>
       </StyledHeaderContainer>
     </StyledHeaderBigContainer>
   )
