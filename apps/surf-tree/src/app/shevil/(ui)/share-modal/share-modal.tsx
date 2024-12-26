@@ -23,7 +23,6 @@ export function ShareModal({ visible, onClose, sharedLink }: ShareModalProps) {
     async function fetchOG(url: string) {
       const response = await fetch('/api/og-info?siteUrl=' + url)
       const json = await response.json()
-      console.log(json)
       const validation = fetchOGJsonResponseSchema.safeParse(json)
       if (validation.success) {
         setOGInfo(validation.data)
