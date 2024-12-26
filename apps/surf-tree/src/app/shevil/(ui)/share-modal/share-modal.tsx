@@ -62,7 +62,15 @@ export function ShareModal({ visible, onClose, sharedLink }: ShareModalProps) {
           </ShareModalCloseButton>
         </ShareModalHeader>
         <ShareModalBody>
-          <SharedCard href={sharedLink?.url ?? ''} target="_blank" rel="noopener noreferrer">
+          <SharedCard
+            href={sharedLink?.url ?? ''}
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{
+              scale: 1.025,
+              boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+            }}
+          >
             <SharedCardThumbnail $backgroundImage={ogInfo?.image ?? ''} />
             <Text as="h2" style={{ margin: 'unset', textAlign: 'center' }}>
               {ogInfo?.title}
@@ -77,6 +85,7 @@ export function ShareModal({ visible, onClose, sharedLink }: ShareModalProps) {
                 overflow: 'hidden',
                 maxWidth: '100%',
                 textAlign: 'center',
+                fontSize: '14px',
               }}
             >
               {sharedLink?.url}
@@ -84,11 +93,16 @@ export function ShareModal({ visible, onClose, sharedLink }: ShareModalProps) {
             <Text
               numberOfLines={3}
               as="p"
-              style={{ margin: 'unset', marginTop: '1rem', textOverflow: 'ellipsis', overflow: 'hidden' }}
+              style={{
+                margin: 'unset',
+                marginTop: '1rem',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                fontSize: '14px',
+              }}
             >
               {ogInfo?.description}
             </Text>
-            {/* </Link> */}
           </SharedCard>
           <SharedModalFunctionLinks>
             {functionLinks.map((item) => {

@@ -1,6 +1,7 @@
 import { media, semantics } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
+import { motion } from 'framer-motion'
 import { Check as CheckIcon, X as CloseIcon, Link2 as LinkIcon } from 'lucide-react'
 import Link from 'next/link'
 
@@ -56,7 +57,7 @@ export const ShareModalBody = styled.div`
   padding-bottom: 0.25rem;
 `
 
-export const SharedCard = styled(Link)`
+export const SharedCard = styled(motion(Link))`
   border-radius: 24px;
   background-color: ${semantics.color.background[2]};
   padding: 1rem;
@@ -91,6 +92,7 @@ export const SharedCardThumbnail = styled.div<{ $backgroundImage: string }>`
 export const SharedModalFunctionLinks = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   padding-top: 1rem;
   padding-bottom: 2.5rem;
   padding-left: 1.25rem;
