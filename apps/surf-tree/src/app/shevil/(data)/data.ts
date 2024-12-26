@@ -5,6 +5,7 @@ export const urls = []
 export const shevilData: TreeData = {
   title: 'Shevil',
   subtitle: 'imcoldsurf@gmail.com',
+  profileImageUrl: '/shevil-hero.webp',
   links: [
     {
       title: 'YOUTUBE',

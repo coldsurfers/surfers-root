@@ -14,7 +14,7 @@ export const ShareModalContent = styled.div`
 `
 
 export const ShareModalHeader = styled.div`
-  padding-top: 1rem;
+  padding-top: 1.5rem;
   padding-right: 0.25rem;
   padding-left: 0.25rem;
   padding-bottom: 0.25rem;
@@ -27,7 +27,7 @@ export const ShareModalHeader = styled.div`
 
 export const ShareModalCloseButton = styled.button`
   position: absolute;
-  right: 1rem;
+  right: 30px;
   background-color: initial;
   border: none;
   cursor: pointer;
@@ -35,4 +35,20 @@ export const ShareModalCloseButton = styled.button`
 
 export const StyledCloseIcon = styled(CloseIcon)`
   color: ${semantics.color.foreground[1]};
+`
+
+export const ShareModalBody = styled.div`
+  padding-top: 1rem;
+  padding-right: 1.25rem;
+  padding-left: 1.25rem;
+  padding-bottom: 0.25rem;
+`
+
+export const SharedCard = styled.div`
+  border-radius: 24px;
+  background-color: ${semantics.color.background[2]};
+  padding: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
 `
