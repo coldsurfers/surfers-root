@@ -8,6 +8,11 @@ export const shevilData: TreeData = {
   profileImageUrl: '/shevil-hero.webp',
   links: [
     {
+      title: 'We made a bubble balloon',
+      url: 'https://www.youtube.com/watch?v=Jib5RkoCS00',
+      isHighlighted: true,
+    },
+    {
       title: 'YOUTUBE',
       url: 'https://www.youtube.com/@shevil',
     },
