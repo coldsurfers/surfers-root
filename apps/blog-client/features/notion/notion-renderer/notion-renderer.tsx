@@ -119,5 +119,14 @@ export const NotionRenderer = ({ recordMap }: { recordMap: ExtendedRecordMap }) 
     return url
   }, [])
 
-  return <NR recordMap={recordMap} components={components} forceCustomImages mapImageUrl={mapImageUrl} previewImages />
+  return (
+    <NR
+      recordMap={recordMap}
+      components={components}
+      forceCustomImages
+      mapImageUrl={mapImageUrl}
+      isImageZoomable
+      previewImages
+    />
+  )
 }
