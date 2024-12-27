@@ -1,7 +1,6 @@
 import Script from 'next/script'
 
 import { OceanRoadThemeRegistry, QueryClientRegistry } from '@/lib'
-import { PageLayout } from '@/ui'
 import { routing } from 'i18n/routing'
 import { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
@@ -130,9 +129,7 @@ export default async function RootLayout({
         />
         <NextIntlClientProvider messages={messages}>
           <OceanRoadThemeRegistry>
-            <QueryClientRegistry>
-              <PageLayout>{children}</PageLayout>
-            </QueryClientRegistry>
+            <QueryClientRegistry>{children}</QueryClientRegistry>
           </OceanRoadThemeRegistry>
         </NextIntlClientProvider>
       </body>
