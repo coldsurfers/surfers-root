@@ -1,15 +1,15 @@
 'use client'
 
 import { useGetTagsQuery } from '@/lib'
+import { PageLayout } from '@/ui'
 import { TagList } from '@/ui/tag-list/tag-list'
-import { StyledTagPageTitle } from './page.styled'
 
 export const TagsPageClient = () => {
   const { data } = useGetTagsQuery()
   return (
-    <>
-      <StyledTagPageTitle as="h1">Tags</StyledTagPageTitle>
+    <PageLayout title="Tags">
+      <div style={{ marginTop: '6.5rem' }} />
       {data?.tags && <TagList tags={data.tags} />}
-    </>
+    </PageLayout>
   )
 }
