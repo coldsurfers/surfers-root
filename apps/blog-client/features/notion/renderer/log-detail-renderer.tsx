@@ -1,19 +1,29 @@
 'use client'
 
 import { LogPlatform } from '@/features/logs'
-import { NotionRenderer, Text } from '@/features/notion'
+import { NotionRenderer } from '@/features/notion'
 import { useGetLogDetailQuery } from '@/lib/react-query/queries/use-get-log-detail-query/use-get-log-detail-query'
-import { CommonBack } from '@/ui'
+import { CommonBack, PageLayout } from '@/ui'
 import { TagList } from '@/ui/tag-list/tag-list'
-import { media } from '@coldsurfers/ocean-road'
+import { media, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { AppLocale } from 'i18n/types'
 import { useMemo } from 'react'
 
-const Heading1 = styled.h1`
-  ${media.medium(css`
-    font-size: 1.25rem;
+const WriterText = styled(Text)`
+  font-size: 20px;
+
+  ${media.small(css`
+    font-size: 16px;
+  `)}
+`
+
+const RendererSection = styled.section`
+  margin-top: 2rem;
+
+  ${media.small(css`
+    margin-top: 1rem;
   `)}
 `
 
@@ -31,6 +41,8 @@ export const LogDetailRenderer = ({
   const recordMap = useMemo(() => data?.recordMap, [data?.recordMap])
 
   const pageTitle = useMemo(() => (page?.properties.Name.type === 'title' ? page.properties.Name.title : null), [page])
+  // @ts-ignore
+  const writerName = useMemo(() => page?.properties?.Writer?.people?.at(0)?.name, [page?.properties?.Writer?.people])
 
   const tags = useMemo(
     () =>
@@ -45,15 +57,23 @@ export const LogDetailRenderer = ({
   )
 
   return (
-    <article>
-      <Heading1>
-        <Text title={pageTitle} />
-      </Heading1>
-      <TagList tags={tags} />
-      <section>
-        {recordMap && <NotionRenderer recordMap={recordMap} />}
-        <CommonBack />
-      </section>
-    </article>
+    <PageLayout title={pageTitle?.at(0)?.plain_text}>
+      <article style={{ marginTop: '2rem' }}>
+        <TagList tags={tags} />
+        <div
+          style={{
+            textAlign: 'center',
+            marginBottom: '1rem',
+            marginTop: '1rem',
+          }}
+        >
+          <WriterText>Written by {writerName}</WriterText>
+        </div>
+        <RendererSection>
+          {recordMap && <NotionRenderer recordMap={recordMap} />}
+          <CommonBack />
+        </RendererSection>
+      </article>
+    </PageLayout>
   )
 }

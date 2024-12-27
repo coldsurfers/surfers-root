@@ -6,7 +6,7 @@ import { StyledTagItem, StyledTagItemText } from './tag-item.styled'
 export const TagItem = memo(({ name, color }: { name: string; color: string }) => {
   return (
     <StyledTagItem color={color}>
-      <StyledTagItemText>#{name}</StyledTagItemText>
+      <StyledTagItemText as="p">#{name}</StyledTagItemText>
     </StyledTagItem>
   )
 })

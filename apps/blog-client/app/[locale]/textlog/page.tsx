@@ -1,6 +1,6 @@
 import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
 import { getQueryClient } from '@/lib/react-query/react-query.utils'
-import { LogListPage } from '@/ui'
+import { LogListPage, PageLayout } from '@/ui'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { routing } from 'i18n/routing'
 import { PageProps } from 'i18n/types'
@@ -12,7 +12,8 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
-export default async function TextLogPage({ params }: PageProps) {
+export default async function TextLogPage({ params, searchParams }: PageProps) {
+  const page = searchParams['page'] ? Number(searchParams['page']) : 1
   setRequestLocale(params.locale)
   const queryClient = getQueryClient()
   await queryClient.prefetchQuery(
@@ -25,7 +26,9 @@ export default async function TextLogPage({ params }: PageProps) {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <LogListPage locale={params.locale} platform="textlog" />
+      <PageLayout title="TEXT">
+        <LogListPage locale={params.locale} platform="textlog" page={page} />
+      </PageLayout>
     </HydrationBoundary>
   )
 }

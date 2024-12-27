@@ -1,6 +1,7 @@
-import { media, Text } from '@coldsurfers/ocean-road'
+import { media, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
+import Image from 'next/image'
 
 export const StyledPostItemContainer = styled.li`
   display: flex;
@@ -77,4 +78,56 @@ export const StyledPostItemWriterAvatar = styled.img`
   height: 20px;
   border-radius: 50%;
   margin-right: 8px;
+`
+
+export const StyledPostThumbnail = styled(Image)`
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 16px;
+  max-width: 100%;
+  height: auto;
+`
+
+export const StyledPostPlatformText = styled(Text)`
+  margin-top: 1rem;
+  margin-bottom: 0.75rem;
+  font-size: 18px;
+
+  color: ${semantics.color.foreground[4]};
+
+  &:hover {
+    text-decoration: underline;
+  }
+`
+
+export const StyledPostTitleText = styled(Text)`
+  margin: unset;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+  width: 100%;
+  max-width: 100%;
+
+  span {
+    display: inline-block;
+    word-wrap: break-word; /* Ensures long words break */
+    word-break: break-word; /* Alternative for modern browsers */
+    overflow-wrap: break-word; /* Standard, preferred */
+    white-space: normal; /* Allows wrapping */
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    ${media.large(css`
+      font-size: 20px;
+    `)}
+  }
+`
+
+export const StyledPostDateText = styled(Text)`
+  margin: unset;
+  margin-bottom: 1rem;
+  font-size: 14px;
+  color: ${semantics.color.foreground[4]};
 `
