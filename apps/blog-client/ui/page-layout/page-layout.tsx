@@ -1,11 +1,10 @@
 'use client'
 
 import { ColorSchemeToggle } from '@/features/color-scheme'
-import { Text } from '@coldsurfers/ocean-road'
 import { Link, usePathname } from 'i18n/routing'
 import { PropsWithChildren } from 'react'
 import { Header } from '../header/header'
-import { StyledPageLayoutContainer } from './page-layout.styled'
+import { BigTitle, BigTitleWrapper, StyledPageLayoutContainer } from './page-layout.styled'
 
 export const PageLayout = ({ children }: PropsWithChildren) => {
   const pathname = usePathname()
@@ -14,21 +13,11 @@ export const PageLayout = ({ children }: PropsWithChildren) => {
       <div style={{ marginTop: '2rem' }}>
         <ColorSchemeToggle />
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10rem' }}>
+      <BigTitleWrapper>
         <Link href="/" style={{ width: 'auto' }}>
-          <Text
-            as="h1"
-            style={{
-              fontSize: '88px',
-              fontWeight: 820,
-              lineHeight: '1.05',
-              textAlign: 'center',
-            }}
-          >
-            The COLDSURF Blog
-          </Text>
+          <BigTitle as="h1">The COLDSURF Blog</BigTitle>
         </Link>
-      </div>
+      </BigTitleWrapper>
       {process.env.NODE_ENV === 'development' && pathname === '/resume' ? null : <Header />}
       {children}
     </StyledPageLayoutContainer>

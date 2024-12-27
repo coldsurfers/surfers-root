@@ -118,6 +118,10 @@ export const StyledPostTitleText = styled(Text)`
     &:hover {
       text-decoration: underline;
     }
+
+    ${media.large(css`
+      font-size: 20px;
+    `)}
   }
 `
 
