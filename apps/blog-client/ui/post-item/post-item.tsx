@@ -6,18 +6,36 @@ import { I18nPathWithParams } from 'i18n/types'
 import { useMemo } from 'react'
 import { match } from 'ts-pattern'
 import {
-  StyledPostItemContainer,
-  StyledPostItemDateLocale,
-  StyledPostItemPostTitleContainer,
-  StyledPostItemTitleText,
-  StyledPostItemWriterAvatar,
-  StyledPostItemWriterContainer,
-  StyledPostItemWriterText,
-  StyledPostSubContentContainer,
+  StyledPostDateText,
+  StyledPostPlatformText,
+  StyledPostThumbnail,
+  StyledPostTitleText,
 } from './post-item.styled'
 
 export function PostItem(props: LogItem) {
-  const href = useMemo<I18nPathWithParams>(() => {
+  const platformHref = useMemo<I18nPathWithParams>(() => {
+    return match<LogPlatform, I18nPathWithParams>(props.platform)
+      .with('filmlog', () => ({
+        pathname: '/filmlog',
+      }))
+      .with('soundlog', () => ({
+        pathname: '/soundlog',
+      }))
+      .with('squarelog', () => ({
+        pathname: '/squarelog',
+      }))
+      .with('surflog', () => ({
+        pathname: '/surflog',
+      }))
+      .with('techlog', () => ({
+        pathname: '/techlog',
+      }))
+      .with('textlog', () => ({
+        pathname: '/textlog',
+      }))
+      .exhaustive()
+  }, [props.platform])
+  const postHref = useMemo<I18nPathWithParams>(() => {
     return match<LogPlatform, I18nPathWithParams>(props.platform)
       .with('filmlog', () => ({
         pathname: '/filmlog/[slug]',
@@ -59,23 +77,26 @@ export function PostItem(props: LogItem) {
   }, [props.platform, props.slug])
 
   return (
-    <Link href={href}>
-      <StyledPostItemContainer>
-        <StyledPostItemPostTitleContainer>
-          <StyledPostItemTitleText numberOfLines={1}>
-            <Text title={props.title} />
-          </StyledPostItemTitleText>
-        </StyledPostItemPostTitleContainer>
-        <StyledPostSubContentContainer>
-          {props.writer && (
-            <StyledPostItemWriterContainer>
-              <StyledPostItemWriterAvatar src={props.writer?.avatar_url} />
-              <StyledPostItemWriterText>{props.writer?.name}</StyledPostItemWriterText>
-            </StyledPostItemWriterContainer>
-          )}
-          <StyledPostItemDateLocale>{props.dateLocale}</StyledPostItemDateLocale>
-        </StyledPostSubContentContainer>
-      </StyledPostItemContainer>
-    </Link>
+    <div key={props.id} style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+      <Link href={postHref}>
+        <StyledPostThumbnail
+          src={
+            'https://images.unsplash.com/photo-1734216736145-7cd4b41e6f77?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+          }
+          width={500}
+          height={500}
+          alt={props.title}
+        />
+      </Link>
+      <Link href={platformHref}>
+        <StyledPostPlatformText as="p">{props.platform}</StyledPostPlatformText>
+      </Link>
+      <Link href={postHref}>
+        <StyledPostTitleText as="h2">
+          <Text title={props.title} />
+        </StyledPostTitleText>
+      </Link>
+      <StyledPostDateText as="p">{props.dateLocale}</StyledPostDateText>
+    </div>
   )
 }

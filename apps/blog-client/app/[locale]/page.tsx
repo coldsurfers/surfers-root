@@ -28,6 +28,30 @@ export default async function RootPage({ params }: PageProps) {
         locale: params.locale,
       }),
     ),
+    queryClient.prefetchQuery(
+      queryKeyFactory.logs.list({
+        platform: 'filmlog',
+        locale: params.locale,
+      }),
+    ),
+    queryClient.prefetchQuery(
+      queryKeyFactory.logs.list({
+        platform: 'soundlog',
+        locale: params.locale,
+      }),
+    ),
+    queryClient.prefetchQuery(
+      queryKeyFactory.logs.list({
+        platform: 'squarelog',
+        locale: params.locale,
+      }),
+    ),
+    queryClient.prefetchQuery(
+      queryKeyFactory.logs.list({
+        platform: 'textlog',
+        locale: params.locale,
+      }),
+    ),
   ]
 
   await Promise.all(promises)

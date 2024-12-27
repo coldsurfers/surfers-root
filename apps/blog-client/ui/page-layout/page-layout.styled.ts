@@ -7,7 +7,7 @@ import styled from '@emotion/styled'
 export const StyledPageLayoutContainer = styled.main`
   padding: 0 20px;
   max-width: 1728px;
-  margin: 0 auto;
+  margin: 2rem auto;
 
   ${media.large(css`
     max-width: 1536px;

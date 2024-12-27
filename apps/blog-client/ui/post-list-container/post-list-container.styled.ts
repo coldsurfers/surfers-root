@@ -1,9 +1,15 @@
+import { media } from '@coldsurfers/ocean-road'
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 
-export const StyledPostsContainer = styled.ol`
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+export const StyledPostsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+
+  ${media.medium(css`
+    flex-wrap: wrap;
+    gap: 1rem;
+  `)}
 `
