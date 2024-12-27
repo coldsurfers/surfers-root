@@ -28,7 +28,7 @@ export const LogListPage = ({ locale, platform, page }: { locale: AppLocale; pla
       <PostListContainer>
         {logs?.slice(offset + PER_LINE * 2, offset + PER_LINE * 3).map((post) => <PostItem key={post.id} {...post} />)}
       </PostListContainer>
-      <Pagination currPage={PAGE} wholePage={Math.ceil(logs?.length ?? 0 / PER_PAGE)} platform={platform} />
+      <Pagination currPage={PAGE} wholePage={Math.ceil((logs?.length ?? 0) / PER_PAGE)} platform={platform} />
     </>
   )
 }
