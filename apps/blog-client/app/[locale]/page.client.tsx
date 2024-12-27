@@ -2,8 +2,19 @@
 
 import { useGetLogsQuery } from '@/lib/react-query'
 import { PostItem, PostListContainer } from '@/ui'
+import { media } from '@coldsurfers/ocean-road'
+import { css } from '@emotion/react'
+import styled from '@emotion/styled'
 import { AppLocale } from 'i18n/types'
 import { Pagination } from './(ui)/pagination'
+
+const Container = styled.div`
+  margin-top: 6.5rem;
+
+  ${media.medium(css`
+    margin-top: 2rem;
+  `)}
+`
 
 export default function Page({ locale, page }: { locale: AppLocale; page: number }) {
   const PER_LINE = 3
@@ -49,7 +60,7 @@ export default function Page({ locale, page }: { locale: AppLocale; page: number
   const currPage = page
 
   return (
-    <div style={{ marginTop: '6.5rem' }}>
+    <Container>
       <PostListContainer>
         {latestPosts.slice(offset, offset + PER_LINE).map((post) => (
           <PostItem key={post.id} {...post} />
@@ -66,6 +77,6 @@ export default function Page({ locale, page }: { locale: AppLocale; page: number
         ))}
       </PostListContainer>
       <Pagination currPage={currPage} wholePage={wholePage} />
-    </div>
+    </Container>
   )
 }

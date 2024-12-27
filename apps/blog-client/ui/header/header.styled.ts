@@ -1,4 +1,5 @@
-import { semantics, Text } from '@coldsurfers/ocean-road'
+import { media, semantics, Text } from '@coldsurfers/ocean-road'
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { Link } from 'i18n/routing'
 
@@ -14,6 +15,14 @@ export const StyledHeaderHeading = styled(Text)<{ $isActive: boolean }>`
   font-size: 24px;
   letter-spacing: 0.5px;
   font-weight: bold;
+
+  ${media.medium(css`
+    font-size: 20px;
+  `)}
+
+  ${media.small(css`
+    font-size: 16px;
+  `)}
 `
 
 export const StyledHeaderContainer = styled.div`
@@ -29,12 +38,21 @@ export const StyledHeaderContainer = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+
+  ${media.large(css`
+    justify-content: flex-start;
+    gap: 10px;
+  `)}
 `
 
 export const StyledHeaderBigContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 48px 0px 0px 0px;
+
+  ${media.large(css`
+    padding: 0px 0px 0px 0px;
+  `)}
 `
 
 export const StyledTitleAndColorScheme = styled.div`
