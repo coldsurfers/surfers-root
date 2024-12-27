@@ -36,7 +36,7 @@ export const LogDetailRenderer = ({
   )
 
   return (
-    <PageLayout title={pageTitle.at(0)?.plain_text}>
+    <PageLayout title={pageTitle?.at(0)?.plain_text}>
       <article style={{ marginTop: '2rem' }}>
         <TagList tags={tags} />
         <section>
