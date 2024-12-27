@@ -16,8 +16,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata() {
-  const pageTitle = `Resume | Blog, ColdSurf`
-  const pageDesc = 'resume'
+  const pageTitle = `Résumé`
+  const pageDesc = 'Résumé'
   return {
     title: pageTitle,
     description: pageDesc,

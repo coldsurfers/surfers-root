@@ -78,8 +78,14 @@ const CustomImage = (props: {
         width={500}
         height={500}
         onLoadingComplete={() => setIsLoading(false)}
+        objectFit="cover"
         style={{
-          background: colors.oc.violet[4].value,
+          background: isLoading ? colors.oc.violet[4].value : 'transparent',
+          width: '100%',
+          height: '100%',
+          aspectRatio: '1 / 1',
+          objectFit: 'cover',
+          objectPosition: '50%',
         }}
       />
       {isLoading ? (
