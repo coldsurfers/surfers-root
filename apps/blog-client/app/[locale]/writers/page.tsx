@@ -1,5 +1,6 @@
 import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
 import { getQueryClient } from '@/lib/react-query/react-query.utils'
+import { PageLayout } from '@/ui'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { routing } from 'i18n/routing'
 import { PageProps } from 'i18n/types'
@@ -28,7 +29,9 @@ export default async function WritersPage({ params }: PageProps) {
   const dehydratedState = dehydrate(queryClient)
   return (
     <HydrationBoundary state={dehydratedState}>
-      <WritersPageClient recordMap={recordMap} />
+      <PageLayout title="ABOUT">
+        <WritersPageClient recordMap={recordMap} />
+      </PageLayout>
     </HydrationBoundary>
   )
 }
