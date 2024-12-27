@@ -1,14 +1,28 @@
 'use client'
 
-import { Header } from '@/ui'
-import { usePathname } from 'i18n/routing'
+import { ColorSchemeToggle } from '@/features/color-scheme'
+import { Link, usePathname } from 'i18n/routing'
 import { PropsWithChildren } from 'react'
-import { StyledPageLayoutContainer } from './page-layout.styled'
+import { Header } from '../header/header'
+import { BigTitle, BigTitleWrapper, StyledPageLayoutContainer } from './page-layout.styled'
 
-export const PageLayout = ({ children }: PropsWithChildren) => {
+export const PageLayout = ({
+  children,
+  title,
+}: PropsWithChildren<{
+  title?: string
+}>) => {
   const pathname = usePathname()
   return (
     <StyledPageLayoutContainer>
+      <div style={{ marginTop: '2rem' }}>
+        <ColorSchemeToggle />
+      </div>
+      <BigTitleWrapper>
+        <Link href="/" style={{ width: 'auto' }}>
+          <BigTitle as="h1">{title ?? 'The COLDSURF Blog'}</BigTitle>
+        </Link>
+      </BigTitleWrapper>
       {process.env.NODE_ENV === 'development' && pathname === '/resume' ? null : <Header />}
       {children}
     </StyledPageLayoutContainer>

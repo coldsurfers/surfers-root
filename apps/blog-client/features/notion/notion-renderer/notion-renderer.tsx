@@ -1,14 +1,21 @@
 'use client'
 
+import { colors } from '@coldsurfers/ocean-road'
+import { Link } from 'i18n/routing'
 import 'katex/dist/katex.min.css' // For equations
+import { LoaderCircle } from 'lucide-react'
 import dynamic from 'next/dynamic'
-import Link from 'next/link'
+import Image from 'next/image'
 import { ExtendedRecordMap } from 'notion-types'
 import 'prismjs/themes/prism-tomorrow.css' // For syntax highlighting
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { NotionRenderer as NR, type MapImageUrlFn, type NotionComponents } from 'react-notion-x'
 import 'react-notion-x/src/styles.css'
 import { Tweet as TweetEmbed } from 'react-tweet'
+
+function isNotionImage(url: string) {
+  return url.startsWith('https://prod-files-secure.s3.us-west-2.amazonaws.com')
+}
 
 const Code = dynamic(() =>
   import('react-notion-x/build/third-party/code').then(async (m) => {
@@ -56,6 +63,66 @@ function Tweet({ id }: { id: string }) {
   return <TweetEmbed id={id} />
 }
 
+const CustomImage = (props: {
+  alt: string
+  className?: string
+  fill?: boolean
+  height?: number
+  onLoad?: () => void
+  priority: boolean
+  src: string
+  style: object
+  width?: number
+}) => {
+  const [isLoading, setIsLoading] = useState(true)
+  return (
+    <div style={{ position: 'relative' }}>
+      {isNotionImage(props.src) ? (
+        <img
+          {...props}
+          onLoad={() => setIsLoading(false)}
+          style={{
+            background: isLoading ? colors.oc.violet[4].value : 'transparent',
+            width: props.width ?? '100%',
+            height: props.height ?? '100%',
+            aspectRatio: '1 / 1',
+            objectFit: 'cover',
+            objectPosition: '50%',
+          }}
+        />
+      ) : (
+        <Image
+          {...props}
+          width={500}
+          height={500}
+          onLoadingComplete={() => setIsLoading(false)}
+          objectFit="cover"
+          style={{
+            background: isLoading ? colors.oc.violet[4].value : 'transparent',
+            width: '100%',
+            height: '100%',
+            aspectRatio: '1 / 1',
+            objectFit: 'cover',
+            objectPosition: '50%',
+          }}
+        />
+      )}
+      {isLoading ? (
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
+          <LoaderCircle />
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
 export const NotionRenderer = ({ recordMap }: { recordMap: ExtendedRecordMap }) => {
   const components = useMemo<Partial<NotionComponents>>(() => {
     return {
@@ -63,18 +130,27 @@ export const NotionRenderer = ({ recordMap }: { recordMap: ExtendedRecordMap }) 
       Collection: () => null,
       nextLink: Link,
       Tweet,
+      Image: CustomImage,
     }
   }, [])
   const mapImageUrl = useCallback<MapImageUrlFn>((url, block) => {
     if (!url) {
       return ''
     }
-    const isNotionImage = url.startsWith('https://prod-files-secure.s3.us-west-2.amazonaws.com')
-    if (isNotionImage) {
+    if (isNotionImage(url)) {
       return `/api/notion-image-proxy?url=${encodeURIComponent(url)}&id=${block.id}`
     }
     return url
   }, [])
 
-  return <NR recordMap={recordMap} components={components} mapImageUrl={mapImageUrl} previewImages />
+  return (
+    <NR
+      recordMap={recordMap}
+      components={components}
+      forceCustomImages
+      mapImageUrl={mapImageUrl}
+      isImageZoomable
+      previewImages
+    />
+  )
 }

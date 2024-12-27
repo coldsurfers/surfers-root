@@ -1,11 +1,10 @@
 'use client'
 
 import { useGetLogsQuery } from '@/lib'
-import { PostItem, PostListContainer } from '@/ui'
+import { PageLayout, PostItem, PostListContainer } from '@/ui'
 import { Spinner } from '@coldsurfers/ocean-road'
 import { AppLocale } from 'i18n/types'
 import { useMemo } from 'react'
-import { StyledTagDetailPageTitle } from './page.styled'
 
 export const TagsTagPageClient = ({ locale, tag }: { locale: AppLocale; tag: string }) => {
   /**
@@ -62,13 +61,13 @@ export const TagsTagPageClient = ({ locale, tag }: { locale: AppLocale; tag: str
     return <Spinner variant="page-overlay" />
   }
   return (
-    <>
-      <StyledTagDetailPageTitle as="h1">#{tag}</StyledTagDetailPageTitle>
+    <PageLayout title={`#${tag}`}>
+      <div style={{ marginTop: '6.5rem' }} />
       <PostListContainer>
         {logs.map((post) => (
           <PostItem key={post.id} {...post} />
         ))}
       </PostListContainer>
-    </>
+    </PageLayout>
   )
 }

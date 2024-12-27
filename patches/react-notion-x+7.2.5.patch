@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-notion-x/src/styles.css b/node_modules/react-notion-x/src/styles.css
-index 965860c..f61894a 100644
+index 965860c..13ae703 100644
 --- a/node_modules/react-notion-x/src/styles.css
 +++ b/node_modules/react-notion-x/src/styles.css
 @@ -89,7 +89,7 @@
@@ -11,7 +11,44 @@ index 965860c..f61894a 100644
    --fg-color: rgba(255, 255, 255, 0.9);
    --fg-color-0: var(--fg-color);
    --fg-color-1: var(--fg-color);
-@@ -890,7 +890,6 @@ svg.notion-page-icon {
+@@ -139,13 +139,19 @@
+ }
+ 
+ .notion {
+-  font-size: 16px;
++  font-size: 20px;
+   line-height: 1.5;
+   color: var(--fg-color);
+   caret-color: var(--fg-color);
+   font-family: var(--notion-font);
+ }
+ 
++@media screen and (max-width: 576px) {
++  .notion {
++    font-size: 18px;
++  }
++}
++
+ .notion > * {
+   padding: 3px 0;
+ }
+@@ -716,8 +722,8 @@ svg.notion-page-icon {
+ .notion-page {
+   box-sizing: border-box;
+   width: var(--notion-max-width);
+-  padding-left: calc(min(16px, 8vw));
+-  padding-right: calc(min(16px, 8vw));
++  /* padding-left: calc(min(16px, 8vw)); */
++  /* padding-right: calc(min(16px, 8vw)); */
+ }
+ 
+ .notion-full-width {
+@@ -886,11 +892,11 @@ svg.notion-page-icon {
+   width: 100%;
+   height: 100%;
+   max-height: 100%;
++  border-radius: 12px;
+ }
  
  .notion-asset-wrapper iframe {
    border: none;
@@ -19,7 +56,7 @@ index 965860c..f61894a 100644
  }
  
  .notion-text {
-@@ -1056,7 +1055,7 @@ svg.notion-page-icon {
+@@ -1056,7 +1062,7 @@ svg.notion-page-icon {
    user-select: none;
  }
  
@@ -28,7 +65,26 @@ index 965860c..f61894a 100644
    border-color: var(--bg-color-0);
  }
  
-@@ -1180,7 +1179,7 @@ svg.notion-page-icon {
+@@ -1163,11 +1169,17 @@ svg.notion-page-icon {
+   white-space: pre-wrap;
+   word-break: break-word;
+   caret-color: var(--fg-color);
+-  font-size: 14px;
++  font-size: 18px;
+   line-height: 1.4;
+   color: var(--fg-color-3);
+ }
+ 
++@media (max-width: 576px) {
++  .notion-asset-caption {
++    font-size: 14px;
++  }
++}
++
+ .notion-callout {
+   padding: 16px 16px 16px 12px;
+   display: inline-flex;
+@@ -1180,7 +1192,7 @@ svg.notion-page-icon {
    border: 1px solid var(--fg-color-0);
  }
  
