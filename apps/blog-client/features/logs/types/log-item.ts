@@ -13,4 +13,5 @@ export type LogItem = {
   writer: any
   lang: AppLocale
   platform: LogPlatform
+  thumbnailUrl: string | null
 }
