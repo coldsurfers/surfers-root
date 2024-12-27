@@ -1,17 +1,19 @@
 'use client'
 
 import { colors } from '@coldsurfers/ocean-road'
+import { motion } from 'framer-motion'
 import { Link } from 'i18n/routing'
 import 'katex/dist/katex.min.css' // For equations
 import { LoaderCircle } from 'lucide-react'
 import dynamic from 'next/dynamic'
-import Image from 'next/image'
 import { ExtendedRecordMap } from 'notion-types'
 import 'prismjs/themes/prism-tomorrow.css' // For syntax highlighting
 import { useCallback, useMemo, useState } from 'react'
 import { NotionRenderer as NR, type MapImageUrlFn, type NotionComponents } from 'react-notion-x'
 import 'react-notion-x/src/styles.css'
 import { Tweet as TweetEmbed } from 'react-tweet'
+
+const MotionIcon = motion(LoaderCircle)
 
 function isNotionImage(url: string) {
   return url.startsWith('https://prod-files-secure.s3.us-west-2.amazonaws.com')
@@ -76,37 +78,19 @@ const CustomImage = (props: {
 }) => {
   const [isLoading, setIsLoading] = useState(true)
   return (
-    <div style={{ position: 'relative' }}>
-      {isNotionImage(props.src) ? (
-        <img
-          {...props}
-          onLoad={() => setIsLoading(false)}
-          style={{
-            background: isLoading ? colors.oc.violet[4].value : 'transparent',
-            width: props.width ?? '100%',
-            height: props.height ?? '100%',
-            aspectRatio: '1 / 1',
-            objectFit: 'cover',
-            objectPosition: '50%',
-          }}
-        />
-      ) : (
-        <Image
-          {...props}
-          width={500}
-          height={500}
-          onLoadingComplete={() => setIsLoading(false)}
-          objectFit="cover"
-          style={{
-            background: isLoading ? colors.oc.violet[4].value : 'transparent',
-            width: '100%',
-            height: '100%',
-            aspectRatio: '1 / 1',
-            objectFit: 'cover',
-            objectPosition: '50%',
-          }}
-        />
-      )}
+    <>
+      <img
+        {...props}
+        onLoadCapture={() => setIsLoading(false)}
+        style={{
+          background: isLoading ? colors.oc.violet[4].value : 'transparent',
+          width: '100%',
+          height: '100%',
+          aspectRatio: '1 / 1',
+          objectFit: 'cover',
+          objectPosition: '50%',
+        }}
+      />
       {isLoading ? (
         <div
           style={{
@@ -116,10 +100,21 @@ const CustomImage = (props: {
             transform: 'translate(-50%, -50%)',
           }}
         >
-          <LoaderCircle />
+          <MotionIcon
+            animate={{
+              rotate: 360, // Rotates the element 360 degrees
+            }}
+            width={32}
+            height={32}
+            transition={{
+              repeat: Infinity, // Loops the animation infinitely
+              duration: 0.5, // Each full rotation takes 2 seconds
+              ease: 'linear', // Smooth, constant speed
+            }}
+          />
         </div>
       ) : null}
-    </div>
+    </>
   )
 }
 
