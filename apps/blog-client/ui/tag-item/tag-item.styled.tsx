@@ -6,7 +6,7 @@ export const StyledTagItem = styled.div`
   background-color: ${semantics.color.background[4]};
   opacity: 0.8;
   padding: 1rem;
-  border-radius: 0.25rem;
+  border-radius: 24px;
   cursor: pointer;
 
   margin-right: 0.5rem;

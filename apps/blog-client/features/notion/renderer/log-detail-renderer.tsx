@@ -39,7 +39,7 @@ export const LogDetailRenderer = ({
     <PageLayout title={pageTitle?.at(0)?.plain_text}>
       <article style={{ marginTop: '2rem' }}>
         <TagList tags={tags} />
-        <section>
+        <section style={{ marginTop: '1rem' }}>
           {recordMap && <NotionRenderer recordMap={recordMap} />}
           <CommonBack />
         </section>
