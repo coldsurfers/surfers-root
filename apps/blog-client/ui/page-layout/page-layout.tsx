@@ -6,7 +6,12 @@ import { PropsWithChildren } from 'react'
 import { Header } from '../header/header'
 import { BigTitle, BigTitleWrapper, StyledPageLayoutContainer } from './page-layout.styled'
 
-export const PageLayout = ({ children }: PropsWithChildren) => {
+export const PageLayout = ({
+  children,
+  title,
+}: PropsWithChildren<{
+  title?: string
+}>) => {
   const pathname = usePathname()
   return (
     <StyledPageLayoutContainer>
@@ -15,7 +20,7 @@ export const PageLayout = ({ children }: PropsWithChildren) => {
       </div>
       <BigTitleWrapper>
         <Link href="/" style={{ width: 'auto' }}>
-          <BigTitle as="h1">The COLDSURF Blog</BigTitle>
+          <BigTitle as="h1">{title ?? 'The COLDSURF Blog'}</BigTitle>
         </Link>
       </BigTitleWrapper>
       {process.env.NODE_ENV === 'development' && pathname === '/resume' ? null : <Header />}
