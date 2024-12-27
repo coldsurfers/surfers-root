@@ -17,7 +17,7 @@ export const StyledShareButton = styled(motion.button)`
 `
 
 export const StyledShareIcon = styled(EllipsisVertical)`
-  width: 24px;
-  height: 24px;
+  width: 100%;
+  height: 100%;
   color: ${semantics.color.foreground[1]};
 `
