@@ -2,6 +2,7 @@
 
 import { NotionRenderer } from '@/features/notion'
 import { generatePDF } from '@/features/pdf'
+import { PageLayout } from '@/ui'
 import variables from '@coldsurfers/design-tokens/dist/js/color/variables'
 import styled from '@emotion/styled'
 import { AppLocale } from 'i18n/types'
@@ -42,19 +43,21 @@ export default function ResumePage({
   }, [])
 
   return (
-    <Wrapper>
-      {/* career */}
-      <NotionRenderer recordMap={careerRecordMap} />
-      {/* side project */}
-      <NotionRenderer recordMap={sideProjectRecordMap} />
+    <PageLayout title="Résumé">
+      <Wrapper>
+        {/* career */}
+        <NotionRenderer recordMap={careerRecordMap} />
+        {/* side project */}
+        <NotionRenderer recordMap={sideProjectRecordMap} />
 
-      {process.env.NODE_ENV === 'production' && (
-        <article className={postStyles.container}>
-          <Link href="/" className={postStyles.back}>
-            ← Go home
-          </Link>
-        </article>
-      )}
-    </Wrapper>
+        {process.env.NODE_ENV === 'production' && (
+          <article className={postStyles.container}>
+            <Link href="/" className={postStyles.back}>
+              ← Go home
+            </Link>
+          </article>
+        )}
+      </Wrapper>
+    </PageLayout>
   )
 }
