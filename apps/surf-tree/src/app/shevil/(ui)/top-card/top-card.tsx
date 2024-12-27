@@ -4,5 +4,16 @@ import { StyledTopCard } from './top-card.styled'
 import { TopCardProps } from './top-card.types'
 
 export function TopCard(props: TopCardProps) {
-  return <StyledTopCard $backgroundImageUrl={props.backgroundImageUrl}>{props.children}</StyledTopCard>
+  return (
+    <StyledTopCard
+      src={props.backgroundImageUrl}
+      width={580}
+      height={580}
+      alt={props.backgroundImageUrl}
+      objectFit="cover"
+      objectPosition="50%"
+    >
+      {props.children}
+    </StyledTopCard>
+  )
 }
