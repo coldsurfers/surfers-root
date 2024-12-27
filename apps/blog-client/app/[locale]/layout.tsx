@@ -12,8 +12,8 @@ import { PropsWithChildren } from 'react'
 
 const notoSansKR = Noto_Sans_KR({ subsets: ['latin'] })
 
-const metaTitle = 'Blog | Coldsurf'
-const metaDescription = 'blog, about software techs and tech industry.'
+const metaTitle = 'COLDSURF Blog: The Latest Articles'
+const metaDescription = 'Make products that support artists'
 
 export const metadata: Metadata = {
   title: metaTitle,

@@ -14,20 +14,21 @@ export const PageLayout = ({ children }: PropsWithChildren) => {
       <div style={{ marginTop: '2rem' }}>
         <ColorSchemeToggle />
       </div>
-      <Link href="/">
-        <Text
-          as="h1"
-          style={{
-            fontSize: '88px',
-            fontWeight: 820,
-            lineHeight: '1.05',
-            textAlign: 'center',
-            marginTop: '10rem',
-          }}
-        >
-          The COLDSURF Blog
-        </Text>
-      </Link>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10rem' }}>
+        <Link href="/" style={{ width: 'auto' }}>
+          <Text
+            as="h1"
+            style={{
+              fontSize: '88px',
+              fontWeight: 820,
+              lineHeight: '1.05',
+              textAlign: 'center',
+            }}
+          >
+            The COLDSURF Blog
+          </Text>
+        </Link>
+      </div>
       {process.env.NODE_ENV === 'development' && pathname === '/resume' ? null : <Header />}
       {children}
     </StyledPageLayoutContainer>
