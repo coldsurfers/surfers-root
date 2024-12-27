@@ -4,6 +4,7 @@ export type PageProps<T = unknown> = {
   params: T & {
     locale: AppLocale
   }
+  searchParams: { [key: string]: string | string[] | undefined }
 }
 
 export type I18nPathWithParams =

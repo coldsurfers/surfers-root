@@ -12,7 +12,8 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
-export default async function RootPage({ params }: PageProps) {
+export default async function RootPage({ params, searchParams }: PageProps) {
+  const page = searchParams['page'] ? Number(searchParams['page']) : 1
   setRequestLocale(params.locale)
   const queryClient = getQueryClient()
   const promises = [
@@ -59,7 +60,7 @@ export default async function RootPage({ params }: PageProps) {
   const dehydratedState = dehydrate(queryClient)
   return (
     <HydrationBoundary state={dehydratedState}>
-      <PageClient locale={params.locale} />
+      <PageClient locale={params.locale} page={page} />
     </HydrationBoundary>
   )
 }

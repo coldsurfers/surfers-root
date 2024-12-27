@@ -3,14 +3,14 @@
 import { useGetLogsQuery } from '@/lib/react-query'
 import { PostItem, PostListContainer } from '@/ui'
 import { AppLocale } from 'i18n/types'
+import { Pagination } from './(ui)/pagination'
 
-const PER_LINE = 3
-const PER_PAGE = 9
-const PAGE = 1
+export default function Page({ locale, page }: { locale: AppLocale; page: number }) {
+  const PER_LINE = 3
+  const PER_PAGE = 9
+  const PAGE = page
+  const offset = (PAGE - 1) * PER_PAGE
 
-const offset = (PAGE - 1) * PER_PAGE
-
-export default function Page({ locale }: { locale: AppLocale }) {
   const { data: techlogs } = useGetLogsQuery({
     platform: 'techlog',
     locale,
@@ -45,6 +45,9 @@ export default function Page({ locale }: { locale: AppLocale }) {
     ...(textlogs ?? []),
   ].sort((a, b) => new Date(b.createdTime).getTime() - new Date(a.createdTime).getTime())
 
+  const wholePage = Math.ceil(latestPosts.length / PER_PAGE)
+  const currPage = page
+
   return (
     <div style={{ marginTop: '6.5rem' }}>
       <PostListContainer>
@@ -62,6 +65,7 @@ export default function Page({ locale }: { locale: AppLocale }) {
           <PostItem key={post.id} {...post} />
         ))}
       </PostListContainer>
+      <Pagination currPage={currPage} wholePage={wholePage} />
     </div>
   )
 }
