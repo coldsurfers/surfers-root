@@ -12,7 +12,8 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
-export default async function TechlogPage({ params }: PageProps) {
+export default async function TechlogPage({ params, searchParams }: PageProps) {
+  const page = searchParams['page'] ? Number(searchParams['page']) : 1
   setRequestLocale(params.locale)
   const queryClient = getQueryClient()
   await queryClient.prefetchQuery(
@@ -25,7 +26,7 @@ export default async function TechlogPage({ params }: PageProps) {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <LogListPage locale={params.locale} platform="techlog" />
+      <LogListPage locale={params.locale} platform="techlog" page={page} />
     </HydrationBoundary>
   )
 }
