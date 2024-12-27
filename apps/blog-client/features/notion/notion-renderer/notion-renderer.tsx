@@ -13,6 +13,10 @@ import { NotionRenderer as NR, type MapImageUrlFn, type NotionComponents } from 
 import 'react-notion-x/src/styles.css'
 import { Tweet as TweetEmbed } from 'react-tweet'
 
+function isNotionImage(url: string) {
+  return url.startsWith('https://prod-files-secure.s3.us-west-2.amazonaws.com')
+}
+
 const Code = dynamic(() =>
   import('react-notion-x/build/third-party/code').then(async (m) => {
     // additional prism syntaxes
@@ -73,21 +77,36 @@ const CustomImage = (props: {
   const [isLoading, setIsLoading] = useState(true)
   return (
     <div style={{ position: 'relative' }}>
-      <Image
-        {...props}
-        width={500}
-        height={500}
-        onLoadingComplete={() => setIsLoading(false)}
-        objectFit="cover"
-        style={{
-          background: isLoading ? colors.oc.violet[4].value : 'transparent',
-          width: '100%',
-          height: '100%',
-          aspectRatio: '1 / 1',
-          objectFit: 'cover',
-          objectPosition: '50%',
-        }}
-      />
+      {isNotionImage(props.src) ? (
+        <img
+          {...props}
+          onLoad={() => setIsLoading(false)}
+          style={{
+            background: isLoading ? colors.oc.violet[4].value : 'transparent',
+            width: props.width ?? '100%',
+            height: props.height ?? '100%',
+            aspectRatio: '1 / 1',
+            objectFit: 'cover',
+            objectPosition: '50%',
+          }}
+        />
+      ) : (
+        <Image
+          {...props}
+          width={500}
+          height={500}
+          onLoadingComplete={() => setIsLoading(false)}
+          objectFit="cover"
+          style={{
+            background: isLoading ? colors.oc.violet[4].value : 'transparent',
+            width: '100%',
+            height: '100%',
+            aspectRatio: '1 / 1',
+            objectFit: 'cover',
+            objectPosition: '50%',
+          }}
+        />
+      )}
       {isLoading ? (
         <div
           style={{
@@ -118,8 +137,7 @@ export const NotionRenderer = ({ recordMap }: { recordMap: ExtendedRecordMap }) 
     if (!url) {
       return ''
     }
-    const isNotionImage = url.startsWith('https://prod-files-secure.s3.us-west-2.amazonaws.com')
-    if (isNotionImage) {
+    if (isNotionImage(url)) {
       return `/api/notion-image-proxy?url=${encodeURIComponent(url)}&id=${block.id}`
     }
     return url
