@@ -34,6 +34,7 @@
     "axios": "*",
     "date-fns": "^3.6.0",
     "form-data": "^4.0.0",
+    "framer-motion": "*",
     "gestalt": "^163.9.2",
     "html2pdf.js": "^0.10.2",
     "ky": "^1.7.2",
