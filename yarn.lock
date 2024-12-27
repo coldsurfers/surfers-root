@@ -3632,6 +3632,9 @@ __metadata:
   resolution: "@coldsurfers/coldsurf-io@workspace:apps/coldsurf-io"
   dependencies:
     "@coldsurfers/ocean-road": "workspace:*"
+    "@emotion/css": "npm:*"
+    "@emotion/react": "npm:*"
+    "@emotion/styled": "npm:*"
     "@eslint/eslintrc": "npm:^3"
     "@types/node": "npm:^20"
     "@types/react": "npm:^19"
