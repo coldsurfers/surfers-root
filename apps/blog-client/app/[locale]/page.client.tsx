@@ -76,7 +76,7 @@ export default function Page({ locale, page }: { locale: AppLocale; page: number
           <PostItem key={post.id} {...post} />
         ))}
       </PostListContainer>
-      <Pagination currPage={currPage} wholePage={wholePage} />
+      <Pagination currPage={currPage} wholePage={wholePage} platform={null} />
     </Container>
   )
 }

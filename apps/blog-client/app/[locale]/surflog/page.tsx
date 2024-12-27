@@ -12,9 +12,10 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
-export default async function SurflogPage({ params }: PageProps) {
+export default async function SurflogPage({ params, searchParams }: PageProps) {
   setRequestLocale(params.locale)
   const queryClient = getQueryClient()
+  const page = searchParams['page'] ? Number(searchParams['page']) : 1
   await queryClient.prefetchQuery(
     queryKeyFactory.logs.list({
       platform: 'surflog',
@@ -25,7 +26,7 @@ export default async function SurflogPage({ params }: PageProps) {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <LogListPage locale={params.locale} platform="surflog" />
+      <LogListPage locale={params.locale} platform="surflog" page={page} />
     </HydrationBoundary>
   )
 }

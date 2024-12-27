@@ -12,9 +12,10 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
-export default async function TextLogPage({ params }: PageProps) {
+export default async function SquareLogPage({ params, searchParams }: PageProps) {
   setRequestLocale(params.locale)
   const queryClient = getQueryClient()
+  const page = searchParams['page'] ? Number(searchParams['page']) : 1
   await queryClient.prefetchQuery(
     queryKeyFactory.logs.list({
       platform: 'squarelog',
@@ -25,7 +26,7 @@ export default async function TextLogPage({ params }: PageProps) {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <LogListPage locale={params.locale} platform="squarelog" />
+      <LogListPage locale={params.locale} platform="squarelog" page={page} />
     </HydrationBoundary>
   )
 }

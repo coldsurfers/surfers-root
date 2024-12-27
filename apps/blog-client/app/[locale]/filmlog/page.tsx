@@ -12,9 +12,10 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
-export default async function FilmLogPage({ params }: PageProps) {
+export default async function FilmLogPage({ params, searchParams }: PageProps) {
   setRequestLocale(params.locale)
   const queryClient = getQueryClient()
+  const page = searchParams['page'] ? Number(searchParams['page']) : 1
   await queryClient.prefetchQuery(
     queryKeyFactory.logs.list({
       platform: 'filmlog',
@@ -25,7 +26,7 @@ export default async function FilmLogPage({ params }: PageProps) {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <LogListPage locale={params.locale} platform="filmlog" />
+      <LogListPage locale={params.locale} platform="filmlog" page={page} />
     </HydrationBoundary>
   )
 }
