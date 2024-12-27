@@ -3578,6 +3578,7 @@ __metadata:
     gestalt: "npm:^163.9.2"
     html2pdf.js: "npm:^0.10.2"
     ky: "npm:^1.7.2"
+    lucide-react: "npm:*"
     next: "npm:14.2.3"
     next-intl: "npm:^3.24.0"
     notion-client: "npm:*"
@@ -3865,7 +3866,7 @@ __metadata:
     eslint: "npm:^9"
     eslint-config-next: "npm:15.1.0"
     framer-motion: "npm:*"
-    lucide-react: "npm:^0.469.0"
+    lucide-react: "npm:*"
     next: "npm:15.1.0"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
@@ -27364,7 +27365,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react@npm:^0.469.0":
+"lucide-react@npm:0.469.0":
   version: 0.469.0
   resolution: "lucide-react@npm:0.469.0"
   peerDependencies:

@@ -13,11 +13,17 @@ export function WritersPageClient({ recordMap }: { recordMap: ExtendedRecordMap 
   const { data } = useGetUsersQuery()
 
   return (
-    <div style={{ paddingTop: 24 }}>
+    <div style={{ marginTop: '6.5rem' }}>
       {data?.users.map((user) => {
         return (
           <div key={user.id}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
               <img
                 src={user.avatar_url ?? ''}
                 style={{

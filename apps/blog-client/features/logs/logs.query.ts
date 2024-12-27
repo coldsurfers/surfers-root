@@ -114,6 +114,8 @@ export const queryLogs = cache(
       const postStatus = post.properties.Status.status.name
       // @ts-ignore
       const writer = post.properties?.Writer.people.at(0) ?? null
+      // @ts-ignore
+      const thumbnailUrl = post.properties?.thumb?.url ?? null
       return {
         id: post.id,
         createdTime,
@@ -129,6 +131,7 @@ export const queryLogs = cache(
         writer,
         lang,
         platform,
+        thumbnailUrl,
       }
     })
 
