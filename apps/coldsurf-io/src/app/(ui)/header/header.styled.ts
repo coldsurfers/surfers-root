@@ -1,6 +1,7 @@
-import { media, semantics } from '@coldsurfers/ocean-road'
+import { media, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
+import Link from 'next/link'
 
 export const StyledHeaderWrapper = styled.div`
   padding-left: 96px;
@@ -29,6 +30,9 @@ export const StyledHeader = styled.header`
   background-color: ${semantics.color.background[3]};
   border-radius: 10000px;
 
+  display: flex;
+  align-items: center;
+
   padding: 12px;
 
   ${media.large(css`
@@ -39,4 +43,19 @@ export const StyledHeader = styled.header`
     max-width: none;
     width: 100%;
   `)}
+`
+
+export const StyledMenuContainer = styled.div``
+
+export const StyledMenuText = styled(Text)`
+  color: ${semantics.color.foreground[3]};
+`
+
+export const StyledMenuItem = styled(Link)`
+  padding: 11px 16px;
+  border-radius: 8px;
+
+  &:hover {
+    background-color: ${semantics.color.background[4]};
+  }
 `
