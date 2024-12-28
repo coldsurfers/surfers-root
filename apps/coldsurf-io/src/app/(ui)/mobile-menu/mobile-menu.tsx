@@ -1,4 +1,7 @@
-import { AnimatePresence, motion, Variants } from 'framer-motion'
+import { AnimatePresence, Variants } from 'framer-motion'
+import Link from 'next/link'
+import { menuItems } from '../../(data)'
+import { StyledMobileMenuBackground } from './mobile-menu.styled'
 import { MobileMenuProps } from './mobile-menu.types'
 
 export function MobileMenu({ isOpen }: MobileMenuProps) {
@@ -30,50 +33,19 @@ export function MobileMenu({ isOpen }: MobileMenuProps) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          variants={menuVariants}
-          style={{
-            position: 'fixed',
-            top: 0,
-            right: 0,
-            width: '100%',
-            height: '100%',
-            backgroundColor: '#222',
-            color: '#fff',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 1,
-          }}
-        >
-          <h1>Menu</h1>
+        <StyledMobileMenuBackground initial="hidden" animate="visible" exit="exit" variants={menuVariants}>
           <ul style={{ listStyleType: 'none', padding: 0 }}>
-            <li style={{ margin: '20px 0' }}>
-              <a href="#home" style={{ color: '#fff', textDecoration: 'none' }}>
-                Home
-              </a>
-            </li>
-            <li style={{ margin: '20px 0' }}>
-              <a href="#about" style={{ color: '#fff', textDecoration: 'none' }}>
-                About
-              </a>
-            </li>
-            <li style={{ margin: '20px 0' }}>
-              <a href="#services" style={{ color: '#fff', textDecoration: 'none' }}>
-                Services
-              </a>
-            </li>
-            <li style={{ margin: '20px 0' }}>
-              <a href="#contact" style={{ color: '#fff', textDecoration: 'none' }}>
-                Contact
-              </a>
-            </li>
+            {menuItems.map((item) => {
+              return (
+                <li key={item.title} style={{ margin: '20px 0' }}>
+                  <Link href={item.href} style={{ color: '#fff', textDecoration: 'none' }}>
+                    {item.title}
+                  </Link>
+                </li>
+              )
+            })}
           </ul>
-        </motion.div>
+        </StyledMobileMenuBackground>
       )}
     </AnimatePresence>
   )
