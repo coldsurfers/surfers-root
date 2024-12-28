@@ -1,5 +1,9 @@
 /// <reference path="./.sst/platform/config.d.ts" />
 
+import dotenv from 'dotenv'
+
+dotenv.config()
+
 export default $config({
   app(input) {
     return {
@@ -10,6 +14,11 @@ export default $config({
     }
   },
   async run() {
-    new sst.aws.Nextjs('ColdsurfIOWeb')
+    new sst.aws.Nextjs('ColdsurfIOWeb', {
+      domain: {
+        name: process.env.COLDSURF_IO_DOMAIN_NAME!,
+        cert: process.env.COLDSURF_IO_DOMAIN_CERT_ARN!,
+      },
+    })
   },
 })
