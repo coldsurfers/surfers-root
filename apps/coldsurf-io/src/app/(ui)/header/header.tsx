@@ -1,6 +1,8 @@
 'use client'
 
 import {
+  StyledCloseIcon,
+  StyledCloseIconButton,
   StyledHeader,
   StyledHeaderWrapper,
   StyledLogoImage,
@@ -9,7 +11,9 @@ import {
   StyledMenuContainer,
   StyledMenuItem,
   StyledMenuText,
+  StyledMobileMenuIcon,
 } from './header.styled'
+import { HeaderProps } from './header.types'
 
 const menuItems = [
   {
@@ -24,7 +28,7 @@ const menuItems = [
   },
 ] as const
 
-export function Header() {
+export function Header({ onClickMenuIcon, isMobileMenuOpen, onClickCloseMobileMenuIcon }: HeaderProps) {
   return (
     <StyledHeaderWrapper>
       <StyledHeader>
@@ -39,6 +43,13 @@ export function Header() {
             </StyledMenuItem>
           ))}
         </StyledMenuContainer>
+        <StyledCloseIconButton $isOpen={isMobileMenuOpen}>
+          {isMobileMenuOpen ? (
+            <StyledCloseIcon onClick={onClickCloseMobileMenuIcon} />
+          ) : (
+            <StyledMobileMenuIcon onClick={onClickMenuIcon} />
+          )}
+        </StyledCloseIconButton>
       </StyledHeader>
     </StyledHeaderWrapper>
   )

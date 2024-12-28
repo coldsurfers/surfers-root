@@ -3642,6 +3642,8 @@ __metadata:
     "@types/react-dom": "npm:^19"
     eslint: "npm:^9"
     eslint-config-next: "npm:15.1.2"
+    framer-motion: "npm:*"
+    lucide-react: "npm:*"
     next: "npm:15.1.2"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
