@@ -29,7 +29,7 @@ export function PageLayout({ children }: PropsWithChildren) {
         isMobileMenuOpen={isOpen}
         onClickCloseMobileMenuIcon={() => setIsOpen(false)}
       />
-      <MobileMenu isOpen={isOpen} />
+      <MobileMenu isOpen={isOpen} onClickMenuItem={() => setIsOpen(false)} />
       {children}
     </>
   )
