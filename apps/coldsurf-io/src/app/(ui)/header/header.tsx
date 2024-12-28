@@ -1,5 +1,6 @@
 'use client'
 
+import { menuItems } from '../../(data)'
 import {
   StyledCloseIcon,
   StyledCloseIconButton,
@@ -14,19 +15,6 @@ import {
   StyledMobileMenuIcon,
 } from './header.styled'
 import { HeaderProps } from './header.types'
-
-const menuItems = [
-  {
-    title: 'Products',
-    href: '/products',
-    target: undefined,
-  },
-  {
-    title: 'Blog',
-    href: 'https://blog.coldsurf.io',
-    target: '_blank',
-  },
-] as const
 
 export function Header({ onClickMenuIcon, isMobileMenuOpen, onClickCloseMobileMenuIcon }: HeaderProps) {
   return (
@@ -43,7 +31,10 @@ export function Header({ onClickMenuIcon, isMobileMenuOpen, onClickCloseMobileMe
             </StyledMenuItem>
           ))}
         </StyledMenuContainer>
-        <StyledCloseIconButton $isOpen={isMobileMenuOpen}>
+        <StyledCloseIconButton
+          $isOpen={isMobileMenuOpen}
+          onClick={() => (isMobileMenuOpen ? onClickCloseMobileMenuIcon() : onClickMenuIcon())}
+        >
           {isMobileMenuOpen ? (
             <StyledCloseIcon onClick={onClickCloseMobileMenuIcon} />
           ) : (
