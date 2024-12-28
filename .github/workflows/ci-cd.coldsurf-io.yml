@@ -1,0 +1,35 @@
+name: Coldsurf.io Web CI/CD Pipeline
+
+on:
+  workflow_dispatch: # Allows the workflow to be triggered manually
+  push:
+    tags: # Trigger on push to a tag
+      - 'v*-coldsurf-io-web' # Adjust pattern as needed (e.g., v1.0.0)
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Log in to AWS
+        uses: ./.github/workflows/composites/aws-login
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.AWS_REGION }}
+
+      - name: Create .env file from template
+        working-directory: ./apps/coldsurf-io
+        run: |
+          echo "COLDSURF_IO_DOMAIN_CERT_ARN=${{ secrets.COLDSURF_IO_DOMAIN_CERT_ARN }}" >> .env
+          echo "COLDSURF_IO_DOMAIN_NAME=${{ secrets.COLDSURF_IO_DOMAIN_NAME }}" >> .env
+
+      - name: SST Next.js template action
+        uses: ./.github/workflows/composites/sst-nextjs-template
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.AWS_REGION }}
+          work_dir: ./apps/coldsurf-io
+          github_token: ${{ secrets.GITHUB_TOKEN }}
