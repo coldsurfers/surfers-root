@@ -1,3 +1,5 @@
+'use client'
+
 import { AnimatePresence, Variants } from 'framer-motion'
 import Link from 'next/link'
 import { menuItems } from '../../(data)'

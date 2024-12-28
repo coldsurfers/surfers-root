@@ -1,3 +1,11 @@
+import { LandingText } from './(ui)'
+
 export default function Home() {
-  return null
+  return (
+    <div>
+      <section style={{ display: 'flex' }}>
+        <LandingText />
+      </section>
+    </div>
+  )
 }
