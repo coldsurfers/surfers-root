@@ -3575,6 +3575,7 @@ __metadata:
     encoding: "npm:^0.1.13"
     eslint: "npm:8.57.0"
     form-data: "npm:^4.0.0"
+    framer-motion: "npm:*"
     gestalt: "npm:^163.9.2"
     html2pdf.js: "npm:^0.10.2"
     ky: "npm:^1.7.2"
