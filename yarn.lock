@@ -3633,15 +3633,22 @@ __metadata:
   resolution: "@coldsurfers/coldsurf-io@workspace:apps/coldsurf-io"
   dependencies:
     "@coldsurfers/ocean-road": "workspace:*"
+    "@emotion/css": "npm:*"
+    "@emotion/react": "npm:*"
+    "@emotion/styled": "npm:*"
     "@eslint/eslintrc": "npm:^3"
     "@types/node": "npm:^20"
     "@types/react": "npm:^19"
     "@types/react-dom": "npm:^19"
     eslint: "npm:^9"
     eslint-config-next: "npm:15.1.2"
+    framer-motion: "npm:*"
+    lucide-react: "npm:*"
     next: "npm:15.1.2"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
+    react-lite-youtube-embed: "npm:*"
+    sst: "npm:*"
     typescript: "npm:*"
   languageName: unknown
   linkType: soft
@@ -3871,7 +3878,7 @@ __metadata:
     next: "npm:15.1.0"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
-    react-lite-youtube-embed: "npm:^2.4.0"
+    react-lite-youtube-embed: "npm:*"
     sst: "npm:*"
     ts-pattern: "npm:*"
     typescript: "npm:*"
@@ -32276,7 +32283,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-lite-youtube-embed@npm:^2.4.0":
+"react-lite-youtube-embed@npm:2.4.0":
   version: 2.4.0
   resolution: "react-lite-youtube-embed@npm:2.4.0"
   peerDependencies:
