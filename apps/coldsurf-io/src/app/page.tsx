@@ -1,11 +1,12 @@
-import { LandingText } from './(ui)'
+import { LandingImage, LandingSection, LandingText } from './(ui)'
 
 export default function Home() {
   return (
     <div>
-      <section style={{ display: 'flex' }}>
+      <LandingSection>
         <LandingText />
-      </section>
+        <LandingImage />
+      </LandingSection>
     </div>
   )
 }

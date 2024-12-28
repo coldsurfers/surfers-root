@@ -1,0 +1,53 @@
+import { media } from '@coldsurfers/ocean-road'
+import { css } from '@emotion/react'
+import styled from '@emotion/styled'
+
+export const StyledLandingSection = styled.section`
+  padding-left: 96px;
+  padding-right: 96px;
+  padding-top: 180px;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+
+  ${media['xx-large'](css`
+    padding-left: 48px;
+    padding-right: 48px;
+    padding-top: 48px;
+  `)}
+
+  ${media['x-large'](css`
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 16px;
+  `)}
+
+  ${media.large(css`
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 16px;
+  `)}
+`
+
+export const StyledLandingSectionInnerContainer = styled.section`
+  max-width: 1728px;
+  width: 100%;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+
+  gap: 1rem;
+
+  ${media.large(css`
+    max-width: 1536px;
+    flex-direction: column;
+    gap: 4rem;
+  `)}
+
+  ${media.medium(css`
+    max-width: none;
+    width: 100%;
+  `)}
+`
