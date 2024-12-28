@@ -1,9 +1,15 @@
 'use client'
 
-import { Text } from '@coldsurfers/ocean-road'
-import Image from 'next/image'
-import Link from 'next/link'
-import { StyledHeader, StyledHeaderWrapper, StyledMenuContainer, StyledMenuItem, StyledMenuText } from './header.styled'
+import {
+  StyledHeader,
+  StyledHeaderWrapper,
+  StyledLogoImage,
+  StyledLogoText,
+  StyledLogoWrapper,
+  StyledMenuContainer,
+  StyledMenuItem,
+  StyledMenuText,
+} from './header.styled'
 
 const menuItems = [
   {
@@ -22,19 +28,10 @@ export function Header() {
   return (
     <StyledHeaderWrapper>
       <StyledHeader>
-        <Link href="/" style={{ paddingLeft: '32px', marginRight: '48px', display: 'flex', alignItems: 'center' }}>
-          <Image
-            src={'/icons/favicon.ico'}
-            width={32}
-            height={32}
-            alt={'LOGO'}
-            style={{
-              borderRadius: '50%',
-              marginRight: '0.5rem',
-            }}
-          />
-          <Text as="h2">COLDSURF</Text>
-        </Link>
+        <StyledLogoWrapper href="/">
+          <StyledLogoImage src={'/icons/favicon.ico'} width={48} height={48} alt={'LOGO'} />
+          <StyledLogoText as="h2">COLDSURF</StyledLogoText>
+        </StyledLogoWrapper>
         <StyledMenuContainer>
           {menuItems.map((item) => (
             <StyledMenuItem key={item.href} href={item.href} target={item.target}>

@@ -1,6 +1,7 @@
 import { media, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
+import Image from 'next/image'
 import Link from 'next/link'
 
 export const StyledHeaderWrapper = styled.div`
@@ -30,6 +31,8 @@ export const StyledHeader = styled.header`
   background-color: ${semantics.color.background[3]};
   border-radius: 10000px;
 
+  height: 78px;
+
   display: flex;
   align-items: center;
 
@@ -58,4 +61,34 @@ export const StyledMenuItem = styled(Link)`
   &:hover {
     background-color: ${semantics.color.background[4]};
   }
+`
+
+export const StyledLogoImage = styled(Image)`
+  border-radius: 50%;
+  margin-right: 20px;
+  width: 48px;
+  height: 48px;
+`
+
+export const StyledLogoText = styled(Text)`
+  display: block;
+  font-size: 24px;
+  font-weight: bold;
+  margin: unset;
+  color: ${semantics.color.foreground[3]};
+  ${media.large(css`
+    display: none;
+  `)}
+`
+
+export const StyledLogoWrapper = styled(Link)`
+  padding-left: 32px;
+  margin-right: 48px;
+  display: flex;
+  align-items: center;
+
+  ${media.large(css`
+    padding-left: 18px;
+    margin-right: 0;
+  `)}
 `
