@@ -7,6 +7,11 @@ export const StyledLandingSection = styled.section`
   padding-right: 96px;
   padding-top: 180px;
   width: 100%;
+  min-height: 100vh;
+
+  @media only screen and (orientation: portrait) {
+    min-height: auto;
+  }
 
   display: flex;
   justify-content: center;
@@ -20,13 +25,13 @@ export const StyledLandingSection = styled.section`
   ${media['x-large'](css`
     padding-left: 24px;
     padding-right: 24px;
-    padding-top: 16px;
+    padding-top: 82px;
   `)}
 
   ${media.large(css`
     padding-left: 16px;
     padding-right: 16px;
-    padding-top: 16px;
+    padding-top: 120px;
   `)}
 `
 
