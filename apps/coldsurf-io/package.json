@@ -13,6 +13,8 @@
     "@emotion/css": "*",
     "@emotion/react": "*",
     "@emotion/styled": "*",
+    "framer-motion": "*",
+    "lucide-react": "*",
     "next": "15.1.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
