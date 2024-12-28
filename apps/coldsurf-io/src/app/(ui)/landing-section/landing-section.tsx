@@ -3,10 +3,15 @@
 import { PropsWithChildren } from 'react'
 import { StyledLandingSection, StyledLandingSectionInnerContainer } from './landing-section.styled'
 
-export function LandingSection({ children }: PropsWithChildren) {
+export function LandingSection({
+  children,
+  reversed = false,
+}: PropsWithChildren<{
+  reversed?: boolean
+}>) {
   return (
     <StyledLandingSection>
-      <StyledLandingSectionInnerContainer>{children}</StyledLandingSectionInnerContainer>
+      <StyledLandingSectionInnerContainer $reversed={reversed}>{children}</StyledLandingSectionInnerContainer>
     </StyledLandingSection>
   )
 }

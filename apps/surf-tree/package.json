@@ -19,7 +19,7 @@
     "next": "15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-lite-youtube-embed": "^2.4.0",
+    "react-lite-youtube-embed": "*",
     "sst": "*",
     "ts-pattern": "*",
     "zod": "*",

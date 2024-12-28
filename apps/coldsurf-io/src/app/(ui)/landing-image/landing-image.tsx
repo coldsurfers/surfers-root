@@ -94,7 +94,6 @@ export function LandingImage() {
           height={500}
           src={imageUrls[currentImageIndex]}
           alt="Landing Image"
-          objectFit="contain"
           priority
           style={{
             width: '100%',
