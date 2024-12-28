@@ -3648,6 +3648,7 @@ __metadata:
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
     react-lite-youtube-embed: "npm:*"
+    sst: "npm:*"
     typescript: "npm:*"
   languageName: unknown
   linkType: soft

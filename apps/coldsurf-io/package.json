@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "next dev",
+    "lint": "next lint",
+    "start": "next start"
   },
   "dependencies": {
     "@coldsurfers/ocean-road": "workspace:*",
@@ -18,7 +18,8 @@
     "next": "15.1.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-lite-youtube-embed": "*"
+    "react-lite-youtube-embed": "*",
+    "sst": "*"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
