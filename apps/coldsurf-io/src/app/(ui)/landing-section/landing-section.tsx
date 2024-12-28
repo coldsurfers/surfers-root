@@ -6,11 +6,13 @@ import { StyledLandingSection, StyledLandingSectionInnerContainer } from './land
 export function LandingSection({
   children,
   reversed = false,
+  withoutInitialPaddingTop = false,
 }: PropsWithChildren<{
   reversed?: boolean
+  withoutInitialPaddingTop?: boolean
 }>) {
   return (
-    <StyledLandingSection>
+    <StyledLandingSection $withoutInitialPaddingTop={withoutInitialPaddingTop}>
       <StyledLandingSectionInnerContainer $reversed={reversed}>{children}</StyledLandingSectionInnerContainer>
     </StyledLandingSection>
   )

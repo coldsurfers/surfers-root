@@ -2,10 +2,10 @@ import { media } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 
-export const StyledLandingSection = styled.section`
+export const StyledLandingSection = styled.section<{ $withoutInitialPaddingTop?: boolean }>`
   padding-left: 96px;
   padding-right: 96px;
-  padding-top: 180px;
+  padding-top: ${({ $withoutInitialPaddingTop }) => ($withoutInitialPaddingTop ? '0' : '180px')};
   width: 100%;
   min-height: 100vh;
 

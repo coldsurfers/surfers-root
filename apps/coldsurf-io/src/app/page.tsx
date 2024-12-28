@@ -12,7 +12,7 @@ export default function Home() {
         />
         <LandingImage />
       </LandingSection>
-      <LandingSection reversed>
+      <LandingSection reversed withoutInitialPaddingTop>
         <LandingText
           bigTitle={'Watch this video to understand why I created COLDSURF.'}
           smallTitle={`Rick Beato's youtube video - Why Are Bands Mysteriously Disappearing?`}
