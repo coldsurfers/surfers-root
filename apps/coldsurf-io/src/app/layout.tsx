@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Noto_Sans_KR } from 'next/font/google'
 import { OceanRoadThemeContext } from '../contexts/ocean-road-theme-context/ocean-road-theme-context'
+import { Header } from './(ui)/header/header'
 
 export const metadata: Metadata = {
   title: 'We Support Artists | COLDSURF',
@@ -74,7 +75,10 @@ export default function RootLayout({
             `,
           }}
         />
-        <OceanRoadThemeContext>{children}</OceanRoadThemeContext>
+        <OceanRoadThemeContext>
+          <Header />
+          {children}
+        </OceanRoadThemeContext>
       </body>
     </html>
   )
