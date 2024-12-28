@@ -13,23 +13,26 @@ export const StyledHeaderWrapper = styled.div`
   display: flex;
   justify-content: center;
 
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
   ${media['xx-large'](css`
     padding-left: 48px;
     padding-right: 48px;
     padding-top: 48px;
   `)}
-
   ${media['x-large'](css`
     padding-left: 24px;
     padding-right: 24px;
     padding-top: 16px;
   `)}
-
-  ${media.large(css`
+    ${media.large(css`
     padding-left: 16px;
     padding-right: 16px;
     padding-top: 16px;
-  `)}
+  `)};
 `
 
 export const StyledHeader = styled.header`

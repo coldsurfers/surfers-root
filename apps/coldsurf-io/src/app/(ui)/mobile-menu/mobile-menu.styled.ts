@@ -11,7 +11,7 @@ export const StyledMobileMenuBackground = styled(motion.div)`
   background-color: ${semantics.color.background[4]};
   display: flex;
   flex-direction: column;
-  z-index: 1;
+  z-index: 98;
 
   padding-top: 126px;
   padding-left: 16px;
