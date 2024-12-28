@@ -1,4 +1,4 @@
-import { semantics } from '@coldsurfers/ocean-road'
+import { semantics, Text } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { motion } from 'framer-motion'
 
@@ -11,7 +11,15 @@ export const StyledMobileMenuBackground = styled(motion.div)`
   background-color: ${semantics.color.background[4]};
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   z-index: 1;
+
+  padding-top: 126px;
+  padding-left: 16px;
+  padding-right: 16px;
+`
+
+export const StyledMobileMenuText = styled(Text)`
+  font-size: 24px;
+  border-bottom: 1px solid ${semantics.color.border[2]};
+  padding-bottom: 16px;
 `

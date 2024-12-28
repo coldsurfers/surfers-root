@@ -24,6 +24,12 @@ export const StyledHeaderWrapper = styled.div`
     padding-right: 24px;
     padding-top: 16px;
   `)}
+
+  ${media.large(css`
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 16px;
+  `)}
 `
 
 export const StyledHeader = styled.header`
@@ -98,6 +104,10 @@ export const StyledLogoWrapper = styled(Link)`
     padding-left: 18px;
     margin-right: 0;
   `)}
+
+  ${media.small(css`
+    padding-left: 0;
+  `)}
 `
 
 export const StyledMobileMenuIcon = styled(Menu)`
@@ -126,6 +136,10 @@ export const StyledCloseIconButton = styled.button<{ $isOpen: boolean }>`
     width: 42px;
     height: 42px;
     border-radius: 50%;
+  `)}
+
+  ${media.small(css`
+    margin-right: 0px;
   `)}
 `
 
