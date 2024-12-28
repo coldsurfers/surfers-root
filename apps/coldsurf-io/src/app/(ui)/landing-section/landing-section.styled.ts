@@ -35,12 +35,13 @@ export const StyledLandingSection = styled.section`
   `)}
 `
 
-export const StyledLandingSectionInnerContainer = styled.section`
+export const StyledLandingSectionInnerContainer = styled.section<{ $reversed?: boolean }>`
   max-width: 1728px;
   width: 100%;
   z-index: 2;
 
   display: flex;
+  flex-direction: ${(props) => (props.$reversed ? 'row-reverse' : 'row')};
   align-items: center;
 
   gap: 1rem;

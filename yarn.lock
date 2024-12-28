@@ -3647,6 +3647,7 @@ __metadata:
     next: "npm:15.1.2"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
+    react-lite-youtube-embed: "npm:*"
     typescript: "npm:*"
   languageName: unknown
   linkType: soft
@@ -3876,7 +3877,7 @@ __metadata:
     next: "npm:15.1.0"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
-    react-lite-youtube-embed: "npm:^2.4.0"
+    react-lite-youtube-embed: "npm:*"
     sst: "npm:*"
     ts-pattern: "npm:*"
     typescript: "npm:*"
@@ -32281,7 +32282,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-lite-youtube-embed@npm:^2.4.0":
+"react-lite-youtube-embed@npm:2.4.0":
   version: 2.4.0
   resolution: "react-lite-youtube-embed@npm:2.4.0"
   peerDependencies:
