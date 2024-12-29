@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Noto_Sans_KR } from 'next/font/google'
+import { FirebaseContext } from '../contexts/firebase-context/firebase-context'
 import { OceanRoadThemeContext } from '../contexts/ocean-road-theme-context/ocean-road-theme-context'
 import { PageLayout } from './(ui)/page-layout/page-layout'
 
@@ -75,9 +76,11 @@ export default function RootLayout({
             `,
           }}
         />
-        <OceanRoadThemeContext>
-          <PageLayout>{children}</PageLayout>
-        </OceanRoadThemeContext>
+        <FirebaseContext>
+          <OceanRoadThemeContext>
+            <PageLayout>{children}</PageLayout>
+          </OceanRoadThemeContext>
+        </FirebaseContext>
       </body>
     </html>
   )
