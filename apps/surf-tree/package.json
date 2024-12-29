@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/surf-tree",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "private": true,
   "scripts": {
     "build": "next build",
@@ -14,6 +14,7 @@
     "@emotion/react": "*",
     "@emotion/styled": "*",
     "cheerio": "^1.0.0",
+    "firebase": "*",
     "framer-motion": "*",
     "lucide-react": "*",
     "next": "15.1.0",
