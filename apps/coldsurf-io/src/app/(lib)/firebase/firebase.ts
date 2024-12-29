@@ -19,6 +19,9 @@ export class Firebase {
   }
 
   static initializeApp() {
+    if (process.env.NODE_ENV === 'development') {
+      return
+    }
     const app = fbInitializeApp(firebaseConfig)
     return getAnalytics(app)
   }
