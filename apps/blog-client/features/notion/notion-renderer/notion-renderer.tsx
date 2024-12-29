@@ -8,12 +8,12 @@ import { LoaderCircle } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { ExtendedRecordMap } from 'notion-types'
 import 'prismjs/themes/prism-tomorrow.css' // For syntax highlighting
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { NotionRenderer as NR, type MapImageUrlFn, type NotionComponents } from 'react-notion-x'
 import 'react-notion-x/src/styles.css'
 import { Tweet as TweetEmbed } from 'react-tweet'
 
-const MotionIcon = motion(LoaderCircle)
+const MotionIcon = motion.create(LoaderCircle)
 
 function isNotionImage(url: string) {
   return url.startsWith('https://prod-files-secure.s3.us-west-2.amazonaws.com')
@@ -76,21 +76,27 @@ const CustomImage = (props: {
   style: object
   width?: number
 }) => {
-  const [isLoading, setIsLoading] = useState(true)
+  const imgRef = useRef<HTMLImageElement>(null)
+  const [isLoading, setIsLoading] = useState(props.src.includes('/api/notion-image-proxy'))
+
+  useEffect(() => {
+    const currentImg = imgRef.current
+    const onImageLoadOrError = () => {
+      setIsLoading(false)
+    }
+    currentImg?.addEventListener('load', onImageLoadOrError)
+    currentImg?.addEventListener('error', onImageLoadOrError)
+
+    return () => {
+      if (currentImg) {
+        currentImg.removeEventListener('load', onImageLoadOrError)
+        currentImg.removeEventListener('error', onImageLoadOrError)
+      }
+    }
+  }, [])
+
   return (
     <>
-      <img
-        {...props}
-        onLoadCapture={() => setIsLoading(false)}
-        style={{
-          background: isLoading ? colors.oc.violet[4].value : 'transparent',
-          width: '100%',
-          height: '100%',
-          aspectRatio: '1 / 1',
-          objectFit: 'cover',
-          objectPosition: '50%',
-        }}
-      />
       {isLoading ? (
         <div
           style={{
@@ -114,6 +120,18 @@ const CustomImage = (props: {
           />
         </div>
       ) : null}
+      <img
+        ref={imgRef}
+        {...props}
+        style={{
+          background: isLoading ? colors.oc.violet[4].value : 'transparent',
+          width: '100%',
+          height: '100%',
+          aspectRatio: '1 / 1',
+          objectFit: 'cover',
+          objectPosition: '50%',
+        }}
+      />
     </>
   )
 }
