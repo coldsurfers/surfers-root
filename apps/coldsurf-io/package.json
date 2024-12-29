@@ -13,6 +13,7 @@
     "@emotion/css": "*",
     "@emotion/react": "*",
     "@emotion/styled": "*",
+    "firebase": "^11.1.0",
     "framer-motion": "*",
     "lucide-react": "*",
     "next": "15.1.2",
