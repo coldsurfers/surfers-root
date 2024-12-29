@@ -1,4 +1,4 @@
-import { OceanRoadThemeContext } from '@/contexts'
+import { FirebaseContext, OceanRoadThemeContext } from '@/contexts'
 import type { Metadata } from 'next'
 import { Noto_Sans_KR } from 'next/font/google'
 
@@ -74,7 +74,9 @@ export default function RootLayout({
             `,
           }}
         />
-        <OceanRoadThemeContext>{children}</OceanRoadThemeContext>
+        <FirebaseContext>
+          <OceanRoadThemeContext>{children}</OceanRoadThemeContext>
+        </FirebaseContext>
       </body>
     </html>
   )
