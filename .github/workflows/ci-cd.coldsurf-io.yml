@@ -24,6 +24,13 @@ jobs:
         run: |
           echo "COLDSURF_IO_DOMAIN_CERT_ARN=${{ secrets.COLDSURF_IO_DOMAIN_CERT_ARN }}" >> .env
           echo "COLDSURF_IO_DOMAIN_NAME=${{ secrets.COLDSURF_IO_DOMAIN_NAME }}" >> .env
+          echo "NEXT_PUBLIC_FIREBASE_API_KEY=${{ secrets.COLDSURF_IO_FIREBASE_API_KEY }}" >> .env
+          echo "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ secrets.COLDSURF_IO_FIREBASE_AUTH_DOMAIN }}" >> .env
+          echo "NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ secrets.COLDSURF_IO_FIREBASE_PROJECT_ID }}" >> .env
+          echo "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=${{ secrets.COLDSURF_IO_FIREBASE_STORAGE_BUCKET }}" >> .env
+          echo "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.COLDSURF_IO_FIREBASE_MESSAGING_SENDER_ID }}" >> .env
+          echo "NEXT_PUBLIC_FIREBASE_APP_ID=${{ secrets.COLDSURF_IO_FIREBASE_APP_ID }}" >> .env
+          echo "NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ secrets.COLDSURF_IO_FIREBASE_MEASUREMENT_ID }}" >> .env
 
       - name: SST Next.js template action
         uses: ./.github/workflows/composites/sst-nextjs-template
