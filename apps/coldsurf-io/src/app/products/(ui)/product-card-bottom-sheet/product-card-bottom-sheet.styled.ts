@@ -1,4 +1,4 @@
-import { IconButton, media, semantics } from '@coldsurfers/ocean-road'
+import { IconButton, media, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { motion } from 'framer-motion'
@@ -62,4 +62,24 @@ export const CloseButton = styled(IconButton)`
   align-items: center;
   -webkit-box-pack: center;
   justify-content: center;
+`
+
+export const StyledTitle = styled(Text)`
+  font-size: clamp(28px, 8vmin, 56px);
+  font-weight: 820;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  text-align: left;
+`
+
+export const StyledDescription = styled(Text)`
+  font-weight: 418;
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+
+  font-size: 16px;
+  white-space: pre-wrap;
+  ${media.small(css`
+    font-size: 14px;
+  `)}
 `

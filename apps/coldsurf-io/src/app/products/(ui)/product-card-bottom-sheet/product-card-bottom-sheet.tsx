@@ -3,7 +3,14 @@
 import { Text } from '@coldsurfers/ocean-road'
 import { AnimatePresence } from 'framer-motion'
 import { X as XIcon } from 'lucide-react'
-import { CloseButton, Overlay, SheetContainer, SheetInner } from './product-card-bottom-sheet.styled'
+import {
+  CloseButton,
+  Overlay,
+  SheetContainer,
+  SheetInner,
+  StyledDescription,
+  StyledTitle,
+} from './product-card-bottom-sheet.styled'
 import { ProductCardBottomSheetProps } from './product-card-bottom-sheet.types'
 
 export function ProductCardBottomSheet({ isOpen, onClose, selectedProduct }: ProductCardBottomSheetProps) {
@@ -33,8 +40,8 @@ export function ProductCardBottomSheet({ isOpen, onClose, selectedProduct }: Pro
             </CloseButton>
             <SheetInner>
               <Text>Products / {selectedProduct.title}</Text>
-              <h2>{selectedProduct.title}</h2>
-              <p>{selectedProduct.description}</p>
+              <StyledTitle as="h2">{selectedProduct.title}</StyledTitle>
+              <StyledDescription as="p">{selectedProduct.longDescription}</StyledDescription>
             </SheetInner>
           </SheetContainer>
         </>
