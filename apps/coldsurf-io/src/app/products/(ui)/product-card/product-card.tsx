@@ -1,7 +1,11 @@
 'use client'
 
-import { Text } from '@coldsurfers/ocean-road'
-import { StyledProductCardContainer } from './product-card.styled'
+import {
+  StyledProductCardContainer,
+  StyledProductCardDescription,
+  StyledProductCardTitle,
+  StyledProductImage,
+} from './product-card.styled'
 
 export function ProductCard({
   title,
@@ -16,9 +20,9 @@ export function ProductCard({
 }) {
   return (
     <StyledProductCardContainer $afterContent={`Explore ${title}`} $backgroundImgSrc={backgroundImgSrc}>
-      <img src={imgSrc} alt="product" style={{ objectFit: 'cover', width: 120, height: 120, borderRadius: '50%' }} />
-      <Text as="h1">{title}</Text>
-      <Text as="p">{description}</Text>
+      <StyledProductImage src={imgSrc} alt="product" />
+      <StyledProductCardTitle as="h1">{title}</StyledProductCardTitle>
+      <StyledProductCardDescription as="p">{description}</StyledProductCardDescription>
     </StyledProductCardContainer>
   )
 }
