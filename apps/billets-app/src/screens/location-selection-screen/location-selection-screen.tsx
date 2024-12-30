@@ -28,6 +28,20 @@ const sections: ReadonlyArray<
           longitude: 127.024612,
         },
       },
+      {
+        city: 'Incheon',
+        latLng: {
+          latitude: 37.456257,
+          longitude: 126.705208,
+        },
+      },
+      {
+        city: 'YeongJongDo',
+        latLng: {
+          latitude: 37.5000629,
+          longitude: 126.5358479,
+        },
+      },
     ],
   },
 ]
