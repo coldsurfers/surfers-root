@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
-import { ProductCardBottomSheet } from './(components)'
+import { ProductCard, ProductCardBottomSheet } from './(components)'
 import { ProductCardListLayout, TopTitle } from './(ui)'
-import { ProductCard } from './(ui)/product-card'
 
 export const metadata: Metadata = {
   title: 'Products - COLDSURF',

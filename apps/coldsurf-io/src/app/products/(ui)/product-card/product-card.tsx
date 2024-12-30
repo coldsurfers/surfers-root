@@ -1,7 +1,5 @@
 'use client'
 
-import { useProductStore } from '@/stores'
-import { useShallow } from 'zustand/shallow'
 import {
   StyledProductCardContainer,
   StyledProductCardDescription,
@@ -10,16 +8,10 @@ import {
 } from './product-card.styled'
 import { ProductCardProps } from './product-card.types'
 
-export function ProductCard({ title, description, imgSrc, backgroundImgSrc }: ProductCardProps) {
-  const { setIsProductBottomSheetOpen } = useProductStore(
-    useShallow((state) => ({
-      isProductBottomSheetOpen: state.isProductBottomSheetOpen,
-      setIsProductBottomSheetOpen: state.setIsProductBottomSheetOpen,
-    })),
-  )
+export function ProductCard({ title, description, imgSrc, backgroundImgSrc, onClick }: ProductCardProps) {
   return (
     <StyledProductCardContainer
-      onClick={() => setIsProductBottomSheetOpen(true)}
+      onClick={onClick}
       $afterContent={`Explore ${title}`}
       $backgroundImgSrc={backgroundImgSrc}
     >
