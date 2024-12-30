@@ -1,7 +1,7 @@
 import { semantics } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 
-export const StyledProductCardContainer = styled.div<{ $afterContent: string }>`
+export const StyledProductCardContainer = styled.div<{ $afterContent: string; $backgroundImgSrc: string }>`
   position: relative;
   aspect-ratio: 1 / 2;
   border-radius: 32px;
@@ -9,7 +9,7 @@ export const StyledProductCardContainer = styled.div<{ $afterContent: string }>`
   transform: translateZ(0px);
 
   background-color: ${semantics.color.background[3]};
-  background-image: url('https://images.unsplash.com/photo-1513265472937-50d3e680377c?q=80&w=2669&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+  background-image: ${(props) => `url(${props.$backgroundImgSrc})`};
   background-size: cover;
   background-position: 50%;
   background-blend-mode: overlay;
