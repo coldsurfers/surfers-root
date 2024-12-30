@@ -1,5 +1,6 @@
 import { colors } from '@coldsurfers/ocean-road'
-import { PropsWithChildren } from 'react'
+import { Spinner } from '@coldsurfers/ocean-road/native'
+import { PropsWithChildren, Suspense } from 'react'
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 import { Edges, SafeAreaView } from 'react-native-safe-area-context'
 
@@ -12,9 +13,11 @@ export const CommonScreenLayout = ({
   style?: StyleProp<ViewStyle>
 }>) => {
   return (
-    <SafeAreaView edges={edges} style={[styles.layout, style]}>
-      {children}
-    </SafeAreaView>
+    <Suspense fallback={<Spinner positionCenter />}>
+      <SafeAreaView edges={edges} style={[styles.layout, style]}>
+        {children}
+      </SafeAreaView>
+    </Suspense>
   )
 }
 
