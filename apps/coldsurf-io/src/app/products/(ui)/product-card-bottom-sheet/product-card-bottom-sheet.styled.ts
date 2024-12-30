@@ -1,4 +1,4 @@
-import { colors, IconButton, media, semantics, Text } from '@coldsurfers/ocean-road'
+import { Button, colors, IconButton, media, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { motion } from 'framer-motion'
@@ -23,7 +23,8 @@ export const SheetContainer = styled(motion.div)`
   background-color: ${semantics.color.background[4]};
 
   ${media.medium(css`
-    padding: 24px 24px 16px;
+    padding: 0px;
+    padding-top: 24px;
   `)}
 `
 
@@ -33,6 +34,10 @@ export const SheetInner = styled.div`
   overflow: hidden auto;
   padding-left: 40px;
   padding-right: 40px;
+
+  ${media.large(css`
+    padding: 24px;
+  `)}
 `
 
 export const Overlay = styled(motion.div)`
@@ -86,7 +91,11 @@ export const StyledDescription = styled(Text)`
 
 export const StyledProductImageContainer = styled.div`
   width: 390px;
-  margin-left: auto;
+  display: flex;
+  ${media.large(css`
+    margin: 0 auto;
+    width: 100%;
+  `)}
 `
 
 export const StyledProductImage = styled.img`
@@ -110,6 +119,15 @@ export const StyledContentGrid = styled.div`
 
   max-width: 1200px;
   margin: 0 auto;
+
+  ${media['large'](css`
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'breadcrumbs'
+      'content'
+      'image'
+      'ctaButton';
+  `)}
 `
 
 export const StyledCtaText = styled(Text)`
@@ -119,3 +137,17 @@ export const StyledCtaText = styled(Text)`
   line-height: 1.5;
   color: ${colors.oc.white.value};
 `
+
+export const StyledCta = styled.div`
+  ${media.large(css`
+    position: fixed;
+    bottom: 36px;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `)}
+`
+
+export const StyledCtaButton = styled(Button)``

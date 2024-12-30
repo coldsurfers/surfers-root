@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, Text } from '@coldsurfers/ocean-road'
+import { Text } from '@coldsurfers/ocean-road'
 import { AnimatePresence } from 'framer-motion'
 import { X as XIcon } from 'lucide-react'
 import {
@@ -9,6 +9,8 @@ import {
   SheetContainer,
   SheetInner,
   StyledContentGrid,
+  StyledCta,
+  StyledCtaButton,
   StyledCtaText,
   StyledDescription,
   StyledProductImage,
@@ -45,7 +47,9 @@ export function ProductCardBottomSheet({ isOpen, onClose, selectedProduct }: Pro
             <SheetInner>
               <StyledContentGrid>
                 <div style={{ gridArea: 'breadcrumbs', verticalAlign: 'baseline' }}>
-                  <Text as="p">Products / {selectedProduct.title}</Text>
+                  <Text as="p" style={{ margin: 'unset' }}>
+                    Products / {selectedProduct.title}
+                  </Text>
                 </div>
                 <div
                   style={{
@@ -61,9 +65,11 @@ export function ProductCardBottomSheet({ isOpen, onClose, selectedProduct }: Pro
                 </div>
                 <div style={{ gridArea: 'ctaButton' }}>
                   {selectedProduct.ctaTitle && (
-                    <Button onClick={() => window.open(selectedProduct.ctaLink, '_blank')}>
-                      <StyledCtaText>{selectedProduct.ctaTitle}</StyledCtaText>
-                    </Button>
+                    <StyledCta>
+                      <StyledCtaButton onClick={() => window.open(selectedProduct.ctaLink, '_blank')}>
+                        <StyledCtaText>{selectedProduct.ctaTitle}</StyledCtaText>
+                      </StyledCtaButton>
+                    </StyledCta>
                   )}
                 </div>
                 <div style={{ gridArea: 'image' }}>
