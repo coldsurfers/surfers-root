@@ -6,20 +6,15 @@ import {
   StyledProductCardTitle,
   StyledProductImage,
 } from './product-card.styled'
+import { ProductCardProps } from './product-card.types'
 
-export function ProductCard({
-  title,
-  description,
-  imgSrc,
-  backgroundImgSrc,
-}: {
-  title: string
-  description: string
-  imgSrc: string
-  backgroundImgSrc: string
-}) {
+export function ProductCard({ title, description, imgSrc, backgroundImgSrc, onClick }: ProductCardProps) {
   return (
-    <StyledProductCardContainer $afterContent={`Explore ${title}`} $backgroundImgSrc={backgroundImgSrc}>
+    <StyledProductCardContainer
+      onClick={onClick}
+      $afterContent={`Explore ${title}`}
+      $backgroundImgSrc={backgroundImgSrc}
+    >
       <StyledProductImage src={imgSrc} alt="product" />
       <StyledProductCardTitle as="h1">{title}</StyledProductCardTitle>
       <StyledProductCardDescription as="p">{description}</StyledProductCardDescription>
