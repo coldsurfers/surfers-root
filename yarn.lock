@@ -3651,6 +3651,7 @@ __metadata:
     react-lite-youtube-embed: "npm:*"
     sst: "npm:*"
     typescript: "npm:*"
+    zustand: "npm:*"
   languageName: unknown
   linkType: soft
 
