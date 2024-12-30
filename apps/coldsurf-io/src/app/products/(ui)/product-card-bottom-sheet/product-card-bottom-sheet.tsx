@@ -1,6 +1,6 @@
 'use client'
 
-import { Text } from '@coldsurfers/ocean-road'
+import { Button, Text } from '@coldsurfers/ocean-road'
 import { AnimatePresence } from 'framer-motion'
 import { X as XIcon } from 'lucide-react'
 import {
@@ -8,7 +8,11 @@ import {
   Overlay,
   SheetContainer,
   SheetInner,
+  StyledContentGrid,
+  StyledCtaText,
   StyledDescription,
+  StyledProductImage,
+  StyledProductImageContainer,
   StyledTitle,
 } from './product-card-bottom-sheet.styled'
 import { ProductCardBottomSheetProps } from './product-card-bottom-sheet.types'
@@ -39,9 +43,35 @@ export function ProductCardBottomSheet({ isOpen, onClose, selectedProduct }: Pro
               <XIcon />
             </CloseButton>
             <SheetInner>
-              <Text>Products / {selectedProduct.title}</Text>
-              <StyledTitle as="h2">{selectedProduct.title}</StyledTitle>
-              <StyledDescription as="p">{selectedProduct.longDescription}</StyledDescription>
+              <StyledContentGrid>
+                <div style={{ gridArea: 'breadcrumbs', verticalAlign: 'baseline' }}>
+                  <Text as="p">Products / {selectedProduct.title}</Text>
+                </div>
+                <div
+                  style={{
+                    gridArea: 'content',
+                    minWidth: 0,
+                    marginBottom: 48,
+                    marginTop: 13,
+                    verticalAlign: 'baseline',
+                  }}
+                >
+                  <StyledTitle as="h2">{selectedProduct.title}</StyledTitle>
+                  <StyledDescription as="p">{selectedProduct.longDescription}</StyledDescription>
+                </div>
+                <div style={{ gridArea: 'ctaButton' }}>
+                  {selectedProduct.ctaTitle && (
+                    <Button onClick={() => window.open(selectedProduct.ctaLink, '_blank')}>
+                      <StyledCtaText>{selectedProduct.ctaTitle}</StyledCtaText>
+                    </Button>
+                  )}
+                </div>
+                <div style={{ gridArea: 'image' }}>
+                  <StyledProductImageContainer>
+                    <StyledProductImage src={selectedProduct.productImgSrc} />
+                  </StyledProductImageContainer>
+                </div>
+              </StyledContentGrid>
             </SheetInner>
           </SheetContainer>
         </>

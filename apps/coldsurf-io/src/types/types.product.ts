@@ -4,4 +4,7 @@ export type Product = {
   longDescription: string
   imgSrc: string
   backgroundImgSrc: string
+  productImgSrc: string
+  ctaTitle?: string
+  ctaLink?: string
 }

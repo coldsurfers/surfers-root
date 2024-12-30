@@ -1,4 +1,4 @@
-import { IconButton, media, semantics, Text } from '@coldsurfers/ocean-road'
+import { colors, IconButton, media, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { motion } from 'framer-motion'
@@ -82,4 +82,40 @@ export const StyledDescription = styled(Text)`
   ${media.small(css`
     font-size: 14px;
   `)}
+`
+
+export const StyledProductImageContainer = styled.div`
+  width: 390px;
+  margin-left: auto;
+`
+
+export const StyledProductImage = styled.img`
+  aspect-ratio: 0.5625 / 1;
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  object-fit: cover;
+  object-position: 50%;
+`
+
+export const StyledContentGrid = styled.div`
+  display: grid;
+  grid-template-areas:
+    'breadcrumbs . .'
+    'content . image'
+    'ctaButton . image'
+    'linkApps . image'
+    'tags . image';
+  grid-template-columns: 3fr 1fr;
+
+  max-width: 1200px;
+  margin: 0 auto;
+`
+
+export const StyledCtaText = styled(Text)`
+  font-size: 16px;
+  font-weight: 418;
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+  color: ${colors.oc.white.value};
 `
