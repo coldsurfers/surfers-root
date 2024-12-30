@@ -1,3 +1,9 @@
+import { TopTitle } from './(ui)'
+
 export default function ProductsPage() {
-  return null
+  return (
+    <>
+      <TopTitle />
+    </>
+  )
 }
