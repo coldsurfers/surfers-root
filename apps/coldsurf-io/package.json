@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/coldsurf-io",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
   "scripts": {
     "build": "next build",
@@ -20,7 +20,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-lite-youtube-embed": "*",
-    "sst": "*"
+    "sst": "*",
+    "zustand": "*"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

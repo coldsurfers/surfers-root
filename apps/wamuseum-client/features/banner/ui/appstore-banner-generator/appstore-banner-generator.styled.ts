@@ -26,7 +26,7 @@ export const StyledDndFileZone = styled(DndFileZone)<{
 export const StyledPromotionText = styled(Text)`
   text-align: center;
   color: ${colors.oc.black.value};
-  font-size: 3.5vw;
+  font-size: 3vw;
   margin: 2.5rem 0px 0px 0px;
 `
 
