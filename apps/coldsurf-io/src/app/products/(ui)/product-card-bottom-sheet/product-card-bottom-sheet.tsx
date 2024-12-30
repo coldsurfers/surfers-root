@@ -1,36 +1,12 @@
 'use client'
 
-import styled from '@emotion/styled'
-import { motion } from 'framer-motion'
+import { Text } from '@coldsurfers/ocean-road'
+import { AnimatePresence } from 'framer-motion'
+import { X as XIcon } from 'lucide-react'
+import { CloseButton, Overlay, SheetContainer, SheetInner } from './product-card-bottom-sheet.styled'
+import { ProductCardBottomSheetProps } from './product-card-bottom-sheet.types'
 
-// Styled container for the bottom sheet
-const SheetContainer = styled(motion.div)`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  max-width: 500px;
-  height: 50%;
-  background: white;
-  border-radius: 16px 16px 0 0;
-  box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.2);
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-`
-
-const Overlay = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 5;
-`
-
-export function ProductCardBottomSheet({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+export function ProductCardBottomSheet({ isOpen, onClose, selectedProduct }: ProductCardBottomSheetProps) {
   // Animation variants for the sheet
   const sheetVariants = {
     hidden: { y: '100%', opacity: 0 },
@@ -38,7 +14,7 @@ export function ProductCardBottomSheet({ isOpen, onClose }: { isOpen: boolean; o
   }
 
   return (
-    <div>
+    <AnimatePresence>
       {isOpen && (
         <>
           {/* Overlay */}
@@ -50,14 +26,19 @@ export function ProductCardBottomSheet({ isOpen, onClose }: { isOpen: boolean; o
             animate="visible"
             exit="hidden"
             variants={sheetVariants}
-            transition={{ type: 'spring', stiffness: 50, damping: 15 }}
+            transition={{ type: 'keyframes', stiffness: 70, damping: 15, duration: 0.25 }}
           >
-            <h2>Bottom Sheet</h2>
-            <p>Here is some content inside the bottom sheet.</p>
-            <button onClick={() => onClose()}>Close</button>
+            <CloseButton onClick={() => onClose()}>
+              <XIcon />
+            </CloseButton>
+            <SheetInner>
+              <Text>Products / {selectedProduct.title}</Text>
+              <h2>{selectedProduct.title}</h2>
+              <p>{selectedProduct.description}</p>
+            </SheetInner>
           </SheetContainer>
         </>
       )}
-    </div>
+    </AnimatePresence>
   )
 }
