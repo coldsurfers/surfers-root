@@ -43,10 +43,6 @@ export const TabBar = memo((props: Props) => {
 
   return (
     <Animated.View
-      onLayout={(e) => {
-        // @todo: check android for bottom tab bar height
-        console.log(e.nativeEvent.layout.height)
-      }}
       style={[
         styles.tabBar,
         styles.shadowBox,
