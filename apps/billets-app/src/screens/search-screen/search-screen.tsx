@@ -51,7 +51,7 @@ export const SearchScreen = () => {
   const DEFAULT_BOTTOM_BTN_BOTTOM_VALUE = 12 + tabBarHeight
   const bottomBtnBottomValue = useSharedValue(DEFAULT_BOTTOM_BTN_BOTTOM_VALUE)
   const [floatingBtnVisible, setFloatingBtnVisible] = useState(Boolean(FULLY_EXPANDED_SNAP_INDEX))
-  const snapPoints = useMemo(() => ['35%', '100%'], [])
+  const snapPoints = useMemo(() => ['30%', '100%'], [])
 
   const mapRef = useRef<MapView | null>(null)
   const [placeholder, setPlaceholder] = useState('🔎 어떤 공연을 찾고 싶으세요?')
