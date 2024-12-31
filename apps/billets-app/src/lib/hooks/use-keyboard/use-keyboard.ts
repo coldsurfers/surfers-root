@@ -1,13 +1,13 @@
 import { NAVIGATION_HEADER_HEIGHT } from '@/ui/navigation-header'
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { useEffect, useState } from 'react'
 import { Keyboard } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useBottomTab } from '../use-bottom-tab'
 
 export function useKeyboard() {
   const { top: topInset, bottom: bottomInset } = useSafeAreaInsets()
-  const bottomTabBarHeight = useBottomTabBarHeight()
-  const defaultBottomPadding = NAVIGATION_HEADER_HEIGHT + topInset - 1 + bottomTabBarHeight + bottomInset
+  const { tabBarHeight } = useBottomTab()
+  const defaultBottomPadding = NAVIGATION_HEADER_HEIGHT + topInset - 1 + tabBarHeight + bottomInset
   const [bottomPadding, setBottomPadding] = useState(defaultBottomPadding)
 
   useEffect(() => {
