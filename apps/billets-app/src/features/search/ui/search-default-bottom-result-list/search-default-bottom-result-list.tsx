@@ -1,3 +1,4 @@
+import { useKeyboard } from '@/lib'
 import useConcertListQuery from '@/lib/react-query/queries/useConcertListQuery'
 import { useSearchScreenNavigation } from '@/screens/search-screen/search-screen.hooks'
 import { colors } from '@coldsurfers/ocean-road'
@@ -11,6 +12,7 @@ import { SearchItem } from '../search-item'
 import { SearchItemThumbnail } from '../search-item-thumbnail'
 
 export const SearchDefaultBottomResultList = ({ latitude, longitude }: { latitude: number; longitude: number }) => {
+  const { bottomPadding } = useKeyboard()
   const navigation = useSearchScreenNavigation()
   const { data: concertList } = useConcertListQuery(
     {
@@ -59,7 +61,7 @@ export const SearchDefaultBottomResultList = ({ latitude, longitude }: { latitud
           현재 지역의 공연
         </Text>
       }
-      contentContainerStyle={styles.contentContainer}
+      contentContainerStyle={[styles.contentContainer, { paddingBottom: bottomPadding }]}
       keyExtractor={(item) => item.id}
       renderItem={renderConcertListItem}
       showsVerticalScrollIndicator={false}
@@ -70,8 +72,7 @@ export const SearchDefaultBottomResultList = ({ latitude, longitude }: { latitud
 const styles = StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
-    paddingVertical: 12,
-    paddingBottom: 120,
+    paddingTop: 12,
     paddingHorizontal: 14,
     backgroundColor: colors.oc.gray[1].value,
   },
