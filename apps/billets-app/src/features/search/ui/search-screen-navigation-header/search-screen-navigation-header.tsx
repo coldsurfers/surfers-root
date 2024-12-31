@@ -1,16 +1,19 @@
-import { NavigationHeader } from '@/ui/navigation-header'
+import { NAVIGATION_HEADER_HEIGHT } from '@/ui/navigation-header'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Text, TextInput } from '@coldsurfers/ocean-road/native'
-import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 import { X as XIcon } from 'lucide-react-native'
-import { memo, useCallback, useMemo, useState } from 'react'
+import { memo, useCallback, useState } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
+import Animated, { interpolateColor, SharedValue, useAnimatedStyle } from 'react-native-reanimated'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useShallow } from 'zustand/shallow'
 import { getSearchFilterUIValue } from '../../store'
 import { useSearchStore } from '../../store/search-store'
 import { FULLY_EXPANDED_SNAP_INDEX } from '../../store/search-store.constants'
+import { SEARCH_DIM_HEIGHT_FLAG } from '../search.ui.constants'
 
-export const SearchScreenNavigationHeader = memo((props: NativeStackHeaderProps) => {
+export const SearchScreenNavigationHeader = memo(({ animatedPosition }: { animatedPosition: SharedValue<number> }) => {
+  const { top: topInset } = useSafeAreaInsets()
   const [placeholder, setPlaceholder] = useState('🔎 어떤 공연을 찾고 싶으세요?')
   const { keyword, setKeyword } = useSearchStore(
     useShallow((state) => ({
@@ -35,14 +38,6 @@ export const SearchScreenNavigationHeader = memo((props: NativeStackHeaderProps)
       setLocationConcerts: state.setLocationConcerts,
     })),
   )
-  const options = useMemo(
-    () => ({
-      ...props.options,
-      title: '검색',
-      headerBackVisible: false,
-    }),
-    [props.options],
-  )
 
   const initializeState = useCallback(() => {
     setSelectedLocationFilter(null)
@@ -62,45 +57,70 @@ export const SearchScreenNavigationHeader = memo((props: NativeStackHeaderProps)
     [initializeState, setKeyword],
   )
 
+  const animatedHeaderStyle = useAnimatedStyle(() => {
+    const backgroundColor = interpolateColor(
+      animatedPosition.value,
+      [0, SEARCH_DIM_HEIGHT_FLAG],
+      /**
+       * oc gray 1
+       */
+      ['#f1f3f5', 'rgba(0, 0, 0, 0)'], // From original color to dimmed black overlay
+    )
+
+    return {
+      backgroundColor,
+    }
+  })
+
   return (
-    <NavigationHeader
-      {...props}
-      options={options}
-      searchBarComponent={
-        <View style={styles.topInputWrapper}>
-          <TextInput
-            value={keyword}
-            onChangeText={onChangeText}
-            onFocus={() => setPlaceholder('')}
-            onBlur={() => setPlaceholder('🔎 어떤 공연을 찾고 싶으세요?')}
-            autoCapitalize="none"
-            placeholder={placeholder}
-            clearButtonMode="while-editing"
-          />
-          <View style={styles.filters}>
-            {selectedLocationFilter !== null && (
-              <Button size="sm" theme="border" style={styles.filterBtn}>
-                <Text style={styles.filterText}>{getSearchFilterUIValue(selectedLocationFilter)}</Text>
-                {selectedLocationFilter !== 'current-location' && (
-                  <Pressable
-                    hitSlop={{
-                      top: 8,
-                      left: 8,
-                      right: 8,
-                      bottom: 8,
-                    }}
-                    onPress={onPressFilterXIcon}
-                    style={styles.filterXIconBtn}
-                  >
-                    <XIcon size={14} color={colors.oc.black.value} strokeWidth={3} />
-                  </Pressable>
-                )}
-              </Button>
+    <Animated.View
+      style={[
+        {
+          height: NAVIGATION_HEADER_HEIGHT + topInset,
+          position: 'absolute',
+          paddingTop: topInset + 10,
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 99,
+        },
+        animatedHeaderStyle,
+      ]}
+    >
+      <TextInput
+        value={keyword}
+        onChangeText={onChangeText}
+        onFocus={() => setPlaceholder('')}
+        onBlur={() => setPlaceholder('🔎 어떤 공연을 찾고 싶으세요?')}
+        autoCapitalize="none"
+        placeholder={placeholder}
+        clearButtonMode="while-editing"
+        style={{
+          marginHorizontal: 14,
+        }}
+      />
+      <View style={styles.filters}>
+        {selectedLocationFilter !== null && (
+          <Button size="sm" theme="border" style={styles.filterBtn}>
+            <Text style={styles.filterText}>{getSearchFilterUIValue(selectedLocationFilter)}</Text>
+            {selectedLocationFilter !== 'current-location' && (
+              <Pressable
+                hitSlop={{
+                  top: 8,
+                  left: 8,
+                  right: 8,
+                  bottom: 8,
+                }}
+                onPress={onPressFilterXIcon}
+                style={styles.filterXIconBtn}
+              >
+                <XIcon size={14} color={colors.oc.black.value} strokeWidth={3} />
+              </Pressable>
             )}
-          </View>
-        </View>
-      }
-    />
+          </Button>
+        )}
+      </View>
+    </Animated.View>
   )
 })
 
@@ -112,6 +132,7 @@ const styles = StyleSheet.create({
   },
   filters: {
     marginTop: 14,
+    marginHorizontal: 14,
   },
   filterText: { fontSize: 12 },
   filterXIconBtn: { marginLeft: 4 },

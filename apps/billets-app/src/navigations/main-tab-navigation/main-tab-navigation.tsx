@@ -12,7 +12,12 @@ const renderTabBar = (props: BottomTabBarProps) => <TabBar {...props} />
 
 export const MainTabNavigation = () => {
   return (
-    <Tab.Navigator tabBar={renderTabBar}>
+    <Tab.Navigator
+      tabBar={renderTabBar}
+      screenOptions={{
+        lazy: false,
+      }}
+    >
       <Tab.Screen
         options={{
           header: () => null,

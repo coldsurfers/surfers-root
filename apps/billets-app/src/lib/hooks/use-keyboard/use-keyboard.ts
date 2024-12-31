@@ -7,7 +7,7 @@ import { useBottomTab } from '../use-bottom-tab'
 export function useKeyboard() {
   const { top: topInset, bottom: bottomInset } = useSafeAreaInsets()
   const { tabBarHeight } = useBottomTab()
-  const defaultBottomPadding = NAVIGATION_HEADER_HEIGHT + topInset - 1 + tabBarHeight + bottomInset
+  const defaultBottomPadding = NAVIGATION_HEADER_HEIGHT + topInset + tabBarHeight + bottomInset
   const [bottomPadding, setBottomPadding] = useState(defaultBottomPadding)
 
   useEffect(() => {
