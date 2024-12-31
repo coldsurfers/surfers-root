@@ -81,7 +81,7 @@ const SuspenseHomeScreen = () => {
   }, [])
 
   return (
-    <CommonScreenLayout edges={['top']}>
+    <CommonScreenLayout edges={['top', 'bottom']}>
       {latitude === null && longitude === null && <CurrentLocationTracker />}
       <LocationSelector onPress={showLocationModal} />
       {latitude !== null && longitude !== null && (
