@@ -18,12 +18,12 @@ import { NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner } from '@coldsurfers/ocean-road/native'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
-import React, { useCallback, useMemo, useRef } from 'react'
+import React, { Suspense, useCallback, useMemo, useRef } from 'react'
 import { Dimensions, Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useConcertDetailScreenNavigation, useConcertDetailScreenRoute } from './concert-detail-screen.hooks'
 
-export const ConcertDetailScreen = () => {
+const _ConcertDetailScreen = () => {
   const { bottom: bottomInset } = useSafeAreaInsets()
   const navigation = useConcertDetailScreenNavigation()
   const { params } = useConcertDetailScreenRoute()
@@ -256,6 +256,14 @@ export const ConcertDetailScreen = () => {
         />
       )}
     </View>
+  )
+}
+
+export const ConcertDetailScreen = () => {
+  return (
+    <Suspense fallback={<Spinner positionCenter />}>
+      <_ConcertDetailScreen />
+    </Suspense>
   )
 }
 

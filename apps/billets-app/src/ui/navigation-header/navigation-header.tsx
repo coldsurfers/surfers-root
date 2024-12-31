@@ -10,6 +10,7 @@ import { NAVIGATION_HEADER_HEIGHT } from './navigation-header.constants'
 export const NavigationHeader = (
   props: NativeStackHeaderProps & {
     searchBarComponent?: ReactNode
+    absolutePosition?: boolean
   },
 ) => {
   const hideBackButton = useMemo(() => {
@@ -33,6 +34,7 @@ export const NavigationHeader = (
           height: props.searchBarComponent ? 'auto' : NAVIGATION_HEADER_HEIGHT,
           backgroundColor: props.options.headerTransparent ? 'transparent' : colors.oc.gray[1].value,
         },
+        props.absolutePosition && styles.absolutePosition,
       ]}
     >
       <View style={styles.innerContent}>
@@ -80,4 +82,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   innerContent: { flexDirection: 'row', alignItems: 'center' },
+  absolutePosition: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1,
+  },
 })
