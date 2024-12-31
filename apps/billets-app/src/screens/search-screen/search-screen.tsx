@@ -20,7 +20,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Keyboard, StyleSheet, View } from 'react-native'
 import MapView, { Region } from 'react-native-maps'
 import Animated, {
-  interpolate,
+  interpolateColor,
   runOnJS,
   useAnimatedReaction,
   useAnimatedStyle,
@@ -201,18 +201,35 @@ export const SearchScreen = () => {
 
   // Dynamic backdrop color (optional)
   const animatedBackdropStyle = useAnimatedStyle(() => {
-    const dimOpacity = interpolate(
-      animatedPosition.value, // Current Y position of the BottomSheet
-      [0, SEARCH_DIM_HEIGHT_FLAG], // Input range: position values
-      [1.0, 0], // Output range: opacity (0: no dim, 0.5: half dim)
+    const backgroundColor = interpolateColor(
+      animatedPosition.value,
+      [0, SEARCH_DIM_HEIGHT_FLAG],
+      /**
+       * oc gray 1
+       */
+      ['#f1f3f5', 'rgba(0, 0, 0, 0)'], // From original color to dimmed black overlay
     )
 
     return {
-      backgroundColor: colors.oc.black.value, // Fixed color for dimming
-      opacity: dimOpacity, // Dynamic opacity
+      backgroundColor,
       display: animatedPosition.value >= SEARCH_DIM_HEIGHT_FLAG ? 'none' : 'flex',
     }
   })
+
+  const renderBackdrop = useCallback(
+    () => (
+      <Animated.View
+        style={[
+          animatedBackdropStyle,
+          {
+            marginTop: NAVIGATION_HEADER_HEIGHT + topInset,
+            ...StyleSheet.absoluteFillObject,
+          },
+        ]}
+      />
+    ),
+    [animatedBackdropStyle, topInset],
+  )
 
   return (
     <BottomSheetModalProvider>
@@ -237,21 +254,9 @@ export const SearchScreen = () => {
           animatedPosition={animatedPosition}
           animateOnMount={false}
           style={{
-            marginTop: NAVIGATION_HEADER_HEIGHT + topInset - 1,
+            marginTop: NAVIGATION_HEADER_HEIGHT + topInset,
           }}
-          backdropComponent={() => (
-            <Animated.View
-              style={[
-                {
-                  ...StyleSheet.absoluteFillObject,
-                },
-                animatedBackdropStyle,
-                {
-                  marginTop: NAVIGATION_HEADER_HEIGHT + topInset - 1,
-                },
-              ]}
-            />
-          )}
+          backdropComponent={renderBackdrop}
         >
           {viewMode === 'list' ? (
             <SearchBottomList
