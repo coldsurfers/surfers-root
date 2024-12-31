@@ -1,11 +1,12 @@
-import { zodNavigation } from '@/lib'
+import { useBottomTab, zodNavigation } from '@/lib'
 import { useUIStore } from '@/lib/stores/ui-store'
 import { colors } from '@coldsurfers/ocean-road'
 import { Text } from '@coldsurfers/ocean-road/native'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { House, Search, Smile } from 'lucide-react-native'
-import React, { memo, useEffect, useRef } from 'react'
-import { Animated, StyleSheet, TouchableOpacity } from 'react-native'
+import React, { memo, useEffect } from 'react'
+import { Platform, StyleSheet, TouchableOpacity } from 'react-native'
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useShallow } from 'zustand/shallow'
 import palettes from '../../lib/palettes'
@@ -15,39 +16,49 @@ interface Props extends BottomTabBarProps {
 }
 
 export const TabBar = memo((props: Props) => {
-  const { navigation, state, descriptors, hidden } = props
-  const hiddenAnimationValue = useRef(new Animated.Value(0)).current
+  const { navigation, state, descriptors } = props
+  const { tabBarHeight } = useBottomTab()
+  const bottomTabBarTranslateY = useSharedValue(0)
   const { bottom: bottomInset } = useSafeAreaInsets()
   const { bottomTabBarVisible } = useUIStore(
     useShallow((state) => ({ bottomTabBarVisible: state.bottomTabBarVisible })),
   )
 
-  useEffect(() => {
-    Animated.timing(hiddenAnimationValue, {
-      duration: 300,
-      toValue: hidden ? 75 : 0,
-      useNativeDriver: false,
-    }).start()
-  }, [hidden, hiddenAnimationValue])
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateY: bottomTabBarTranslateY.value,
+        },
+      ],
+    }
+  })
 
-  if (!bottomTabBarVisible) {
-    return null
-  }
+  useEffect(() => {
+    bottomTabBarTranslateY.value = withTiming(bottomTabBarVisible ? 0 : tabBarHeight, {
+      duration: 300,
+    })
+  }, [bottomTabBarTranslateY, bottomTabBarVisible, tabBarHeight])
 
   return (
     <Animated.View
       style={[
         styles.tabBar,
         styles.shadowBox,
+        animatedStyle,
         {
-          paddingBottom: bottomInset,
-        },
-        {
-          transform: [
-            {
-              translateY: hiddenAnimationValue,
-            },
-          ],
+          /**
+           * position absolute for slide down animation issue, otherwise I couldn't find any granular animation.
+           */
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: tabBarHeight,
+          paddingBottom: Platform.select({
+            ios: bottomInset,
+            android: 12,
+          }),
         },
       ]}
     >
