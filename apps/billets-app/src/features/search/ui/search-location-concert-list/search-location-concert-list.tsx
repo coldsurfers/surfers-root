@@ -1,3 +1,4 @@
+import { useKeyboard } from '@/lib'
 import { CommonListEmpty } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { BottomSheetFlatList } from '@gorhom/bottom-sheet'
@@ -10,6 +11,7 @@ import { SearchLocationConcertListProps } from './search-location-concert-list.t
 const PER_PAGE = 20
 
 export const SearchLocationConcertList = memo(({ locationConcerts }: SearchLocationConcertListProps) => {
+  const { bottomPadding } = useKeyboard()
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const visibleConcerts = useMemo(() => {
@@ -49,7 +51,7 @@ export const SearchLocationConcertList = memo(({ locationConcerts }: SearchLocat
       keyExtractor={(item) => item.id}
       onEndReached={onEndReached}
       style={styles.list}
-      contentContainerStyle={styles.contentContainer}
+      contentContainerStyle={[styles.contentContainer, { paddingBottom: bottomPadding }]}
       ListEmptyComponent={<CommonListEmpty emptyText={`🥺\n앗,\n해당하는\n정보가 없어요!`} />}
       ListFooterComponent={isLoading ? <ActivityIndicator animating style={styles.indicator} /> : null}
     />
@@ -63,7 +65,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
     paddingVertical: 12,
-    paddingBottom: 120,
     paddingHorizontal: 14,
     backgroundColor: colors.oc.gray[1].value,
   },

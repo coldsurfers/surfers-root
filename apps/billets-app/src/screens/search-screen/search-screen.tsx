@@ -24,15 +24,7 @@ import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { useDebounce } from '@uidotdev/usehooks'
 import { X as XIcon } from 'lucide-react-native'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  KeyboardAvoidingViewProps,
-  Platform,
-  Pressable,
-  StyleSheet,
-  View,
-} from 'react-native'
+import { Keyboard, Pressable, StyleSheet, View } from 'react-native'
 import MapView, { Region } from 'react-native-maps'
 import Animated, {
   interpolate,
@@ -49,25 +41,14 @@ import { useShallow } from 'zustand/shallow'
 
 const AnimatedButton = Animated.createAnimatedComponent(Button)
 
-const DEFAULT_BOTTOM_BTN_BOTTOM_VALUE = 12 + 85
 const DIM_HEIGHT_FLAG = 300
-
-const KeyboardAvoidWrapper = (props: KeyboardAvoidingViewProps) => {
-  return (
-    <KeyboardAvoidingView
-      {...props}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={NAVIGATION_HEADER_HEIGHT}
-      style={{ flex: 1, backgroundColor: 'transparent' }}
-    />
-  )
-}
 
 export const SearchScreen = () => {
   const { top: topInset } = useSafeAreaInsets()
   const bottomTabBarHeight = useBottomTabBarHeight()
   const bottomSheetRef = useRef<BottomSheet>(null)
   const bottomBtnOpacityValue = useSharedValue(1.0)
+  const DEFAULT_BOTTOM_BTN_BOTTOM_VALUE = 12 + bottomTabBarHeight
   const bottomBtnBottomValue = useSharedValue(DEFAULT_BOTTOM_BTN_BOTTOM_VALUE)
   const [floatingBtnVisible, setFloatingBtnVisible] = useState(Boolean(FULLY_EXPANDED_SNAP_INDEX))
   const snapPoints = useMemo(() => ['35%', '100%'], [])
@@ -125,7 +106,7 @@ export const SearchScreen = () => {
 
   useEffect(() => {
     const keyboardWillShowEmitterSubscription = Keyboard.addListener('keyboardWillShow', (e) => {
-      bottomBtnBottomValue.value = withTiming(e.endCoordinates.height - bottomTabBarHeight, { duration: 250 })
+      bottomBtnBottomValue.value = withTiming(e.endCoordinates.height + 12, { duration: 250 })
     })
     const keyboardWillHideEmitterSubscription = Keyboard.addListener('keyboardWillHide', () => {
       bottomBtnBottomValue.value = withTiming(DEFAULT_BOTTOM_BTN_BOTTOM_VALUE, { duration: 250 })
@@ -135,7 +116,7 @@ export const SearchScreen = () => {
       keyboardWillShowEmitterSubscription.remove()
       keyboardWillHideEmitterSubscription.remove()
     }
-  }, [bottomBtnBottomValue, bottomTabBarHeight])
+  }, [DEFAULT_BOTTOM_BTN_BOTTOM_VALUE, bottomBtnBottomValue])
 
   useEffect(() => {
     const visible = snapIndex === FULLY_EXPANDED_SNAP_INDEX
@@ -231,6 +212,9 @@ export const SearchScreen = () => {
       )
       setLocationConcerts(null)
     }
+    if (selectedLocationFilter === 'map-location') {
+      Keyboard.dismiss()
+    }
   }, [initialize, latitude, longitude, selectedLocationFilter, setLocationConcerts])
 
   // Animated position
@@ -277,109 +261,107 @@ export const SearchScreen = () => {
 
   return (
     <BottomSheetModalProvider>
-      <KeyboardAvoidWrapper>
-        <Animated.View
-          style={[
-            {
-              height: NAVIGATION_HEADER_HEIGHT + topInset,
-              position: 'absolute',
-              paddingTop: topInset + 10,
-              top: 0,
-              left: 0,
-              right: 0,
-              zIndex: 99,
-            },
-            animatedHeaderStyle,
-          ]}
+      <Animated.View
+        style={[
+          {
+            height: NAVIGATION_HEADER_HEIGHT + topInset,
+            position: 'absolute',
+            paddingTop: topInset + 10,
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 99,
+          },
+          animatedHeaderStyle,
+        ]}
+      >
+        <TextInput
+          value={searchKeyword}
+          onChangeText={onChangeText}
+          onFocus={() => setPlaceholder('')}
+          onBlur={() => setPlaceholder('🔎 어떤 공연을 찾고 싶으세요?')}
+          autoCapitalize="none"
+          placeholder={placeholder}
+          clearButtonMode="while-editing"
+          style={{
+            marginHorizontal: 14,
+          }}
+        />
+        <View style={styles.filters}>
+          {selectedLocationFilter !== null && (
+            <Button size="sm" theme="border" style={styles.filterBtn}>
+              <Text style={styles.filterText}>{getSearchFilterUIValue(selectedLocationFilter)}</Text>
+              {selectedLocationFilter !== 'current-location' && (
+                <Pressable
+                  hitSlop={{
+                    top: 8,
+                    left: 8,
+                    right: 8,
+                    bottom: 8,
+                  }}
+                  onPress={onPressFilterXIcon}
+                  style={styles.filterXIconBtn}
+                >
+                  <XIcon size={14} color={colors.oc.black.value} strokeWidth={3} />
+                </Pressable>
+              )}
+            </Button>
+          )}
+        </View>
+      </Animated.View>
+      <CommonScreenLayout edges={['bottom']} style={styles.wrapper}>
+        <ConcertMapView
+          ref={mapRef}
+          mapRegionWithZoomLevel={mapRegionWithZoomLevel}
+          onChangeVisiblePoints={onChangeVisiblePoints}
+          onChangeLocationConcerts={onChangeLocationConcerts}
+          onRegionChangeComplete={onRegionChangeComplete}
+        />
+        <BottomSheet
+          ref={bottomSheetRef}
+          index={snapIndex}
+          onChange={onChangeBottomSheet}
+          snapPoints={snapPoints}
+          enablePanDownToClose={false}
+          enableHandlePanningGesture={!searchKeyword}
+          enableContentPanningGesture={!searchKeyword}
+          handleComponent={null}
+          animatedPosition={animatedPosition}
+          animateOnMount={false}
+          style={{
+            marginTop: NAVIGATION_HEADER_HEIGHT + topInset - 1,
+          }}
+          backdropComponent={() => (
+            <Animated.View
+              style={[
+                {
+                  ...StyleSheet.absoluteFillObject,
+                },
+                animatedBackdropStyle,
+                {
+                  marginTop: NAVIGATION_HEADER_HEIGHT + topInset - 1,
+                },
+              ]}
+            />
+          )}
         >
-          <TextInput
-            value={searchKeyword}
-            onChangeText={onChangeText}
-            onFocus={() => setPlaceholder('')}
-            onBlur={() => setPlaceholder('🔎 어떤 공연을 찾고 싶으세요?')}
-            autoCapitalize="none"
-            placeholder={placeholder}
-            clearButtonMode="while-editing"
-            style={{
-              marginHorizontal: 14,
-            }}
-          />
-          <View style={styles.filters}>
-            {selectedLocationFilter !== null && (
-              <Button size="sm" theme="border" style={styles.filterBtn}>
-                <Text style={styles.filterText}>{getSearchFilterUIValue(selectedLocationFilter)}</Text>
-                {selectedLocationFilter !== 'current-location' && (
-                  <Pressable
-                    hitSlop={{
-                      top: 8,
-                      left: 8,
-                      right: 8,
-                      bottom: 8,
-                    }}
-                    onPress={onPressFilterXIcon}
-                    style={styles.filterXIconBtn}
-                  >
-                    <XIcon size={14} color={colors.oc.black.value} strokeWidth={3} />
-                  </Pressable>
-                )}
-              </Button>
-            )}
-          </View>
-        </Animated.View>
-        <CommonScreenLayout style={styles.wrapper}>
-          <ConcertMapView
-            ref={mapRef}
-            mapRegionWithZoomLevel={mapRegionWithZoomLevel}
-            onChangeVisiblePoints={onChangeVisiblePoints}
-            onChangeLocationConcerts={onChangeLocationConcerts}
-            onRegionChangeComplete={onRegionChangeComplete}
-          />
-          <BottomSheet
-            ref={bottomSheetRef}
-            index={snapIndex}
-            onChange={onChangeBottomSheet}
-            snapPoints={snapPoints}
-            enablePanDownToClose={false}
-            enableHandlePanningGesture={!searchKeyword}
-            enableContentPanningGesture={!searchKeyword}
-            handleComponent={null}
-            animatedPosition={animatedPosition}
-            animateOnMount={false}
-            style={{
-              marginTop: NAVIGATION_HEADER_HEIGHT + topInset - 1,
-            }}
-            backdropComponent={() => (
-              <Animated.View
-                style={[
-                  {
-                    ...StyleSheet.absoluteFillObject,
-                  },
-                  animatedBackdropStyle,
-                  {
-                    marginTop: NAVIGATION_HEADER_HEIGHT + topInset - 1,
-                  },
-                ]}
-              />
-            )}
-          >
-            {viewMode === 'list' ? (
-              <SearchBottomList
-                debouncedSearchKeyword={debouncedSearchKeyword}
-                latitude={latitude}
-                longitude={longitude}
-                locationConcerts={locationConcerts}
-                selectedLocationFilter={selectedLocationFilter}
-              />
-            ) : (
-              <View style={styles.guideBox}>
-                <Text weight="bold" style={styles.guideFont}>
-                  이 지역의 공연 수 {pointsLength}개
-                </Text>
-              </View>
-            )}
-          </BottomSheet>
-        </CommonScreenLayout>
-      </KeyboardAvoidWrapper>
+          {viewMode === 'list' ? (
+            <SearchBottomList
+              debouncedSearchKeyword={debouncedSearchKeyword}
+              latitude={latitude}
+              longitude={longitude}
+              locationConcerts={locationConcerts}
+              selectedLocationFilter={selectedLocationFilter}
+            />
+          ) : (
+            <View style={styles.guideBox}>
+              <Text weight="bold" style={styles.guideFont}>
+                이 지역의 공연 수 {pointsLength}개
+              </Text>
+            </View>
+          )}
+        </BottomSheet>
+      </CommonScreenLayout>
       {floatingBtnVisible && !searchKeyword && (
         <AnimatedButton
           theme="border"

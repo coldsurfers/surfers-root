@@ -11,6 +11,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useShallow } from 'zustand/shallow'
 import palettes from '../../lib/palettes'
 
+const TEMP_BOTTOM_TAB_BAR_HEIGHT = 85
+
 interface Props extends BottomTabBarProps {
   hidden?: boolean
 }
@@ -34,7 +36,7 @@ export const TabBar = memo((props: Props) => {
   })
 
   useEffect(() => {
-    bottomTabBarTranslateY.value = withTiming(bottomTabBarVisible ? 0 : 85, {
+    bottomTabBarTranslateY.value = withTiming(bottomTabBarVisible ? 0 : TEMP_BOTTOM_TAB_BAR_HEIGHT, {
       duration: 300,
     })
   }, [bottomTabBarTranslateY, bottomTabBarVisible])
@@ -60,7 +62,7 @@ export const TabBar = memo((props: Props) => {
           left: 0,
           right: 0,
           bottom: 0,
-          height: 85,
+          height: TEMP_BOTTOM_TAB_BAR_HEIGHT,
         },
       ]}
     >

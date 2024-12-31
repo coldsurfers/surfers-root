@@ -1,3 +1,4 @@
+import { useKeyboard } from '@/lib'
 import { $api } from '@/lib/api/openapi-client'
 import { useSearchScreenNavigation } from '@/screens/search-screen/search-screen.hooks'
 import { colors } from '@coldsurfers/ocean-road'
@@ -16,6 +17,7 @@ import { searchBottomKeywordListItemSchema } from './search-bottom-keyword-resul
 
 export const SearchBottomKeywordResultList = ({ keyword }: { keyword: string }) => {
   const navigation = useSearchScreenNavigation()
+  const { bottomPadding } = useKeyboard()
   const {
     data: searchData,
     isLoading: isLoadingSearch,
@@ -111,7 +113,7 @@ export const SearchBottomKeywordResultList = ({ keyword }: { keyword: string }) 
       renderItem={renderSearchListItem}
       keyExtractor={(item) => `${item.type}-${item.id}`}
       style={styles.list}
-      contentContainerStyle={styles.contentContainer}
+      contentContainerStyle={[styles.contentContainer, { paddingBottom: bottomPadding }]}
       showsVerticalScrollIndicator={false}
       ListEmptyComponent={
         <SearchBottomKeywordResultListEmpty isLoadingSearch={isLoadingSearch} isFetchedSearch={isFetchedSearch} />
@@ -125,7 +127,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
     paddingVertical: 12,
-    paddingBottom: 120,
     paddingHorizontal: 14,
     backgroundColor: colors.oc.gray[1].value,
   },
