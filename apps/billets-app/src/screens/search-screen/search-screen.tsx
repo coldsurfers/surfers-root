@@ -17,7 +17,7 @@ import { Button, Text } from '@coldsurfers/ocean-road/native'
 import BottomSheet, { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Keyboard, StyleSheet, View } from 'react-native'
+import { Keyboard, Pressable, StyleSheet } from 'react-native'
 import MapView, { Region } from 'react-native-maps'
 import Animated, {
   interpolateColor,
@@ -267,11 +267,14 @@ export const SearchScreen = () => {
               selectedLocationFilter={selectedLocationFilter}
             />
           ) : (
-            <View style={styles.guideBox}>
+            <Pressable
+              onPress={() => bottomSheetRef.current?.snapToIndex(FULLY_EXPANDED_SNAP_INDEX)}
+              style={styles.guideBox}
+            >
               <Text weight="bold" style={styles.guideFont}>
                 이 지역의 공연 수 {pointsLength}개
               </Text>
-            </View>
+            </Pressable>
           )}
         </BottomSheet>
       </CommonScreenLayout>
