@@ -48,5 +48,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  markerText: { color: colors.oc.white.value },
+  markerText: { color: colors.oc.white.value, fontSize: 14 },
 })

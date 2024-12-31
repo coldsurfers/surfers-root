@@ -54,7 +54,11 @@ export const SearchDefaultBottomResultList = ({ latitude, longitude }: { latitud
       data={concertListUIData}
       bounces={false}
       focusHook={useFocusEffect}
-      ListHeaderComponent={<Text weight="bold">현재 지역의 공연</Text>}
+      ListHeaderComponent={
+        <Text weight="bold" style={styles.listHeaderText}>
+          현재 지역의 공연
+        </Text>
+      }
       contentContainerStyle={styles.contentContainer}
       keyExtractor={(item) => item.id}
       renderItem={renderConcertListItem}
@@ -70,5 +74,8 @@ const styles = StyleSheet.create({
     paddingBottom: 120,
     paddingHorizontal: 14,
     backgroundColor: colors.oc.gray[1].value,
+  },
+  listHeaderText: {
+    fontSize: 14,
   },
 })
