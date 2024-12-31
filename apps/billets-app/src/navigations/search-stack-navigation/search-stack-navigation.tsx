@@ -1,4 +1,3 @@
-import { SearchScreenNavigationHeader } from '@/features'
 import { SearchScreen } from '@/screens'
 import { ConcertMapScreen } from '@/screens/concert-map-screen'
 import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack'
@@ -16,7 +15,7 @@ const SearchStackNavigation = () => {
   )
   const searchScreenOptions = useMemo<NativeStackNavigationOptions>(
     () => ({
-      header: (props) => <SearchScreenNavigationHeader {...props} />,
+      header: () => null,
     }),
     [],
   )

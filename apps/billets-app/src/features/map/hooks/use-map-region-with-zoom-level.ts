@@ -13,13 +13,15 @@ export const useMapRegionWithZoomLevel = ({ latitude, longitude }: UseMapRegionW
   })
 
   const initialize = useCallback((params: LatLng) => {
-    setMapRegionWithZoomLevel({
+    const initialState = {
       latitude: params.latitude,
       longitude: params.longitude,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
       zoomLevel: getZoomLevel(0.0922),
-    })
+    }
+    setMapRegionWithZoomLevel(initialState)
+    return initialState
   }, [])
 
   return {
