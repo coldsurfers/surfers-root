@@ -5,30 +5,22 @@ import {
   useMapRegionWithZoomLevel,
   useUserCurrentLocationStore,
 } from '@/features'
-import {
-  getSearchFilterUIValue,
-  getViewMode,
-  SearchStoreLocationConcert,
-  SearchStoreSnapIndex,
-  useSearchStore,
-} from '@/features/search/store'
+import { getViewMode, SearchStoreLocationConcert, SearchStoreSnapIndex, useSearchStore } from '@/features/search/store'
 import { FULLY_EXPANDED_SNAP_INDEX } from '@/features/search/store/search-store.constants'
-import { SearchBottomList } from '@/features/search/ui'
+import { SEARCH_DIM_HEIGHT_FLAG, SearchBottomList, SearchScreenNavigationHeader } from '@/features/search/ui'
 import { useBottomTab } from '@/lib'
 import commonStyles from '@/lib/common-styles'
 import { useUIStore } from '@/lib/stores'
 import { CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
-import { Button, Text, TextInput } from '@coldsurfers/ocean-road/native'
+import { Button, Text } from '@coldsurfers/ocean-road/native'
 import BottomSheet, { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { useDebounce } from '@uidotdev/usehooks'
-import { X as XIcon } from 'lucide-react-native'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Keyboard, Pressable, StyleSheet, View } from 'react-native'
+import { Keyboard, StyleSheet, View } from 'react-native'
 import MapView, { Region } from 'react-native-maps'
 import Animated, {
   interpolate,
-  interpolateColor,
   runOnJS,
   useAnimatedReaction,
   useAnimatedStyle,
@@ -41,8 +33,6 @@ import { useShallow } from 'zustand/shallow'
 
 const AnimatedButton = Animated.createAnimatedComponent(Button)
 
-const DIM_HEIGHT_FLAG = 300
-
 export const SearchScreen = () => {
   const { top: topInset } = useSafeAreaInsets()
   const { tabBarHeight } = useBottomTab()
@@ -54,8 +44,7 @@ export const SearchScreen = () => {
   const snapPoints = useMemo(() => ['30%', '100%'], [])
 
   const mapRef = useRef<MapView | null>(null)
-  const [placeholder, setPlaceholder] = useState('🔎 어떤 공연을 찾고 싶으세요?')
-  const { keyword: searchKeyword, setKeyword: setSearchKeyword } = useSearchStore(
+  const { keyword: searchKeyword } = useSearchStore(
     useShallow((state) => ({
       keyword: state.keyword,
       setKeyword: state.setKeyword,
@@ -147,25 +136,6 @@ export const SearchScreen = () => {
     bottom: bottomBtnBottomValue.value,
   }))
 
-  const initializeState = useCallback(() => {
-    setSelectedLocationFilter(null)
-    setSnapIndex(FULLY_EXPANDED_SNAP_INDEX)
-    setViewMode('list')
-    setLocationConcerts([])
-  }, [setLocationConcerts, setSelectedLocationFilter, setSnapIndex, setViewMode])
-
-  const onChangeText = useCallback(
-    (text: string) => {
-      setSearchKeyword(text)
-      initializeState()
-    },
-    [initializeState, setSearchKeyword],
-  )
-
-  const onPressFilterXIcon = useCallback(() => {
-    initializeState()
-  }, [initializeState])
-
   const onChangeBottomSheet = useCallback(
     (index: number) => {
       setSnapIndex(index as SearchStoreSnapIndex)
@@ -233,82 +203,20 @@ export const SearchScreen = () => {
   const animatedBackdropStyle = useAnimatedStyle(() => {
     const dimOpacity = interpolate(
       animatedPosition.value, // Current Y position of the BottomSheet
-      [0, DIM_HEIGHT_FLAG], // Input range: position values
+      [0, SEARCH_DIM_HEIGHT_FLAG], // Input range: position values
       [1.0, 0], // Output range: opacity (0: no dim, 0.5: half dim)
     )
 
     return {
       backgroundColor: colors.oc.black.value, // Fixed color for dimming
       opacity: dimOpacity, // Dynamic opacity
-      display: animatedPosition.value >= DIM_HEIGHT_FLAG ? 'none' : 'flex',
-    }
-  })
-
-  const animatedHeaderStyle = useAnimatedStyle(() => {
-    const backgroundColor = interpolateColor(
-      animatedPosition.value,
-      [0, DIM_HEIGHT_FLAG],
-      /**
-       * oc gray 1
-       */
-      ['#f1f3f5', 'rgba(0, 0, 0, 0)'], // From original color to dimmed black overlay
-    )
-
-    return {
-      backgroundColor,
+      display: animatedPosition.value >= SEARCH_DIM_HEIGHT_FLAG ? 'none' : 'flex',
     }
   })
 
   return (
     <BottomSheetModalProvider>
-      <Animated.View
-        style={[
-          {
-            height: NAVIGATION_HEADER_HEIGHT + topInset,
-            position: 'absolute',
-            paddingTop: topInset + 10,
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 99,
-          },
-          animatedHeaderStyle,
-        ]}
-      >
-        <TextInput
-          value={searchKeyword}
-          onChangeText={onChangeText}
-          onFocus={() => setPlaceholder('')}
-          onBlur={() => setPlaceholder('🔎 어떤 공연을 찾고 싶으세요?')}
-          autoCapitalize="none"
-          placeholder={placeholder}
-          clearButtonMode="while-editing"
-          style={{
-            marginHorizontal: 14,
-          }}
-        />
-        <View style={styles.filters}>
-          {selectedLocationFilter !== null && (
-            <Button size="sm" theme="border" style={styles.filterBtn}>
-              <Text style={styles.filterText}>{getSearchFilterUIValue(selectedLocationFilter)}</Text>
-              {selectedLocationFilter !== 'current-location' && (
-                <Pressable
-                  hitSlop={{
-                    top: 8,
-                    left: 8,
-                    right: 8,
-                    bottom: 8,
-                  }}
-                  onPress={onPressFilterXIcon}
-                  style={styles.filterXIconBtn}
-                >
-                  <XIcon size={14} color={colors.oc.black.value} strokeWidth={3} />
-                </Pressable>
-              )}
-            </Button>
-          )}
-        </View>
-      </Animated.View>
+      <SearchScreenNavigationHeader animatedPosition={animatedPosition} />
       <CommonScreenLayout edges={['bottom']} style={styles.wrapper}>
         <ConcertMapView
           ref={mapRef}
@@ -419,16 +327,5 @@ const styles = StyleSheet.create({
   guideBox: { flex: 1, backgroundColor: colors.oc.gray[1].value, paddingHorizontal: 14, paddingTop: 16 },
   guideFont: {
     fontSize: 16,
-  },
-  filters: {
-    marginTop: 8,
-    marginHorizontal: 14,
-  },
-  filterText: { fontSize: 12 },
-  filterXIconBtn: { marginLeft: 4 },
-  filterBtn: {
-    alignSelf: 'baseline',
-    flexDirection: 'row',
-    alignItems: 'center',
   },
 })
