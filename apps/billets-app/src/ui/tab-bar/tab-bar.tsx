@@ -1,17 +1,15 @@
-import { zodNavigation } from '@/lib'
+import { useBottomTab, zodNavigation } from '@/lib'
 import { useUIStore } from '@/lib/stores/ui-store'
 import { colors } from '@coldsurfers/ocean-road'
 import { Text } from '@coldsurfers/ocean-road/native'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { House, Search, Smile } from 'lucide-react-native'
 import React, { memo, useEffect } from 'react'
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { Platform, StyleSheet, TouchableOpacity } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useShallow } from 'zustand/shallow'
 import palettes from '../../lib/palettes'
-
-const TEMP_BOTTOM_TAB_BAR_HEIGHT = 85
 
 interface Props extends BottomTabBarProps {
   hidden?: boolean
@@ -19,6 +17,7 @@ interface Props extends BottomTabBarProps {
 
 export const TabBar = memo((props: Props) => {
   const { navigation, state, descriptors } = props
+  const { tabBarHeight } = useBottomTab()
   const bottomTabBarTranslateY = useSharedValue(0)
   const { bottom: bottomInset } = useSafeAreaInsets()
   const { bottomTabBarVisible } = useUIStore(
@@ -36,19 +35,16 @@ export const TabBar = memo((props: Props) => {
   })
 
   useEffect(() => {
-    bottomTabBarTranslateY.value = withTiming(bottomTabBarVisible ? 0 : TEMP_BOTTOM_TAB_BAR_HEIGHT, {
+    bottomTabBarTranslateY.value = withTiming(bottomTabBarVisible ? 0 : tabBarHeight, {
       duration: 300,
     })
-  }, [bottomTabBarTranslateY, bottomTabBarVisible])
+  }, [bottomTabBarTranslateY, bottomTabBarVisible, tabBarHeight])
 
   return (
     <Animated.View
       style={[
         styles.tabBar,
         styles.shadowBox,
-        {
-          paddingBottom: bottomInset,
-        },
         animatedStyle,
         {
           /**
@@ -58,7 +54,11 @@ export const TabBar = memo((props: Props) => {
           left: 0,
           right: 0,
           bottom: 0,
-          height: TEMP_BOTTOM_TAB_BAR_HEIGHT,
+          height: tabBarHeight,
+          paddingBottom: Platform.select({
+            ios: bottomInset,
+            android: 12,
+          }),
         },
       ]}
     >

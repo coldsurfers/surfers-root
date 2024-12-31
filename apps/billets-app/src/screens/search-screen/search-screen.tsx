@@ -14,13 +14,13 @@ import {
 } from '@/features/search/store'
 import { FULLY_EXPANDED_SNAP_INDEX } from '@/features/search/store/search-store.constants'
 import { SearchBottomList } from '@/features/search/ui'
+import { useBottomTab } from '@/lib'
 import commonStyles from '@/lib/common-styles'
 import { useUIStore } from '@/lib/stores'
 import { CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Text, TextInput } from '@coldsurfers/ocean-road/native'
 import BottomSheet, { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { useDebounce } from '@uidotdev/usehooks'
 import { X as XIcon } from 'lucide-react-native'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -45,10 +45,10 @@ const DIM_HEIGHT_FLAG = 300
 
 export const SearchScreen = () => {
   const { top: topInset } = useSafeAreaInsets()
-  const bottomTabBarHeight = useBottomTabBarHeight()
+  const { tabBarHeight } = useBottomTab()
   const bottomSheetRef = useRef<BottomSheet>(null)
   const bottomBtnOpacityValue = useSharedValue(1.0)
-  const DEFAULT_BOTTOM_BTN_BOTTOM_VALUE = 12 + bottomTabBarHeight
+  const DEFAULT_BOTTOM_BTN_BOTTOM_VALUE = 12 + tabBarHeight
   const bottomBtnBottomValue = useSharedValue(DEFAULT_BOTTOM_BTN_BOTTOM_VALUE)
   const [floatingBtnVisible, setFloatingBtnVisible] = useState(Boolean(FULLY_EXPANDED_SNAP_INDEX))
   const snapPoints = useMemo(() => ['35%', '100%'], [])
