@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useRef, WheelEventHandler } from 'react'
 import {
   StyledRecentListBilletsConcertCard,
+  StyledRecentListBilletsConcertCardImage,
   StyledRecentListParagraph,
   StyledRecentListScrollContainer,
   StyledTitle,
@@ -55,17 +56,7 @@ export const RecentList = () => {
           {data?.data?.map((value) => (
             <Link href={`/concert-detail/${value.id}`} key={value.id}>
               <StyledRecentListBilletsConcertCard $isLoading={isLoading}>
-                <img
-                  src={value.posters[0].imageUrl}
-                  alt="concert"
-                  style={{
-                    borderRadius: 8,
-                    objectFit: 'cover',
-                    width: '100%',
-                    aspectRatio: '1 / 1',
-                    objectPosition: '50%',
-                  }}
-                />
+                <StyledRecentListBilletsConcertCardImage src={value.posters[0].imageUrl} alt="concert" />
                 <StyledTitle as="p">{value.title}</StyledTitle>
                 <div style={{ display: 'flex', flexDirection: 'column', marginTop: '4px' }}>
                   <StyledRecentListParagraph as="p">
