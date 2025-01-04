@@ -43,7 +43,7 @@ export const RecentList = () => {
           }}
           transition={{
             repeat: Infinity, // Loops indefinitely
-            duration: 30, // Adjust speed (higher = slower)
+            duration: 60, // Adjust speed (higher = slower)
             ease: 'linear', // Smooth constant scroll
           }}
           style={{
