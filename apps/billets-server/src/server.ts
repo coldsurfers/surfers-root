@@ -44,6 +44,7 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
+import { locationCityDTOSerializedSchema } from './dtos/location-city-dto'
 import { locationConcertDTOSerializedSchema } from './dtos/location-concert-dto'
 import { SWAGGER_HOST } from './lib/constants'
 import { errorResponseSchema } from './lib/error'
@@ -189,6 +190,7 @@ fastify.register(fastifySwagger, {
       UnsubscribeArtistBody: unsubscribeArtistBodySchema,
       GetLocationConcertsQueryString: getLocationConcertsQueryStringSchema,
       LocationConcertDTOSerialized: locationConcertDTOSerializedSchema,
+      LocationCityDTOSerialized: locationCityDTOSerializedSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:

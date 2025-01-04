@@ -7,7 +7,7 @@
     "prebuild": "yarn clean",
     "build": "yarn tsup",
     "dev": "tsup --watch",
-    "watch": "tsup --watch --onSuccess 'node ./build/start-server.mjs'",
+    "watch": "tsup --watch --onSuccess 'node ./build/start-server.js'",
     "debug": "npx nodemon",
     "deploy": "pm2 start ecosystem.config.js",
     "clean": "del build",
