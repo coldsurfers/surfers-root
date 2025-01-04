@@ -1,5 +1,5 @@
 import { fetchClient } from '@/lib/api/openapi-client'
-import { OpenApiError } from '@/lib/api/openapi-error'
+import { OpenApiError } from '@/lib/errors/openapi-error'
 import { v1QueryKeyFactory } from '@/lib/query-key-factory'
 import { useQuery, UseQueryOptions } from '@tanstack/react-query'
 
