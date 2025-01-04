@@ -3,6 +3,7 @@
 import { useGetBilletsConcertQuery } from '@/features/billets'
 import { format, parseISO } from 'date-fns'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useEffect, useRef, WheelEventHandler } from 'react'
 import {
   StyledRecentListBilletsConcertCard,
@@ -65,22 +66,24 @@ export const RecentList = () => {
       ) : (
         <div style={{ display: 'flex', flexDirection: 'row', gap: 16 }}>
           {data?.data?.map((value) => (
-            <StyledRecentListBilletsConcertCard key={value.id} $isLoading={isLoading}>
-              <Image
-                src={value.posters[0].imageUrl}
-                alt="concert"
-                width={180}
-                height={180}
-                style={{
-                  borderRadius: 8,
-                  objectFit: 'cover',
-                }}
-                onMouseDown={(e) => e.preventDefault()}
-              />
-              <StyledRecentListParagraph>{value.title}</StyledRecentListParagraph>
-              <StyledRecentListParagraph>{format(parseISO(value.date), 'yyyy.MM.dd')}</StyledRecentListParagraph>
-              <StyledRecentListParagraph>{value.venues[0].venueTitle}</StyledRecentListParagraph>
-            </StyledRecentListBilletsConcertCard>
+            <Link href={`/concert-detail/${value.id}`} key={value.id} onMouseDown={(e) => e.preventDefault()}>
+              <StyledRecentListBilletsConcertCard $isLoading={isLoading}>
+                <Image
+                  src={value.posters[0].imageUrl}
+                  alt="concert"
+                  width={180}
+                  height={180}
+                  style={{
+                    borderRadius: 8,
+                    objectFit: 'cover',
+                  }}
+                  onMouseDown={(e) => e.preventDefault()}
+                />
+                <StyledRecentListParagraph>{value.title}</StyledRecentListParagraph>
+                <StyledRecentListParagraph>{format(parseISO(value.date), 'yyyy.MM.dd')}</StyledRecentListParagraph>
+                <StyledRecentListParagraph>{value.venues[0].venueTitle}</StyledRecentListParagraph>
+              </StyledRecentListBilletsConcertCard>
+            </Link>
           ))}
         </div>
       )}
