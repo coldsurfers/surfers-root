@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-app",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
