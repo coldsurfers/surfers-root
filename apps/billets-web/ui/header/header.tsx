@@ -1,6 +1,7 @@
-import { Button, semantics } from '@coldsurfers/ocean-road'
+import { Button, IconButton, media, semantics, Text } from '@coldsurfers/ocean-road'
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import Image from 'next/image'
+import { AlignRight } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { BILLETS_APP_URL } from '../../features/billets/billets.constants'
@@ -22,9 +23,13 @@ const HeaderContainer = styled.div<{ $animation: 'show' | 'hide' }>`
 
   transition: all 0.3s ease-in-out;
   transform: translateY(${({ $animation }) => ($animation === 'show' ? '0' : '-100%')});
+
+  ${media.large(css`
+    padding: 0 16px;
+  `)}
 `
 
-const HeaderTitle = styled.h1`
+const HeaderTitle = styled(Text)`
   font-size: 32px;
   font-weight: 900;
 
@@ -33,14 +38,17 @@ const HeaderTitle = styled.h1`
   }
 `
 
-const HeaderLogo = styled(Image)`
+const HeaderLogo = styled.img`
   border-radius: 50%;
   margin-right: 10px;
 
-  @media (max-width: 960px) {
-    width: 32px;
-    height: 32px;
-  }
+  width: 62px;
+  height: 62px;
+
+  ${media.large(css`
+    width: 48px;
+    height: 48px;
+  `)}
 `
 
 const HeaderMenuContainer = styled(Link)`
@@ -51,7 +59,7 @@ const HeaderMenuContainer = styled(Link)`
   padding: 10px;
 `
 
-const HeaderMenuText = styled.p``
+const HeaderMenuText = styled(Text)``
 
 const WebMenuContainer = styled.div`
   display: flex;
@@ -79,9 +87,8 @@ const ModalContainer = styled.div<{ $isOpen: boolean }>`
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  display: ${({ $isOpen }) => ($isOpen ? 'flex' : 'none')};
-  justify-content: center;
-  align-items: center;
+  backdrop-filter: blur(0.5px);
+  display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
   z-index: 1000;
 `
 
@@ -89,8 +96,8 @@ const ModalPaper = styled.div`
   background: ${semantics.color.background[2]};
   border-radius: 8px;
   padding: 20px;
-  width: 90%;
-  max-width: 400px;
+  margin: 12px auto;
+  width: calc(100vw - 24px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `
 
@@ -100,11 +107,6 @@ const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-`
-
-const ModalFooter = styled.div`
-  display: flex;
-  justify-content: flex-end;
 `
 
 function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
@@ -126,20 +128,15 @@ function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
         <ModalPaper onClick={(e) => e.stopPropagation()}>
           <ModalContent>
             <Link href="/about" onClick={onClose} style={{ alignSelf: 'flex-start' }}>
-              <p>About</p>
+              <Text as="p">About</Text>
             </Link>
-            <Link href="/blog" onClick={onClose} style={{ alignSelf: 'flex-start' }}>
-              <p>Blog</p>
+            <Link href="https://blog.coldsurf.io" target="_blank" onClick={onClose} style={{ alignSelf: 'flex-start' }}>
+              <Text as="p">Blog</Text>
             </Link>
-            <Link href={BILLETS_APP_URL} onClick={onClose}>
-              <Button theme="indigo">무료 앱 다운로드하기</Button>
+            <Link href={BILLETS_APP_URL} onClick={onClose} style={{ margin: '0 auto' }}>
+              <Button theme="border">GET THE APP</Button>
             </Link>
           </ModalContent>
-          <ModalFooter>
-            <Button theme="transparent" onClick={onClose}>
-              Close
-            </Button>
-          </ModalFooter>
         </ModalPaper>
       )}
     </ModalContainer>
@@ -170,27 +167,27 @@ export function Header() {
       <HeaderContainer $animation={animation}>
         <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
           <Link href="/">
-            <HeaderLogo src="/logo.png" alt="header_logo" width={48} height={48} />
+            <HeaderLogo src="/logo.png" alt="header_logo" />
           </Link>
           <Link href="/">
-            <HeaderTitle>Billets</HeaderTitle>
+            <HeaderTitle as="h1">Billets</HeaderTitle>
           </Link>
         </div>
         <WebMenuContainer>
           <HeaderMenuContainer href="/about">
-            <HeaderMenuText>About</HeaderMenuText>
+            <HeaderMenuText as="p">About</HeaderMenuText>
           </HeaderMenuContainer>
           <HeaderMenuContainer href="https://blog.coldsurf.io" target="_blank">
-            <HeaderMenuText>Blog</HeaderMenuText>
+            <HeaderMenuText as="p">Blog</HeaderMenuText>
           </HeaderMenuContainer>
           <Link href={BILLETS_APP_URL}>
-            <Button theme="indigo">무료 앱 다운로드하기</Button>
+            <Button theme="border">GET THE APP</Button>
           </Link>
         </WebMenuContainer>
         <MobileMenuContainer>
-          <Button theme="transparentDarkGray" onClick={() => setIsModalOpen(true)}>
-            🍔
-          </Button>
+          <IconButton onClick={() => setIsModalOpen(true)}>
+            <AlignRight />
+          </IconButton>
         </MobileMenuContainer>
       </HeaderContainer>
       <ModalMenu isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
