@@ -1,7 +1,10 @@
 import { useGetBilletsConcertQueryFn } from '@/features/billets'
 import { queryKeys } from '@/libs/query-key-factory/query-key-factory'
+import { RecentList } from '@/ui/recent-list/recent-list'
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query'
-import { HomePageClient } from './page.client'
+import { PageLayout, PageTop } from './(ui)'
+
+export const revalidate = 3600
 
 export default async function Home() {
   const queryClient = new QueryClient()
@@ -15,7 +18,7 @@ export default async function Home() {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <HomePageClient />
+      <PageLayout top={<PageTop />} bottomList={<RecentList />} />
     </HydrationBoundary>
   )
 }
