@@ -1,10 +1,8 @@
-import { AuthStoreProvider, OceanRoadThemeRegistry, QueryClientRegistry, RegistryProvider } from '@/libs/registries'
+import { OceanRoadThemeRegistry, QueryClientRegistry, RegistryProvider } from '@/libs/registries'
 import type { Metadata } from 'next'
 import { Noto_Sans as notoSans } from 'next/font/google'
-import { cookies } from 'next/headers'
 import { ReactNode } from 'react'
-import LayoutWrapper from '../components/LayoutWrapper'
-import { COOKIES } from '../libs/constants'
+import { AppLayout } from './(ui)'
 
 const notoSansFont = notoSans({ subsets: ['latin'] })
 
@@ -13,9 +11,6 @@ export const metadata: Metadata = {
 }
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const accessToken = cookies().get(COOKIES.ACCESS_TOKEN)?.value
-  const refreshToken = cookies().get(COOKIES.REFRESH_TOKEN)?.value
-
   return (
     <html lang="en">
       <head>
@@ -33,11 +28,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           }}
         />
         <RegistryProvider registries={[OceanRoadThemeRegistry]}>
-          <AuthStoreProvider accessToken={accessToken} refreshToken={refreshToken}>
-            <QueryClientRegistry>
-              <LayoutWrapper>{children}</LayoutWrapper>
-            </QueryClientRegistry>
-          </AuthStoreProvider>
+          <QueryClientRegistry>
+            <AppLayout>{children}</AppLayout>
+          </QueryClientRegistry>
         </RegistryProvider>
       </body>
     </html>
