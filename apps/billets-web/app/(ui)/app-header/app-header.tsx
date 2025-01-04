@@ -83,6 +83,9 @@ export function AppHeader() {
           </Link>
         </div>
         <WebMenuContainer>
+          <HeaderMenuContainer href="/browse">
+            <HeaderMenuText as="p">Browse events</HeaderMenuText>
+          </HeaderMenuContainer>
           <HeaderMenuContainer href="/about">
             <HeaderMenuText as="p">About</HeaderMenuText>
           </HeaderMenuContainer>

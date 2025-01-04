@@ -1,5 +1,5 @@
-export default function BrowseByCityPage() {
-  // @todo: implement server api by detecting validate city
-  // otherwise, redirect to 404
+export default function BrowseByCityPage(props: { params: { city: string }; searchParams: Record<string, never> }) {
+  const { city } = props.params
+  console.log(city)
   return null
 }
