@@ -3,7 +3,7 @@
 import { useGetBilletsConcertQuery } from '@/features/billets'
 import { format, parseISO } from 'date-fns'
 import Image from 'next/image'
-import { WheelEventHandler } from 'react'
+import { useEffect, useRef, WheelEventHandler } from 'react'
 import {
   StyledRecentListBilletsConcertCard,
   StyledRecentListParagraph,
@@ -11,6 +11,7 @@ import {
 } from './recent-list.styled'
 
 export const RecentList = () => {
+  const containerRef = useRef<HTMLDivElement>(null)
   const { data, isLoading } = useGetBilletsConcertQuery()
   const handleWheelScroll: WheelEventHandler<HTMLDivElement> = (event) => {
     const scrollAmount = event.deltaY
@@ -21,33 +22,37 @@ export const RecentList = () => {
     })
   }
 
-  const handleDragScroll = (event: React.MouseEvent) => {
-    const container = event.currentTarget as HTMLElement
-    const startX = event.clientX
-    const { scrollLeft } = container
+  useEffect(() => {
+    const onMouseDown = (e: MouseEvent) => {
+      if (!containerRef.current?.contains(e.target as Node | null)) {
+        return
+      }
+      const container = containerRef.current
+      const startX = e.clientX
+      const { scrollLeft } = container
 
-    const onMouseMove = (moveEvent: MouseEvent) => {
-      const x = moveEvent.clientX - startX
-      container.scrollLeft = scrollLeft - x
+      const onMouseMove = (moveEvent: MouseEvent) => {
+        const x = moveEvent.clientX - startX
+        container.scrollLeft = scrollLeft - x
+      }
+
+      const onMouseUp = () => {
+        window.removeEventListener('mousemove', onMouseMove)
+        window.removeEventListener('mouseup', onMouseUp)
+      }
+      window.addEventListener('mousemove', onMouseMove)
+      window.addEventListener('mouseup', onMouseUp)
     }
+    window.addEventListener('mousedown', onMouseDown)
 
-    const onMouseUp = () => {
-      container.removeEventListener('mousemove', onMouseMove)
-      container.removeEventListener('mouseup', onMouseUp)
+    const cleanup = () => {
+      window.removeEventListener('mousedown', onMouseDown)
     }
-
-    const onMouseLeave = () => {
-      container.removeEventListener('mousemove', onMouseMove)
-      container.removeEventListener('mouseup', onMouseUp)
-    }
-
-    container.addEventListener('mousemove', onMouseMove)
-    container.addEventListener('mouseup', onMouseUp)
-    container.addEventListener('mouseleave', onMouseLeave)
-  }
+    return cleanup
+  }, [])
 
   return (
-    <StyledRecentListScrollContainer onWheel={handleWheelScroll} onMouseDown={handleDragScroll}>
+    <StyledRecentListScrollContainer ref={containerRef} onWheel={handleWheelScroll}>
       {isLoading ? (
         <div style={{ display: 'flex', flexDirection: 'row', gap: 16 }}>
           {Array.from({ length: 10 }, (_, index) => ({
