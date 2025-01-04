@@ -1,3 +1,4 @@
+import { LocationCityDTO, locationCityDTOSerializedSchema } from '@/dtos/location-city-dto'
 import { LocationConcertDTO, locationConcertDTOSerializedSchema } from '@/dtos/location-concert-dto'
 import { errorResponseSchema } from '@/lib/error'
 import { RouteHandler } from 'fastify'
@@ -61,6 +62,24 @@ export const getLocationConcertsHandler: RouteHandler<{
     return rep.status(500).send({
       code: 'UNKNOWN',
       message: 'internal server error',
+    })
+  }
+}
+
+export const getLocationCityListHandler: RouteHandler<{
+  Reply: {
+    200: z.infer<typeof locationCityDTOSerializedSchema>[]
+    500: z.infer<typeof errorResponseSchema>
+  }
+}> = async (req, rep) => {
+  try {
+    const data = await LocationCityDTO.listCity()
+    return rep.status(200).send(data.map((value) => value.serialize()))
+  } catch (e) {
+    console.error(e)
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal! server error',
     })
   }
 }

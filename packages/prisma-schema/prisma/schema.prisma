@@ -266,10 +266,32 @@ model Copyright {
 }
 
 model LocationCity {
-  id        String   @id @default(uuid())
-  name      String
-  lat       Float
-  lng       Float
-  geohash   String
-  createdAt DateTime @default(now())
+  id                String                              @id @default(uuid())
+  name              String                              @unique
+  uiName            String
+  lat               Float
+  lng               Float
+  geohash           String?
+  locationCountries LocationCitiesOnLocationCountries[]
+  createdAt         DateTime                            @default(now())
+}
+
+model LocationCountry {
+  id             String                              @id @default(uuid())
+  name           String                              @unique
+  uiName         String
+  lat            Float?
+  lng            Float?
+  locationCities LocationCitiesOnLocationCountries[]
+  createdAt      DateTime                            @default(now())
+}
+
+model LocationCitiesOnLocationCountries {
+  locationCountry   LocationCountry @relation(fields: [locationCountryId], references: [id])
+  locationCountryId String
+  locationCity      LocationCity    @relation(fields: [locationCityId], references: [id])
+  locationCityId    String
+  createdAt         DateTime        @default(now())
+
+  @@id([locationCountryId, locationCityId])
 }
