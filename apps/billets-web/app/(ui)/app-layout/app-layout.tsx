@@ -1,7 +1,7 @@
 'use client'
 
 import { PropsWithChildren } from 'react'
-import { Footer } from '../../../ui/footer'
+import { AppFooter } from '../app-footer'
 import { AppHeader } from '../app-header'
 import { ChildrenWrapper, Container } from './app-layout.styled'
 
@@ -15,7 +15,7 @@ export function AppLayout({
     <Container>
       <AppHeader />
       <ChildrenWrapper>{children}</ChildrenWrapper>
-      <Footer />
+      <AppFooter />
     </Container>
   )
 }

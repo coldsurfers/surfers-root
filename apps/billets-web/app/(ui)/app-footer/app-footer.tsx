@@ -1,5 +1,6 @@
 'use client'
 
+import { Text } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import Link from 'next/link'
 
@@ -12,15 +13,17 @@ const Container = styled.div`
   gap: 1rem;
 `
 
-export function Footer() {
+export function AppFooter() {
   return (
     <Container>
-      <p style={{ fontWeight: 'bold' }}>&copy; 2024 COLDSURF, Inc.</p>
+      <Text as="p" style={{ fontWeight: 'bold' }}>
+        &copy; 2024 COLDSURF, Inc.
+      </Text>
       <Link href="/privacy-policy">
-        <p>Privacy Policy</p>
+        <Text as="p">Privacy Policy</Text>
       </Link>
       <Link href="/terms-of-service">
-        <p>Terms of Service</p>
+        <Text as="p">Terms of Service</Text>
       </Link>
     </Container>
   )
