@@ -264,3 +264,12 @@ model Copyright {
   createdAt          DateTime             @default(now())
   ArtistProfileImage ArtistProfileImage[]
 }
+
+model LocationCity {
+  id        String   @id @default(uuid())
+  name      String
+  lat       Float
+  lng       Float
+  geohash   String
+  createdAt DateTime @default(now())
+}
