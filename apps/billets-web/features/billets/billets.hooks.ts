@@ -7,7 +7,7 @@ export const useGetBilletsConcertQueryFn = () =>
     params: {
       query: {
         offset: '0',
-        size: '10',
+        size: '20',
       },
     },
   })
