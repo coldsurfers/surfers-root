@@ -39,6 +39,8 @@ export const RecentConcertList = () => {
     <StyledRecentListScrollContainer
       onMouseEnter={controls.stop}
       onMouseLeave={startAnim}
+      onTouchStart={controls.stop}
+      onTouchEnd={startAnim}
       onScroll={(e) => e.preventDefault()}
     >
       {isLoading ? (
