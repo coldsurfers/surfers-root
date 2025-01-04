@@ -32,7 +32,6 @@
     "graphql": "^16.6.0",
     "html-to-image": "^1.11.11",
     "next": "14.2.3",
-    "next-auth": "5.0.0-beta.18",
     "react": "*",
     "react-dom": "*",
     "react-hook-form": "*",
