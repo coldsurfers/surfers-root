@@ -1,113 +1,22 @@
-import { Button, IconButton, media, semantics, Text } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
+'use client'
+
+import { BILLETS_APP_URL } from '@/features'
+import { Button, IconButton, Text } from '@coldsurfers/ocean-road'
 import { AlignRight } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { BILLETS_APP_URL } from '../../features/billets/billets.constants'
-import { HEADER_HEIGHT } from './header.constants'
-
-const HeaderContainer = styled.div<{ $animation: 'show' | 'hide' }>`
-  display: flex;
-  align-items: center;
-  height: ${HEADER_HEIGHT};
-  padding: 0 40px;
-
-  background-color: ${semantics.color.background[2]};
-  z-index: 99;
-
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-
-  transition: all 0.3s ease-in-out;
-  transform: translateY(${({ $animation }) => ($animation === 'show' ? '0' : '-100%')});
-
-  ${media.large(css`
-    padding: 0 16px;
-  `)}
-`
-
-const HeaderTitle = styled(Text)`
-  font-size: 32px;
-  font-weight: 900;
-
-  @media (max-width: 960px) {
-    font-size: 24px;
-  }
-`
-
-const HeaderLogo = styled.img`
-  border-radius: 50%;
-  margin-right: 10px;
-
-  width: 62px;
-  height: 62px;
-
-  ${media.large(css`
-    width: 48px;
-    height: 48px;
-  `)}
-`
-
-const HeaderMenuContainer = styled(Link)`
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-
-  padding: 10px;
-`
-
-const HeaderMenuText = styled(Text)``
-
-const WebMenuContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-
-  @media (max-width: 960px) {
-    display: none;
-  }
-`
-
-const MobileMenuContainer = styled.div`
-  display: none;
-
-  @media (max-width: 960px) {
-    display: flex;
-  }
-`
-
-const ModalContainer = styled.div<{ $isOpen: boolean }>`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(0.5px);
-  display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
-  z-index: 1000;
-`
-
-const ModalPaper = styled.div`
-  background: ${semantics.color.background[2]};
-  border-radius: 8px;
-  padding: 20px;
-  margin: 12px auto;
-  width: calc(100vw - 24px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-`
-
-const ModalContent = styled.div`
-  margin: 10px 0;
-
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`
+import {
+  HeaderContainer,
+  HeaderLogo,
+  HeaderMenuContainer,
+  HeaderMenuText,
+  HeaderTitle,
+  MobileMenuContainer,
+  ModalContainer,
+  ModalContent,
+  ModalPaper,
+  WebMenuContainer,
+} from './app-header.styled'
 
 function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   useEffect(() => {
@@ -143,7 +52,7 @@ function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
   )
 }
 
-export function Header() {
+export function AppHeader() {
   const [animation, setAnimation] = useState<'show' | 'hide'>('show')
   const [isModalOpen, setIsModalOpen] = useState(false)
   useEffect(() => {
