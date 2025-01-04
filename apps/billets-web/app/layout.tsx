@@ -3,8 +3,8 @@ import type { Metadata } from 'next'
 import { Noto_Sans as notoSans } from 'next/font/google'
 import { cookies } from 'next/headers'
 import { ReactNode } from 'react'
-import LayoutWrapper from '../components/LayoutWrapper'
 import { COOKIES } from '../libs/constants'
+import { AppLayout } from './(ui)'
 
 const notoSansFont = notoSans({ subsets: ['latin'] })
 
@@ -35,7 +35,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <RegistryProvider registries={[OceanRoadThemeRegistry]}>
           <AuthStoreProvider accessToken={accessToken} refreshToken={refreshToken}>
             <QueryClientRegistry>
-              <LayoutWrapper>{children}</LayoutWrapper>
+              <AppLayout>{children}</AppLayout>
             </QueryClientRegistry>
           </AuthStoreProvider>
         </RegistryProvider>
