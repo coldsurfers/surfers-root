@@ -1,4 +1,5 @@
-import { Text } from '@coldsurfers/ocean-road'
+import { media, Text } from '@coldsurfers/ocean-road'
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 
 export const StyledRecentListScrollContainer = styled.div`
@@ -25,6 +26,10 @@ export const StyledTitle = styled(Text)`
   white-space: normal;
   margin-top: 0;
   margin-bottom: 0;
+
+  ${media.large(css`
+    font-size: 13px;
+  `)};
 `
 
 export const StyledRecentListParagraph = styled(Text)`
@@ -34,12 +39,15 @@ export const StyledRecentListParagraph = styled(Text)`
   white-space: normal;
   margin-top: 0;
   margin-bottom: 0;
+
+  ${media.large(css`
+    font-size: 12px;
+  `)};
 `
 
 export const StyledRecentListBilletsConcertCard = styled.div<{ $isLoading: boolean }>`
   width: 200px;
   height: ${(props) => (props.$isLoading ? '180px' : '300px')};
-  border-radius: 8px;
   overflow: hidden;
   background: ${(props) =>
     props.$isLoading ? 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)' : 'none'};
@@ -47,7 +55,21 @@ export const StyledRecentListBilletsConcertCard = styled.div<{ $isLoading: boole
   background-size: cover;
   animation: ${(props) => (props.$isLoading ? 'loading 1.5s infinite' : 'none')};
 
-  /* padding: 0 12px; */
+  ${(props) => {
+    const height = props.$isLoading ? '160px' : '260px'
+    return media.large(css`
+      width: 180px;
+      height: ${height};
+    `)
+  }};
+
+  ${(props) => {
+    const height = props.$isLoading ? '140px' : '250px'
+    return media.medium(css`
+      width: 140px;
+      height: ${height};
+    `)
+  }};
 
   @keyframes loading {
     0% {
@@ -59,12 +81,10 @@ export const StyledRecentListBilletsConcertCard = styled.div<{ $isLoading: boole
   }
 `
 
-export const StyledSliderWrapper = styled.div`
+export const StyledRecentListBilletsConcertCardImage = styled.img`
+  border-radius: 8px;
+  object-fit: cover;
   width: 100%;
-  margin: 0 auto;
-  padding-left: 16px;
-  padding-right: 16px;
-
-  display: flex;
-  align-items: center;
+  aspect-ratio: 1 / 1;
+  object-position: 50%;
 `
