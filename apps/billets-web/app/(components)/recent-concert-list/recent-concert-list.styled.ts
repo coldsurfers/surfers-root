@@ -1,6 +1,7 @@
 import { media, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
+import { motion } from 'framer-motion'
 
 export const StyledRecentListScrollContainer = styled.div`
   display: flex;
@@ -87,4 +88,10 @@ export const StyledRecentListBilletsConcertCardImage = styled.img`
   width: 100%;
   aspect-ratio: 1 / 1;
   object-position: 50%;
+`
+
+export const StyledMotionDiv = styled(motion.div)`
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
 `
