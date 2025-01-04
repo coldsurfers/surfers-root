@@ -2,10 +2,11 @@
 
 import { useGetBilletsConcertQuery } from '@/features/billets'
 import { format, parseISO } from 'date-fns'
-import { motion } from 'framer-motion'
+import { ResolvedValues, useAnimation } from 'framer-motion'
 import Link from 'next/link'
-import { useRef, WheelEventHandler } from 'react'
+import { useCallback, useLayoutEffect, useRef } from 'react'
 import {
+  StyledMotionDiv,
   StyledRecentListBilletsConcertCard,
   StyledRecentListBilletsConcertCardImage,
   StyledRecentListParagraph,
@@ -14,20 +15,32 @@ import {
 } from './recent-concert-list.styled'
 
 export const RecentConcertList = () => {
-  const containerRef = useRef<HTMLDivElement>(null)
   const { data, isLoading } = useGetBilletsConcertQuery()
+  const controls = useAnimation()
+  const latestX = useRef<string>('0%')
 
-  const handleWheelScroll: WheelEventHandler<HTMLDivElement> = (event) => {
-    const scrollAmount = event.deltaY
-    const container = event.currentTarget as HTMLElement
-    container.scrollBy({
-      left: scrollAmount,
-      behavior: 'instant',
+  const startAnim = useCallback(() => {
+    controls.start({
+      x: [latestX.current, '-100%'], // Moves from start to end
     })
-  }
+  }, [controls])
+
+  const onUpdate = useCallback((latest: ResolvedValues) => {
+    if (latest.x) {
+      latestX.current = latest.x as string
+    }
+  }, [])
+
+  useLayoutEffect(() => {
+    startAnim()
+  }, [startAnim])
 
   return (
-    <StyledRecentListScrollContainer ref={containerRef} onWheel={handleWheelScroll}>
+    <StyledRecentListScrollContainer
+      onMouseEnter={controls.stop}
+      onMouseLeave={startAnim}
+      onScroll={(e) => e.preventDefault()}
+    >
       {isLoading ? (
         <div style={{ display: 'flex', flexDirection: 'row', gap: 16 }}>
           {Array.from({ length: 10 }, (_, index) => ({
@@ -38,20 +51,15 @@ export const RecentConcertList = () => {
           ))}
         </div>
       ) : (
-        <motion.div
-          animate={{
-            x: ['0%', '-100%'], // Moves from start to end
-          }}
+        <StyledMotionDiv
+          initial={{ x: '0%' }}
+          animate={controls}
           transition={{
             repeat: Infinity, // Loops indefinitely
             duration: 60, // Adjust speed (higher = slower)
             ease: 'linear', // Smooth constant scroll
           }}
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: 16,
-          }}
+          onUpdate={onUpdate}
         >
           {data?.data?.map((value) => (
             <Link href={`/concert-detail/${value.id}`} key={value.id}>
@@ -67,7 +75,7 @@ export const RecentConcertList = () => {
               </StyledRecentListBilletsConcertCard>
             </Link>
           ))}
-        </motion.div>
+        </StyledMotionDiv>
       )}
     </StyledRecentListScrollContainer>
   )
