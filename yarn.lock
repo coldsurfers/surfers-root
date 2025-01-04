@@ -3523,6 +3523,8 @@ __metadata:
     axios: "npm:*"
     date-fns: "npm:^4.1.0"
     eslint: "npm:8.57.0"
+    framer-motion: "npm:*"
+    lucide-react: "npm:*"
     nanoid: "npm:^5.0.4"
     next: "npm:14.1.0"
     next-auth: "npm:beta"
