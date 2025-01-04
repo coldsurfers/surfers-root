@@ -11,9 +11,9 @@ import {
   StyledRecentListParagraph,
   StyledRecentListScrollContainer,
   StyledTitle,
-} from './recent-list.styled'
+} from './recent-concert-list.styled'
 
-export const RecentList = () => {
+export const RecentConcertList = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const { data, isLoading } = useGetBilletsConcertQuery()
 
