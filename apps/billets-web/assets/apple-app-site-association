@@ -3,18 +3,16 @@
     "apps": [],
     "details": [
       {
-        "appIDs": [
-          "578PDZSTMS.com.fstvllife.ios"
-        ],
+        "appID": "578PDZSTMS.com.fstvllife.ios",
         "paths": [
-          "*"
+          "/concert-detail/*"
         ]
       }
     ]
   },
   "webcredentials": {
     "apps": [
-      "com.fstvllife.ios"
+      "578PDZSTMS.com.fstvllife.ios"
     ]
   }
 }
