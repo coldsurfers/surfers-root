@@ -87,9 +87,8 @@ const ModalContainer = styled.div<{ $isOpen: boolean }>`
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  display: ${({ $isOpen }) => ($isOpen ? 'flex' : 'none')};
-  justify-content: center;
-  align-items: center;
+  backdrop-filter: blur(0.5px);
+  display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
   z-index: 1000;
 `
 
@@ -97,8 +96,8 @@ const ModalPaper = styled.div`
   background: ${semantics.color.background[2]};
   border-radius: 8px;
   padding: 20px;
-  width: 90%;
-  max-width: 400px;
+  margin: 12px auto;
+  width: calc(100vw - 24px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `
 
@@ -108,11 +107,6 @@ const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-`
-
-const ModalFooter = styled.div`
-  display: flex;
-  justify-content: flex-end;
 `
 
 function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
@@ -134,20 +128,15 @@ function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
         <ModalPaper onClick={(e) => e.stopPropagation()}>
           <ModalContent>
             <Link href="/about" onClick={onClose} style={{ alignSelf: 'flex-start' }}>
-              <p>About</p>
+              <Text as="p">About</Text>
             </Link>
-            <Link href="/blog" onClick={onClose} style={{ alignSelf: 'flex-start' }}>
-              <p>Blog</p>
+            <Link href="https://blog.coldsurf.io" target="_blank" onClick={onClose} style={{ alignSelf: 'flex-start' }}>
+              <Text as="p">Blog</Text>
             </Link>
-            <Link href={BILLETS_APP_URL} onClick={onClose}>
+            <Link href={BILLETS_APP_URL} onClick={onClose} style={{ margin: '0 auto' }}>
               <Button theme="border">GET THE APP</Button>
             </Link>
           </ModalContent>
-          <ModalFooter>
-            <Button theme="transparent" onClick={onClose}>
-              Close
-            </Button>
-          </ModalFooter>
         </ModalPaper>
       )}
     </ModalContainer>
