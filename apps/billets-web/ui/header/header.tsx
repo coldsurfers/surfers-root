@@ -1,6 +1,7 @@
-import { Button, semantics } from '@coldsurfers/ocean-road'
+import { Button, IconButton, media, semantics, Text } from '@coldsurfers/ocean-road'
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import Image from 'next/image'
+import { AlignRight } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { BILLETS_APP_URL } from '../../features/billets/billets.constants'
@@ -22,9 +23,13 @@ const HeaderContainer = styled.div<{ $animation: 'show' | 'hide' }>`
 
   transition: all 0.3s ease-in-out;
   transform: translateY(${({ $animation }) => ($animation === 'show' ? '0' : '-100%')});
+
+  ${media.large(css`
+    padding: 0 16px;
+  `)}
 `
 
-const HeaderTitle = styled.h1`
+const HeaderTitle = styled(Text)`
   font-size: 32px;
   font-weight: 900;
 
@@ -33,14 +38,17 @@ const HeaderTitle = styled.h1`
   }
 `
 
-const HeaderLogo = styled(Image)`
+const HeaderLogo = styled.img`
   border-radius: 50%;
   margin-right: 10px;
 
-  @media (max-width: 960px) {
-    width: 32px;
-    height: 32px;
-  }
+  width: 62px;
+  height: 62px;
+
+  ${media.large(css`
+    width: 48px;
+    height: 48px;
+  `)}
 `
 
 const HeaderMenuContainer = styled(Link)`
@@ -51,7 +59,7 @@ const HeaderMenuContainer = styled(Link)`
   padding: 10px;
 `
 
-const HeaderMenuText = styled.p``
+const HeaderMenuText = styled(Text)``
 
 const WebMenuContainer = styled.div`
   display: flex;
@@ -170,27 +178,27 @@ export function Header() {
       <HeaderContainer $animation={animation}>
         <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
           <Link href="/">
-            <HeaderLogo src="/logo.png" alt="header_logo" width={48} height={48} />
+            <HeaderLogo src="/logo.png" alt="header_logo" />
           </Link>
           <Link href="/">
-            <HeaderTitle>Billets</HeaderTitle>
+            <HeaderTitle as="h1">Billets</HeaderTitle>
           </Link>
         </div>
         <WebMenuContainer>
           <HeaderMenuContainer href="/about">
-            <HeaderMenuText>About</HeaderMenuText>
+            <HeaderMenuText as="p">About</HeaderMenuText>
           </HeaderMenuContainer>
           <HeaderMenuContainer href="https://blog.coldsurf.io" target="_blank">
-            <HeaderMenuText>Blog</HeaderMenuText>
+            <HeaderMenuText as="p">Blog</HeaderMenuText>
           </HeaderMenuContainer>
           <Link href={BILLETS_APP_URL}>
             <Button theme="indigo">무료 앱 다운로드하기</Button>
           </Link>
         </WebMenuContainer>
         <MobileMenuContainer>
-          <Button theme="transparentDarkGray" onClick={() => setIsModalOpen(true)}>
-            🍔
-          </Button>
+          <IconButton onClick={() => setIsModalOpen(true)}>
+            <AlignRight />
+          </IconButton>
         </MobileMenuContainer>
       </HeaderContainer>
       <ModalMenu isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
