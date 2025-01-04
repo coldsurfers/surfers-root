@@ -12,7 +12,7 @@ export function PageTop() {
         <StyledHomeMainTitle as="h1">Billets</StyledHomeMainTitle>
         <StyledHomeMainTitle as="h1">{'예정된\n많은 공연을\n놓치지 마세요 🎉'}</StyledHomeMainTitle>
         <Link href={BILLETS_APP_URL} style={{ display: 'inline-block' }}>
-          <Button theme="indigo">무료 앱 다운로드하기</Button>
+          <Button theme="border">GET THE APP</Button>
         </Link>
       </StyledWrapper>
       <StyledWrapper>
