@@ -2,11 +2,8 @@ import { apiClient } from '@/libs/openapi-client'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { cache } from 'react'
-
-type PageProps<T extends { [key: string]: string }> = {
-  params: T
-  searchParams: Record<string, never>
-}
+import { PageProps } from 'types/common-types'
+import { ConcertList } from './(components)'
 
 const validateCityParam = cache(async (cityParam: string) => {
   const city = decodeURIComponent(cityParam)
@@ -54,5 +51,9 @@ export default async function BrowseByCityPage(props: PageProps<{ city: string }
     return redirect('/404')
   }
 
-  return null
+  return (
+    <>
+      <ConcertList />
+    </>
+  )
 }
