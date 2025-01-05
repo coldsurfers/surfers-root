@@ -49,7 +49,15 @@ export const Spinner = ({ positionCenter = true, size = 'large', color, style }:
   }, [rotation])
 
   return (
-    <View style={[positionCenter && styles.positionCenter, style]}>
+    <View
+      style={[
+        positionCenter && styles.positionCenter,
+        {
+          height: sizeNumber,
+        },
+        style,
+      ]}
+    >
       <AnimatedView style={animatedStyle}>
         <LoaderIcon size={sizeNumber} color={color} />
       </AnimatedView>
