@@ -1,6 +1,7 @@
 'use client'
 
-import { useGetBilletsConcertQuery } from '@/features/billets'
+import { apiClient } from '@/libs/openapi-client'
+import { useQuery } from '@tanstack/react-query'
 import { format, parseISO } from 'date-fns'
 import { ResolvedValues, useAnimation } from 'framer-motion'
 import Link from 'next/link'
@@ -15,7 +16,14 @@ import {
 } from './recent-concert-list.styled'
 
 export const RecentConcertList = () => {
-  const { data, isLoading } = useGetBilletsConcertQuery()
+  const { data, isLoading } = useQuery({
+    queryFn: async () =>
+      await apiClient.concerts.getConcerts({
+        offset: 0,
+        size: 20,
+      }),
+    queryKey: apiClient.concerts.queryKeys.getConcerts({ offset: 0, size: 20 }),
+  })
   const controls = useAnimation()
   const latestX = useRef<string>('0%')
 
@@ -49,7 +57,7 @@ export const RecentConcertList = () => {
             index,
             id: index,
           })).map((value) => (
-            <StyledRecentListBilletsConcertCard key={value.id} $isLoading={isLoading} />
+            <StyledRecentListBilletsConcertCard key={value.id} $isLoading />
           ))}
         </div>
       ) : (
@@ -63,9 +71,9 @@ export const RecentConcertList = () => {
           }}
           onUpdate={onUpdate}
         >
-          {data?.data?.map((value) => (
+          {data?.map((value) => (
             <Link href={`/concert-detail/${value.id}`} key={value.id}>
-              <StyledRecentListBilletsConcertCard $isLoading={isLoading}>
+              <StyledRecentListBilletsConcertCard $isLoading={false}>
                 <StyledRecentListBilletsConcertCardImage src={value.posters[0].imageUrl} alt="concert" />
                 <StyledTitle as="p">{value.title}</StyledTitle>
                 <div style={{ display: 'flex', flexDirection: 'column', marginTop: '4px' }}>
