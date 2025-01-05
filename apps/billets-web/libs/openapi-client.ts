@@ -15,18 +15,38 @@ const baseFetchClient = createFetchClient<paths>({
 
 export const $api = createClient(baseFetchClient)
 
+type GetConcertsParams = {
+  offset: number
+  size: number
+  latitude?: number
+  longitude?: number
+}
+
 export const apiClient = {
   concerts: {
     queryKeys: {
-      getConcerts: ({ offset, size }: { offset: number; size: number }) => ['concerts', { offset, size }],
+      getConcerts: ({ offset, size, latitude, longitude }: GetConcertsParams) => [
+        'concerts',
+        { offset, size, latitude, longitude },
+      ],
     },
-    getConcerts: async ({ offset, size }: { offset: number; size: number }) => {
+    getConcerts: async ({ offset, size, latitude, longitude }: GetConcertsParams) => {
+      const query: {
+        offset: string
+        size: string
+        latitude?: string
+        longitude?: string
+      } = {
+        offset: `${offset}`,
+        size: `${size}`,
+      }
+      if (latitude && longitude) {
+        query.latitude = `${latitude}`
+        query.longitude = `${longitude}`
+      }
       const response = await baseFetchClient.GET('/v1/concert/', {
         params: {
-          query: {
-            offset: `${offset}`,
-            size: `${size}`,
-          },
+          query,
         },
       })
       return response.data
