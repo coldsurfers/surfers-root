@@ -1,5 +1,7 @@
+import { redirect } from 'next/navigation'
+
 export default function BrowseCityGatewayPage() {
   // @todo: implement server api by detecting validate city
   // otherwise, redirect to 404
-  return null
+  return redirect('/browse/seoul')
 }
