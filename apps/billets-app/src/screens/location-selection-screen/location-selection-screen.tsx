@@ -2,7 +2,7 @@ import { useUserCurrentLocationStore } from '@/features/location/stores'
 import { $api } from '@/lib/api/openapi-client'
 import { Spinner, Text, TextInput } from '@coldsurfers/ocean-road/native'
 import { Suspense, useCallback, useMemo, useState } from 'react'
-import { SectionList, SectionListData, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { KeyboardAvoidingView, SectionList, SectionListData, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import palettes from '../../lib/palettes'
 import { LatLng } from '../../types/LatLng'
@@ -41,13 +41,18 @@ const LocationSelectionScreenContent = () => {
   }, [locationCountries])
 
   const searchedSections = useMemo(() => {
-    return (
-      sectionData?.filter(
-        (section) =>
-          section.country.toLowerCase().includes(searchKeyword.toLowerCase()) ||
-          section.data.some((item) => item.city.toLowerCase().includes(searchKeyword.toLowerCase())),
-      ) ?? []
-    )
+    return sectionData
+      .map((section) => {
+        const data = section.data.filter((item) => item.city.toLowerCase().includes(searchKeyword.toLowerCase()))
+        if (data.length === 0) {
+          return null
+        }
+        return {
+          ...section,
+          data: section.data.filter((item) => item.city.toLowerCase().includes(searchKeyword.toLowerCase())),
+        }
+      })
+      .filter((section) => section !== null)
   }, [searchKeyword, sectionData])
 
   const renderSectionHeader = useCallback(
@@ -84,13 +89,15 @@ const LocationSelectionScreenContent = () => {
         placeholder="위치 검색 🔍"
         clearButtonMode="while-editing"
       />
-      <SectionList
-        sections={searchedSections}
-        renderSectionHeader={renderSectionHeader}
-        renderItem={renderItem}
-        style={styles.listWrapper}
-        contentContainerStyle={styles.listContainer}
-      />
+      <KeyboardAvoidingView style={{ flex: 1 }}>
+        <SectionList
+          sections={searchedSections}
+          renderSectionHeader={renderSectionHeader}
+          renderItem={renderItem}
+          style={styles.listWrapper}
+          contentContainerStyle={styles.listContainer}
+        />
+      </KeyboardAvoidingView>
     </SafeAreaView>
   )
 }
