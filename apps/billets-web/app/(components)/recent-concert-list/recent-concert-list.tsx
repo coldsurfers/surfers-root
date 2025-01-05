@@ -72,7 +72,7 @@ export const RecentConcertList = () => {
           onUpdate={onUpdate}
         >
           {data?.map((value) => (
-            <Link href={`/concert-detail/${value.id}`} key={value.id}>
+            <Link href={`/event/${value.id}`} key={value.id}>
               <StyledRecentListBilletsConcertCard $isLoading={false}>
                 <StyledRecentListBilletsConcertCardImage src={value.posters[0].imageUrl} alt="concert" />
                 <StyledTitle as="p">{value.title}</StyledTitle>
