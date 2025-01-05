@@ -1,6 +1,7 @@
 'use client'
 
-import { Text } from '@coldsurfers/ocean-road'
+import { media, Text } from '@coldsurfers/ocean-road'
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import Link from 'next/link'
 
@@ -12,6 +13,11 @@ const Container = styled.div`
   gap: 1rem;
 
   margin-top: 15rem;
+
+  ${media.large(css`
+    padding-left: 1rem;
+    padding-right: 1rem;
+  `)}
 `
 
 export function AppFooter() {

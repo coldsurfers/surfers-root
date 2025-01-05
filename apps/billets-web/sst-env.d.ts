@@ -2,13 +2,13 @@
 /* tslint:disable */
 /* eslint-disable */
 /* deno-fmt-ignore-file */
-import "sst"
+import 'sst'
 export {}
-declare module "sst" {
+declare module 'sst' {
   export interface Resource {
-    "BilletsWeb": {
-      "type": "sst.aws.Nextjs"
-      "url": string
+    BilletsWeb: {
+      type: 'sst.aws.Nextjs'
+      url: string
     }
   }
 }
