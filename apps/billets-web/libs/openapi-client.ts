@@ -30,6 +30,7 @@ export const apiClient = {
         'concerts',
         { offset, size, latitude, longitude },
       ],
+      getConcertById: (id: string) => ['concerts', id],
     },
     getConcerts: async ({ offset, size, latitude, longitude }: GetConcertsParams) => {
       const query: {
@@ -50,6 +51,22 @@ export const apiClient = {
           query,
         },
       })
+      return response.data
+    },
+    getConcertById: async (id: string) => {
+      const response = await baseFetchClient.GET('/v1/concert/{id}', {
+        params: {
+          path: {
+            id,
+          },
+        },
+      })
+      if (!response.data || response.error) {
+        throw new OpenApiError({
+          code: 'CONCERT_NOT_FOUND',
+          message: 'concert not found',
+        })
+      }
       return response.data
     },
   },
