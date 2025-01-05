@@ -1,13 +1,14 @@
 import { useUserCurrentLocationStore } from '@/features/location/stores'
-import { Text, TextInput } from '@coldsurfers/ocean-road/native'
-import { useCallback, useMemo, useState } from 'react'
-import { SectionList, SectionListData, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { $api } from '@/lib/api/openapi-client'
+import { Spinner, Text, TextInput } from '@coldsurfers/ocean-road/native'
+import { Suspense, useCallback, useMemo, useState } from 'react'
+import { KeyboardAvoidingView, SectionList, SectionListData, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import palettes from '../../lib/palettes'
 import { LatLng } from '../../types/LatLng'
 import { useLocationSelectionScreenNavigation } from './location-selection-screen.hooks'
 
-const sections: ReadonlyArray<
+type LocationSelectionListSectionData = ReadonlyArray<
   SectionListData<
     {
       city: string
@@ -17,47 +18,42 @@ const sections: ReadonlyArray<
       country: string
     }
   >
-> = [
-  {
-    country: 'South Korea',
-    data: [
-      {
-        city: 'Seoul',
-        latLng: {
-          latitude: 37.5326,
-          longitude: 127.024612,
-        },
-      },
-      {
-        city: 'Incheon',
-        latLng: {
-          latitude: 37.456257,
-          longitude: 126.705208,
-        },
-      },
-      {
-        city: 'YeongJongDo',
-        latLng: {
-          latitude: 37.5000629,
-          longitude: 126.5358479,
-        },
-      },
-    ],
-  },
-]
+>
 
-export const LocationSelectionScreen = () => {
+const LocationSelectionScreenContent = () => {
   const navigation = useLocationSelectionScreenNavigation()
   const setUserCurrentLocation = useUserCurrentLocationStore((state) => state.setUserCurrentLocation)
   const [searchKeyword, setSearchKeyword] = useState('')
+  const { data: locationCountries } = $api.useSuspenseQuery('get', '/v1/location/country')
+  const sectionData = useMemo<LocationSelectionListSectionData>(() => {
+    return locationCountries?.map((country) => ({
+      country: country.uiName,
+      data: country.cities.map((city) => {
+        return {
+          city: city.uiName,
+          latLng: {
+            latitude: city.lat,
+            longitude: city.lng,
+          },
+        }
+      }),
+    }))
+  }, [locationCountries])
 
   const searchedSections = useMemo(() => {
-    return sections.filter(
-      (section) =>
-        section.country.toLowerCase().includes(searchKeyword.toLowerCase()) ||
-        section.data.some((item) => item.city.toLowerCase().includes(searchKeyword.toLowerCase())),
-    )
-  }, [searchKeyword])
+    return sectionData
+      .map((section) => {
+        const data = section.data.filter((item) => item.city.toLowerCase().includes(searchKeyword.toLowerCase()))
+        if (data.length === 0) {
+          return null
+        }
+        return {
+          ...section,
+          data: section.data.filter((item) => item.city.toLowerCase().includes(searchKeyword.toLowerCase())),
+        }
+      })
+      .filter((section) => section !== null)
+  }, [searchKeyword, sectionData])
 
   const renderSectionHeader = useCallback(
     (info: { section: SectionListData<{ city: string; latLng: LatLng }, { country: string }> }) => {
@@ -93,14 +89,24 @@ export const LocationSelectionScreen = () => {
         placeholder="위치 검색 🔍"
         clearButtonMode="while-editing"
       />
-      <SectionList
-        sections={searchedSections}
-        renderSectionHeader={renderSectionHeader}
-        renderItem={renderItem}
-        style={styles.listWrapper}
-        contentContainerStyle={styles.listContainer}
-      />
+      <KeyboardAvoidingView style={{ flex: 1 }}>
+        <SectionList
+          sections={searchedSections}
+          renderSectionHeader={renderSectionHeader}
+          renderItem={renderItem}
+          style={styles.listWrapper}
+          contentContainerStyle={styles.listContainer}
+        />
+      </KeyboardAvoidingView>
     </SafeAreaView>
+  )
+}
+
+export const LocationSelectionScreen = () => {
+  return (
+    <Suspense fallback={<Spinner positionCenter />}>
+      <LocationSelectionScreenContent />
+    </Suspense>
   )
 }
 
