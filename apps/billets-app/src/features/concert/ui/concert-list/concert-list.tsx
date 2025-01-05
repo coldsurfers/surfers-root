@@ -1,8 +1,10 @@
 import useConcertListQuery from '@/lib/react-query/queries/useConcertListQuery'
 import { CommonListEmpty } from '@/ui'
+import { colors } from '@coldsurfers/ocean-road'
+import { Spinner } from '@coldsurfers/ocean-road/native'
 import { format } from 'date-fns'
 import { forwardRef, useCallback, useMemo, useState } from 'react'
-import { ActivityIndicator, FlatList, ListRenderItem, View } from 'react-native'
+import { FlatList, ListRenderItem, RefreshControl, View } from 'react-native'
 import { ConcertListItem } from '../concert-list-item'
 import { concertListStyles } from './concert-list.styles'
 import { ConcertListItemT } from './concert-list.types'
@@ -85,15 +87,23 @@ export const ConcertList = forwardRef<FlatList, ConcertListProps>(
         ListEmptyComponent={
           isPendingConcertList ? (
             <View style={concertListStyles.loadingIndicatorWrapper}>
-              <ActivityIndicator size="large" />
+              <Spinner />
             </View>
           ) : (
             <CommonListEmpty emptyText={`🥺\n앗,\n해당하는\n위치에\n공연 정보가 없어요!`} />
           )
         }
+        ListFooterComponent={isFetchingNextConcertList ? <Spinner /> : null}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={onRefresh}
+            tintColor={colors.oc.cyan[5].value}
+            size={20}
+          />
+        }
+        scrollEnabled={!isRefreshing}
         onEndReached={onEndReached}
-        refreshing={isRefreshing}
-        onRefresh={onRefresh}
       />
     )
   },
