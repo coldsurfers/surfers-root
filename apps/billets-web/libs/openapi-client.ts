@@ -2,6 +2,7 @@ import createFetchClient from 'openapi-fetch'
 import createClient from 'openapi-react-query'
 import { paths } from '../types/api'
 import { API_BASE_URL } from './constants'
+import { OpenApiError } from './errors'
 
 const DEFAULT_HEADERS = {
   'Content-Type': 'application/json',
@@ -59,8 +60,7 @@ export const apiClient = {
     getCountries: async () => {
       const response = await baseFetchClient.GET('/v1/location/country')
       if (response.error) {
-        // @todo: handle error
-        throw response.error
+        throw new OpenApiError(response.error)
       }
       return response.data
     },
