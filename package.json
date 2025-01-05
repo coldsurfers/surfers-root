@@ -67,7 +67,8 @@
     "sst": "3.4.28",
     "lucide-react": "0.469.0",
     "react-lite-youtube-embed": "2.4.0",
-    "firebase": "11.1.0"
+    "firebase": "11.1.0",
+    "react-native-reanimated": "3.16.1"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.12.1",

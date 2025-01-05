@@ -4,7 +4,7 @@ export const concertListStyles = StyleSheet.create({
   concertListContentContainer: {
     paddingHorizontal: 16,
     marginTop: 12,
-    paddingBottom: 24,
+    paddingBottom: 64,
     flexGrow: 1,
   },
   loadingIndicatorWrapper: {

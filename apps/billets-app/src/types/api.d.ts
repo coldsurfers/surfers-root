@@ -518,6 +518,50 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/location/city': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['LocationCityDTOSerialized'][]
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/location/concert': {
     parameters: {
       query?: never
@@ -556,6 +600,50 @@ export interface paths {
           }
           content: {
             'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/location/country': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['LocationCountryDTOSerialized'][]
           }
         }
         /** @description Default Response */
@@ -1616,11 +1704,31 @@ export interface components {
       lng: number
       name: string
     }
+    LocationCityDTOSerialized: {
+      geohash: string | null
+      id: string
+      lat: number
+      lng: number
+      name: string
+      uiName: string
+    }
     LocationConcertDTOSerialized: {
       id: string
       latitude: number
       longitude: number
       title: string
+    }
+    LocationCountryDTOSerialized: {
+      cities: {
+        id: string
+        lat: number
+        lng: number
+        name: string
+        uiName: string
+      }[]
+      id: string
+      name: string
+      uiName: string
     }
     PostFCMTokenBody: {
       fcmToken: string
