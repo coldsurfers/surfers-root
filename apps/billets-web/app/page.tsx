@@ -1,12 +1,13 @@
 import { apiClient } from '@/libs/openapi-client'
-import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query'
+import { getQueryClient } from '@/libs/utils/utils.query-client'
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
 import { RecentConcertList } from 'app/(components)'
 import { PageLayout, PageTop } from './(ui)'
 
 export const revalidate = 3600
 
 export default async function Home() {
-  const queryClient = new QueryClient()
+  const queryClient = getQueryClient()
 
   try {
     await queryClient.prefetchQuery({
