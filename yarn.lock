@@ -3362,7 +3362,7 @@ __metadata:
     metro-react-native-babel-preset: "npm:0.73.7"
     ngeohash: "npm:*"
     openapi-fetch: "npm:^0.12.2"
-    openapi-react-query: "npm:^0.2.8"
+    openapi-react-query: "npm:*"
     patch-package: "npm:^8.0.0"
     prettier: "npm:3.3.3"
     react: "npm:18.3.1"
@@ -3466,6 +3466,7 @@ __metadata:
     notion-client: "npm:*"
     notion-types: "npm:*"
     openapi-fetch: "npm:^0.12.2"
+    openapi-react-query: "npm:*"
     prettier: "npm:*"
     react: "npm:*"
     react-dom: "npm:*"
@@ -29539,15 +29540,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"openapi-react-query@npm:^0.2.8":
-  version: 0.2.8
-  resolution: "openapi-react-query@npm:0.2.8"
+"openapi-react-query@npm:0.2.9":
+  version: 0.2.9
+  resolution: "openapi-react-query@npm:0.2.9"
   dependencies:
     openapi-typescript-helpers: "npm:^0.0.15"
   peerDependencies:
     "@tanstack/react-query": ^5.25.0
-    openapi-fetch: ^0.13.3
-  checksum: 10c0/0b122e64a693422fbf037b43abc954472df73201c1d5fc36b0d7bd11a5681dc06b581f063dfd5a1e27e11ded38d73a6fb0283243031a1ec8948f730bdd285eac
+    openapi-fetch: ^0.13.4
+  checksum: 10c0/a1664240b027ba5195ed90f7fe22a50e5154d26f11b5139bed83dc67941d53d80ddd7beadc4e8dff532388b3b0dd1286f24ef419a1e91fd29cc0fd5c4697e141
   languageName: node
   linkType: hard
 
