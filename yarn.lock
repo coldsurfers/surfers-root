@@ -3460,6 +3460,7 @@ __metadata:
     "@types/react-dom": "npm:*"
     date-fns: "npm:^4.1.0"
     eslint: "npm:8.57.0"
+    firebase: "npm:*"
     framer-motion: "npm:*"
     lucide-react: "npm:*"
     next: "npm:14.1.0"
