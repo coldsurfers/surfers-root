@@ -2,7 +2,6 @@
 
 import { BILLETS_APP_URL } from '@/features'
 import { Button, IconButton, Text } from '@coldsurfers/ocean-road'
-import { AlignRight } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import {
@@ -12,11 +11,30 @@ import {
   HeaderMenuText,
   HeaderTitle,
   MobileMenuContainer,
+  MobileMenuIcon,
   ModalContainer,
   ModalContent,
   ModalPaper,
   WebMenuContainer,
 } from './app-header.styled'
+
+const menuItems = [
+  {
+    link: '/browse',
+    title: 'Browse events',
+    target: undefined,
+  },
+  {
+    link: '/about',
+    title: 'About',
+    target: undefined,
+  },
+  {
+    link: 'https://blog.coldsurf.io',
+    target: '_blank',
+    title: 'Blog',
+  },
+] as const
 
 function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   useEffect(() => {
@@ -36,12 +54,19 @@ function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
       {isOpen && (
         <ModalPaper onClick={(e) => e.stopPropagation()}>
           <ModalContent>
-            <Link href="/about" onClick={onClose} style={{ alignSelf: 'flex-start' }}>
-              <Text as="p">About</Text>
-            </Link>
-            <Link href="https://blog.coldsurf.io" target="_blank" onClick={onClose} style={{ alignSelf: 'flex-start' }}>
-              <Text as="p">Blog</Text>
-            </Link>
+            {menuItems.map((item) => {
+              return (
+                <Link
+                  key={item.link}
+                  href={item.link}
+                  target={item.target}
+                  onClick={onClose}
+                  style={{ alignSelf: 'flex-start' }}
+                >
+                  <Text as="p">{item.title}</Text>
+                </Link>
+              )
+            })}
             <Link href={BILLETS_APP_URL} onClick={onClose} style={{ margin: '0 auto' }}>
               <Button theme="border">GET THE APP</Button>
             </Link>
@@ -83,22 +108,20 @@ export function AppHeader() {
           </Link>
         </div>
         <WebMenuContainer>
-          <HeaderMenuContainer href="/browse">
-            <HeaderMenuText as="p">Browse events</HeaderMenuText>
-          </HeaderMenuContainer>
-          <HeaderMenuContainer href="/about">
-            <HeaderMenuText as="p">About</HeaderMenuText>
-          </HeaderMenuContainer>
-          <HeaderMenuContainer href="https://blog.coldsurf.io" target="_blank">
-            <HeaderMenuText as="p">Blog</HeaderMenuText>
-          </HeaderMenuContainer>
+          {menuItems.map((item) => {
+            return (
+              <HeaderMenuContainer key={item.link} href={item.link} target={item.target}>
+                <HeaderMenuText as="p">{item.title}</HeaderMenuText>
+              </HeaderMenuContainer>
+            )
+          })}
           <Link href={BILLETS_APP_URL}>
             <Button theme="border">GET THE APP</Button>
           </Link>
         </WebMenuContainer>
         <MobileMenuContainer>
           <IconButton onClick={() => setIsModalOpen(true)}>
-            <AlignRight />
+            <MobileMenuIcon />
           </IconButton>
         </MobileMenuContainer>
       </HeaderContainer>
