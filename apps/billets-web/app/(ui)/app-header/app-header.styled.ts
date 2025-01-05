@@ -1,6 +1,7 @@
 import { media, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
+import { AlignRight } from 'lucide-react'
 import Link from 'next/link'
 import { HEADER_HEIGHT } from './app-header.constants'
 
@@ -104,4 +105,8 @@ export const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+`
+
+export const MobileMenuIcon = styled(AlignRight)`
+  color: ${semantics.color.foreground[3]};
 `
