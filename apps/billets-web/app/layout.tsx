@@ -1,4 +1,5 @@
 import {
+  FirebaseRegistry,
   GlobalErrorBoundaryRegistry,
   OceanRoadThemeRegistry,
   QueryClientRegistry,
@@ -35,7 +36,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           `,
           }}
         />
-        <RegistryProvider registries={[OceanRoadThemeRegistry]}>
+        <RegistryProvider registries={[OceanRoadThemeRegistry, FirebaseRegistry]}>
           <GlobalErrorBoundaryRegistry>
             <QueryClientRegistry>
               <AppLayout>{children}</AppLayout>
