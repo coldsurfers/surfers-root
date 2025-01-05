@@ -1,4 +1,6 @@
 import { apiClient } from '@/libs/openapi-client'
+import { getQueryClient } from '@/libs/utils'
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { cache } from 'react'
@@ -19,11 +21,17 @@ const validateCityParam = cache(async (cityParam: string) => {
       data: null,
     } as const
   }
+  const remoteCity = cities.find((c) => c.name === city)
+  if (!remoteCity) {
+    return {
+      isValid: false,
+      data: null,
+    } as const
+  }
   return {
     isValid: true,
     data: {
-      uiName: cities.find((c) => c.name === city)?.uiName,
-      name: city,
+      ...remoteCity,
     },
   } as const
 })
@@ -51,9 +59,33 @@ export default async function BrowseByCityPage(props: PageProps<{ city: string }
     return redirect('/404')
   }
 
+  const cityData = validation.data
+
+  const queryClient = getQueryClient()
+
+  try {
+    await queryClient.prefetchQuery({
+      queryKey: apiClient.concerts.queryKeys.getConcerts({
+        offset: 0,
+        size: 20,
+        latitude: cityData.lat,
+        longitude: cityData.lng,
+      }),
+      queryFn: () =>
+        apiClient.concerts.getConcerts({
+          offset: 0,
+          size: 20,
+          latitude: cityData.lat,
+          longitude: cityData.lng,
+        }),
+    })
+  } catch (e) {
+    console.error(e)
+  }
+
   return (
-    <>
-      <ConcertList />
-    </>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <ConcertList cityData={cityData} />
+    </HydrationBoundary>
   )
 }
