@@ -56,6 +56,8 @@ export const StyledRecentListBilletsConcertCard = styled.div<{ $isLoading: boole
   background-size: cover;
   animation: ${(props) => (props.$isLoading ? 'loading 1.5s infinite' : 'none')};
 
+  border-radius: 8px;
+
   ${(props) => {
     const height = props.$isLoading ? '160px' : '260px'
     return media.large(css`
