@@ -3,20 +3,9 @@
 import { apiClient } from '@/libs/openapi-client'
 import { useQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
-import Link from 'next/link'
 import { memo } from 'react'
-import {
-  StyledGridContainer,
-  StyledGridDate,
-  StyledGridImage,
-  StyledGridItem,
-  StyledGridTextContainer,
-  StyledGridTitle,
-  StyledListContainer,
-  StyledListHeader,
-  StyledListHeaderText,
-  StyledVenueText,
-} from './concert-list.styled'
+import { ConcertListItem } from './concert-list-item'
+import { StyledGridContainer, StyledListContainer, StyledListHeader, StyledListHeaderText } from './concert-list.styled'
 
 type ConcertListProps = {
   cityData: {
@@ -56,16 +45,14 @@ export const ConcertList = memo(({ cityData }: ConcertListProps) => {
           const posterUrl = poster?.imageUrl
           const venue = item.venues.at(0)
           return (
-            <Link key={item.id} href={`/concert-detail/${item.id}`}>
-              <StyledGridItem>
-                <StyledGridImage src={posterUrl} alt={item.title} />
-                <StyledGridTextContainer>
-                  <StyledGridTitle as="p">{item.title}</StyledGridTitle>
-                  <StyledGridDate as="p">{format(new Date(item.date), 'EEE, MMM dd')}</StyledGridDate>
-                  {venue?.venueTitle && <StyledVenueText as="p">{venue.venueTitle}</StyledVenueText>}
-                </StyledGridTextContainer>
-              </StyledGridItem>
-            </Link>
+            <ConcertListItem
+              key={item.id}
+              id={item.id}
+              posterUrl={posterUrl}
+              title={item.title}
+              date={format(new Date(item.date), 'EEE, MMM d')}
+              venueTitle={venue?.venueTitle}
+            />
           )
         })}
       </StyledGridContainer>
