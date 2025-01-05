@@ -1,4 +1,5 @@
 import { apiClient } from '@/libs/openapi-client'
+import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import { getQueryClient } from '@/libs/utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { Metadata } from 'next'
@@ -52,8 +53,8 @@ export async function generateMetadata({ params }: PageProps<{ city: string }>):
   }
 }
 
-export default async function BrowseByCityPage(props: PageProps<{ city: string }>) {
-  const validation = await validateCityParam(props.params.city)
+async function PageInner({ params }: PageProps<{ city: string }>) {
+  const validation = await validateCityParam(params.city)
 
   if (!validation.isValid) {
     return redirect('/404')
@@ -87,5 +88,13 @@ export default async function BrowseByCityPage(props: PageProps<{ city: string }
     <HydrationBoundary state={dehydrate(queryClient)}>
       <ConcertList cityData={cityData} />
     </HydrationBoundary>
+  )
+}
+
+export default async function BrowseByCityPage(props: PageProps<{ city: string }>) {
+  return (
+    <ApiErrorBoundaryRegistry>
+      <PageInner {...props} />
+    </ApiErrorBoundaryRegistry>
   )
 }

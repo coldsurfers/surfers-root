@@ -33,6 +33,7 @@ export const ConcertList = memo(({ cityData }: ConcertListProps) => {
         latitude: cityData.lat,
         longitude: cityData.lng,
       }),
+    throwOnError: true,
   })
 
   return (
