@@ -3380,7 +3380,7 @@ __metadata:
     react-native-monorepo-tools: "npm:^1.2.1"
     react-native-orientation-locker: "npm:^1.5.0"
     react-native-permissions: "npm:^4.1.5"
-    react-native-reanimated: "npm:^3.15.4"
+    react-native-reanimated: "npm:*"
     react-native-safe-area-context: "npm:^4.11.0"
     react-native-screens: "npm:^3.34.0"
     react-native-store-review: "npm:^0.4.3"
@@ -3653,6 +3653,7 @@ __metadata:
     prettier: "npm:*"
     react: "npm:*"
     react-dom: "npm:*"
+    react-native-reanimated: "npm:*"
     react-native-svg: "npm:*"
     react-spinners: "npm:*"
     release-it: "npm:*"
@@ -3666,8 +3667,11 @@ __metadata:
     "@emotion/react": "*"
     "@emotion/styled": "*"
     framer-motion: "*"
+    lucide-react-native: "*"
     react: "*"
     react-dom: "*"
+    react-native-reanimated: "*"
+    react-native-svg: "*"
     react-spinners: "*"
   languageName: unknown
   linkType: soft
@@ -32031,7 +32035,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-reanimated@npm:^3.15.4":
+"react-native-reanimated@npm:3.16.1":
   version: 3.16.1
   resolution: "react-native-reanimated@npm:3.16.1"
   dependencies:
