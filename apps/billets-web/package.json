@@ -28,6 +28,7 @@
     "openapi-react-query": "*",
     "react": "*",
     "react-dom": "*",
+    "react-error-boundary": "^5.0.0",
     "react-hook-form": "*",
     "react-notion-x": "*",
     "react-spinners": "*",

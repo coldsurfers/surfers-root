@@ -1,4 +1,9 @@
-import { OceanRoadThemeRegistry, QueryClientRegistry, RegistryProvider } from '@/libs/registries'
+import {
+  GlobalErrorBoundaryRegistry,
+  OceanRoadThemeRegistry,
+  QueryClientRegistry,
+  RegistryProvider,
+} from '@/libs/registries'
 import type { Metadata } from 'next'
 import { Noto_Sans as notoSans } from 'next/font/google'
 import { ReactNode } from 'react'
@@ -31,9 +36,11 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           }}
         />
         <RegistryProvider registries={[OceanRoadThemeRegistry]}>
-          <QueryClientRegistry>
-            <AppLayout>{children}</AppLayout>
-          </QueryClientRegistry>
+          <GlobalErrorBoundaryRegistry>
+            <QueryClientRegistry>
+              <AppLayout>{children}</AppLayout>
+            </QueryClientRegistry>
+          </GlobalErrorBoundaryRegistry>
         </RegistryProvider>
       </body>
     </html>

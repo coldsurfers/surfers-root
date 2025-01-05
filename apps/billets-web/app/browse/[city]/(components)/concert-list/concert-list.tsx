@@ -1,5 +1,6 @@
 'use client'
 
+import { OpenApiError } from '@/libs/errors'
 import { apiClient } from '@/libs/openapi-client'
 import { useQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
@@ -18,7 +19,7 @@ type ConcertListProps = {
 }
 
 export const ConcertList = memo(({ cityData }: ConcertListProps) => {
-  const { data } = useQuery({
+  const { data } = useQuery<Awaited<ReturnType<typeof apiClient.concerts.getConcerts>>, OpenApiError>({
     queryKey: apiClient.concerts.queryKeys.getConcerts({
       offset: 0,
       size: 20,
