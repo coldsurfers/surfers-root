@@ -1,4 +1,9 @@
-import { OceanRoadThemeRegistry, QueryClientRegistry, RegistryProvider } from '@/libs/registries'
+import {
+  GlobalErrorBoundaryRegistry,
+  OceanRoadThemeRegistry,
+  QueryClientRegistry,
+  RegistryProvider,
+} from '@/libs/registries'
 import type { Metadata } from 'next'
 import { Noto_Sans as notoSans } from 'next/font/google'
 import { ReactNode } from 'react'
@@ -7,7 +12,10 @@ import { AppLayout } from './(ui)'
 const notoSansFont = notoSans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: '예정된 많은 공연을 놓치지 마세요 🎉 | COLDSURF',
+  title: 'Discover live events and tickets | Browser tickets on Billets',
+  icons: {
+    icon: '/logo.png',
+  },
 }
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
@@ -28,9 +36,11 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           }}
         />
         <RegistryProvider registries={[OceanRoadThemeRegistry]}>
-          <QueryClientRegistry>
-            <AppLayout>{children}</AppLayout>
-          </QueryClientRegistry>
+          <GlobalErrorBoundaryRegistry>
+            <QueryClientRegistry>
+              <AppLayout>{children}</AppLayout>
+            </QueryClientRegistry>
+          </GlobalErrorBoundaryRegistry>
         </RegistryProvider>
       </body>
     </html>
