@@ -40,14 +40,15 @@ export async function generateMetadata({ params }: PageProps<{ ['event-id']: str
         'Billets is a platform to find live shows around the world. Download Billets to see live shows in your city.',
     }
   }
+  const { date, venues, title, artists } = validation.data
 
-  const formattedDate = format(new Date(validation.data.date), 'EEE, MMM d')
-  const venueTitle = validation.data.venues.at(0)?.venueTitle ?? ''
+  const formattedDate = format(new Date(date), 'EEE, MMM d')
+  const venueTitle = venues.at(0)?.venueTitle ?? ''
+  const artistNames = artists.map((artist) => artist.name).join('\n')
 
   return {
-    title: `${validation.data.title} Tickets | ${formattedDate} @ ${venueTitle} | Billets`,
-    description:
-      'Billets is a platform to find live shows around the world. Download Billets to see live shows in your city.',
+    title: `${title} Tickets | ${formattedDate} @ ${venueTitle} | Billets`,
+    description: `${venueTitle} presents\n\n${title} on ${formattedDate}.\n\n${artistNames}\n\nGet your tickets now!`,
   }
 }
 
