@@ -5,7 +5,6 @@ import { HEADER_HEIGHT } from 'app/(ui)'
 
 export const StyledPageLayout = styled.div`
   position: relative; /* Required for sticky */
-  height: 100vh; /* Tall parent container */
   display: flex;
   align-items: flex-start;
 
@@ -58,14 +57,9 @@ export const StyledTicketCTAContainer = styled.section`
   margin-top: 3rem;
 `
 
-export const StyledLineupContainer = styled.section`
-  border-bottom: 1px solid ${semantics.color.border[1]};
+export const StyledSectionContainer = styled.section`
+  border-bottom: 1px solid ${semantics.color.border[2]};
   margin-top: 3rem;
-  margin-bottom: 3rem;
-`
-
-export const StyledVenueContainer = styled.section`
-  border-bottom: 1px solid ${semantics.color.border[1]};
   padding-bottom: 3rem;
 `
 

@@ -1,3 +1,4 @@
+export * from './download-app'
 export * from './lineup'
 export * from './page-layout'
 export * from './poster-thumbnail'

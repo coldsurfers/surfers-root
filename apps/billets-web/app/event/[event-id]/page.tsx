@@ -1,12 +1,18 @@
 import { apiClient } from '@/libs/openapi-client'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
-import { getQueryClient } from '@/libs/utils'
+import {
+  formatPrice,
+  generateBilletsMetadata,
+  getCheapestPrice,
+  getCheapestTicketPrice,
+  getQueryClient,
+} from '@/libs/utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { PageProps } from 'types'
-import { Lineup, PageLayout, PosterThumbnail, TicketCta, TopInfo, Venue } from './(ui)'
+import { DownloadApp, Lineup, PageLayout, PosterThumbnail, TicketCta, TopInfo, Venue } from './(ui)'
 
 async function validateEventIdParam(eventId: string) {
   if (!eventId) {
@@ -40,15 +46,49 @@ export async function generateMetadata({ params }: PageProps<{ ['event-id']: str
         'Billets is a platform to find live shows around the world. Download Billets to see live shows in your city.',
     }
   }
+  const { date, venues, title, artists, tickets, posters } = validation.data
 
-  const formattedDate = format(new Date(validation.data.date), 'EEE, MMM d')
-  const venueTitle = validation.data.venues.at(0)?.venueTitle ?? ''
+  const formattedDate = format(new Date(date), 'EEE, MMM d')
+  const venueTitle = venues.at(0)?.venueTitle ?? ''
+  const artistNamesString = artists.map((artist) => artist.name).join('\n')
+  const cheapestPrice = getCheapestTicketPrice(tickets)
 
-  return {
-    title: `${validation.data.title} Tickets | ${formattedDate} @ ${venueTitle} | Billets`,
-    description:
-      'Billets is a platform to find live shows around the world. Download Billets to see live shows in your city.',
+  const metaTitle = `${title} Tickets | ${formattedDate} @ ${venueTitle} | Billets`
+  const metaDescription = `${venueTitle} presents\n\n${title} on ${formattedDate}.\n\n${artistNamesString}\n\nGet your tickets now!`
+
+  const metaOther = {
+    'product:brand': tickets.at(0)?.seller ?? '',
+    'product:availability': 'in stock',
+    'product:condition': 'new',
+    'product:price:amount': cheapestPrice?.price ?? 0,
+    'product:price:currency': cheapestPrice?.currency ?? 'USD',
   }
+  const metaKeywords = [
+    venueTitle,
+    ...artists.map((artist) => artist.name),
+    title,
+    ...tickets.map((ticket) => ticket.seller),
+  ]
+  const metaImages = posters.map((poster) => {
+    return {
+      alt: poster.imageUrl,
+      url: poster.imageUrl,
+    }
+  })
+
+  return generateBilletsMetadata({
+    title: metaTitle,
+    description: metaDescription,
+    other: metaOther,
+    keywords: metaKeywords,
+    openGraph: {
+      type: 'website',
+      title: metaTitle,
+      description: metaDescription,
+      images: metaImages,
+      url: `https://billets.coldsurf.io/event/${params['event-id']}`,
+    },
+  })
 }
 
 async function PageInner({ params }: PageProps<{ ['event-id']: string }>) {
@@ -74,17 +114,8 @@ async function PageInner({ params }: PageProps<{ ['event-id']: string }>) {
   const formattedDate = format(new Date(date), 'EEE, MMM d h:mm a')
   const ticketPromotes = tickets.map((ticket) => {
     const { prices } = ticket
-    const cheapestPrice =
-      prices.length > 0
-        ? prices.reduce((min, current) => {
-            return current.price < min.price ? current : min
-          }, prices[0])
-        : null
-    const formattedPrice = cheapestPrice
-      ? `${new Intl.NumberFormat('en-US', { style: 'currency', currency: cheapestPrice.currency }).format(
-          cheapestPrice.price,
-        )}`
-      : ''
+    const cheapestPrice = getCheapestPrice(prices)
+    const formattedPrice = cheapestPrice ? formatPrice(cheapestPrice) : ''
     return {
       seller: ticket.seller,
       sellingURL: ticket.url,
@@ -106,6 +137,7 @@ async function PageInner({ params }: PageProps<{ ['event-id']: string }>) {
         ticketCTA={<TicketCta ticketPromotes={ticketPromotes} />}
         lineup={<Lineup lineupData={artists} />}
         venue={<Venue {...venueInfo} />}
+        downloadApp={<DownloadApp />}
       />
     </HydrationBoundary>
   )
