@@ -5,7 +5,6 @@ import { HEADER_HEIGHT } from 'app/(ui)'
 
 export const StyledPageLayout = styled.div`
   position: relative; /* Required for sticky */
-  height: 100vh; /* Tall parent container */
   display: flex;
   align-items: flex-start;
 
