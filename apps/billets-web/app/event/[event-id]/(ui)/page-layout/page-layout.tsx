@@ -2,14 +2,13 @@
 
 import { ReactNode } from 'react'
 import {
-  StyledLineupContainer,
   StyledPageLayout,
   StyledPosterContainer,
   StyledRightSideContainer,
+  StyledSectionContainer,
   StyledSectionHeaderText,
   StyledTicketCTAContainer,
   StyledTopInfoContainer,
-  StyledVenueContainer,
 } from './page-layout.styled'
 
 export function PageLayout({
@@ -18,12 +17,14 @@ export function PageLayout({
   ticketCTA,
   lineup,
   venue,
+  downloadApp,
 }: {
   poster: ReactNode
   topInfo: ReactNode
   ticketCTA: ReactNode
   lineup: ReactNode
   venue: ReactNode
+  downloadApp: ReactNode
 }) {
   return (
     <StyledPageLayout>
@@ -31,14 +32,18 @@ export function PageLayout({
       <StyledRightSideContainer>
         <StyledTopInfoContainer>{topInfo}</StyledTopInfoContainer>
         <StyledTicketCTAContainer>{ticketCTA}</StyledTicketCTAContainer>
-        <StyledLineupContainer>
+        <StyledSectionContainer>
           <StyledSectionHeaderText as="h3">Lineup</StyledSectionHeaderText>
           {lineup}
-        </StyledLineupContainer>
-        <StyledVenueContainer>
+        </StyledSectionContainer>
+        <StyledSectionContainer>
           <StyledSectionHeaderText as="h3">Venue</StyledSectionHeaderText>
           {venue}
-        </StyledVenueContainer>
+        </StyledSectionContainer>
+        <StyledSectionContainer>
+          <StyledSectionHeaderText as="h3">Download the Billets app</StyledSectionHeaderText>
+          {downloadApp}
+        </StyledSectionContainer>
       </StyledRightSideContainer>
     </StyledPageLayout>
   )

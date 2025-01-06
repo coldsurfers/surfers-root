@@ -12,7 +12,7 @@ import { format } from 'date-fns'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { PageProps } from 'types'
-import { Lineup, PageLayout, PosterThumbnail, TicketCta, TopInfo, Venue } from './(ui)'
+import { DownloadApp, Lineup, PageLayout, PosterThumbnail, TicketCta, TopInfo, Venue } from './(ui)'
 
 async function validateEventIdParam(eventId: string) {
   if (!eventId) {
@@ -137,6 +137,7 @@ async function PageInner({ params }: PageProps<{ ['event-id']: string }>) {
         ticketCTA={<TicketCta ticketPromotes={ticketPromotes} />}
         lineup={<Lineup lineupData={artists} />}
         venue={<Venue {...venueInfo} />}
+        downloadApp={<DownloadApp />}
       />
     </HydrationBoundary>
   )
