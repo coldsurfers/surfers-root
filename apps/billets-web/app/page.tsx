@@ -4,7 +4,7 @@ import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
 import { RecentConcertList } from 'app/(components)'
 import { PageLayout, PageTop } from './(ui)'
 
-export const revalidate = 3600
+export const revalidate = 600
 
 export default async function Home() {
   const queryClient = getQueryClient()

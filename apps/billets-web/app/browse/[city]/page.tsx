@@ -37,6 +37,8 @@ const validateCityParam = cache(async (cityParam: string) => {
   } as const
 })
 
+export const revalidate = 600
+
 export async function generateMetadata({ params }: PageProps<{ city: string }>): Promise<Metadata> {
   const validation = await validateCityParam(params.city)
   if (!validation.isValid) {
