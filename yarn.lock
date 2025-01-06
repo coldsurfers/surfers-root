@@ -3361,7 +3361,7 @@ __metadata:
     metro-react-native-babel-preset: "npm:0.73.7"
     ngeohash: "npm:*"
     openapi-fetch: "npm:^0.12.2"
-    openapi-react-query: "npm:^0.2.8"
+    openapi-react-query: "npm:*"
     prettier: "npm:3.3.3"
     react: "npm:18.3.1"
     react-native: "npm:*"
@@ -3458,15 +3458,18 @@ __metadata:
     "@types/react-dom": "npm:*"
     date-fns: "npm:^4.1.0"
     eslint: "npm:8.57.0"
+    firebase: "npm:*"
     framer-motion: "npm:*"
     lucide-react: "npm:*"
     next: "npm:14.1.0"
     notion-client: "npm:*"
     notion-types: "npm:*"
     openapi-fetch: "npm:^0.12.2"
+    openapi-react-query: "npm:*"
     prettier: "npm:*"
     react: "npm:*"
     react-dom: "npm:*"
+    react-error-boundary: "npm:^5.0.0"
     react-hook-form: "npm:*"
     react-notion-x: "npm:*"
     react-spinners: "npm:*"
@@ -29541,15 +29544,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"openapi-react-query@npm:^0.2.8":
-  version: 0.2.8
-  resolution: "openapi-react-query@npm:0.2.8"
+"openapi-react-query@npm:0.2.9":
+  version: 0.2.9
+  resolution: "openapi-react-query@npm:0.2.9"
   dependencies:
     openapi-typescript-helpers: "npm:^0.0.15"
   peerDependencies:
     "@tanstack/react-query": ^5.25.0
-    openapi-fetch: ^0.13.3
-  checksum: 10c0/0b122e64a693422fbf037b43abc954472df73201c1d5fc36b0d7bd11a5681dc06b581f063dfd5a1e27e11ded38d73a6fb0283243031a1ec8948f730bdd285eac
+    openapi-fetch: ^0.13.4
+  checksum: 10c0/a1664240b027ba5195ed90f7fe22a50e5154d26f11b5139bed83dc67941d53d80ddd7beadc4e8dff532388b3b0dd1286f24ef419a1e91fd29cc0fd5c4697e141
   languageName: node
   linkType: hard
 
@@ -31672,6 +31675,17 @@ __metadata:
     react: ^0.14.8 || ^15.0.1 || ^16.0.0 || ^17.0.1
     react-dom: ^0.14.8 || ^15.0.1 || ^16.0.0 || ^17.0.1
   checksum: 10c0/4ead664b2e26e76af57c9ce2f2a46e79fda1d3a408afb5f34d03357d195b7f41a1a86bb9286b6d6ba76c9c2611fe56bc038665cf27fdb56f571d235ddfce9ffb
+  languageName: node
+  linkType: hard
+
+"react-error-boundary@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "react-error-boundary@npm:5.0.0"
+  dependencies:
+    "@babel/runtime": "npm:^7.12.5"
+  peerDependencies:
+    react: ">=16.13.1"
+  checksum: 10c0/38da5e7e81016a4750d3b090e3c740c2c1125c0bb9de14e1ab92ee3b5190d34517c199935302718a24aa35d3f89081412b3444edc23f63729bde2e862a2fbfec
   languageName: node
   linkType: hard
 

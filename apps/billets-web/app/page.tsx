@@ -1,18 +1,26 @@
-import { useGetBilletsConcertQueryFn } from '@/features/billets'
-import { queryKeys } from '@/libs/query-key-factory/query-key-factory'
-import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query'
+import { apiClient } from '@/libs/openapi-client'
+import { getQueryClient } from '@/libs/utils/utils.query-client'
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
 import { RecentConcertList } from 'app/(components)'
 import { PageLayout, PageTop } from './(ui)'
 
-export const revalidate = 3600
+export const revalidate = 600
 
 export default async function Home() {
-  const queryClient = new QueryClient()
+  const queryClient = getQueryClient()
 
-  await queryClient.prefetchQuery({
-    queryKey: queryKeys.billets.concerts.queryKey,
-    queryFn: useGetBilletsConcertQueryFn,
-  })
+  try {
+    await queryClient.prefetchQuery({
+      queryKey: apiClient.concerts.queryKeys.getConcerts({ offset: 0, size: 20 }),
+      queryFn: () =>
+        apiClient.concerts.getConcerts({
+          offset: 0,
+          size: 20,
+        }),
+    })
+  } catch (e) {
+    console.error(e)
+  }
 
   const dehydratedState = JSON.parse(JSON.stringify(dehydrate(queryClient)))
 
