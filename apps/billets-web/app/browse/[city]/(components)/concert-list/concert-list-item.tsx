@@ -25,7 +25,7 @@ export const ConcertListItem = memo(
     venueTitle?: string
   }) => {
     return (
-      <Link href={`/concert-detail/${id}`}>
+      <Link href={`/event/${id}`}>
         <StyledGridItem>
           <StyledGridImage src={posterUrl} alt={title} />
           <StyledGridTextContainer>
