@@ -57,14 +57,9 @@ export const StyledTicketCTAContainer = styled.section`
   margin-top: 3rem;
 `
 
-export const StyledLineupContainer = styled.section`
-  border-bottom: 1px solid ${semantics.color.border[1]};
+export const StyledSectionContainer = styled.section`
+  border-bottom: 1px solid ${semantics.color.border[2]};
   margin-top: 3rem;
-  margin-bottom: 3rem;
-`
-
-export const StyledVenueContainer = styled.section`
-  border-bottom: 1px solid ${semantics.color.border[1]};
   padding-bottom: 3rem;
 `
 

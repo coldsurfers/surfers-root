@@ -1,10 +1,7 @@
 import { Metadata } from 'next'
-import { SITE_URL } from '../constants'
+import { APP_STORE_ID, APP_STORE_URL, SITE_URL } from '../constants'
 
 export function generateBilletsMetadata(metadata: Metadata): Metadata {
-  const appStoreId = '1632802589'
-  const appStoreUrl = `https://itunes.apple.com/app/id${appStoreId}`
-
   const baseKeywords = [
     'Billets',
     'Tickets',
@@ -40,8 +37,8 @@ export function generateBilletsMetadata(metadata: Metadata): Metadata {
   const appLinks = {
     ios: {
       app_name: 'Billets',
-      app_store_id: appStoreId,
-      url: appStoreUrl,
+      app_store_id: APP_STORE_ID,
+      url: APP_STORE_URL,
     },
   }
 
@@ -54,11 +51,11 @@ export function generateBilletsMetadata(metadata: Metadata): Metadata {
     twitter: {
       app: {
         id: {
-          iphone: appStoreId,
+          iphone: APP_STORE_ID,
         },
         name: 'Billets',
         url: {
-          iphone: appStoreUrl,
+          iphone: APP_STORE_URL,
         },
       },
       card: 'app',
