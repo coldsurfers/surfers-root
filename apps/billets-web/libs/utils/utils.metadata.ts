@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import { SITE_URL } from '../constants'
 
 export function generateBilletsMetadata(metadata: Metadata): Metadata {
   const appStoreId = '1632802589'
@@ -34,7 +35,7 @@ export function generateBilletsMetadata(metadata: Metadata): Metadata {
     icon: '/logo.png',
   }
 
-  const metadataBase = new URL('https://billets.coldsurf.io')
+  const metadataBase = new URL(SITE_URL)
 
   const appLinks = {
     ios: {
