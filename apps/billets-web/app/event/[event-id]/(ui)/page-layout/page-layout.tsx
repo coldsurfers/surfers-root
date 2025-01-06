@@ -1,13 +1,30 @@
 'use client'
 
 import { ReactNode } from 'react'
-import { StyledPageLayout, StyledPosterContainer, StyledTopInfoContainer } from './page-layout.styled'
+import {
+  StyledPageLayout,
+  StyledPosterContainer,
+  StyledRightSideContainer,
+  StyledTicketCTAContainer,
+  StyledTopInfoContainer,
+} from './page-layout.styled'
 
-export function PageLayout({ poster, topInfo }: { poster: ReactNode; topInfo: ReactNode }) {
+export function PageLayout({
+  poster,
+  topInfo,
+  ticketCTA,
+}: {
+  poster: ReactNode
+  topInfo: ReactNode
+  ticketCTA: ReactNode
+}) {
   return (
     <StyledPageLayout>
       <StyledPosterContainer>{poster}</StyledPosterContainer>
-      <StyledTopInfoContainer>{topInfo}</StyledTopInfoContainer>
+      <StyledRightSideContainer>
+        <StyledTopInfoContainer>{topInfo}</StyledTopInfoContainer>
+        <StyledTicketCTAContainer>{ticketCTA}</StyledTicketCTAContainer>
+      </StyledRightSideContainer>
     </StyledPageLayout>
   )
 }

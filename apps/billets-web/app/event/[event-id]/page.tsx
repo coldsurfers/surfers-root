@@ -77,6 +77,7 @@ export async function PageInner({ params }: PageProps<{ ['event-id']: string }>)
             formattedDate={format(new Date(validation.data.date), 'EEE, MMM d h:mm a')}
           />
         }
+        ticketCTA={<></>}
       />
     </HydrationBoundary>
   )
