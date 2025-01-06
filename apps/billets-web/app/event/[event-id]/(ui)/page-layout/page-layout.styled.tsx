@@ -1,4 +1,4 @@
-import { media } from '@coldsurfers/ocean-road'
+import { media, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { HEADER_HEIGHT } from 'app/(ui)'
@@ -46,12 +46,26 @@ export const StyledRightSideContainer = styled.div`
   `)}
 `
 
-export const StyledTopInfoContainer = styled.div``
+export const StyledTopInfoContainer = styled.section``
 
-export const StyledTicketCTAContainer = styled.div`
+export const StyledTicketCTAContainer = styled.section`
   margin-top: 3rem;
 `
 
-export const StyledLineupContainer = styled.div``
+export const StyledLineupContainer = styled.section`
+  border-bottom: 1px solid ${semantics.color.border[1]};
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+`
 
-export const StyledVenueContainer = styled.div``
+export const StyledVenueContainer = styled.section``
+
+export const StyledSectionHeaderText = styled(Text)`
+  font-weight: 500;
+  font-size: 24px;
+  margin: unset;
+
+  ${media.medium(css`
+    font-size: 18px;
+  `)}
+`
