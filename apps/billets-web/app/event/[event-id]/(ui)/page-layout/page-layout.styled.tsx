@@ -48,4 +48,10 @@ export const StyledRightSideContainer = styled.div`
 
 export const StyledTopInfoContainer = styled.div``
 
-export const StyledTicketCTAContainer = styled.div``
+export const StyledTicketCTAContainer = styled.div`
+  margin-top: 3rem;
+`
+
+export const StyledLineupContainer = styled.div``
+
+export const StyledVenueContainer = styled.div``
