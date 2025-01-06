@@ -6,9 +6,7 @@ import { format } from 'date-fns'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { PageProps } from 'types'
-import { PageLayout, TopInfo } from './(ui)'
-import { PosterThumbnail } from './(ui)/poster-thumbnail'
-import { TicketCta } from './(ui)/ticket-cta'
+import { Lineup, PageLayout, PosterThumbnail, TicketCta, TopInfo } from './(ui)'
 
 async function validateEventIdParam(eventId: string) {
   if (!eventId) {
@@ -30,6 +28,8 @@ async function validateEventIdParam(eventId: string) {
     } as const
   }
 }
+
+export const revalidate = 600
 
 export async function generateMetadata({ params }: PageProps<{ ['event-id']: string }>): Promise<Metadata> {
   const validation = await validateEventIdParam(params['event-id'])
@@ -67,7 +67,7 @@ export async function PageInner({ params }: PageProps<{ ['event-id']: string }>)
     console.error(e)
   }
 
-  const { tickets, posters, title, venues, date } = validation.data
+  const { tickets, posters, title, venues, date, artists } = validation.data
   const posterUrl = posters.at(0)?.imageUrl ?? ''
   const venueTitle = venues.at(0)?.venueTitle ?? ''
   const formattedDate = format(new Date(date), 'EEE, MMM d h:mm a')
@@ -90,14 +90,13 @@ export async function PageInner({ params }: PageProps<{ ['event-id']: string }>)
       formattedLowestPrice: formattedPrice,
     }
   })
-
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <PageLayout
         poster={<PosterThumbnail src={posterUrl} alt={title} />}
         topInfo={<TopInfo title={title} venueTitle={venueTitle} formattedDate={formattedDate} />}
         ticketCTA={<TicketCta ticketPromotes={ticketPromotes} />}
-        lineup={<></>}
+        lineup={<Lineup lineupData={artists} />}
         venue={<></>}
       />
     </HydrationBoundary>

@@ -6,6 +6,7 @@ import {
   StyledPageLayout,
   StyledPosterContainer,
   StyledRightSideContainer,
+  StyledSectionHeaderText,
   StyledTicketCTAContainer,
   StyledTopInfoContainer,
   StyledVenueContainer,
@@ -30,8 +31,14 @@ export function PageLayout({
       <StyledRightSideContainer>
         <StyledTopInfoContainer>{topInfo}</StyledTopInfoContainer>
         <StyledTicketCTAContainer>{ticketCTA}</StyledTicketCTAContainer>
-        <StyledLineupContainer>{lineup}</StyledLineupContainer>
-        <StyledVenueContainer>{venue}</StyledVenueContainer>
+        <StyledLineupContainer>
+          <StyledSectionHeaderText as="h3">Lineup</StyledSectionHeaderText>
+          {lineup}
+        </StyledLineupContainer>
+        <StyledVenueContainer>
+          <StyledSectionHeaderText as="h3">Venue</StyledSectionHeaderText>
+          {venue}
+        </StyledVenueContainer>
       </StyledRightSideContainer>
     </StyledPageLayout>
   )
