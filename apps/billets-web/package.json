@@ -33,6 +33,7 @@
     "react-hook-form": "*",
     "react-notion-x": "*",
     "react-spinners": "*",
+    "schema-dts": "^1.1.2",
     "zod": "*",
     "zustand": "*"
   },
