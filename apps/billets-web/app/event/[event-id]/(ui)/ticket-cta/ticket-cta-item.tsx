@@ -24,7 +24,7 @@ export const TicketCtaItem = memo(({ seller, sellingURL, formattedLowestPrice }:
         <StyledTicketPriceText as="p">최저가 {formattedLowestPrice}</StyledTicketPriceText>
       </StyledTicketCTALeft>
       <Link href={sellingURL} target="_blank">
-        <Button theme="border">티켓 찾기</Button>
+        <Button theme="pink">티켓 찾기</Button>
       </Link>
     </StyledTicketCTAContainer>
   )

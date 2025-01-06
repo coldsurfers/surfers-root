@@ -6,7 +6,7 @@ import { format } from 'date-fns'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { PageProps } from 'types'
-import { Lineup, PageLayout, PosterThumbnail, TicketCta, TopInfo } from './(ui)'
+import { Lineup, PageLayout, PosterThumbnail, TicketCta, TopInfo, Venue } from './(ui)'
 
 async function validateEventIdParam(eventId: string) {
   if (!eventId) {
@@ -69,7 +69,8 @@ export async function PageInner({ params }: PageProps<{ ['event-id']: string }>)
 
   const { tickets, posters, title, venues, date, artists } = validation.data
   const posterUrl = posters.at(0)?.imageUrl ?? ''
-  const venueTitle = venues.at(0)?.venueTitle ?? ''
+  const mainVenue = venues.at(0)
+  const venueTitle = mainVenue?.venueTitle ?? ''
   const formattedDate = format(new Date(date), 'EEE, MMM d h:mm a')
   const ticketPromotes = tickets.map((ticket) => {
     const { prices } = ticket
@@ -90,6 +91,13 @@ export async function PageInner({ params }: PageProps<{ ['event-id']: string }>)
       formattedLowestPrice: formattedPrice,
     }
   })
+  const venueInfo = {
+    address: mainVenue?.address ?? '',
+    id: mainVenue?.id ?? '',
+    latitude: mainVenue?.latitude ?? 0,
+    longitude: mainVenue?.longitude ?? 0,
+    venueTitle: mainVenue?.venueTitle ?? '',
+  }
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <PageLayout
@@ -97,7 +105,7 @@ export async function PageInner({ params }: PageProps<{ ['event-id']: string }>)
         topInfo={<TopInfo title={title} venueTitle={venueTitle} formattedDate={formattedDate} />}
         ticketCTA={<TicketCta ticketPromotes={ticketPromotes} />}
         lineup={<Lineup lineupData={artists} />}
-        venue={<></>}
+        venue={<Venue {...venueInfo} />}
       />
     </HydrationBoundary>
   )

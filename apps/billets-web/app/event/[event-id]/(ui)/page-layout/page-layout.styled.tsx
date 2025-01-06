@@ -9,6 +9,11 @@ export const StyledPageLayout = styled.div`
   display: flex;
   align-items: flex-start;
 
+  ${media.large(css`
+    margin-left: 1rem;
+    margin-right: 1rem;
+  `)}
+
   ${media.medium(css`
     flex-direction: column;
     align-items: center;
@@ -39,6 +44,7 @@ export const StyledRightSideContainer = styled.div`
 
   ${media.large(css`
     margin-left: 62px;
+    width: 100%;
   `)}
 
   ${media.medium(css`
@@ -58,7 +64,10 @@ export const StyledLineupContainer = styled.section`
   margin-bottom: 3rem;
 `
 
-export const StyledVenueContainer = styled.section``
+export const StyledVenueContainer = styled.section`
+  border-bottom: 1px solid ${semantics.color.border[1]};
+  padding-bottom: 3rem;
+`
 
 export const StyledSectionHeaderText = styled(Text)`
   font-weight: 500;
