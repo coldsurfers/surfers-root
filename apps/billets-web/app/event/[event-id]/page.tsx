@@ -74,7 +74,7 @@ export async function PageInner({ params }: PageProps<{ ['event-id']: string }>)
           <TopInfo
             title={validation.data.title}
             venueTitle={validation.data.venues.at(0)?.venueTitle ?? ''}
-            formattedDate={format(new Date(validation.data.date), 'EEE, MMM d')}
+            formattedDate={format(new Date(validation.data.date), 'EEE, MMM d h:mm a')}
           />
         }
       />
