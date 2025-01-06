@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: PageProps<{ ['event-id']: str
   }
 }
 
-export async function PageInner({ params }: PageProps<{ ['event-id']: string }>) {
+async function PageInner({ params }: PageProps<{ ['event-id']: string }>) {
   const validation = await validateEventIdParam(params['event-id'])
   if (!validation.isValid) {
     return redirect('/404')
