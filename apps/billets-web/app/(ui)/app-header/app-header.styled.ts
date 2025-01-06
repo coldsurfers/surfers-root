@@ -5,7 +5,7 @@ import { AlignRight } from 'lucide-react'
 import Link from 'next/link'
 import { HEADER_HEIGHT } from './app-header.constants'
 
-export const HeaderContainer = styled.div<{ $animation: 'show' | 'hide' }>`
+export const HeaderContainer = styled.header<{ $animation: 'show' | 'hide' }>`
   display: flex;
   align-items: center;
   height: ${HEADER_HEIGHT};
