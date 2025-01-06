@@ -1,4 +1,4 @@
-import { Text } from '@coldsurfers/ocean-road'
+import { semantics, Text } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 
 export const StyledLineupContainer = styled.div`
@@ -16,6 +16,7 @@ export const StyledLineupImage = styled.img`
   height: 56px;
   object-fit: cover;
   object-position: 50%;
+  background-color: ${semantics.color.background[3]};
 `
 
 export const StyledLineupNameText = styled(Text)`
