@@ -8,6 +8,7 @@ import { redirect } from 'next/navigation'
 import { PageProps } from 'types'
 import { PageLayout, TopInfo } from './(ui)'
 import { PosterThumbnail } from './(ui)/poster-thumbnail'
+import { TicketCta } from './(ui)/ticket-cta'
 
 async function validateEventIdParam(eventId: string) {
   if (!eventId) {
@@ -66,18 +67,38 @@ export async function PageInner({ params }: PageProps<{ ['event-id']: string }>)
     console.error(e)
   }
 
+  const { tickets, posters, title, venues, date } = validation.data
+  const posterUrl = posters.at(0)?.imageUrl ?? ''
+  const venueTitle = venues.at(0)?.venueTitle ?? ''
+  const formattedDate = format(new Date(date), 'EEE, MMM d h:mm a')
+  const ticketPromotes = tickets.map((ticket) => {
+    const { prices } = ticket
+    const cheapestPrice =
+      prices.length > 0
+        ? prices.reduce((min, current) => {
+            return current.price < min.price ? current : min
+          }, prices[0])
+        : null
+    const formattedPrice = cheapestPrice
+      ? `${new Intl.NumberFormat('en-US', { style: 'currency', currency: cheapestPrice.currency }).format(
+          cheapestPrice.price,
+        )}`
+      : ''
+    return {
+      seller: ticket.seller,
+      sellingURL: ticket.url,
+      formattedLowestPrice: formattedPrice,
+    }
+  })
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <PageLayout
-        poster={<PosterThumbnail src={validation.data.posters.at(0)?.imageUrl ?? ''} alt={validation.data.title} />}
-        topInfo={
-          <TopInfo
-            title={validation.data.title}
-            venueTitle={validation.data.venues.at(0)?.venueTitle ?? ''}
-            formattedDate={format(new Date(validation.data.date), 'EEE, MMM d h:mm a')}
-          />
-        }
-        ticketCTA={<></>}
+        poster={<PosterThumbnail src={posterUrl} alt={title} />}
+        topInfo={<TopInfo title={title} venueTitle={venueTitle} formattedDate={formattedDate} />}
+        ticketCTA={<TicketCta ticketPromotes={ticketPromotes} />}
+        lineup={<></>}
+        venue={<></>}
       />
     </HydrationBoundary>
   )
