@@ -205,6 +205,7 @@ export class ConcertDTO {
                         id: true,
                         price: true,
                         priceCurrency: true,
+                        title: true,
                       },
                     },
                   },
@@ -262,6 +263,7 @@ export class ConcertDTO {
                 id: price.id ?? '',
                 price: price.price ?? 0,
                 currency: price.priceCurrency ?? '',
+                title: price.title ?? '',
               }
             }) ?? [],
         })) ?? [],
