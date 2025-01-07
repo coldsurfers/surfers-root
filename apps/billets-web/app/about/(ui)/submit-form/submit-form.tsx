@@ -2,10 +2,11 @@
 
 import { OpenApiError } from '@/libs/errors'
 import { apiClient } from '@/libs/openapi-client'
-import { Checkbox, Text } from '@coldsurfers/ocean-road'
+import { Checkbox, colors, Text } from '@coldsurfers/ocean-road'
 import { useMutation } from '@tanstack/react-query'
 import { memo, useCallback } from 'react'
 import { useFormStatus } from 'react-dom'
+import { useForm } from 'react-hook-form'
 import {
   StyledFormLeft,
   StyledFormOuterContainer,
@@ -26,7 +27,28 @@ const SubmitButton = ({ isPending }: { isPending?: boolean }) => {
   )
 }
 
+type FormValues = {
+  name: string
+  email: string
+  message: string
+  updateAgreement: boolean
+}
+
 export const SubmitForm = memo(() => {
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+    clearErrors,
+  } = useForm<FormValues>({
+    defaultValues: {
+      name: '',
+      email: '',
+      message: '',
+      updateAgreement: false,
+    },
+  })
   const { isPending, mutateAsync } = useMutation<
     Awaited<ReturnType<typeof apiClient.mailer.sendUserVoice>>,
     OpenApiError,
@@ -36,15 +58,17 @@ export const SubmitForm = memo(() => {
     mutationKey: apiClient.mailer.queryKeys.sendUserVoice(),
   })
   const action = useCallback(
-    async (data: FormData) => {
+    async ({ email, name, message, updateAgreement }: FormValues) => {
       await mutateAsync({
-        email: data.get('billets-voice-form-email')?.toString() ?? '',
-        name: data.get('billets-voice-form-name')?.toString() ?? '',
-        message: data.get('billets-voice-form-message')?.toString() ?? '',
-        updateAgreement: data.get('billets-voice-form-checkbox')?.toString() === 'on',
+        email,
+        name,
+        message,
+        updateAgreement,
       })
+      reset()
+      clearErrors()
     },
-    [mutateAsync],
+    [clearErrors, mutateAsync, reset],
   )
 
   return (
@@ -57,29 +81,51 @@ export const SubmitForm = memo(() => {
             promoters, artists.
           </Text>
         </StyledFormLeft>
-        <StyledFormRight action={action}>
+        <StyledFormRight onSubmit={handleSubmit(action)}>
           <StyledTextInput
-            id="billets-voice-form-name"
-            name="billets-voice-form-name"
+            id="name"
             placeholder="Name"
+            {...register('name', {
+              required: 'Name is required',
+            })}
             label="How can I call you?"
           />
+          {errors.name && (
+            <Text as="p" style={{ color: colors.oc.red[6].value }}>
+              {errors.name.message}
+            </Text>
+          )}
           <StyledTextInput
-            id="billets-voice-form-email"
+            id="email"
             placeholder="Email"
-            name="billets-voice-form-email"
+            {...register('email', {
+              required: 'Email is required',
+            })}
             label="Your email, so I can contact you back"
           />
+          {errors.email && (
+            <Text as="p" style={{ color: colors.oc.red[6].value }}>
+              {errors.email.message}
+            </Text>
+          )}
           <StyledTextArea
             label="Give us some more details"
-            id="billets-voice-form-message"
-            name="billets-voice-form-message"
+            id="message"
+            {...register('message', {
+              required: 'Message is required',
+            })}
             placeholder="Please describe your message to me. e.g. 'I am owner of a venue. And I want to work with your app'"
             noResize
           />
+          {errors.message && (
+            <Text as="p" style={{ color: colors.oc.red[6].value }}>
+              {errors.message.message}
+            </Text>
+          )}
           <Checkbox
-            name="billets-voice-form-checkbox"
+            id="updateAgreement"
             labelText="I want to receive updates from Billets"
+            {...register('updateAgreement')}
             style={{ marginTop: '1rem' }}
           />
           <SubmitButton isPending={isPending} />
