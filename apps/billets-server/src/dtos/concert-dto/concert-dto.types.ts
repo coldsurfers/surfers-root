@@ -51,6 +51,7 @@ export const concertDTOSerializedSchema = z.object({
           id: z.string(),
           price: z.number(),
           currency: z.string(),
+          title: z.string(),
         }),
       ),
     }),
