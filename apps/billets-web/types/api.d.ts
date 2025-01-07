@@ -665,6 +665,54 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/mailer/user-voice': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['SendUserVoiceBody']
+        }
+      }
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['SendEmailResponse']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponse']
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/search/': {
     parameters: {
       query?: never
@@ -1577,6 +1625,7 @@ export interface components {
           currency: string
           id: string
           price: number
+          title: string
         }[]
         seller: string
         url: string
@@ -1771,6 +1820,15 @@ export interface components {
     SendAuthCodeSuccessResponse: {
       /** Format: email */
       email: string
+    }
+    SendEmailResponse: {
+      success: boolean
+    }
+    SendUserVoiceBody: {
+      email: string
+      message: string
+      name: string
+      updateAgreement: boolean
     }
     SignInBody: {
       email: string
