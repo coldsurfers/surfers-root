@@ -59,6 +59,8 @@ import {
 import { fcmRoute, postFCMTokenBodySchema } from './routes/fcm'
 import { locationRoute } from './routes/location/location.route'
 import { getLocationConcertsQueryStringSchema } from './routes/location/location.types'
+import { mailerRoute } from './routes/mailer/mailer.route'
+import { sendEmailResponseSchema, sendUserVoiceBodySchema } from './routes/mailer/mailer.types'
 import {
   getSubscribeCommonParamsSchema,
   getSubscribedConcertListQueryStringSchema,
@@ -193,6 +195,8 @@ fastify.register(fastifySwagger, {
       LocationConcertDTOSerialized: locationConcertDTOSerializedSchema,
       LocationCityDTOSerialized: locationCityDTOSerializedSchema,
       LocationCountryDTOSerialized: locationCountryDTOSerializedSchema,
+      SendUserVoiceBody: sendUserVoiceBodySchema,
+      SendEmailResponse: sendEmailResponseSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
@@ -223,3 +227,4 @@ fastify.register(fcmRoute, { prefix: '/v1/fcm' })
 fastify.register(artistRoute, { prefix: '/v1/artist' })
 fastify.register(venueRoute, { prefix: '/v1/venue' })
 fastify.register(locationRoute, { prefix: '/v1/location' })
+fastify.register(mailerRoute, { prefix: '/v1/mailer' })
