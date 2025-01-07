@@ -1,5 +1,6 @@
 import { generateBilletsLdJson, generateBilletsMetadata } from '@/libs/utils'
 import { Metadata } from 'next'
+import { PageTop, SubmitForm } from './(ui)'
 
 export async function generateMetadata(): Promise<Metadata> {
   return generateBilletsMetadata({
@@ -10,6 +11,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function AboutPage() {
   return (
     <div>
+      <PageTop />
+      <SubmitForm />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
