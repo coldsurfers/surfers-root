@@ -32,6 +32,7 @@
     "@coldsurfers/zod-schema": "workspace:*",
     "@fastify/aws-lambda": "*",
     "@fastify/cors": "*",
+    "@fastify/rate-limit": "^10.2.1",
     "@fastify/swagger": "^9.0.0",
     "@fastify/swagger-ui": "^5.0.1",
     "@prisma/client": "*",
