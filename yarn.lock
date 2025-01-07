@@ -3403,6 +3403,7 @@ __metadata:
     "@commitlint/config-conventional": "npm:^17.4.2"
     "@fastify/aws-lambda": "npm:*"
     "@fastify/cors": "npm:*"
+    "@fastify/rate-limit": "npm:^10.2.1"
     "@fastify/swagger": "npm:^9.0.0"
     "@fastify/swagger-ui": "npm:^5.0.1"
     "@prisma/client": "npm:*"
@@ -3473,6 +3474,7 @@ __metadata:
     react-hook-form: "npm:*"
     react-notion-x: "npm:*"
     react-spinners: "npm:*"
+    schema-dts: "npm:^1.1.2"
     sst: "npm:*"
     ts-node: "npm:^10.9.2"
     typescript: "npm:*"
@@ -3650,6 +3652,7 @@ __metadata:
     "@typescript-eslint/parser": "npm:^5.53.0"
     eslint: "npm:8.57.0"
     framer-motion: "npm:*"
+    lucide-react: "npm:*"
     lucide-react-native: "npm:*"
     prettier: "npm:*"
     react: "npm:*"
@@ -3668,6 +3671,7 @@ __metadata:
     "@emotion/react": "*"
     "@emotion/styled": "*"
     framer-motion: "*"
+    lucide-react: "*"
     lucide-react-native: "*"
     react: "*"
     react-dom: "*"
@@ -5005,6 +5009,17 @@ __metadata:
   dependencies:
     fast-deep-equal: "npm:^3.1.3"
   checksum: 10c0/7979ce12724f7b98aea06f0bb9afb20dd869f0ff6fc697517135cbb54e0a36b062cbb38ec176fe43d1fc455576839240df8f33533939ace2d64a6218a6e6b9c1
+  languageName: node
+  linkType: hard
+
+"@fastify/rate-limit@npm:^10.2.1":
+  version: 10.2.1
+  resolution: "@fastify/rate-limit@npm:10.2.1"
+  dependencies:
+    "@lukeed/ms": "npm:^2.0.2"
+    fastify-plugin: "npm:^5.0.0"
+    toad-cache: "npm:^3.7.0"
+  checksum: 10c0/4d9fe9f4f99f29ee761db544dcb137fdd02ca9921d23d33d51807133c976f53d699c9980227e808c751080549384d6196eaa46466ce7e1578f450f68878164af
   languageName: node
   linkType: hard
 
@@ -33605,6 +33620,15 @@ __metadata:
   dependencies:
     loose-envify: "npm:^1.1.0"
   checksum: 10c0/26383305e249651d4c58e6705d5f8425f153211aef95f15161c151f7b8de885f24751b377e4a0b3dd42cce09aad3f87a61dab7636859c0d89b7daf1a1e2a5c78
+  languageName: node
+  linkType: hard
+
+"schema-dts@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "schema-dts@npm:1.1.2"
+  peerDependencies:
+    typescript: ">=4.1.0"
+  checksum: 10c0/bcca8719b1bb1cd71ba2b01a5126b3579e917a2f193e10fcffe020fa42fef911776ed9d2197c9f376780e703994b3ab854db3f962c47064f7282f41eff0f1d24
   languageName: node
   linkType: hard
 

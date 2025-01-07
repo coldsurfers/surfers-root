@@ -82,4 +82,18 @@ export const apiClient = {
       return response.data
     },
   },
+  mailer: {
+    queryKeys: {
+      sendUserVoice: () => ['sendUserVoice'],
+    },
+    sendUserVoice: async (body: { email: string; name: string; message: string; updateAgreement: boolean }) => {
+      const response = await baseFetchClient.POST('/v1/mailer/user-voice', {
+        body,
+      })
+      if (response.error) {
+        throw new OpenApiError(response.error)
+      }
+      return response.data
+    },
+  },
 }
