@@ -1577,6 +1577,7 @@ export interface components {
           currency: string
           id: string
           price: number
+          title: string
         }[]
         seller: string
         url: string
