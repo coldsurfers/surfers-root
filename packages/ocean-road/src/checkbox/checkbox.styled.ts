@@ -41,12 +41,12 @@ export const StyledCheckboxInput = styled.input<{ $size: 'lg' | 'md' | 'sm' }>`
   }
 `
 
-export const StyledCheckboxIcon = styled(Check)<{ $size: 'lg' | 'md' | 'sm' }>`
+export const StyledCheckboxIcon = styled(Check)<{ size: 'lg' | 'md' | 'sm' }>`
   position: absolute;
   top: 6px;
   left: 6px;
 
-  width: ${({ $size }) => `calc(${sizesStringify($size)} - 4px)`};
-  height: ${({ $size }) => `calc(${sizesStringify($size)} - 4px)`};
+  width: ${({ size }) => `calc(${sizesStringify(size)} - 4px)`};
+  height: ${({ size }) => `calc(${sizesStringify(size)} - 4px)`};
   display: none; /* Hidden by default */
 `
