@@ -1,3 +1,6 @@
-import { InputHTMLAttributes } from 'react'
+import { CSSProperties, InputHTMLAttributes } from 'react'
 
-export type TextInputProps = InputHTMLAttributes<HTMLInputElement>
+export type TextInputProps = InputHTMLAttributes<HTMLInputElement> & {
+  label?: string
+  labelStyle?: CSSProperties
+}
