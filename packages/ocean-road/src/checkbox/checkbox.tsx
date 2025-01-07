@@ -12,7 +12,7 @@ export const Checkbox = memo(
     return (
       <StyledCheckboxLabel style={style}>
         <StyledCheckboxInput ref={ref} type="checkbox" $size={size} {...otherProps} />
-        <StyledCheckboxIcon $size={size} />
+        <StyledCheckboxIcon size={size} />
         <Text as="p" style={{ margin: 'unset' }}>
           {labelText}
         </Text>
