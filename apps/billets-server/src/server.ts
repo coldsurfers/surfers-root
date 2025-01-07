@@ -34,6 +34,7 @@ import subscribeRoute from '@/routes/subscribe/subscribe.route'
 import userRoute from '@/routes/user/user.route'
 import { activateUserBodySchema, deactivateUserBodySchema, getMeResponseSchema } from '@/routes/user/user.types'
 import cors from '@fastify/cors'
+import rateLimit from '@fastify/rate-limit'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
 import dotenv from 'dotenv'
@@ -59,6 +60,8 @@ import {
 import { fcmRoute, postFCMTokenBodySchema } from './routes/fcm'
 import { locationRoute } from './routes/location/location.route'
 import { getLocationConcertsQueryStringSchema } from './routes/location/location.types'
+import { mailerRoute } from './routes/mailer/mailer.route'
+import { sendEmailResponseSchema, sendUserVoiceBodySchema } from './routes/mailer/mailer.types'
 import {
   getSubscribeCommonParamsSchema,
   getSubscribedConcertListQueryStringSchema,
@@ -90,6 +93,21 @@ fastify.register(cors, {
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   origin: ['http://localhost:3000', 'https://billets.coldsurf.io'],
+})
+
+fastify.register(rateLimit, {
+  global: false,
+  // max: 100, // Maximum number of requests
+  // timeWindow: '1 minute', // Time window in milliseconds or a human-readable format
+  // keyGenerator: (req) => req.ip, // Generate a unique key based on the request IP
+  // ban: 2, // Ban an IP if it exceeds the limit `ban` times
+  // errorResponseBuilder: (req, context) => {
+  //   return {
+  //     statusCode: 429,
+  //     error: 'Too Many Requests',
+  //     message: `You have exceeded the request limit of ${context.max} per ${context.timeWindow}`,
+  //   }
+  // },
 })
 
 fastify.setValidatorCompiler(validatorCompiler)
@@ -193,6 +211,8 @@ fastify.register(fastifySwagger, {
       LocationConcertDTOSerialized: locationConcertDTOSerializedSchema,
       LocationCityDTOSerialized: locationCityDTOSerializedSchema,
       LocationCountryDTOSerialized: locationCountryDTOSerializedSchema,
+      SendUserVoiceBody: sendUserVoiceBodySchema,
+      SendEmailResponse: sendEmailResponseSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
@@ -223,3 +243,4 @@ fastify.register(fcmRoute, { prefix: '/v1/fcm' })
 fastify.register(artistRoute, { prefix: '/v1/artist' })
 fastify.register(venueRoute, { prefix: '/v1/venue' })
 fastify.register(locationRoute, { prefix: '/v1/location' })
+fastify.register(mailerRoute, { prefix: '/v1/mailer' })
