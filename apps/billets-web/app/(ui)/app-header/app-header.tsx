@@ -3,7 +3,8 @@
 import { BILLETS_APP_URL } from '@/features'
 import { Button, IconButton, Text } from '@coldsurfers/ocean-road'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { MouseEventHandler, useEffect, useState } from 'react'
 import {
   HeaderContainer,
   HeaderLogo,
@@ -37,6 +38,7 @@ const menuItems = [
 ] as const
 
 function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const router = useRouter()
   useEffect(() => {
     const { body } = document
     if (isOpen) {
@@ -55,12 +57,19 @@ function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
         <ModalPaper onClick={(e) => e.stopPropagation()}>
           <ModalContent>
             {menuItems.map((item) => {
+              const onClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
+                onClose()
+                if (item.link === '/browse') {
+                  e.preventDefault()
+                  router.push('/browse/seoul')
+                }
+              }
               return (
                 <Link
                   key={item.link}
                   href={item.link}
                   target={item.target}
-                  onClick={onClose}
+                  onClick={onClick}
                   style={{ alignSelf: 'flex-start' }}
                 >
                   <Text as="p">{item.title}</Text>
@@ -78,6 +87,7 @@ function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
 }
 
 export function AppHeader() {
+  const router = useRouter()
   const [animation, setAnimation] = useState<'show' | 'hide'>('show')
   const [isModalOpen, setIsModalOpen] = useState(false)
   useEffect(() => {
@@ -109,8 +119,14 @@ export function AppHeader() {
         </div>
         <WebMenuContainer>
           {menuItems.map((item) => {
+            const onClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
+              if (item.link === '/browse') {
+                e.preventDefault()
+                router.push('/browse/seoul')
+              }
+            }
             return (
-              <HeaderMenuContainer key={item.link} href={item.link} target={item.target}>
+              <HeaderMenuContainer key={item.link} href={item.link} onClick={onClick} target={item.target}>
                 <HeaderMenuText as="p">{item.title}</HeaderMenuText>
               </HeaderMenuContainer>
             )
