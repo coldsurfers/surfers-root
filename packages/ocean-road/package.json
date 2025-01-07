@@ -53,6 +53,7 @@
     "@typescript-eslint/parser": "^5.53.0",
     "eslint": "8.57.0",
     "framer-motion": "*",
+    "lucide-react": "*",
     "lucide-react-native": "*",
     "prettier": "*",
     "react": "*",
@@ -71,6 +72,7 @@
     "@emotion/react": "*",
     "@emotion/styled": "*",
     "framer-motion": "*",
+    "lucide-react": "*",
     "react": "*",
     "react-dom": "*",
     "react-spinners": "*"
