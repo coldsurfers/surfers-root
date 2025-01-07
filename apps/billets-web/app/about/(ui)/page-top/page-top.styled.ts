@@ -7,6 +7,8 @@ export const StyledTopTitleText = styled(Text)`
   font-size: 64px;
   font-weight: bold;
 
+  text-align: center;
+
   ${media.large(css`
     font-size: 56px;
   `)}
@@ -24,7 +26,7 @@ export const StyledNormalText = styled(Text)`
   font-size: 22px;
   line-height: 1.4;
 
-  display: inline-block; /* Change span to inline-block */
+  display: inline-block;
   text-align: center; /* Centers text within the span */
   width: 100%; /* Set width as needed */
 
