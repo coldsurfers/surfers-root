@@ -3,7 +3,6 @@
 import { Checkbox, Text } from '@coldsurfers/ocean-road'
 import { memo } from 'react'
 import { useFormStatus } from 'react-dom'
-import { submitForm } from '../../(actions)'
 import {
   StyledFormLeft,
   StyledFormOuterContainer,
@@ -34,20 +33,35 @@ export const SubmitForm = memo(() => {
             promoters, artists.
           </Text>
         </StyledFormLeft>
-        <StyledFormRight action={submitForm}>
-          <StyledTextInput id="billets-voice-form-name" placeholder="Name" label="How can I call you?" />
+        <StyledFormRight
+          action={async (data) => {
+            //  @todo: implement api
+          }}
+        >
+          <StyledTextInput
+            id="billets-voice-form-name"
+            name="billets-voice-form-name"
+            placeholder="Name"
+            label="How can I call you?"
+          />
           <StyledTextInput
             id="billets-voice-form-email"
             placeholder="Email"
+            name="billets-voice-form-email"
             label="Your email, so I can contact you back"
           />
           <StyledTextArea
             label="Give us some more details"
             id="billets-voice-form-message"
+            name="billets-voice-form-message"
             placeholder="Please describe your message to me. e.g. 'I am owner of a venue. And I want to work with your app'"
             noResize
           />
-          <Checkbox labelText="I want to receive updates from Billets" style={{ marginTop: '1rem' }} />
+          <Checkbox
+            name="billets-voice-form-checkbox"
+            labelText="I want to receive updates from Billets"
+            style={{ marginTop: '1rem' }}
+          />
           <SubmitButton />
         </StyledFormRight>
       </StyledSubmitFormContainer>
