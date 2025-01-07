@@ -51,6 +51,10 @@ const nextConfig = {
         source: '/.well-known/assetlinks.json',
         destination: '/api/assetlinks.json',
       },
+      {
+        source: '/browse',
+        destination: '/api/browse',
+      },
     ]
   },
 }
