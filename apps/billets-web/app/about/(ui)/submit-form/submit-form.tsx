@@ -2,6 +2,8 @@
 
 import { Checkbox, Text } from '@coldsurfers/ocean-road'
 import { memo } from 'react'
+import { useFormStatus } from 'react-dom'
+import { submitForm } from '../../(actions)'
 import {
   StyledFormLeft,
   StyledFormOuterContainer,
@@ -11,6 +13,15 @@ import {
   StyledTextArea,
   StyledTextInput,
 } from './submit-form.styled'
+
+const SubmitButton = () => {
+  const { pending } = useFormStatus()
+  return (
+    <StyledSubmitButton type="submit" disabled={pending}>
+      {pending ? 'Submitting...' : 'Submit'}
+    </StyledSubmitButton>
+  )
+}
 
 export const SubmitForm = memo(() => {
   return (
@@ -23,7 +34,7 @@ export const SubmitForm = memo(() => {
             promoters, artists.
           </Text>
         </StyledFormLeft>
-        <StyledFormRight>
+        <StyledFormRight action={submitForm}>
           <StyledTextInput id="billets-voice-form-name" placeholder="Name" label="How can I call you?" />
           <StyledTextInput
             id="billets-voice-form-email"
@@ -37,7 +48,7 @@ export const SubmitForm = memo(() => {
             noResize
           />
           <Checkbox labelText="I want to receive updates from Billets" style={{ marginTop: '1rem' }} />
-          <StyledSubmitButton type="submit">Submit</StyledSubmitButton>
+          <SubmitButton />
         </StyledFormRight>
       </StyledSubmitFormContainer>
     </StyledFormOuterContainer>
