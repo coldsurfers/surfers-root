@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-server",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "license": "MIT",
   "main": "index.js",
   "scripts": {
@@ -18,8 +18,8 @@
     "prisma:studio": "yarn prisma studio --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "serverless:offline": "npx serverless offline --httpPort 3001",
-    "serverless:deploy:dev": "yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage dev",
-    "serverless:deploy:prod": "yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage prod"
+    "serverless:deploy:dev": "yarn build && yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage dev",
+    "serverless:deploy:prod": "yarn build && yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage prod"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
