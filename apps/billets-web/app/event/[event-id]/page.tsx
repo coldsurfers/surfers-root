@@ -172,7 +172,7 @@ async function PageInner({ params }: PageProps<{ ['event-id']: string }>) {
                       price: price.price,
                       url: ticket.url,
                       validFrom: new Date(ticket.openDate).toISOString(),
-                      // @todo: add price name
+                      name: price.title,
                     }
                   })
                 })
