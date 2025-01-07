@@ -1,10 +1,11 @@
 {
   "name": "@coldsurfers/billets-web",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "scripts": {
     "build": "next build",
     "build:vercel": "npx vercel build --prod",
-    "codegen": "npx openapi-typescript https://api.billets.coldsurf.io/docs/json -o types/api.d.ts --alphabetize && prettier --write src/types/api.d.ts",
+    "swagger": "npx openapi-typescript https://api.billets.coldsurf.io/docs/json -o types/api.d.ts --alphabetize && prettier --write ./types/api.d.ts",
+    "swagger:dev": "npx openapi-typescript https://dev.api.billets.coldsurf.io/docs/json -o types/api.d.ts --alphabetize && prettier --write ./types/api.d.ts",
     "create:env:ci": "yarn ts-node ./libs/createDotEnv.ts",
     "deploy": "pm2 start ecosystem.config.js",
     "deploy:vercel": "npx vercel deploy --prod --prebuilt",
@@ -33,6 +34,7 @@
     "react-hook-form": "*",
     "react-notion-x": "*",
     "react-spinners": "*",
+    "schema-dts": "^1.1.2",
     "zod": "*",
     "zustand": "*"
   },
