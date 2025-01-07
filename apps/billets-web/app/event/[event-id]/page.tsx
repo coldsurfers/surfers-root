@@ -1,7 +1,9 @@
+import { SITE_URL } from '@/libs/constants'
 import { apiClient } from '@/libs/openapi-client'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import {
   formatPrice,
+  generateBilletsLdJson,
   generateBilletsMetadata,
   getCheapestPrice,
   getCheapestTicketPrice,
@@ -129,6 +131,10 @@ async function PageInner({ params }: PageProps<{ ['event-id']: string }>) {
     longitude: mainVenue?.longitude ?? 0,
     venueTitle: mainVenue?.venueTitle ?? '',
   }
+
+  const artistNamesString = artists.map((artist) => artist.name).join('\n')
+  const metaDescription = `${venueTitle} presents\n\n${title} on ${formattedDate}.\n\n${artistNamesString}\n\nGet your tickets now!`
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <PageLayout
@@ -138,6 +144,42 @@ async function PageInner({ params }: PageProps<{ ['event-id']: string }>) {
         lineup={<Lineup lineupData={artists} />}
         venue={<Venue {...venueInfo} />}
         downloadApp={<DownloadApp />}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            generateBilletsLdJson({
+              type: 'MusicEvent',
+              description: metaDescription,
+              endDate: new Date(date).toISOString(),
+              startDate: new Date(date).toISOString(),
+              name: title,
+              url: `${SITE_URL}/event/${params['event-id']}`,
+              venue: {
+                address: mainVenue?.address ?? '',
+                latitude: mainVenue?.latitude ?? 0,
+                longitude: mainVenue?.longitude ?? 0,
+                name: mainVenue?.venueTitle ?? '',
+              },
+              images: posters.map((poster) => poster.imageUrl),
+              offers: tickets
+                .map((ticket) => {
+                  const { prices } = ticket
+                  return prices.map((price) => {
+                    return {
+                      currency: price.currency,
+                      price: price.price,
+                      url: ticket.url,
+                      validFrom: new Date(ticket.openDate).toISOString(),
+                      name: price.title,
+                    }
+                  })
+                })
+                .flat(),
+            }),
+          ),
+        }}
       />
     </HydrationBoundary>
   )

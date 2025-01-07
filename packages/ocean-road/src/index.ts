@@ -1,4 +1,5 @@
 export { Button } from './button'
+export * from './checkbox'
 export * from './contexts/ColorSchemeProvider'
 export { default as ColorSchemeProvider, useColorScheme } from './contexts/ColorSchemeProvider'
 export { default as GlobalStyle } from './GlobalStyle'
