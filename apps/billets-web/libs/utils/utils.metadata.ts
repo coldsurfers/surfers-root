@@ -30,7 +30,9 @@ export function generateBilletsMetadata(metadata: Metadata): Metadata {
   ]
 
   const icons = {
-    icon: '/logo.png',
+    icon: '/icons/favicon.ico',
+    shortcut: '/icons/favicon.ico',
+    apple: '/icons/favicon.ico',
   }
 
   const metadataBase = new URL(SITE_URL)
