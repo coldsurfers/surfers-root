@@ -113,7 +113,7 @@ async function PageInner({ params }: PageProps<{ ['event-id']: string }>) {
   const posterUrl = posters.at(0)?.imageUrl ?? ''
   const mainVenue = venues.at(0)
   const venueTitle = mainVenue?.venueTitle ?? ''
-  const formattedDate = format(new Date(date), 'EEE, MMM d h:mm a')
+  const formattedDate = format(new Date(date), 'MMM dd, hh:mm a')
   const ticketPromotes = tickets.map((ticket) => {
     const { prices } = ticket
     const cheapestPrice = getCheapestPrice(prices)
