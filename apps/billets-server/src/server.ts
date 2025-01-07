@@ -34,6 +34,7 @@ import subscribeRoute from '@/routes/subscribe/subscribe.route'
 import userRoute from '@/routes/user/user.route'
 import { activateUserBodySchema, deactivateUserBodySchema, getMeResponseSchema } from '@/routes/user/user.types'
 import cors from '@fastify/cors'
+import rateLimit from '@fastify/rate-limit'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
 import dotenv from 'dotenv'
@@ -92,6 +93,21 @@ fastify.register(cors, {
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   origin: ['http://localhost:3000', 'https://billets.coldsurf.io'],
+})
+
+fastify.register(rateLimit, {
+  global: false,
+  // max: 100, // Maximum number of requests
+  // timeWindow: '1 minute', // Time window in milliseconds or a human-readable format
+  // keyGenerator: (req) => req.ip, // Generate a unique key based on the request IP
+  // ban: 2, // Ban an IP if it exceeds the limit `ban` times
+  // errorResponseBuilder: (req, context) => {
+  //   return {
+  //     statusCode: 429,
+  //     error: 'Too Many Requests',
+  //     message: `You have exceeded the request limit of ${context.max} per ${context.timeWindow}`,
+  //   }
+  // },
 })
 
 fastify.setValidatorCompiler(validatorCompiler)
