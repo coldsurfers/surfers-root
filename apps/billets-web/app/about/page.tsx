@@ -1,3 +1,4 @@
+import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import { generateBilletsLdJson, generateBilletsMetadata } from '@/libs/utils'
 import { Metadata } from 'next'
 import { PageTop, SubmitForm } from './(ui)'
@@ -8,9 +9,9 @@ export async function generateMetadata(): Promise<Metadata> {
   })
 }
 
-export default function AboutPage() {
+function PageInner() {
   return (
-    <div>
+    <>
       <PageTop />
       <SubmitForm />
       <script
@@ -23,6 +24,14 @@ export default function AboutPage() {
           ),
         }}
       />
-    </div>
+    </>
+  )
+}
+
+export default function AboutPage() {
+  return (
+    <ApiErrorBoundaryRegistry>
+      <PageInner />
+    </ApiErrorBoundaryRegistry>
   )
 }
