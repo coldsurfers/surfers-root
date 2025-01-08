@@ -27,10 +27,14 @@ const queryClient = new QueryClient({
 const AppSystemColorSwitcher = memo(() => {
   const { colorScheme, setColorScheme } = useColorScheme()
   const systemColorScheme = rnUseColorScheme()
+  const [storageColorSchemeValue] = useColorSchemeStorage()
 
   useEffect(() => {
+    if (storageColorSchemeValue) {
+      return
+    }
     setColorScheme(systemColorScheme ?? 'light')
-  }, [setColorScheme, systemColorScheme])
+  }, [setColorScheme, storageColorSchemeValue, systemColorScheme])
 
   return <StatusBar translucent barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'} />
 })
