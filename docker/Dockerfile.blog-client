@@ -13,7 +13,6 @@ COPY yarn.lock ./yarn.lock
 COPY .yarnrc.yml ./.yarnrc.yml
 COPY ./tsconfig.base.json ./tsconfig.base.json
 COPY ./packages/cloudinary-utils ./packages/cloudinary-utils
-COPY ./packages/hotsurf ./packages/hotsurf
 COPY ./packages/ocean-road ./packages/ocean-road
 COPY ./packages/ocean-road-design-tokens ./packages/ocean-road-design-tokens
 COPY ./packages/shared-utils ./packages/shared-utils
