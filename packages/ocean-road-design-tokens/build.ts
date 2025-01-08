@@ -68,6 +68,48 @@ StyleDictionary.registerFormat({
   },
 })
 
+StyleDictionary.registerFormat({
+  name: 'semanticColorThemeVariables',
+  formatter: (args) => {
+    const { dictionary } = args
+
+    const lightColors = JSON.stringify(
+      dictionary.tokens,
+      (key, value) => {
+        if (value && value.value) {
+          return value.value
+        }
+        return value
+      },
+      2, // Indentation for pretty-printing
+    )
+
+    const darkColors = JSON.stringify(
+      dictionary.tokens,
+      (key, value) => {
+        if (value && value.darkValue) {
+          // console.log(value.value, value.darkValue, value.path)
+          return value.darkValue
+        }
+        return value
+      },
+      2, // Indentation for pretty-printing
+    )
+
+    const tokens = JSON.stringify(
+      {
+        light: JSON.parse(lightColors),
+        dark: JSON.parse(darkColors),
+      },
+      null,
+      2,
+    )
+
+    // Wrap in JavaScript module syntax
+    return `const variables = ${tokens} as const;\n\nexport default variables`
+  },
+})
+
 StyleDictionary.registerFilter({
   name: 'ocColorFilter',
   matcher(token) {
