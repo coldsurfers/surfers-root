@@ -18,7 +18,7 @@ interface Props {
   style?: StyleProp<ViewStyle>
 }
 
-export const Spinner = ({ positionCenter = true, size = 'large', color, style }: Props) => {
+export const Spinner = ({ positionCenter = false, size = 'large', color, style }: Props) => {
   const rotation = useSharedValue(0) // Shared value for rotation
 
   // Animated style for rotation

@@ -1,6 +1,6 @@
 import { HorizontalConcertItem } from '@/features/concert/ui'
 import { colors } from '@coldsurfers/ocean-road'
-import { Text } from '@coldsurfers/ocean-road/native'
+import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { match } from 'ts-pattern'
 import palettes from '../../../../lib/palettes'
@@ -8,15 +8,16 @@ import { SearchItemThumbnail } from '../search-item-thumbnail'
 import { SearchItemProps } from './search-item.types'
 
 export function SearchItem({ type, thumbnail, title, subtitle, description, onPress }: SearchItemProps) {
+  const { semantics } = useColorScheme()
   return match(type)
     .with('artist', () => (
       <TouchableOpacity onPress={onPress} style={styles.itemWrapper}>
         {thumbnail}
         <View style={styles.itemInnerRight}>
-          <Text weight="bold" style={styles.itemTitle}>
+          <Text weight="bold" style={[styles.itemTitle, { color: semantics.foreground[1] }]}>
             {title}
           </Text>
-          <Text weight="medium" style={styles.itemSubtitle}>
+          <Text weight="medium" style={[styles.itemSubtitle, { color: semantics.foreground[2] }]}>
             {subtitle}
           </Text>
         </View>
@@ -27,10 +28,10 @@ export function SearchItem({ type, thumbnail, title, subtitle, description, onPr
         <TouchableOpacity onPress={onPress} style={styles.itemWrapper}>
           {thumbnail}
           <View style={styles.itemInnerRight}>
-            <Text weight="bold" style={styles.itemTitle}>
+            <Text weight="bold" style={[styles.itemTitle, { color: semantics.foreground[1] }]}>
               {title}
             </Text>
-            <Text weight="medium" style={styles.itemSubtitle}>
+            <Text weight="medium" style={[styles.itemSubtitle, { color: semantics.foreground[2] }]}>
               {subtitle}
             </Text>
           </View>

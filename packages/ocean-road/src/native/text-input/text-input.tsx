@@ -19,10 +19,10 @@ const _TextInput = forwardRef<RNTextInput, TextInputProps>((props, ref) => {
       onBlur={onBlur}
       {...props}
       style={[
-        props.style,
         styles.textInput,
         focused && styles.focused,
         typeof props.editable === 'boolean' && !props.editable && styles.disabled,
+        props.style,
       ]}
     />
   )

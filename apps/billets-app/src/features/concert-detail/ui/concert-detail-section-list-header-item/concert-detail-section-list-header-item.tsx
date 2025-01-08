@@ -1,5 +1,5 @@
 import { colors } from '@coldsurfers/ocean-road'
-import { Text } from '@coldsurfers/ocean-road/native'
+import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
@@ -8,9 +8,10 @@ interface Props {
 }
 
 export const ConcertDetailSectionListHeaderItem = ({ title }: Props) => {
+  const { semantics } = useColorScheme()
   return (
-    <View style={styles.wrapper}>
-      <Text style={styles.title}>{title}</Text>
+    <View style={[styles.wrapper, { backgroundColor: semantics.background[3] }]}>
+      <Text style={[styles.title, { color: semantics.foreground[1] }]}>{title}</Text>
     </View>
   )
 }

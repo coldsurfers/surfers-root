@@ -1,8 +1,7 @@
 import { useKeyboard } from '@/lib'
 import useConcertListQuery from '@/lib/react-query/queries/useConcertListQuery'
 import { useSearchScreenNavigation } from '@/screens/search-screen/search-screen.hooks'
-import { colors } from '@coldsurfers/ocean-road'
-import { Text } from '@coldsurfers/ocean-road/native'
+import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { BottomSheetFlatList } from '@gorhom/bottom-sheet'
 import { useFocusEffect } from '@react-navigation/native'
 import format from 'date-fns/format'
@@ -12,6 +11,7 @@ import { SearchItem } from '../search-item'
 import { SearchItemThumbnail } from '../search-item-thumbnail'
 
 export const SearchDefaultBottomResultList = ({ latitude, longitude }: { latitude: number; longitude: number }) => {
+  const { semantics } = useColorScheme()
   const { bottomPadding } = useKeyboard()
   const navigation = useSearchScreenNavigation()
   const { data: concertList } = useConcertListQuery(
@@ -57,11 +57,14 @@ export const SearchDefaultBottomResultList = ({ latitude, longitude }: { latitud
       bounces={false}
       focusHook={useFocusEffect}
       ListHeaderComponent={
-        <Text weight="bold" style={styles.listHeaderText}>
+        <Text weight="bold" style={[styles.listHeaderText, { color: semantics.foreground[1] }]}>
           현재 지역의 공연
         </Text>
       }
-      contentContainerStyle={[styles.contentContainer, { paddingBottom: bottomPadding }]}
+      contentContainerStyle={[
+        styles.contentContainer,
+        { paddingBottom: bottomPadding, backgroundColor: semantics.background[4] },
+      ]}
       keyExtractor={(item) => item.id}
       renderItem={renderConcertListItem}
       showsVerticalScrollIndicator={false}
@@ -74,7 +77,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingTop: 12,
     paddingHorizontal: 14,
-    backgroundColor: colors.oc.gray[1].value,
+    // backgroundColor: colors.oc.gray[1].value,
   },
   listHeaderText: {
     fontSize: 14,
