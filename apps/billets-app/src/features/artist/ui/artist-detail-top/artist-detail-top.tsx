@@ -2,7 +2,7 @@ import { ArtistSubscribeButton } from '@/features/subscribe'
 import { useArtistDetailQuery } from '@/lib/react-query'
 import { useArtistDetailScreenNavigation } from '@/screens/artist-detail-screen/artist-detail-screen.hooks'
 import { colors } from '@coldsurfers/ocean-road'
-import { ProfileThumbnail, Text } from '@coldsurfers/ocean-road/native'
+import { ProfileThumbnail, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { useMemo } from 'react'
 import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native'
 
@@ -13,6 +13,7 @@ export const ArtistDetailTop = ({
   artistId: string
   onPressArtistProfile?: () => void
 }) => {
+  const { semantics } = useColorScheme()
   const navigation = useArtistDetailScreenNavigation()
   const { data: artistDetail, isLoading: isLoadingArtistDetail } = useArtistDetailQuery({
     id: artistId,
@@ -36,10 +37,10 @@ export const ArtistDetailTop = ({
                 style={styles.thumbnail}
               />
             </Pressable>
-            <Text weight="medium" style={styles.topTitle}>
+            <Text weight="medium" style={[styles.topTitle, { color: semantics.foreground[1] }]}>
               {artistDetailUIData?.name ?? ''}
             </Text>
-            <Text weight="regular" style={styles.subTitle}>
+            <Text weight="regular" style={[styles.subTitle, { color: semantics.foreground[2] }]}>
               아티스트
             </Text>
             <ArtistSubscribeButton
@@ -55,7 +56,7 @@ export const ArtistDetailTop = ({
           </View>
         )}
       </View>
-      <Text weight="medium" style={styles.subText}>
+      <Text weight="medium" style={[styles.subText, { color: semantics.foreground[1] }]}>
         콘서트 리스트
       </Text>
     </View>

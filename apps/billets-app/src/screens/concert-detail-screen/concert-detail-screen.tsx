@@ -16,7 +16,7 @@ import {
 } from '@/lib/storage'
 import { NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
-import { Button, Spinner } from '@coldsurfers/ocean-road/native'
+import { Button, Spinner, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import React, { Suspense, useCallback, useMemo, useRef } from 'react'
 import { Dimensions, Platform, StatusBar, StyleSheet, View } from 'react-native'
@@ -24,6 +24,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useConcertDetailScreenNavigation, useConcertDetailScreenRoute } from './concert-detail-screen.hooks'
 
 const _ConcertDetailScreen = () => {
+  const { semantics } = useColorScheme()
   const { bottom: bottomInset } = useSafeAreaInsets()
   const navigation = useConcertDetailScreenNavigation()
   const { params } = useConcertDetailScreenRoute()
@@ -218,9 +219,9 @@ const _ConcertDetailScreen = () => {
   }, [loaded, navigation, params.concertId, show])
 
   return (
-    <View style={{ flex: 1, marginTop: -NAVIGATION_HEADER_HEIGHT }}>
+    <View style={{ flex: 1, marginTop: -NAVIGATION_HEADER_HEIGHT, backgroundColor: semantics.background[3] }}>
       <StatusBar hidden={Platform.OS === 'ios'} />
-      <View style={styles.wrapper}>
+      <View style={[styles.wrapper, { backgroundColor: semantics.background[3] }]}>
         {isLoadingConcert ? (
           <Spinner />
         ) : (
@@ -231,7 +232,7 @@ const _ConcertDetailScreen = () => {
               isSubscribed={!!subscribedConcert}
               onPressSubscribe={onPressSubscribe}
             />
-            <View style={[styles.fixedBottom]}>
+            <View style={[styles.fixedBottom, { backgroundColor: semantics.background[2] }]}>
               <Button onPress={onPressTicketBtn} style={[styles.ticketBtn, { marginBottom: bottomInset }]}>
                 🎫 티켓 찾기 🎫
               </Button>
@@ -260,8 +261,17 @@ const _ConcertDetailScreen = () => {
 }
 
 export const ConcertDetailScreen = () => {
+  const { semantics } = useColorScheme()
   return (
-    <Suspense fallback={<Spinner positionCenter />}>
+    <Suspense
+      fallback={
+        <View
+          style={{ flex: 1, backgroundColor: semantics.background[3], alignItems: 'center', justifyContent: 'center' }}
+        >
+          <Spinner />
+        </View>
+      }
+    >
       <_ConcertDetailScreen />
     </Suspense>
   )
