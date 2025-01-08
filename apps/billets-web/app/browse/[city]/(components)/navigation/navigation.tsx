@@ -2,9 +2,19 @@
 
 import { apiClient } from '@/libs/openapi-client'
 import { useQuery } from '@tanstack/react-query'
-import { useCallback, useRef, useState } from 'react'
+import Link from 'next/link'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { NavigationCityDropdown } from './navigation-city-dropdown'
-import { MapPinIcon, NavBtnText, NavButton, NavContainer } from './navigation.styled'
+import {
+  DropdownItem,
+  DropdownItemSectionHeader,
+  DropdownItemSectionHeaderTitle,
+  DropdownItemText,
+  MapPinIcon,
+  NavBtnText,
+  NavButton,
+  NavContainer,
+} from './navigation.styled'
 
 export const Navigation = ({ initialCity }: { initialCity: string }) => {
   const cityDropdownBtnRef = useRef<HTMLButtonElement | null>(null)
@@ -20,7 +30,26 @@ export const Navigation = ({ initialCity }: { initialCity: string }) => {
     queryKey: apiClient.location.queryKeys.getCountries(),
     queryFn: apiClient.location.getCountries,
   })
-  console.log(data)
+
+  const dropdownData = useMemo<
+    {
+      country: string
+      cities: {
+        name: string
+        lat: number
+        lng: number
+      }[]
+    }[]
+  >(() => {
+    return (
+      data?.map((value) => {
+        return {
+          country: value.name,
+          cities: value.cities,
+        }
+      }) ?? []
+    )
+  }, [data])
 
   // Handle dropdown open
   const openDropdown = useCallback(() => {
@@ -34,6 +63,33 @@ export const Navigation = ({ initialCity }: { initialCity: string }) => {
     setIsDropdownOpen(true)
   }, [])
 
+  const renderItem = useCallback(
+    (item: (typeof dropdownData)[number]) => {
+      return (
+        <>
+          <DropdownItemSectionHeader>
+            <DropdownItemSectionHeaderTitle as="p">{item.country.toUpperCase()}</DropdownItemSectionHeaderTitle>
+          </DropdownItemSectionHeader>
+          <>
+            {item.cities.map((city, index) => {
+              return (
+                <Link href={`/browse/${city.name}`} key={city.name}>
+                  <DropdownItem $isLast={index === item.cities.length - 1}>
+                    <DropdownItemText as="p" $isSelected={city.name === initialCity}>
+                      {city.name[0].toUpperCase()}
+                      {city.name.slice(1, city.name.length)}
+                    </DropdownItemText>
+                  </DropdownItem>
+                </Link>
+              )
+            })}
+          </>
+        </>
+      )
+    },
+    [initialCity],
+  )
+
   return (
     <>
       <NavContainer>
@@ -46,6 +102,13 @@ export const Navigation = ({ initialCity }: { initialCity: string }) => {
         isOpen={isDropdownOpen}
         onClose={() => setIsDropdownOpen(false)}
         position={dropdownPosition}
+        data={dropdownData}
+        keyExtractor={(value) => `${value.country}`}
+        style={{
+          width: '250px',
+          borderRadius: '8px',
+        }}
+        renderItem={renderItem}
       />
     </>
   )
