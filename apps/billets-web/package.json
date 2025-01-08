@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-web",
-  "version": "1.0.25",
+  "version": "1.0.27",
   "scripts": {
     "build": "next build",
     "build:vercel": "npx vercel build --prod",
@@ -21,6 +21,7 @@
     "@lukemorales/query-key-factory": "*",
     "@tanstack/react-query": "*",
     "date-fns": "^4.1.0",
+    "date-fns-tz": "^3.2.0",
     "firebase": "*",
     "framer-motion": "*",
     "lucide-react": "*",

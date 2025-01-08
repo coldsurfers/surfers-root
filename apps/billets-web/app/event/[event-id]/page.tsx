@@ -1,4 +1,4 @@
-import { SITE_URL } from '@/libs/constants'
+import { GLOBAL_TIME_ZONE, SITE_URL } from '@/libs/constants'
 import { apiClient } from '@/libs/openapi-client'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import {
@@ -11,6 +11,7 @@ import {
 } from '@/libs/utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { format } from 'date-fns'
+import { toZonedTime } from 'date-fns-tz'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { PageProps } from 'types'
@@ -50,7 +51,8 @@ export async function generateMetadata({ params }: PageProps<{ ['event-id']: str
   }
   const { date, venues, title, artists, tickets, posters } = validation.data
 
-  const formattedDate = format(new Date(date), 'EEE, MMM d')
+  const zonedDate = toZonedTime(new Date(date), GLOBAL_TIME_ZONE)
+  const formattedDate = format(zonedDate, 'EEE, MMM d')
   const venueTitle = venues.at(0)?.venueTitle ?? ''
   const artistNamesString = artists.map((artist) => artist.name).join('\n')
   const cheapestPrice = getCheapestTicketPrice(tickets)
@@ -113,7 +115,10 @@ async function PageInner({ params }: PageProps<{ ['event-id']: string }>) {
   const posterUrl = posters.at(0)?.imageUrl ?? ''
   const mainVenue = venues.at(0)
   const venueTitle = mainVenue?.venueTitle ?? ''
-  const formattedDate = format(new Date(date), 'MMM dd, hh:mm a')
+
+  const zonedDate = toZonedTime(new Date(date), GLOBAL_TIME_ZONE)
+
+  const formattedDate = format(zonedDate, 'MMM dd, hh:mm a')
   const ticketPromotes = tickets.map((ticket) => {
     const { prices } = ticket
     const cheapestPrice = getCheapestPrice(prices)

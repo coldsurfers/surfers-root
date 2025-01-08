@@ -1,6 +1,6 @@
 'use client'
 
-import { BILLETS_APP_URL } from '@/features'
+import { APP_STORE_URL } from '@/libs/constants'
 import { Button, IconButton, Text } from '@coldsurfers/ocean-road'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -76,7 +76,7 @@ function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
                 </Link>
               )
             })}
-            <Link href={BILLETS_APP_URL} onClick={onClose} style={{ margin: '0 auto' }}>
+            <Link href={APP_STORE_URL} onClick={onClose} style={{ margin: '0 auto' }}>
               <Button theme="border">GET THE APP</Button>
             </Link>
           </ModalContent>
@@ -131,7 +131,7 @@ export function AppHeader() {
               </HeaderMenuContainer>
             )
           })}
-          <Link href={BILLETS_APP_URL}>
+          <Link href={APP_STORE_URL}>
             <Button theme="border">GET THE APP</Button>
           </Link>
         </WebMenuContainer>

@@ -1,3 +1,4 @@
+import { GLOBAL_Z_INDEX } from '@/libs/constants'
 import { media, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
@@ -12,7 +13,7 @@ export const HeaderContainer = styled.header<{ $animation: 'show' | 'hide' }>`
   padding: 0 40px;
 
   background-color: ${semantics.color.background[2]};
-  z-index: 99;
+  z-index: ${GLOBAL_Z_INDEX.APP_HEADER};
 
   position: fixed;
   top: 0;
@@ -87,7 +88,7 @@ export const ModalContainer = styled.div<{ $isOpen: boolean }>`
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(0.5px);
   display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
-  z-index: 1000;
+  z-index: ${GLOBAL_Z_INDEX.MOBILE_MENU_MODAL};
 `
 
 export const ModalPaper = styled.div`
