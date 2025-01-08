@@ -1,7 +1,7 @@
 import { useBottomTab, zodNavigation } from '@/lib'
 import { useUIStore } from '@/lib/stores/ui-store'
 import { colors } from '@coldsurfers/ocean-road'
-import { Text } from '@coldsurfers/ocean-road/native'
+import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { House, Search, Smile } from 'lucide-react-native'
 import React, { memo, useEffect } from 'react'
@@ -16,6 +16,7 @@ interface Props extends BottomTabBarProps {
 }
 
 export const TabBar = memo((props: Props) => {
+  const { semantics, colorScheme } = useColorScheme()
   const { navigation, state, descriptors } = props
   const { tabBarHeight } = useBottomTab()
   const bottomTabBarTranslateY = useSharedValue(0)
@@ -44,6 +45,9 @@ export const TabBar = memo((props: Props) => {
     <Animated.View
       style={[
         styles.tabBar,
+        {
+          backgroundColor: colorScheme === 'light' ? semantics.foreground[1] : semantics.background[2],
+        },
         styles.shadowBox,
         animatedStyle,
         {
@@ -112,7 +116,13 @@ export const TabBar = memo((props: Props) => {
             style={styles.tabBarButton}
           >
             {renderIcon()}
-            <Text style={[styles.tabBarTitle, isFocused && styles.tabBarTitleFocused]}>
+            <Text
+              style={[
+                styles.tabBarTitle,
+                { color: colorScheme === 'light' ? semantics.background[2] : semantics.foreground[1] },
+                isFocused && styles.tabBarTitleFocused,
+              ]}
+            >
               {typeof label === 'string' && label}
             </Text>
           </TouchableOpacity>

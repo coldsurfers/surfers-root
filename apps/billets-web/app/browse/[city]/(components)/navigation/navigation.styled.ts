@@ -7,7 +7,6 @@ import { MapPin } from 'lucide-react'
 
 export const NavContainer = styled.nav`
   display: flex;
-  z-index: ${GLOBAL_Z_INDEX.APP_HEADER + 2};
 
   ${media.large(css`
     margin-left: 2rem;
@@ -25,7 +24,6 @@ export const NavButton = styled(Button)`
   border: none;
   border-radius: 8px;
   background-color: ${semantics.color.background[4]};
-  z-index: ${GLOBAL_Z_INDEX.APP_HEADER + 2};
 
   padding: 1rem;
 `
