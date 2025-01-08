@@ -1,6 +1,5 @@
 import { ConcertSubscribeButton } from '@/features/subscribe'
-import { colors } from '@coldsurfers/ocean-road'
-import { Text } from '@coldsurfers/ocean-road/native'
+import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { useCallback } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
@@ -30,6 +29,7 @@ export const ConcertListItem = ({
   onPressSubscribe?: (params: { isSubscribed: boolean; concertId: string }) => void
   size?: 'small' | 'large'
 }) => {
+  const { semantics } = useColorScheme()
   const { data: subscribedConcertData } = useSubscribedConcertQuery({
     concertId,
   })
@@ -44,10 +44,25 @@ export const ConcertListItem = ({
   }, [onPressSubscribe, subscribedConcertData, concertId])
 
   return (
-    <Pressable onPress={handlePress} style={[styles.concertListItem, getConcertListItemWrapperDynamicStyles(size)]}>
+    <Pressable
+      onPress={handlePress}
+      style={[
+        styles.concertListItem,
+        {
+          borderColor: semantics.border[1],
+        },
+        getConcertListItemWrapperDynamicStyles(size),
+      ]}
+    >
       <FastImage
         source={{ uri: thumbnailUrl }}
-        style={[styles.concertThumbnail, getConcertListThumbnailWrapperDynamicStyles(size)]}
+        style={[
+          styles.concertThumbnail,
+          {
+            backgroundColor: semantics.background[1],
+          },
+          getConcertListThumbnailWrapperDynamicStyles(size),
+        ]}
       >
         {onPressSubscribe && (
           <View style={styles.subscribeBtnWrapper}>
@@ -62,6 +77,9 @@ export const ConcertListItem = ({
             style={[
               styles.concertTitle,
               {
+                color: semantics.foreground[1],
+              },
+              {
                 fontSize: size === 'small' ? 14 : 20,
               },
             ]}
@@ -73,6 +91,7 @@ export const ConcertListItem = ({
               style={[
                 styles.concertFormattedDate,
                 {
+                  color: semantics.foreground[4],
                   fontSize: size === 'small' ? 12 : 14,
                   marginTop: size === 'small' ? 4 : 8,
                 },
@@ -85,6 +104,7 @@ export const ConcertListItem = ({
                 style={[
                   styles.concertVenue,
                   {
+                    color: semantics.foreground[3],
                     fontSize: size === 'small' ? 12 : 14,
                   },
                 ]}
@@ -100,20 +120,37 @@ export const ConcertListItem = ({
 }
 
 ConcertListItem.Skeleton = ({ size = 'large' }: { size?: 'small' | 'large' }) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { semantics } = useColorScheme()
   return (
     <Pressable style={[styles.concertListItem, getConcertListItemWrapperDynamicStyles(size)]}>
       <View
-        style={[styles.concertThumbnail, getConcertListThumbnailWrapperDynamicStyles(size), styles.skeletonBackground]}
+        style={[
+          styles.concertThumbnail,
+          getConcertListThumbnailWrapperDynamicStyles(size),
+          styles.skeletonBackground,
+          {
+            backgroundColor: semantics.background[1],
+          },
+        ]}
       />
       <View style={[styles.bottom, getConcertListBottomWrapperDynamicStyles(size)]}>
         <View style={{ width: '100%' }}>
-          <View style={styles.skeletonTitle} />
+          <View
+            style={[
+              styles.skeletonTitle,
+              {
+                backgroundColor: semantics.background[1],
+              },
+            ]}
+          />
           {size === 'small' && <View style={styles.skeletonTitle} />}
           <View
             style={[
               styles.skeletonSubtitle,
               {
                 marginTop: size === 'small' ? 4 : 8,
+                backgroundColor: semantics.background[1],
               },
             ]}
           />
@@ -130,21 +167,17 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderRadius: 8,
     borderWidth: 1.5,
-    borderColor: colors.oc.cyan[8].value,
   },
   concertThumbnail: {
     width: '100%',
     aspectRatio: 1 / 1,
-    backgroundColor: colors.oc.white.value,
     borderRadius: 8,
   },
-  concertTitle: { fontWeight: 'bold', color: colors.oc.black.value },
+  concertTitle: { fontWeight: 'bold' },
   concertFormattedDate: {
     fontSize: 14,
-    color: colors.oc.cyan['9'].value,
   },
   concertVenue: {
-    color: colors.oc.gray[7].value,
     fontSize: 14,
   },
   concertListContentContainer: {
@@ -159,18 +192,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   subscribeBtnWrapper: { position: 'absolute', right: 12, bottom: 12 },
-  skeletonBackground: {
-    backgroundColor: colors.oc.gray[3].value,
-  },
+  skeletonBackground: {},
   skeletonTitle: {
     width: '80%',
-    backgroundColor: colors.oc.gray[3].value,
     height: 24,
     borderRadius: 8,
   },
   skeletonSubtitle: {
     width: '20%',
-    backgroundColor: colors.oc.gray[3].value,
     height: 24,
     borderRadius: 8,
   },
