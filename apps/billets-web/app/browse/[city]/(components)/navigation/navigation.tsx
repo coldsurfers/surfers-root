@@ -1,5 +1,6 @@
 'use client'
 
+import { GLOBAL_Z_INDEX } from '@/libs/constants'
 import { apiClient } from '@/libs/openapi-client'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
@@ -93,7 +94,13 @@ export const Navigation = ({ initialCity }: { initialCity: string }) => {
   return (
     <>
       <NavContainer>
-        <NavButton ref={cityDropdownBtnRef} onClick={openDropdown}>
+        <NavButton
+          ref={cityDropdownBtnRef}
+          onClick={openDropdown}
+          style={{
+            zIndex: isDropdownOpen ? GLOBAL_Z_INDEX.APP_HEADER + 2 : 'unset',
+          }}
+        >
           <MapPinIcon />
           <NavBtnText>{initialCity.toUpperCase()}</NavBtnText>
         </NavButton>
