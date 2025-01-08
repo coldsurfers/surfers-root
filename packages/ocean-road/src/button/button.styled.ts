@@ -24,6 +24,10 @@ export const StyledButton = styled.button<{
   align-items: center;
   justify-content: center;
 
+  &:hover {
+    opacity: 0.75;
+  }
+
   &:active {
     opacity: 0.5;
   }

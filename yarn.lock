@@ -3460,6 +3460,7 @@ __metadata:
     "@types/react": "npm:*"
     "@types/react-dom": "npm:*"
     date-fns: "npm:^4.1.0"
+    date-fns-tz: "npm:^3.2.0"
     eslint: "npm:8.57.0"
     firebase: "npm:*"
     framer-motion: "npm:*"
@@ -18580,6 +18581,15 @@ __metadata:
   version: 2.2.2
   resolution: "dataloader@npm:2.2.2"
   checksum: 10c0/125ec69f821478cf7c6b4360095db6cab939fe57876a0d2060c428091a8deee7152345189923b71a6afa694aaec463779f34b585317164016fd6f54f52cd94ba
+  languageName: node
+  linkType: hard
+
+"date-fns-tz@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "date-fns-tz@npm:3.2.0"
+  peerDependencies:
+    date-fns: ^3.0.0 || ^4.0.0
+  checksum: 10c0/3f43300a4335d59f3515dc5196c66b4b56ef2af129eb82e4445ce0983e8ef31a5d038bc0406d669946bbbcf52ed953527527aa28b4a810995d6631a54655abcc
   languageName: node
   linkType: hard
 
