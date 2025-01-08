@@ -29,7 +29,7 @@ export const ConcertList = memo(({ cityData }: ConcertListProps) => {
     queryFn: () =>
       apiClient.concerts.getConcerts({
         offset: 0,
-        size: 20,
+        size: 100,
         latitude: cityData.lat,
         longitude: cityData.lng,
       }),
