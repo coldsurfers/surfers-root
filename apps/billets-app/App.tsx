@@ -1,7 +1,7 @@
 import { AuthContextProvider, useFirebaseAnalytics, useFirebaseCrashlytics } from '@/lib'
 import { CommonScreenLayout } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
-import { Spinner, Text } from '@coldsurfers/ocean-road/native'
+import { ColorSchemeProvider, Spinner, Text } from '@coldsurfers/ocean-road/native'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React, { PropsWithChildren, Suspense, useEffect, useState } from 'react'
 import { Platform, StatusBar, View } from 'react-native'
@@ -113,15 +113,17 @@ const App = () => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar translucent barStyle="dark-content" />
-      <QueryClientProvider client={queryClient}>
-        <Suspense fallback={<Spinner positionCenter />}>
-          <AuthContextProvider>
-            <BootSplashAwaiter>
-              <AppContainer />
-            </BootSplashAwaiter>
-          </AuthContextProvider>
-        </Suspense>
-      </QueryClientProvider>
+      <ColorSchemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <Suspense fallback={<Spinner positionCenter />}>
+            <AuthContextProvider>
+              <BootSplashAwaiter>
+                <AppContainer />
+              </BootSplashAwaiter>
+            </AuthContextProvider>
+          </Suspense>
+        </QueryClientProvider>
+      </ColorSchemeProvider>
     </GestureHandlerRootView>
   )
 }

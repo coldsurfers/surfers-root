@@ -1,5 +1,4 @@
-import { colors } from '@coldsurfers/ocean-road'
-import { IconButton, Text } from '@coldsurfers/ocean-road/native'
+import { IconButton, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 import { MoveLeft } from 'lucide-react-native'
 import { ReactNode, useMemo } from 'react'
@@ -13,6 +12,7 @@ export const NavigationHeader = (
     absolutePosition?: boolean
   },
 ) => {
+  const { semantics } = useColorScheme()
   const hideBackButton = useMemo(() => {
     return props.options.headerBackVisible === false
   }, [props.options.headerBackVisible])
@@ -32,7 +32,7 @@ export const NavigationHeader = (
         styles.safeAreaView,
         {
           height: props.searchBarComponent ? 'auto' : NAVIGATION_HEADER_HEIGHT,
-          backgroundColor: props.options.headerTransparent ? 'transparent' : colors.oc.gray[1].value,
+          backgroundColor: props.options.headerTransparent ? 'transparent' : semantics.background[3],
         },
         props.absolutePosition && styles.absolutePosition,
       ]}
