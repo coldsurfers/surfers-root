@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 
 export async function GET() {
-  return NextResponse.redirect('/browse/seoul')
+  const host = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://billets.coldsurf.io'
+  return NextResponse.redirect(`${host}/browse/seoul`)
 }
