@@ -2,8 +2,7 @@ import { apiClient } from '@/libs/openapi-client'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import { getQueryClient } from '@/libs/utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
-import { PropsWithChildren } from 'react'
-import { PageProps } from 'types'
+import { PropsWithChildren, ReactNode } from 'react'
 import { Navigation } from './(components)'
 
 async function LayoutInner({ city, children }: PropsWithChildren<{ city: string }>) {
@@ -29,11 +28,12 @@ async function LayoutInner({ city, children }: PropsWithChildren<{ city: string 
 export default async function BrowseByCityLayout({
   children,
   params,
-}: PropsWithChildren<
-  PageProps<{
+}: {
+  children: ReactNode
+  params: {
     city: string
-  }>
->) {
+  }
+}) {
   const queryClient = getQueryClient()
 
   try {
