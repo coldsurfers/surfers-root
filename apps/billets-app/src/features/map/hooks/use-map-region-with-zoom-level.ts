@@ -3,22 +3,25 @@ import { LatLng } from 'react-native-maps'
 import { getZoomLevel } from '../utils'
 import { MapRegionWithZoomLevel, UseMapRegionWithZoomLevelParams } from './use-map-region-with-zoom-level.types'
 
+const DEFAULT_LATITUDE_DELTA = 0.4122
+const DEFAULT_LONGITUDE_DELTA = 0.3621
+
 export const useMapRegionWithZoomLevel = ({ latitude, longitude }: UseMapRegionWithZoomLevelParams) => {
   const [mapRegionWithZoomLevel, setMapRegionWithZoomLevel] = useState<MapRegionWithZoomLevel>({
     latitude: latitude,
     longitude: longitude,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-    zoomLevel: getZoomLevel(0.0922),
+    latitudeDelta: DEFAULT_LATITUDE_DELTA,
+    longitudeDelta: DEFAULT_LONGITUDE_DELTA,
+    zoomLevel: getZoomLevel(DEFAULT_LATITUDE_DELTA),
   })
 
   const initialize = useCallback((params: LatLng) => {
     const initialState = {
       latitude: params.latitude,
       longitude: params.longitude,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-      zoomLevel: getZoomLevel(0.0922),
+      latitudeDelta: DEFAULT_LATITUDE_DELTA,
+      longitudeDelta: DEFAULT_LONGITUDE_DELTA,
+      zoomLevel: getZoomLevel(DEFAULT_LATITUDE_DELTA),
     }
     setMapRegionWithZoomLevel(initialState)
     return initialState
