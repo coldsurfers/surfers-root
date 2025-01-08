@@ -1,6 +1,6 @@
 import { useBottomTab } from '@/lib'
 import { colors } from '@coldsurfers/ocean-road'
-import { Spinner } from '@coldsurfers/ocean-road/native'
+import { Spinner, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { PropsWithChildren, Suspense } from 'react'
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 import { Edges, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -13,6 +13,7 @@ export const CommonScreenLayout = ({
   edges?: Edges
   style?: StyleProp<ViewStyle>
 }>) => {
+  const { semantics } = useColorScheme()
   const { bottom: bottomInset } = useSafeAreaInsets()
   const { tabBarHeight } = useBottomTab()
   return (
@@ -21,6 +22,9 @@ export const CommonScreenLayout = ({
         edges={edges}
         style={[
           styles.layout,
+          {
+            backgroundColor: semantics.background[3],
+          },
           style,
           {
             /**
