@@ -49,7 +49,7 @@ export const ConcertListItem = ({
       style={[
         styles.concertListItem,
         {
-          borderColor: semantics.border[2],
+          borderColor: semantics.border[1],
         },
         getConcertListItemWrapperDynamicStyles(size),
       ]}
