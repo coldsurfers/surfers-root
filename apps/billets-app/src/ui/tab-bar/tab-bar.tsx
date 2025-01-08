@@ -16,7 +16,7 @@ interface Props extends BottomTabBarProps {
 }
 
 export const TabBar = memo((props: Props) => {
-  const { semantics } = useColorScheme()
+  const { semantics, colorScheme } = useColorScheme()
   const { navigation, state, descriptors } = props
   const { tabBarHeight } = useBottomTab()
   const bottomTabBarTranslateY = useSharedValue(0)
@@ -46,7 +46,7 @@ export const TabBar = memo((props: Props) => {
       style={[
         styles.tabBar,
         {
-          backgroundColor: semantics.foreground[1],
+          backgroundColor: colorScheme === 'light' ? semantics.foreground[1] : semantics.background[2],
         },
         styles.shadowBox,
         animatedStyle,
@@ -117,7 +117,11 @@ export const TabBar = memo((props: Props) => {
           >
             {renderIcon()}
             <Text
-              style={[styles.tabBarTitle, { color: semantics.background[2] }, isFocused && styles.tabBarTitleFocused]}
+              style={[
+                styles.tabBarTitle,
+                { color: colorScheme === 'light' ? semantics.background[2] : semantics.foreground[1] },
+                isFocused && styles.tabBarTitleFocused,
+              ]}
             >
               {typeof label === 'string' && label}
             </Text>
