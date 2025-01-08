@@ -1,8 +1,7 @@
 import { useKeyboard } from '@/lib'
 import { $api } from '@/lib/api/openapi-client'
 import { useSearchScreenNavigation } from '@/screens/search-screen/search-screen.hooks'
-import { colors } from '@coldsurfers/ocean-road'
-import { ProfileThumbnail } from '@coldsurfers/ocean-road/native'
+import { ProfileThumbnail, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { BottomSheetFlatList } from '@gorhom/bottom-sheet'
 import { useFocusEffect } from '@react-navigation/native'
 import format from 'date-fns/format'
@@ -16,6 +15,7 @@ import { SearchItemThumbnail } from '../search-item-thumbnail'
 import { searchBottomKeywordListItemSchema } from './search-bottom-keyword-result-list.types'
 
 export const SearchBottomKeywordResultList = ({ keyword }: { keyword: string }) => {
+  const { semantics } = useColorScheme()
   const navigation = useSearchScreenNavigation()
   const { bottomPadding } = useKeyboard()
   const {
@@ -113,7 +113,10 @@ export const SearchBottomKeywordResultList = ({ keyword }: { keyword: string }) 
       renderItem={renderSearchListItem}
       keyExtractor={(item) => `${item.type}-${item.id}`}
       style={styles.list}
-      contentContainerStyle={[styles.contentContainer, { paddingBottom: bottomPadding }]}
+      contentContainerStyle={[
+        styles.contentContainer,
+        { paddingBottom: bottomPadding, backgroundColor: semantics.background[4] },
+      ]}
       showsVerticalScrollIndicator={false}
       ListEmptyComponent={
         <SearchBottomKeywordResultListEmpty isLoadingSearch={isLoadingSearch} isFetchedSearch={isFetchedSearch} />
@@ -128,6 +131,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingVertical: 12,
     paddingHorizontal: 14,
-    backgroundColor: colors.oc.gray[1].value,
+    // backgroundColor: colors.oc.gray[1].value,
   },
 })

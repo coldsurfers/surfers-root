@@ -4,7 +4,7 @@ import { $api } from '@/lib/api/openapi-client'
 import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
 import { CommonScreenLayout, MyScreenLandingLayout } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
-import { Button, ProfileThumbnail, Spinner, Text } from '@coldsurfers/ocean-road/native'
+import { Button, ProfileThumbnail, Spinner, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import React, { Suspense, useCallback, useContext, useMemo } from 'react'
 import { Alert, Pressable, SectionList, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import { match } from 'ts-pattern'
@@ -18,6 +18,7 @@ import {
 
 const ListFooterComponent = () => {
   const { logout } = useContext(AuthContext)
+  const { semantics } = useColorScheme()
   const { mutate: deactivateUser } = $api.useMutation('delete', '/v1/user/deactivate', {
     onSuccess: () => logout(),
   })
@@ -51,7 +52,7 @@ const ListFooterComponent = () => {
         }}
         onPress={onPress}
       >
-        회원탈퇴
+        <Text style={{ color: semantics.foreground[1] }}>회원탈퇴</Text>
       </Button>
     </View>
   )
@@ -61,6 +62,7 @@ const SuspenseMyScreen = () => {
   const navigation = useMyScreenNavigation()
   const { logout } = useContext(AuthContext)
   const { data: user } = useGetMeQuery()
+  const { semantics } = useColorScheme()
 
   useShowBottomTabBar()
 
@@ -80,18 +82,23 @@ const SuspenseMyScreen = () => {
     [navigation],
   )
 
-  const renderSectionHeader = useCallback((info: { section: MyScreenSettingSectionListSectionT }) => {
-    return (
-      <View style={styles.sectionHeader}>
-        <Text style={styles.sectionHeaderText}>{info.section.uiTitle}</Text>
-        {info.section.moreAddOn && (
-          <Pressable onPress={info.section.moreAddOn.onPress} style={styles.sectionHeaderMoreAddOnButton}>
-            <Text style={styles.sectionHeaderMoreAddOnButtonText}>{info.section.moreAddOn.uiText}</Text>
-          </Pressable>
-        )}
-      </View>
-    )
-  }, [])
+  const renderSectionHeader = useCallback(
+    (info: { section: MyScreenSettingSectionListSectionT }) => {
+      return (
+        <View style={styles.sectionHeader}>
+          <Text style={[styles.sectionHeaderText, { color: semantics.foreground[1] }]}>{info.section.uiTitle}</Text>
+          {info.section.moreAddOn && (
+            <Pressable onPress={info.section.moreAddOn.onPress} style={styles.sectionHeaderMoreAddOnButton}>
+              <Text style={[styles.sectionHeaderMoreAddOnButtonText, { color: semantics.foreground[1] }]}>
+                {info.section.moreAddOn.uiText}
+              </Text>
+            </Pressable>
+          )}
+        </View>
+      )
+    },
+    [semantics.foreground],
+  )
 
   const renderItem: SectionListRenderItem<
     { title: string; onPress: () => void },
@@ -106,7 +113,9 @@ const SuspenseMyScreen = () => {
           return (
             <Pressable onPress={info.item.onPress} style={styles.profileItem}>
               <ProfileThumbnail type="circle" size="md" emptyBgText={info.item.title.at(0) ?? ''} />
-              <Text style={[styles.profileItemText, styles.itemText]}>{info.item.title}</Text>
+              <Text style={[styles.profileItemText, styles.itemText, { color: semantics.foreground[1] }]}>
+                {info.item.title}
+              </Text>
             </Pressable>
           )
         })
@@ -128,7 +137,7 @@ const SuspenseMyScreen = () => {
         })
         .exhaustive()
     },
-    [onPressSubscribedConcertListItem],
+    [onPressSubscribedConcertListItem, semantics.foreground],
   )
 
   const sections = useMemo<MyScreenSettingSectionListData[]>(() => {
@@ -188,8 +197,8 @@ const SuspenseMyScreen = () => {
   return user ? (
     <CommonScreenLayout>
       <SectionList<MyScreenSettingSectionListSectionDataT, MyScreenSettingSectionListSectionT>
-        contentContainerStyle={styles.sectionListContentContainer}
-        style={styles.sectionList}
+        contentContainerStyle={[styles.sectionListContentContainer, { backgroundColor: semantics.background[3] }]}
+        style={[styles.sectionList, { backgroundColor: semantics.background[3] }]}
         sections={sections}
         stickySectionHeadersEnabled={false}
         ListFooterComponent={ListFooterComponent}
@@ -211,14 +220,7 @@ export const MyScreen = () => {
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    backgroundColor: colors.oc.gray[1].value,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   sectionListContentContainer: {
-    backgroundColor: colors.oc.gray[1].value,
     flexGrow: 1,
   },
   listHeader: {
@@ -230,7 +232,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   itemText: { fontWeight: '700', fontSize: 18 },
-  sectionList: { backgroundColor: colors.oc.gray[1].value },
+  sectionList: {},
   profileItem: {
     flexDirection: 'row',
     alignItems: 'center',

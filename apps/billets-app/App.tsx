@@ -1,10 +1,11 @@
 import { AuthContextProvider, useFirebaseAnalytics, useFirebaseCrashlytics } from '@/lib'
+import { useColorSchemeStorage } from '@/lib/storage'
 import { CommonScreenLayout } from '@/ui'
-import { colors } from '@coldsurfers/ocean-road'
-import { ColorSchemeProvider, Spinner, Text } from '@coldsurfers/ocean-road/native'
+import { colors, ColorScheme } from '@coldsurfers/ocean-road'
+import { ColorSchemeProvider, Spinner, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import React, { PropsWithChildren, Suspense, useEffect, useState } from 'react'
-import { Platform, StatusBar, View } from 'react-native'
+import React, { memo, PropsWithChildren, Suspense, useEffect, useMemo, useState } from 'react'
+import { Platform, useColorScheme as rnUseColorScheme, StatusBar, View } from 'react-native'
 import BootSplash from 'react-native-bootsplash'
 import codePush, { DownloadProgress, RemotePackage } from 'react-native-code-push'
 import Config from 'react-native-config'
@@ -21,6 +22,17 @@ const queryClient = new QueryClient({
       retry: false,
     },
   },
+})
+
+const AppSystemColorSwitcher = memo(() => {
+  const { colorScheme, setColorScheme } = useColorScheme()
+  const systemColorScheme = rnUseColorScheme()
+
+  useEffect(() => {
+    setColorScheme(systemColorScheme ?? 'light')
+  }, [setColorScheme, systemColorScheme])
+
+  return <StatusBar translucent barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'} />
 })
 
 const CodepushUpdateScreen = ({ progress }: { progress: DownloadProgress }) => {
@@ -110,12 +122,23 @@ const BootSplashAwaiter = ({ children }: PropsWithChildren) => {
 }
 
 const App = () => {
+  const systemColorScheme = rnUseColorScheme()
+  const [storageColorSchemeValue] = useColorSchemeStorage()
+
+  const initialColorScheme: ColorScheme = useMemo(() => {
+    if (storageColorSchemeValue) {
+      return storageColorSchemeValue as 'light' | 'dark'
+    }
+    console.log('systemColorScheme', systemColorScheme)
+    return systemColorScheme ?? 'light'
+  }, [storageColorSchemeValue, systemColorScheme])
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <StatusBar translucent barStyle="dark-content" />
-      <ColorSchemeProvider>
+      <ColorSchemeProvider initialColorScheme={initialColorScheme}>
+        <AppSystemColorSwitcher />
         <QueryClientProvider client={queryClient}>
-          <Suspense fallback={<Spinner positionCenter />}>
+          <Suspense fallback={<GlobalSuspenseFallback />}>
             <AuthContextProvider>
               <BootSplashAwaiter>
                 <AppContainer />
@@ -125,6 +148,16 @@ const App = () => {
         </QueryClientProvider>
       </ColorSchemeProvider>
     </GestureHandlerRootView>
+  )
+}
+
+const GlobalSuspenseFallback = () => {
+  const { semantics } = useColorScheme()
+
+  return (
+    <View style={{ flex: 1, backgroundColor: semantics.background[3], alignItems: 'center', justifyContent: 'center' }}>
+      <Spinner />
+    </View>
   )
 }
 
