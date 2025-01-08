@@ -2,23 +2,39 @@
 
 import { GLOBAL_Z_INDEX } from '@/libs/constants'
 import { AnimatePresence, motion } from 'framer-motion'
-import { memo } from 'react'
+import { CSSProperties, ReactNode } from 'react'
+import { NavigationDropdownMotionDiv } from './navigation.styled'
 
 const POSITION_PADDING = 12
 
-export const NavigationCityDropdown = memo(
-  ({
+type RenderItem<ItemT> = (item: ItemT) => ReactNode
+
+type NavigationCityDropdownProps<ItemT> = {
+  isOpen: boolean
+  onClose: () => void
+  data: Array<ItemT>
+  renderItem: RenderItem<ItemT>
+  keyExtractor?: (item: ItemT) => string
+  position: {
+    top: number
+    left: number
+  }
+  className?: string
+  style?: CSSProperties
+}
+
+export const NavigationCityDropdown =
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  <ItemT = any,>({
     isOpen,
     onClose,
     position,
-  }: {
-    isOpen: boolean
-    onClose: () => void
-    position: {
-      top: number
-      left: number
-    }
-  }) => {
+    data,
+    renderItem,
+    keyExtractor,
+    className,
+    style,
+  }: NavigationCityDropdownProps<ItemT>) => {
     // Dropdown animation
     const dropdownVariants = {
       hidden: { opacity: 0, y: -10 },
@@ -48,32 +64,26 @@ export const NavigationCityDropdown = memo(
             />
 
             {/* Dropdown Menu */}
-            <motion.div
-              className="dropdown"
+            <NavigationDropdownMotionDiv
+              className={className}
               initial="hidden"
               animate="visible"
               exit="exit"
               variants={dropdownVariants}
               style={{
-                position: 'absolute',
                 top: `${position.top + POSITION_PADDING}px`,
                 left: `${position.left}px`,
-                background: 'white',
-                boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-                borderRadius: '8px',
-                padding: '10px',
-                zIndex: GLOBAL_Z_INDEX.APP_HEADER + 2,
+                ...style,
               }}
             >
               <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-                <li style={{ padding: '10px 15px', cursor: 'pointer' }}>Option 1</li>
-                <li style={{ padding: '10px 15px', cursor: 'pointer' }}>Option 2</li>
-                <li style={{ padding: '10px 15px', cursor: 'pointer' }}>Option 3</li>
+                {data.map((value, index) => {
+                  return <li key={keyExtractor?.(value) ?? index}>{renderItem(value)}</li>
+                })}
               </ul>
-            </motion.div>
+            </NavigationDropdownMotionDiv>
           </>
         )}
       </AnimatePresence>
     )
-  },
-)
+  }
