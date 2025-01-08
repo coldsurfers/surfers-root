@@ -2,8 +2,6 @@ import { SITE_URL } from '@/libs/constants'
 import { apiClient } from '@/libs/openapi-client'
 import { validateCityParam } from '@/libs/utils'
 
-const availableCities = ['seoul']
-
 const generateUrl = (subPath: string) => {
   return `${SITE_URL}${subPath}`
 }
@@ -41,6 +39,10 @@ export default async function sitemap() {
       priority: 0.8,
     },
   ]
+
+  const availableCities = (await apiClient.location.getCountries())
+    .flatMap((value) => value.cities)
+    .map((value) => value.name)
 
   // "/browse/[city]"
   const browseByCitySitemaps = availableCities.map((city) => {
