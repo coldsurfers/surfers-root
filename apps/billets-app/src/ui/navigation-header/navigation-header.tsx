@@ -50,7 +50,7 @@ export const NavigationHeader = (
         )}
         {props.options.title && (
           <View style={styles.headerTitleWrapper}>
-            <Text style={styles.headerTitle}>{props.options.title}</Text>
+            <Text style={[styles.headerTitle, { color: semantics.foreground[1] }]}>{props.options.title}</Text>
           </View>
         )}
         {showRightClose && (

@@ -2,16 +2,13 @@ import commonStyles from '@/lib/common-styles'
 import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
 import { CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
-import { Button, Text } from '@coldsurfers/ocean-road/native'
+import { Button, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { format } from 'date-fns'
 import { useCallback, useMemo } from 'react'
 import { Dimensions, FlatList, Linking, ListRenderItem, StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import {
-  useConcertTicketListScreenNavigation,
-  useConcertTicketListScreenRoute,
-} from './concert-ticket-list-screen.hooks'
+import { useConcertTicketListScreenRoute } from './concert-ticket-list-screen.hooks'
 
 const ListHeader = ({
   posterThumbnail,
@@ -24,25 +21,28 @@ const ListHeader = ({
   concertDate: string
   concertVenue: string
 }) => {
+  const { semantics } = useColorScheme()
   return (
     <View>
       <View style={styles.headerImageWrapper}>
         <FastImage source={{ uri: posterThumbnail }} style={styles.headerImage} />
       </View>
       <View style={styles.headerContentWrapper}>
-        <Text weight="bold" style={styles.headerTitle}>
+        <Text weight="bold" style={[styles.headerTitle, { color: semantics.foreground[1] }]}>
           {concertTitle}
         </Text>
-        <Text style={styles.headerDate}>{format(new Date(concertDate ?? ''), 'MMM dd, hh:mm a')}</Text>
-        <Text style={styles.headerVenue}>{concertVenue}</Text>
+        <Text style={[styles.headerDate, { color: semantics.foreground[2] }]}>
+          {format(new Date(concertDate ?? ''), 'MMM dd, hh:mm a')}
+        </Text>
+        <Text style={[styles.headerVenue, { color: semantics.foreground[2] }]}>{concertVenue}</Text>
       </View>
     </View>
   )
 }
 
 export const ConcertTicketListScreen = () => {
-  const { top: topInset, bottom: bottomInset } = useSafeAreaInsets()
-  const navigation = useConcertTicketListScreenNavigation()
+  const { bottom: bottomInset } = useSafeAreaInsets()
+  const { semantics } = useColorScheme()
   const route = useConcertTicketListScreenRoute()
   const { concertId } = route.params
   const { data } = useConcertQuery({
@@ -65,46 +65,51 @@ export const ConcertTicketListScreen = () => {
     return data?.tickets ?? []
   }, [data?.tickets])
 
-  const renderItem = useCallback<ListRenderItem<(typeof ticketsData)[number]>>((info) => {
-    const { prices, seller, openDate } = info.item
-    const cheapestPrice =
-      prices.length > 0
-        ? prices.reduce((min, current) => {
-            return current.price < min.price ? current : min
-          }, prices[0])
-        : null
-    const formattedPrice = cheapestPrice
-      ? `${new Intl.NumberFormat('en-US', { style: 'currency', currency: cheapestPrice.currency }).format(
-          cheapestPrice.price,
-        )}`
-      : ''
-    return (
-      <View style={styles.ticketItemWrapper}>
-        <View style={styles.ticketItemTop}>
-          <Text style={styles.ticketItemEmoji}>🎫</Text>
-          <View style={styles.ticketItemPriceWrapper}>
-            <Text style={styles.ticketItemSeller}>{seller}</Text>
-            <Text style={{ fontSize: 14, marginTop: 4 }}>최저가 {formattedPrice}</Text>
-            <Text style={{ fontSize: 14, marginTop: 4 }}>
-              {format(new Date(openDate), 'yyyy년 MM월 dd일 HH시 mm분 오픈')}
-            </Text>
+  const renderItem = useCallback<ListRenderItem<(typeof ticketsData)[number]>>(
+    (info) => {
+      const { prices, seller, openDate } = info.item
+      const cheapestPrice =
+        prices.length > 0
+          ? prices.reduce((min, current) => {
+              return current.price < min.price ? current : min
+            }, prices[0])
+          : null
+      const formattedPrice = cheapestPrice
+        ? `${new Intl.NumberFormat('en-US', { style: 'currency', currency: cheapestPrice.currency }).format(
+            cheapestPrice.price,
+          )}`
+        : ''
+      return (
+        <View style={[styles.ticketItemWrapper, { backgroundColor: semantics.background[4] }]}>
+          <View style={styles.ticketItemTop}>
+            <Text style={styles.ticketItemEmoji}>🎫</Text>
+            <View style={styles.ticketItemPriceWrapper}>
+              <Text style={[styles.ticketItemSeller, { color: semantics.foreground[2] }]}>{seller}</Text>
+              <Text style={{ fontSize: 14, marginTop: 4, color: semantics.foreground[1] }}>
+                최저가 {formattedPrice}
+              </Text>
+              <Text style={{ fontSize: 14, marginTop: 4, color: semantics.foreground[1] }}>
+                {format(new Date(openDate), 'yyyy년 MM월 dd일 HH시 mm분 오픈')}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.ticketItemBottom}>
+            <Button
+              onPress={() => {
+                Linking.openURL(info.item.url)
+              }}
+              style={styles.ticketItemCTA}
+            >
+              <Text weight="medium" style={styles.ticketItemCTAText}>
+                🔗 티켓찾기 - {formattedPrice}부터
+              </Text>
+            </Button>
           </View>
         </View>
-        <View style={styles.ticketItemBottom}>
-          <Button
-            onPress={() => {
-              Linking.openURL(info.item.url)
-            }}
-            style={styles.ticketItemCTA}
-          >
-            <Text weight="medium" style={styles.ticketItemCTAText}>
-              🔗 티켓찾기 - {formattedPrice}부터
-            </Text>
-          </Button>
-        </View>
-      </View>
-    )
-  }, [])
+      )
+    },
+    [semantics.background],
+  )
 
   return (
     <CommonScreenLayout style={{ marginTop: -NAVIGATION_HEADER_HEIGHT }}>

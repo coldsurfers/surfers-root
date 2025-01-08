@@ -1,7 +1,7 @@
 import { ConcertVenueMapView } from '@/features/map'
 import { openMap } from '@/lib/utils.map'
 import { colors } from '@coldsurfers/ocean-road'
-import { Button, Text } from '@coldsurfers/ocean-road/native'
+import { Button, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import {
   BottomSheetBackdrop,
   BottomSheetBackgroundProps,
@@ -18,6 +18,7 @@ import { ConcertDetailVenueMapBottomSheetProps } from './concert-detail-venue-ma
 
 export const ConcertDetailVenueMapBottomSheet = forwardRef<BottomSheetModal, ConcertDetailVenueMapBottomSheetProps>(
   ({ address, region, markerCoordinate }, ref) => {
+    const { semantics } = useColorScheme()
     const { bottom: bottomInset } = useSafeAreaInsets()
     const renderBackdrop = useCallback((props: BottomSheetBackgroundProps) => {
       return <BottomSheetBackdrop {...props} appearsOnIndex={0} disappearsOnIndex={-1} />
@@ -30,10 +31,21 @@ export const ConcertDetailVenueMapBottomSheet = forwardRef<BottomSheetModal, Con
           backdropComponent={renderBackdrop}
           containerStyle={{
             flex: 1,
+            // backgroundColor: semantics.background[3],
+          }}
+          handleStyle={{
+            backgroundColor: semantics.background[3],
+            borderTopLeftRadius: 12,
+            borderTopRightRadius: 12,
           }}
           style={{ flex: 1 }}
         >
-          <BottomSheetView style={{ paddingBottom: bottomInset ? bottomInset : 12 }}>
+          <BottomSheetView
+            style={{
+              paddingBottom: bottomInset ? bottomInset : 12,
+              backgroundColor: semantics.background[3],
+            }}
+          >
             <ConcertVenueMapView region={region} markerCoordinate={markerCoordinate} size="large" />
             <View style={styles.lineView}>
               <View>

@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/concert-venue-map-view'
 import { ArtistSubscribeButton, VenueSubscribeButton } from '@/features/subscribe'
 import { useConcertDetailScreenNavigation } from '@/screens/concert-detail-screen/concert-detail-screen.hooks'
 import { colors } from '@coldsurfers/ocean-road'
-import { ProfileThumbnail, Text } from '@coldsurfers/ocean-road/native'
+import { ProfileThumbnail, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { format } from 'date-fns'
 import { Copy, MapPin } from 'lucide-react-native'
@@ -23,16 +24,23 @@ import {
 export const ConcertDetailSectionListItem = () => null
 
 ConcertDetailSectionListItem.DateItem = ({ date }: ConcertDetailSectionListDateItemProps) => {
-  return <Text style={[styles.text, styles.dateText]}>{format(new Date(date ?? ''), 'MMM dd, hh:mm a')}</Text>
+  const { semantics } = useColorScheme()
+  return (
+    <Text style={[styles.text, styles.dateText, { color: semantics.foreground[2] }]}>
+      {format(new Date(date ?? ''), 'MMM dd, hh:mm a')}
+    </Text>
+  )
 }
 ConcertDetailSectionListItem.LocationItem = ({ location }: ConcertDetailSectionListLocationItemProps) => {
-  return <Text style={[styles.text, styles.venueText]}>{location}</Text>
+  const { semantics } = useColorScheme()
+  return <Text style={[styles.text, styles.venueText, { color: semantics.foreground[1] }]}>{location}</Text>
 }
 ConcertDetailSectionListItem.PriceInfoItem = ({ priceInfo }: ConcertDetailSectionListPriceItemProps) => {
+  const { semantics } = useColorScheme()
   return (
     <View style={styles.wrapper}>
-      <Text>{priceInfo.description}</Text>
-      <Text>{priceInfo.price}</Text>
+      <Text style={{ color: semantics.foreground[1] }}>{priceInfo.description}</Text>
+      <Text style={{ color: semantics.foreground[1] }}>{priceInfo.price}</Text>
     </View>
   )
 }
@@ -40,16 +48,20 @@ ConcertDetailSectionListItem.TicketOpenDateItem = ({
   openDate,
   description,
 }: ConcertDetailSectionListTicketOpenDateItemProps) => {
+  const { semantics } = useColorScheme()
   return (
     <View>
-      <Text style={styles.text}>{description}</Text>
-      <Text style={styles.text}>{format(new Date(openDate), 'yyyy-MM-dd HH시 mm분')}</Text>
+      <Text style={[styles.text, { color: semantics.foreground[1] }]}>{description}</Text>
+      <Text style={[styles.text, { color: semantics.foreground[1] }]}>
+        {format(new Date(openDate), 'yyyy-MM-dd HH시 mm분')}
+      </Text>
     </View>
   )
 }
 ConcertDetailSectionListItem.TitleItem = ({ title }: ConcertDetailSectionListTitleItemProps) => {
+  const { semantics } = useColorScheme()
   return (
-    <Text weight="bold" style={styles.titleText}>
+    <Text weight="bold" style={[styles.titleText, { color: semantics.foreground[1] }]}>
       {title}
     </Text>
   )
@@ -57,11 +69,12 @@ ConcertDetailSectionListItem.TitleItem = ({ title }: ConcertDetailSectionListTit
 ConcertDetailSectionListItem.LineupItem = memo(
   ({ thumbnailUrl, name, onPress, artistId }: ConcertDetailSectionListLineupItemProps) => {
     const navigation = useConcertDetailScreenNavigation()
+    const { semantics } = useColorScheme()
     return (
       <TouchableOpacity onPress={onPress} style={styles.rowItem}>
         <View style={styles.profileLine}>
           <ProfileThumbnail type="circle" size="sm" emptyBgText={name.at(0) ?? ''} imageUrl={thumbnailUrl} />
-          <Text style={styles.name}>{name}</Text>
+          <Text style={[styles.name, { color: semantics.foreground[1] }]}>{name}</Text>
         </View>
         <ArtistSubscribeButton
           artistId={artistId}
@@ -78,6 +91,7 @@ ConcertDetailSectionListItem.LineupItem = memo(
   },
 )
 ConcertDetailSectionListItem.TicketSellerItem = ({ siteUrl, name }: ConcertDetailSectionListTicketSellerItemProps) => {
+  const { semantics } = useColorScheme()
   const onPressTicketSeller = (url: string) => {
     Linking.canOpenURL(url).then((canOpen) => {
       if (canOpen) {
@@ -87,7 +101,7 @@ ConcertDetailSectionListItem.TicketSellerItem = ({ siteUrl, name }: ConcertDetai
   }
   return (
     <TouchableOpacity onPress={() => siteUrl && onPressTicketSeller(siteUrl)} style={styles.wrapper}>
-      <Text style={styles.ticketSellerText}>{name}</Text>
+      <Text style={[styles.ticketSellerText, { color: semantics.foreground[1] }]}>{name}</Text>
     </TouchableOpacity>
   )
 }
@@ -102,13 +116,13 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
     venueId,
   }: ConcertDetailSectionListVenueMapItemProps) => {
     const navigation = useConcertDetailScreenNavigation()
-
+    const { semantics } = useColorScheme()
     return (
       <View>
         <TouchableOpacity onPress={onPressProfile} style={styles.rowItem}>
           <View style={styles.profileLine}>
             <ProfileThumbnail type="circle" size="sm" emptyBgText={venueTitle.at(0) ?? ''} />
-            <Text style={styles.name}>{venueTitle}</Text>
+            <Text style={[styles.name, { color: semantics.foreground[1] }]}>{venueTitle}</Text>
           </View>
           <VenueSubscribeButton
             venueId={venueId}
@@ -122,10 +136,10 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
           />
         </TouchableOpacity>
         <View style={styles.venueMapAddressWrapper}>
-          <MapPin />
-          <Text style={styles.venueMapAddressText}>{address}</Text>
+          <MapPin color={semantics.foreground[1]} />
+          <Text style={[styles.venueMapAddressText, { color: semantics.foreground[1] }]}>{address}</Text>
           <TouchableOpacity onPress={() => Clipboard.setString(address)} style={styles.venueMapAddressCopyBtn}>
-            <Copy />
+            <Copy color={semantics.foreground[1]} />
           </TouchableOpacity>
         </View>
         <ConcertVenueMapView

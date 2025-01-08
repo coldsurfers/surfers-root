@@ -9,11 +9,9 @@ import { getViewMode, SearchStoreLocationConcert, SearchStoreSnapIndex, useSearc
 import { FULLY_EXPANDED_SNAP_INDEX } from '@/features/search/store/search-store.constants'
 import { SEARCH_DIM_HEIGHT_FLAG, SearchBottomList, SearchScreenNavigationHeader } from '@/features/search/ui'
 import { useBottomTab } from '@/lib'
-import commonStyles from '@/lib/common-styles'
 import { useUIStore } from '@/lib/stores'
 import { CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
-import { colors } from '@coldsurfers/ocean-road'
-import { Button, Text } from '@coldsurfers/ocean-road/native'
+import { Button, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import BottomSheet, { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -34,6 +32,7 @@ import { useShallow } from 'zustand/shallow'
 const AnimatedButton = Animated.createAnimatedComponent(Button)
 
 export const SearchScreen = () => {
+  const { semantics } = useColorScheme()
   const { top: topInset } = useSafeAreaInsets()
   const { tabBarHeight } = useBottomTab()
   const bottomSheetRef = useRef<BottomSheet>(null)
@@ -207,7 +206,7 @@ export const SearchScreen = () => {
       /**
        * oc gray 1
        */
-      ['#f1f3f5', 'rgba(0, 0, 0, 0)'], // From original color to dimmed black overlay
+      [semantics.background[2], 'rgba(0, 0, 0, 0)'], // From original color to dimmed black overlay
     )
 
     return {
@@ -269,9 +268,14 @@ export const SearchScreen = () => {
           ) : (
             <Pressable
               onPress={() => bottomSheetRef.current?.snapToIndex(FULLY_EXPANDED_SNAP_INDEX)}
-              style={styles.guideBox}
+              style={[
+                styles.guideBox,
+                {
+                  backgroundColor: semantics.background[3],
+                },
+              ]}
             >
-              <Text weight="bold" style={styles.guideFont}>
+              <Text weight="bold" style={[styles.guideFont, { color: semantics.foreground[1] }]}>
                 이 지역의 공연 수 {pointsLength}개
               </Text>
             </Pressable>
@@ -299,7 +303,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingBottom: 120,
     paddingHorizontal: 14,
-    backgroundColor: colors.oc.gray[1].value,
   },
   emptyWrapper: {
     flex: 1,
@@ -326,13 +329,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   floatingButton: { width: 120, alignSelf: 'center', position: 'absolute', right: 0 },
-  handleStyle: {
-    backgroundColor: colors.oc.gray[1].value,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    ...commonStyles.topShadowBox,
-  },
-  guideBox: { flex: 1, backgroundColor: colors.oc.gray[1].value, paddingHorizontal: 14, paddingTop: 16 },
+  guideBox: { flex: 1, paddingHorizontal: 14, paddingTop: 16 },
   guideFont: {
     fontSize: 16,
   },
