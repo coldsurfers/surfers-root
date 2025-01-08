@@ -74,6 +74,11 @@
           "destination": "semantic/variables.ts",
           "format": "semanticColorCssVars",
           "filter": "darkColorFilter"
+        },
+        {
+          "destination": "semantic/theme-variables.ts",
+          "format": "semanticColorThemeVariables",
+          "filter": "darkColorFilter"
         }
       ]
     }
