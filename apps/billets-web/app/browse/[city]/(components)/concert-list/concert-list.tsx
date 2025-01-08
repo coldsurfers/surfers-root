@@ -22,7 +22,7 @@ export const ConcertList = memo(({ cityData }: ConcertListProps) => {
   const { data } = useQuery<Awaited<ReturnType<typeof apiClient.concerts.getConcerts>>, OpenApiError>({
     queryKey: apiClient.concerts.queryKeys.getConcerts({
       offset: 0,
-      size: 20,
+      size: 100,
       latitude: cityData.lat,
       longitude: cityData.lng,
     }),
@@ -39,7 +39,7 @@ export const ConcertList = memo(({ cityData }: ConcertListProps) => {
   return (
     <StyledListContainer>
       <StyledListHeader>
-        <StyledListHeaderText as="h1">Popular Shows in {cityData.uiName}</StyledListHeaderText>
+        <StyledListHeaderText as="h1">Upcoming Shows in {cityData.uiName}</StyledListHeaderText>
       </StyledListHeader>
       <StyledGridContainer>
         {data?.map((item) => {
