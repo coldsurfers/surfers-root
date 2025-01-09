@@ -1,4 +1,3 @@
-import { searchDTOSerializedSchema } from '@/dtos/search-dto/search-dto.types'
 import authRoute from '@/routes/auth/auth.route'
 import {
   confirmAuthCodeBodySchema,
@@ -42,6 +41,7 @@ import { FCMTokenDTOSchema } from './dtos/fcm-token.dto'
 import { locationCityDTOSerializedSchema } from './dtos/location-city-dto'
 import { locationConcertDTOSerializedSchema } from './dtos/location-concert-dto'
 import { locationCountryDTOSerializedSchema } from './dtos/location-country-dto'
+import { SearchDTOSchema } from './dtos/search.dto'
 import { VenueDTOSchema } from './dtos/venue.dto'
 import { SWAGGER_HOST } from './lib/constants'
 import { errorResponseSchema } from './lib/error'
@@ -176,7 +176,7 @@ app.register(fastifySwagger, {
       ConfirmAuthCodeSuccessResponse: confirmAuthCodeResponseSchema,
       ErrorResponse: errorResponseSchema,
       SearchListQuerystring: searchListQuerystringSchema,
-      SearchDTOSerialized: searchDTOSerializedSchema,
+      SearchDTOSerialized: SearchDTOSchema.array(),
       SubscribeConcertDTOSerialized: ConcertDTOSchema,
       SubscribeConcertParams: subscribeConcertParamsSchema,
       SubscribedArtistDTOSerialized: ArtistDTOSchema,
