@@ -1,8 +1,8 @@
+import { searchListHandler } from '@/controllers/search.controller'
 import { searchDTOSerializedSchema } from '@/dtos/search-dto/search-dto.types'
 import { errorResponseSchema } from '@/lib/error'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { searchListHandler } from './search.handler'
 import { searchListQuerystringSchema } from './search.types'
 
 /**
