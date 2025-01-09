@@ -1,7 +1,7 @@
+import { getConcertListByVenueIdHandler, getVenueByIdHandler } from '@/controllers/venue.controller'
 import { venueDTOSerializedSchema } from '@/dtos/venue-dto/venue-dto.types'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { getConcertListByVenueIdRoute, getVenueByIdRoute } from './venue.handler'
 import {
   getConcertListByVenueIdParamsSchema,
   getConcertListByVenueIdQueryStringSchema,
@@ -21,7 +21,7 @@ export const venueRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    getVenueByIdRoute,
+    getVenueByIdHandler,
   )
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/concert-list/:venueId',
@@ -35,7 +35,7 @@ export const venueRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    getConcertListByVenueIdRoute,
+    getConcertListByVenueIdHandler,
   )
   done()
 }
