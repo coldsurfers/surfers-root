@@ -1,7 +1,6 @@
 import { ConcertDTO } from '@/dtos/concert-dto'
-import { LatLng } from '@/lib/types/types'
-import { RouteHandler } from 'fastify'
-import { concertList, concertSearchList } from './concert.service'
+import { LatLng } from '@/lib/types'
+import { concertList, concertSearchList } from '@/routes/concert/concert.service'
 import {
   ConcertDetailParams,
   ConcertDetailResponse,
@@ -9,15 +8,23 @@ import {
   ConcertListResponse,
   ConcertSearchParams,
   ConcertSearchResponse,
-} from './concert.types'
+} from '@/routes/concert/concert.types'
+import { RouteGenericInterface } from 'fastify'
+import { FastifyReply } from 'fastify/types/reply'
+import { FastifyRequest } from 'fastify/types/request'
 
-export const concertListHandler: RouteHandler<{
+export interface ConcertListRoute extends RouteGenericInterface {
   Querystring: ConcertListQueryString
   Reply: {
     200: ConcertListResponse
     500: void
   }
-}> = async (req, rep) => {
+}
+
+export const concertListHandler = async (
+  req: FastifyRequest<ConcertListRoute>,
+  rep: FastifyReply<ConcertListRoute>,
+) => {
   const { offset, size, latitude, longitude } = req.query
   try {
     const latLng: LatLng | null =
@@ -42,14 +49,16 @@ export const concertListHandler: RouteHandler<{
   }
 }
 
-export const concertHandler: RouteHandler<{
+interface ConcertRoute extends RouteGenericInterface {
   Params: ConcertDetailParams
   Reply: {
     200: ConcertDetailResponse
     404: void
     500: void
   }
-}> = async (req, rep) => {
+}
+
+export const concertHandler = async (req: FastifyRequest<ConcertRoute>, rep: FastifyReply<ConcertRoute>) => {
   const { id } = req.params
 
   try {
@@ -64,13 +73,18 @@ export const concertHandler: RouteHandler<{
   }
 }
 
-export const concertSearchHandler: RouteHandler<{
+interface ConcertSearchRoute extends RouteGenericInterface {
   Querystring: ConcertSearchParams
   Reply: {
     200: ConcertSearchResponse
     500: void
   }
-}> = async (req, rep) => {
+}
+
+export const concertSearchHandler = async (
+  req: FastifyRequest<ConcertSearchRoute>,
+  rep: FastifyReply<ConcertSearchRoute>,
+) => {
   const { keyword, offset, size } = req.query
   try {
     const list = await concertSearchList({
