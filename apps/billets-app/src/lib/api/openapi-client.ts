@@ -18,7 +18,7 @@ const authMiddleware: Middleware = {
   async onRequest({ request }) {
     const accessToken = await getAccessToken()
     if (accessToken) {
-      request.headers.set('Authorization', `${accessToken}`)
+      request.headers.set('Authorization', `Bearer ${accessToken}`)
     }
     return request
   },
