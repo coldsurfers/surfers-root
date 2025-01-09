@@ -1,8 +1,9 @@
-import { EmailAuthRequestDTO } from '@/dtos/email-auth-request-dto'
 import { UserDTO } from '@/dtos/user.dto'
 import { errorResponseSchema } from '@/lib/error'
+import { EmailAuthRequestRepositoryImpl } from '@/repositories/email-auth-request.repository.impl'
 import { UserRepositoryImpl } from '@/repositories/user.repository.impl'
 import { activateUserBodySchema, deactivateUserBodySchema } from '@/routes/user/user.types'
+import { EmailAuthRequestService } from '@/services/email-auth-request.service'
 import { UserService } from '@/services/user.service'
 import { differenceInMinutes } from 'date-fns/differenceInMinutes'
 import { FastifyReply } from 'fastify/types/reply'
@@ -12,6 +13,9 @@ import { z } from 'zod'
 
 const userRepository = new UserRepositoryImpl()
 const userService = new UserService(userRepository)
+
+const emailAuthRequestRepository = new EmailAuthRequestRepositoryImpl()
+const emailAuthRequestService = new EmailAuthRequestService(emailAuthRequestRepository)
 
 interface GetMeRoute extends RouteGenericInterface {
   Reply: {
@@ -97,27 +101,27 @@ export const activateUserHandler = async (
 ) => {
   try {
     const { authCode, email } = req.body
-    const authCodeDTO = await EmailAuthRequestDTO.findByEmail(email)
+    const authCodeDTO = await emailAuthRequestService.findByEmail(email)
     if (!authCodeDTO) {
       return rep.status(404).send({
         code: 'EMAIL_AUTH_REQUEST_NOT_FOUND',
         message: 'email auth request not found',
       })
     }
-    if (authCodeDTO.props.email !== email || authCodeDTO.props.authcode !== authCode) {
+    if (authCodeDTO.email !== email || authCodeDTO.authcode !== authCode) {
       return rep.status(401).send({
         code: 'INVALID_EMAIL_AUTH_REQUEST',
         message: 'invalid email auth request',
       })
     }
-    if (authCodeDTO.props.authenticated) {
+    if (authCodeDTO.authenticated) {
       return rep.status(409).send({
         code: 'EMAIL_AUTH_REQUEST_ALREADY_AUTHENTICATED',
         message: 'already authenticated',
       })
     }
-    if (authCodeDTO.props.createdAt) {
-      const diffMinutes = Math.abs(differenceInMinutes(new Date(), authCodeDTO.props.createdAt))
+    if (authCodeDTO.createdAt) {
+      const diffMinutes = Math.abs(differenceInMinutes(new Date(), authCodeDTO.createdAt))
       if (diffMinutes >= 3) {
         return rep.status(401).send({
           code: 'EMAIL_AUTH_REQUEST_TIMEOUT',
@@ -125,7 +129,7 @@ export const activateUserHandler = async (
         })
       }
     }
-    await authCodeDTO.confirm()
+    await emailAuthRequestService.confirm(authCodeDTO.id)
     const userToActivate = await userService.getUserByEmail(email)
     if (!userToActivate) {
       return rep.status(404).send({
