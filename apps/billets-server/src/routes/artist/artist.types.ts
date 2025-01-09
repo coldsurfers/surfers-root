@@ -1,4 +1,4 @@
-import { concertDTOSerializedSchema } from '@/dtos/concert-dto/concert-dto.types'
+import { ConcertDTOSchema } from '@/dtos/concert.dto'
 import { z } from 'zod'
 
 export const getArtistByIdParamsSchema = z.object({
@@ -15,4 +15,4 @@ export const getConcertListByArtistIdQueryStringSchema = z.object({
   size: z.string(),
 })
 
-export const getConcertListByArtistIdSuccessResponseSchema = z.array(concertDTOSerializedSchema)
+export const getConcertListByArtistIdSuccessResponseSchema = z.array(ConcertDTOSchema)
