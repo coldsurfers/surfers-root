@@ -6,7 +6,6 @@ import {
   subscribedConcertDTOSerializedListSchema,
 } from '@/dtos/subscribe-concert-dto/subscribe-concert-dto.types'
 import { subscribeVenueSerializedSchema } from '@/dtos/subscribe-venue-dto/subscribe-venue-dto.types'
-import { venueDTOSerializedSchema } from '@/dtos/venue-dto/venue-dto.types'
 import authRoute from '@/routes/auth/auth.route'
 import {
   confirmAuthCodeBodySchema,
@@ -48,6 +47,7 @@ import { ArtistDTOSchema } from './dtos/artist.dto'
 import { locationCityDTOSerializedSchema } from './dtos/location-city-dto'
 import { locationConcertDTOSerializedSchema } from './dtos/location-concert-dto'
 import { locationCountryDTOSerializedSchema } from './dtos/location-country-dto'
+import { VenueDTOSchema } from './dtos/venue.dto'
 import { SWAGGER_HOST } from './lib/constants'
 import { errorResponseSchema } from './lib/error'
 import { jwtPlugin } from './plugins'
@@ -196,7 +196,7 @@ app.register(fastifySwagger, {
       GetArtistByIdParams: getArtistByIdParamsSchema,
       GetArtistByIdSuccessResponse: ArtistDTOSchema,
       GetVenueByIdParams: getVenueByIdParamsSchema,
-      GetVenueByIdSuccessResponse: venueDTOSerializedSchema,
+      GetVenueByIdSuccessResponse: VenueDTOSchema,
       GetConcertListByVenueIdParams: getConcertListByVenueIdParamsSchema,
       GetConcertListByVenueIdQuerystring: getConcertListByVenueIdQueryStringSchema,
       GetConcertListByVenueIdSuccessResponse: getConcertListByVenueIdSuccessResponseSchema,

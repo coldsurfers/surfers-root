@@ -7,10 +7,10 @@ import {
 import { subscribedConcertDTOSerializedListSchema, SubscribedConcertSerialized } from '@/dtos/subscribe-concert-dto'
 import { SubscribeConcertDTO } from '@/dtos/subscribe-concert-dto/subscribe-concert-dto'
 import { SubscribeVenueDTO, SubscribeVenueSerialized, subscribeVenueSerializedSchema } from '@/dtos/subscribe-venue-dto'
-import { VenueDTO } from '@/dtos/venue-dto'
 import { ErrorResponse, errorResponseSchema } from '@/lib/error'
 import { ArtistRepositoryImpl } from '@/repositories/artist.repository.impl'
 import { UserRepositoryImpl } from '@/repositories/user.repository.impl'
+import { VenueRepositoryImpl } from '@/repositories/venue.repository.impl'
 import {
   getSubscribeCommonParamsSchema,
   getSubscribedConcertListQueryStringSchema,
@@ -24,6 +24,7 @@ import {
 } from '@/routes/subscribe/subscribe.types'
 import { ArtistService } from '@/services/artist.service'
 import { UserService } from '@/services/user.service'
+import { VenueService } from '@/services/venue.service'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { RouteGenericInterface } from 'fastify/types/route'
 import { z } from 'zod'
@@ -33,6 +34,9 @@ const userService = new UserService(userRepository)
 
 const artistRepository = new ArtistRepositoryImpl()
 const artistService = new ArtistService(artistRepository)
+
+const venueRepository = new VenueRepositoryImpl()
+const venueService = new VenueService(venueRepository)
 
 interface GetSubscribedConcertListRoute extends RouteGenericInterface {
   Querystring: z.infer<typeof getSubscribedConcertListQueryStringSchema>
@@ -342,8 +346,8 @@ export const postSubscribeVenueHandler = async (
   try {
     const { id: venueId } = req.params
 
-    const venue = await VenueDTO.findById(venueId)
-    if (!venue || !venue.id) {
+    const venue = await venueService.getVenueById(venueId)
+    if (!venue) {
       return rep.status(404).send({ code: 'VENUE_NOT_FOUND', message: 'Venue not found' })
     }
 
@@ -385,8 +389,8 @@ export const deleteUnsubscribeVenueHandler = async (
   try {
     const { id: venueId } = req.params
 
-    const venue = await VenueDTO.findById(venueId)
-    if (!venue || !venue.id) {
+    const venue = await venueService.getVenueById(venueId)
+    if (!venue) {
       return rep.status(404).send({ code: 'VENUE_NOT_FOUND', message: 'Venue not found' })
     }
 
