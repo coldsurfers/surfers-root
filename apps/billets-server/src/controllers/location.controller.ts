@@ -3,10 +3,12 @@ import { LocationConcertDTO, locationConcertDTOSerializedSchema } from '@/dtos/l
 import { LocationCountryDTO } from '@/dtos/location-country-dto/location-country-dto'
 import { locationCountryDTOSerializedSchema } from '@/dtos/location-country-dto/location-country-dto.types'
 import { errorResponseSchema } from '@/lib/error'
-import { RouteHandler } from 'fastify'
+import { getLocationConcertsQueryStringSchema } from '@/routes/location/location.types'
+import { RouteGenericInterface } from 'fastify'
+import { FastifyReply } from 'fastify/types/reply'
+import { FastifyRequest } from 'fastify/types/request'
 import geohash from 'ngeohash'
 import { z } from 'zod'
-import { getLocationConcertsQueryStringSchema } from './location.types'
 
 const getLocationConcertsHandlerQueryAdapter = (query: z.infer<typeof getLocationConcertsQueryStringSchema>) => {
   return {
@@ -18,14 +20,19 @@ const getLocationConcertsHandlerQueryAdapter = (query: z.infer<typeof getLocatio
   }
 }
 
-export const getLocationConcertsHandler: RouteHandler<{
+interface GetLocationConcertRoute extends RouteGenericInterface {
   Querystring: z.infer<typeof getLocationConcertsQueryStringSchema>
   Reply: {
     200: z.infer<typeof locationConcertDTOSerializedSchema>[]
     400: z.infer<typeof errorResponseSchema>
     500: z.infer<typeof errorResponseSchema>
   }
-}> = async (req, rep) => {
+}
+
+export const getLocationConcertsHandler = async (
+  req: FastifyRequest<GetLocationConcertRoute>,
+  rep: FastifyReply<GetLocationConcertRoute>,
+) => {
   try {
     const queryStringValidation = getLocationConcertsQueryStringSchema.safeParse(req.query)
     if (!queryStringValidation.success) {
@@ -68,12 +75,17 @@ export const getLocationConcertsHandler: RouteHandler<{
   }
 }
 
-export const getLocationCityListHandler: RouteHandler<{
+interface GetLocationCityListRoute extends RouteGenericInterface {
   Reply: {
     200: z.infer<typeof locationCityDTOSerializedSchema>[]
     500: z.infer<typeof errorResponseSchema>
   }
-}> = async (req, rep) => {
+}
+
+export const getLocationCityListHandler = async (
+  req: FastifyRequest<GetLocationCityListRoute>,
+  rep: FastifyReply<GetLocationCityListRoute>,
+) => {
   try {
     const data = await LocationCityDTO.listCity()
     return rep.status(200).send(data.map((value) => value.serialize()))
@@ -86,12 +98,17 @@ export const getLocationCityListHandler: RouteHandler<{
   }
 }
 
-export const getLocationCountryListHandler: RouteHandler<{
+interface GetLocationCountryListRoute extends RouteGenericInterface {
   Reply: {
     200: z.infer<typeof locationCountryDTOSerializedSchema>[]
     500: z.infer<typeof errorResponseSchema>
   }
-}> = async (req, rep) => {
+}
+
+export const getLocationCountryListHandler = async (
+  req: FastifyRequest<GetLocationCountryListRoute>,
+  rep: FastifyReply<GetLocationCountryListRoute>,
+) => {
   try {
     const data = await LocationCountryDTO.listCountry()
     return rep.status(200).send(data.map((value) => value.serialize()))

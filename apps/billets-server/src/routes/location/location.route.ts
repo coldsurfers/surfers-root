@@ -1,14 +1,14 @@
+import {
+  getLocationCityListHandler,
+  getLocationConcertsHandler,
+  getLocationCountryListHandler,
+} from '@/controllers/location.controller'
 import { locationCityDTOSerializedSchema } from '@/dtos/location-city-dto'
 import { locationConcertDTOSerializedSchema } from '@/dtos/location-concert-dto'
 import { locationCountryDTOSerializedSchema } from '@/dtos/location-country-dto'
 import { errorResponseSchema } from '@/lib/error'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import {
-  getLocationCityListHandler,
-  getLocationConcertsHandler,
-  getLocationCountryListHandler,
-} from './location.handler'
 import { getLocationConcertsQueryStringSchema } from './location.types'
 
 export const locationRoute: FastifyPluginCallback = (fastify, opts, done) => {
