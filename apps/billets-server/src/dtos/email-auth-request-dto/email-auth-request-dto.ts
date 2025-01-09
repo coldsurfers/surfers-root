@@ -1,4 +1,4 @@
-import { prisma } from '@/prisma/connect'
+import { dbClient } from '@/lib/db'
 import { EmailAuthRequestDTOProps } from './email-auth-request-dto.types'
 
 export class EmailAuthRequestDTO {
@@ -13,7 +13,7 @@ export class EmailAuthRequestDTO {
     if (!email || !authcode) {
       throw Error('invalid email or authcode')
     }
-    const data = await prisma.emailAuthRequest.create({
+    const data = await dbClient.emailAuthRequest.create({
       data: {
         email,
         authcode,
@@ -23,7 +23,7 @@ export class EmailAuthRequestDTO {
   }
 
   static async findByEmail(email: string) {
-    const data = await prisma.emailAuthRequest.findFirst({
+    const data = await dbClient.emailAuthRequest.findFirst({
       where: {
         email,
       },
@@ -41,7 +41,7 @@ export class EmailAuthRequestDTO {
       console.error('invalid id')
       throw Error('invalid id')
     }
-    const data = await prisma.emailAuthRequest.update({
+    const data = await dbClient.emailAuthRequest.update({
       where: {
         id,
       },

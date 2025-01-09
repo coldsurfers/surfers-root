@@ -1,4 +1,4 @@
-import { prisma } from '../../prisma/connect'
+import { dbClient } from '@/lib/db'
 import { SubscribeConcertDTOProps, SubscribedConcertSerialized } from './subscribe-concert-dto.types'
 
 export class SubscribeConcertDTO {
@@ -9,7 +9,7 @@ export class SubscribeConcertDTO {
   }
 
   static async list({ userId, take, skip }: { userId: string; take: number; skip: number }) {
-    const data = await prisma.usersOnSubscribedConcerts.findMany({
+    const data = await dbClient.usersOnSubscribedConcerts.findMany({
       where: {
         userId,
       },
@@ -23,7 +23,7 @@ export class SubscribeConcertDTO {
   }
 
   static async findByConcertIdUserId(concertId: string, userId: string) {
-    const data = await prisma.usersOnSubscribedConcerts.findFirst({
+    const data = await dbClient.usersOnSubscribedConcerts.findFirst({
       where: {
         userId,
         concertId,
@@ -39,7 +39,7 @@ export class SubscribeConcertDTO {
     if (!this.props.userId || !this.props.concertId) {
       throw new Error('userId and concertId are required')
     }
-    const data = await prisma.usersOnSubscribedConcerts.create({
+    const data = await dbClient.usersOnSubscribedConcerts.create({
       data: {
         userId: this.props.userId,
         concertId: this.props.concertId,
@@ -53,7 +53,7 @@ export class SubscribeConcertDTO {
     if (!this.props.userId || !this.props.concertId) {
       throw new Error('userId and concertId are required')
     }
-    const data = await prisma.usersOnSubscribedConcerts.delete({
+    const data = await dbClient.usersOnSubscribedConcerts.delete({
       where: {
         userId_concertId: {
           userId: this.props.userId,

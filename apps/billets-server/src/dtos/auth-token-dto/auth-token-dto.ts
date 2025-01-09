@@ -1,4 +1,4 @@
-import { prisma } from '../../prisma/connect'
+import { dbClient } from '@/lib/db'
 import { AuthTokenDTOProps, AuthTokenDTOSerialized } from './auth-token-dto.types'
 
 export class AuthTokenDTO {
@@ -12,7 +12,7 @@ export class AuthTokenDTO {
     if (!this.props.access_token || !this.props.refresh_token || !this.props.user_id) {
       throw Error('invalid access_token or refresh_token or user_id')
     }
-    const data = await prisma.authToken.create({
+    const data = await dbClient.authToken.create({
       data: {
         access_token: this.props.access_token,
         refresh_token: this.props.refresh_token,

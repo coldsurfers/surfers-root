@@ -1,4 +1,4 @@
-import { prisma } from '@/prisma/connect'
+import { dbClient } from '@/lib/db'
 import { z } from 'zod'
 import { VenueDTOProps, venueDTOSerializedSchema } from './venue-dto.types'
 
@@ -8,7 +8,7 @@ export class VenueDTO {
   }
 
   static async findById(id: string) {
-    const venue = await prisma.venue.findUnique({
+    const venue = await dbClient.venue.findUnique({
       where: { id },
     })
     if (!venue) {

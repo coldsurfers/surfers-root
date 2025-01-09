@@ -1,5 +1,5 @@
+import { dbClient } from '@/lib/db'
 import { LocationCountry } from '@prisma/client'
-import { prisma } from '../../prisma/connect'
 import { locationCountryDTOSerializedSchema } from './location-country-dto.types'
 
 export class LocationCountryDTO {
@@ -18,7 +18,7 @@ export class LocationCountryDTO {
   ) {}
 
   public static async listCountry() {
-    const data = await prisma.locationCountry.findMany({
+    const data = await dbClient.locationCountry.findMany({
       include: {
         locationCities: {
           include: {

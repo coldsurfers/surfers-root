@@ -1,4 +1,4 @@
-import { prisma } from '../../prisma/connect'
+import { dbClient } from '@/lib/db'
 import { ConcertDTOProps, ConcertDTOSerialized } from './concert-dto.types'
 
 export class ConcertDTO {
@@ -21,7 +21,7 @@ export class ConcertDTO {
     skip: number
     venueGeohash: string | null
   }) {
-    const data = await prisma.concert.findMany({
+    const data = await dbClient.concert.findMany({
       where: {
         ...(titleContains && {
           title: {
@@ -83,7 +83,7 @@ export class ConcertDTO {
       skip: number
     },
   ) {
-    const data = await prisma.concert.findMany({
+    const data = await dbClient.concert.findMany({
       where: {
         venues: {
           some: {
@@ -131,7 +131,7 @@ export class ConcertDTO {
       skip: number
     },
   ) {
-    const data = await prisma.concert.findMany({
+    const data = await dbClient.concert.findMany({
       where: {
         artists: {
           some: {
@@ -172,7 +172,7 @@ export class ConcertDTO {
   }
 
   static async findById(id: string) {
-    const data = await prisma.concert.findUnique({
+    const data = await dbClient.concert.findUnique({
       where: {
         id,
       },

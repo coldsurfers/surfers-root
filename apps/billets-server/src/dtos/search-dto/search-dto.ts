@@ -1,4 +1,4 @@
-import { prisma } from '@/prisma/connect'
+import { dbClient } from '@/lib/db'
 import { SearchDTOProps, SearchDTOSerialized } from './search-dto.types'
 
 export class SearchDTO {
@@ -9,7 +9,7 @@ export class SearchDTO {
   }
 
   static async searchList(keyword: string) {
-    const artistData = await prisma.artist.findMany({
+    const artistData = await dbClient.artist.findMany({
       where: {
         name: {
           contains: keyword,
@@ -25,7 +25,7 @@ export class SearchDTO {
       },
     })
 
-    const venuesData = await prisma.venue.findMany({
+    const venuesData = await dbClient.venue.findMany({
       where: {
         name: {
           contains: keyword,
@@ -34,7 +34,7 @@ export class SearchDTO {
       },
     })
 
-    const concertData = await prisma.concert.findMany({
+    const concertData = await dbClient.concert.findMany({
       where: {
         deletedAt: {
           equals: null,

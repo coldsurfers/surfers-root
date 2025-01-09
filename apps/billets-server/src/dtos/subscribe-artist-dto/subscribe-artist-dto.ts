@@ -1,4 +1,4 @@
-import { prisma } from '@/prisma/connect'
+import { dbClient } from '@/lib/db'
 import { SubscribeArtistDTOProps, SubscribedArtistSerialized } from './subscribe-artist-dto.types'
 
 export class SubscribeArtistDTO {
@@ -7,7 +7,7 @@ export class SubscribeArtistDTO {
   }
 
   static async findByArtistIdUserId(artistId: string, userId: string) {
-    const subscribedArtist = await prisma.usersOnSubscribedArtists.findFirst({
+    const subscribedArtist = await dbClient.usersOnSubscribedArtists.findFirst({
       where: {
         artistId,
         userId,
@@ -31,7 +31,7 @@ export class SubscribeArtistDTO {
     if (!this.props.artistId || !this.props.userId) {
       throw new Error('ArtistId or UserId is undefined')
     }
-    const subscribedArtist = await prisma.usersOnSubscribedArtists.create({
+    const subscribedArtist = await dbClient.usersOnSubscribedArtists.create({
       data: {
         artistId: this.props.artistId,
         userId: this.props.userId,
@@ -44,7 +44,7 @@ export class SubscribeArtistDTO {
     if (!this.props.artistId || !this.props.userId) {
       throw new Error('ArtistId or UserId is undefined')
     }
-    const subscribedArtist = await prisma.usersOnSubscribedArtists.delete({
+    const subscribedArtist = await dbClient.usersOnSubscribedArtists.delete({
       where: {
         userId_artistId: {
           userId: this.props.userId,
