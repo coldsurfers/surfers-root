@@ -50,6 +50,7 @@ import { locationConcertDTOSerializedSchema } from './dtos/location-concert-dto'
 import { locationCountryDTOSerializedSchema } from './dtos/location-country-dto'
 import { SWAGGER_HOST } from './lib/constants'
 import { errorResponseSchema } from './lib/error'
+import { jwtPlugin } from './plugins'
 import { artistRoute } from './routes/artist'
 import {
   getArtistByIdParamsSchema,
@@ -94,6 +95,8 @@ fastify.register(cors, {
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   origin: ['http://localhost:3000', 'https://billets.coldsurf.io'],
 })
+
+fastify.register(jwtPlugin)
 
 fastify.register(rateLimit, {
   global: false,

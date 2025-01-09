@@ -6,6 +6,8 @@ export default defineConfig({
   target: 'node18',
   platform: 'node',
   format: ['cjs'],
+  clean: true,
+  watch: true,
   splitting: false,
   sourcemap: true,
   minify: false,

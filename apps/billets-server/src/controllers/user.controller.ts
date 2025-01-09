@@ -1,24 +1,25 @@
 import { EmailAuthRequestDTO } from '@/dtos/email-auth-request-dto'
-import { UserDTO } from '@/dtos/user-dto'
-import { userDTOSerializedSchema } from '@/dtos/user-dto/user-dto.types'
+import { UserDTO, userDTOSerializedSchema } from '@/dtos/user-dto'
 import { errorResponseSchema } from '@/lib/error'
-import { decodeToken } from '@/lib/jwt'
+import { activateUserBodySchema, deactivateUserBodySchema, GetMeResponse } from '@/routes/user/user.types'
 import { differenceInMinutes } from 'date-fns/differenceInMinutes'
-import { RouteHandler } from 'fastify'
+import { FastifyReply } from 'fastify/types/reply'
+import { FastifyRequest } from 'fastify/types/request'
+import { RouteGenericInterface } from 'fastify/types/route'
 import { z } from 'zod'
-import { findUserByAccessToken } from './user.service'
-import { activateUserBodySchema, deactivateUserBodySchema, GetMeResponse } from './user.types'
 
-export const getMeHandler: RouteHandler<{
+interface GetMeRoute extends RouteGenericInterface {
   Reply: {
     200: GetMeResponse
     401: z.infer<typeof errorResponseSchema>
     404: z.infer<typeof errorResponseSchema>
     500: z.infer<typeof errorResponseSchema>
   }
-}> = async (req, rep) => {
+}
+
+export const getMeHandler = async (req: FastifyRequest<GetMeRoute>, rep: FastifyReply<GetMeRoute>) => {
   try {
-    const userDTO = await findUserByAccessToken(req.headers.authorization ?? '')
+    const userDTO = await UserDTO.findById(req.user.id)
     if (!userDTO) {
       return rep.status(404).send({
         code: 'USER_NOT_FOUND',
@@ -40,31 +41,21 @@ export const getMeHandler: RouteHandler<{
   }
 }
 
-export const deactivateUserHandler: RouteHandler<{
+interface DeactivateUserRoute extends RouteGenericInterface {
   Body: z.infer<typeof deactivateUserBodySchema>
   Reply: {
     200: z.infer<typeof userDTOSerializedSchema>
     401: z.infer<typeof errorResponseSchema>
     500: z.infer<typeof errorResponseSchema>
   }
-}> = async (req, rep) => {
+}
+
+export const deactivateUserHandler = async (
+  req: FastifyRequest<DeactivateUserRoute>,
+  rep: FastifyReply<DeactivateUserRoute>,
+) => {
   try {
-    const { authorization } = req.headers
-    if (!authorization) {
-      return rep.status(401).send({
-        code: 'ACCESS_TOKEN_NOT_FOUND',
-        message: 'access token not found',
-      })
-    }
-    const decoded = decodeToken(authorization)
-    if (!decoded) {
-      return rep.status(401).send({
-        code: 'INVALID_ACCESS_TOKEN',
-        message: 'invalid access token',
-      })
-    }
-    const { id: userId } = decoded
-    const user = await UserDTO.findById(userId)
+    const user = await UserDTO.findById(req.user.id)
     if (!user) {
       return rep.status(401).send({
         code: 'USER_NOT_FOUND',
@@ -79,7 +70,7 @@ export const deactivateUserHandler: RouteHandler<{
   }
 }
 
-export const activateUserHandler: RouteHandler<{
+interface ActivateUserRoute extends RouteGenericInterface {
   Body: z.infer<typeof activateUserBodySchema>
   Reply: {
     200: z.infer<typeof userDTOSerializedSchema>
@@ -88,7 +79,12 @@ export const activateUserHandler: RouteHandler<{
     409: z.infer<typeof errorResponseSchema>
     500: z.infer<typeof errorResponseSchema>
   }
-}> = async (req, rep) => {
+}
+
+export const activateUserHandler = async (
+  req: FastifyRequest<ActivateUserRoute>,
+  rep: FastifyReply<ActivateUserRoute>,
+) => {
   try {
     const { authCode, email } = req.body
     const authCodeDTO = await EmailAuthRequestDTO.findByEmail(email)
