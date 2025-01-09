@@ -1,5 +1,5 @@
 import { activateUserHandler, deactivateUserHandler, getMeHandler } from '@/controllers/user.controller'
-import { userDTOSerializedSchema } from '@/dtos/user-dto/user-dto.types'
+import { UserDTOSchema } from '@/dtos/user.dto'
 import { errorResponseSchema } from '@/lib/error'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
@@ -39,7 +39,7 @@ const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
         ],
         body: activateUserBodySchema,
         response: {
-          200: userDTOSerializedSchema,
+          200: UserDTOSchema,
           401: errorResponseSchema,
           404: errorResponseSchema,
           409: errorResponseSchema,
@@ -61,7 +61,7 @@ const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
         ],
         body: deactivateUserBodySchema,
         response: {
-          200: userDTOSerializedSchema,
+          200: UserDTOSchema,
           401: errorResponseSchema,
           500: errorResponseSchema,
         },

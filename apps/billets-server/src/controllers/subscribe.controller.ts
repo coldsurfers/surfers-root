@@ -8,9 +8,9 @@ import {
 import { subscribedConcertDTOSerializedListSchema, SubscribedConcertSerialized } from '@/dtos/subscribe-concert-dto'
 import { SubscribeConcertDTO } from '@/dtos/subscribe-concert-dto/subscribe-concert-dto'
 import { SubscribeVenueDTO, SubscribeVenueSerialized, subscribeVenueSerializedSchema } from '@/dtos/subscribe-venue-dto'
-import { UserDTO } from '@/dtos/user-dto/user-dto'
 import { VenueDTO } from '@/dtos/venue-dto'
 import { ErrorResponse, errorResponseSchema } from '@/lib/error'
+import { UserRepositoryImpl } from '@/repositories/user.repository.impl'
 import {
   getSubscribeCommonParamsSchema,
   getSubscribedConcertListQueryStringSchema,
@@ -22,9 +22,13 @@ import {
   unsubscribeArtistBodySchema,
   unsubscribeVenueBodySchema,
 } from '@/routes/subscribe/subscribe.types'
+import { UserService } from '@/services/user.service'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { RouteGenericInterface } from 'fastify/types/route'
 import { z } from 'zod'
+
+const userRepository = new UserRepositoryImpl()
+const userService = new UserService(userRepository)
 
 interface GetSubscribedConcertListRoute extends RouteGenericInterface {
   Querystring: z.infer<typeof getSubscribedConcertListQueryStringSchema>
@@ -40,15 +44,15 @@ export const getSubscribedConcertListHandler = async (
   rep: FastifyReply<GetSubscribedConcertListRoute>,
 ) => {
   try {
-    const user = await UserDTO.findById(req.user.id)
-    if (!user || !user.props.id) {
+    const user = await userService.getUserById(req.user.id)
+    if (!user) {
       return rep.status(401).send({ code: 'INVALID_USER', message: 'Unauthorized' })
     }
 
     const { offset, size } = req.query
 
     const subscribedConcerts = await SubscribeConcertDTO.list({
-      userId: user.props.id,
+      userId: user.id,
       take: +size,
       skip: +offset,
     })

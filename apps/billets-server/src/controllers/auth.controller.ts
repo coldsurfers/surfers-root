@@ -1,5 +1,4 @@
 import { AuthTokenDTO } from '@/dtos/auth-token-dto'
-import { UserDTO } from '@/dtos/user-dto'
 import encryptPassword from '@/lib/encryptPassword'
 import { ErrorResponse, errorResponseSchema } from '@/lib/error'
 import {
@@ -26,10 +25,15 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
 import log from '@/lib/log'
+import { UserRepositoryImpl } from '@/repositories/user.repository.impl'
+import { UserService } from '@/services/user.service'
 import { differenceInMinutes } from 'date-fns/differenceInMinutes'
 import dotenv from 'dotenv'
 
 dotenv.config()
+
+const userRepository = new UserRepositoryImpl()
+const userService = new UserService(userRepository)
 
 interface PostSignInRoute extends RouteGenericInterface {
   Body: SignInBody
@@ -48,14 +52,16 @@ export const signinHandler = async (req: FastifyRequest<PostSignInRoute>, rep: F
   try {
     return await match(provider)
       .with('email', async () => {
-        const existing = await UserDTO.findByEmail(email)
+        // const existing = await UserDTO.findByEmail(email)
+        const existing = await userService.getUserByEmail(email)
         if (!existing) {
           return rep.status(404).send({
             code: 'USER_NOT_FOUND',
             message: 'user not found',
           })
         }
-        if (!existing.props.id || !password || !existing.props.passwordSalt) {
+        const passwordSalt = await userService.getUserPasswordSalt(existing.id)
+        if (!password || !passwordSalt) {
           return rep.status(400).send({
             code: 'INVALID_USER',
             message: 'invalid user',
@@ -63,9 +69,10 @@ export const signinHandler = async (req: FastifyRequest<PostSignInRoute>, rep: F
         }
         const { encrypted } = encryptPassword({
           plain: password,
-          originalSalt: existing.props.passwordSalt,
+          originalSalt: passwordSalt,
         })
-        if (encrypted !== existing.props.password) {
+        const userPassword = await userService.getUserPassword(existing.id)
+        if (encrypted !== userPassword) {
           return rep.status(401).send({
             code: 'PASSWORD_NOT_MATCH',
             message: 'password not match',
@@ -75,7 +82,7 @@ export const signinHandler = async (req: FastifyRequest<PostSignInRoute>, rep: F
         const authToken = {
           accessToken: app.jwt.sign(
             {
-              id: existing.props.id,
+              id: existing.id,
             },
             {
               expiresIn: '7d',
@@ -83,7 +90,7 @@ export const signinHandler = async (req: FastifyRequest<PostSignInRoute>, rep: F
           ),
           refreshToken: app.jwt.sign(
             {
-              id: existing.props.id,
+              id: existing.id,
             },
             {
               expiresIn: '30d',
@@ -93,11 +100,11 @@ export const signinHandler = async (req: FastifyRequest<PostSignInRoute>, rep: F
         const authTokenDTO = new AuthTokenDTO({
           access_token: authToken.accessToken,
           refresh_token: authToken.refreshToken,
-          user_id: existing.props.id,
+          user_id: existing.id,
         })
         const createdAuthToken = await authTokenDTO.create()
         return rep.status(200).send({
-          user: existing.serialize(),
+          user: existing,
           authToken: createdAuthToken.serialize(),
         })
       })
@@ -108,8 +115,8 @@ export const signinHandler = async (req: FastifyRequest<PostSignInRoute>, rep: F
             message: 'access token not found',
           })
         }
-        const existing = await UserDTO.findByEmail(email)
-        if (!existing || !existing.props.id) {
+        const existing = await userService.getUserByEmail(email)
+        if (!existing) {
           return rep.status(404).send({
             code: 'USER_NOT_FOUND',
             message: 'user not found',
@@ -132,7 +139,7 @@ export const signinHandler = async (req: FastifyRequest<PostSignInRoute>, rep: F
         const authToken = {
           accessToken: app.jwt.sign(
             {
-              id: existing.props.id,
+              id: existing.id,
             },
             {
               expiresIn: '7d',
@@ -140,7 +147,7 @@ export const signinHandler = async (req: FastifyRequest<PostSignInRoute>, rep: F
           ),
           refreshToken: app.jwt.sign(
             {
-              id: existing.props.id,
+              id: existing.id,
             },
             {
               expiresIn: '30d',
@@ -150,11 +157,11 @@ export const signinHandler = async (req: FastifyRequest<PostSignInRoute>, rep: F
         const authTokenDTO = new AuthTokenDTO({
           access_token: authToken.accessToken,
           refresh_token: authToken.refreshToken,
-          user_id: existing.props.id,
+          user_id: existing.id,
         })
         const createdAuthToken = await authTokenDTO.create()
         return rep.status(200).send({
-          user: existing.serialize(),
+          user: existing,
           authToken: createdAuthToken.serialize(),
         })
       })
@@ -182,7 +189,7 @@ export const signinPreHandler = async (
 ) => {
   try {
     const { provider, email } = req.body
-    const existing = await UserDTO.findByEmail(email)
+    const existing = await userService.getUserByEmail(email)
     if (existing?.deactivatedAt) {
       return rep.status(401).send({
         code: 'USER_DEACTIVATED',
@@ -240,20 +247,26 @@ export const signupHandler = async (req: FastifyRequest<PostSignUpRoute>, rep: F
           plain: password,
           originalSalt: undefined,
         })
-        const userDTO = new UserDTO({
+        // const userDTO = new UserDTO({
+        //   email,
+        //   provider: 'email',
+        //   password: encrypted,
+        //   passwordSalt: salt,
+        // })
+        // const created = await userDTO.create()
+        const createdUser = await userService.createUser({
           email,
           provider: 'email',
           password: encrypted,
           passwordSalt: salt,
         })
-        const created = await userDTO.create()
-        if (!created.props.id) {
+        if (!createdUser) {
           return rep.status(400).send()
         }
         const authToken = {
           accessToken: app.jwt.sign(
             {
-              id: created.props.id,
+              id: createdUser.id,
             },
             {
               expiresIn: '7d',
@@ -261,7 +274,7 @@ export const signupHandler = async (req: FastifyRequest<PostSignUpRoute>, rep: F
           ),
           refreshToken: app.jwt.sign(
             {
-              id: created.props.id,
+              id: createdUser.id,
             },
             {
               expiresIn: '30d',
@@ -271,11 +284,11 @@ export const signupHandler = async (req: FastifyRequest<PostSignUpRoute>, rep: F
         const authTokenDTO = new AuthTokenDTO({
           access_token: authToken.accessToken,
           refresh_token: authToken.refreshToken,
-          user_id: created.props.id,
+          user_id: createdUser.id,
         })
         const createdAuthToken = await authTokenDTO.create()
         return rep.status(201).send({
-          user: userDTO.serialize(),
+          user: createdUser,
           authToken: createdAuthToken.serialize(),
         })
       })
@@ -297,18 +310,21 @@ export const signupHandler = async (req: FastifyRequest<PostSignUpRoute>, rep: F
           await verifyAppleToken(token, process.env.BILLETS_APP_APPLE_BUNDLE_ID ?? '')
         }
         //
-        const userDTO = new UserDTO({
+        // const userDTO = new UserDTO({
+        //   email,
+        //   provider,
+        // })
+        const createdUser = await userService.createUser({
           email,
           provider,
         })
-        const created = await userDTO.create()
-        if (!created.props.id) {
+        if (!createdUser.id) {
           return rep.status(400).send()
         }
         const authToken = {
           accessToken: app.jwt.sign(
             {
-              id: created.props.id,
+              id: createdUser.id,
             },
             {
               expiresIn: '7d',
@@ -316,7 +332,7 @@ export const signupHandler = async (req: FastifyRequest<PostSignUpRoute>, rep: F
           ),
           refreshToken: app.jwt.sign(
             {
-              id: created.props.id,
+              id: createdUser.id,
             },
             {
               expiresIn: '30d',
@@ -326,11 +342,11 @@ export const signupHandler = async (req: FastifyRequest<PostSignUpRoute>, rep: F
         const authTokenDTO = new AuthTokenDTO({
           access_token: authToken.accessToken,
           refresh_token: authToken.refreshToken,
-          user_id: created.props.id,
+          user_id: createdUser.id,
         })
         const createdAuthToken = await authTokenDTO.create()
         return rep.status(201).send({
-          user: created.serialize(),
+          user: createdUser,
           authToken: createdAuthToken.serialize(),
         })
       })
@@ -353,7 +369,7 @@ export const signupPreHandler = async (
 ) => {
   try {
     const { email } = req.body
-    const user = await UserDTO.findByEmail(email)
+    const user = await userService.getUserByEmail(email)
     if (user?.deactivatedAt) {
       return rep.status(401).send({
         code: 'USER_DEACTIVATED',

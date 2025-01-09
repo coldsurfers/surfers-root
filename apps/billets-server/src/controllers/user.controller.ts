@@ -1,16 +1,21 @@
 import { EmailAuthRequestDTO } from '@/dtos/email-auth-request-dto'
-import { UserDTO, userDTOSerializedSchema } from '@/dtos/user-dto'
+import { UserDTO } from '@/dtos/user.dto'
 import { errorResponseSchema } from '@/lib/error'
-import { activateUserBodySchema, deactivateUserBodySchema, GetMeResponse } from '@/routes/user/user.types'
+import { UserRepositoryImpl } from '@/repositories/user.repository.impl'
+import { activateUserBodySchema, deactivateUserBodySchema } from '@/routes/user/user.types'
+import { UserService } from '@/services/user.service'
 import { differenceInMinutes } from 'date-fns/differenceInMinutes'
 import { FastifyReply } from 'fastify/types/reply'
 import { FastifyRequest } from 'fastify/types/request'
 import { RouteGenericInterface } from 'fastify/types/route'
 import { z } from 'zod'
 
+const userRepository = new UserRepositoryImpl()
+const userService = new UserService(userRepository)
+
 interface GetMeRoute extends RouteGenericInterface {
   Reply: {
-    200: GetMeResponse
+    200: UserDTO
     401: z.infer<typeof errorResponseSchema>
     404: z.infer<typeof errorResponseSchema>
     500: z.infer<typeof errorResponseSchema>
@@ -19,20 +24,20 @@ interface GetMeRoute extends RouteGenericInterface {
 
 export const getMeHandler = async (req: FastifyRequest<GetMeRoute>, rep: FastifyReply<GetMeRoute>) => {
   try {
-    const userDTO = await UserDTO.findById(req.user.id)
-    if (!userDTO) {
+    const user = await userService.getUserById(req.user.id)
+    if (!user) {
       return rep.status(404).send({
         code: 'USER_NOT_FOUND',
         message: 'user not found',
       })
     }
-    if (userDTO.deactivatedAt) {
+    if (user.deactivatedAt) {
       return rep.status(401).send({
         code: 'USER_DEACTIVATED',
         message: 'deactivated user',
       })
     }
-    return rep.status(200).send(userDTO.serialize())
+    return rep.status(200).send(user)
   } catch (e) {
     return rep.status(500).send({
       code: 'UNKNOWN',
@@ -44,7 +49,7 @@ export const getMeHandler = async (req: FastifyRequest<GetMeRoute>, rep: Fastify
 interface DeactivateUserRoute extends RouteGenericInterface {
   Body: z.infer<typeof deactivateUserBodySchema>
   Reply: {
-    200: z.infer<typeof userDTOSerializedSchema>
+    200: UserDTO
     401: z.infer<typeof errorResponseSchema>
     500: z.infer<typeof errorResponseSchema>
   }
@@ -55,16 +60,21 @@ export const deactivateUserHandler = async (
   rep: FastifyReply<DeactivateUserRoute>,
 ) => {
   try {
-    const user = await UserDTO.findById(req.user.id)
+    const user = await userService.getUserById(req.user.id)
     if (!user) {
       return rep.status(401).send({
         code: 'USER_NOT_FOUND',
         message: 'user not found',
       })
     }
-    const userToDeactivate = new UserDTO(user)
-    const deactivated = await userToDeactivate.deactivate()
-    return rep.status(200).send(deactivated.serialize())
+    const deactivatedUser = await userService.deactivateUser(user.id)
+    if (!deactivatedUser) {
+      return rep.status(401).send({
+        code: 'USER_NOT_FOUND',
+        message: 'user not found',
+      })
+    }
+    return rep.status(200).send(deactivatedUser)
   } catch (e) {
     return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
   }
@@ -73,7 +83,7 @@ export const deactivateUserHandler = async (
 interface ActivateUserRoute extends RouteGenericInterface {
   Body: z.infer<typeof activateUserBodySchema>
   Reply: {
-    200: z.infer<typeof userDTOSerializedSchema>
+    200: UserDTO
     401: z.infer<typeof errorResponseSchema>
     404: z.infer<typeof errorResponseSchema>
     409: z.infer<typeof errorResponseSchema>
@@ -116,15 +126,21 @@ export const activateUserHandler = async (
       }
     }
     await authCodeDTO.confirm()
-    const userToActivate = await UserDTO.findByEmail(email)
+    const userToActivate = await userService.getUserByEmail(email)
     if (!userToActivate) {
       return rep.status(404).send({
         code: 'USER_NOT_FOUND',
         message: 'cannot find user',
       })
     }
-    const activated = await userToActivate.activate()
-    return rep.status(200).send(activated.serialize())
+    const activatedUser = await userService.activateUser(userToActivate.id)
+    if (!activatedUser) {
+      return rep.status(404).send({
+        code: 'USER_NOT_FOUND',
+        message: 'cannot find user',
+      })
+    }
+    return rep.status(200).send(activatedUser)
   } catch (e) {
     return rep.status(500).send({
       code: 'UNKNOWN',
