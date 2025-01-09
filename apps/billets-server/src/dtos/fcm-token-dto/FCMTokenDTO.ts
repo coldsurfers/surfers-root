@@ -1,5 +1,5 @@
+import { dbClient } from '@/lib/db'
 import { FCMToken } from '@prisma/client'
-import { prisma } from '../../prisma/connect'
 import { FCMTokenDTOSerialized } from './FCMTokenDTO.types'
 
 export class FCMTokenDTO {
@@ -12,7 +12,7 @@ export class FCMTokenDTO {
     if (!this.props.tokenValue) {
       throw Error('invalid token value')
     }
-    const data = await prisma.fCMToken.create({
+    const data = await dbClient.fCMToken.create({
       data: {
         tokenValue: this.props.tokenValue,
       },
@@ -24,7 +24,7 @@ export class FCMTokenDTO {
     if (!this.props.id) {
       throw Error('invalid id')
     }
-    const data = await prisma.usersOnFCMTokens.upsert({
+    const data = await dbClient.usersOnFCMTokens.upsert({
       where: {
         userId_fcmTokenId: {
           userId,
@@ -46,7 +46,7 @@ export class FCMTokenDTO {
   }
 
   public static async findByTokenValue(token: string) {
-    const data = await prisma.fCMToken.findUnique({
+    const data = await dbClient.fCMToken.findUnique({
       where: {
         tokenValue: token,
       },

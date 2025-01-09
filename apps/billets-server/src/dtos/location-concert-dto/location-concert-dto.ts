@@ -1,12 +1,12 @@
+import { dbClient } from '@/lib/db'
 import { z } from 'zod'
-import { prisma } from '../../prisma/connect'
 import { LocationConcertDTOProps, locationConcertDTOSerializedSchema } from './location-concert-dto.types'
 
 export class LocationConcertDTO {
   constructor(private props: LocationConcertDTOProps) {}
 
   static async listByGeohashes(geohashes: string[]) {
-    const data = await prisma.concert.findMany({
+    const data = await dbClient.concert.findMany({
       where: {
         venues: {
           some: {

@@ -1,12 +1,12 @@
+import { dbClient } from '@/lib/db'
 import { LocationCity } from '@prisma/client'
-import { prisma } from '../../prisma/connect'
 import { locationCityDTOSerializedSchema } from './location-city-dto.types'
 
 export class LocationCityDTO {
   constructor(private props: Partial<LocationCity>) {}
 
   public static async listCity() {
-    const data = await prisma.locationCity.findMany({})
+    const data = await dbClient.locationCity.findMany({})
     return data.map((value) => new LocationCityDTO(value))
   }
 

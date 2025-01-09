@@ -1,4 +1,4 @@
-import { prisma } from '../../prisma/connect'
+import { dbClient } from '@/lib/db'
 import { SubscribeVenueProps, SubscribeVenueSerialized } from './subscribe-venue-dto.types'
 
 export class SubscribeVenueDTO {
@@ -7,7 +7,7 @@ export class SubscribeVenueDTO {
   }
 
   static async findByVenueIdUserId(venueId: string, userId: string) {
-    const subscribedVenue = await prisma.usersOnSubscribedVenues.findFirst({
+    const subscribedVenue = await dbClient.usersOnSubscribedVenues.findFirst({
       where: {
         venueId,
         userId,
@@ -23,7 +23,7 @@ export class SubscribeVenueDTO {
     if (!this.props.userId || !this.props.venueId) {
       throw new Error('userId or venueId is required')
     }
-    const data = await prisma.usersOnSubscribedVenues.create({
+    const data = await dbClient.usersOnSubscribedVenues.create({
       data: {
         userId: this.props.userId,
         venueId: this.props.venueId,
@@ -36,7 +36,7 @@ export class SubscribeVenueDTO {
     if (!this.props.userId || !this.props.venueId) {
       throw new Error('userId or venueId is required')
     }
-    const data = await prisma.usersOnSubscribedVenues.delete({
+    const data = await dbClient.usersOnSubscribedVenues.delete({
       where: {
         userId_venueId: {
           userId: this.props.userId,

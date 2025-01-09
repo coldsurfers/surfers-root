@@ -1,4 +1,4 @@
-import { prisma } from '@/prisma/connect'
+import { dbClient } from '@/lib/db'
 import { ArtistDTOProps, ArtistDTOSerialized, artistDTOSerializedSchema } from './artist-dto.types'
 
 export class ArtistDTO {
@@ -7,7 +7,7 @@ export class ArtistDTO {
   }
 
   static async findById(id: string) {
-    const artist = await prisma.artist.findUnique({
+    const artist = await dbClient.artist.findUnique({
       where: {
         id,
       },

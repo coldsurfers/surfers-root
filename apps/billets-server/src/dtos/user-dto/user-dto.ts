@@ -1,5 +1,5 @@
+import { dbClient } from '@/lib/db'
 import { User } from '@prisma/client'
-import { prisma } from '../../prisma/connect'
 import { UserDTOSerialized } from './user-dto.types'
 
 type UserDTOProps = Partial<User>
@@ -12,7 +12,7 @@ export class UserDTO {
   }
 
   static async findByEmail(email: string) {
-    const data = await prisma.user.findUnique({
+    const data = await dbClient.user.findUnique({
       where: {
         email,
       },
@@ -22,7 +22,7 @@ export class UserDTO {
   }
 
   static async findById(id: string) {
-    const data = await prisma.user.findUnique({
+    const data = await dbClient.user.findUnique({
       where: {
         id,
       },
@@ -35,7 +35,7 @@ export class UserDTO {
     if (!this.props.email || !this.props.provider) {
       throw Error('invalid email or provider')
     }
-    const data = await prisma.user.create({
+    const data = await dbClient.user.create({
       data: {
         email: this.props.email,
         provider: this.props.provider,
@@ -51,7 +51,7 @@ export class UserDTO {
     if (!this.props.id) {
       throw Error('id invalid')
     }
-    const data = await prisma.user.update({
+    const data = await dbClient.user.update({
       where: {
         id: this.props.id,
       },
@@ -66,7 +66,7 @@ export class UserDTO {
     if (!this.props.id) {
       throw Error('id invalid')
     }
-    const data = await prisma.user.update({
+    const data = await dbClient.user.update({
       where: {
         id: this.props.id,
       },
