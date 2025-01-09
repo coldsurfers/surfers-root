@@ -1,9 +1,9 @@
 import { FCMTokenDTO, FCMTokenDTOSerialized } from '@/dtos/fcm-token-dto'
 import { errorResponseSchema } from '@/lib/error'
 import { PostFCMTokenBody } from '@/routes/fcm'
+import { app } from '@/server'
 import { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify'
 import { z } from 'zod'
-import { fastify } from '../server'
 
 interface PostFCMRoute extends RouteGenericInterface {
   Body: PostFCMTokenBody
@@ -19,7 +19,7 @@ export const postFCMTokenHandler = async (req: FastifyRequest<PostFCMRoute>, rep
     const { fcmToken } = req.body
     const { authorization: Authorization } = req.headers
     if (Authorization) {
-      const decoded = fastify.jwt.verify(Authorization.replace('Bearer ', ''))
+      const decoded = app.jwt.verify(Authorization.replace('Bearer ', ''))
       if (!decoded) {
         return rep.status(401).send({
           code: 'INVALID_ACCESS_TOKEN',

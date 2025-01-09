@@ -85,20 +85,20 @@ import {
 
 dotenv.config()
 
-export const fastify = Fastify({
+export const app = Fastify({
   logger: true,
 })
 
-fastify.register(cors, {
+app.register(cors, {
   allowedHeaders: ['Authorization', 'Content-Type'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   origin: ['http://localhost:3000', 'https://billets.coldsurf.io'],
 })
 
-fastify.register(jwtPlugin)
+app.register(jwtPlugin)
 
-fastify.register(rateLimit, {
+app.register(rateLimit, {
   global: false,
   // max: 100, // Maximum number of requests
   // timeWindow: '1 minute', // Time window in milliseconds or a human-readable format
@@ -113,10 +113,10 @@ fastify.register(rateLimit, {
   // },
 })
 
-fastify.setValidatorCompiler(validatorCompiler)
-fastify.setSerializerCompiler(serializerCompiler)
+app.setValidatorCompiler(validatorCompiler)
+app.setSerializerCompiler(serializerCompiler)
 
-fastify.register(fastifySwagger, {
+app.register(fastifySwagger, {
   swagger: {
     host: SWAGGER_HOST,
     schemes: ['http'],
@@ -225,7 +225,7 @@ fastify.register(fastifySwagger, {
   // })
 })
 
-fastify.register(fastifySwaggerUi, {
+app.register(fastifySwaggerUi, {
   routePrefix: '/docs',
   uiConfig: {
     defaultModelsExpandDepth: 1, // Show schemas in the Models section
@@ -237,13 +237,13 @@ fastify.register(fastifySwaggerUi, {
   },
 })
 
-fastify.register(authRoute, { prefix: '/v1/auth' })
-fastify.register(userRoute, { prefix: '/v1/user' })
-fastify.register(concertRoute, { prefix: '/v1/concert' })
-fastify.register(searchRoute, { prefix: '/v1/search' })
-fastify.register(subscribeRoute, { prefix: '/v1/subscribe' })
-fastify.register(fcmRoute, { prefix: '/v1/fcm' })
-fastify.register(artistRoute, { prefix: '/v1/artist' })
-fastify.register(venueRoute, { prefix: '/v1/venue' })
-fastify.register(locationRoute, { prefix: '/v1/location' })
-fastify.register(mailerRoute, { prefix: '/v1/mailer' })
+app.register(authRoute, { prefix: '/v1/auth' })
+app.register(userRoute, { prefix: '/v1/user' })
+app.register(concertRoute, { prefix: '/v1/concert' })
+app.register(searchRoute, { prefix: '/v1/search' })
+app.register(subscribeRoute, { prefix: '/v1/subscribe' })
+app.register(fcmRoute, { prefix: '/v1/fcm' })
+app.register(artistRoute, { prefix: '/v1/artist' })
+app.register(venueRoute, { prefix: '/v1/venue' })
+app.register(locationRoute, { prefix: '/v1/location' })
+app.register(mailerRoute, { prefix: '/v1/mailer' })

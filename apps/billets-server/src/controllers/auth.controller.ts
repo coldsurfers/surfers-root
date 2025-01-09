@@ -21,9 +21,9 @@ import createEmailAuthCode from '@/lib/createEmailAuthCode'
 import { googleOAuth2Client } from '@/lib/google-oauth2-client'
 import { sendEmail } from '@/lib/mailer'
 import verifyAppleToken from '@/lib/verifyAppleToken'
+import { app } from '@/server'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { fastify } from '../server'
 
 import log from '@/lib/log'
 import { differenceInMinutes } from 'date-fns/differenceInMinutes'
@@ -73,7 +73,7 @@ export const signinHandler = async (req: FastifyRequest<PostSignInRoute>, rep: F
         }
 
         const authToken = {
-          accessToken: fastify.jwt.sign(
+          accessToken: app.jwt.sign(
             {
               id: existing.props.id,
             },
@@ -81,7 +81,7 @@ export const signinHandler = async (req: FastifyRequest<PostSignInRoute>, rep: F
               expiresIn: '7d',
             },
           ),
-          refreshToken: fastify.jwt.sign(
+          refreshToken: app.jwt.sign(
             {
               id: existing.props.id,
             },
@@ -130,7 +130,7 @@ export const signinHandler = async (req: FastifyRequest<PostSignInRoute>, rep: F
         }
 
         const authToken = {
-          accessToken: fastify.jwt.sign(
+          accessToken: app.jwt.sign(
             {
               id: existing.props.id,
             },
@@ -138,7 +138,7 @@ export const signinHandler = async (req: FastifyRequest<PostSignInRoute>, rep: F
               expiresIn: '7d',
             },
           ),
-          refreshToken: fastify.jwt.sign(
+          refreshToken: app.jwt.sign(
             {
               id: existing.props.id,
             },
@@ -251,7 +251,7 @@ export const signupHandler = async (req: FastifyRequest<PostSignUpRoute>, rep: F
           return rep.status(400).send()
         }
         const authToken = {
-          accessToken: fastify.jwt.sign(
+          accessToken: app.jwt.sign(
             {
               id: created.props.id,
             },
@@ -259,7 +259,7 @@ export const signupHandler = async (req: FastifyRequest<PostSignUpRoute>, rep: F
               expiresIn: '7d',
             },
           ),
-          refreshToken: fastify.jwt.sign(
+          refreshToken: app.jwt.sign(
             {
               id: created.props.id,
             },
@@ -306,7 +306,7 @@ export const signupHandler = async (req: FastifyRequest<PostSignUpRoute>, rep: F
           return rep.status(400).send()
         }
         const authToken = {
-          accessToken: fastify.jwt.sign(
+          accessToken: app.jwt.sign(
             {
               id: created.props.id,
             },
@@ -314,7 +314,7 @@ export const signupHandler = async (req: FastifyRequest<PostSignUpRoute>, rep: F
               expiresIn: '7d',
             },
           ),
-          refreshToken: fastify.jwt.sign(
+          refreshToken: app.jwt.sign(
             {
               id: created.props.id,
             },

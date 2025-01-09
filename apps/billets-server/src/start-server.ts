@@ -1,6 +1,6 @@
-import { fastify } from './server'
+import { app } from './server'
 
-fastify.listen(
+app.listen(
   {
     port: process.env.PORT ? +process.env.PORT : 3001,
     host: '0.0.0.0',
