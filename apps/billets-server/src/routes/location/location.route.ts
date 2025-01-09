@@ -3,9 +3,7 @@ import {
   getLocationConcertsHandler,
   getLocationCountryListHandler,
 } from '@/controllers/location.controller'
-import { locationCityDTOSerializedSchema } from '@/dtos/location-city-dto'
-import { locationConcertDTOSerializedSchema } from '@/dtos/location-concert-dto'
-import { locationCountryDTOSerializedSchema } from '@/dtos/location-country-dto'
+import { LocationCityDTOSchema, LocationConcertDTOSchema, LocationCountryDTOSchema } from '@/dtos/location.dto'
 import { errorResponseSchema } from '@/lib/error'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
@@ -19,7 +17,7 @@ export const locationRoute: FastifyPluginCallback = (fastify, opts, done) => {
         tags: ['v1', 'location'],
         querystring: getLocationConcertsQueryStringSchema,
         response: {
-          200: locationConcertDTOSerializedSchema.array(),
+          200: LocationConcertDTOSchema.array(),
           400: errorResponseSchema,
           500: errorResponseSchema,
         },
@@ -34,7 +32,7 @@ export const locationRoute: FastifyPluginCallback = (fastify, opts, done) => {
       schema: {
         tags: ['v1', 'location'],
         response: {
-          200: locationCityDTOSerializedSchema.array(),
+          200: LocationCityDTOSchema.array(),
           500: errorResponseSchema,
         },
       },
@@ -48,7 +46,7 @@ export const locationRoute: FastifyPluginCallback = (fastify, opts, done) => {
       schema: {
         tags: ['v1', 'location'],
         response: {
-          200: locationCountryDTOSerializedSchema.array(),
+          200: LocationCountryDTOSchema.array(),
           500: errorResponseSchema,
         },
       },

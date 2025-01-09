@@ -1,14 +1,16 @@
-import { LocationCityDTO, locationCityDTOSerializedSchema } from '@/dtos/location-city-dto'
-import { LocationConcertDTO, locationConcertDTOSerializedSchema } from '@/dtos/location-concert-dto'
-import { LocationCountryDTO } from '@/dtos/location-country-dto/location-country-dto'
-import { locationCountryDTOSerializedSchema } from '@/dtos/location-country-dto/location-country-dto.types'
+import { LocationCityDTOSchema, LocationConcertDTOSchema, LocationCountryDTOSchema } from '@/dtos/location.dto'
 import { errorResponseSchema } from '@/lib/error'
+import { LocationRepositoryImpl } from '@/repositories/location.repository.impl'
 import { getLocationConcertsQueryStringSchema } from '@/routes/location/location.types'
+import { LocationService } from '@/services/location.service'
 import { RouteGenericInterface } from 'fastify'
 import { FastifyReply } from 'fastify/types/reply'
 import { FastifyRequest } from 'fastify/types/request'
 import geohash from 'ngeohash'
 import { z } from 'zod'
+
+const locationRepository = new LocationRepositoryImpl()
+const locationService = new LocationService(locationRepository)
 
 const getLocationConcertsHandlerQueryAdapter = (query: z.infer<typeof getLocationConcertsQueryStringSchema>) => {
   return {
@@ -23,7 +25,7 @@ const getLocationConcertsHandlerQueryAdapter = (query: z.infer<typeof getLocatio
 interface GetLocationConcertRoute extends RouteGenericInterface {
   Querystring: z.infer<typeof getLocationConcertsQueryStringSchema>
   Reply: {
-    200: z.infer<typeof locationConcertDTOSerializedSchema>[]
+    200: z.infer<typeof LocationConcertDTOSchema>[]
     400: z.infer<typeof errorResponseSchema>
     500: z.infer<typeof errorResponseSchema>
   }
@@ -63,9 +65,9 @@ export const getLocationConcertsHandler = async (
     const bboxes = geohash.bboxes(southLat, westLng, northLat, eastLng, maxPrecision)
 
     const geohashes = [...new Set([northEast, northWest, southEast, southWest, center, ...nearbyGeohashes, ...bboxes])]
-    const data = await LocationConcertDTO.listByGeohashes(geohashes)
+    const data = await locationService.findAllConcertsByGeohashes(geohashes)
 
-    return rep.status(200).send(data.map((value) => value.serialize()))
+    return rep.status(200).send(data)
   } catch (e) {
     console.error(e)
     return rep.status(500).send({
@@ -77,7 +79,7 @@ export const getLocationConcertsHandler = async (
 
 interface GetLocationCityListRoute extends RouteGenericInterface {
   Reply: {
-    200: z.infer<typeof locationCityDTOSerializedSchema>[]
+    200: z.infer<typeof LocationCityDTOSchema>[]
     500: z.infer<typeof errorResponseSchema>
   }
 }
@@ -87,8 +89,8 @@ export const getLocationCityListHandler = async (
   rep: FastifyReply<GetLocationCityListRoute>,
 ) => {
   try {
-    const data = await LocationCityDTO.listCity()
-    return rep.status(200).send(data.map((value) => value.serialize()))
+    const data = await locationService.findAllCity()
+    return rep.status(200).send(data)
   } catch (e) {
     console.error(e)
     return rep.status(500).send({
@@ -100,7 +102,7 @@ export const getLocationCityListHandler = async (
 
 interface GetLocationCountryListRoute extends RouteGenericInterface {
   Reply: {
-    200: z.infer<typeof locationCountryDTOSerializedSchema>[]
+    200: z.infer<typeof LocationCountryDTOSchema>[]
     500: z.infer<typeof errorResponseSchema>
   }
 }
@@ -110,8 +112,8 @@ export const getLocationCountryListHandler = async (
   rep: FastifyReply<GetLocationCountryListRoute>,
 ) => {
   try {
-    const data = await LocationCountryDTO.listCountry()
-    return rep.status(200).send(data.map((value) => value.serialize()))
+    const data = await locationService.findAllCountry()
+    return rep.status(200).send(data)
   } catch (e) {
     console.error(e)
     return rep.status(500).send({
