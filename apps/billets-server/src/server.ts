@@ -4,7 +4,6 @@ import {
   subscribeConcertDTOSerializedSchema,
   subscribedConcertDTOSerializedListSchema,
 } from '@/dtos/subscribe-concert-dto/subscribe-concert-dto.types'
-import { subscribeVenueSerializedSchema } from '@/dtos/subscribe-venue-dto/subscribe-venue-dto.types'
 import authRoute from '@/routes/auth/auth.route'
 import {
   confirmAuthCodeBodySchema,
@@ -187,7 +186,7 @@ app.register(fastifySwagger, {
       SubscribedArtistDTOSerialized: subscribedArtistDTOSerializedSchema,
       SubscribeArtistParams: subscribeArtistParamsSchema,
       SubscribeVenueParams: subscribeVenueParamsSchema,
-      SubscribeVenueSerialized: subscribeVenueSerializedSchema,
+      SubscribeVenueSerialized: VenueDTOSchema,
       SubscribeConcertBody: subscribeConcertBodySchema,
       GetSubscribedConcertListQueryString: getSubscribedConcertListQueryStringSchema,
       SubscribedConcertSerializedList: subscribedConcertDTOSerializedListSchema,

@@ -15,7 +15,7 @@ import {
   subscribeConcertDTOSerializedSchema,
   subscribedConcertDTOSerializedListSchema,
 } from '@/dtos/subscribe-concert-dto/subscribe-concert-dto.types'
-import { subscribeVenueSerializedSchema } from '@/dtos/subscribe-venue-dto/subscribe-venue-dto.types'
+import { VenueDTOSchema } from '@/dtos/venue.dto'
 import { errorResponseSchema } from '@/lib/error'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
@@ -169,7 +169,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
         tags: ['v1', 'subscribe'],
         params: getSubscribeCommonParamsSchema,
         response: {
-          200: subscribeVenueSerializedSchema,
+          200: VenueDTOSchema,
           401: errorResponseSchema,
           404: errorResponseSchema,
           500: errorResponseSchema,
@@ -187,7 +187,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
         params: subscribeVenueParamsSchema,
         body: subscribeVenueBodySchema,
         response: {
-          200: subscribeVenueSerializedSchema,
+          200: VenueDTOSchema,
           401: errorResponseSchema,
           404: errorResponseSchema,
           500: errorResponseSchema,
@@ -207,7 +207,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
         params: subscribeVenueParamsSchema,
         body: unsubscribeVenueBodySchema,
         response: {
-          200: subscribeVenueSerializedSchema,
+          200: VenueDTOSchema,
           401: errorResponseSchema,
           404: errorResponseSchema,
           500: errorResponseSchema,
