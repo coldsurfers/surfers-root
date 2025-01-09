@@ -1,6 +1,6 @@
+import { concertHandler, concertListHandler, concertSearchHandler } from '@/controllers/concert.controller'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { concertHandler, concertListHandler, concertSearchHandler } from './concert.handler'
 import {
   concertDetailParamsSchema,
   concertDetailResponseSchema,
