@@ -1,7 +1,7 @@
+import { sendUserVoiceHandler } from '@/controllers/mailer.controller'
 import { errorResponseSchema } from '@/lib/error'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { sendUserVoiceHandler } from './mailer.handler'
 import { sendEmailResponseSchema, sendUserVoiceBodySchema } from './mailer.types'
 
 const timeWindow = '1 minute'
