@@ -53,7 +53,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
         tags: ['v1', 'subscribe'],
         params: getSubscribeCommonParamsSchema,
         response: {
-          200: ConcertDTOSchema.array(),
+          200: ConcertDTOSchema,
           401: errorResponseSchema,
           404: errorResponseSchema,
           500: errorResponseSchema,
@@ -92,7 +92,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
         params: subscribeConcertParamsSchema,
         body: subscribeConcertBodySchema,
         response: {
-          200: ConcertDTOSchema.array(),
+          200: ConcertDTOSchema,
           401: errorResponseSchema,
           404: errorResponseSchema,
           500: errorResponseSchema,
