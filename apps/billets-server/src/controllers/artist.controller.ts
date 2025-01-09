@@ -1,7 +1,7 @@
 import { ArtistDTO } from '@/dtos/artist.dto'
-import { ConcertDTO } from '@/dtos/concert-dto'
 import { errorResponseSchema } from '@/lib/error'
 import { ArtistRepositoryImpl } from '@/repositories/artist.repository.impl'
+import { ConcertRepositoryImpl } from '@/repositories/concert.repository.impl'
 import {
   GetArtistByIdParams,
   getConcertListByArtistIdParamsSchema,
@@ -9,6 +9,7 @@ import {
   getConcertListByArtistIdSuccessResponseSchema,
 } from '@/routes/artist/artist.types'
 import { ArtistService } from '@/services/artist.service'
+import { ConcertService } from '@/services/concert.service'
 import { RouteGenericInterface } from 'fastify'
 import { FastifyReply } from 'fastify/types/reply'
 import { FastifyRequest } from 'fastify/types/request'
@@ -16,6 +17,9 @@ import { z } from 'zod'
 
 const artistRepository = new ArtistRepositoryImpl()
 const artistService = new ArtistService(artistRepository)
+
+const concertRepository = new ConcertRepositoryImpl()
+const concertService = new ConcertService(concertRepository)
 
 interface GetArtistByIdRoute extends RouteGenericInterface {
   Params: GetArtistByIdParams
@@ -65,12 +69,13 @@ export const getConcertListByArtistIdHandler = async (
   try {
     const { artistId } = req.params
     const { offset, size } = req.query
-    const dtos = await ConcertDTO.listByArtistId(artistId, {
+    const concerts = await concertService.getManyByArtistId({
+      artistId,
       orderBy: 'latest',
       take: +size,
       skip: +offset,
     })
-    return rep.status(200).send(dtos.map((dto) => dto.serialize()))
+    return rep.status(200).send(concerts)
   } catch (e) {
     return rep.status(500).send({
       code: 'UNKNOWN',

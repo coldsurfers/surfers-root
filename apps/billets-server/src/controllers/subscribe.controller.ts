@@ -1,14 +1,13 @@
-import { ConcertDTO } from '@/dtos/concert-dto'
+import { ConcertDTO, ConcertDTOSchema } from '@/dtos/concert.dto'
 import {
   SubscribeArtistDTO,
   subscribedArtistDTOSerializedSchema,
   SubscribedArtistSerialized,
 } from '@/dtos/subscribe-artist-dto'
-import { subscribedConcertDTOSerializedListSchema, SubscribedConcertSerialized } from '@/dtos/subscribe-concert-dto'
-import { SubscribeConcertDTO } from '@/dtos/subscribe-concert-dto/subscribe-concert-dto'
 import { VenueDTO } from '@/dtos/venue.dto'
 import { ErrorResponse, errorResponseSchema } from '@/lib/error'
 import { ArtistRepositoryImpl } from '@/repositories/artist.repository.impl'
+import { ConcertRepositoryImpl } from '@/repositories/concert.repository.impl'
 import { UserRepositoryImpl } from '@/repositories/user.repository.impl'
 import { VenueRepositoryImpl } from '@/repositories/venue.repository.impl'
 import {
@@ -23,6 +22,7 @@ import {
   unsubscribeVenueBodySchema,
 } from '@/routes/subscribe/subscribe.types'
 import { ArtistService } from '@/services/artist.service'
+import { ConcertService } from '@/services/concert.service'
 import { UserService } from '@/services/user.service'
 import { VenueService } from '@/services/venue.service'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -38,10 +38,13 @@ const artistService = new ArtistService(artistRepository)
 const venueRepository = new VenueRepositoryImpl()
 const venueService = new VenueService(venueRepository)
 
+const concertRepository = new ConcertRepositoryImpl()
+const concertService = new ConcertService(concertRepository)
+
 interface GetSubscribedConcertListRoute extends RouteGenericInterface {
   Querystring: z.infer<typeof getSubscribedConcertListQueryStringSchema>
   Reply: {
-    200: z.infer<typeof subscribedConcertDTOSerializedListSchema>
+    200: z.infer<typeof ConcertDTOSchema>[]
     401: z.infer<typeof errorResponseSchema>
     500: z.infer<typeof errorResponseSchema>
   }
@@ -59,13 +62,13 @@ export const getSubscribedConcertListHandler = async (
 
     const { offset, size } = req.query
 
-    const subscribedConcerts = await SubscribeConcertDTO.list({
+    const subscribedConcerts = await concertService.getManySubscribedConcerts({
       userId: user.id,
       take: +size,
       skip: +offset,
     })
 
-    return rep.status(200).send(subscribedConcerts.map((value) => value.serialize()))
+    return rep.status(200).send(subscribedConcerts)
   } catch (e) {
     console.error(e)
     return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
@@ -75,7 +78,7 @@ export const getSubscribedConcertListHandler = async (
 interface GetConcertSubscribeRoute extends RouteGenericInterface {
   Params: z.infer<typeof getSubscribeCommonParamsSchema>
   Reply: {
-    200: SubscribedConcertSerialized
+    200: ConcertDTO
     401: ErrorResponse
     404: ErrorResponse
     500: ErrorResponse
@@ -88,14 +91,14 @@ export const getConcertSubscribeHandler = async (
 ) => {
   try {
     const { id: concertId } = req.params
-    const subscribedConcert = await SubscribeConcertDTO.findByConcertIdUserId(concertId, req.user.id)
+    const subscribedConcert = await concertService.getSubscribedConcert({ concertId, userId: req.user.id })
     if (!subscribedConcert) {
       return rep.status(404).send({
         code: 'SUBSCRIBED_CONCERT_NOT_FOUND',
         message: 'subscribed concert not found',
       })
     }
-    return rep.status(200).send(subscribedConcert.serialize())
+    return rep.status(200).send(subscribedConcert)
   } catch (e) {
     console.error(e)
     return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
@@ -171,7 +174,7 @@ export const getVenueSubscribeHandler = async (
 interface PostSubscribeConcertRoute extends RouteGenericInterface {
   Params: SubscribeConcertParams
   Reply: {
-    200: SubscribedConcertSerialized
+    200: ConcertDTO
     401: ErrorResponse
     404: ErrorResponse
     500: ErrorResponse
@@ -185,25 +188,23 @@ export const postSubscribeConcertHandler = async (
   try {
     const { id: concertId } = req.params
 
-    const concert = await ConcertDTO.findById(concertId)
-    if (!concert || !concert.props.id) {
+    const concert = await concertService.getById(concertId)
+    if (!concert) {
       return rep.status(404).send({ code: 'CONCERT_NOT_FOUND', message: 'Concert not found' })
     }
 
-    const subscribedConcert = await SubscribeConcertDTO.findByConcertIdUserId(concertId, req.user.id)
+    const subscribedConcert = await concertService.getSubscribedConcert({ concertId, userId: req.user.id })
 
     if (subscribedConcert) {
-      return rep.status(200).send(subscribedConcert.serialize())
+      return rep.status(200).send(subscribedConcert)
     }
 
-    const dto = new SubscribeConcertDTO({
+    const newSubscribedConcert = await concertService.subscribe({
       concertId,
       userId: req.user.id,
     })
 
-    const data = await dto.subscribeConcert()
-
-    return rep.status(200).send(data.serialize())
+    return rep.status(200).send(newSubscribedConcert)
   } catch (e) {
     console.error(e)
     return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
@@ -213,7 +214,7 @@ export const postSubscribeConcertHandler = async (
 interface DeleteUnsubscribeConcertRoute extends RouteGenericInterface {
   Params: SubscribeConcertParams
   Reply: {
-    200: SubscribedConcertSerialized
+    200: ConcertDTO
     401: ErrorResponse
     404: ErrorResponse
     500: ErrorResponse
@@ -227,20 +228,23 @@ export const deleteUnsubscribeConcertHandler = async (
   try {
     const { id: concertId } = req.params
 
-    const concert = await ConcertDTO.findById(concertId)
-    if (!concert || !concert.props.id) {
+    const concert = await concertService.getById(concertId)
+    if (!concert) {
       return rep.status(404).send({ code: 'CONCERT_NOT_FOUND', message: 'Concert not found' })
     }
 
-    const subscribedConcert = await SubscribeConcertDTO.findByConcertIdUserId(concertId, req.user.id)
+    const subscribedConcert = await concertService.getSubscribedConcert({
+      userId: req.user.id,
+      concertId,
+    })
 
     if (!subscribedConcert) {
       return rep.status(404).send({ code: 'SUBSCRIBED_CONCERT_NOT_FOUND', message: 'Concert not found' })
     }
 
-    const data = await subscribedConcert.unsubscribeConcert()
+    const data = await concertService.unsubscribe({ concertId, userId: req.user.id })
 
-    return rep.status(200).send(data.serialize())
+    return rep.status(200).send(data)
   } catch (e) {
     console.error(e)
     return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })

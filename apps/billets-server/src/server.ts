@@ -1,9 +1,5 @@
 import { searchDTOSerializedSchema } from '@/dtos/search-dto/search-dto.types'
 import { subscribedArtistDTOSerializedSchema } from '@/dtos/subscribe-artist-dto/subscribe-artist-dto.types'
-import {
-  subscribeConcertDTOSerializedSchema,
-  subscribedConcertDTOSerializedListSchema,
-} from '@/dtos/subscribe-concert-dto/subscribe-concert-dto.types'
 import authRoute from '@/routes/auth/auth.route'
 import {
   confirmAuthCodeBodySchema,
@@ -42,6 +38,7 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 import { ArtistDTOSchema } from './dtos/artist.dto'
+import { ConcertDTOSchema } from './dtos/concert.dto'
 import { FCMTokenDTOSchema } from './dtos/fcm-token.dto'
 import { locationCityDTOSerializedSchema } from './dtos/location-city-dto'
 import { locationConcertDTOSerializedSchema } from './dtos/location-concert-dto'
@@ -181,7 +178,7 @@ app.register(fastifySwagger, {
       ErrorResponse: errorResponseSchema,
       SearchListQuerystring: searchListQuerystringSchema,
       SearchDTOSerialized: searchDTOSerializedSchema,
-      SubscribeConcertDTOSerialized: subscribeConcertDTOSerializedSchema,
+      SubscribeConcertDTOSerialized: ConcertDTOSchema,
       SubscribeConcertParams: subscribeConcertParamsSchema,
       SubscribedArtistDTOSerialized: subscribedArtistDTOSerializedSchema,
       SubscribeArtistParams: subscribeArtistParamsSchema,
@@ -189,7 +186,7 @@ app.register(fastifySwagger, {
       SubscribeVenueSerialized: VenueDTOSchema,
       SubscribeConcertBody: subscribeConcertBodySchema,
       GetSubscribedConcertListQueryString: getSubscribedConcertListQueryStringSchema,
-      SubscribedConcertSerializedList: subscribedConcertDTOSerializedListSchema,
+      SubscribedConcertSerializedList: ConcertDTOSchema.array(),
       PostFCMTokenBody: postFCMTokenBodySchema,
       PostFCMTokenSuccessResponse: FCMTokenDTOSchema,
       GetArtistByIdParams: getArtistByIdParamsSchema,

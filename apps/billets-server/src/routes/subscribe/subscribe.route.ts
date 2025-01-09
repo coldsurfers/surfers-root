@@ -10,11 +10,8 @@ import {
   postSubscribeConcertHandler,
   postSubscribeVenueHandler,
 } from '@/controllers/subscribe.controller'
+import { ConcertDTOSchema } from '@/dtos/concert.dto'
 import { subscribedArtistDTOSerializedSchema } from '@/dtos/subscribe-artist-dto/subscribe-artist-dto.types'
-import {
-  subscribeConcertDTOSerializedSchema,
-  subscribedConcertDTOSerializedListSchema,
-} from '@/dtos/subscribe-concert-dto/subscribe-concert-dto.types'
 import { VenueDTOSchema } from '@/dtos/venue.dto'
 import { errorResponseSchema } from '@/lib/error'
 import { FastifyPluginCallback } from 'fastify'
@@ -39,7 +36,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
         tags: ['v1', 'subscribe'],
         querystring: getSubscribedConcertListQueryStringSchema,
         response: {
-          200: subscribedConcertDTOSerializedListSchema,
+          200: ConcertDTOSchema.array(),
           401: errorResponseSchema,
           500: errorResponseSchema,
         },
@@ -56,7 +53,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
         tags: ['v1', 'subscribe'],
         params: getSubscribeCommonParamsSchema,
         response: {
-          200: subscribeConcertDTOSerializedSchema,
+          200: ConcertDTOSchema.array(),
           401: errorResponseSchema,
           404: errorResponseSchema,
           500: errorResponseSchema,
@@ -75,7 +72,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
         params: subscribeConcertParamsSchema,
         body: subscribeConcertBodySchema,
         response: {
-          200: subscribeConcertDTOSerializedSchema,
+          200: ConcertDTOSchema.array(),
           401: errorResponseSchema,
           404: errorResponseSchema,
           500: errorResponseSchema,
@@ -95,7 +92,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
         params: subscribeConcertParamsSchema,
         body: subscribeConcertBodySchema,
         response: {
-          200: subscribeConcertDTOSerializedSchema,
+          200: ConcertDTOSchema.array(),
           401: errorResponseSchema,
           404: errorResponseSchema,
           500: errorResponseSchema,

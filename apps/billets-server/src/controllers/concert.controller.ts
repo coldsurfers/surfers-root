@@ -1,6 +1,7 @@
-import { ConcertDTO } from '@/dtos/concert-dto'
+import { errorResponseSchema } from '@/lib/error'
+import geohashUtils from '@/lib/geohashUtils'
 import { LatLng } from '@/lib/types'
-import { concertList, concertSearchList } from '@/routes/concert/concert.service'
+import { ConcertRepositoryImpl } from '@/repositories/concert.repository.impl'
 import {
   ConcertDetailParams,
   ConcertDetailResponse,
@@ -9,9 +10,14 @@ import {
   ConcertSearchParams,
   ConcertSearchResponse,
 } from '@/routes/concert/concert.types'
+import { ConcertService } from '@/services/concert.service'
 import { RouteGenericInterface } from 'fastify'
 import { FastifyReply } from 'fastify/types/reply'
 import { FastifyRequest } from 'fastify/types/request'
+import { z } from 'zod'
+
+const concertRepository = new ConcertRepositoryImpl()
+const concertService = new ConcertService(concertRepository)
 
 export interface ConcertListRoute extends RouteGenericInterface {
   Querystring: ConcertListQueryString
@@ -34,15 +40,16 @@ export const concertListHandler = async (
             longitude: +longitude,
           }
         : null
-    const list = await concertList({
+    const geohash: string | null = latLng ? geohashUtils.generate(latLng.latitude, latLng.longitude, 3) : null
+
+    const concerts = await concertService.getMany({
       orderBy: 'latest',
-      offset: +offset,
-      size: +size,
-      latLng,
+      take: +size,
+      skip: +offset,
+      venueGeohash: geohash,
     })
 
-    const response = list.map((value) => value.serialize())
-    return rep.status(200).send(response)
+    return rep.status(200).send(concerts)
   } catch (e) {
     console.error(e)
     return rep.status(500).send()
@@ -62,12 +69,11 @@ export const concertHandler = async (req: FastifyRequest<ConcertRoute>, rep: Fas
   const { id } = req.params
 
   try {
-    const dto = await ConcertDTO.findById(id)
-    if (!dto) {
+    const concert = await concertService.getById(id)
+    if (!concert) {
       return rep.status(404).send()
     }
-    const response = dto.serialize()
-    return rep.status(200).send(response)
+    return rep.status(200).send(concert)
   } catch (e) {
     return rep.status(500).send()
   }
@@ -77,7 +83,7 @@ interface ConcertSearchRoute extends RouteGenericInterface {
   Querystring: ConcertSearchParams
   Reply: {
     200: ConcertSearchResponse
-    500: void
+    500: z.infer<typeof errorResponseSchema>
   }
 }
 
@@ -87,15 +93,18 @@ export const concertSearchHandler = async (
 ) => {
   const { keyword, offset, size } = req.query
   try {
-    const list = await concertSearchList({
-      titleKeyword: keyword,
+    const concerts = await concertService.getMany({
+      titleContains: keyword,
       orderBy: 'latest',
-      offset: +offset,
-      size: +size,
+      take: +size,
+      skip: +offset,
+      venueGeohash: null,
     })
-    const response = list.map((value) => value.serialize())
-    return rep.status(200).send(response)
+    return rep.status(200).send(concerts)
   } catch (e) {
-    return rep.status(500).send()
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    })
   }
 }
