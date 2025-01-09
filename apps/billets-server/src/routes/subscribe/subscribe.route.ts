@@ -1,3 +1,15 @@
+import {
+  deleteUnsubscribeArtistHandler,
+  deleteUnsubscribeConcertHandler,
+  deleteUnsubscribeVenueHandler,
+  getArtistSubscribeHandler,
+  getConcertSubscribeHandler,
+  getSubscribedConcertListHandler,
+  getVenueSubscribeHandler,
+  postSubscribeArtistHandler,
+  postSubscribeConcertHandler,
+  postSubscribeVenueHandler,
+} from '@/controllers/subscribe.controller'
 import { subscribedArtistDTOSerializedSchema } from '@/dtos/subscribe-artist-dto/subscribe-artist-dto.types'
 import {
   subscribeConcertDTOSerializedSchema,
@@ -7,19 +19,6 @@ import { subscribeVenueSerializedSchema } from '@/dtos/subscribe-venue-dto/subsc
 import { errorResponseSchema } from '@/lib/error'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import {
-  getArtistSubscribeHandler,
-  getConcertSubscribeHandler,
-  getSubscribedConcertListHandler,
-  getSubscribePreHandler,
-  getVenueSubscribeHandler,
-  subscribeArtistHandler,
-  subscribeConcertHandler,
-  subscribeVenueHandler,
-  unsubscribeArtistHandler,
-  unsubscribeConcertHandler,
-  unsubscribeVenueHandler,
-} from './subscribe.handler'
 import {
   getSubscribeCommonParamsSchema,
   getSubscribedConcertListQueryStringSchema,
@@ -45,6 +44,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
           500: errorResponseSchema,
         },
       },
+      preHandler: [fastify.authenticate],
     },
     getSubscribedConcertListHandler,
   )
@@ -62,7 +62,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
           500: errorResponseSchema,
         },
       },
-      preHandler: getSubscribePreHandler,
+      preHandler: [fastify.authenticate],
     },
     getConcertSubscribeHandler,
   )
@@ -81,8 +81,9 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
           500: errorResponseSchema,
         },
       },
+      preHandler: [fastify.authenticate],
     },
-    subscribeConcertHandler,
+    postSubscribeConcertHandler,
   )
 
   // concert unsubscribe
@@ -100,8 +101,9 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
           500: errorResponseSchema,
         },
       },
+      preHandler: [fastify.authenticate],
     },
-    unsubscribeConcertHandler,
+    deleteUnsubscribeConcertHandler,
   )
 
   // artist subscribe
@@ -118,7 +120,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
           500: errorResponseSchema,
         },
       },
-      preHandler: getSubscribePreHandler,
+      preHandler: [fastify.authenticate],
     },
     getArtistSubscribeHandler,
   )
@@ -135,8 +137,9 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
           500: errorResponseSchema,
         },
       },
+      preHandler: [fastify.authenticate],
     },
-    subscribeArtistHandler,
+    postSubscribeArtistHandler,
   )
 
   // artist unsubscribe
@@ -153,8 +156,9 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
           500: errorResponseSchema,
         },
       },
+      preHandler: [fastify.authenticate],
     },
-    unsubscribeArtistHandler,
+    deleteUnsubscribeArtistHandler,
   )
 
   //  venue subscribe
@@ -171,7 +175,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
           500: errorResponseSchema,
         },
       },
-      preHandler: getSubscribePreHandler,
+      preHandler: [fastify.authenticate],
     },
     getVenueSubscribeHandler,
   )
@@ -189,8 +193,9 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
           500: errorResponseSchema,
         },
       },
+      preHandler: [fastify.authenticate],
     },
-    subscribeVenueHandler,
+    postSubscribeVenueHandler,
   )
 
   // venue unsubscribe
@@ -208,8 +213,9 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
           500: errorResponseSchema,
         },
       },
+      preHandler: [fastify.authenticate],
     },
-    unsubscribeVenueHandler,
+    deleteUnsubscribeVenueHandler,
   )
 
   done()

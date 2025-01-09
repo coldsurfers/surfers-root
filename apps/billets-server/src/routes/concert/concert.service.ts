@@ -1,6 +1,6 @@
 import { ConcertDTO } from '@/dtos/concert-dto'
 import geohashUtils from '@/lib/geohashUtils'
-import { LatLng } from '@/lib/types'
+import { LatLng } from '@/lib/types/types'
 
 export const concertList = async ({
   orderBy,

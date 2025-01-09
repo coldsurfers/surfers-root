@@ -1,18 +1,7 @@
 import { AuthTokenDTO } from '@/dtos/auth-token-dto'
-import { EmailAuthRequestDTO } from '@/dtos/email-auth-request-dto'
 import { UserDTO } from '@/dtos/user-dto'
-import createEmailAuthCode from '@/lib/createEmailAuthCode'
 import encryptPassword from '@/lib/encryptPassword'
 import { ErrorResponse, errorResponseSchema } from '@/lib/error'
-import { generateAuthToken } from '@/lib/jwt'
-import log from '@/lib/log'
-import { sendEmail } from '@/lib/mailer'
-import verifyAppleToken from '@/lib/verifyAppleToken'
-import { differenceInMinutes } from 'date-fns/differenceInMinutes'
-import { FastifyReply, FastifyRequest, RouteHandler } from 'fastify'
-import { OAuth2Client } from 'google-auth-library'
-import { match } from 'ts-pattern'
-import { z } from 'zod'
 import {
   ConfirmAuthCodeBody,
   ConfirmAuthCodeResponse,
@@ -23,67 +12,26 @@ import {
   signInResponseSchema,
   SignUpBody,
   SignUpResponse,
-} from './auth.types'
+} from '@/routes/auth/auth.types'
+import { RouteGenericInterface } from 'fastify/types/route'
+import { match } from 'ts-pattern'
 
-const googleOAuth2Client = new OAuth2Client()
+import { EmailAuthRequestDTO } from '@/dtos/email-auth-request-dto'
+import createEmailAuthCode from '@/lib/createEmailAuthCode'
+import { googleOAuth2Client } from '@/lib/google-oauth2-client'
+import { sendEmail } from '@/lib/mailer'
+import verifyAppleToken from '@/lib/verifyAppleToken'
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { z } from 'zod'
+import { fastify } from '../server'
 
-export const signupPreHandler = async (
-  req: FastifyRequest<{
-    Body: SignUpBody
-  }>,
-  rep: FastifyReply,
-) => {
-  try {
-    const { email } = req.body
-    const user = await UserDTO.findByEmail(email)
-    if (user?.deactivatedAt) {
-      return rep.status(401).send({
-        code: 'USER_DEACTIVATED',
-        message: 'this account was deactivated',
-      })
-    }
-  } catch (e) {
-    console.error(e)
-    return rep.status(500).send()
-  }
-}
+import log from '@/lib/log'
+import { differenceInMinutes } from 'date-fns/differenceInMinutes'
+import dotenv from 'dotenv'
 
-export const signinPreHandler = async (
-  req: FastifyRequest<{
-    Body: SignInBody
-  }>,
-  rep: FastifyReply<{
-    Reply: {
-      200: z.infer<typeof signInResponseSchema>
-      401: ErrorResponse
-      500: ErrorResponse
-    }
-  }>,
-  // eslint-disable-next-line consistent-return
-) => {
-  try {
-    const { provider, email } = req.body
-    const existing = await UserDTO.findByEmail(email)
-    if (existing?.deactivatedAt) {
-      return rep.status(401).send({
-        code: 'USER_DEACTIVATED',
-        message: 'this account was deactivated',
-      })
-    }
-    if (provider !== 'email') {
-      if (!existing) {
-        return rep.redirect('/v1/auth/signup', 307)
-      }
-    }
-  } catch (e) {
-    return rep.status(500).send({
-      code: 'UNKNOWN',
-      message: 'unknown error',
-    })
-  }
-}
+dotenv.config()
 
-export const signinHandler: RouteHandler<{
+interface PostSignInRoute extends RouteGenericInterface {
   Body: SignInBody
   Reply: {
     200: SignInResponse
@@ -92,7 +40,9 @@ export const signinHandler: RouteHandler<{
     404: ErrorResponse
     500: ErrorResponse
   }
-}> = async (req, rep) => {
+}
+
+export const signinHandler = async (req: FastifyRequest<PostSignInRoute>, rep: FastifyReply<PostSignInRoute>) => {
   const { email, password, provider, token, platform = 'ios' } = req.body
 
   try {
@@ -121,12 +71,28 @@ export const signinHandler: RouteHandler<{
             message: 'password not match',
           })
         }
-        const { accessToken, refreshToken } = generateAuthToken({
-          userId: existing.props.id,
-        })
+
+        const authToken = {
+          accessToken: fastify.jwt.sign(
+            {
+              id: existing.props.id,
+            },
+            {
+              expiresIn: '7d',
+            },
+          ),
+          refreshToken: fastify.jwt.sign(
+            {
+              id: existing.props.id,
+            },
+            {
+              expiresIn: '30d',
+            },
+          ),
+        }
         const authTokenDTO = new AuthTokenDTO({
-          access_token: accessToken,
-          refresh_token: refreshToken,
+          access_token: authToken.accessToken,
+          refresh_token: authToken.refreshToken,
           user_id: existing.props.id,
         })
         const createdAuthToken = await authTokenDTO.create()
@@ -163,12 +129,27 @@ export const signinHandler: RouteHandler<{
           await verifyAppleToken(token, process.env.BILLETS_APP_APPLE_BUNDLE_ID ?? '')
         }
 
-        const { accessToken, refreshToken } = generateAuthToken({
-          userId: existing.props.id,
-        })
+        const authToken = {
+          accessToken: fastify.jwt.sign(
+            {
+              id: existing.props.id,
+            },
+            {
+              expiresIn: '7d',
+            },
+          ),
+          refreshToken: fastify.jwt.sign(
+            {
+              id: existing.props.id,
+            },
+            {
+              expiresIn: '30d',
+            },
+          ),
+        }
         const authTokenDTO = new AuthTokenDTO({
-          access_token: accessToken,
-          refresh_token: refreshToken,
+          access_token: authToken.accessToken,
+          refresh_token: authToken.refreshToken,
           user_id: existing.props.id,
         })
         const createdAuthToken = await authTokenDTO.create()
@@ -186,7 +167,42 @@ export const signinHandler: RouteHandler<{
   }
 }
 
-export const signupHandler: RouteHandler<{
+interface SignInPreHandlerRoute extends RouteGenericInterface {
+  Body: SignInBody
+  Reply: {
+    200: z.infer<typeof signInResponseSchema>
+    401: ErrorResponse
+    500: ErrorResponse
+  }
+}
+
+export const signinPreHandler = async (
+  req: FastifyRequest<SignInPreHandlerRoute>,
+  rep: FastifyReply<SignInPreHandlerRoute>,
+) => {
+  try {
+    const { provider, email } = req.body
+    const existing = await UserDTO.findByEmail(email)
+    if (existing?.deactivatedAt) {
+      return rep.status(401).send({
+        code: 'USER_DEACTIVATED',
+        message: 'this account was deactivated',
+      })
+    }
+    if (provider !== 'email') {
+      if (!existing) {
+        return rep.redirect('/v1/auth/signup', 307)
+      }
+    }
+  } catch (e) {
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'unknown error',
+    })
+  }
+}
+
+interface PostSignUpRoute extends RouteGenericInterface {
   Body: SignUpBody
   Reply: {
     201: SignUpResponse
@@ -194,7 +210,9 @@ export const signupHandler: RouteHandler<{
     401: ErrorResponse
     500: ErrorResponse
   }
-}> = async (req, rep) => {
+}
+
+export const signupHandler = async (req: FastifyRequest<PostSignUpRoute>, rep: FastifyReply<PostSignUpRoute>) => {
   try {
     const { provider, email, password, token, platform = 'ios' } = req.body
     return await match(provider)
@@ -232,12 +250,27 @@ export const signupHandler: RouteHandler<{
         if (!created.props.id) {
           return rep.status(400).send()
         }
-        const { accessToken, refreshToken } = generateAuthToken({
-          userId: created.props.id,
-        })
+        const authToken = {
+          accessToken: fastify.jwt.sign(
+            {
+              id: created.props.id,
+            },
+            {
+              expiresIn: '7d',
+            },
+          ),
+          refreshToken: fastify.jwt.sign(
+            {
+              id: created.props.id,
+            },
+            {
+              expiresIn: '30d',
+            },
+          ),
+        }
         const authTokenDTO = new AuthTokenDTO({
-          access_token: accessToken,
-          refresh_token: refreshToken,
+          access_token: authToken.accessToken,
+          refresh_token: authToken.refreshToken,
           user_id: created.props.id,
         })
         const createdAuthToken = await authTokenDTO.create()
@@ -272,12 +305,27 @@ export const signupHandler: RouteHandler<{
         if (!created.props.id) {
           return rep.status(400).send()
         }
-        const { accessToken, refreshToken } = generateAuthToken({
-          userId: created.props.id,
-        })
+        const authToken = {
+          accessToken: fastify.jwt.sign(
+            {
+              id: created.props.id,
+            },
+            {
+              expiresIn: '7d',
+            },
+          ),
+          refreshToken: fastify.jwt.sign(
+            {
+              id: created.props.id,
+            },
+            {
+              expiresIn: '30d',
+            },
+          ),
+        }
         const authTokenDTO = new AuthTokenDTO({
-          access_token: accessToken,
-          refresh_token: refreshToken,
+          access_token: authToken.accessToken,
+          refresh_token: authToken.refreshToken,
           user_id: created.props.id,
         })
         const createdAuthToken = await authTokenDTO.create()
@@ -291,14 +339,46 @@ export const signupHandler: RouteHandler<{
   }
 }
 
-export const sendAuthCodeHandler: RouteHandler<{
+interface SignUpPreHandlerRoute extends RouteGenericInterface {
+  Body: SignUpBody
+  Reply: {
+    401: ErrorResponse
+    500: ErrorResponse
+  }
+}
+
+export const signupPreHandler = async (
+  req: FastifyRequest<SignUpPreHandlerRoute>,
+  rep: FastifyReply<SignUpPreHandlerRoute>,
+) => {
+  try {
+    const { email } = req.body
+    const user = await UserDTO.findByEmail(email)
+    if (user?.deactivatedAt) {
+      return rep.status(401).send({
+        code: 'USER_DEACTIVATED',
+        message: 'this account was deactivated',
+      })
+    }
+  } catch (e) {
+    console.error(e)
+    return rep.status(500).send()
+  }
+}
+
+interface SendAuthCodeRoute extends RouteGenericInterface {
   Body: SendAuthCodeBody
   Reply: {
     200: SendAuthCodeResponse
     409: z.infer<typeof errorResponseSchema>
     500: z.infer<typeof errorResponseSchema>
   }
-}> = async (req, rep) => {
+}
+
+export const sendAuthCodeHandler = async (
+  req: FastifyRequest<SendAuthCodeRoute>,
+  rep: FastifyReply<SendAuthCodeRoute>,
+) => {
   const { email } = req.body
 
   try {
@@ -335,7 +415,7 @@ export const sendAuthCodeHandler: RouteHandler<{
   }
 }
 
-export const confirmAuthCodeHandler: RouteHandler<{
+interface ConfirmAuthCodeRoute extends RouteGenericInterface {
   Body: ConfirmAuthCodeBody
   Reply: {
     200: ConfirmAuthCodeResponse
@@ -344,7 +424,12 @@ export const confirmAuthCodeHandler: RouteHandler<{
     409: z.infer<typeof errorResponseSchema>
     500: z.infer<typeof errorResponseSchema>
   }
-}> = async (req, rep) => {
+}
+
+export const confirmAuthCodeHandler = async (
+  req: FastifyRequest<ConfirmAuthCodeRoute>,
+  rep: FastifyReply<ConfirmAuthCodeRoute>,
+) => {
   try {
     const { authCode, email } = req.body
     const dto = await EmailAuthRequestDTO.findByEmail(email)

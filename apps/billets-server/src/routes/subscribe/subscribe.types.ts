@@ -26,8 +26,8 @@ export const subscribeVenueParamsSchema = z.object({
 export type SubscribeVenueParams = z.infer<typeof subscribeVenueParamsSchema>
 
 export const getSubscribedConcertListQueryStringSchema = z.object({
-  offset: z.string(),
-  size: z.string(),
+  offset: z.coerce.number().int().min(0).default(0),
+  size: z.coerce.number().int().min(1).max(100).default(20),
 })
 export type GetSubscribedConcertListQueryString = z.infer<typeof getSubscribedConcertListQueryStringSchema>
 

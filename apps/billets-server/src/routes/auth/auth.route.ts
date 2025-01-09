@@ -1,6 +1,3 @@
-import { errorResponseSchema } from '@/lib/error'
-import { FastifyPluginCallback } from 'fastify'
-import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import {
   confirmAuthCodeHandler,
   sendAuthCodeHandler,
@@ -8,7 +5,10 @@ import {
   signinPreHandler,
   signupHandler,
   signupPreHandler,
-} from './auth.handler'
+} from '@/controllers/auth.controller'
+import { errorResponseSchema } from '@/lib/error'
+import { FastifyPluginCallback } from 'fastify'
+import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import {
   confirmAuthCodeBodySchema,
   confirmAuthCodeResponseSchema,
@@ -66,7 +66,7 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
           500: errorResponseSchema,
         },
       },
-      preHandler: signinPreHandler,
+      preHandler: [signinPreHandler],
     },
     signinHandler,
   )
@@ -84,7 +84,7 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
           500: errorResponseSchema,
         },
       },
-      preHandler: signupPreHandler,
+      preHandler: [signupPreHandler],
     },
     signupHandler,
   )

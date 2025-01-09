@@ -1,0 +1,29 @@
+import { errorResponseSchema } from '@/lib/error'
+import fastifyJWT from '@fastify/jwt'
+import dotenv from 'dotenv'
+import fp from 'fastify-plugin'
+import { z } from 'zod'
+
+dotenv.config()
+
+const jwtSecret = process.env.BILLETS_SERVER_JWT_SECRET ?? ''
+
+// Creating a reusable plugin
+export const jwtPlugin = fp(async (fastify) => {
+  fastify.register(fastifyJWT, {
+    secret: jwtSecret, // Replace with a strong secret key
+    sign: { expiresIn: '7d' }, // Token expiration
+  })
+
+  // Add a custom decorator for authentication
+  fastify.decorate('authenticate', async function (request, reply) {
+    try {
+      await request.jwtVerify() // Verifies the JWT token
+    } catch (err) {
+      console.error(err)
+      return reply
+        .status(401)
+        .send({ code: 'INVALID_ACCESS_TOKEN', message: 'Unauthorized' } as z.infer<typeof errorResponseSchema>)
+    }
+  })
+})

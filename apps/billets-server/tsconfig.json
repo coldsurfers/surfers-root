@@ -13,7 +13,11 @@
       "@/prisma": ["./src/prisma"],
       "@/prisma/*": ["./src/prisma/*"],
       "@/routes": ["./src/routes"],
-      "@/routes/*": ["./src/routes/*"]
+      "@/routes/*": ["./src/routes/*"],
+      "@/controllers": ["./src/controllers"],
+      "@/controllers/*": ["./src/controllers/*"],
+      "@/plugins": ["./src/plugins"],
+      "@/plugins/*": ["./src/plugins/*"]
     }
   },
   "include": ["vercel/**/*.ts", "src/**/*.ts"],
