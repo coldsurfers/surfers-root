@@ -1,5 +1,5 @@
 import { getConcertListByVenueIdHandler, getVenueByIdHandler } from '@/controllers/venue.controller'
-import { venueDTOSerializedSchema } from '@/dtos/venue-dto/venue-dto.types'
+import { VenueDTOSchema } from '@/dtos/venue.dto'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import {
@@ -17,7 +17,7 @@ export const venueRoute: FastifyPluginCallback = (fastify, opts, done) => {
         tags: ['v1', 'venue'],
         params: getVenueByIdParamsSchema,
         response: {
-          200: venueDTOSerializedSchema,
+          200: VenueDTOSchema,
         },
       },
     },

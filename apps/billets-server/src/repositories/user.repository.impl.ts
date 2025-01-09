@@ -1,7 +1,6 @@
 import { CreateUserDTO, UserDTO } from '@/dtos/user.dto'
 import { dbClient } from '@/lib/db'
 import { UserRepository } from './user.repository'
-// import { CreateUserDTO, UpdateUserDTO, UserDTO } from '../dto/user.dto';
 
 interface UserModel {
   id: string
