@@ -1,7 +1,7 @@
-import { userDTOSerializedSchema } from '@/dtos/user-dto/user-dto.types'
+import { UserDTOSchema } from '@/dtos/user.dto'
 import { z } from 'zod'
 
-export const getMeResponseSchema = userDTOSerializedSchema
+export const getMeResponseSchema = UserDTOSchema
 export type GetMeResponse = z.infer<typeof getMeResponseSchema>
 
 export const deactivateUserBodySchema = z.object({
