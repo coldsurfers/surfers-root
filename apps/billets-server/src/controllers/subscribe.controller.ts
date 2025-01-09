@@ -1,4 +1,3 @@
-import { ArtistDTO } from '@/dtos/artist-dto'
 import { ConcertDTO } from '@/dtos/concert-dto'
 import {
   SubscribeArtistDTO,
@@ -10,6 +9,7 @@ import { SubscribeConcertDTO } from '@/dtos/subscribe-concert-dto/subscribe-conc
 import { SubscribeVenueDTO, SubscribeVenueSerialized, subscribeVenueSerializedSchema } from '@/dtos/subscribe-venue-dto'
 import { VenueDTO } from '@/dtos/venue-dto'
 import { ErrorResponse, errorResponseSchema } from '@/lib/error'
+import { ArtistRepositoryImpl } from '@/repositories/artist.repository.impl'
 import { UserRepositoryImpl } from '@/repositories/user.repository.impl'
 import {
   getSubscribeCommonParamsSchema,
@@ -22,6 +22,7 @@ import {
   unsubscribeArtistBodySchema,
   unsubscribeVenueBodySchema,
 } from '@/routes/subscribe/subscribe.types'
+import { ArtistService } from '@/services/artist.service'
 import { UserService } from '@/services/user.service'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { RouteGenericInterface } from 'fastify/types/route'
@@ -29,6 +30,9 @@ import { z } from 'zod'
 
 const userRepository = new UserRepositoryImpl()
 const userService = new UserService(userRepository)
+
+const artistRepository = new ArtistRepositoryImpl()
+const artistService = new ArtistService(artistRepository)
 
 interface GetSubscribedConcertListRoute extends RouteGenericInterface {
   Querystring: z.infer<typeof getSubscribedConcertListQueryStringSchema>
@@ -257,8 +261,8 @@ export const postSubscribeArtistHandler = async (
   try {
     const { id: artistId } = req.params
 
-    const artist = await ArtistDTO.findById(artistId)
-    if (!artist || !artist.id) {
+    const artist = await artistService.findById(artistId)
+    if (!artist) {
       return rep.status(404).send({ code: 'ARTIST_NOT_FOUND', message: 'Artist not found' })
     }
 
@@ -300,8 +304,8 @@ export const deleteUnsubscribeArtistHandler = async (
   try {
     const { id: artistId } = req.params
 
-    const artist = await ArtistDTO.findById(artistId)
-    if (!artist || !artist.id) {
+    const artist = await artistService.findById(artistId)
+    if (!artist) {
       return rep.status(404).send({ code: 'ARTIST_NOT_FOUND', message: 'Artist not found' })
     }
 

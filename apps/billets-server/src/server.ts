@@ -1,4 +1,3 @@
-import { artistDTOSerializedSchema } from '@/dtos/artist-dto/artist-dto.types'
 import { fcmTokenDTOSerializedSchema } from '@/dtos/fcm-token-dto'
 import { searchDTOSerializedSchema } from '@/dtos/search-dto/search-dto.types'
 import { subscribedArtistDTOSerializedSchema } from '@/dtos/subscribe-artist-dto/subscribe-artist-dto.types'
@@ -45,6 +44,7 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
+import { ArtistDTOSchema } from './dtos/artist.dto'
 import { locationCityDTOSerializedSchema } from './dtos/location-city-dto'
 import { locationConcertDTOSerializedSchema } from './dtos/location-concert-dto'
 import { locationCountryDTOSerializedSchema } from './dtos/location-country-dto'
@@ -194,7 +194,7 @@ app.register(fastifySwagger, {
       PostFCMTokenBody: postFCMTokenBodySchema,
       PostFCMTokenSuccessResponse: fcmTokenDTOSerializedSchema,
       GetArtistByIdParams: getArtistByIdParamsSchema,
-      GetArtistByIdSuccessResponse: artistDTOSerializedSchema,
+      GetArtistByIdSuccessResponse: ArtistDTOSchema,
       GetVenueByIdParams: getVenueByIdParamsSchema,
       GetVenueByIdSuccessResponse: venueDTOSerializedSchema,
       GetConcertListByVenueIdParams: getConcertListByVenueIdParamsSchema,

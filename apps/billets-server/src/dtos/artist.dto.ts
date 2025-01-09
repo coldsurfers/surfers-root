@@ -1,15 +1,6 @@
-import { Artist, ArtistProfileImage, Copyright } from '@prisma/client'
 import { z } from 'zod'
 
-export type ArtistDTOProps = Partial<Artist> & {
-  artistProfileImage: Partial<
-    ArtistProfileImage & {
-      copyright: Partial<Copyright> | null
-    }
-  >[]
-}
-
-export const artistDTOSerializedSchema = z.object({
+export const ArtistDTOSchema = z.object({
   id: z.string(),
   name: z.string(),
   artistProfileImage: z.array(
@@ -27,4 +18,4 @@ export const artistDTOSerializedSchema = z.object({
     }),
   ),
 })
-export type ArtistDTOSerialized = z.infer<typeof artistDTOSerializedSchema>
+export type ArtistDTO = z.infer<typeof ArtistDTOSchema>
