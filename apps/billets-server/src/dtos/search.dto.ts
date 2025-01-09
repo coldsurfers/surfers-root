@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const searchDTOPropsSchema = z.discriminatedUnion('type', [
+export const SearchDTOSchema = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('artist'),
     name: z.string(),
@@ -21,8 +21,4 @@ export const searchDTOPropsSchema = z.discriminatedUnion('type', [
     id: z.string(),
   }),
 ])
-
-export type SearchDTOProps = z.infer<typeof searchDTOPropsSchema>
-
-export const searchDTOSerializedSchema = searchDTOPropsSchema
-export type SearchDTOSerialized = z.infer<typeof searchDTOSerializedSchema>
+export type SearchDTO = z.infer<typeof SearchDTOSchema>

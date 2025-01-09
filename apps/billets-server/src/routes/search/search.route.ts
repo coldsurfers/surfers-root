@@ -1,5 +1,5 @@
 import { searchListHandler } from '@/controllers/search.controller'
-import { searchDTOSerializedSchema } from '@/dtos/search-dto/search-dto.types'
+import { SearchDTOSchema } from '@/dtos/search.dto'
 import { errorResponseSchema } from '@/lib/error'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
@@ -16,7 +16,7 @@ const searchRoute: FastifyPluginCallback = (fastify, opts, done) => {
         tags: ['v1', 'search'],
         querystring: searchListQuerystringSchema,
         response: {
-          200: searchDTOSerializedSchema.array(),
+          200: SearchDTOSchema.array(),
           500: errorResponseSchema,
         },
       },

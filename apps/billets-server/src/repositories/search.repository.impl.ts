@@ -1,14 +1,11 @@
-import { dbClient } from '@/lib/db'
-import { SearchDTOProps, SearchDTOSerialized } from './search-dto.types'
+import { SearchDTO } from '@/dtos/search.dto'
+import { dbClient } from '@/lib/db/db.client'
+import { SearchRepository } from './search.repository'
 
-export class SearchDTO {
-  props: SearchDTOProps
+type SearchModel = SearchDTO
 
-  constructor(props: SearchDTOProps) {
-    this.props = props
-  }
-
-  static async searchList(keyword: string) {
+export class SearchRepositoryImpl implements SearchRepository {
+  async searchManyByKeyword(keyword: string): Promise<SearchDTO[]> {
     const artistData = await dbClient.artist.findMany({
       where: {
         name: {
@@ -96,43 +93,38 @@ export class SearchDTO {
 
     // 순서: artist -> venue -> concert
 
-    const artists = artistData.map(
-      (artist) =>
-        new SearchDTO({
-          type: 'artist',
-          id: artist.id,
-          name: artist.name,
-          profileImgUrl: artist.artistProfileImage.at(0)?.imageURL ?? '',
-        }),
+    const artists = artistData.map((artist) =>
+      this.toDTO({
+        type: 'artist',
+        id: artist.id,
+        name: artist.name,
+        profileImgUrl: artist.artistProfileImage.at(0)?.imageURL ?? '',
+      }),
     )
 
-    const venues = venuesData.map(
-      (venue) =>
-        new SearchDTO({
-          type: 'venue',
-          id: venue.id,
-          name: venue.name,
-        }),
+    const venues = venuesData.map((venue) =>
+      this.toDTO({
+        type: 'venue',
+        id: venue.id,
+        name: venue.name,
+      }),
     )
 
-    const concerts = concertData.map(
-      (concert) =>
-        new SearchDTO({
-          type: 'concert',
-          date: concert.date?.toISOString() ?? '',
-          thumbnailImgUrl: concert.posters.at(0)?.poster.imageURL ?? '',
-          title: concert.title,
-          venueTitle: concert.venues.at(0)?.venue.name ?? '',
-          id: concert.id,
-        }),
+    const concerts = concertData.map((concert) =>
+      this.toDTO({
+        type: 'concert',
+        date: concert.date?.toISOString() ?? '',
+        thumbnailImgUrl: concert.posters.at(0)?.poster.imageURL ?? '',
+        title: concert.title,
+        venueTitle: concert.venues.at(0)?.venue.name ?? '',
+        id: concert.id,
+      }),
     )
 
     return artists.concat(venues).concat(concerts)
   }
 
-  serialize(): SearchDTOSerialized {
-    return {
-      ...this.props,
-    }
+  private toDTO(data: SearchModel): SearchDTO {
+    return data
   }
 }
