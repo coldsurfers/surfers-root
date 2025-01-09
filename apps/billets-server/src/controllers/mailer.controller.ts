@@ -1,16 +1,21 @@
 import { ErrorResponse } from '@/lib/error'
 import { sendEmail } from '@/lib/mailer'
+import { sendUserVoiceBodySchema } from '@/routes/mailer/mailer.types'
 import { format } from 'date-fns'
-import { RouteHandler } from 'fastify'
+import { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify'
 import { z } from 'zod'
-import { sendUserVoiceBodySchema } from './mailer.types'
 
-export const sendUserVoiceHandler: RouteHandler<{
+interface SendUserVoiceRoute extends RouteGenericInterface {
   Body: z.infer<typeof sendUserVoiceBodySchema>
   Reply: {
     500: ErrorResponse
   }
-}> = async (req, rep) => {
+}
+
+export const sendUserVoiceHandler = async (
+  req: FastifyRequest<SendUserVoiceRoute>,
+  rep: FastifyReply<SendUserVoiceRoute>,
+) => {
   try {
     const { email, name, message, updateAgreement } = req.body
     await sendEmail({
