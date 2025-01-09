@@ -38,6 +38,7 @@ const userService = new UserService(userRepository)
 
 const authTokenRepository = new AuthTokenRepositoryImpl()
 const authTokenService = new AuthTokenService(authTokenRepository)
+
 interface PostSignInRoute extends RouteGenericInterface {
   Body: SignInBody
   Reply: {

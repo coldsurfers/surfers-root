@@ -1,5 +1,5 @@
 import { postFCMTokenHandler } from '@/controllers/fcm.controller'
-import { fcmTokenDTOSerializedSchema } from '@/dtos/fcm-token-dto'
+import { FCMTokenDTOSchema } from '@/dtos/fcm-token.dto'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { postFCMTokenBodySchema } from './fcm.types'
@@ -12,7 +12,7 @@ export const fcmRoute: FastifyPluginCallback = (fastify, opts, done) => {
         tags: ['v1', 'fcm'],
         body: postFCMTokenBodySchema,
         response: {
-          201: fcmTokenDTOSerializedSchema,
+          201: FCMTokenDTOSchema,
         },
       },
     },
