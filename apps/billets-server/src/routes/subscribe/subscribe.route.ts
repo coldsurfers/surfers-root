@@ -10,8 +10,8 @@ import {
   postSubscribeConcertHandler,
   postSubscribeVenueHandler,
 } from '@/controllers/subscribe.controller'
+import { ArtistDTOSchema } from '@/dtos/artist.dto'
 import { ConcertDTOSchema } from '@/dtos/concert.dto'
-import { subscribedArtistDTOSerializedSchema } from '@/dtos/subscribe-artist-dto/subscribe-artist-dto.types'
 import { VenueDTOSchema } from '@/dtos/venue.dto'
 import { errorResponseSchema } from '@/lib/error'
 import { FastifyPluginCallback } from 'fastify'
@@ -111,7 +111,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
         tags: ['v1', 'subscribe'],
         params: getSubscribeCommonParamsSchema,
         response: {
-          200: subscribedArtistDTOSerializedSchema,
+          200: ArtistDTOSchema,
           401: errorResponseSchema,
           404: errorResponseSchema,
           500: errorResponseSchema,
@@ -128,7 +128,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
         tags: ['v1', 'subscribe'],
         body: subscribeArtistBodySchema,
         response: {
-          200: subscribedArtistDTOSerializedSchema,
+          200: ArtistDTOSchema,
           401: errorResponseSchema,
           404: errorResponseSchema,
           500: errorResponseSchema,
@@ -147,7 +147,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
         tags: ['v1', 'subscribe'],
         body: unsubscribeArtistBodySchema,
         response: {
-          200: subscribedArtistDTOSerializedSchema,
+          200: ArtistDTOSchema,
           401: errorResponseSchema,
           404: errorResponseSchema,
           500: errorResponseSchema,

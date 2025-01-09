@@ -1,5 +1,4 @@
 import { searchDTOSerializedSchema } from '@/dtos/search-dto/search-dto.types'
-import { subscribedArtistDTOSerializedSchema } from '@/dtos/subscribe-artist-dto/subscribe-artist-dto.types'
 import authRoute from '@/routes/auth/auth.route'
 import {
   confirmAuthCodeBodySchema,
@@ -180,7 +179,7 @@ app.register(fastifySwagger, {
       SearchDTOSerialized: searchDTOSerializedSchema,
       SubscribeConcertDTOSerialized: ConcertDTOSchema,
       SubscribeConcertParams: subscribeConcertParamsSchema,
-      SubscribedArtistDTOSerialized: subscribedArtistDTOSerializedSchema,
+      SubscribedArtistDTOSerialized: ArtistDTOSchema,
       SubscribeArtistParams: subscribeArtistParamsSchema,
       SubscribeVenueParams: subscribeVenueParamsSchema,
       SubscribeVenueSerialized: VenueDTOSchema,
