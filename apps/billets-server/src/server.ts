@@ -38,9 +38,7 @@ import {
 import { ArtistDTOSchema } from './dtos/artist.dto'
 import { ConcertDTOSchema } from './dtos/concert.dto'
 import { FCMTokenDTOSchema } from './dtos/fcm-token.dto'
-import { locationCityDTOSerializedSchema } from './dtos/location-city-dto'
-import { locationConcertDTOSerializedSchema } from './dtos/location-concert-dto'
-import { locationCountryDTOSerializedSchema } from './dtos/location-country-dto'
+import { LocationCityDTOSchema, LocationConcertDTOSchema, LocationCountryDTOSchema } from './dtos/location.dto'
 import { SearchDTOSchema } from './dtos/search.dto'
 import { VenueDTOSchema } from './dtos/venue.dto'
 import { SWAGGER_HOST } from './lib/constants'
@@ -206,9 +204,9 @@ app.register(fastifySwagger, {
       UnsubscribeVenueBody: unsubscribeVenueBodySchema,
       UnsubscribeArtistBody: unsubscribeArtistBodySchema,
       GetLocationConcertsQueryString: getLocationConcertsQueryStringSchema,
-      LocationConcertDTOSerialized: locationConcertDTOSerializedSchema,
-      LocationCityDTOSerialized: locationCityDTOSerializedSchema,
-      LocationCountryDTOSerialized: locationCountryDTOSerializedSchema,
+      LocationConcertDTOSerialized: LocationConcertDTOSchema,
+      LocationCityDTOSerialized: LocationCityDTOSchema,
+      LocationCountryDTOSerialized: LocationCountryDTOSchema,
       SendUserVoiceBody: sendUserVoiceBodySchema,
       SendEmailResponse: sendEmailResponseSchema,
     },
