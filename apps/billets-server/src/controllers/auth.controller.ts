@@ -2,9 +2,7 @@ import encryptPassword from '@/lib/encryptPassword'
 import { ErrorResponse, errorResponseSchema } from '@/lib/error'
 import {
   ConfirmAuthCodeBody,
-  ConfirmAuthCodeResponse,
   SendAuthCodeBody,
-  SendAuthCodeResponse,
   SignInBody,
   SignInResponse,
   signInResponseSchema,
@@ -14,7 +12,6 @@ import {
 import { RouteGenericInterface } from 'fastify/types/route'
 import { match } from 'ts-pattern'
 
-import { EmailAuthRequestDTO } from '@/dtos/email-auth-request-dto'
 import createEmailAuthCode from '@/lib/createEmailAuthCode'
 import { googleOAuth2Client } from '@/lib/google-oauth2-client'
 import { sendEmail } from '@/lib/mailer'
@@ -23,10 +20,13 @@ import { app } from '@/server'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
+import { EmailAuthRequestDTO } from '@/dtos/email-auth-request.dto'
 import log from '@/lib/log'
 import { AuthTokenRepositoryImpl } from '@/repositories/auth-token.repository.impl'
+import { EmailAuthRequestRepositoryImpl } from '@/repositories/email-auth-request.repository.impl'
 import { UserRepositoryImpl } from '@/repositories/user.repository.impl'
 import { AuthTokenService } from '@/services/auth-token.service'
+import { EmailAuthRequestService } from '@/services/email-auth-request.service'
 import { UserService } from '@/services/user.service'
 import { differenceInMinutes } from 'date-fns/differenceInMinutes'
 import dotenv from 'dotenv'
@@ -38,6 +38,9 @@ const userService = new UserService(userRepository)
 
 const authTokenRepository = new AuthTokenRepositoryImpl()
 const authTokenService = new AuthTokenService(authTokenRepository)
+
+const emailAuthRequestRepository = new EmailAuthRequestRepositoryImpl()
+const emailAuthRequestService = new EmailAuthRequestService(emailAuthRequestRepository)
 
 interface PostSignInRoute extends RouteGenericInterface {
   Body: SignInBody
@@ -385,7 +388,7 @@ export const signupPreHandler = async (
 interface SendAuthCodeRoute extends RouteGenericInterface {
   Body: SendAuthCodeBody
   Reply: {
-    200: SendAuthCodeResponse
+    200: Pick<EmailAuthRequestDTO, 'email'>
     409: z.infer<typeof errorResponseSchema>
     500: z.infer<typeof errorResponseSchema>
   }
@@ -399,11 +402,7 @@ export const sendAuthCodeHandler = async (
 
   try {
     const authcode = createEmailAuthCode()
-    const emailAuthRequestDTO = new EmailAuthRequestDTO({
-      email,
-      authcode,
-    })
-    const created = await emailAuthRequestDTO.create()
+    const created = await emailAuthRequestService.create(email, authcode)
     const send = await sendEmail({
       from: process.env.BILLETS_SERVER_MAILER_EMAIL_ADDRESS,
       smtpOptions: {
@@ -413,13 +412,13 @@ export const sendAuthCodeHandler = async (
           pass: process.env.BILLETS_SERVER_MAILER_EMAIL_APP_PASSWORD,
         },
       },
-      to: created.props.email ?? '',
+      to: created.email ?? '',
       subject: 'Billets 이메일 인증 번호',
-      html: `Billets의 이메일 인증 번호는 ${created.props.authcode ?? ''}입니다. 3분내에 입력 해 주세요.`,
+      html: `Billets의 이메일 인증 번호는 ${created.authcode ?? ''}입니다. 3분내에 입력 해 주세요.`,
     })
     console.log(send)
     return rep.status(200).send({
-      email: created.props.email ?? '',
+      email: created.email,
     })
   } catch (e) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -434,7 +433,7 @@ export const sendAuthCodeHandler = async (
 interface ConfirmAuthCodeRoute extends RouteGenericInterface {
   Body: ConfirmAuthCodeBody
   Reply: {
-    200: ConfirmAuthCodeResponse
+    200: Pick<EmailAuthRequestDTO, 'email'>
     401: z.infer<typeof errorResponseSchema>
     404: z.infer<typeof errorResponseSchema>
     409: z.infer<typeof errorResponseSchema>
@@ -448,27 +447,27 @@ export const confirmAuthCodeHandler = async (
 ) => {
   try {
     const { authCode, email } = req.body
-    const dto = await EmailAuthRequestDTO.findByEmail(email)
+    const dto = await emailAuthRequestService.findByEmail(email)
     if (!dto) {
       return rep.status(404).send({
         code: 'EMAIL_AUTH_REQUEST_NOT_FOUND',
         message: 'email auth request not found',
       })
     }
-    if (dto.props.email !== email || dto.props.authcode !== authCode) {
+    if (dto.email !== email || dto.authcode !== authCode) {
       return rep.status(401).send({
         code: 'INVALID_EMAIL_AUTH_REQUEST',
         message: 'invalid email auth request',
       })
     }
-    if (dto.props.authenticated) {
+    if (dto.authenticated) {
       return rep.status(409).send({
         code: 'EMAIL_AUTH_REQUEST_ALREADY_AUTHENTICATED',
         message: 'already authenticated',
       })
     }
-    if (dto.props.createdAt) {
-      const diffMinutes = Math.abs(differenceInMinutes(new Date(), dto.props.createdAt))
+    if (dto.createdAt) {
+      const diffMinutes = Math.abs(differenceInMinutes(new Date(), dto.createdAt))
       if (diffMinutes >= 3) {
         return rep.status(401).send({
           code: 'EMAIL_AUTH_REQUEST_TIMEOUT',
@@ -476,9 +475,9 @@ export const confirmAuthCodeHandler = async (
         })
       }
     }
-    const confirmed = await dto.confirm()
+    const confirmed = await emailAuthRequestService.confirm(dto.id)
     return rep.status(200).send({
-      email: confirmed.props.email ?? '',
+      email: confirmed.email ?? '',
     })
   } catch (e) {
     console.error(e)
