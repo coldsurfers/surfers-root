@@ -1,9 +1,5 @@
+import { ArtistDTO, ArtistDTOSchema } from '@/dtos/artist.dto'
 import { ConcertDTO, ConcertDTOSchema } from '@/dtos/concert.dto'
-import {
-  SubscribeArtistDTO,
-  subscribedArtistDTOSerializedSchema,
-  SubscribedArtistSerialized,
-} from '@/dtos/subscribe-artist-dto'
 import { VenueDTO } from '@/dtos/venue.dto'
 import { ErrorResponse, errorResponseSchema } from '@/lib/error'
 import { ArtistRepositoryImpl } from '@/repositories/artist.repository.impl'
@@ -108,7 +104,7 @@ export const getConcertSubscribeHandler = async (
 interface GetArtistSubscribeRoute extends RouteGenericInterface {
   Params: z.infer<typeof getSubscribeCommonParamsSchema>
   Reply: {
-    200: z.infer<typeof subscribedArtistDTOSerializedSchema>
+    200: z.infer<typeof ArtistDTOSchema>
     401: z.infer<typeof errorResponseSchema>
     404: z.infer<typeof errorResponseSchema>
     500: z.infer<typeof errorResponseSchema>
@@ -121,14 +117,14 @@ export const getArtistSubscribeHandler = async (
 ) => {
   try {
     const { id: artistId } = req.params
-    const subscribedArtist = await SubscribeArtistDTO.findByArtistIdUserId(artistId, req.user.id)
+    const subscribedArtist = await artistService.getSubscribedArtist({ artistId, userId: req.user.id })
     if (!subscribedArtist) {
       return rep.status(404).send({
         code: 'SUBSCRIBED_ARTIST_NOT_FOUND',
         message: 'subscribed artist not found',
       })
     }
-    return rep.status(200).send(subscribedArtist.serialize())
+    return rep.status(200).send(subscribedArtist)
   } catch (e) {
     console.error(e)
     return rep.status(500).send({
@@ -255,7 +251,7 @@ interface PostSubscribeArtistRoute extends RouteGenericInterface {
   Params: SubscribeArtistParams
   Body: z.infer<typeof subscribeArtistBodySchema>
   Reply: {
-    200: SubscribedArtistSerialized
+    200: ArtistDTO
     401: ErrorResponse
     404: ErrorResponse
     500: ErrorResponse
@@ -274,20 +270,18 @@ export const postSubscribeArtistHandler = async (
       return rep.status(404).send({ code: 'ARTIST_NOT_FOUND', message: 'Artist not found' })
     }
 
-    const subscribedArtist = await SubscribeArtistDTO.findByArtistIdUserId(artistId, req.user.id)
+    const subscribedArtist = await artistService.getSubscribedArtist({ artistId, userId: req.user.id })
 
     if (subscribedArtist) {
-      return rep.status(200).send(subscribedArtist.serialize())
+      return rep.status(200).send(subscribedArtist)
     }
 
-    const dto = new SubscribeArtistDTO({
+    const data = await artistService.subscribe({
       artistId,
       userId: req.user.id,
     })
 
-    const data = await dto.subscribeArtist()
-
-    return rep.status(200).send(data.serialize())
+    return rep.status(200).send(data)
   } catch (e) {
     console.error(e)
     return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
@@ -298,7 +292,7 @@ interface DeleteUnsubscribeArtistRoute extends RouteGenericInterface {
   Params: SubscribeArtistParams
   Body: z.infer<typeof unsubscribeArtistBodySchema>
   Reply: {
-    200: SubscribedArtistSerialized
+    200: ArtistDTO
     401: ErrorResponse
     404: ErrorResponse
     500: ErrorResponse
@@ -317,15 +311,18 @@ export const deleteUnsubscribeArtistHandler = async (
       return rep.status(404).send({ code: 'ARTIST_NOT_FOUND', message: 'Artist not found' })
     }
 
-    const subscribedArtist = await SubscribeArtistDTO.findByArtistIdUserId(artistId, req.user.id)
+    const subscribedArtist = await artistService.getSubscribedArtist({ artistId, userId: req.user.id })
 
     if (!subscribedArtist) {
       return rep.status(404).send({ code: 'SUBSCRIBED_ARTIST_NOT_FOUND', message: 'Artist not found' })
     }
 
-    const data = await subscribedArtist.unsubscribeArtist()
+    const data = await artistService.unsubscribe({
+      artistId,
+      userId: req.user.id,
+    })
 
-    return rep.status(200).send(data.serialize())
+    return rep.status(200).send(data)
   } catch (e) {
     console.error(e)
     return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
