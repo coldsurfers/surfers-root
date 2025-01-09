@@ -17,7 +17,9 @@
       "@/controllers": ["./src/controllers"],
       "@/controllers/*": ["./src/controllers/*"],
       "@/plugins": ["./src/plugins"],
-      "@/plugins/*": ["./src/plugins/*"]
+      "@/plugins/*": ["./src/plugins/*"],
+      "@/": ["./src/"],
+      "@/*": ["./src/*"]
     }
   },
   "include": ["vercel/**/*.ts", "src/**/*.ts"],
