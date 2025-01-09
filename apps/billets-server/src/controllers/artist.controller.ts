@@ -1,23 +1,30 @@
 import { ArtistDTO, ArtistDTOSerialized } from '@/dtos/artist-dto'
 import { ConcertDTO } from '@/dtos/concert-dto'
 import { errorResponseSchema } from '@/lib/error'
-import { RouteHandler } from 'fastify'
-import { z } from 'zod'
 import {
   GetArtistByIdParams,
   getConcertListByArtistIdParamsSchema,
   getConcertListByArtistIdQueryStringSchema,
   getConcertListByArtistIdSuccessResponseSchema,
-} from './artist.types'
+} from '@/routes/artist/artist.types'
+import { RouteGenericInterface } from 'fastify'
+import { FastifyReply } from 'fastify/types/reply'
+import { FastifyRequest } from 'fastify/types/request'
+import { z } from 'zod'
 
-export const getArtistByIdHandler: RouteHandler<{
+interface GetArtistByIdRoute extends RouteGenericInterface {
   Params: GetArtistByIdParams
   Reply: {
     200: ArtistDTOSerialized
     404: z.infer<typeof errorResponseSchema>
     500: z.infer<typeof errorResponseSchema>
   }
-}> = async (req, rep) => {
+}
+
+export const getArtistByIdHandler = async (
+  req: FastifyRequest<GetArtistByIdRoute>,
+  rep: FastifyReply<GetArtistByIdRoute>,
+) => {
   try {
     const { id: artistId } = req.params
     const artistDTO = await ArtistDTO.findById(artistId)
@@ -37,14 +44,19 @@ export const getArtistByIdHandler: RouteHandler<{
   }
 }
 
-export const getConcertListByArtistIdRoute: RouteHandler<{
+interface GetConcertListByArtistIdRoute extends RouteGenericInterface {
   Params: z.infer<typeof getConcertListByArtistIdParamsSchema>
   Querystring: z.infer<typeof getConcertListByArtistIdQueryStringSchema>
   Reply: {
     200: z.infer<typeof getConcertListByArtistIdSuccessResponseSchema>
     500: z.infer<typeof errorResponseSchema>
   }
-}> = async (req, rep) => {
+}
+
+export const getConcertListByArtistIdHandler = async (
+  req: FastifyRequest<GetConcertListByArtistIdRoute>,
+  rep: FastifyReply<GetConcertListByArtistIdRoute>,
+) => {
   try {
     const { artistId } = req.params
     const { offset, size } = req.query

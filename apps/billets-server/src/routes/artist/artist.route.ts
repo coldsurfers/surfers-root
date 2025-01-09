@@ -1,8 +1,8 @@
+import { getArtistByIdHandler, getConcertListByArtistIdHandler } from '@/controllers/artist.controller'
 import { artistDTOSerializedSchema } from '@/dtos/artist-dto/artist-dto.types'
 import { errorResponseSchema } from '@/lib/error'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { getArtistByIdHandler, getConcertListByArtistIdRoute } from './artist.handler'
 import {
   getArtistByIdParamsSchema,
   getConcertListByArtistIdParamsSchema,
@@ -39,7 +39,7 @@ export const artistRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    getConcertListByArtistIdRoute,
+    getConcertListByArtistIdHandler,
   )
   done()
 }
