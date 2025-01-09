@@ -1,16 +1,18 @@
 import { SearchDTO } from '@/dtos/search-dto'
 import { SearchDTOSerialized } from '@/dtos/search-dto/search-dto.types'
 import { ErrorResponse } from '@/lib/error'
-import { RouteHandler } from 'fastify'
-import { SearchListQuerystring } from './search.types'
+import { SearchListQuerystring } from '@/routes/search/search.types'
+import { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify'
 
-export const searchListHandler: RouteHandler<{
+interface SearchListRoute extends RouteGenericInterface {
   Querystring: SearchListQuerystring
   Reply: {
     200: SearchDTOSerialized[]
     500: ErrorResponse
   }
-}> = async (req, rep) => {
+}
+
+export const searchListHandler = async (req: FastifyRequest<SearchListRoute>, rep: FastifyReply<SearchListRoute>) => {
   try {
     const { keyword } = req.query
     const data = await SearchDTO.searchList(keyword)
