@@ -1,6 +1,5 @@
-import { authTokenDTOSerializedSchema } from '@/dtos/auth-token-dto'
+import { AuthTokenDTOSchema } from '@/dtos/auth-token.dto'
 import { UserDTOSchema } from '@/dtos/user.dto'
-// import { userDTOSerializedSchema } from '@/dtos/user-dto/user-dto.types'
 import { z } from 'zod'
 
 export const signInBodySchema = z.object({
@@ -15,7 +14,7 @@ export type SignInBody = z.infer<typeof signInBodySchema>
 
 export const signInResponseSchema = z.object({
   user: UserDTOSchema,
-  authToken: authTokenDTOSerializedSchema,
+  authToken: AuthTokenDTOSchema,
 })
 
 export type SignInResponse = z.infer<typeof signInResponseSchema>
@@ -56,7 +55,7 @@ export type SignUpBody = z.infer<typeof signUpBodySchema>
 
 export const signUpResponseSchema = z.object({
   user: UserDTOSchema,
-  authToken: authTokenDTOSerializedSchema,
+  authToken: AuthTokenDTOSchema,
 })
 
 export type SignUpResponse = z.infer<typeof signUpResponseSchema>

@@ -1,4 +1,3 @@
-import { AuthTokenDTO } from '@/dtos/auth-token-dto'
 import encryptPassword from '@/lib/encryptPassword'
 import { ErrorResponse, errorResponseSchema } from '@/lib/error'
 import {
@@ -25,7 +24,9 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
 import log from '@/lib/log'
+import { AuthTokenRepositoryImpl } from '@/repositories/auth-token.repository.impl'
 import { UserRepositoryImpl } from '@/repositories/user.repository.impl'
+import { AuthTokenService } from '@/services/auth-token.service'
 import { UserService } from '@/services/user.service'
 import { differenceInMinutes } from 'date-fns/differenceInMinutes'
 import dotenv from 'dotenv'
@@ -35,6 +36,8 @@ dotenv.config()
 const userRepository = new UserRepositoryImpl()
 const userService = new UserService(userRepository)
 
+const authTokenRepository = new AuthTokenRepositoryImpl()
+const authTokenService = new AuthTokenService(authTokenRepository)
 interface PostSignInRoute extends RouteGenericInterface {
   Body: SignInBody
   Reply: {
@@ -97,15 +100,14 @@ export const signinHandler = async (req: FastifyRequest<PostSignInRoute>, rep: F
             },
           ),
         }
-        const authTokenDTO = new AuthTokenDTO({
+        const createdAuthToken = await authTokenService.create({
           access_token: authToken.accessToken,
           refresh_token: authToken.refreshToken,
           user_id: existing.id,
         })
-        const createdAuthToken = await authTokenDTO.create()
         return rep.status(200).send({
           user: existing,
-          authToken: createdAuthToken.serialize(),
+          authToken: createdAuthToken,
         })
       })
       .otherwise(async (value) => {
@@ -154,15 +156,14 @@ export const signinHandler = async (req: FastifyRequest<PostSignInRoute>, rep: F
             },
           ),
         }
-        const authTokenDTO = new AuthTokenDTO({
+        const createdAuthToken = await authTokenService.create({
           access_token: authToken.accessToken,
           refresh_token: authToken.refreshToken,
           user_id: existing.id,
         })
-        const createdAuthToken = await authTokenDTO.create()
         return rep.status(200).send({
           user: existing,
-          authToken: createdAuthToken.serialize(),
+          authToken: createdAuthToken,
         })
       })
   } catch (e) {
@@ -281,15 +282,14 @@ export const signupHandler = async (req: FastifyRequest<PostSignUpRoute>, rep: F
             },
           ),
         }
-        const authTokenDTO = new AuthTokenDTO({
+        const createdAuthToken = await authTokenService.create({
           access_token: authToken.accessToken,
           refresh_token: authToken.refreshToken,
           user_id: createdUser.id,
         })
-        const createdAuthToken = await authTokenDTO.create()
         return rep.status(201).send({
           user: createdUser,
-          authToken: createdAuthToken.serialize(),
+          authToken: createdAuthToken,
         })
       })
       .otherwise(async (value) => {
@@ -339,15 +339,14 @@ export const signupHandler = async (req: FastifyRequest<PostSignUpRoute>, rep: F
             },
           ),
         }
-        const authTokenDTO = new AuthTokenDTO({
+        const createdAuthToken = await authTokenService.create({
           access_token: authToken.accessToken,
           refresh_token: authToken.refreshToken,
           user_id: createdUser.id,
         })
-        const createdAuthToken = await authTokenDTO.create()
         return rep.status(201).send({
           user: createdUser,
-          authToken: createdAuthToken.serialize(),
+          authToken: createdAuthToken,
         })
       })
   } catch (e) {
