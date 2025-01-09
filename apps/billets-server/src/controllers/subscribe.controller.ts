@@ -6,7 +6,7 @@ import {
 } from '@/dtos/subscribe-artist-dto'
 import { subscribedConcertDTOSerializedListSchema, SubscribedConcertSerialized } from '@/dtos/subscribe-concert-dto'
 import { SubscribeConcertDTO } from '@/dtos/subscribe-concert-dto/subscribe-concert-dto'
-import { SubscribeVenueDTO, SubscribeVenueSerialized, subscribeVenueSerializedSchema } from '@/dtos/subscribe-venue-dto'
+import { VenueDTO } from '@/dtos/venue.dto'
 import { ErrorResponse, errorResponseSchema } from '@/lib/error'
 import { ArtistRepositoryImpl } from '@/repositories/artist.repository.impl'
 import { UserRepositoryImpl } from '@/repositories/user.repository.impl'
@@ -138,7 +138,7 @@ export const getArtistSubscribeHandler = async (
 interface GetVenueSubscribeRoute extends RouteGenericInterface {
   Params: z.infer<typeof getSubscribeCommonParamsSchema>
   Reply: {
-    200: z.infer<typeof subscribeVenueSerializedSchema>
+    200: VenueDTO
     401: z.infer<typeof errorResponseSchema>
     404: z.infer<typeof errorResponseSchema>
     500: z.infer<typeof errorResponseSchema>
@@ -151,14 +151,14 @@ export const getVenueSubscribeHandler = async (
 ) => {
   try {
     const { id: venueId } = req.params
-    const subscribedVenue = await SubscribeVenueDTO.findByVenueIdUserId(venueId, req.user.id)
+    const subscribedVenue = await venueService.getVenueByVenueIdUserId({ venueId, userId: req.user.id })
     if (!subscribedVenue) {
       return rep.status(404).send({
         code: 'SUBSCRIBED_VENUE_NOT_FOUND',
         message: 'subscribed venue not found',
       })
     }
-    return rep.status(200).send(subscribedVenue.serialize())
+    return rep.status(200).send(subscribedVenue)
   } catch (e) {
     console.error(e)
     return rep.status(500).send({
@@ -332,7 +332,7 @@ interface PostSubscribeVenueRoute extends RouteGenericInterface {
   Params: SubscribeVenueParams
   Body: z.infer<typeof subscribeVenueBodySchema>
   Reply: {
-    200: SubscribeVenueSerialized
+    200: VenueDTO
     401: ErrorResponse
     404: ErrorResponse
     500: ErrorResponse
@@ -351,20 +351,15 @@ export const postSubscribeVenueHandler = async (
       return rep.status(404).send({ code: 'VENUE_NOT_FOUND', message: 'Venue not found' })
     }
 
-    const subscribedVenue = await SubscribeVenueDTO.findByVenueIdUserId(venueId, req.user.id)
+    const subscribedVenue = await venueService.getVenueByVenueIdUserId({ venueId, userId: req.user.id })
 
     if (subscribedVenue) {
-      return rep.status(200).send(subscribedVenue.serialize())
+      return rep.status(200).send(subscribedVenue)
     }
 
-    const dto = new SubscribeVenueDTO({
-      venueId,
-      userId: req.user.id,
-    })
+    const data = await venueService.subscribe({ venueId, userId: req.user.id })
 
-    const data = await dto.subscribeVenue()
-
-    return rep.status(200).send(data.serialize())
+    return rep.status(200).send(data)
   } catch (e) {
     console.error(e)
     return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
@@ -375,7 +370,7 @@ interface DeleteUnsubscribeVenueRoute extends RouteGenericInterface {
   Params: SubscribeVenueParams
   Body: z.infer<typeof unsubscribeVenueBodySchema>
   Reply: {
-    200: SubscribeVenueSerialized
+    200: VenueDTO
     401: ErrorResponse
     404: ErrorResponse
     500: ErrorResponse
@@ -394,15 +389,15 @@ export const deleteUnsubscribeVenueHandler = async (
       return rep.status(404).send({ code: 'VENUE_NOT_FOUND', message: 'Venue not found' })
     }
 
-    const subscribedVenue = await SubscribeVenueDTO.findByVenueIdUserId(venueId, req.user.id)
+    const subscribedVenue = await venueService.getVenueByVenueIdUserId({ venueId, userId: req.user.id })
 
     if (!subscribedVenue) {
       return rep.status(404).send({ code: 'SUBSCRIBED_VENUE_NOT_FOUND', message: 'Venue not found' })
     }
 
-    const data = await subscribedVenue.unsubscribeVenue()
+    const data = await venueService.unsubscribe({ venueId, userId: req.user.id })
 
-    return rep.status(200).send(data.serialize())
+    return rep.status(200).send(data)
   } catch (e) {
     console.error(e)
     return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
