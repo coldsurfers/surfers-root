@@ -1,21 +1,26 @@
-import { ArtistDTO, ArtistDTOSerialized } from '@/dtos/artist-dto'
+import { ArtistDTO } from '@/dtos/artist.dto'
 import { ConcertDTO } from '@/dtos/concert-dto'
 import { errorResponseSchema } from '@/lib/error'
+import { ArtistRepositoryImpl } from '@/repositories/artist.repository.impl'
 import {
   GetArtistByIdParams,
   getConcertListByArtistIdParamsSchema,
   getConcertListByArtistIdQueryStringSchema,
   getConcertListByArtistIdSuccessResponseSchema,
 } from '@/routes/artist/artist.types'
+import { ArtistService } from '@/services/artist.service'
 import { RouteGenericInterface } from 'fastify'
 import { FastifyReply } from 'fastify/types/reply'
 import { FastifyRequest } from 'fastify/types/request'
 import { z } from 'zod'
 
+const artistRepository = new ArtistRepositoryImpl()
+const artistService = new ArtistService(artistRepository)
+
 interface GetArtistByIdRoute extends RouteGenericInterface {
   Params: GetArtistByIdParams
   Reply: {
-    200: ArtistDTOSerialized
+    200: ArtistDTO
     404: z.infer<typeof errorResponseSchema>
     500: z.infer<typeof errorResponseSchema>
   }
@@ -27,14 +32,14 @@ export const getArtistByIdHandler = async (
 ) => {
   try {
     const { id: artistId } = req.params
-    const artistDTO = await ArtistDTO.findById(artistId)
-    if (!artistDTO) {
+    const artist = await artistService.findById(artistId)
+    if (!artist) {
       return rep.status(404).send({
         code: 'ARTIST_NOT_FOUND',
         message: 'artist not found',
       })
     }
-    return rep.status(200).send(artistDTO.serialize())
+    return rep.status(200).send(artist)
   } catch (e) {
     console.error(e)
     return rep.status(500).send({
