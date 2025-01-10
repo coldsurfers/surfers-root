@@ -1,15 +1,13 @@
-import { UserDTO } from '@/dtos/user.dto'
-import { errorResponseSchema } from '@/lib/error'
+import { ErrorResponseDTO } from '@/dtos/error-response.dto'
+import { ActivateUserBodyDTO, DeactivateUserBodyDTO, UserDTO } from '@/dtos/user.dto'
 import { EmailAuthRequestRepositoryImpl } from '@/repositories/email-auth-request.repository.impl'
 import { UserRepositoryImpl } from '@/repositories/user.repository.impl'
-import { activateUserBodySchema, deactivateUserBodySchema } from '@/routes/user/user.types'
 import { EmailAuthRequestService } from '@/services/email-auth-request.service'
 import { UserService } from '@/services/user.service'
 import { differenceInMinutes } from 'date-fns/differenceInMinutes'
 import { FastifyReply } from 'fastify/types/reply'
 import { FastifyRequest } from 'fastify/types/request'
 import { RouteGenericInterface } from 'fastify/types/route'
-import { z } from 'zod'
 
 const userRepository = new UserRepositoryImpl()
 const userService = new UserService(userRepository)
@@ -20,9 +18,9 @@ const emailAuthRequestService = new EmailAuthRequestService(emailAuthRequestRepo
 interface GetMeRoute extends RouteGenericInterface {
   Reply: {
     200: UserDTO
-    401: z.infer<typeof errorResponseSchema>
-    404: z.infer<typeof errorResponseSchema>
-    500: z.infer<typeof errorResponseSchema>
+    401: ErrorResponseDTO
+    404: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 
@@ -51,11 +49,11 @@ export const getMeHandler = async (req: FastifyRequest<GetMeRoute>, rep: Fastify
 }
 
 interface DeactivateUserRoute extends RouteGenericInterface {
-  Body: z.infer<typeof deactivateUserBodySchema>
+  Body: DeactivateUserBodyDTO
   Reply: {
     200: UserDTO
-    401: z.infer<typeof errorResponseSchema>
-    500: z.infer<typeof errorResponseSchema>
+    401: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 
@@ -85,13 +83,13 @@ export const deactivateUserHandler = async (
 }
 
 interface ActivateUserRoute extends RouteGenericInterface {
-  Body: z.infer<typeof activateUserBodySchema>
+  Body: ActivateUserBodyDTO
   Reply: {
     200: UserDTO
-    401: z.infer<typeof errorResponseSchema>
-    404: z.infer<typeof errorResponseSchema>
-    409: z.infer<typeof errorResponseSchema>
-    500: z.infer<typeof errorResponseSchema>
+    401: ErrorResponseDTO
+    404: ErrorResponseDTO
+    409: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 

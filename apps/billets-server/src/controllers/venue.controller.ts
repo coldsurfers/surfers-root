@@ -1,16 +1,16 @@
-import { VenueDTO } from '@/dtos/venue.dto'
+import { ConcertDTO } from '@/dtos/concert.dto'
+import { ErrorResponseDTO } from '@/dtos/error-response.dto'
+import {
+  GetConcertListByVenueIdParamsDTO,
+  GetConcertListByVenueIdQueryString,
+  GetVenueByIdParamsDTO,
+  VenueDTO,
+} from '@/dtos/venue.dto'
 import { ConcertRepositoryImpl } from '@/repositories/concert.repository.impl'
 import { VenueRepositoryImpl } from '@/repositories/venue.repository.impl'
-import {
-  getConcertListByVenueIdParamsSchema,
-  getConcertListByVenueIdQueryStringSchema,
-  getConcertListByVenueIdSuccessResponseSchema,
-  getVenueByIdParamsSchema,
-} from '@/routes/venue/venue.types'
 import { ConcertService } from '@/services/concert.service'
 import { VenueService } from '@/services/venue.service'
 import { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify'
-import { z } from 'zod'
 
 const venueRepository = new VenueRepositoryImpl()
 const venueService = new VenueService(venueRepository)
@@ -19,11 +19,11 @@ const concertRepository = new ConcertRepositoryImpl()
 const concertService = new ConcertService(concertRepository)
 
 interface GetVenueByIdRoute extends RouteGenericInterface {
-  Params: z.infer<typeof getVenueByIdParamsSchema>
+  Params: GetVenueByIdParamsDTO
   Reply: {
     200: VenueDTO
-    404: void
-    500: void
+    404: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 
@@ -35,20 +35,26 @@ export const getVenueByIdHandler = async (
     const { id: venueId } = req.params
     const venue = await venueService.getVenueById(venueId)
     if (!venue) {
-      return rep.status(404).send()
+      return rep.status(404).send({
+        code: 'VENUE_NOT_FOUND',
+        message: 'Venue not found',
+      })
     }
     return rep.status(200).send(venue)
   } catch (e) {
-    return rep.status(500).send()
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    })
   }
 }
 
 interface GetConcertListByVenueIdRoute extends RouteGenericInterface {
-  Querystring: z.infer<typeof getConcertListByVenueIdQueryStringSchema>
-  Params: z.infer<typeof getConcertListByVenueIdParamsSchema>
+  Params: GetConcertListByVenueIdParamsDTO
+  Querystring: GetConcertListByVenueIdQueryString
   Reply: {
-    200: z.infer<typeof getConcertListByVenueIdSuccessResponseSchema>
-    500: void
+    200: ConcertDTO[]
+    500: ErrorResponseDTO
   }
 }
 

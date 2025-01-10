@@ -6,19 +6,16 @@ import {
   signupHandler,
   signupPreHandler,
 } from '@/controllers/auth.controller'
-import { errorResponseSchema } from '@/lib/error'
+import { SignInBodyDTOSchema, SignUpBodyDTOSchema, UserWithAuthTokenDTOSchema } from '@/dtos/auth.dto'
+import {
+  ConfirmAuthCodeBodyDTOSchema,
+  ConfirmAuthCodeResponseDTOSchema,
+  SendAuthCodeResponseDTOSchema,
+  SendEmailAuthCodeBodyDTOSchema,
+} from '@/dtos/email-auth-request.dto'
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import {
-  confirmAuthCodeBodySchema,
-  confirmAuthCodeResponseSchema,
-  sendAuthCodeBodySchema,
-  sendAuthCodeResponseSchema,
-  signInBodySchema,
-  signInResponseSchema,
-  signUpBodySchema,
-  signUpResponseSchema,
-} from './auth.types'
 
 const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().post(
@@ -26,11 +23,11 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'auth'],
-        body: sendAuthCodeBodySchema,
+        body: SendEmailAuthCodeBodyDTOSchema,
         response: {
-          200: sendAuthCodeResponseSchema,
-          409: errorResponseSchema,
-          500: errorResponseSchema,
+          200: SendAuthCodeResponseDTOSchema,
+          409: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
     },
@@ -41,13 +38,13 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'auth'],
-        body: confirmAuthCodeBodySchema,
+        body: ConfirmAuthCodeBodyDTOSchema,
         response: {
-          200: confirmAuthCodeResponseSchema,
-          401: errorResponseSchema,
-          404: errorResponseSchema,
-          409: errorResponseSchema,
-          500: errorResponseSchema,
+          200: ConfirmAuthCodeResponseDTOSchema,
+          401: ErrorResponseDTOSchema,
+          404: ErrorResponseDTOSchema,
+          409: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
     },
@@ -59,11 +56,11 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'auth'],
-        body: signInBodySchema,
+        body: SignInBodyDTOSchema,
         response: {
-          200: signInResponseSchema,
-          401: errorResponseSchema,
-          500: errorResponseSchema,
+          200: UserWithAuthTokenDTOSchema,
+          401: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
       preHandler: [signinPreHandler],
@@ -76,12 +73,12 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'auth'],
-        body: signUpBodySchema,
+        body: SignUpBodyDTOSchema,
         response: {
-          201: signUpResponseSchema,
-          400: errorResponseSchema,
-          401: errorResponseSchema,
-          500: errorResponseSchema,
+          201: UserWithAuthTokenDTOSchema,
+          400: ErrorResponseDTOSchema,
+          401: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
       preHandler: [signupPreHandler],

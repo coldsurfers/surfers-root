@@ -1,21 +1,19 @@
-import { FCMTokenDTO } from '@/dtos/fcm-token.dto'
-import { errorResponseSchema } from '@/lib/error'
+import { ErrorResponseDTO } from '@/dtos/error-response.dto'
+import { FCMTokenDTO, PostFCMTokenBodyDTO } from '@/dtos/fcm-token.dto'
 import { FCMTokenRepositoryImpl } from '@/repositories/fcm-token.repository.impl'
-import { PostFCMTokenBody } from '@/routes/fcm'
 import { app } from '@/server'
 import { FCMTokenService } from '@/services/fcm-token.service'
 import { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify'
-import { z } from 'zod'
 
 const fcmTokenRepository = new FCMTokenRepositoryImpl()
 const fcmTokenService = new FCMTokenService(fcmTokenRepository)
 
 interface PostFCMRoute extends RouteGenericInterface {
-  Body: PostFCMTokenBody
+  Body: PostFCMTokenBodyDTO
   Reply: {
     201: FCMTokenDTO
-    401: z.infer<typeof errorResponseSchema>
-    500: z.infer<typeof errorResponseSchema>
+    401: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 

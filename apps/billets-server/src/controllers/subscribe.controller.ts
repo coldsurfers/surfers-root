@@ -1,29 +1,18 @@
-import { ArtistDTO, ArtistDTOSchema } from '@/dtos/artist.dto'
-import { ConcertDTO, ConcertDTOSchema } from '@/dtos/concert.dto'
-import { VenueDTO } from '@/dtos/venue.dto'
-import { ErrorResponse, errorResponseSchema } from '@/lib/error'
+import { ArtistDTO, SubscribeArtistBodyDTO, UnsubscribeArtistBodyDTO } from '@/dtos/artist.dto'
+import { GetSubscribeCommonParamsDTO } from '@/dtos/common.dto'
+import { ConcertDTO, GetSubscribedConcertListQueryStringDTO, SubscribeConcertParamsDTO } from '@/dtos/concert.dto'
+import { ErrorResponseDTO } from '@/dtos/error-response.dto'
+import { SubscribeVenueBodyDTO, UnsubscribeVenueBodyDTO, VenueDTO } from '@/dtos/venue.dto'
 import { ArtistRepositoryImpl } from '@/repositories/artist.repository.impl'
 import { ConcertRepositoryImpl } from '@/repositories/concert.repository.impl'
 import { UserRepositoryImpl } from '@/repositories/user.repository.impl'
 import { VenueRepositoryImpl } from '@/repositories/venue.repository.impl'
-import {
-  getSubscribeCommonParamsSchema,
-  getSubscribedConcertListQueryStringSchema,
-  subscribeArtistBodySchema,
-  SubscribeArtistParams,
-  SubscribeConcertParams,
-  subscribeVenueBodySchema,
-  SubscribeVenueParams,
-  unsubscribeArtistBodySchema,
-  unsubscribeVenueBodySchema,
-} from '@/routes/subscribe/subscribe.types'
 import { ArtistService } from '@/services/artist.service'
 import { ConcertService } from '@/services/concert.service'
 import { UserService } from '@/services/user.service'
 import { VenueService } from '@/services/venue.service'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { RouteGenericInterface } from 'fastify/types/route'
-import { z } from 'zod'
 
 const userRepository = new UserRepositoryImpl()
 const userService = new UserService(userRepository)
@@ -38,11 +27,11 @@ const concertRepository = new ConcertRepositoryImpl()
 const concertService = new ConcertService(concertRepository)
 
 interface GetSubscribedConcertListRoute extends RouteGenericInterface {
-  Querystring: z.infer<typeof getSubscribedConcertListQueryStringSchema>
+  Querystring: GetSubscribedConcertListQueryStringDTO
   Reply: {
-    200: z.infer<typeof ConcertDTOSchema>[]
-    401: z.infer<typeof errorResponseSchema>
-    500: z.infer<typeof errorResponseSchema>
+    200: ConcertDTO[]
+    401: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 
@@ -72,12 +61,12 @@ export const getSubscribedConcertListHandler = async (
 }
 
 interface GetConcertSubscribeRoute extends RouteGenericInterface {
-  Params: z.infer<typeof getSubscribeCommonParamsSchema>
+  Params: GetSubscribeCommonParamsDTO
   Reply: {
     200: ConcertDTO
-    401: ErrorResponse
-    404: ErrorResponse
-    500: ErrorResponse
+    401: ErrorResponseDTO
+    404: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 
@@ -102,12 +91,12 @@ export const getConcertSubscribeHandler = async (
 }
 
 interface GetArtistSubscribeRoute extends RouteGenericInterface {
-  Params: z.infer<typeof getSubscribeCommonParamsSchema>
+  Params: GetSubscribeCommonParamsDTO
   Reply: {
-    200: z.infer<typeof ArtistDTOSchema>
-    401: z.infer<typeof errorResponseSchema>
-    404: z.infer<typeof errorResponseSchema>
-    500: z.infer<typeof errorResponseSchema>
+    200: ArtistDTO
+    401: ErrorResponseDTO
+    404: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 
@@ -135,12 +124,12 @@ export const getArtistSubscribeHandler = async (
 }
 
 interface GetVenueSubscribeRoute extends RouteGenericInterface {
-  Params: z.infer<typeof getSubscribeCommonParamsSchema>
+  Params: GetSubscribeCommonParamsDTO
   Reply: {
     200: VenueDTO
-    401: z.infer<typeof errorResponseSchema>
-    404: z.infer<typeof errorResponseSchema>
-    500: z.infer<typeof errorResponseSchema>
+    401: ErrorResponseDTO
+    404: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 
@@ -168,12 +157,12 @@ export const getVenueSubscribeHandler = async (
 }
 
 interface PostSubscribeConcertRoute extends RouteGenericInterface {
-  Params: SubscribeConcertParams
+  Params: SubscribeConcertParamsDTO
   Reply: {
     200: ConcertDTO
-    401: ErrorResponse
-    404: ErrorResponse
-    500: ErrorResponse
+    401: ErrorResponseDTO
+    404: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 
@@ -208,12 +197,12 @@ export const postSubscribeConcertHandler = async (
 }
 
 interface DeleteUnsubscribeConcertRoute extends RouteGenericInterface {
-  Params: SubscribeConcertParams
+  Params: SubscribeConcertParamsDTO
   Reply: {
     200: ConcertDTO
-    401: ErrorResponse
-    404: ErrorResponse
-    500: ErrorResponse
+    401: ErrorResponseDTO
+    404: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 
@@ -248,13 +237,13 @@ export const deleteUnsubscribeConcertHandler = async (
 }
 
 interface PostSubscribeArtistRoute extends RouteGenericInterface {
-  Params: SubscribeArtistParams
-  Body: z.infer<typeof subscribeArtistBodySchema>
+  Params: GetSubscribeCommonParamsDTO
+  Body: SubscribeArtistBodyDTO
   Reply: {
     200: ArtistDTO
-    401: ErrorResponse
-    404: ErrorResponse
-    500: ErrorResponse
+    401: ErrorResponseDTO
+    404: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 
@@ -289,13 +278,13 @@ export const postSubscribeArtistHandler = async (
 }
 
 interface DeleteUnsubscribeArtistRoute extends RouteGenericInterface {
-  Params: SubscribeArtistParams
-  Body: z.infer<typeof unsubscribeArtistBodySchema>
+  Params: GetSubscribeCommonParamsDTO
+  Body: UnsubscribeArtistBodyDTO
   Reply: {
     200: ArtistDTO
-    401: ErrorResponse
-    404: ErrorResponse
-    500: ErrorResponse
+    401: ErrorResponseDTO
+    404: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 
@@ -330,13 +319,13 @@ export const deleteUnsubscribeArtistHandler = async (
 }
 
 interface PostSubscribeVenueRoute extends RouteGenericInterface {
-  Params: SubscribeVenueParams
-  Body: z.infer<typeof subscribeVenueBodySchema>
+  Params: GetSubscribeCommonParamsDTO
+  Body: SubscribeVenueBodyDTO
   Reply: {
     200: VenueDTO
-    401: ErrorResponse
-    404: ErrorResponse
-    500: ErrorResponse
+    401: ErrorResponseDTO
+    404: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 
@@ -368,13 +357,13 @@ export const postSubscribeVenueHandler = async (
 }
 
 interface DeleteUnsubscribeVenueRoute extends RouteGenericInterface {
-  Params: SubscribeVenueParams
-  Body: z.infer<typeof unsubscribeVenueBodySchema>
+  Params: GetSubscribeCommonParamsDTO
+  Body: UnsubscribeVenueBodyDTO
   Reply: {
     200: VenueDTO
-    401: ErrorResponse
-    404: ErrorResponse
-    500: ErrorResponse
+    401: ErrorResponseDTO
+    404: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 

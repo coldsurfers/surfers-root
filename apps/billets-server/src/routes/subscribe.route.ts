@@ -10,23 +10,18 @@ import {
   postSubscribeConcertHandler,
   postSubscribeVenueHandler,
 } from '@/controllers/subscribe.controller'
-import { ArtistDTOSchema } from '@/dtos/artist.dto'
-import { ConcertDTOSchema } from '@/dtos/concert.dto'
-import { VenueDTOSchema } from '@/dtos/venue.dto'
-import { errorResponseSchema } from '@/lib/error'
+import { ArtistDTOSchema, SubscribeArtistBodyDTOSchema, UnsubscribeArtistBodyDTOSchema } from '@/dtos/artist.dto'
+import { GetSubscribeCommonParamsDTOSchema } from '@/dtos/common.dto'
+import {
+  ConcertDTOSchema,
+  GetSubscribedConcertListQueryStringDTOSchema,
+  SubscribeConcertBodyDTOSchema,
+  SubscribeConcertParamsDTOSchema,
+} from '@/dtos/concert.dto'
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
+import { SubscribeVenueBodyDTOSchema, UnsubscribeVenueBodyDTOSchema, VenueDTOSchema } from '@/dtos/venue.dto'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import {
-  getSubscribeCommonParamsSchema,
-  getSubscribedConcertListQueryStringSchema,
-  subscribeArtistBodySchema,
-  subscribeConcertBodySchema,
-  subscribeConcertParamsSchema,
-  subscribeVenueBodySchema,
-  subscribeVenueParamsSchema,
-  unsubscribeArtistBodySchema,
-  unsubscribeVenueBodySchema,
-} from './subscribe.types'
 
 const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
@@ -34,11 +29,11 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'subscribe'],
-        querystring: getSubscribedConcertListQueryStringSchema,
+        querystring: GetSubscribedConcertListQueryStringDTOSchema,
         response: {
           200: ConcertDTOSchema.array(),
-          401: errorResponseSchema,
-          500: errorResponseSchema,
+          401: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
       preHandler: [fastify.authenticate],
@@ -51,12 +46,12 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'subscribe'],
-        params: getSubscribeCommonParamsSchema,
+        params: GetSubscribeCommonParamsDTOSchema,
         response: {
           200: ConcertDTOSchema,
-          401: errorResponseSchema,
-          404: errorResponseSchema,
-          500: errorResponseSchema,
+          401: ErrorResponseDTOSchema,
+          404: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
       preHandler: [fastify.authenticate],
@@ -69,13 +64,13 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'subscribe'],
-        params: subscribeConcertParamsSchema,
-        body: subscribeConcertBodySchema,
+        params: SubscribeConcertParamsDTOSchema,
+        body: SubscribeConcertBodyDTOSchema,
         response: {
           200: ConcertDTOSchema,
-          401: errorResponseSchema,
-          404: errorResponseSchema,
-          500: errorResponseSchema,
+          401: ErrorResponseDTOSchema,
+          404: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
       preHandler: [fastify.authenticate],
@@ -89,13 +84,13 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'subscribe'],
-        params: subscribeConcertParamsSchema,
-        body: subscribeConcertBodySchema,
+        params: SubscribeConcertParamsDTOSchema,
+        body: SubscribeConcertBodyDTOSchema,
         response: {
           200: ConcertDTOSchema,
-          401: errorResponseSchema,
-          404: errorResponseSchema,
-          500: errorResponseSchema,
+          401: ErrorResponseDTOSchema,
+          404: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
       preHandler: [fastify.authenticate],
@@ -109,12 +104,12 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'subscribe'],
-        params: getSubscribeCommonParamsSchema,
+        params: GetSubscribeCommonParamsDTOSchema,
         response: {
           200: ArtistDTOSchema,
-          401: errorResponseSchema,
-          404: errorResponseSchema,
-          500: errorResponseSchema,
+          401: ErrorResponseDTOSchema,
+          404: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
       preHandler: [fastify.authenticate],
@@ -126,12 +121,12 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'subscribe'],
-        body: subscribeArtistBodySchema,
+        body: SubscribeArtistBodyDTOSchema,
         response: {
           200: ArtistDTOSchema,
-          401: errorResponseSchema,
-          404: errorResponseSchema,
-          500: errorResponseSchema,
+          401: ErrorResponseDTOSchema,
+          404: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
       preHandler: [fastify.authenticate],
@@ -145,12 +140,12 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'subscribe'],
-        body: unsubscribeArtistBodySchema,
+        body: UnsubscribeArtistBodyDTOSchema,
         response: {
           200: ArtistDTOSchema,
-          401: errorResponseSchema,
-          404: errorResponseSchema,
-          500: errorResponseSchema,
+          401: ErrorResponseDTOSchema,
+          404: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
       preHandler: [fastify.authenticate],
@@ -164,12 +159,12 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'subscribe'],
-        params: getSubscribeCommonParamsSchema,
+        params: GetSubscribeCommonParamsDTOSchema,
         response: {
           200: VenueDTOSchema,
-          401: errorResponseSchema,
-          404: errorResponseSchema,
-          500: errorResponseSchema,
+          401: ErrorResponseDTOSchema,
+          404: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
       preHandler: [fastify.authenticate],
@@ -181,13 +176,13 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'subscribe'],
-        params: subscribeVenueParamsSchema,
-        body: subscribeVenueBodySchema,
+        params: GetSubscribeCommonParamsDTOSchema,
+        body: SubscribeVenueBodyDTOSchema,
         response: {
           200: VenueDTOSchema,
-          401: errorResponseSchema,
-          404: errorResponseSchema,
-          500: errorResponseSchema,
+          401: ErrorResponseDTOSchema,
+          404: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
       preHandler: [fastify.authenticate],
@@ -201,13 +196,13 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'subscribe'],
-        params: subscribeVenueParamsSchema,
-        body: unsubscribeVenueBodySchema,
+        params: GetSubscribeCommonParamsDTOSchema,
+        body: UnsubscribeVenueBodyDTOSchema,
         response: {
           200: VenueDTOSchema,
-          401: errorResponseSchema,
-          404: errorResponseSchema,
-          500: errorResponseSchema,
+          401: ErrorResponseDTOSchema,
+          404: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
       preHandler: [fastify.authenticate],

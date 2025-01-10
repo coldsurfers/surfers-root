@@ -3,23 +3,27 @@ import {
   getLocationConcertsHandler,
   getLocationCountryListHandler,
 } from '@/controllers/location.controller'
-import { LocationCityDTOSchema, LocationConcertDTOSchema, LocationCountryDTOSchema } from '@/dtos/location.dto'
-import { errorResponseSchema } from '@/lib/error'
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
+import {
+  GetLocationConcertsQueryStringDTOSchema,
+  LocationCityDTOSchema,
+  LocationConcertDTOSchema,
+  LocationCountryDTOSchema,
+} from '@/dtos/location.dto'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { getLocationConcertsQueryStringSchema } from './location.types'
 
-export const locationRoute: FastifyPluginCallback = (fastify, opts, done) => {
+const locationRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/concert',
     {
       schema: {
         tags: ['v1', 'location'],
-        querystring: getLocationConcertsQueryStringSchema,
+        querystring: GetLocationConcertsQueryStringDTOSchema,
         response: {
           200: LocationConcertDTOSchema.array(),
-          400: errorResponseSchema,
-          500: errorResponseSchema,
+          400: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
     },
@@ -33,7 +37,7 @@ export const locationRoute: FastifyPluginCallback = (fastify, opts, done) => {
         tags: ['v1', 'location'],
         response: {
           200: LocationCityDTOSchema.array(),
-          500: errorResponseSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
     },
@@ -47,7 +51,7 @@ export const locationRoute: FastifyPluginCallback = (fastify, opts, done) => {
         tags: ['v1', 'location'],
         response: {
           200: LocationCountryDTOSchema.array(),
-          500: errorResponseSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
     },
@@ -56,3 +60,5 @@ export const locationRoute: FastifyPluginCallback = (fastify, opts, done) => {
 
   done()
 }
+
+export default locationRoute

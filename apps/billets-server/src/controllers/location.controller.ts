@@ -1,7 +1,12 @@
-import { LocationCityDTOSchema, LocationConcertDTOSchema, LocationCountryDTOSchema } from '@/dtos/location.dto'
-import { errorResponseSchema } from '@/lib/error'
+import { ErrorResponseDTO } from '@/dtos/error-response.dto'
+import {
+  GetLocationConcertsQueryStringDTO,
+  GetLocationConcertsQueryStringDTOSchema,
+  LocationCityDTO,
+  LocationConcertDTO,
+  LocationCountryDTO,
+} from '@/dtos/location.dto'
 import { LocationRepositoryImpl } from '@/repositories/location.repository.impl'
-import { getLocationConcertsQueryStringSchema } from '@/routes/location/location.types'
 import { LocationService } from '@/services/location.service'
 import { RouteGenericInterface } from 'fastify'
 import { FastifyReply } from 'fastify/types/reply'
@@ -12,7 +17,7 @@ import { z } from 'zod'
 const locationRepository = new LocationRepositoryImpl()
 const locationService = new LocationService(locationRepository)
 
-const getLocationConcertsHandlerQueryAdapter = (query: z.infer<typeof getLocationConcertsQueryStringSchema>) => {
+const getLocationConcertsHandlerQueryAdapter = (query: z.infer<typeof GetLocationConcertsQueryStringDTOSchema>) => {
   return {
     latitude: +query.latitude,
     longitude: +query.longitude,
@@ -23,11 +28,11 @@ const getLocationConcertsHandlerQueryAdapter = (query: z.infer<typeof getLocatio
 }
 
 interface GetLocationConcertRoute extends RouteGenericInterface {
-  Querystring: z.infer<typeof getLocationConcertsQueryStringSchema>
+  Querystring: GetLocationConcertsQueryStringDTO
   Reply: {
-    200: z.infer<typeof LocationConcertDTOSchema>[]
-    400: z.infer<typeof errorResponseSchema>
-    500: z.infer<typeof errorResponseSchema>
+    200: LocationConcertDTO[]
+    400: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 
@@ -36,7 +41,7 @@ export const getLocationConcertsHandler = async (
   rep: FastifyReply<GetLocationConcertRoute>,
 ) => {
   try {
-    const queryStringValidation = getLocationConcertsQueryStringSchema.safeParse(req.query)
+    const queryStringValidation = GetLocationConcertsQueryStringDTOSchema.safeParse(req.query)
     if (!queryStringValidation.success) {
       return rep.status(400).send({
         code: 'INVALID_QUERY_STRING',
@@ -79,8 +84,8 @@ export const getLocationConcertsHandler = async (
 
 interface GetLocationCityListRoute extends RouteGenericInterface {
   Reply: {
-    200: z.infer<typeof LocationCityDTOSchema>[]
-    500: z.infer<typeof errorResponseSchema>
+    200: LocationCityDTO[]
+    500: ErrorResponseDTO
   }
 }
 
@@ -102,8 +107,8 @@ export const getLocationCityListHandler = async (
 
 interface GetLocationCountryListRoute extends RouteGenericInterface {
   Reply: {
-    200: z.infer<typeof LocationCountryDTOSchema>[]
-    500: z.infer<typeof errorResponseSchema>
+    200: LocationCountryDTO[]
+    500: ErrorResponseDTO
   }
 }
 
