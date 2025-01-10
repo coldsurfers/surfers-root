@@ -1,9 +1,8 @@
 import { searchListHandler } from '@/controllers/search.controller'
-import { SearchDTOSchema } from '@/dtos/search.dto'
-import { errorResponseSchema } from '@/lib/error'
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
+import { SearchDTOSchema, SearchListQueryStringDTOSchema } from '@/dtos/search.dto'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { searchListQuerystringSchema } from './search.types'
 
 /**
  * /v1/search
@@ -14,10 +13,10 @@ const searchRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'search'],
-        querystring: searchListQuerystringSchema,
+        querystring: SearchListQueryStringDTOSchema,
         response: {
           200: SearchDTOSchema.array(),
-          500: errorResponseSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
     },

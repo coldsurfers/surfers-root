@@ -22,3 +22,8 @@ export const SearchDTOSchema = z.discriminatedUnion('type', [
   }),
 ])
 export type SearchDTO = z.infer<typeof SearchDTOSchema>
+
+export const SearchListQueryStringDTOSchema = z.object({
+  keyword: z.string(),
+})
+export type SearchListQueryStringDTO = z.infer<typeof SearchListQueryStringDTOSchema>

@@ -1,19 +1,18 @@
-import { ArtistDTO } from '@/dtos/artist.dto'
-import { errorResponseSchema } from '@/lib/error'
+import {
+  ArtistDTO,
+  GetArtistByIdParamsDTO,
+  GetConcertListByArtistIdParamsDTO,
+  GetConcertListByArtistIdQueryStringDTO,
+} from '@/dtos/artist.dto'
+import { ConcertDTO } from '@/dtos/concert.dto'
+import { ErrorResponseDTO } from '@/dtos/error-response.dto'
 import { ArtistRepositoryImpl } from '@/repositories/artist.repository.impl'
 import { ConcertRepositoryImpl } from '@/repositories/concert.repository.impl'
-import {
-  GetArtistByIdParams,
-  getConcertListByArtistIdParamsSchema,
-  getConcertListByArtistIdQueryStringSchema,
-  getConcertListByArtistIdSuccessResponseSchema,
-} from '@/routes/artist/artist.types'
 import { ArtistService } from '@/services/artist.service'
 import { ConcertService } from '@/services/concert.service'
 import { RouteGenericInterface } from 'fastify'
 import { FastifyReply } from 'fastify/types/reply'
 import { FastifyRequest } from 'fastify/types/request'
-import { z } from 'zod'
 
 const artistRepository = new ArtistRepositoryImpl()
 const artistService = new ArtistService(artistRepository)
@@ -22,11 +21,11 @@ const concertRepository = new ConcertRepositoryImpl()
 const concertService = new ConcertService(concertRepository)
 
 interface GetArtistByIdRoute extends RouteGenericInterface {
-  Params: GetArtistByIdParams
+  Params: GetArtistByIdParamsDTO
   Reply: {
     200: ArtistDTO
-    404: z.infer<typeof errorResponseSchema>
-    500: z.infer<typeof errorResponseSchema>
+    404: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 
@@ -54,11 +53,11 @@ export const getArtistByIdHandler = async (
 }
 
 interface GetConcertListByArtistIdRoute extends RouteGenericInterface {
-  Params: z.infer<typeof getConcertListByArtistIdParamsSchema>
-  Querystring: z.infer<typeof getConcertListByArtistIdQueryStringSchema>
+  Params: GetConcertListByArtistIdParamsDTO
+  Querystring: GetConcertListByArtistIdQueryStringDTO
   Reply: {
-    200: z.infer<typeof getConcertListByArtistIdSuccessResponseSchema>
-    500: z.infer<typeof errorResponseSchema>
+    200: ConcertDTO[]
+    500: ErrorResponseDTO
   }
 }
 

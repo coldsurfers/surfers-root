@@ -1,12 +1,12 @@
 import { sendUserVoiceHandler } from '@/controllers/mailer.controller'
-import { errorResponseSchema } from '@/lib/error'
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
+import { SendEmailResponseDTOSchema, SendUserVoiceBodyDTOSchema } from '@/dtos/mailer.dto'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { sendEmailResponseSchema, sendUserVoiceBodySchema } from './mailer.types'
 
 const timeWindow = '1 minute'
 
-export const mailerRoute: FastifyPluginCallback = (fastify, opts, done) => {
+const mailerRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().post(
     '/user-voice',
     {
@@ -27,10 +27,10 @@ export const mailerRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       schema: {
         tags: ['v1', 'mailer'],
-        body: sendUserVoiceBodySchema,
+        body: SendUserVoiceBodyDTOSchema,
         response: {
-          200: sendEmailResponseSchema,
-          500: errorResponseSchema,
+          200: SendEmailResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
     },
@@ -38,3 +38,5 @@ export const mailerRoute: FastifyPluginCallback = (fastify, opts, done) => {
   )
   done()
 }
+
+export default mailerRoute

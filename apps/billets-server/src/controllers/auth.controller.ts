@@ -1,14 +1,4 @@
 import encryptPassword from '@/lib/encryptPassword'
-import { ErrorResponse, errorResponseSchema } from '@/lib/error'
-import {
-  ConfirmAuthCodeBody,
-  SendAuthCodeBody,
-  SignInBody,
-  SignInResponse,
-  signInResponseSchema,
-  SignUpBody,
-  SignUpResponse,
-} from '@/routes/auth/auth.types'
 import { RouteGenericInterface } from 'fastify/types/route'
 import { match } from 'ts-pattern'
 
@@ -18,9 +8,15 @@ import { sendEmail } from '@/lib/mailer'
 import verifyAppleToken from '@/lib/verifyAppleToken'
 import { app } from '@/server'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { z } from 'zod'
 
-import { EmailAuthRequestDTO } from '@/dtos/email-auth-request.dto'
+import { SignInBodyDTO, SignUpBodyDTO, UserWithAuthTokenDTO } from '@/dtos/auth.dto'
+import {
+  ConfirmAuthCodeBodyDTO,
+  ConfirmAuthCodeResponseDTO,
+  SendAuthCodeResponseDTO,
+  SendEmailAuthCodeBodyDTO,
+} from '@/dtos/email-auth-request.dto'
+import { ErrorResponseDTO } from '@/dtos/error-response.dto'
 import log from '@/lib/log'
 import { AuthTokenRepositoryImpl } from '@/repositories/auth-token.repository.impl'
 import { EmailAuthRequestRepositoryImpl } from '@/repositories/email-auth-request.repository.impl'
@@ -43,13 +39,13 @@ const emailAuthRequestRepository = new EmailAuthRequestRepositoryImpl()
 const emailAuthRequestService = new EmailAuthRequestService(emailAuthRequestRepository)
 
 interface PostSignInRoute extends RouteGenericInterface {
-  Body: SignInBody
+  Body: SignInBodyDTO
   Reply: {
-    200: SignInResponse
-    400: ErrorResponse
-    401: ErrorResponse
-    404: ErrorResponse
-    500: ErrorResponse
+    200: UserWithAuthTokenDTO
+    400: ErrorResponseDTO
+    401: ErrorResponseDTO
+    404: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 
@@ -180,11 +176,11 @@ export const signinHandler = async (req: FastifyRequest<PostSignInRoute>, rep: F
 }
 
 interface SignInPreHandlerRoute extends RouteGenericInterface {
-  Body: SignInBody
+  Body: SignInBodyDTO
   Reply: {
-    200: z.infer<typeof signInResponseSchema>
-    401: ErrorResponse
-    500: ErrorResponse
+    200: UserWithAuthTokenDTO
+    401: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 
@@ -215,12 +211,12 @@ export const signinPreHandler = async (
 }
 
 interface PostSignUpRoute extends RouteGenericInterface {
-  Body: SignUpBody
+  Body: SignUpBodyDTO
   Reply: {
-    201: SignUpResponse
-    400: ErrorResponse
-    401: ErrorResponse
-    500: ErrorResponse
+    201: UserWithAuthTokenDTO
+    400: ErrorResponseDTO
+    401: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 
@@ -359,10 +355,10 @@ export const signupHandler = async (req: FastifyRequest<PostSignUpRoute>, rep: F
 }
 
 interface SignUpPreHandlerRoute extends RouteGenericInterface {
-  Body: SignUpBody
+  Body: SignUpBodyDTO
   Reply: {
-    401: ErrorResponse
-    500: ErrorResponse
+    401: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 
@@ -386,11 +382,11 @@ export const signupPreHandler = async (
 }
 
 interface SendAuthCodeRoute extends RouteGenericInterface {
-  Body: SendAuthCodeBody
+  Body: SendEmailAuthCodeBodyDTO
   Reply: {
-    200: Pick<EmailAuthRequestDTO, 'email'>
-    409: z.infer<typeof errorResponseSchema>
-    500: z.infer<typeof errorResponseSchema>
+    200: SendAuthCodeResponseDTO
+    409: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 
@@ -431,13 +427,13 @@ export const sendAuthCodeHandler = async (
 }
 
 interface ConfirmAuthCodeRoute extends RouteGenericInterface {
-  Body: ConfirmAuthCodeBody
+  Body: ConfirmAuthCodeBodyDTO
   Reply: {
-    200: Pick<EmailAuthRequestDTO, 'email'>
-    401: z.infer<typeof errorResponseSchema>
-    404: z.infer<typeof errorResponseSchema>
-    409: z.infer<typeof errorResponseSchema>
-    500: z.infer<typeof errorResponseSchema>
+    200: ConfirmAuthCodeResponseDTO
+    401: ErrorResponseDTO
+    404: ErrorResponseDTO
+    409: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 

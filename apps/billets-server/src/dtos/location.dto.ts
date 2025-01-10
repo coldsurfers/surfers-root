@@ -33,3 +33,12 @@ export const LocationCityDTOSchema = z.object({
   geohash: z.string().nullable(),
 })
 export type LocationCityDTO = z.infer<typeof LocationCityDTOSchema>
+
+export const GetLocationConcertsQueryStringDTOSchema = z.object({
+  latitude: z.coerce.number(),
+  longitude: z.coerce.number(),
+  latitudeDelta: z.coerce.number(),
+  longitudeDelta: z.coerce.number(),
+  zoomLevel: z.coerce.number(),
+})
+export type GetLocationConcertsQueryStringDTO = z.infer<typeof GetLocationConcertsQueryStringDTOSchema>

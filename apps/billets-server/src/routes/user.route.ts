@@ -1,9 +1,8 @@
 import { activateUserHandler, deactivateUserHandler, getMeHandler } from '@/controllers/user.controller'
-import { UserDTOSchema } from '@/dtos/user.dto'
-import { errorResponseSchema } from '@/lib/error'
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
+import { ActivateUserBodyDTOSchema, DeactivateUserBodyDTOSchema, UserDTOSchema } from '@/dtos/user.dto'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { activateUserBodySchema, deactivateUserBodySchema, getMeResponseSchema } from './user.types'
 
 const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
@@ -17,10 +16,10 @@ const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
           },
         ],
         response: {
-          200: getMeResponseSchema,
-          401: errorResponseSchema,
-          404: errorResponseSchema,
-          500: errorResponseSchema,
+          200: UserDTOSchema,
+          401: ErrorResponseDTOSchema,
+          404: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
       preHandler: [fastify.authenticate],
@@ -37,13 +36,13 @@ const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
             AccessTokenAuth: [],
           },
         ],
-        body: activateUserBodySchema,
+        body: ActivateUserBodyDTOSchema,
         response: {
           200: UserDTOSchema,
-          401: errorResponseSchema,
-          404: errorResponseSchema,
-          409: errorResponseSchema,
-          500: errorResponseSchema,
+          401: ErrorResponseDTOSchema,
+          404: ErrorResponseDTOSchema,
+          409: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
     },
@@ -59,11 +58,11 @@ const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
             AccessTokenAuth: [],
           },
         ],
-        body: deactivateUserBodySchema,
+        body: DeactivateUserBodyDTOSchema,
         response: {
           200: UserDTOSchema,
-          401: errorResponseSchema,
-          500: errorResponseSchema,
+          401: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
       preHandler: [fastify.authenticate],

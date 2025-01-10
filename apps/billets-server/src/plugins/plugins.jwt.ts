@@ -1,8 +1,7 @@
-import { errorResponseSchema } from '@/lib/error'
+import { ErrorResponseDTO } from '@/dtos/error-response.dto'
 import fastifyJWT from '@fastify/jwt'
 import dotenv from 'dotenv'
 import fp from 'fastify-plugin'
-import { z } from 'zod'
 
 dotenv.config()
 
@@ -21,9 +20,7 @@ export const jwtPlugin = fp(async (fastify) => {
       await request.jwtVerify() // Verifies the JWT token
     } catch (err) {
       console.error(err)
-      return reply
-        .status(401)
-        .send({ code: 'INVALID_ACCESS_TOKEN', message: 'Unauthorized' } as z.infer<typeof errorResponseSchema>)
+      return reply.status(401).send({ code: 'INVALID_ACCESS_TOKEN', message: 'Unauthorized' } as ErrorResponseDTO)
     }
   })
 })

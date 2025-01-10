@@ -1,7 +1,6 @@
-import { SearchDTO } from '@/dtos/search.dto'
-import { ErrorResponse } from '@/lib/error'
+import { ErrorResponseDTO } from '@/dtos/error-response.dto'
+import { SearchDTO, SearchListQueryStringDTO } from '@/dtos/search.dto'
 import { SearchRepositoryImpl } from '@/repositories/search.repository.impl'
-import { SearchListQuerystring } from '@/routes/search/search.types'
 import { SearchService } from '@/services/search.service'
 import { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify'
 
@@ -9,10 +8,10 @@ const searchRepository = new SearchRepositoryImpl()
 const searchService = new SearchService(searchRepository)
 
 interface SearchListRoute extends RouteGenericInterface {
-  Querystring: SearchListQuerystring
+  Querystring: SearchListQueryStringDTO
   Reply: {
     200: SearchDTO[]
-    500: ErrorResponse
+    500: ErrorResponseDTO
   }
 }
 

@@ -1,28 +1,25 @@
-import { errorResponseSchema } from '@/lib/error'
+import {
+  ConcertDTO,
+  ConcertSearchQueryStringDTO,
+  GetConcertByIdParamsDTO,
+  GetConcertListQueryStringDTO,
+} from '@/dtos/concert.dto'
+import { ErrorResponseDTO } from '@/dtos/error-response.dto'
 import geohashUtils from '@/lib/geohashUtils'
 import { LatLng } from '@/lib/types'
 import { ConcertRepositoryImpl } from '@/repositories/concert.repository.impl'
-import {
-  ConcertDetailParams,
-  ConcertDetailResponse,
-  ConcertListQueryString,
-  ConcertListResponse,
-  ConcertSearchParams,
-  ConcertSearchResponse,
-} from '@/routes/concert/concert.types'
 import { ConcertService } from '@/services/concert.service'
 import { RouteGenericInterface } from 'fastify'
 import { FastifyReply } from 'fastify/types/reply'
 import { FastifyRequest } from 'fastify/types/request'
-import { z } from 'zod'
 
 const concertRepository = new ConcertRepositoryImpl()
 const concertService = new ConcertService(concertRepository)
 
 export interface ConcertListRoute extends RouteGenericInterface {
-  Querystring: ConcertListQueryString
+  Querystring: GetConcertListQueryStringDTO
   Reply: {
-    200: ConcertListResponse
+    200: ConcertDTO[]
     500: void
   }
 }
@@ -57,9 +54,9 @@ export const concertListHandler = async (
 }
 
 interface ConcertRoute extends RouteGenericInterface {
-  Params: ConcertDetailParams
+  Params: GetConcertByIdParamsDTO
   Reply: {
-    200: ConcertDetailResponse
+    200: ConcertDTO
     404: void
     500: void
   }
@@ -80,10 +77,10 @@ export const concertHandler = async (req: FastifyRequest<ConcertRoute>, rep: Fas
 }
 
 interface ConcertSearchRoute extends RouteGenericInterface {
-  Querystring: ConcertSearchParams
+  Querystring: ConcertSearchQueryStringDTO
   Reply: {
-    200: ConcertSearchResponse
-    500: z.infer<typeof errorResponseSchema>
+    200: ConcertDTO[]
+    500: ErrorResponseDTO
   }
 }
 

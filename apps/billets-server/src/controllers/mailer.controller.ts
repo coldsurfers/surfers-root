@@ -1,14 +1,13 @@
-import { ErrorResponse } from '@/lib/error'
+import { ErrorResponseDTO } from '@/dtos/error-response.dto'
+import { SendUserVoiceBodyDTO } from '@/dtos/mailer.dto'
 import { sendEmail } from '@/lib/mailer'
-import { sendUserVoiceBodySchema } from '@/routes/mailer/mailer.types'
 import { format } from 'date-fns'
 import { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify'
-import { z } from 'zod'
 
 interface SendUserVoiceRoute extends RouteGenericInterface {
-  Body: z.infer<typeof sendUserVoiceBodySchema>
+  Body: SendUserVoiceBodyDTO
   Reply: {
-    500: ErrorResponse
+    500: ErrorResponseDTO
   }
 }
 

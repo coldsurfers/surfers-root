@@ -1,14 +1,12 @@
 import { concertHandler, concertListHandler, concertSearchHandler } from '@/controllers/concert.controller'
+import {
+  ConcertDTOSchema,
+  ConcertSearchQueryStringDTOSchema,
+  GetConcertByIdParamsDTOSchema,
+  GetConcertListQueryStringDTOSchema,
+} from '@/dtos/concert.dto'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import {
-  concertDetailParamsSchema,
-  concertDetailResponseSchema,
-  concertListQueryStringSchema,
-  concertListResponseSchema,
-  concertSearchParamsSchema,
-  concertSearchResponseSchema,
-} from './concert.types'
 
 const concertRoute: FastifyPluginCallback = (fastify, opts, done) => {
   // concert list
@@ -17,9 +15,9 @@ const concertRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'concert'],
-        querystring: concertListQueryStringSchema,
+        querystring: GetConcertListQueryStringDTOSchema,
         response: {
-          200: concertListResponseSchema,
+          200: ConcertDTOSchema.array(),
         },
       },
     },
@@ -32,9 +30,9 @@ const concertRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'concert'],
-        params: concertDetailParamsSchema,
+        params: GetConcertByIdParamsDTOSchema,
         response: {
-          200: concertDetailResponseSchema,
+          200: ConcertDTOSchema,
         },
       },
     },
@@ -47,9 +45,9 @@ const concertRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'concert'],
-        querystring: concertSearchParamsSchema,
+        querystring: ConcertSearchQueryStringDTOSchema,
         response: {
-          200: concertSearchResponseSchema,
+          200: ConcertDTOSchema.array(),
         },
       },
     },
