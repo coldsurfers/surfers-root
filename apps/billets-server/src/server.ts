@@ -1,3 +1,4 @@
+import { ArtistProfileImageDTOSchema } from '@/dtos/artist-profile-image.dto'
 import {
   ArtistDTOSchema,
   GetArtistByIdParamsDTOSchema,
@@ -17,6 +18,7 @@ import {
   SubscribeConcertBodyDTOSchema,
   SubscribeConcertParamsDTOSchema,
 } from '@/dtos/concert.dto'
+import { CopyrightDTOSchema } from '@/dtos/copyright.dto'
 import {
   ConfirmAuthCodeBodyDTOSchema,
   ConfirmAuthCodeResponseDTOSchema,
@@ -32,7 +34,10 @@ import {
   LocationCountryDTOSchema,
 } from '@/dtos/location.dto'
 import { SendEmailResponseDTOSchema, SendUserVoiceBodyDTOSchema } from '@/dtos/mailer.dto'
+import { GetPostersByConcertIdParamsDTOSchema, PosterDTOSchema } from '@/dtos/poster.dto'
+import { PriceDTOSchema } from '@/dtos/price.dto'
 import { SearchListQueryStringDTOSchema } from '@/dtos/search.dto'
+import { TicketDTOSchema } from '@/dtos/ticket.dto'
 import { ActivateUserBodyDTOSchema, DeactivateUserBodyDTOSchema } from '@/dtos/user.dto'
 import {
   GetConcertListByVenueIdParamsDTOSchema,
@@ -44,14 +49,19 @@ import {
 } from '@/dtos/venue.dto'
 import { SWAGGER_HOST } from '@/lib/constants'
 import { jwtPlugin } from '@/plugins'
+import artistProfileImageRoute from '@/routes/artist-profile-image.route'
 import artistRoute from '@/routes/artist.route'
 import authRoute from '@/routes/auth.route'
 import concertRoute from '@/routes/concert.route'
+import copyrightRoute from '@/routes/copyright.route'
 import fcmRoute from '@/routes/fcm.route'
 import locationRoute from '@/routes/location.route'
 import mailerRoute from '@/routes/mailer.route'
+import posterRoute from '@/routes/poster.route'
+import priceRoute from '@/routes/price.route'
 import searchRoute from '@/routes/search.route'
 import subscribeRoute from '@/routes/subscribe.route'
+import ticketRoute from '@/routes/ticket.route'
 import userRoute from '@/routes/user.route'
 import venueRoute from '@/routes/venue.route'
 import cors from '@fastify/cors'
@@ -199,6 +209,12 @@ app.register(fastifySwagger, {
       GetConcertListByVenueIdParamsDTOSchema,
       GetConcertListByVenueIdQueryStringSchema,
       ConcertSearchQueryStringDTOSchema,
+      PosterDTOSchema,
+      GetPostersByConcertIdParamsDTOSchema,
+      ArtistProfileImageDTOSchema,
+      CopyrightDTOSchema,
+      TicketDTOSchema,
+      PriceDTOSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
@@ -230,3 +246,8 @@ app.register(artistRoute, { prefix: '/v1/artist' })
 app.register(venueRoute, { prefix: '/v1/venue' })
 app.register(locationRoute, { prefix: '/v1/location' })
 app.register(mailerRoute, { prefix: '/v1/mailer' })
+app.register(posterRoute, { prefix: '/v1/poster' })
+app.register(artistProfileImageRoute, { prefix: '/v1/artist-profile-image' })
+app.register(copyrightRoute, { prefix: '/v1/copyright' })
+app.register(ticketRoute, { prefix: '/v1/ticket' })
+app.register(priceRoute, { prefix: '/v1/price' })

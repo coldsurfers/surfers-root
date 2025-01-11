@@ -1,7 +1,12 @@
-import { getArtistByIdHandler, getConcertListByArtistIdHandler } from '@/controllers/artist.controller'
+import {
+  getArtistByIdHandler,
+  getArtistsByConcertIdHandler,
+  getConcertListByArtistIdHandler,
+} from '@/controllers/artist.controller'
 import {
   ArtistDTOSchema,
   GetArtistByIdParamsDTOSchema,
+  GetArtistsByConcertIdParamsDTOSchema,
   GetConcertListByArtistIdParamsDTOSchema,
   GetConcertListByArtistIdQueryStringDTOSchema,
 } from '@/dtos/artist.dto'
@@ -25,6 +30,20 @@ const artistRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
     },
     getArtistByIdHandler,
+  )
+  fastify.withTypeProvider<ZodTypeProvider>().get(
+    '/concert/:concertId',
+    {
+      schema: {
+        tags: ['v1', 'artist'],
+        params: GetArtistsByConcertIdParamsDTOSchema,
+        response: {
+          200: ArtistDTOSchema.array(),
+          500: ErrorResponseDTOSchema,
+        },
+      },
+    },
+    getArtistsByConcertIdHandler,
   )
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/concert-list/:artistId',

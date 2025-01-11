@@ -8,6 +8,10 @@ export class VenueService {
     this.venueRepository = venueRepository
   }
 
+  async getVenuesByConcertId(concertId: string): Promise<VenueDTO[]> {
+    return this.venueRepository.findVenuesByConcertId(concertId)
+  }
+
   async getVenueById(id: string): Promise<VenueDTO | null> {
     return this.venueRepository.findById(id)
   }

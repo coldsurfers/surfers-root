@@ -3,7 +3,7 @@ import { z } from 'zod'
 export const VenueDTOSchema = z.object({
   id: z.string(),
   name: z.string(),
-  address: z.string(),
+  address: z.string().nullable(),
   lat: z.number(),
   lng: z.number(),
 })
@@ -39,3 +39,8 @@ export const GetConcertListByVenueIdQueryStringSchema = z.object({
   size: z.coerce.number().int().min(0).max(100).default(20),
 })
 export type GetConcertListByVenueIdQueryString = z.infer<typeof GetConcertListByVenueIdQueryStringSchema>
+
+export const GetVenuesByConcertIdParamsDTOSchema = z.object({
+  concertId: z.string(),
+})
+export type GetVenuesByConcertIdParamsDTO = z.infer<typeof GetVenuesByConcertIdParamsDTOSchema>

@@ -1,6 +1,7 @@
 import {
   ArtistDTO,
   GetArtistByIdParamsDTO,
+  GetArtistsByConcertIdParamsDTO,
   GetConcertListByArtistIdParamsDTO,
   GetConcertListByArtistIdQueryStringDTO,
 } from '@/dtos/artist.dto'
@@ -75,6 +76,29 @@ export const getConcertListByArtistIdHandler = async (
       skip: +offset,
     })
     return rep.status(200).send(concerts)
+  } catch (e) {
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    })
+  }
+}
+
+interface GetArtistsByConcertIdRoute extends RouteGenericInterface {
+  Params: GetArtistsByConcertIdParamsDTO
+  Reply: {
+    200: ArtistDTO[]
+    500: ErrorResponseDTO
+  }
+}
+
+export const getArtistsByConcertIdHandler = async (
+  req: FastifyRequest<GetArtistsByConcertIdRoute>,
+  rep: FastifyReply<GetArtistsByConcertIdRoute>,
+) => {
+  try {
+    const data = await artistService.getManyByConcertId(req.params.concertId)
+    return rep.status(200).send(data)
   } catch (e) {
     return rep.status(500).send({
       code: 'UNKNOWN',
