@@ -1,16 +1,21 @@
 import { VenueDTO } from '@/dtos/venue.dto'
 import { dbClient } from '@/lib/db/db.client'
+import { Venue } from '@prisma/client'
 import { VenueRepository } from './venue.repository'
 
-interface VenueModel {
-  id: string
-  name: string
-  address: string | null
-  lat: number
-  lng: number
-}
-
 export class VenueRepositoryImpl implements VenueRepository {
+  async findVenuesByConcertId(concertId: string): Promise<VenueDTO[]> {
+    const venues = await dbClient.venue.findMany({
+      where: {
+        concerts: {
+          some: {
+            concertId,
+          },
+        },
+      },
+    })
+    return venues.map((venue) => this.toDTO(venue))
+  }
   async findById(id: string): Promise<VenueDTO | null> {
     const venue = await dbClient.venue.findUnique({
       where: {
@@ -34,7 +39,7 @@ export class VenueRepositoryImpl implements VenueRepository {
   }
 
   async subscribe(params: { venueId: string; userId: string }): Promise<VenueDTO> {
-    const subscribedVenue = await dbClient.usersOnSubscribedVenues.create({
+    const data = await dbClient.usersOnSubscribedVenues.create({
       data: {
         userId: params.userId,
         venueId: params.venueId,
@@ -43,13 +48,7 @@ export class VenueRepositoryImpl implements VenueRepository {
         venue: true,
       },
     })
-    return this.toDTO({
-      address: subscribedVenue.venue.address,
-      id: subscribedVenue.venue.id,
-      lat: subscribedVenue.venue.lat,
-      lng: subscribedVenue.venue.lng,
-      name: subscribedVenue.venue.name,
-    })
+    return this.toDTO(data.venue)
   }
 
   async unsubscribe(params: { venueId: string; userId: string }): Promise<VenueDTO> {
@@ -64,22 +63,16 @@ export class VenueRepositoryImpl implements VenueRepository {
         venue: true,
       },
     })
-    return this.toDTO({
-      address: data.venue.address,
-      id: data.venue.id,
-      lat: data.venue.lat,
-      lng: data.venue.lng,
-      name: data.venue.name,
-    })
+    return this.toDTO(data.venue)
   }
 
-  private toDTO(data: VenueModel): VenueDTO {
+  private toDTO(model: Venue): VenueDTO {
     return {
-      id: data.id,
-      name: data.name,
-      address: data.address ?? '',
-      lat: data.lat,
-      lng: data.lng,
+      id: model.id,
+      name: model.name,
+      address: model.address,
+      lat: model.lat,
+      lng: model.lng,
     }
   }
 }

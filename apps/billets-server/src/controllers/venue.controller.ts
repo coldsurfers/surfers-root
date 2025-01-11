@@ -4,6 +4,7 @@ import {
   GetConcertListByVenueIdParamsDTO,
   GetConcertListByVenueIdQueryString,
   GetVenueByIdParamsDTO,
+  GetVenuesByConcertIdParamsDTO,
   VenueDTO,
 } from '@/dtos/venue.dto'
 import { ConcertRepositoryImpl } from '@/repositories/concert.repository.impl'
@@ -41,6 +42,30 @@ export const getVenueByIdHandler = async (
       })
     }
     return rep.status(200).send(venue)
+  } catch (e) {
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    })
+  }
+}
+
+interface GetVenuesByConcertIdRoute extends RouteGenericInterface {
+  Params: GetVenuesByConcertIdParamsDTO
+  Reply: {
+    200: VenueDTO[]
+    404: ErrorResponseDTO
+    500: ErrorResponseDTO
+  }
+}
+
+export const getVenuesByConcertIdHandler = async (
+  req: FastifyRequest<GetVenuesByConcertIdRoute>,
+  rep: FastifyReply<GetVenuesByConcertIdRoute>,
+) => {
+  try {
+    const venues = await venueService.getVenuesByConcertId(req.params.concertId)
+    return rep.status(200).send(venues)
   } catch (e) {
     return rep.status(500).send({
       code: 'UNKNOWN',

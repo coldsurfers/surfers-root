@@ -1,28 +1,28 @@
 import { ArtistDTO } from '@/dtos/artist.dto'
 import { dbClient } from '@/lib/db/db.client'
+import { Artist } from '@prisma/client'
 import { ArtistRepository } from './artist.repository'
 
-interface ArtistModel {
-  id: string
-  name: string
-  artistProfileImage: ({
-    copyright: {
-      id: string
-      createdAt: Date
-      owner: string
-      license: string
-      licenseURL: string
-    } | null
-  } & {
-    id: string
-    createdAt: Date
-    imageURL: string
-    artistId: string
-    copyrightId: string | null
-  })[]
-}
-
 export class ArtistRepositoryImpl implements ArtistRepository {
+  async findManyByConcertId(concertId: string): Promise<ArtistDTO[]> {
+    const artists = await dbClient.artist.findMany({
+      where: {
+        concerts: {
+          some: {
+            concertId,
+          },
+        },
+      },
+      // include: {
+      //   artistProfileImage: {
+      //     include: {
+      //       copyright: true,
+      //     },
+      //   },
+      // },
+    })
+    return artists.map(this.toDTO)
+  }
   async findById(id: string): Promise<ArtistDTO | null> {
     const artist = await dbClient.artist.findUnique({
       where: {
@@ -104,17 +104,10 @@ export class ArtistRepositoryImpl implements ArtistRepository {
     return this.toDTO(subscribedArtist.artist)
   }
 
-  private toDTO(artist: ArtistModel): ArtistDTO {
+  private toDTO(model: Artist): ArtistDTO {
     return {
-      id: artist.id,
-      name: artist.name,
-      artistProfileImage: artist.artistProfileImage.map((profileImage) => {
-        return {
-          id: profileImage.id,
-          imageURL: profileImage.imageURL,
-          copyright: profileImage.copyright,
-        }
-      }),
+      id: model.id,
+      name: model.name,
     }
   }
 }

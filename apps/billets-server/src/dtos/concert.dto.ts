@@ -3,43 +3,38 @@ import { z } from 'zod'
 export const ConcertDTOSchema = z.object({
   id: z.string().uuid(),
   title: z.string(),
-  date: z.string().datetime(),
-  posters: z.array(
-    z.object({
-      imageUrl: z.string(),
-    }),
-  ),
-  venues: z.array(
-    z.object({
-      id: z.string(),
-      venueTitle: z.string(),
-      latitude: z.number(),
-      longitude: z.number(),
-      address: z.string(),
-    }),
-  ),
-  artists: z.array(
-    z.object({
-      id: z.string(),
-      name: z.string(),
-      profileImageUrl: z.string(),
-    }),
-  ),
-  tickets: z.array(
-    z.object({
-      seller: z.string(),
-      url: z.string(),
-      openDate: z.string().datetime(),
-      prices: z.array(
-        z.object({
-          id: z.string(),
-          price: z.number(),
-          currency: z.string(),
-          title: z.string(),
-        }),
-      ),
-    }),
-  ),
+  date: z.string().datetime().nullable(),
+  // venues: z.array(
+  //   z.object({
+  //     id: z.string(),
+  //     venueTitle: z.string(),
+  //     latitude: z.number(),
+  //     longitude: z.number(),
+  //     address: z.string(),
+  //   }),
+  // ),
+  // artists: z.array(
+  //   z.object({
+  //     id: z.string(),
+  //     name: z.string(),
+  //     profileImageUrl: z.string(),
+  //   }),
+  // ),
+  // tickets: z.array(
+  //   z.object({
+  //     seller: z.string(),
+  //     url: z.string(),
+  //     openDate: z.string().datetime(),
+  //     prices: z.array(
+  //       z.object({
+  //         id: z.string(),
+  //         price: z.number(),
+  //         currency: z.string(),
+  //         title: z.string(),
+  //       }),
+  //     ),
+  //   }),
+  // ),
 })
 export type ConcertDTO = z.infer<typeof ConcertDTOSchema>
 
