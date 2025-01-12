@@ -20,7 +20,7 @@ export interface ConcertListRoute extends RouteGenericInterface {
   Querystring: GetConcertListQueryStringDTO
   Reply: {
     200: ConcertDTO[]
-    500: void
+    500: ErrorResponseDTO
   }
 }
 
@@ -49,7 +49,10 @@ export const concertListHandler = async (
     return rep.status(200).send(concerts)
   } catch (e) {
     console.error(e)
-    return rep.status(500).send()
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    })
   }
 }
 
@@ -57,8 +60,8 @@ interface ConcertRoute extends RouteGenericInterface {
   Params: GetConcertByIdParamsDTO
   Reply: {
     200: ConcertDTO
-    404: void
-    500: void
+    404: ErrorResponseDTO
+    500: ErrorResponseDTO
   }
 }
 
@@ -68,11 +71,17 @@ export const concertHandler = async (req: FastifyRequest<ConcertRoute>, rep: Fas
   try {
     const concert = await concertService.getById(id)
     if (!concert) {
-      return rep.status(404).send()
+      return rep.status(404).send({
+        code: 'CONCERT_NOT_FOUND',
+        message: 'concert not found',
+      })
     }
     return rep.status(200).send(concert)
   } catch (e) {
-    return rep.status(500).send()
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    })
   }
 }
 
