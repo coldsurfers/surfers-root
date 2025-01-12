@@ -1,52 +1,17 @@
 import { ArtistProfileImageDTOSchema } from '@/dtos/artist-profile-image.dto'
-import {
-  ArtistDTOSchema,
-  GetArtistByIdParamsDTOSchema,
-  GetConcertListByArtistIdParamsDTOSchema,
-  GetConcertListByArtistIdQueryStringDTOSchema,
-  SubscribeArtistBodyDTOSchema,
-  UnsubscribeArtistBodyDTOSchema,
-} from '@/dtos/artist.dto'
-import { SignInBodyDTOSchema, SignUpBodyDTOSchema, UserWithAuthTokenDTOSchema } from '@/dtos/auth.dto'
-import { GetSubscribeCommonParamsDTOSchema } from '@/dtos/common.dto'
-import {
-  ConcertDTOSchema,
-  ConcertSearchQueryStringDTOSchema,
-  GetConcertByIdParamsDTOSchema,
-  GetConcertListQueryStringDTOSchema,
-  GetSubscribedConcertListQueryStringDTOSchema,
-  SubscribeConcertBodyDTOSchema,
-  SubscribeConcertParamsDTOSchema,
-} from '@/dtos/concert.dto'
+import { ArtistDTOSchema } from '@/dtos/artist.dto'
+import { UserWithAuthTokenDTOSchema } from '@/dtos/auth.dto'
+import { ConcertDTOSchema } from '@/dtos/concert.dto'
 import { CopyrightDTOSchema } from '@/dtos/copyright.dto'
-import {
-  ConfirmAuthCodeBodyDTOSchema,
-  ConfirmAuthCodeResponseDTOSchema,
-  SendAuthCodeResponseDTOSchema,
-  SendEmailAuthCodeBodyDTOSchema,
-} from '@/dtos/email-auth-request.dto'
+import { ConfirmAuthCodeResponseDTOSchema, SendAuthCodeResponseDTOSchema } from '@/dtos/email-auth-request.dto'
 import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
-import { FCMTokenDTOSchema, PostFCMTokenBodyDTOSchema } from '@/dtos/fcm-token.dto'
-import {
-  GetLocationConcertsQueryStringDTOSchema,
-  LocationCityDTOSchema,
-  LocationConcertDTOSchema,
-  LocationCountryDTOSchema,
-} from '@/dtos/location.dto'
-import { SendEmailResponseDTOSchema, SendUserVoiceBodyDTOSchema } from '@/dtos/mailer.dto'
-import { GetPostersByConcertIdParamsDTOSchema, PosterDTOSchema } from '@/dtos/poster.dto'
+import { FCMTokenDTOSchema } from '@/dtos/fcm-token.dto'
+import { LocationCityDTOSchema, LocationConcertDTOSchema, LocationCountryDTOSchema } from '@/dtos/location.dto'
+import { SendEmailResponseDTOSchema } from '@/dtos/mailer.dto'
+import { PosterDTOSchema } from '@/dtos/poster.dto'
 import { PriceDTOSchema } from '@/dtos/price.dto'
-import { SearchListQueryStringDTOSchema } from '@/dtos/search.dto'
 import { TicketDTOSchema } from '@/dtos/ticket.dto'
-import { ActivateUserBodyDTOSchema, DeactivateUserBodyDTOSchema } from '@/dtos/user.dto'
-import {
-  GetConcertListByVenueIdParamsDTOSchema,
-  GetConcertListByVenueIdQueryStringSchema,
-  GetVenueByIdParamsDTOSchema,
-  SubscribeVenueBodyDTOSchema,
-  SubscribeVenueParamsDTOSchema,
-  UnsubscribeVenueBodyDTOSchema,
-} from '@/dtos/venue.dto'
+import { VenueDTOSchema } from '@/dtos/venue.dto'
 import { SWAGGER_HOST } from '@/lib/constants'
 import { jwtPlugin } from '@/plugins'
 import artistProfileImageRoute from '@/routes/artist-profile-image.route'
@@ -173,48 +138,20 @@ app.register(fastifySwagger, {
       ConcertDTOSchema,
       ArtistDTOSchema,
       ErrorResponseDTOSchema,
-      SendEmailAuthCodeBodyDTOSchema,
       SendAuthCodeResponseDTOSchema,
-      ConfirmAuthCodeBodyDTOSchema,
       ConfirmAuthCodeResponseDTOSchema,
-      SignInBodyDTOSchema,
-      SignUpBodyDTOSchema,
       UserWithAuthTokenDTOSchema,
-      GetArtistByIdParamsDTOSchema,
-      GetConcertListByArtistIdParamsDTOSchema,
-      GetConcertListByArtistIdQueryStringDTOSchema,
-      GetConcertByIdParamsDTOSchema,
-      GetConcertListQueryStringDTOSchema,
       FCMTokenDTOSchema,
-      PostFCMTokenBodyDTOSchema,
       LocationConcertDTOSchema,
       LocationCityDTOSchema,
       LocationCountryDTOSchema,
-      GetLocationConcertsQueryStringDTOSchema,
-      SendUserVoiceBodyDTOSchema,
       SendEmailResponseDTOSchema,
-      SearchListQueryStringDTOSchema,
-      GetSubscribedConcertListQueryStringDTOSchema,
-      GetSubscribeCommonParamsDTOSchema,
-      SubscribeConcertParamsDTOSchema,
-      SubscribeConcertBodyDTOSchema,
-      SubscribeArtistBodyDTOSchema,
-      UnsubscribeArtistBodyDTOSchema,
-      SubscribeVenueBodyDTOSchema,
-      UnsubscribeVenueBodyDTOSchema,
-      SubscribeVenueParamsDTOSchema,
-      DeactivateUserBodyDTOSchema,
-      ActivateUserBodyDTOSchema,
-      GetVenueByIdParamsDTOSchema,
-      GetConcertListByVenueIdParamsDTOSchema,
-      GetConcertListByVenueIdQueryStringSchema,
-      ConcertSearchQueryStringDTOSchema,
       PosterDTOSchema,
-      GetPostersByConcertIdParamsDTOSchema,
       ArtistProfileImageDTOSchema,
       CopyrightDTOSchema,
       TicketDTOSchema,
       PriceDTOSchema,
+      VenueDTOSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
