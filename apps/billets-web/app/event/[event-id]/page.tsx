@@ -25,7 +25,32 @@ async function validateEventIdParam(eventId: string) {
     } as const
   }
   try {
-    const data = await apiClient.concerts.getConcertById(eventId)
+    const [concertData, venuesData, artistsData, ticketsData, postersData] = await Promise.all([
+      apiClient.concert.getConcertById(eventId),
+      apiClient.venue.getVenuesByConcertId(eventId),
+      apiClient.artist.getArtistsByConcertId(eventId),
+      apiClient.ticket.getTicketsByConcertId(eventId),
+      apiClient.poster.getPostersByConcertId(eventId),
+    ])
+
+    const priceData = await Promise.all(
+      ticketsData.map(async (ticket) => {
+        const prices = await apiClient.price.getPricesByTicketId(ticket.id)
+        return {
+          ticket,
+          prices,
+        }
+      }),
+    )
+
+    const data = {
+      concert: concertData,
+      venues: venuesData,
+      artists: artistsData,
+      tickets: ticketsData,
+      posters: postersData,
+      prices: priceData,
+    }
     return {
       isValid: true,
       data,
@@ -49,19 +74,26 @@ export async function generateMetadata({ params }: PageProps<{ ['event-id']: str
         'Billets is a platform to find live shows around the world. Download Billets to see live shows in your city.',
     }
   }
-  const { date, venues, title, artists, tickets, posters } = validation.data
+  const { concert, venues, artists, tickets, posters, prices } = validation.data
 
-  const zonedDate = toZonedTime(new Date(date), GLOBAL_TIME_ZONE)
+  const zonedDate = toZonedTime(concert.date ? new Date(concert.date) : new Date(), GLOBAL_TIME_ZONE)
   const formattedDate = format(zonedDate, 'EEE, MMM d')
-  const venueTitle = venues.at(0)?.venueTitle ?? ''
+  const venueTitle = venues.at(0)?.name ?? ''
   const artistNamesString = artists.map((artist) => artist.name).join('\n')
-  const cheapestPrice = getCheapestTicketPrice(tickets)
+  const cheapestPrice = getCheapestTicketPrice(
+    prices.map((price) => ({
+      openDate: price.ticket.openDate,
+      prices: price.prices,
+      seller: price.ticket.sellerName,
+      url: price.ticket.url,
+    })),
+  )
 
-  const metaTitle = `${title} Tickets | ${formattedDate} @ ${venueTitle} | Billets`
-  const metaDescription = `${venueTitle} presents\n\n${title} on ${formattedDate}.\n\n${artistNamesString}\n\nGet your tickets now!`
+  const metaTitle = `${concert.title} Tickets | ${formattedDate} @ ${venueTitle} | Billets`
+  const metaDescription = `${venueTitle} presents\n\n${concert.title} on ${formattedDate}.\n\n${artistNamesString}\n\nGet your tickets now!`
 
   const metaOther = {
-    'product:brand': tickets.at(0)?.seller ?? '',
+    'product:brand': tickets.at(0)?.sellerName ?? '',
     'product:availability': 'in stock',
     'product:condition': 'new',
     'product:price:amount': cheapestPrice?.price ?? 0,
@@ -70,13 +102,13 @@ export async function generateMetadata({ params }: PageProps<{ ['event-id']: str
   const metaKeywords = [
     venueTitle,
     ...artists.map((artist) => artist.name),
-    title,
-    ...tickets.map((ticket) => ticket.seller),
+    concert.title,
+    ...tickets.map((ticket) => ticket.sellerName),
   ]
   const metaImages = posters.map((poster) => {
     return {
-      alt: poster.imageUrl,
-      url: poster.imageUrl,
+      alt: poster.url,
+      url: poster.url,
     }
   })
 
@@ -104,27 +136,26 @@ async function PageInner({ params }: PageProps<{ ['event-id']: string }>) {
 
   try {
     await queryClient.prefetchQuery({
-      queryKey: apiClient.concerts.queryKeys.getConcertById(params['event-id']),
-      queryFn: () => apiClient.concerts.getConcertById(params['event-id']),
+      queryKey: apiClient.concert.queryKeys.detail(params['event-id']),
+      queryFn: () => apiClient.concert.getConcertById(params['event-id']),
     })
   } catch (e) {
     console.error(e)
   }
 
-  const { tickets, posters, title, venues, date, artists } = validation.data
-  const posterUrl = posters.at(0)?.imageUrl ?? ''
+  const { tickets, posters, concert, venues, artists, prices } = validation.data
+  const posterUrl = posters.at(0)?.url ?? ''
   const mainVenue = venues.at(0)
-  const venueTitle = mainVenue?.venueTitle ?? ''
+  const venueTitle = mainVenue?.name ?? ''
 
-  const zonedDate = toZonedTime(new Date(date), GLOBAL_TIME_ZONE)
-
+  const zonedDate = toZonedTime(concert.date ? new Date(concert.date) : new Date(), GLOBAL_TIME_ZONE)
   const formattedDate = format(zonedDate, 'MMM dd, hh:mm a')
   const ticketPromotes = tickets.map((ticket) => {
-    const { prices } = ticket
-    const cheapestPrice = getCheapestPrice(prices)
+    const targetPrices = prices.filter((price) => price.ticket.id === ticket.id)
+    const cheapestPrice = getCheapestPrice(targetPrices.map((price) => price.prices).flat())
     const formattedPrice = cheapestPrice ? formatPrice(cheapestPrice) : ''
     return {
-      seller: ticket.seller,
+      seller: ticket.sellerName,
       sellingURL: ticket.url,
       formattedLowestPrice: formattedPrice,
     }
@@ -132,21 +163,23 @@ async function PageInner({ params }: PageProps<{ ['event-id']: string }>) {
   const venueInfo = {
     address: mainVenue?.address ?? '',
     id: mainVenue?.id ?? '',
-    latitude: mainVenue?.latitude ?? 0,
-    longitude: mainVenue?.longitude ?? 0,
-    venueTitle: mainVenue?.venueTitle ?? '',
+    latitude: mainVenue?.lat ?? 0,
+    longitude: mainVenue?.lng ?? 0,
+    venueTitle: mainVenue?.name ?? '',
   }
 
   const artistNamesString = artists.map((artist) => artist.name).join('\n')
-  const metaDescription = `${venueTitle} presents\n\n${title} on ${formattedDate}.\n\n${artistNamesString}\n\nGet your tickets now!`
+  const metaDescription = `${venueTitle} presents\n\n${concert.title} on ${formattedDate}.\n\n${artistNamesString}\n\nGet your tickets now!`
+
+  const concertDate = concert.date ? new Date(concert.date) : new Date()
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <PageLayout
-        poster={<PosterThumbnail src={posterUrl} alt={title} />}
-        topInfo={<TopInfo title={title} venueTitle={venueTitle} formattedDate={formattedDate} />}
+        poster={<PosterThumbnail src={posterUrl} alt={concert.title} />}
+        topInfo={<TopInfo title={concert.title} venueTitle={venueTitle} formattedDate={formattedDate} />}
         ticketCTA={<TicketCta ticketPromotes={ticketPromotes} />}
-        lineup={<Lineup lineupData={artists} />}
+        lineup={<Lineup artists={artists} />}
         venue={<Venue {...venueInfo} />}
         downloadApp={<DownloadApp />}
       />
@@ -157,27 +190,27 @@ async function PageInner({ params }: PageProps<{ ['event-id']: string }>) {
             generateBilletsLdJson({
               type: 'MusicEvent',
               description: metaDescription,
-              endDate: new Date(date).toISOString(),
-              startDate: new Date(date).toISOString(),
-              name: title,
+              endDate: concertDate.toISOString(),
+              startDate: concertDate.toISOString(),
+              name: concert.title,
               url: `${SITE_URL}/event/${params['event-id']}`,
               venue: {
                 address: mainVenue?.address ?? '',
-                latitude: mainVenue?.latitude ?? 0,
-                longitude: mainVenue?.longitude ?? 0,
-                name: mainVenue?.venueTitle ?? '',
+                latitude: mainVenue?.lat ?? 0,
+                longitude: mainVenue?.lng ?? 0,
+                name: mainVenue?.name ?? '',
               },
-              images: posters.map((poster) => poster.imageUrl),
-              offers: tickets
-                .map((ticket) => {
-                  const { prices } = ticket
+              images: posters.map((poster) => poster.url),
+              offers: prices
+                .map((price) => {
+                  const { ticket, prices } = price
                   return prices.map((price) => {
                     return {
                       currency: price.currency,
                       price: price.price,
                       url: ticket.url,
                       validFrom: new Date(ticket.openDate).toISOString(),
-                      name: price.title,
+                      name: price.name,
                     }
                   })
                 })
