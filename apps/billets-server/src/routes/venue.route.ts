@@ -54,6 +54,7 @@ const venueRoute: FastifyPluginCallback = (fastify, opts, done) => {
         querystring: GetConcertListByVenueIdQueryStringSchema,
         response: {
           200: ConcertDTOSchema.array(),
+          500: ErrorResponseDTOSchema,
         },
       },
     },

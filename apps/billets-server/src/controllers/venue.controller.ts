@@ -98,6 +98,9 @@ export const getConcertListByVenueIdHandler = async (
     })
     return rep.status(200).send(concerts)
   } catch (e) {
-    return rep.status(500).send()
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    })
   }
 }

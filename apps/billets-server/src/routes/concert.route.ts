@@ -5,6 +5,7 @@ import {
   GetConcertByIdParamsDTOSchema,
   GetConcertListQueryStringDTOSchema,
 } from '@/dtos/concert.dto'
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 
@@ -18,6 +19,7 @@ const concertRoute: FastifyPluginCallback = (fastify, opts, done) => {
         querystring: GetConcertListQueryStringDTOSchema,
         response: {
           200: ConcertDTOSchema.array(),
+          500: ErrorResponseDTOSchema,
         },
       },
     },
@@ -33,6 +35,8 @@ const concertRoute: FastifyPluginCallback = (fastify, opts, done) => {
         params: GetConcertByIdParamsDTOSchema,
         response: {
           200: ConcertDTOSchema,
+          404: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
         },
       },
     },
