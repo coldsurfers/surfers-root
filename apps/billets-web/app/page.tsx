@@ -11,9 +11,9 @@ export default async function Home() {
 
   try {
     await queryClient.prefetchQuery({
-      queryKey: apiClient.concerts.queryKeys.getConcerts({ offset: 0, size: 20 }),
+      queryKey: apiClient.concert.queryKeys.list.byLocation({ offset: 0, size: 20 }),
       queryFn: () =>
-        apiClient.concerts.getConcerts({
+        apiClient.concert.getConcerts({
           offset: 0,
           size: 20,
         }),

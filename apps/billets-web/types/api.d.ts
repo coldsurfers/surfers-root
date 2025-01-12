@@ -4,6 +4,52 @@
  */
 
 export interface paths {
+  '/v1/artist-profile-image/artist/{artistId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          artistId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ArtistProfileImageDTOSchema'][]
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/artist/{id}': {
     parameters: {
       query?: never
@@ -28,7 +74,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['GetArtistByIdSuccessResponse']
+            'application/json': components['schemas']['ArtistDTOSchema']
           }
         }
         /** @description Default Response */
@@ -37,7 +83,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -46,7 +92,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -68,9 +114,9 @@ export interface paths {
     }
     get: {
       parameters: {
-        query: {
-          offset: string
-          size: string
+        query?: {
+          offset?: number
+          size?: number
         }
         header?: never
         path: {
@@ -86,7 +132,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['GetConcertListByArtistIdSuccessResponse']
+            'application/json': components['schemas']['ConcertDTOSchema'][]
           }
         }
         /** @description Default Response */
@@ -95,7 +141,53 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/artist/concert/{concertId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          concertId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ArtistDTOSchema'][]
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -126,7 +218,11 @@ export interface paths {
       }
       requestBody: {
         content: {
-          'application/json': components['schemas']['ConfirmAuthCodeBody']
+          'application/json': {
+            authCode: string
+            /** Format: email */
+            email: string
+          }
         }
       }
       responses: {
@@ -136,7 +232,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ConfirmAuthCodeSuccessResponse']
+            'application/json': components['schemas']['ConfirmAuthCodeResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -145,7 +241,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -154,7 +250,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -163,7 +259,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -172,7 +268,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -201,7 +297,7 @@ export interface paths {
       }
       requestBody: {
         content: {
-          'application/json': components['schemas']['ConfirmAuthCodeSuccessResponse']
+          'application/json': components['schemas']['ConfirmAuthCodeResponseDTOSchema']
         }
       }
       responses: {
@@ -211,7 +307,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ConfirmAuthCodeSuccessResponse']
+            'application/json': components['schemas']['ConfirmAuthCodeResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -220,7 +316,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -229,7 +325,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -258,7 +354,13 @@ export interface paths {
       }
       requestBody: {
         content: {
-          'application/json': components['schemas']['SignUpBody']
+          'application/json': {
+            email: string
+            password?: string
+            platform?: 'android' | 'ios'
+            provider: 'google' | 'apple' | 'email'
+            token?: string
+          }
         }
       }
       responses: {
@@ -268,7 +370,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['SignUpSuccessResponse']
+            'application/json': components['schemas']['UserWithAuthTokenDTOSchema']
           }
         }
         /** @description Default Response */
@@ -277,7 +379,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -286,7 +388,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -315,7 +417,13 @@ export interface paths {
       }
       requestBody: {
         content: {
-          'application/json': components['schemas']['SignUpBody']
+          'application/json': {
+            email: string
+            password?: string
+            platform?: 'android' | 'ios'
+            provider: 'google' | 'apple' | 'email'
+            token?: string
+          }
         }
       }
       responses: {
@@ -325,7 +433,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['SignUpSuccessResponse']
+            'application/json': components['schemas']['UserWithAuthTokenDTOSchema']
           }
         }
         /** @description Default Response */
@@ -334,7 +442,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -343,7 +451,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -352,7 +460,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -372,11 +480,11 @@ export interface paths {
     }
     get: {
       parameters: {
-        query: {
-          latitude?: string
-          longitude?: string
-          offset: string
-          size: string
+        query?: {
+          latitude?: number
+          longitude?: number
+          offset?: number
+          size?: number
         }
         header?: never
         path?: never
@@ -390,7 +498,16 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['GetConcertListByArtistIdSuccessResponse']
+            'application/json': components['schemas']['ConcertDTOSchema'][]
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -427,7 +544,25 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ConcertDetailSuccessResponse']
+            'application/json': components['schemas']['ConcertDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -451,8 +586,8 @@ export interface paths {
       parameters: {
         query: {
           keyword: string
-          offset: string
-          size: string
+          offset?: number
+          size?: number
         }
         header?: never
         path?: never
@@ -466,7 +601,53 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['GetConcertListByArtistIdSuccessResponse']
+            'application/json': components['schemas']['ConcertDTOSchema'][]
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/copyright/artist-profile-image/{artistProfileImageId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          artistProfileImageId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['CopyrightDTOSchema'] | null
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -497,7 +678,9 @@ export interface paths {
       }
       requestBody: {
         content: {
-          'application/json': components['schemas']['PostFCMTokenBody']
+          'application/json': {
+            fcmToken: string
+          }
         }
       }
       responses: {
@@ -507,7 +690,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['PostFCMTokenSuccessResponse']
+            'application/json': components['schemas']['FCMTokenDTOSchema']
           }
         }
       }
@@ -540,7 +723,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['LocationCityDTOSerialized'][]
+            'application/json': components['schemas']['LocationCityDTOSchema'][]
           }
         }
         /** @description Default Response */
@@ -549,7 +732,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -572,11 +755,11 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          latitude: string
-          latitudeDelta: string
-          longitude: string
-          longitudeDelta: string
-          zoomLevel: string
+          latitude: number
+          latitudeDelta: number
+          longitude: number
+          longitudeDelta: number
+          zoomLevel: number
         }
         header?: never
         path?: never
@@ -590,7 +773,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['LocationConcertDTOSerialized'][]
+            'application/json': components['schemas']['LocationConcertDTOSchema'][]
           }
         }
         /** @description Default Response */
@@ -599,7 +782,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -608,7 +791,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -643,7 +826,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['LocationCountryDTOSerialized'][]
+            'application/json': components['schemas']['LocationCountryDTOSchema'][]
           }
         }
         /** @description Default Response */
@@ -652,7 +835,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -683,7 +866,12 @@ export interface paths {
       }
       requestBody: {
         content: {
-          'application/json': components['schemas']['SendUserVoiceBody']
+          'application/json': {
+            email: string
+            message: string
+            name: string
+            updateAgreement: boolean
+          }
         }
       }
       responses: {
@@ -693,7 +881,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['SendEmailResponse']
+            'application/json': components['schemas']['SendEmailResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -702,11 +890,103 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
     }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/poster/concert/{concertId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          concertId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ArtistProfileImageDTOSchema'][]
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/price/ticket/{ticketId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          ticketId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['PriceDTOSchema'][]
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
     delete?: never
     options?: never
     head?: never
@@ -737,7 +1017,31 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['SearchDTOSerialized'][]
+            'application/json': (
+              | {
+                  id: string
+                  name: string
+                  profileImgUrl: string
+                  /** @enum {string} */
+                  type: 'artist'
+                }
+              | {
+                  id: string
+                  name: string
+                  /** @enum {string} */
+                  type: 'venue'
+                }
+              | {
+                  /** Format: date-time */
+                  date: string
+                  id: string
+                  thumbnailImgUrl: string
+                  title: string
+                  /** @enum {string} */
+                  type: 'concert'
+                  venueTitle: string
+                }
+            )[]
           }
         }
         /** @description Default Response */
@@ -746,7 +1050,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -783,7 +1087,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['SubscribedArtistDTOSerialized']
+            'application/json': components['schemas']['ArtistDTOSchema']
           }
         }
         /** @description Default Response */
@@ -792,7 +1096,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -801,7 +1105,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -810,7 +1114,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -827,7 +1131,10 @@ export interface paths {
       }
       requestBody: {
         content: {
-          'application/json': components['schemas']['SubscribeArtistBody']
+          'application/json': {
+            /** @enum {string} */
+            type: 'subscribe-artist'
+          }
         }
       }
       responses: {
@@ -837,7 +1144,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['SubscribedArtistDTOSerialized']
+            'application/json': components['schemas']['ArtistDTOSchema']
           }
         }
         /** @description Default Response */
@@ -846,7 +1153,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -855,7 +1162,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -864,7 +1171,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -880,7 +1187,10 @@ export interface paths {
       }
       requestBody: {
         content: {
-          'application/json': components['schemas']['UnsubscribeArtistBody']
+          'application/json': {
+            /** @enum {string} */
+            type: 'unsubscribe-artist'
+          }
         }
       }
       responses: {
@@ -890,7 +1200,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['SubscribedArtistDTOSerialized']
+            'application/json': components['schemas']['ArtistDTOSchema']
           }
         }
         /** @description Default Response */
@@ -899,7 +1209,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -908,7 +1218,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -917,7 +1227,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -936,9 +1246,9 @@ export interface paths {
     }
     get: {
       parameters: {
-        query: {
-          offset: string
-          size: string
+        query?: {
+          offset?: number
+          size?: number
         }
         header?: never
         path?: never
@@ -952,7 +1262,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['SubscribedConcertSerializedList']
+            'application/json': components['schemas']['ConcertDTOSchema'][]
           }
         }
         /** @description Default Response */
@@ -961,7 +1271,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -970,7 +1280,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -1007,7 +1317,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['SubscribeConcertDTOSerialized']
+            'application/json': components['schemas']['ConcertDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1016,7 +1326,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1025,7 +1335,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1034,7 +1344,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -1051,7 +1361,9 @@ export interface paths {
       }
       requestBody: {
         content: {
-          'application/json': components['schemas']['GetSubscribeCommonParams']
+          'application/json': {
+            id: string
+          }
         }
       }
       responses: {
@@ -1061,7 +1373,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['SubscribeConcertDTOSerialized']
+            'application/json': components['schemas']['ConcertDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1070,7 +1382,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1079,7 +1391,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1088,7 +1400,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -1104,7 +1416,9 @@ export interface paths {
       }
       requestBody: {
         content: {
-          'application/json': components['schemas']['GetSubscribeCommonParams']
+          'application/json': {
+            id: string
+          }
         }
       }
       responses: {
@@ -1114,7 +1428,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['SubscribeConcertDTOSerialized']
+            'application/json': components['schemas']['ConcertDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1123,7 +1437,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1132,7 +1446,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1141,7 +1455,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -1175,7 +1489,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['SubscribeVenueSerialized']
+            'application/json': components['schemas']['VenueDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1184,7 +1498,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1193,7 +1507,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1202,7 +1516,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -1219,7 +1533,10 @@ export interface paths {
       }
       requestBody: {
         content: {
-          'application/json': components['schemas']['SubscribeVenueBody']
+          'application/json': {
+            /** @enum {string} */
+            type: 'subscribe-venue'
+          }
         }
       }
       responses: {
@@ -1229,7 +1546,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['SubscribeVenueSerialized']
+            'application/json': components['schemas']['VenueDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1238,7 +1555,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1247,7 +1564,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1256,7 +1573,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -1272,7 +1589,10 @@ export interface paths {
       }
       requestBody: {
         content: {
-          'application/json': components['schemas']['UnsubscribeVenueBody']
+          'application/json': {
+            /** @enum {string} */
+            type: 'unsubscribe-venue'
+          }
         }
       }
       responses: {
@@ -1282,7 +1602,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['SubscribeVenueSerialized']
+            'application/json': components['schemas']['VenueDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1291,7 +1611,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1300,7 +1620,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1309,11 +1629,57 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
     }
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/ticket/concert/{concertId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          concertId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['TicketDTOSchema'][]
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
     options?: never
     head?: never
     patch?: never
@@ -1341,7 +1707,13 @@ export interface paths {
       }
       requestBody: {
         content: {
-          'application/json': components['schemas']['ActivateUserBody']
+          'application/json': {
+            authCode: string
+            /** Format: email */
+            email: string
+            /** @enum {string} */
+            type: 'activate'
+          }
         }
       }
       responses: {
@@ -1351,7 +1723,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['GetMeSuccessResponse']
+            'application/json': components['schemas']['UserDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1360,7 +1732,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1369,7 +1741,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1378,7 +1750,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1387,7 +1759,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -1413,7 +1785,10 @@ export interface paths {
       }
       requestBody: {
         content: {
-          'application/json': components['schemas']['DeactivateUserBody']
+          'application/json': {
+            /** @enum {string} */
+            type: 'deactivate'
+          }
         }
       }
       responses: {
@@ -1423,7 +1798,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['GetMeSuccessResponse']
+            'application/json': components['schemas']['UserDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1432,7 +1807,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1441,7 +1816,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -1473,7 +1848,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['GetMeSuccessResponse']
+            'application/json': components['schemas']['UserDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1482,7 +1857,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1491,7 +1866,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1500,7 +1875,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ErrorResponse']
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -1537,7 +1912,25 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['GetVenueByIdSuccessResponse']
+            'application/json': components['schemas']['VenueDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -1559,9 +1952,9 @@ export interface paths {
     }
     get: {
       parameters: {
-        query: {
-          offset: string
-          size: string
+        query?: {
+          offset?: number
+          size?: number
         }
         header?: never
         path: {
@@ -1577,7 +1970,62 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['GetConcertListByArtistIdSuccessResponse']
+            'application/json': components['schemas']['ConcertDTOSchema'][]
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/venue/concert/{concertId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          concertId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['VenueDTOSchema'][]
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
       }
@@ -1594,78 +2042,32 @@ export interface paths {
 export type webhooks = Record<string, never>
 export interface components {
   schemas: {
-    ActivateUserBody: {
-      authCode: string
-      /** Format: email */
-      email: string
-      /** @enum {string} */
-      type: 'activate'
-    }
-    ConcertDetailParams: {
-      /** Format: uuid */
+    ArtistDTOSchema: {
       id: string
+      name: string
     }
-    ConcertDetailSuccessResponse: {
-      artists: {
-        id: string
-        name: string
-        profileImageUrl: string
-      }[]
+    ArtistProfileImageDTOSchema: {
+      /** Format: uri */
+      url: string
+    }
+    ConcertDTOSchema: {
       /** Format: date-time */
-      date: string
+      date: string | null
       /** Format: uuid */
       id: string
-      posters: {
-        imageUrl: string
-      }[]
-      tickets: {
-        /** Format: date-time */
-        openDate: string
-        prices: {
-          currency: string
-          id: string
-          price: number
-          title: string
-        }[]
-        seller: string
-        url: string
-      }[]
       title: string
-      venues: {
-        address: string
-        id: string
-        latitude: number
-        longitude: number
-        venueTitle: string
-      }[]
     }
-    ConcertListQueryString: {
-      latitude?: string
-      longitude?: string
-      offset: string
-      size: string
-    }
-    ConcertListSuccessResponse: components['schemas']['ConcertDetailSuccessResponse'][]
-    ConcertSearchParams: {
-      keyword: string
-      offset: string
-      size: string
-    }
-    ConcertSearchSuccessResponse: components['schemas']['ConcertDetailSuccessResponse'][]
-    ConfirmAuthCodeBody: {
-      authCode: string
+    ConfirmAuthCodeResponseDTOSchema: {
       /** Format: email */
       email: string
     }
-    ConfirmAuthCodeSuccessResponse: {
-      /** Format: email */
-      email: string
+    CopyrightDTOSchema: {
+      id: string
+      license: string
+      licenseURL: string
+      owner: string
     }
-    DeactivateUserBody: {
-      /** @enum {string} */
-      type: 'deactivate'
-    }
-    ErrorResponse: {
+    ErrorResponseDTOSchema: {
       code:
         | 'INVALID_PASSWORD'
         | 'INVALID_ACCESS_TOKEN'
@@ -1689,71 +2091,11 @@ export interface components {
         | 'UNKNOWN'
       message: string
     }
-    GetArtistByIdParams: {
+    FCMTokenDTOSchema: {
       id: string
+      token: string
     }
-    GetArtistByIdSuccessResponse: {
-      artistProfileImage: {
-        copyright: {
-          id: string
-          license: string
-          licenseURL: string
-          owner: string
-        } | null
-        id: string
-        imageURL: string
-      }[]
-      id: string
-      name: string
-    }
-    GetConcertListByArtistIdParams: {
-      artistId: string
-    }
-    GetConcertListByArtistIdQuerystring: {
-      offset: string
-      size: string
-    }
-    GetConcertListByArtistIdSuccessResponse: components['schemas']['ConcertDetailSuccessResponse'][]
-    GetConcertListByVenueIdParams: {
-      venueId: string
-    }
-    GetConcertListByVenueIdQuerystring: {
-      offset: string
-      size: string
-    }
-    GetConcertListByVenueIdSuccessResponse: components['schemas']['ConcertDetailSuccessResponse'][]
-    GetLocationConcertsQueryString: {
-      latitude: string
-      latitudeDelta: string
-      longitude: string
-      longitudeDelta: string
-      zoomLevel: string
-    }
-    GetMeSuccessResponse: {
-      /** Format: date-time */
-      deactivatedAt: string | null
-      email: string
-      id: string
-      provider: string
-    }
-    GetSubscribeCommonParams: {
-      id: string
-    }
-    GetSubscribedConcertListQueryString: {
-      offset: string
-      size: string
-    }
-    GetVenueByIdParams: {
-      id: string
-    }
-    GetVenueByIdSuccessResponse: {
-      address: string
-      id: string
-      lat: number
-      lng: number
-      name: string
-    }
-    LocationCityDTOSerialized: {
+    LocationCityDTOSchema: {
       geohash: string | null
       id: string
       lat: number
@@ -1761,13 +2103,13 @@ export interface components {
       name: string
       uiName: string
     }
-    LocationConcertDTOSerialized: {
+    LocationConcertDTOSchema: {
       id: string
       latitude: number
       longitude: number
       title: string
     }
-    LocationCountryDTOSerialized: {
+    LocationCountryDTOSchema: {
       cities: {
         id: string
         lat: number
@@ -1779,125 +2121,50 @@ export interface components {
       name: string
       uiName: string
     }
-    PostFCMTokenBody: {
-      fcmToken: string
+    PosterDTOSchema: {
+      /** Format: uri */
+      url: string
     }
-    PostFCMTokenSuccessResponse: {
+    PriceDTOSchema: {
+      currency: string
       id: string
-      token: string
+      name: string
+      price: number
     }
-    SearchDTOSerialized:
-      | {
-          id: string
-          name: string
-          profileImgUrl: string
-          /** @enum {string} */
-          type: 'artist'
-        }
-      | {
-          id: string
-          name: string
-          /** @enum {string} */
-          type: 'venue'
-        }
-      | {
-          /** Format: date-time */
-          date: string
-          id: string
-          thumbnailImgUrl: string
-          title: string
-          /** @enum {string} */
-          type: 'concert'
-          venueTitle: string
-        }
-    SearchListQuerystring: {
-      keyword: string
-    }
-    SendAuthCodeBody: {
+    SendAuthCodeResponseDTOSchema: {
       /** Format: email */
       email: string
     }
-    SendAuthCodeSuccessResponse: {
-      /** Format: email */
-      email: string
-    }
-    SendEmailResponse: {
+    SendEmailResponseDTOSchema: {
       success: boolean
     }
-    SendUserVoiceBody: {
+    TicketDTOSchema: {
+      id: string
+      /** Format: date-time */
+      openDate: string
+      sellerName: string
+      url: string
+    }
+    UserDTOSchema: {
+      /** Format: date-time */
+      deactivatedAt: string | null
       email: string
-      message: string
+      id: string
+      provider: string
+    }
+    UserWithAuthTokenDTOSchema: {
+      authToken: {
+        accessToken: string
+        refreshToken: string
+      }
+      user: components['schemas']['UserDTOSchema']
+    }
+    VenueDTOSchema: {
+      address: string | null
+      id: string
+      lat: number
+      lng: number
       name: string
-      updateAgreement: boolean
-    }
-    SignInBody: {
-      email: string
-      password?: string
-      platform?: 'android' | 'ios'
-      provider: 'google' | 'apple' | 'email'
-      token?: string
-    }
-    SignInSuccessResponse: {
-      authToken: {
-        accessToken: string
-        refreshToken: string
-      }
-      user: components['schemas']['GetMeSuccessResponse']
-    }
-    SignUpBody: {
-      email: string
-      password?: string
-      platform?: 'android' | 'ios'
-      provider: 'google' | 'apple' | 'email'
-      token?: string
-    }
-    SignUpSuccessResponse: {
-      authToken: {
-        accessToken: string
-        refreshToken: string
-      }
-      user: components['schemas']['GetMeSuccessResponse']
-    }
-    SubscribeArtistBody: {
-      /** @enum {string} */
-      type: 'subscribe-artist'
-    }
-    SubscribeArtistParams: {
-      id: string
-    }
-    SubscribeConcertBody: {
-      id: string
-    }
-    SubscribeConcertDTOSerialized: {
-      concertId: string
-      userId: string
-    }
-    SubscribeConcertParams: {
-      id: string
-    }
-    SubscribedArtistDTOSerialized: {
-      artistId: string
-      userId: string
-    }
-    SubscribedConcertSerializedList: components['schemas']['SubscribeConcertDTOSerialized'][]
-    SubscribeVenueBody: {
-      /** @enum {string} */
-      type: 'subscribe-venue'
-    }
-    SubscribeVenueParams: {
-      id: string
-    }
-    SubscribeVenueSerialized: {
-      userId: string
-      venueId: string
-    }
-    UnsubscribeArtistBody: {
-      /** @enum {string} */
-      type: 'unsubscribe-artist'
-    }
-    UnsubscribeVenueBody: {
-      /** @enum {string} */
-      type: 'unsubscribe-venue'
     }
   }
   responses: never

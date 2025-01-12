@@ -67,7 +67,7 @@ export default async function sitemap() {
           return []
         }
         const { data: cityData } = validation
-        const events = await apiClient.concerts.getConcerts({
+        const events = await apiClient.concert.getConcerts({
           offset: 0,
           // @todo: temp
           size: 100,

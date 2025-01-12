@@ -16,41 +16,58 @@ const baseFetchClient = createFetchClient<paths>({
 
 export const $api = createClient(baseFetchClient)
 
-type GetConcertsParams = {
-  offset: number
-  size: number
-  latitude?: number
-  longitude?: number
-}
-
 export const apiClient = {
-  concerts: {
+  concert: {
     queryKeys: {
-      getConcerts: ({ offset, size, latitude, longitude }: GetConcertsParams) => [
-        'concerts',
-        { offset, size, latitude, longitude },
-      ],
-      getConcertById: (id: string) => ['concerts', id],
+      all: ['concert'],
+      list: {
+        all: ['concert', 'list'],
+        paginated: {
+          byLocation: ({ latitude, longitude }: { latitude?: number; longitude?: number }) => [
+            'concert',
+            'list',
+            'paginated',
+            { latitude, longitude },
+          ],
+        },
+        byLocation: ({
+          latitude,
+          longitude,
+          offset,
+          size,
+        }: {
+          latitude?: number
+          longitude?: number
+          offset: number
+          size: number
+        }) => ['concert', 'list', { latitude, longitude, offset, size }],
+      },
+      detail: (id: string) => ['concert', 'detail', id],
     },
-    getConcerts: async ({ offset, size, latitude, longitude }: GetConcertsParams) => {
-      const query: {
-        offset: string
-        size: string
-        latitude?: string
-        longitude?: string
-      } = {
-        offset: `${offset}`,
-        size: `${size}`,
-      }
-      if (latitude && longitude) {
-        query.latitude = `${latitude}`
-        query.longitude = `${longitude}`
-      }
+    getConcerts: async ({
+      offset,
+      size,
+      latitude,
+      longitude,
+    }: {
+      offset: number
+      size: number
+      latitude?: number
+      longitude?: number
+    }) => {
       const response = await baseFetchClient.GET('/v1/concert/', {
         params: {
-          query,
+          query: {
+            offset,
+            size,
+            latitude,
+            longitude,
+          },
         },
       })
+      if (response.error) {
+        throw new OpenApiError(response.error)
+      }
       return response.data
     },
     getConcertById: async (id: string) => {
@@ -89,6 +106,139 @@ export const apiClient = {
     sendUserVoice: async (body: { email: string; name: string; message: string; updateAgreement: boolean }) => {
       const response = await baseFetchClient.POST('/v1/mailer/user-voice', {
         body,
+      })
+      if (response.error) {
+        throw new OpenApiError(response.error)
+      }
+      return response.data
+    },
+  },
+  poster: {
+    queryKeys: {
+      all: ['poster'],
+      list: {
+        all: ['poster', 'list'],
+        byConcertId: (concertId: string) => ['poster', 'list', { concertId }],
+      },
+    },
+    getPostersByConcertId: async (concertId: string) => {
+      const response = await baseFetchClient.GET('/v1/poster/concert/{concertId}', {
+        params: {
+          path: {
+            concertId,
+          },
+        },
+      })
+      if (response.error) {
+        throw new OpenApiError(response.error)
+      }
+      return response.data
+    },
+  },
+  venue: {
+    queryKeys: {
+      all: ['venue'],
+      list: {
+        all: ['venue', 'list'],
+        byConcertId: (concertId: string) => ['venue', 'list', { concertId }],
+      },
+      detail: (id: string) => ['venue', 'detail', id],
+    },
+    getVenuesByConcertId: async (concertId: string) => {
+      const response = await baseFetchClient.GET('/v1/venue/concert/{concertId}', {
+        params: {
+          path: {
+            concertId,
+          },
+        },
+      })
+      if (response.error) {
+        throw new OpenApiError(response.error)
+      }
+      return response.data
+    },
+  },
+  artist: {
+    queryKeys: {
+      all: ['artist'],
+      list: {
+        all: ['artist', 'list'],
+        byConcertId: (concertId: string) => ['artist', 'list', { concertId }],
+      },
+    },
+    getArtistsByConcertId: async (concertId: string) => {
+      const response = await baseFetchClient.GET('/v1/artist/concert/{concertId}', {
+        params: {
+          path: {
+            concertId,
+          },
+        },
+      })
+      if (response.error) {
+        throw new OpenApiError(response.error)
+      }
+      return response.data
+    },
+  },
+  ticket: {
+    queryKeys: {
+      all: ['ticket'],
+      list: {
+        all: ['ticket', 'list'],
+        byConcertId: (concertId: string) => ['ticket', 'list', { concertId }],
+      },
+    },
+    getTicketsByConcertId: async (concertId: string) => {
+      const response = await baseFetchClient.GET('/v1/ticket/concert/{concertId}', {
+        params: {
+          path: {
+            concertId,
+          },
+        },
+      })
+      if (response.error) {
+        throw new OpenApiError(response.error)
+      }
+      return response.data
+    },
+  },
+  price: {
+    queryKeys: {
+      all: ['price'],
+      list: {
+        all: ['price', 'list'],
+        byTicketId: (ticketId: string) => ['price', 'list', { ticketId }],
+      },
+    },
+    getPricesByTicketId: async (ticketId: string) => {
+      const response = await baseFetchClient.GET('/v1/price/ticket/{ticketId}', {
+        params: {
+          path: {
+            ticketId,
+          },
+        },
+      })
+      if (response.error) {
+        throw new OpenApiError(response.error)
+      }
+      return response.data
+    },
+  },
+  artistProfileImage: {
+    queryKeys: {
+      all: ['artist-profile-image'],
+      list: {
+        all: ['artist-profile-image', 'list'],
+        byArtistId: (artistId: string) => ['artist-profile-image', 'list', { artistId }],
+      },
+    },
+    getArtistProfileImagesByArtistId: async (artistId: string) => {
+      const response = await baseFetchClient.GET('/v1/artist-profile-image/artist/{artistId}', {
+        params: {
+          path: {
+            artistId,
+          },
+        },
       })
       if (response.error) {
         throw new OpenApiError(response.error)

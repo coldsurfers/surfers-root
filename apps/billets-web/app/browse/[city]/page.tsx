@@ -38,14 +38,14 @@ async function PageInner({ params }: PageProps<{ city: string }>) {
 
   try {
     await queryClient.prefetchQuery({
-      queryKey: apiClient.concerts.queryKeys.getConcerts({
+      queryKey: apiClient.concert.queryKeys.list.byLocation({
         offset: 0,
         size: 100,
         latitude: cityData.lat,
         longitude: cityData.lng,
       }),
       queryFn: () =>
-        apiClient.concerts.getConcerts({
+        apiClient.concert.getConcerts({
           offset: 0,
           size: 100,
           latitude: cityData.lat,
