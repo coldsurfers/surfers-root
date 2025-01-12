@@ -49,10 +49,6 @@ const _ConcertDetailScreen = () => {
     queryKey: apiClient.queryKeys.subscribe.concert.detail(params.concertId),
     queryFn: () => apiClient.subscribe.getSubscribedConcert(params.concertId),
   })
-  // const { data: subscribedConcert } = useQuery({
-  //   queryKey: apiClient.subscribe.queryKeys.subscribedConcert(params.concertId),
-  //   queryFn: () => apiClient.subscribe.getSubscribedConcert(params.concertId),
-  // })
   const { data: meData } = useQuery({
     queryKey: apiClient.queryKeys.user.me,
     queryFn: () => apiClient.user.getMe(),
@@ -162,38 +158,6 @@ const _ConcertDetailScreen = () => {
           },
         ],
       },
-      // {
-      //   title: 'ticket-open-date',
-      //   sectionHeaderTitle: '티켓 오픈 날짜',
-      //   data: data.tickets.at(0)?.openDate
-      //     ? [
-      //         {
-      //           description: '',
-      //           openDate: format(new Date(data.tickets.at(0)?.openDate ?? ''), 'yyyy-MM-dd HH:mm'),
-      //         },
-      //       ]
-      //     : [],
-      // },
-      // {
-      //   title: 'ticket-seller',
-      //   sectionHeaderTitle: '티켓 판매처',
-      //   data: data.tickets.map((ticket) => ({
-      //     siteUrl: ticket.url,
-      //     name: ticket.url,
-      //   })),
-      //   // data: data.ticketSellers.map(seller => ({
-      //   //   siteUrl: seller.urlLink,
-      //   //   name: seller.name,
-      //   // })),
-      // },
-      // {
-      //   title: 'price-info',
-      //   sectionHeaderTitle: '가격 정보',
-      //   data: data.tickets.map(ticket => ({
-      //     description: '',
-      //     price: ticket.formattedPrice,
-      //   })),
-      // },
     ]
     return innerSections
   }, [artistsByConcertId, concertDetail, mainVenue, navigation, venuesByConcertId])

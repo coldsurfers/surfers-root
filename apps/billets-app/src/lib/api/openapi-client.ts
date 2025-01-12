@@ -63,10 +63,23 @@ export const apiClient = {
     },
     concert: {
       all: ['v1', 'concert'],
-      allList: ['v1', 'concert', 'list'],
-      listByLocation: (params: { latitude?: number; longitude?: number }) => ['v1', 'concert', 'list', params],
-      listByArtistId: (artistId: string) => ['v1', 'venue', 'list', { artistId }],
-      listByVenueId: (venueId: string) => ['v1', 'venue', 'list', { venueId }],
+      list: {
+        all: ['v1', 'concert', 'list'],
+        paginated: {
+          byLocation: (params: { latitude: number; longitude: number }) => [
+            'v1',
+            'concert',
+            'list',
+            'paginated',
+            params,
+          ],
+          byArtistId: (artistId: string) => ['v1', 'concert', 'list', 'paginated', { artistId }],
+          byVenueId: (venueId: string) => ['v1', 'concert', 'list', 'paginated', { venueId }],
+        },
+        byLocation: (params: { latitude: number; longitude: number }) => ['v1', 'concert', 'list', params],
+        byArtistId: (artistId: string) => ['v1', 'concert', 'list', { artistId }],
+        byVenueId: (venueId: string) => ['v1', 'concert', 'list', { venueId }],
+      },
       detail: (id: string) => ['v1', 'concert', 'detail', id],
     },
     venue: {
@@ -174,10 +187,10 @@ export const apiClient = {
       offset,
       size,
     }: {
-      latitude?: number
-      longitude?: number
-      offset?: number
-      size?: number
+      latitude: number
+      longitude: number
+      offset: number
+      size: number
     }) => {
       const data = await fetchClient.GET('/v1/concert/', {
         params: {

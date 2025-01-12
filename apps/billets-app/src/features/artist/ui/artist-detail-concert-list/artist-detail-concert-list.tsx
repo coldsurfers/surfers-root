@@ -26,7 +26,7 @@ export const ArtistDetailConcertList = ({
     fetchNextPage: fetchNextPageArtistConcertList,
   } = useSuspenseInfiniteQuery({
     initialPageParam: 0,
-    queryKey: apiClient.queryKeys.concert.listByArtistId(artistId),
+    queryKey: apiClient.queryKeys.concert.list.paginated.byArtistId(artistId),
     queryFn: ({ pageParam = 0 }) =>
       apiClient.concert.getConcertsByArtistId({ artistId, offset: pageParam, size: PER_PAGE }),
     getNextPageParam: (lastPage, allPages) => {

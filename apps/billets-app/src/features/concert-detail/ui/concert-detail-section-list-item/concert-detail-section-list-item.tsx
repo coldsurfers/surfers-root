@@ -75,7 +75,9 @@ const LineupItemProfileThumbnail = ({ artistId, artistName }: { artistId: string
     queryFn: () => apiClient.artistProfileImage.getArtistProfileImagesByArtistId(artistId),
   })
   const mainProfileImage = profileImages?.at(0)
-  return <ProfileThumbnail type="circle" size="sm" emptyBgText={artistName} imageUrl={mainProfileImage?.url} />
+  return (
+    <ProfileThumbnail type="circle" size="sm" emptyBgText={artistName.slice(0, 1)} imageUrl={mainProfileImage?.url} />
+  )
 }
 
 ConcertDetailSectionListItem.LineupItem = memo(

@@ -22,12 +22,12 @@ export const VenueDetailConcertList = ({
   const {
     data: venueConcertList,
     isPending: isPendingVenueConcertList,
-    isFetchingNextPage: isFetchingNextPageVenueConcerList,
+    isFetchingNextPage: isFetchingNextPageVenueConcertList,
     hasNextPage: hasNextPageVenueConcertList,
     fetchNextPage: fetchNextPageVenueConcertList,
   } = useSuspenseInfiniteQuery({
     initialPageParam: 0,
-    queryKey: apiClient.queryKeys.concert.listByVenueId(venueId),
+    queryKey: apiClient.queryKeys.concert.list.paginated.byVenueId(venueId),
     queryFn: ({ pageParam = 0 }) =>
       apiClient.concert.getConcertsByVenueId({
         venueId,
@@ -82,14 +82,14 @@ export const VenueDetailConcertList = ({
   )
 
   const onEndReached = useCallback(async () => {
-    if (isPendingVenueConcertList || isFetchingNextPageVenueConcerList || !hasNextPageVenueConcertList) {
+    if (isPendingVenueConcertList || isFetchingNextPageVenueConcertList || !hasNextPageVenueConcertList) {
       return
     }
     await fetchNextPageVenueConcertList()
   }, [
     fetchNextPageVenueConcertList,
     hasNextPageVenueConcertList,
-    isFetchingNextPageVenueConcerList,
+    isFetchingNextPageVenueConcertList,
     isPendingVenueConcertList,
   ])
 

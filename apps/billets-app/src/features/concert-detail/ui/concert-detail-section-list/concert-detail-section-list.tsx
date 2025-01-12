@@ -52,16 +52,8 @@ export const ConcertDetailSectionList = ({
       switch (title) {
         case 'lineup':
         case 'venue-map':
-          // case 'venue':
-          // case 'date':
-          // case 'price-info':
-          // case 'ticket-seller':
-          // case 'ticket-open-date':
           children = sectionHeaderTitle ? <ConcertDetailSectionListHeaderItem title={sectionHeaderTitle} /> : null
           break
-        // case 'html':
-        //   children = <ConcertDetailSectionListHeaderItem title="종합 정보" />
-        //   break
         default:
           children = null
           break

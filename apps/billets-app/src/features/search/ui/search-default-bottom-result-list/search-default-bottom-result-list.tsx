@@ -47,8 +47,8 @@ export const SearchDefaultBottomResultList = ({ latitude, longitude }: { latitud
   const { bottomPadding } = useKeyboard()
   const navigation = useSearchScreenNavigation()
   const { data: concertList } = useQuery({
-    queryKey: apiClient.queryKeys.concert.listByLocation({ latitude, longitude }),
-    queryFn: () => apiClient.concert.getConcerts({ latitude, longitude }),
+    queryKey: apiClient.queryKeys.concert.list.byLocation({ latitude, longitude }),
+    queryFn: () => apiClient.concert.getConcerts({ latitude, longitude, offset: 0, size: 20 }),
     refetchOnWindowFocus: false,
   })
   const concertListUIData = useMemo(() => {
