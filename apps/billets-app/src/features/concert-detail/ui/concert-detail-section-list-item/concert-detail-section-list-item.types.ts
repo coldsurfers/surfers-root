@@ -18,7 +18,7 @@ export interface ConcertDetailSectionListTitleItemProps {
   title: string
 }
 export type ConcertDetailSectionListLineupItemProps = {
-  thumbnailUrl: string
+  // thumbnailUrl: string
   name: string
   artistId: string
   onPress?: () => void

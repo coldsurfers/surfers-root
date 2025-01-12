@@ -1,14 +1,13 @@
 import { useFirebaseMessaging } from '@/lib/hooks'
 // import { useSendFCMTokenMutation } from '@/lib/react-query'
-import { $api } from '@/lib/api/openapi-client'
+import { $api, apiClient } from '@/lib/api/openapi-client'
 import { mmkvKeys } from '@/lib/storage/constants'
 import { mmkvInstance } from '@/lib/storage/mmkvInstance'
-import { useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import React, { createContext, PropsWithChildren, useCallback } from 'react'
 import { components } from '../../../types/api'
-import useGetMeQuery from '../../react-query/queries/useGetMeQuery'
 
-export type User = components['schemas']['GetMeSuccessResponse'] | null
+export type User = components['schemas']['UserDTOSchema'] | null
 
 export const AuthContext = createContext<{
   login: (params: {
@@ -30,7 +29,10 @@ export const AuthContext = createContext<{
 
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const queryClient = useQueryClient()
-  const { isLoading: isLoadingMe, data: meData } = useGetMeQuery()
+  const { isLoading: isLoadingMe, data: meData } = useQuery({
+    queryKey: apiClient.queryKeys.user.me,
+    queryFn: () => apiClient.user.getMe(),
+  })
   const { mutateAsync: sendFCMToken } = $api.useMutation('post', '/v1/fcm/token')
   const { getFCMToken } = useFirebaseMessaging()
 

@@ -1,11 +1,5 @@
-export type ConcertListItemT = {
-  date: string
+export type ConcertListItemType = {
+  date: string | null
   id: string
-  posters: {
-    imageUrl: string
-  }[]
   title: string
-  venues: {
-    venueTitle: string
-  }[]
 }

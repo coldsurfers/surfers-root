@@ -6,10 +6,8 @@ import {
 import { useInterstitialAd } from '@/features/google-ads'
 import { useToggleSubscribeConcert } from '@/features/subscribe'
 import { useEffectOnce, useStoreReview } from '@/lib'
+import { apiClient } from '@/lib/api/openapi-client'
 import commonStyles from '@/lib/common-styles'
-import useConcertQuery from '@/lib/react-query/queries/useConcertQuery'
-import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
-import useSubscribedConcertQuery from '@/lib/react-query/queries/useSubscribedConcertQuery'
 import {
   concertDetailCountForStoreReviewStorage,
   concertTicketBtnPressCountForInterstitialAdStorage,
@@ -18,6 +16,7 @@ import { NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import React, { Suspense, useCallback, useMemo, useRef } from 'react'
 import { Dimensions, Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -30,13 +29,34 @@ const _ConcertDetailScreen = () => {
   const { params } = useConcertDetailScreenRoute()
   const { requestReview } = useStoreReview()
 
-  const { data, isLoading: isLoadingConcert } = useConcertQuery({
-    concertId: params.concertId,
+  const { data: concertDetail, isLoading: isLoadingConcertDetail } = useSuspenseQuery({
+    queryKey: apiClient.queryKeys.concert.detail(params.concertId),
+    queryFn: () => apiClient.concert.getConcertDetail(params.concertId),
   })
-  const { data: subscribedConcert } = useSubscribedConcertQuery({
-    concertId: params.concertId,
+  const { data: venuesByConcertId, isLoading: isLoadingVenuesByConcertId } = useSuspenseQuery({
+    queryKey: apiClient.queryKeys.venue.listByConcertId(params.concertId),
+    queryFn: () => apiClient.venue.getVenuesByConcertId(params.concertId),
   })
-  const { data: meData } = useGetMeQuery()
+  const { data: artistsByConcertId, isLoading: isLoadingArtistsByConcertId } = useSuspenseQuery({
+    queryKey: apiClient.queryKeys.artist.listByConcertId(params.concertId),
+    queryFn: () => apiClient.artist.getArtistsByConcertId(params.concertId),
+  })
+  const { data: postersByConcertId, isLoading: isLoadingPostersByConcertId } = useSuspenseQuery({
+    queryKey: apiClient.queryKeys.poster.listByConcertId(params.concertId),
+    queryFn: () => apiClient.poster.getPostersByConcertId(params.concertId),
+  })
+  const { data: subscribedConcert } = useQuery({
+    queryKey: apiClient.queryKeys.subscribe.concert.detail(params.concertId),
+    queryFn: () => apiClient.subscribe.getSubscribedConcert(params.concertId),
+  })
+  // const { data: subscribedConcert } = useQuery({
+  //   queryKey: apiClient.subscribe.queryKeys.subscribedConcert(params.concertId),
+  //   queryFn: () => apiClient.subscribe.getSubscribedConcert(params.concertId),
+  // })
+  const { data: meData } = useQuery({
+    queryKey: apiClient.queryKeys.user.me,
+    queryFn: () => apiClient.user.getMe(),
+  })
   const toggleSubscribeConcert = useToggleSubscribeConcert()
 
   const { show, loaded } = useInterstitialAd({
@@ -65,15 +85,12 @@ const _ConcertDetailScreen = () => {
     })
   }, [meData, navigation, params.concertId, subscribedConcert, toggleSubscribeConcert])
 
-  const firstVenue = useMemo(() => {
-    return data?.venues.at(0)
-  }, [data?.venues])
+  const mainVenue = useMemo(() => {
+    return venuesByConcertId?.at(0)
+  }, [venuesByConcertId])
 
   const sections: ConcertDetailSectionListSections = useMemo(() => {
-    if (!data) {
-      return []
-    }
-    if (data.posters?.length === 0) {
+    if (!concertDetail || !venuesByConcertId || !artistsByConcertId) {
       return []
     }
     const innerSections: ConcertDetailSectionListSections = [
@@ -81,7 +98,7 @@ const _ConcertDetailScreen = () => {
         title: 'title',
         data: [
           {
-            title: data.title,
+            title: concertDetail.title,
           },
         ],
       },
@@ -90,7 +107,7 @@ const _ConcertDetailScreen = () => {
         sectionHeaderTitle: '공연 날짜',
         data: [
           {
-            date: data.date,
+            date: concertDetail.date ?? new Date().toISOString(),
           },
         ],
       },
@@ -99,15 +116,15 @@ const _ConcertDetailScreen = () => {
         sectionHeaderTitle: '공연 장소',
         data: [
           {
-            location: `${firstVenue?.venueTitle ?? ''}`,
+            location: mainVenue?.name ?? '',
           },
         ],
       },
       {
         title: 'lineup',
         sectionHeaderTitle: '라인업',
-        data: data.artists.map((artist) => ({
-          thumbnailUrl: artist.profileImageUrl,
+        data: artistsByConcertId.map((artist) => ({
+          // thumbnailUrl: artist.profileImageUrl,
           name: artist.name,
           artistId: artist.id,
           onPress: () => {
@@ -125,20 +142,20 @@ const _ConcertDetailScreen = () => {
         sectionHeaderTitle: '공연 장소',
         data: [
           {
-            latitude: firstVenue?.latitude ?? 0.0,
-            longitude: firstVenue?.longitude ?? 0.0,
-            address: firstVenue?.address ?? '',
+            latitude: mainVenue?.lat ?? 0.0,
+            longitude: mainVenue?.lng ?? 0.0,
+            address: mainVenue?.address ?? '',
             onPressMap: () => mapDetailBottomSheetModalRef.current?.present(),
-            venueId: firstVenue?.id ?? '',
-            venueTitle: firstVenue?.venueTitle ?? '',
+            venueId: mainVenue?.id ?? '',
+            venueTitle: mainVenue?.name ?? '',
             onPressProfile: () => {
-              if (!firstVenue?.id) {
+              if (!mainVenue?.id) {
                 return
               }
               navigation.navigate('VenueStackNavigation', {
                 screen: 'VenueDetailScreen',
                 params: {
-                  id: firstVenue.id,
+                  id: mainVenue.id,
                 },
               })
             },
@@ -179,15 +196,7 @@ const _ConcertDetailScreen = () => {
       // },
     ]
     return innerSections
-  }, [
-    data,
-    firstVenue?.address,
-    firstVenue?.id,
-    firstVenue?.latitude,
-    firstVenue?.longitude,
-    firstVenue?.venueTitle,
-    navigation,
-  ])
+  }, [artistsByConcertId, concertDetail, mainVenue, navigation, venuesByConcertId])
 
   useEffectOnce(() => {
     const existingCount = concertDetailCountForStoreReviewStorage.get() ?? 0
@@ -222,13 +231,16 @@ const _ConcertDetailScreen = () => {
     <View style={{ flex: 1, marginTop: -NAVIGATION_HEADER_HEIGHT, backgroundColor: semantics.background[3] }}>
       <StatusBar hidden={Platform.OS === 'ios'} />
       <View style={[styles.wrapper, { backgroundColor: semantics.background[3] }]}>
-        {isLoadingConcert ? (
+        {isLoadingConcertDetail ||
+        isLoadingVenuesByConcertId ||
+        isLoadingArtistsByConcertId ||
+        isLoadingPostersByConcertId ? (
           <Spinner />
         ) : (
           <>
             <ConcertDetailSectionList
               sections={sections}
-              thumbnails={data?.posters?.map((thumb) => thumb.imageUrl) ?? []}
+              thumbnails={postersByConcertId?.map((poster) => poster.url) ?? []}
               isSubscribed={!!subscribedConcert}
               onPressSubscribe={onPressSubscribe}
             />
@@ -240,19 +252,19 @@ const _ConcertDetailScreen = () => {
           </>
         )}
       </View>
-      {firstVenue && (
+      {mainVenue && (
         <ConcertDetailVenueMapBottomSheet
           ref={mapDetailBottomSheetModalRef}
-          address={firstVenue.address}
+          address={mainVenue.address ?? ''}
           region={{
-            latitude: firstVenue.latitude,
-            longitude: firstVenue.longitude,
+            latitude: mainVenue.lat,
+            longitude: mainVenue.lng,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
           markerCoordinate={{
-            latitude: firstVenue.latitude,
-            longitude: firstVenue.longitude,
+            latitude: mainVenue.lat,
+            longitude: mainVenue.lng,
           }}
         />
       )}
