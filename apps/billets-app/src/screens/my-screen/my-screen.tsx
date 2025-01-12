@@ -1,10 +1,10 @@
 import { SubscribedConcertList, SubscribedConcertListSkeleton } from '@/features'
 import { useShowBottomTabBar } from '@/lib'
-import { $api } from '@/lib/api/openapi-client'
-import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
+import { $api, apiClient } from '@/lib/api/openapi-client'
 import { CommonScreenLayout, MyScreenLandingLayout } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, ProfileThumbnail, Spinner, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
+import { useQuery } from '@tanstack/react-query'
 import React, { Suspense, useCallback, useContext, useMemo } from 'react'
 import { Alert, Pressable, SectionList, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import { match } from 'ts-pattern'
@@ -61,7 +61,10 @@ const ListFooterComponent = () => {
 const SuspenseMyScreen = () => {
   const navigation = useMyScreenNavigation()
   const { logout } = useContext(AuthContext)
-  const { data: user } = useGetMeQuery()
+  const { data: user } = useQuery({
+    queryKey: apiClient.queryKeys.user.me,
+    queryFn: () => apiClient.user.getMe(),
+  })
   const { semantics } = useColorScheme()
 
   useShowBottomTabBar()

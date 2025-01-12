@@ -1,5 +1,6 @@
-import { $api } from '@/lib/api/openapi-client'
+import { apiClient } from '@/lib/api/openapi-client'
 import { useSearchScreenNavigation } from '@/screens/search-screen/search-screen.hooks'
+import { useQuery } from '@tanstack/react-query'
 import format from 'date-fns/format'
 import { useMemo } from 'react'
 import { SearchItem } from '../search-item'
@@ -8,12 +9,17 @@ import { SearchItemProps } from '../search-item/search-item.types'
 
 export const SearchFetchItem = ({ concertId }: { concertId: string }) => {
   const navigation = useSearchScreenNavigation()
-  const { data, isLoading } = $api.useQuery('get', '/v1/concert/{id}', {
-    params: {
-      path: {
-        id: concertId,
-      },
-    },
+  const { data, isLoading } = useQuery({
+    queryKey: apiClient.queryKeys.concert.detail(concertId),
+    queryFn: () => apiClient.concert.getConcertDetail(concertId),
+  })
+  const { data: posters } = useQuery({
+    queryKey: apiClient.queryKeys.poster.listByConcertId(concertId),
+    queryFn: () => apiClient.poster.getPostersByConcertId(concertId),
+  })
+  const { data: venues } = useQuery({
+    queryKey: apiClient.queryKeys.venue.listByConcertId(concertId),
+    queryFn: () => apiClient.venue.getVenuesByConcertId(concertId),
   })
 
   const uiData = useMemo<SearchItemProps | null>(() => {
@@ -22,17 +28,17 @@ export const SearchFetchItem = ({ concertId }: { concertId: string }) => {
     }
     return {
       type: 'concert',
-      thumbnail: <SearchItemThumbnail type="square" uri={data.posters?.at(0)?.imageUrl ?? ''} />,
+      thumbnail: <SearchItemThumbnail type="square" uri={posters?.at(0)?.url ?? ''} />,
       title: data.title ?? '',
-      subtitle: format(new Date(data?.date), 'EEE, MMM dd'),
-      description: data.venues.at(0)?.venueTitle ?? '',
+      subtitle: format(data.date ? new Date(data.date) : new Date(), 'EEE, MMM dd'),
+      description: venues?.at(0)?.name ?? '',
       onPress: () =>
         navigation.navigate('ConcertStackNavigation', {
           screen: 'ConcertDetailScreen',
           params: { concertId: data.id },
         }),
     }
-  }, [data, isLoading, navigation])
+  }, [data, isLoading, navigation, posters, venues])
 
   if (!uiData) {
     return <SearchItem.Skeleton />

@@ -1,38 +1,54 @@
 import { ConcertSubscribeButton } from '@/features/subscribe'
+import { apiClient } from '@/lib/api/openapi-client'
 import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
-import { useCallback } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { useCallback, useMemo } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import useSubscribedConcertQuery from '../../../../lib/react-query/queries/useSubscribedConcertQuery'
 import {
   getConcertListBottomWrapperDynamicStyles,
   getConcertListItemWrapperDynamicStyles,
   getConcertListThumbnailWrapperDynamicStyles,
 } from './concert-list-item.utils'
 
-export const ConcertListItem = ({
-  concertId,
-  thumbnailUrl,
-  title,
-  date,
-  venue,
-  onPress,
-  onPressSubscribe,
-  size = 'large',
-}: {
+type ConcertListItemProps = {
   concertId: string
-  thumbnailUrl: string
+  // thumbnailUrl: string
   title: string
   date: string
-  venue?: string
+  // venue?: string
   onPress: (concertId: string) => void
   onPressSubscribe?: (params: { isSubscribed: boolean; concertId: string }) => void
   size?: 'small' | 'large'
-}) => {
+}
+
+export const ConcertListItem = ({
+  concertId,
+  // thumbnailUrl,
+  title,
+  date,
+  // venue,
+  onPress,
+  onPressSubscribe,
+  size = 'large',
+}: ConcertListItemProps) => {
   const { semantics } = useColorScheme()
-  const { data: subscribedConcertData } = useSubscribedConcertQuery({
-    concertId,
+  const { data: postersByConcertId } = useQuery({
+    queryKey: apiClient.queryKeys.poster.listByConcertId(concertId),
+    queryFn: () => apiClient.poster.getPostersByConcertId(concertId),
   })
+  const { data: venuesByConcertId } = useQuery({
+    queryKey: apiClient.queryKeys.venue.listByConcertId(concertId),
+    queryFn: () => apiClient.venue.getVenuesByConcertId(concertId),
+  })
+  const { data: subscribedConcertData } = useQuery({
+    queryKey: apiClient.queryKeys.subscribe.concert.detail(concertId),
+    queryFn: () => apiClient.subscribe.getSubscribedConcert(concertId),
+  })
+
+  const thumbnailUrl = useMemo(() => postersByConcertId?.at(0)?.url, [postersByConcertId])
+  const venue = useMemo(() => venuesByConcertId?.at(0), [venuesByConcertId])
+
   const handlePress = useCallback(() => {
     onPress(concertId)
   }, [onPress, concertId])
@@ -109,7 +125,7 @@ export const ConcertListItem = ({
                   },
                 ]}
               >
-                {venue}
+                {venue.name}
               </Text>
             ) : null}
           </View>

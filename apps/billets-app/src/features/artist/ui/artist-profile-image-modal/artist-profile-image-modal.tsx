@@ -1,7 +1,8 @@
-import { useArtistDetailQuery } from '@/lib/react-query'
+import { apiClient } from '@/lib/api/openapi-client'
 import { CommonImageViewer } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Modal, Text } from '@coldsurfers/ocean-road/native'
+import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -16,17 +17,24 @@ export const ArtistProfileImageModal = ({
   artistId: string
 }) => {
   const { top: topInset } = useSafeAreaInsets()
-  const { data, isLoading } = useArtistDetailQuery({ id: artistId })
+  const { data: profileImages, isLoading } = useQuery({
+    queryKey: apiClient.queryKeys.artistProfileImage.listByArtistId(artistId),
+    queryFn: () => apiClient.artistProfileImage.getArtistProfileImagesByArtistId(artistId),
+  })
+  const { data: copyright } = useQuery({
+    queryKey: apiClient.queryKeys.copyright.detailByArtistProfileImageId(artistId),
+    queryFn: () => apiClient.copyright.getCopyrightByArtistProfileImageId(artistId),
+  })
   const firstImage = useMemo(() => {
-    return data?.artistProfileImage.at(0)
-  }, [data?.artistProfileImage])
+    return profileImages?.at(0)
+  }, [profileImages])
   const firstImageCaption = useMemo(() => {
-    if (!firstImage?.copyright) {
+    if (!copyright) {
       return undefined
     }
-    const { license, owner, licenseURL } = firstImage.copyright
+    const { license, owner, licenseURL } = copyright
     return `© ${owner}, ${license} (${licenseURL}).`
-  }, [firstImage?.copyright])
+  }, [copyright])
 
   return (
     <Modal visible={visible}>
@@ -49,7 +57,7 @@ export const ArtistProfileImageModal = ({
             <Text style={styles.imageViewerCloseText}>닫기</Text>
           </Pressable>
           <View style={styles.imageContainer}>
-            <CommonImageViewer imageUri={firstImage?.imageURL ?? ''} caption={firstImageCaption} />
+            <CommonImageViewer imageUri={firstImage?.url ?? ''} caption={firstImageCaption} />
           </View>
         </View>
       )}

@@ -1,10 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/concert-venue-map-view'
 import { ArtistSubscribeButton, VenueSubscribeButton } from '@/features/subscribe'
+import { apiClient } from '@/lib/api/openapi-client'
 import { useConcertDetailScreenNavigation } from '@/screens/concert-detail-screen/concert-detail-screen.hooks'
 import { colors } from '@coldsurfers/ocean-road'
 import { ProfileThumbnail, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import Clipboard from '@react-native-clipboard/clipboard'
+import { useQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { Copy, MapPin } from 'lucide-react-native'
 import { memo } from 'react'
@@ -66,14 +68,24 @@ ConcertDetailSectionListItem.TitleItem = ({ title }: ConcertDetailSectionListTit
     </Text>
   )
 }
+
+const LineupItemProfileThumbnail = ({ artistId, artistName }: { artistId: string; artistName: string }) => {
+  const { data: profileImages } = useQuery({
+    queryKey: apiClient.queryKeys.artistProfileImage.listByArtistId(artistId),
+    queryFn: () => apiClient.artistProfileImage.getArtistProfileImagesByArtistId(artistId),
+  })
+  const mainProfileImage = profileImages?.at(0)
+  return <ProfileThumbnail type="circle" size="sm" emptyBgText={artistName} imageUrl={mainProfileImage?.url} />
+}
+
 ConcertDetailSectionListItem.LineupItem = memo(
-  ({ thumbnailUrl, name, onPress, artistId }: ConcertDetailSectionListLineupItemProps) => {
+  ({ name, onPress, artistId }: ConcertDetailSectionListLineupItemProps) => {
     const navigation = useConcertDetailScreenNavigation()
     const { semantics } = useColorScheme()
     return (
       <TouchableOpacity onPress={onPress} style={styles.rowItem}>
         <View style={styles.profileLine}>
-          <ProfileThumbnail type="circle" size="sm" emptyBgText={name.at(0) ?? ''} imageUrl={thumbnailUrl} />
+          <LineupItemProfileThumbnail artistId={artistId} artistName={name} />
           <Text style={[styles.name, { color: semantics.foreground[1] }]}>{name}</Text>
         </View>
         <ArtistSubscribeButton

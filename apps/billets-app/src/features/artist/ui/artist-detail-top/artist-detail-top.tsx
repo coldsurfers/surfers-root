@@ -1,8 +1,9 @@
 import { ArtistSubscribeButton } from '@/features/subscribe'
-import { useArtistDetailQuery } from '@/lib/react-query'
+import { apiClient } from '@/lib/api/openapi-client'
 import { useArtistDetailScreenNavigation } from '@/screens/artist-detail-screen/artist-detail-screen.hooks'
 import { colors } from '@coldsurfers/ocean-road'
 import { ProfileThumbnail, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
+import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native'
 
@@ -15,8 +16,13 @@ export const ArtistDetailTop = ({
 }) => {
   const { semantics } = useColorScheme()
   const navigation = useArtistDetailScreenNavigation()
-  const { data: artistDetail, isLoading: isLoadingArtistDetail } = useArtistDetailQuery({
-    id: artistId,
+  const { data: artistDetail, isLoading: isLoadingArtistDetail } = useQuery({
+    queryKey: apiClient.queryKeys.artist.detail(artistId),
+    queryFn: () => apiClient.artist.getArtistDetail(artistId),
+  })
+  const { data: artistProfileImages } = useQuery({
+    queryKey: apiClient.queryKeys.artistProfileImage.listByArtistId(artistId),
+    queryFn: () => apiClient.artistProfileImage.getArtistProfileImagesByArtistId(artistId),
   })
   const artistDetailUIData = useMemo(() => {
     return artistDetail ?? null
@@ -31,7 +37,7 @@ export const ArtistDetailTop = ({
             <Pressable onPress={onPressArtistProfile}>
               <ProfileThumbnail
                 emptyBgText={artistDetailUIData?.name.at(0) ?? ''}
-                imageUrl={artistDetailUIData?.artistProfileImage.at(0)?.imageURL}
+                imageUrl={artistProfileImages?.at(0)?.url}
                 size="lg"
                 type="circle"
                 style={styles.thumbnail}

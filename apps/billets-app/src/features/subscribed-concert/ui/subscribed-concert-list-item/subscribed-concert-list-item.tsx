@@ -1,6 +1,7 @@
+import { apiClient } from '@/lib/api/openapi-client'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import format from 'date-fns/format'
 import { useMemo } from 'react'
-import useConcertQuery from '../../../../lib/react-query/queries/useConcertQuery'
 import { ConcertListItem } from '../../../concert/ui'
 
 export function SubscribedConcertListItem({
@@ -12,15 +13,16 @@ export function SubscribedConcertListItem({
   onPress: (concertId: string) => void
   size?: 'small' | 'large'
 }) {
-  const { data: concertData } = useConcertQuery({
-    concertId,
+  const { data: concertData } = useSuspenseQuery({
+    queryKey: apiClient.queryKeys.concert.detail(concertId),
+    queryFn: () => apiClient.concert.getConcertDetail(concertId),
   })
 
   const date = useMemo(() => {
     if (!concertData) {
       return ''
     }
-    return format(new Date(concertData.date), 'EEE, MMM d')
+    return format(concertData.date ? new Date(concertData.date) : new Date(), 'EEE, MMM d')
   }, [concertData])
 
   if (!concertData) {
@@ -28,14 +30,6 @@ export function SubscribedConcertListItem({
   }
 
   return (
-    <ConcertListItem
-      concertId={concertData.id}
-      thumbnailUrl={concertData.posters.at(0)?.imageUrl ?? ''}
-      title={concertData.title}
-      date={date}
-      venue={concertData.venues.at(0)?.venueTitle}
-      onPress={onPress}
-      size={size}
-    />
+    <ConcertListItem concertId={concertData.id} title={concertData.title} date={date} onPress={onPress} size={size} />
   )
 }
