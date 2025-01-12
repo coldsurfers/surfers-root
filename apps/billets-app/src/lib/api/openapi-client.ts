@@ -49,7 +49,10 @@ export const apiClient = {
     subscribe: {
       concert: {
         all: ['v1', 'subscribe', 'concert'],
-        list: () => ['v1', 'subscribe', 'concert', 'list'],
+        list: {
+          all: ['v1', 'subscribe', 'concert', 'list'],
+          paginated: ['v1', 'subscribe', 'concert', 'list', 'paginated'],
+        },
         detail: (id: string) => ['v1', 'subscribe', 'concert', 'detail', id],
       },
       artist: {
@@ -176,7 +179,6 @@ export const apiClient = {
         },
       })
       if (data.error) {
-        // @todo: need to add error response type on server side
         throw new OpenApiError(data.error)
       }
       return data.data
@@ -203,7 +205,6 @@ export const apiClient = {
         },
       })
       if (data.error) {
-        // @todo: need to add error response type on server side
         throw new OpenApiError(data.error)
       }
       return data.data
@@ -238,7 +239,6 @@ export const apiClient = {
         },
       })
       if (data.error) {
-        // @todo: need to add error response type on server side
         throw new OpenApiError(data.error)
       }
       return data.data

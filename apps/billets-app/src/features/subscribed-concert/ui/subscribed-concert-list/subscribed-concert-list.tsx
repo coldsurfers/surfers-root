@@ -30,7 +30,7 @@ export function SubscribedConcertList({
     refetch,
   } = useSuspenseInfiniteQuery({
     initialPageParam: 0,
-    queryKey: apiClient.queryKeys.subscribe.concert.list(),
+    queryKey: apiClient.queryKeys.subscribe.concert.list.paginated,
     queryFn: ({ pageParam = 0 }) => apiClient.subscribe.getSubscribedConcerts({ offset: pageParam, size: PER_PAGE }),
     getNextPageParam: (lastPage, allPages) => {
       if (!lastPage) {
