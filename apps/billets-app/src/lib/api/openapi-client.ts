@@ -117,6 +117,23 @@ export const apiClient = {
       listByTicketId: (ticketId: string) => ['v1', 'price', 'list', { ticketId }],
     },
   },
+  auth: {
+    signIn: async (body: {
+      email: string
+      password?: string
+      platform?: 'android' | 'ios'
+      provider: 'google' | 'apple' | 'email'
+      token?: string
+    }) => {
+      const data = await fetchClient.POST('/v1/auth/signin', {
+        body,
+      })
+      if (data.error) {
+        throw new OpenApiError(data.error)
+      }
+      return data.data
+    },
+  },
   user: {
     getMe: async () => {
       const data = await fetchClient.GET('/v1/user/me')
