@@ -2,6 +2,7 @@ export function getCheapestPrice(
   prices: {
     currency: string
     id: string
+    name: string
     price: number
   }[],
 ) {

@@ -11,7 +11,7 @@ import { LocationCityDTOSchema, LocationConcertDTOSchema, LocationCountryDTOSche
 import { SendEmailResponseDTOSchema } from '@/dtos/mailer.dto'
 import { PosterDTOSchema } from '@/dtos/poster.dto'
 import { PriceDTOSchema } from '@/dtos/price.dto'
-import { TicketDTOSchema } from '@/dtos/ticket.dto'
+import { TicketDTOSchema, TicketPromotionDTOSchema } from '@/dtos/ticket.dto'
 import { UserDTOSchema } from '@/dtos/user.dto'
 import { VenueDTOSchema } from '@/dtos/venue.dto'
 import { SWAGGER_HOST } from '@/lib/constants'
@@ -159,6 +159,7 @@ app.register(fastifySwagger, {
       EventDTOSchema,
       ConcertDetailDTOSchema,
       EventDetailDTOSchema,
+      TicketPromotionDTOSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
