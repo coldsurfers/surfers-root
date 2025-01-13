@@ -13,13 +13,13 @@ import { PosterDTOSchema } from '@/dtos/poster.dto'
 import { PriceDTOSchema } from '@/dtos/price.dto'
 import { TicketDTOSchema, TicketPromotionDTOSchema } from '@/dtos/ticket.dto'
 import { UserDTOSchema } from '@/dtos/user.dto'
+import { VenueDetailDTOSchema } from '@/dtos/venue-detail-dto'
 import { VenueDTOSchema } from '@/dtos/venue.dto'
 import { SWAGGER_HOST } from '@/lib/constants'
 import { jwtPlugin } from '@/plugins'
 import artistProfileImageRoute from '@/routes/artist-profile-image.route'
 import artistRoute from '@/routes/artist.route'
 import authRoute from '@/routes/auth.route'
-import concertRoute from '@/routes/concert.route'
 import copyrightRoute from '@/routes/copyright.route'
 import eventRoute from '@/routes/event.route'
 import fcmRoute from '@/routes/fcm.route'
@@ -139,6 +139,7 @@ app.register(fastifySwagger, {
   transformObject: createJsonSchemaTransformObject({
     schemas: {
       ConcertDTOSchema,
+      ConcertDetailDTOSchema,
       ArtistDTOSchema,
       ErrorResponseDTOSchema,
       SendAuthCodeResponseDTOSchema,
@@ -155,9 +156,9 @@ app.register(fastifySwagger, {
       TicketDTOSchema,
       PriceDTOSchema,
       VenueDTOSchema,
+      VenueDetailDTOSchema,
       UserDTOSchema,
       EventDTOSchema,
-      ConcertDetailDTOSchema,
       EventDetailDTOSchema,
       TicketPromotionDTOSchema,
     },
@@ -183,7 +184,6 @@ app.register(fastifySwaggerUi, {
 
 app.register(authRoute, { prefix: '/v1/auth' })
 app.register(userRoute, { prefix: '/v1/user' })
-app.register(concertRoute, { prefix: '/v1/concert' })
 app.register(searchRoute, { prefix: '/v1/search' })
 app.register(subscribeRoute, { prefix: '/v1/subscribe' })
 app.register(fcmRoute, { prefix: '/v1/fcm' })

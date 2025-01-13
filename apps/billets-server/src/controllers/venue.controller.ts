@@ -1,28 +1,17 @@
-import { ConcertDTO } from '@/dtos/concert.dto'
 import { ErrorResponseDTO } from '@/dtos/error-response.dto'
-import {
-  GetConcertListByVenueIdParamsDTO,
-  GetConcertListByVenueIdQueryString,
-  GetVenueByIdParamsDTO,
-  GetVenuesByConcertIdParamsDTO,
-  VenueDTO,
-} from '@/dtos/venue.dto'
-import { ConcertRepositoryImpl } from '@/repositories/concert.repository.impl'
-import { VenueRepositoryImpl } from '@/repositories/venue.repository.impl'
-import { ConcertService } from '@/services/concert.service'
-import { VenueService } from '@/services/venue.service'
+import { VenueDetailDTO } from '@/dtos/venue-detail-dto'
+import { GetVenueByIdParamsDTO } from '@/dtos/venue.dto'
+import { VenueDetailRepositoryImpl } from '@/repositories/venue-detail-repository.impl'
+import { VenueDetailService } from '@/services/venue-detail.service'
 import { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify'
 
-const venueRepository = new VenueRepositoryImpl()
-const venueService = new VenueService(venueRepository)
-
-const concertRepository = new ConcertRepositoryImpl()
-const concertService = new ConcertService(concertRepository)
+const venueDetailRepository = new VenueDetailRepositoryImpl()
+const venueDetailService = new VenueDetailService(venueDetailRepository)
 
 interface GetVenueByIdRoute extends RouteGenericInterface {
   Params: GetVenueByIdParamsDTO
   Reply: {
-    200: VenueDTO
+    200: VenueDetailDTO
     404: ErrorResponseDTO
     500: ErrorResponseDTO
   }
@@ -34,7 +23,7 @@ export const getVenueByIdHandler = async (
 ) => {
   try {
     const { id: venueId } = req.params
-    const venue = await venueService.getVenueById(venueId)
+    const venue = await venueDetailService.getVenueDetail(venueId)
     if (!venue) {
       return rep.status(404).send({
         code: 'VENUE_NOT_FOUND',
@@ -42,61 +31,6 @@ export const getVenueByIdHandler = async (
       })
     }
     return rep.status(200).send(venue)
-  } catch (e) {
-    return rep.status(500).send({
-      code: 'UNKNOWN',
-      message: 'internal server error',
-    })
-  }
-}
-
-interface GetVenuesByConcertIdRoute extends RouteGenericInterface {
-  Params: GetVenuesByConcertIdParamsDTO
-  Reply: {
-    200: VenueDTO[]
-    404: ErrorResponseDTO
-    500: ErrorResponseDTO
-  }
-}
-
-export const getVenuesByConcertIdHandler = async (
-  req: FastifyRequest<GetVenuesByConcertIdRoute>,
-  rep: FastifyReply<GetVenuesByConcertIdRoute>,
-) => {
-  try {
-    const venues = await venueService.getVenuesByConcertId(req.params.concertId)
-    return rep.status(200).send(venues)
-  } catch (e) {
-    return rep.status(500).send({
-      code: 'UNKNOWN',
-      message: 'internal server error',
-    })
-  }
-}
-
-interface GetConcertListByVenueIdRoute extends RouteGenericInterface {
-  Params: GetConcertListByVenueIdParamsDTO
-  Querystring: GetConcertListByVenueIdQueryString
-  Reply: {
-    200: ConcertDTO[]
-    500: ErrorResponseDTO
-  }
-}
-
-export const getConcertListByVenueIdHandler = async (
-  req: FastifyRequest<GetConcertListByVenueIdRoute>,
-  rep: FastifyReply<GetConcertListByVenueIdRoute>,
-) => {
-  try {
-    const { venueId } = req.params
-    const { offset, size } = req.query
-    const concerts = await concertService.getManyByVenueId({
-      venueId,
-      orderBy: 'latest',
-      take: +size,
-      skip: +offset,
-    })
-    return rep.status(200).send(concerts)
   } catch (e) {
     return rep.status(500).send({
       code: 'UNKNOWN',
