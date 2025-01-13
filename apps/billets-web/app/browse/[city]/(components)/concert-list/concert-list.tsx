@@ -19,15 +19,15 @@ type ConcertListProps = {
 }
 
 export const ConcertList = memo(({ cityData }: ConcertListProps) => {
-  const { data } = useQuery<components['schemas']['ConcertDTOSchema'][], OpenApiError>({
-    queryKey: apiClient.concert.queryKeys.list.byLocation({
+  const { data } = useQuery<components['schemas']['EventDTOSchema'][], OpenApiError>({
+    queryKey: apiClient.event.queryKeys.list.byLocation({
       offset: 0,
       size: 100,
       latitude: cityData.lat,
       longitude: cityData.lng,
     }),
     queryFn: () =>
-      apiClient.concert.getConcerts({
+      apiClient.event.getEvents({
         offset: 0,
         size: 100,
         latitude: cityData.lat,
@@ -41,7 +41,14 @@ export const ConcertList = memo(({ cityData }: ConcertListProps) => {
       <StyledListHeader>
         <StyledListHeaderText as="h1">Upcoming Shows in {cityData.uiName}</StyledListHeaderText>
       </StyledListHeader>
-      <StyledGridContainer>{data?.map((item) => <ConcertListItem key={item.id} concert={item} />)}</StyledGridContainer>
+      <StyledGridContainer>
+        {data?.map((item) => {
+          if (item.type !== 'concert') {
+            return null
+          }
+          return <ConcertListItem key={item.data.id} data={item.data} />
+        })}
+      </StyledGridContainer>
     </StyledListContainer>
   )
 })

@@ -7,6 +7,7 @@ type LineupProps = {
   artists: {
     id: string
     name: string
+    thumbUrl: string | null
   }[]
 }
 

@@ -17,6 +17,73 @@ const baseFetchClient = createFetchClient<paths>({
 export const $api = createClient(baseFetchClient)
 
 export const apiClient = {
+  event: {
+    queryKeys: {
+      all: ['event'],
+      list: {
+        all: ['event', 'list'],
+        paginated: {
+          byLocation: ({ latitude, longitude }: { latitude?: number; longitude?: number }) => [
+            'event',
+            'list',
+            'paginated',
+            { latitude, longitude },
+          ],
+        },
+        byLocation: ({
+          latitude,
+          longitude,
+          offset,
+          size,
+        }: {
+          latitude?: number
+          longitude?: number
+          offset: number
+          size: number
+        }) => ['event', 'list', { latitude, longitude, offset, size }],
+      },
+      detail: (id: string) => ['event', 'detail', id],
+    },
+    getEvents: async ({
+      offset,
+      size,
+      latitude,
+      longitude,
+    }: {
+      offset: number
+      size: number
+      latitude?: number
+      longitude?: number
+    }) => {
+      const response = await baseFetchClient.GET('/v1/event/', {
+        params: {
+          query: {
+            offset,
+            size,
+            latitude,
+            longitude,
+          },
+        },
+      })
+      if (response.error) {
+        throw new OpenApiError(response.error)
+      }
+      return response.data
+    },
+    getEventDetail: async (id: string) => {
+      const response = await baseFetchClient.GET('/v1/event/{eventId}', {
+        params: {
+          path: {
+            eventId: id,
+          },
+        },
+      })
+      if (response.error) {
+        throw new OpenApiError(response.error)
+      }
+      return response.data
+    },
+  },
   concert: {
     queryKeys: {
       all: ['concert'],

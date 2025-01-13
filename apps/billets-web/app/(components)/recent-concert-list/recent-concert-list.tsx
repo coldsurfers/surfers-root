@@ -14,11 +14,11 @@ import {
 export const RecentConcertList = () => {
   const { data, isLoading } = useQuery({
     queryFn: async () =>
-      await apiClient.concert.getConcerts({
+      await apiClient.event.getEvents({
         offset: 0,
         size: 20,
       }),
-    queryKey: apiClient.concert.queryKeys.list.byLocation({
+    queryKey: apiClient.event.queryKeys.list.byLocation({
       offset: 0,
       size: 20,
     }),
@@ -71,7 +71,12 @@ export const RecentConcertList = () => {
           }}
           onUpdate={onUpdate}
         >
-          {data?.map((value) => <RecentConcertListItem concert={value} key={value.id} />)}
+          {data?.map((value) => {
+            if (value.type === 'concert') {
+              return <RecentConcertListItem data={value.data} key={value.data.id} />
+            }
+            return null
+          })}
         </StyledMotionDiv>
       )}
     </StyledRecentListScrollContainer>

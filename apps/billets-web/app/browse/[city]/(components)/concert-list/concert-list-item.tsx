@@ -1,5 +1,3 @@
-import { apiClient } from '@/libs/openapi-client'
-import { useQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import Link from 'next/link'
 import { memo, useMemo } from 'react'
@@ -13,32 +11,21 @@ import {
   StyledVenueText,
 } from './concert-list.styled'
 
-export const ConcertListItem = memo(({ concert }: { concert: components['schemas']['ConcertDTOSchema'] }) => {
-  const { data: posters } = useQuery({
-    queryKey: apiClient.poster.queryKeys.list.byConcertId(concert.id),
-    queryFn: () => apiClient.poster.getPostersByConcertId(concert.id),
-  })
-  const { data: venues } = useQuery({
-    queryKey: apiClient.venue.queryKeys.list.byConcertId(concert.id),
-    queryFn: () => apiClient.venue.getVenuesByConcertId(concert.id),
-  })
+export const ConcertListItem = memo(({ data }: { data: components['schemas']['ConcertDTOSchema'] }) => {
   const formattedDate = useMemo(() => {
-    if (!concert.date) {
+    if (!data.date) {
       return ''
     }
-    return format(new Date(concert.date), 'EEE, MMM dd')
-  }, [concert.date])
-  const mainVenue = useMemo(() => {
-    return venues?.at(0)
-  }, [venues])
+    return format(new Date(data.date), 'EEE, MMM dd')
+  }, [data.date])
   return (
-    <Link href={`/event/${concert.id}`}>
+    <Link href={`/event/${data.id}`}>
       <StyledGridItem>
-        <StyledGridImage src={posters?.at(0)?.url} alt={concert.title} />
+        <StyledGridImage src={data.mainPoster?.url ?? ''} alt={data.title} />
         <StyledGridTextContainer>
-          <StyledGridTitle as="p">{concert.title}</StyledGridTitle>
+          <StyledGridTitle as="p">{data.title}</StyledGridTitle>
           <StyledGridDate as="p">{formattedDate}</StyledGridDate>
-          {mainVenue && <StyledVenueText as="p">{mainVenue.name}</StyledVenueText>}
+          {data.mainVenue?.name && <StyledVenueText as="p">{data.mainVenue.name}</StyledVenueText>}
         </StyledGridTextContainer>
       </StyledGridItem>
     </Link>
