@@ -21,4 +21,5 @@ export const errorCodeSchema = z.union([
   z.literal('EMAIL_AUTH_REQUEST_ALREADY_AUTHENTICATED'),
   z.literal('EMAIL_AUTH_REQUEST_TIMEOUT'),
   z.literal('UNKNOWN'),
+  z.literal('EVENT_NOT_FOUND'),
 ])

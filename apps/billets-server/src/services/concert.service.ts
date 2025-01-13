@@ -13,11 +13,11 @@ export class ConcertService {
     this.concertRepository = concertRepository
   }
 
-  getById(id: string): Promise<ConcertDTO | null> {
-    return this.concertRepository.findById(id)
-  }
   getMany(params: FindManyConcertDTO): Promise<ConcertDTO[]> {
     return this.concertRepository.findMany(params)
+  }
+  getById(id: string): Promise<ConcertDTO | null> {
+    return this.concertRepository.findById(id)
   }
   getManyByVenueId(params: FindManyByVenueIdConcertDTO): Promise<ConcertDTO[]> {
     return this.concertRepository.findManyByVenueId(params)

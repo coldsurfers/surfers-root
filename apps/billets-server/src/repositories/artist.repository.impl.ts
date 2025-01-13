@@ -1,7 +1,11 @@
 import { ArtistDTO } from '@/dtos/artist.dto'
 import { dbClient } from '@/lib/db/db.client'
-import { Artist } from '@prisma/client'
+import { Artist, ArtistProfileImage } from '@prisma/client'
 import { ArtistRepository } from './artist.repository'
+
+interface ArtistModel extends Artist {
+  artistProfileImage: ArtistProfileImage[]
+}
 
 export class ArtistRepositoryImpl implements ArtistRepository {
   async findManyByConcertId(concertId: string): Promise<ArtistDTO[]> {
@@ -13,13 +17,9 @@ export class ArtistRepositoryImpl implements ArtistRepository {
           },
         },
       },
-      // include: {
-      //   artistProfileImage: {
-      //     include: {
-      //       copyright: true,
-      //     },
-      //   },
-      // },
+      include: {
+        artistProfileImage: true,
+      },
     })
     return artists.map(this.toDTO)
   }
@@ -104,10 +104,12 @@ export class ArtistRepositoryImpl implements ArtistRepository {
     return this.toDTO(subscribedArtist.artist)
   }
 
-  private toDTO(model: Artist): ArtistDTO {
+  private toDTO(model: ArtistModel): ArtistDTO {
+    const mainProfileImage = model.artistProfileImage.at(0)
     return {
       id: model.id,
       name: model.name,
+      thumbUrl: mainProfileImage ? mainProfileImage.imageURL : null,
     }
   }
 }

@@ -1,16 +1,18 @@
 import { ArtistProfileImageDTOSchema } from '@/dtos/artist-profile-image.dto'
 import { ArtistDTOSchema } from '@/dtos/artist.dto'
 import { UserWithAuthTokenDTOSchema } from '@/dtos/auth.dto'
-import { ConcertDTOSchema } from '@/dtos/concert.dto'
+import { ConcertDetailDTOSchema, ConcertDTOSchema } from '@/dtos/concert.dto'
 import { CopyrightDTOSchema } from '@/dtos/copyright.dto'
 import { ConfirmAuthCodeResponseDTOSchema, SendAuthCodeResponseDTOSchema } from '@/dtos/email-auth-request.dto'
 import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
+import { EventDetailDTOSchema, EventDTOSchema } from '@/dtos/event.dto'
 import { FCMTokenDTOSchema } from '@/dtos/fcm-token.dto'
 import { LocationCityDTOSchema, LocationConcertDTOSchema, LocationCountryDTOSchema } from '@/dtos/location.dto'
 import { SendEmailResponseDTOSchema } from '@/dtos/mailer.dto'
 import { PosterDTOSchema } from '@/dtos/poster.dto'
 import { PriceDTOSchema } from '@/dtos/price.dto'
 import { TicketDTOSchema } from '@/dtos/ticket.dto'
+import { UserDTOSchema } from '@/dtos/user.dto'
 import { VenueDTOSchema } from '@/dtos/venue.dto'
 import { SWAGGER_HOST } from '@/lib/constants'
 import { jwtPlugin } from '@/plugins'
@@ -19,6 +21,7 @@ import artistRoute from '@/routes/artist.route'
 import authRoute from '@/routes/auth.route'
 import concertRoute from '@/routes/concert.route'
 import copyrightRoute from '@/routes/copyright.route'
+import eventRoute from '@/routes/event.route'
 import fcmRoute from '@/routes/fcm.route'
 import locationRoute from '@/routes/location.route'
 import mailerRoute from '@/routes/mailer.route'
@@ -41,7 +44,6 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
-import { UserDTOSchema } from './dtos/user.dto'
 
 dotenv.config()
 
@@ -154,6 +156,9 @@ app.register(fastifySwagger, {
       PriceDTOSchema,
       VenueDTOSchema,
       UserDTOSchema,
+      EventDTOSchema,
+      ConcertDetailDTOSchema,
+      EventDetailDTOSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
@@ -190,3 +195,4 @@ app.register(artistProfileImageRoute, { prefix: '/v1/artist-profile-image' })
 app.register(copyrightRoute, { prefix: '/v1/copyright' })
 app.register(ticketRoute, { prefix: '/v1/ticket' })
 app.register(priceRoute, { prefix: '/v1/price' })
+app.register(eventRoute, { prefix: '/v1/event' })
