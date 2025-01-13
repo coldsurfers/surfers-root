@@ -29,22 +29,22 @@ const _ConcertDetailScreen = () => {
   const { params } = useConcertDetailScreenRoute()
   const { requestReview } = useStoreReview()
 
-  const { data: concertDetail, isLoading: isLoadingConcertDetail } = useSuspenseQuery({
-    queryKey: apiClient.queryKeys.concert.detail(params.concertId),
-    queryFn: () => apiClient.concert.getConcertDetail(params.concertId),
+  const { data: eventData, isLoading: isLoadingConcertDetail } = useSuspenseQuery({
+    queryKey: apiClient.event.queryKeys.detail(params.concertId),
+    queryFn: () => apiClient.event.getEventDetail(params.concertId),
   })
-  const { data: venuesByConcertId, isLoading: isLoadingVenuesByConcertId } = useSuspenseQuery({
-    queryKey: apiClient.queryKeys.venue.listByConcertId(params.concertId),
-    queryFn: () => apiClient.venue.getVenuesByConcertId(params.concertId),
-  })
-  const { data: artistsByConcertId, isLoading: isLoadingArtistsByConcertId } = useSuspenseQuery({
-    queryKey: apiClient.queryKeys.artist.listByConcertId(params.concertId),
-    queryFn: () => apiClient.artist.getArtistsByConcertId(params.concertId),
-  })
-  const { data: postersByConcertId, isLoading: isLoadingPostersByConcertId } = useSuspenseQuery({
-    queryKey: apiClient.queryKeys.poster.listByConcertId(params.concertId),
-    queryFn: () => apiClient.poster.getPostersByConcertId(params.concertId),
-  })
+  // const { data: venuesByConcertId, isLoading: isLoadingVenuesByConcertId } = useSuspenseQuery({
+  //   queryKey: apiClient.queryKeys.venue.listByConcertId(params.concertId),
+  //   queryFn: () => apiClient.venue.getVenuesByConcertId(params.concertId),
+  // })
+  // const { data: artistsByConcertId, isLoading: isLoadingArtistsByConcertId } = useSuspenseQuery({
+  //   queryKey: apiClient.queryKeys.artist.listByConcertId(params.concertId),
+  //   queryFn: () => apiClient.artist.getArtistsByConcertId(params.concertId),
+  // })
+  // const { data: postersByConcertId, isLoading: isLoadingPostersByConcertId } = useSuspenseQuery({
+  //   queryKey: apiClient.queryKeys.poster.listByConcertId(params.concertId),
+  //   queryFn: () => apiClient.poster.getPostersByConcertId(params.concertId),
+  // })
   const { data: subscribedConcert } = useQuery({
     queryKey: apiClient.queryKeys.subscribe.concert.detail(params.concertId),
     queryFn: () => apiClient.subscribe.getSubscribedConcert(params.concertId),
@@ -82,13 +82,17 @@ const _ConcertDetailScreen = () => {
   }, [meData, navigation, params.concertId, subscribedConcert, toggleSubscribeConcert])
 
   const mainVenue = useMemo(() => {
-    return venuesByConcertId?.at(0)
-  }, [venuesByConcertId])
+    if (eventData.type !== 'concert') {
+      return null
+    }
+    return eventData.data.venues.at(0)
+  }, [eventData.data.venues, eventData.type])
 
   const sections: ConcertDetailSectionListSections = useMemo(() => {
-    if (!concertDetail || !venuesByConcertId || !artistsByConcertId) {
+    if (!eventData || eventData.type !== 'concert') {
       return []
     }
+    const { data: concertDetail } = eventData
     const innerSections: ConcertDetailSectionListSections = [
       {
         title: 'title',
@@ -119,8 +123,8 @@ const _ConcertDetailScreen = () => {
       {
         title: 'lineup',
         sectionHeaderTitle: '라인업',
-        data: artistsByConcertId.map((artist) => ({
-          // thumbnailUrl: artist.profileImageUrl,
+        data: concertDetail.artists.map((artist) => ({
+          thumbUrl: artist.thumbUrl ?? '',
           name: artist.name,
           artistId: artist.id,
           onPress: () => {
@@ -160,7 +164,7 @@ const _ConcertDetailScreen = () => {
       },
     ]
     return innerSections
-  }, [artistsByConcertId, concertDetail, mainVenue, navigation, venuesByConcertId])
+  }, [eventData, mainVenue, navigation])
 
   useEffectOnce(() => {
     const existingCount = concertDetailCountForStoreReviewStorage.get() ?? 0
@@ -191,20 +195,23 @@ const _ConcertDetailScreen = () => {
     }
   }, [loaded, navigation, params.concertId, show])
 
+  if (eventData.type !== 'concert') {
+    return null
+  }
+
+  const { data: concertDetail } = eventData
+
   return (
     <View style={{ flex: 1, marginTop: -NAVIGATION_HEADER_HEIGHT, backgroundColor: semantics.background[3] }}>
       <StatusBar hidden={Platform.OS === 'ios'} />
       <View style={[styles.wrapper, { backgroundColor: semantics.background[3] }]}>
-        {isLoadingConcertDetail ||
-        isLoadingVenuesByConcertId ||
-        isLoadingArtistsByConcertId ||
-        isLoadingPostersByConcertId ? (
+        {isLoadingConcertDetail ? (
           <Spinner />
         ) : (
           <>
             <ConcertDetailSectionList
               sections={sections}
-              thumbnails={postersByConcertId?.map((poster) => poster.url) ?? []}
+              thumbnails={concertDetail.posters.map((poster) => poster.url ?? '')}
               isSubscribed={!!subscribedConcert}
               onPressSubscribe={onPressSubscribe}
             />

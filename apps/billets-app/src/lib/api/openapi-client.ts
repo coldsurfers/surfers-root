@@ -499,4 +499,56 @@ export const apiClient = {
       return data.data
     },
   },
+  event: {
+    queryKeys: {
+      all: ['v1', 'event'],
+      list: {
+        all: ['v1', 'event', 'list'],
+        paginated: {
+          byLocation: (params: { latitude: number; longitude: number }) => ['v1', 'event', 'list', 'paginated', params],
+        },
+        byLocation: (params: { latitude: number; longitude: number }) => ['v1', 'event', 'list', params],
+      },
+      detail: (id: string) => ['v1', 'event', 'detail', id],
+    },
+    getEvents: async ({
+      latitude,
+      longitude,
+      offset,
+      size,
+    }: {
+      latitude: number
+      longitude: number
+      offset: number
+      size: number
+    }) => {
+      const data = await fetchClient.GET('/v1/event/', {
+        params: {
+          query: {
+            latitude: latitude,
+            longitude: longitude,
+            offset: offset,
+            size: size,
+          },
+        },
+      })
+      if (data.error) {
+        throw new OpenApiError(data.error)
+      }
+      return data.data
+    },
+    getEventDetail: async (id: string) => {
+      const data = await fetchClient.GET('/v1/event/{eventId}', {
+        params: {
+          path: {
+            eventId: id,
+          },
+        },
+      })
+      if (data.error) {
+        throw new OpenApiError(data.error)
+      }
+      return data.data
+    },
+  },
 }

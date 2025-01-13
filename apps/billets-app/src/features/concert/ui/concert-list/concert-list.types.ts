@@ -1,5 +1,3 @@
-export type ConcertListItemType = {
-  date: string | null
-  id: string
-  title: string
-}
+import { components } from '@/types/api'
+
+export type ConcertListItemType = components['schemas']['ConcertDTOSchema']

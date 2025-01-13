@@ -4,7 +4,6 @@ import { CommonListEmpty } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Spinner } from '@coldsurfers/ocean-road/native'
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
-import { format } from 'date-fns'
 import { forwardRef, useCallback, useMemo, useState } from 'react'
 import { FlatList, ListRenderItem, RefreshControl, View } from 'react-native'
 import { ConcertListItem } from '../concert-list-item'
@@ -26,9 +25,9 @@ export const ConcertList = forwardRef<FlatList, ConcertListProps>(
 
     const { data, isPending, fetchNextPage, isFetchingNextPage, hasNextPage, refetch } = useSuspenseInfiniteQuery({
       initialPageParam: 0,
-      queryKey: apiClient.queryKeys.concert.list.paginated.byLocation({ latitude, longitude }),
+      queryKey: apiClient.event.queryKeys.list.paginated.byLocation({ latitude, longitude }),
       queryFn: ({ pageParam = 0 }) =>
-        apiClient.concert.getConcerts({ offset: pageParam, size: PER_PAGE, latitude, longitude }),
+        apiClient.event.getEvents({ offset: pageParam, size: PER_PAGE, latitude, longitude }),
       getNextPageParam: (lastPage, allPages) => {
         if (lastPage.length < PER_PAGE) {
           return undefined
@@ -39,16 +38,14 @@ export const ConcertList = forwardRef<FlatList, ConcertListProps>(
     })
 
     const concertList = useMemo<ConcertListItemType[]>(() => {
-      return data?.pages.flat() ?? []
+      return data.pages.flatMap((page) => page).map((data) => data.data)
     }, [data?.pages])
 
     const renderItem: ListRenderItem<ConcertListItemType> = useCallback(
       ({ item }) => {
         return (
           <ConcertListItem
-            concertId={item.id}
-            title={item.title}
-            date={format(item.date ? new Date(item.date) : new Date(), 'EEE, MMM d')}
+            data={item}
             onPress={() => onPressItem?.(item)}
             onPressSubscribe={({ isSubscribed }) => onPressSubscribe?.(item, { isSubscribed })}
           />
