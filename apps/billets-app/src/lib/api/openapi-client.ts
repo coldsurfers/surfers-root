@@ -64,33 +64,6 @@ export const apiClient = {
         detail: (id: string) => ['v1', 'subscribe', 'venue', 'detail', id],
       },
     },
-    concert: {
-      all: ['v1', 'concert'],
-      list: {
-        all: ['v1', 'concert', 'list'],
-        paginated: {
-          byLocation: (params: { latitude: number; longitude: number }) => [
-            'v1',
-            'concert',
-            'list',
-            'paginated',
-            params,
-          ],
-          byArtistId: (artistId: string) => ['v1', 'concert', 'list', 'paginated', { artistId }],
-          byVenueId: (venueId: string) => ['v1', 'concert', 'list', 'paginated', { venueId }],
-        },
-        byLocation: (params: { latitude: number; longitude: number }) => ['v1', 'concert', 'list', params],
-        byArtistId: (artistId: string) => ['v1', 'concert', 'list', { artistId }],
-        byVenueId: (venueId: string) => ['v1', 'concert', 'list', { venueId }],
-      },
-      detail: (id: string) => ['v1', 'concert', 'detail', id],
-    },
-    venue: {
-      all: ['v1', 'venue'],
-      allList: ['v1', 'venue', 'list'],
-      listByConcertId: (concertId: string) => ['v1', 'venue', 'list', { concertId }],
-      detail: (venueId: string) => ['v1', 'venue', 'detail', { venueId }],
-    },
     poster: {
       all: ['v1', 'poster'],
       allList: ['v1', 'poster', 'list'],
@@ -105,11 +78,6 @@ export const apiClient = {
         'detailByArtistProfileImageId',
         { artistProfileImageId },
       ],
-    },
-    ticket: {
-      all: ['v1', 'ticket'],
-      allList: ['v1', 'ticket', 'list'],
-      listByConcertId: (concertId: string) => ['v1', 'ticket', 'list', { concertId }],
     },
     price: {
       all: ['v1', 'price'],
@@ -186,81 +154,6 @@ export const apiClient = {
       return data.data
     },
   },
-  concert: {
-    getConcertDetail: async (id: string) => {
-      const data = await fetchClient.GET('/v1/concert/{id}', {
-        params: {
-          path: {
-            id,
-          },
-        },
-      })
-      if (data.error) {
-        throw new OpenApiError(data.error)
-      }
-      return data.data
-    },
-    getConcerts: async ({
-      latitude,
-      longitude,
-      offset,
-      size,
-    }: {
-      latitude: number
-      longitude: number
-      offset: number
-      size: number
-    }) => {
-      const data = await fetchClient.GET('/v1/concert/', {
-        params: {
-          query: {
-            latitude: latitude,
-            longitude: longitude,
-            offset: offset,
-            size: size,
-          },
-        },
-      })
-      if (data.error) {
-        throw new OpenApiError(data.error)
-      }
-      return data.data
-    },
-    getConcertsByArtistId: async (params: { artistId: string; offset?: number; size?: number }) => {
-      const data = await fetchClient.GET('/v1/artist/concert-list/{artistId}', {
-        params: {
-          path: {
-            artistId: params.artistId,
-          },
-          query: {
-            offset: params.offset,
-            size: params.size,
-          },
-        },
-      })
-      if (data.error) {
-        throw new OpenApiError(data.error)
-      }
-      return data.data
-    },
-    getConcertsByVenueId: async (params: { venueId: string; offset?: number; size?: number }) => {
-      const data = await fetchClient.GET('/v1/venue/concert-list/{venueId}', {
-        params: {
-          path: {
-            venueId: params.venueId,
-          },
-          query: {
-            offset: params.offset,
-            size: params.size,
-          },
-        },
-      })
-      if (data.error) {
-        throw new OpenApiError(data.error)
-      }
-      return data.data
-    },
-  },
   copyright: {
     getCopyrightByArtistProfileImageId: async (artistProfileImageId: string) => {
       const data = await fetchClient.GET('/v1/copyright/artist-profile-image/{artistProfileImageId}', {
@@ -277,18 +170,12 @@ export const apiClient = {
     },
   },
   venue: {
-    getVenuesByConcertId: async (concertId: string) => {
-      const data = await fetchClient.GET('/v1/venue/concert/{concertId}', {
-        params: {
-          path: {
-            concertId,
-          },
-        },
-      })
-      if (data.error) {
-        throw new OpenApiError(data.error)
-      }
-      return data.data
+    queryKeys: {
+      all: ['v1', 'venue'],
+      list: {
+        all: ['v1', 'venue', 'list'],
+      },
+      detail: (venueId: string) => ['v1', 'venue', 'detail', venueId],
     },
     getVenueDetail: async (id: string) => {
       const data = await fetchClient.GET('/v1/venue/{id}', {
@@ -470,6 +357,13 @@ export const apiClient = {
     },
   },
   ticket: {
+    queryKeys: {
+      all: ['v1', 'ticket'],
+      list: {
+        all: ['v1', 'ticket', 'list'],
+        byConcertId: (concertId: string) => ['v1', 'ticket', 'list', { concertId }],
+      },
+    },
     getTicketsByConcertId: async (concertId: string) => {
       const data = await fetchClient.GET('/v1/ticket/concert/{concertId}', {
         params: {

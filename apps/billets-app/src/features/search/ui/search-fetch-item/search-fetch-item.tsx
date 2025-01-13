@@ -9,36 +9,28 @@ import { SearchItemProps } from '../search-item/search-item.types'
 
 export const SearchFetchItem = ({ concertId }: { concertId: string }) => {
   const navigation = useSearchScreenNavigation()
-  const { data, isLoading } = useQuery({
-    queryKey: apiClient.queryKeys.concert.detail(concertId),
-    queryFn: () => apiClient.concert.getConcertDetail(concertId),
+  const { data } = useQuery({
+    queryKey: apiClient.event.queryKeys.detail(concertId),
+    queryFn: () => apiClient.event.getEventDetail(concertId),
   })
-  const { data: posters } = useQuery({
-    queryKey: apiClient.queryKeys.poster.listByConcertId(concertId),
-    queryFn: () => apiClient.poster.getPostersByConcertId(concertId),
-  })
-  const { data: venues } = useQuery({
-    queryKey: apiClient.queryKeys.venue.listByConcertId(concertId),
-    queryFn: () => apiClient.venue.getVenuesByConcertId(concertId),
-  })
-
   const uiData = useMemo<SearchItemProps | null>(() => {
-    if (!data || isLoading) {
+    if (!data || data.type !== 'concert') {
       return null
     }
+    const { data: concertDetail } = data
     return {
       type: 'concert',
-      thumbnail: <SearchItemThumbnail type="square" uri={posters?.at(0)?.url ?? ''} />,
-      title: data.title ?? '',
-      subtitle: format(data.date ? new Date(data.date) : new Date(), 'EEE, MMM dd'),
-      description: venues?.at(0)?.name ?? '',
+      thumbnail: <SearchItemThumbnail type="square" uri={concertDetail.posters.at(0)?.url ?? ''} />,
+      title: concertDetail.title,
+      subtitle: format(new Date(concertDetail.date), 'EEE, MMM dd'),
+      description: concertDetail.venues?.at(0)?.name ?? '',
       onPress: () =>
         navigation.navigate('ConcertStackNavigation', {
           screen: 'ConcertDetailScreen',
-          params: { concertId: data.id },
+          params: { concertId: concertDetail.id },
         }),
     }
-  }, [data, isLoading, navigation, posters, venues])
+  }, [data, navigation])
 
   if (!uiData) {
     return <SearchItem.Skeleton />

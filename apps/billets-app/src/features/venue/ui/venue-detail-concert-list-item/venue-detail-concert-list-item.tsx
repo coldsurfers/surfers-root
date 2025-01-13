@@ -11,22 +11,19 @@ export const VenueDetailConcertListItem = ({ item, onPress, onPressSubscribe }: 
     queryKey: apiClient.queryKeys.subscribe.concert.detail(item.id),
     queryFn: () => apiClient.subscribe.getSubscribedConcert(item.id),
   })
-  const { data: posters } = useQuery({
-    queryKey: apiClient.queryKeys.poster.listByConcertId(item.id),
-    queryFn: () => apiClient.poster.getPostersByConcertId(item.id),
-  })
-  const { data: venues } = useQuery({
-    queryKey: apiClient.queryKeys.venue.listByConcertId(item.id),
-    queryFn: () => apiClient.venue.getVenuesByConcertId(item.id),
-  })
   return (
     <HorizontalConcertItem
       onPress={() => onPress(item)}
       title={item.title}
       subtitle={format(item.date ? new Date(item.date) : new Date(), 'EEE, MMM dd')}
-      description={venues?.at(0)?.name ?? ''}
+      description={item.mainVenue?.name ?? ''}
       thumbnailComponent={
-        <ProfileThumbnail type="square" emptyBgText={item.title.at(0) ?? ''} imageUrl={posters?.at(0)?.url} size="md" />
+        <ProfileThumbnail
+          type="square"
+          emptyBgText={item.title.at(0) ?? ''}
+          imageUrl={item.mainPoster?.url ?? ''}
+          size="md"
+        />
       }
       bottomRightAddOn={
         <ConcertSubscribeButton

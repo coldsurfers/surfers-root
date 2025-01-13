@@ -46,36 +46,35 @@ export const ConcertTicketListScreen = () => {
   const route = useConcertTicketListScreenRoute()
   const { concertId } = route.params
   const { data } = useSuspenseQuery({
-    queryKey: apiClient.queryKeys.concert.detail(concertId),
-    queryFn: () => apiClient.concert.getConcertDetail(concertId),
-  })
-  const { data: posterData } = useSuspenseQuery({
-    queryKey: apiClient.queryKeys.poster.listByConcertId(concertId),
-    queryFn: () => apiClient.poster.getPostersByConcertId(concertId),
-  })
-  const { data: venueData } = useSuspenseQuery({
-    queryKey: apiClient.queryKeys.venue.listByConcertId(concertId),
-    queryFn: () => apiClient.venue.getVenuesByConcertId(concertId),
+    queryKey: apiClient.event.queryKeys.detail(concertId),
+    queryFn: () => apiClient.event.getEventDetail(concertId),
   })
   const { data: ticketData } = useSuspenseQuery({
-    queryKey: apiClient.queryKeys.ticket.listByConcertId(concertId),
+    queryKey: apiClient.ticket.queryKeys.list.byConcertId(concertId),
     queryFn: () => apiClient.ticket.getTicketsByConcertId(concertId),
   })
 
+  const concertDetailData = useMemo(() => {
+    if (data.type !== 'concert') {
+      return null
+    }
+    return data.data
+  }, [data.data, data.type])
+
   const posterThumbnail = useMemo(() => {
-    return posterData?.at(0)?.url
-  }, [posterData])
+    return concertDetailData?.posters.at(0) ?? null
+  }, [concertDetailData?.posters])
   const concertTitle = useMemo(() => {
-    return data?.title
-  }, [data?.title])
+    return concertDetailData?.title ?? null
+  }, [concertDetailData?.title])
   const concertDate = useMemo(() => {
-    return data?.date
-  }, [data?.date])
+    return concertDetailData?.date ?? null
+  }, [concertDetailData?.date])
   const concertVenue = useMemo(() => {
-    return venueData?.at(0)?.name
-  }, [venueData])
+    return concertDetailData?.venues?.at(0)?.name
+  }, [concertDetailData?.venues])
   const concertTickets = useMemo(() => {
-    return ticketData ?? []
+    return ticketData
   }, [ticketData])
 
   const renderItem = useCallback<ListRenderItem<(typeof concertTickets)[number]>>(({ item }) => {
@@ -96,7 +95,7 @@ export const ConcertTicketListScreen = () => {
             concertTitle={concertTitle ?? ''}
             concertDate={concertDate ?? ''}
             concertVenue={concertVenue ?? ''}
-            posterThumbnail={posterThumbnail ?? ''}
+            posterThumbnail={posterThumbnail?.url ?? ''}
           />
         }
         bounces={false}

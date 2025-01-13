@@ -1,3 +1,5 @@
+import { components } from '@/types/api'
+
 type VenueDetailConcertListItemType = {
   date: string | null
   id: string
@@ -5,7 +7,7 @@ type VenueDetailConcertListItemType = {
 }
 
 export type VenueDetailConcertListItemProps = {
-  item: VenueDetailConcertListItemType
+  item: components['schemas']['ConcertDTOSchema']
   onPress: (item: VenueDetailConcertListItemType) => void
   onPressSubscribe: (params: { concertId: string; isSubscribed: boolean }) => void
 }
