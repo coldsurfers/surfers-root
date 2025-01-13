@@ -19,7 +19,8 @@
     "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "serverless:offline": "npx serverless offline --httpPort 3001",
     "serverless:deploy:dev": "yarn build && yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage dev",
-    "serverless:deploy:prod": "yarn build && yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage prod"
+    "serverless:deploy:prod": "yarn build && yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage prod",
+    "circular": "dpdm ./src/start-server.ts"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -64,6 +65,7 @@
     "@types/nodemailer": "^6.4.15",
     "@types/nodemailer-smtp-transport": "^2.7.8",
     "del-cli": "*",
+    "dpdm": "^3.14.0",
     "eslint": "8.57.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.0",
