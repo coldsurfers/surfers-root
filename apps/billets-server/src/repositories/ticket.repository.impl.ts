@@ -1,7 +1,11 @@
 import { TicketDTO } from '@/dtos/ticket.dto'
 import { dbClient } from '@/lib/db'
-import { Ticket } from '@prisma/client'
+import { Price, Ticket } from '@prisma/client'
 import { TicketRepository } from './ticket.repository'
+
+interface TicketModel extends Ticket {
+  prices: Price[]
+}
 
 export class TicketRepositoryImpl implements TicketRepository {
   async findManyByConcertId(concertId: string): Promise<TicketDTO[]> {
@@ -13,17 +17,35 @@ export class TicketRepositoryImpl implements TicketRepository {
           },
         },
       },
+      include: {
+        prices: {
+          include: {
+            price: true,
+          },
+        },
+      },
     })
 
-    return data.map(this.toDTO)
+    return data.map((value) =>
+      this.toDTO({
+        ...value,
+        prices: value.prices.map((price) => price.price),
+      }),
+    )
   }
 
-  private toDTO(model: Ticket): TicketDTO {
+  private toDTO(model: TicketModel): TicketDTO {
     return {
+      prices: model.prices.map((price) => ({
+        id: price.id,
+        name: price.title,
+        price: price.price,
+        currency: price.priceCurrency,
+      })),
       id: model.id,
-      openDate: model.openDate.toISOString(),
       sellerName: model.seller,
       url: model.sellingURL,
+      openDate: model.openDate.toISOString(),
     }
   }
 }

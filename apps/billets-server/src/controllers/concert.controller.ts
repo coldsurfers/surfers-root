@@ -1,4 +1,5 @@
 import {
+  ConcertDetailDTO,
   ConcertDTO,
   ConcertSearchQueryStringDTO,
   GetConcertByIdParamsDTO,
@@ -7,7 +8,9 @@ import {
 import { ErrorResponseDTO } from '@/dtos/error-response.dto'
 import geohashUtils from '@/lib/geohashUtils'
 import { LatLng } from '@/lib/types'
+import { ConcertDetailRepositoryImpl } from '@/repositories/concert-detail.repository.impl'
 import { ConcertRepositoryImpl } from '@/repositories/concert.repository.impl'
+import { ConcertDetailService } from '@/services/concert-detail.service'
 import { ConcertService } from '@/services/concert.service'
 import { RouteGenericInterface } from 'fastify'
 import { FastifyReply } from 'fastify/types/reply'
@@ -15,6 +18,8 @@ import { FastifyRequest } from 'fastify/types/request'
 
 const concertRepository = new ConcertRepositoryImpl()
 const concertService = new ConcertService(concertRepository)
+const concertDetailRepository = new ConcertDetailRepositoryImpl()
+const concertDetailService = new ConcertDetailService(concertDetailRepository)
 
 export interface ConcertListRoute extends RouteGenericInterface {
   Querystring: GetConcertListQueryStringDTO
@@ -59,7 +64,7 @@ export const concertListHandler = async (
 interface ConcertRoute extends RouteGenericInterface {
   Params: GetConcertByIdParamsDTO
   Reply: {
-    200: ConcertDTO
+    200: ConcertDetailDTO
     404: ErrorResponseDTO
     500: ErrorResponseDTO
   }
@@ -69,14 +74,14 @@ export const concertHandler = async (req: FastifyRequest<ConcertRoute>, rep: Fas
   const { id } = req.params
 
   try {
-    const concert = await concertService.getById(id)
-    if (!concert) {
+    const concertDetail = await concertDetailService.getConcertDetailById(id)
+    if (!concertDetail) {
       return rep.status(404).send({
         code: 'CONCERT_NOT_FOUND',
         message: 'concert not found',
       })
     }
-    return rep.status(200).send(concert)
+    return rep.status(200).send(concertDetail)
   } catch (e) {
     return rep.status(500).send({
       code: 'UNKNOWN',

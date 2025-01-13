@@ -1,42 +1,34 @@
 import { z } from 'zod'
+import { ArtistDTOSchema } from './artist.dto'
+import { PosterDTOSchema } from './poster.dto'
+import { VenueDTOSchema } from './venue.dto'
 
 export const ConcertDTOSchema = z.object({
   id: z.string().uuid(),
   title: z.string(),
-  date: z.string().datetime().nullable(),
-  // venues: z.array(
-  //   z.object({
-  //     id: z.string(),
-  //     venueTitle: z.string(),
-  //     latitude: z.number(),
-  //     longitude: z.number(),
-  //     address: z.string(),
-  //   }),
-  // ),
-  // artists: z.array(
-  //   z.object({
-  //     id: z.string(),
-  //     name: z.string(),
-  //     profileImageUrl: z.string(),
-  //   }),
-  // ),
-  // tickets: z.array(
-  //   z.object({
-  //     seller: z.string(),
-  //     url: z.string(),
-  //     openDate: z.string().datetime(),
-  //     prices: z.array(
-  //       z.object({
-  //         id: z.string(),
-  //         price: z.number(),
-  //         currency: z.string(),
-  //         title: z.string(),
-  //       }),
-  //     ),
-  //   }),
-  // ),
+  date: z.string().datetime(),
+  mainPoster: z
+    .object({
+      url: z.string().url(),
+    })
+    .nullable(),
+  mainVenue: z
+    .object({
+      name: z.string(),
+    })
+    .nullable(),
 })
 export type ConcertDTO = z.infer<typeof ConcertDTOSchema>
+
+export const ConcertDetailDTOSchema = z.object({
+  id: z.string().uuid(),
+  title: z.string(),
+  date: z.string().datetime(),
+  posters: PosterDTOSchema.array(),
+  venues: VenueDTOSchema.array(),
+  artists: ArtistDTOSchema.array(),
+})
+export type ConcertDetailDTO = z.infer<typeof ConcertDetailDTOSchema>
 
 export const FindManyConcertDTOSchema = z.object({
   titleContains: z.string().optional(),

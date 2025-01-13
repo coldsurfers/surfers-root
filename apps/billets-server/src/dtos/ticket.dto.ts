@@ -1,10 +1,12 @@
 import { z } from 'zod'
+import { PriceDTOSchema } from './price.dto'
 
 export const TicketDTOSchema = z.object({
   id: z.string(),
   sellerName: z.string(),
   url: z.string(),
   openDate: z.string().datetime(),
+  prices: PriceDTOSchema.array(),
 })
 export type TicketDTO = z.infer<typeof TicketDTOSchema>
 
