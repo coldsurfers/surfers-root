@@ -3421,6 +3421,7 @@ __metadata:
     date-fns: "npm:^4.1.0"
     del-cli: "npm:*"
     dotenv: "npm:^16.0.3"
+    dpdm: "npm:^3.14.0"
     eslint: "npm:8.57.0"
     fastify: "npm:*"
     fastify-plugin: "npm:^5.0.1"
@@ -19360,6 +19361,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dpdm@npm:^3.14.0":
+  version: 3.14.0
+  resolution: "dpdm@npm:3.14.0"
+  dependencies:
+    chalk: "npm:^4.1.2"
+    fs-extra: "npm:^11.1.1"
+    glob: "npm:^10.3.4"
+    ora: "npm:^5.4.1"
+    tslib: "npm:^2.6.2"
+    typescript: "npm:^5.2.2"
+    yargs: "npm:^17.7.2"
+  bin:
+    dpdm: lib/bin/dpdm.js
+  checksum: 10c0/2d98064230d68bcc545da80783e9fab0cfb62e2862173af9d3c1648144376f6f7722bfccb5df91b59ed727928ed81d104ae74b53f35565cc5079e44d4d3a706c
+  languageName: node
+  linkType: hard
+
 "dset@npm:^3.1.2":
   version: 3.1.4
   resolution: "dset@npm:3.1.4"
@@ -22329,7 +22347,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fs-extra@npm:^11.0.0, fs-extra@npm:^11.2.0":
+"fs-extra@npm:^11.0.0, fs-extra@npm:^11.1.1, fs-extra@npm:^11.2.0":
   version: 11.2.0
   resolution: "fs-extra@npm:11.2.0"
   dependencies:
@@ -22837,7 +22855,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^10.2.2, glob@npm:^10.3.10":
+"glob@npm:^10.2.2, glob@npm:^10.3.10, glob@npm:^10.3.4":
   version: 10.4.5
   resolution: "glob@npm:10.4.5"
   dependencies:
