@@ -660,6 +660,110 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/event/': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: {
+          latitude?: number
+          longitude?: number
+          offset?: number
+          size?: number
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['EventDTOSchema'][]
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/event/{eventId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          eventId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['EventDetailDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/fcm/token': {
     parameters: {
       query?: never
@@ -2045,16 +2149,31 @@ export interface components {
     ArtistDTOSchema: {
       id: string
       name: string
+      thumbUrl: string | null
     }
     ArtistProfileImageDTOSchema: {
       /** Format: uri */
       url: string
     }
-    ConcertDTOSchema: {
+    ConcertDetailDTOSchema: {
+      artists: components['schemas']['ArtistDTOSchema'][]
       /** Format: date-time */
-      date: string | null
+      date: string
       /** Format: uuid */
       id: string
+      posters: components['schemas']['ArtistProfileImageDTOSchema'][]
+      title: string
+      venues: components['schemas']['VenueDTOSchema'][]
+    }
+    ConcertDTOSchema: {
+      /** Format: date-time */
+      date: string
+      /** Format: uuid */
+      id: string
+      mainPoster: components['schemas']['ArtistProfileImageDTOSchema'] | null
+      mainVenue: {
+        name: string
+      } | null
       title: string
     }
     ConfirmAuthCodeResponseDTOSchema: {
@@ -2089,7 +2208,28 @@ export interface components {
         | 'EMAIL_AUTH_REQUEST_ALREADY_AUTHENTICATED'
         | 'EMAIL_AUTH_REQUEST_TIMEOUT'
         | 'UNKNOWN'
+        | 'EVENT_NOT_FOUND'
       message: string
+    }
+    EventDetailDTOSchema: {
+      data: {
+        artists: components['schemas']['ArtistDTOSchema'][]
+        /** Format: date-time */
+        date: string
+        /** Format: uuid */
+        id: string
+        posters: components['schemas']['ArtistProfileImageDTOSchema'][]
+        ticketPromotion: components['schemas']['TicketPromotionDTOSchema'] | null
+        title: string
+        venues: components['schemas']['VenueDTOSchema'][]
+      }
+      /** @enum {string} */
+      type: 'concert'
+    }
+    EventDTOSchema: {
+      data: components['schemas']['ConcertDTOSchema']
+      /** @enum {string} */
+      type: 'concert'
     }
     FCMTokenDTOSchema: {
       id: string
@@ -2142,6 +2282,15 @@ export interface components {
       id: string
       /** Format: date-time */
       openDate: string
+      prices: components['schemas']['PriceDTOSchema'][]
+      sellerName: string
+      url: string
+    }
+    TicketPromotionDTOSchema: {
+      id: string
+      /** Format: date-time */
+      openDate: string
+      price: components['schemas']['PriceDTOSchema'] | null
       sellerName: string
       url: string
     }
@@ -2160,7 +2309,7 @@ export interface components {
       user: components['schemas']['UserDTOSchema']
     }
     VenueDTOSchema: {
-      address: string | null
+      address: string
       id: string
       lat: number
       lng: number

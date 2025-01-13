@@ -36,6 +36,7 @@ export const ArtistSubscribeButton = ({ artistId, onShouldLogin, style, size = '
       const newSubscribeArtist: components['schemas']['ArtistDTOSchema'] = {
         id: artistId,
         name: '',
+        thumbUrl: '',
       }
       queryClient.setQueryData<components['schemas']['ArtistDTOSchema']>(
         apiClient.queryKeys.subscribe.artist.detail(artistId),
