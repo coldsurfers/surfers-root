@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { ConcertDetailDTOSchema, ConcertDTOSchema } from './concert.dto'
+import { TicketPromotionDTOSchema } from './ticket.dto'
 
 export const EventDTOSchema = z.discriminatedUnion('type', [
   z.object({
@@ -13,12 +14,7 @@ export const EventDetailDTOSchema = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('concert'),
     data: ConcertDetailDTOSchema.extend({
-      ticketPromotion: z
-        .object({
-          seller: z.string(),
-          formattedPrice: z.string(),
-        })
-        .nullable(),
+      ticketPromotion: TicketPromotionDTOSchema.nullable(),
     }),
   }),
 ])

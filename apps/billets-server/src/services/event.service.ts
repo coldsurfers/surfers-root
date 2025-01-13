@@ -1,6 +1,6 @@
 import { FindManyConcertDTO } from '@/dtos/concert.dto'
 import { EventDetailDTO, EventDTO } from '@/dtos/event.dto'
-import { formatPrice, getCheapestPrice } from '@/lib/utils/utils.price'
+import { getCheapestPrice } from '@/lib/utils/utils.price'
 import { ConcertDetailService } from './concert-detail.service'
 import { ConcertService } from './concert.service'
 import { TicketService } from './ticket.service'
@@ -43,11 +43,9 @@ export class EventService {
       const ticketPromotes = tickets.map((ticket) => {
         const { prices } = ticket
         const cheapestPrice = getCheapestPrice(prices)
-        const formattedPrice = cheapestPrice ? formatPrice(cheapestPrice) : ''
         return {
-          seller: ticket.sellerName,
-          sellingURL: ticket.url,
-          formattedLowestPrice: formattedPrice,
+          ticket: ticket,
+          price: cheapestPrice,
         }
       })
       const mainTicketPromote = ticketPromotes.at(0)
@@ -57,8 +55,11 @@ export class EventService {
           ...concertDetail,
           ticketPromotion: mainTicketPromote
             ? {
-                formattedPrice: mainTicketPromote.formattedLowestPrice,
-                seller: mainTicketPromote.seller,
+                id: mainTicketPromote.ticket.id,
+                url: mainTicketPromote.ticket.url,
+                sellerName: mainTicketPromote.ticket.sellerName,
+                openDate: mainTicketPromote.ticket.openDate,
+                price: mainTicketPromote.price,
               }
             : null,
         },
