@@ -1,4 +1,5 @@
-import { ArtistDTO, GetArtistByIdParamsDTO } from '@/dtos/artist.dto'
+import { ArtistDetailDTO } from '@/dtos/artist-detail.dto'
+import { GetArtistByIdParamsDTO } from '@/dtos/artist.dto'
 import { ErrorResponseDTO } from '@/dtos/error-response.dto'
 import { ArtistDetailRepositoryImpl } from '@/repositories/artist-detail.repository.impl'
 import { ArtistDetailService } from '@/services/artist-detail.service'
@@ -12,7 +13,7 @@ const artistDetailService = new ArtistDetailService(artistDetailRepository)
 interface GetArtistByIdRoute extends RouteGenericInterface {
   Params: GetArtistByIdParamsDTO
   Reply: {
-    200: ArtistDTO
+    200: ArtistDetailDTO
     404: ErrorResponseDTO
     500: ErrorResponseDTO
   }
