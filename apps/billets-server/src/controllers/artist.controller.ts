@@ -1,25 +1,13 @@
-import {
-  ArtistDTO,
-  GetArtistByIdParamsDTO,
-  GetArtistsByConcertIdParamsDTO,
-  GetConcertListByArtistIdParamsDTO,
-  GetConcertListByArtistIdQueryStringDTO,
-} from '@/dtos/artist.dto'
-import { ConcertDTO } from '@/dtos/concert.dto'
+import { ArtistDTO, GetArtistByIdParamsDTO } from '@/dtos/artist.dto'
 import { ErrorResponseDTO } from '@/dtos/error-response.dto'
-import { ArtistRepositoryImpl } from '@/repositories/artist.repository.impl'
-import { ConcertRepositoryImpl } from '@/repositories/concert.repository.impl'
-import { ArtistService } from '@/services/artist.service'
-import { ConcertService } from '@/services/concert.service'
+import { ArtistDetailRepositoryImpl } from '@/repositories/artist-detail.repository.impl'
+import { ArtistDetailService } from '@/services/artist-detail.service'
 import { RouteGenericInterface } from 'fastify'
 import { FastifyReply } from 'fastify/types/reply'
 import { FastifyRequest } from 'fastify/types/request'
 
-const artistRepository = new ArtistRepositoryImpl()
-const artistService = new ArtistService(artistRepository)
-
-const concertRepository = new ConcertRepositoryImpl()
-const concertService = new ConcertService(concertRepository)
+const artistDetailRepository = new ArtistDetailRepositoryImpl()
+const artistDetailService = new ArtistDetailService(artistDetailRepository)
 
 interface GetArtistByIdRoute extends RouteGenericInterface {
   Params: GetArtistByIdParamsDTO
@@ -36,7 +24,7 @@ export const getArtistByIdHandler = async (
 ) => {
   try {
     const { id: artistId } = req.params
-    const artist = await artistService.findById(artistId)
+    const artist = await artistDetailService.getArtistDetail(artistId)
     if (!artist) {
       return rep.status(404).send({
         code: 'ARTIST_NOT_FOUND',
@@ -46,60 +34,6 @@ export const getArtistByIdHandler = async (
     return rep.status(200).send(artist)
   } catch (e) {
     console.error(e)
-    return rep.status(500).send({
-      code: 'UNKNOWN',
-      message: 'internal server error',
-    })
-  }
-}
-
-interface GetConcertListByArtistIdRoute extends RouteGenericInterface {
-  Params: GetConcertListByArtistIdParamsDTO
-  Querystring: GetConcertListByArtistIdQueryStringDTO
-  Reply: {
-    200: ConcertDTO[]
-    500: ErrorResponseDTO
-  }
-}
-
-export const getConcertListByArtistIdHandler = async (
-  req: FastifyRequest<GetConcertListByArtistIdRoute>,
-  rep: FastifyReply<GetConcertListByArtistIdRoute>,
-) => {
-  try {
-    const { artistId } = req.params
-    const { offset, size } = req.query
-    const concerts = await concertService.getManyByArtistId({
-      artistId,
-      orderBy: 'latest',
-      take: +size,
-      skip: +offset,
-    })
-    return rep.status(200).send(concerts)
-  } catch (e) {
-    return rep.status(500).send({
-      code: 'UNKNOWN',
-      message: 'internal server error',
-    })
-  }
-}
-
-interface GetArtistsByConcertIdRoute extends RouteGenericInterface {
-  Params: GetArtistsByConcertIdParamsDTO
-  Reply: {
-    200: ArtistDTO[]
-    500: ErrorResponseDTO
-  }
-}
-
-export const getArtistsByConcertIdHandler = async (
-  req: FastifyRequest<GetArtistsByConcertIdRoute>,
-  rep: FastifyReply<GetArtistsByConcertIdRoute>,
-) => {
-  try {
-    const data = await artistService.getManyByConcertId(req.params.concertId)
-    return rep.status(200).send(data)
-  } catch (e) {
     return rep.status(500).send({
       code: 'UNKNOWN',
       message: 'internal server error',
