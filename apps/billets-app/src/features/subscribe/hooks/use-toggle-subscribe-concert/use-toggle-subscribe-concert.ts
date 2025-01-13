@@ -20,6 +20,8 @@ export const useToggleSubscribeConcert = () => {
         id: concertId,
         date: '',
         title: '',
+        mainPoster: null,
+        mainVenue: null,
       } satisfies components['schemas']['ConcertDTOSchema']
       await queryClient.setQueryData(apiClient.queryKeys.subscribe.concert.detail(concertId), newSubscribedConcert)
 
