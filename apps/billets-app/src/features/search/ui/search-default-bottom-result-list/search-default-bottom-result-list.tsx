@@ -1,6 +1,7 @@
 import { useKeyboard } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
 import { useSearchScreenNavigation } from '@/screens/search-screen/search-screen.hooks'
+import { components } from '@/types/api'
 import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { BottomSheetFlatList } from '@gorhom/bottom-sheet'
 import { useFocusEffect } from '@react-navigation/native'
@@ -12,31 +13,19 @@ import { SearchItem } from '../search-item'
 import { SearchItemThumbnail } from '../search-item-thumbnail'
 
 const FetchSearchConcertItem = ({
-  title,
-  subtitle,
+  item,
   onPress,
-  concertId,
 }: {
-  title: string
-  subtitle: string
+  item: components['schemas']['ConcertDTOSchema']
   onPress: () => void
-  concertId: string
 }) => {
-  const { data: posters } = useQuery({
-    queryKey: apiClient.queryKeys.poster.listByConcertId(concertId),
-    queryFn: () => apiClient.poster.getPostersByConcertId(concertId),
-  })
-  const { data: venues } = useQuery({
-    queryKey: apiClient.queryKeys.venue.listByConcertId(concertId),
-    queryFn: () => apiClient.venue.getVenuesByConcertId(concertId),
-  })
   return (
     <SearchItem
       type="concert"
-      thumbnail={<SearchItemThumbnail type="square" uri={posters?.at(0)?.url ?? ''} />}
-      title={title}
-      subtitle={subtitle}
-      description={venues?.at(0)?.name ?? ''}
+      thumbnail={<SearchItemThumbnail type="square" uri={item.mainPoster?.url ?? ''} />}
+      title={item.title}
+      subtitle={format(new Date(item.date), 'yyyy.MM.dd')}
+      description={item.mainVenue?.name ?? ''}
       onPress={onPress}
     />
   )
@@ -47,12 +36,18 @@ export const SearchDefaultBottomResultList = ({ latitude, longitude }: { latitud
   const { bottomPadding } = useKeyboard()
   const navigation = useSearchScreenNavigation()
   const { data: concertList } = useQuery({
-    queryKey: apiClient.queryKeys.concert.list.byLocation({ latitude, longitude }),
-    queryFn: () => apiClient.concert.getConcerts({ latitude, longitude, offset: 0, size: 20 }),
+    queryKey: apiClient.event.queryKeys.list.byLocation({ latitude, longitude }),
+    queryFn: () => apiClient.event.getEvents({ latitude, longitude, offset: 0, size: 20 }),
     refetchOnWindowFocus: false,
   })
   const concertListUIData = useMemo(() => {
-    return concertList ?? []
+    return (
+      concertList
+        ?.filter((value) => value.type === 'concert')
+        .map((value) => {
+          return value.data
+        }) ?? []
+    )
   }, [concertList])
 
   const renderConcertListItem: ListRenderItem<(typeof concertListUIData)[number]> = useCallback(
@@ -63,14 +58,7 @@ export const SearchDefaultBottomResultList = ({ latitude, longitude }: { latitud
           params: { concertId: value.id },
         })
       }
-      return (
-        <FetchSearchConcertItem
-          title={value.title}
-          subtitle={format(value.date ? new Date(value.date) : new Date(), 'EEE, MMM dd')}
-          onPress={onPress}
-          concertId={value.id}
-        />
-      )
+      return <FetchSearchConcertItem item={value} onPress={onPress} />
     },
     [navigation],
   )

@@ -10,7 +10,7 @@ export const VenueDetailTop = ({ venueId }: { venueId: string }) => {
   const { semantics } = useColorScheme()
   const navigation = useVenueDetailScreenNavigation()
   const { data: venueDetail, isLoading: isLoadingVenueDetail } = useSuspenseQuery({
-    queryKey: apiClient.queryKeys.venue.detail(venueId),
+    queryKey: apiClient.venue.queryKeys.detail(venueId),
     queryFn: () => apiClient.venue.getVenueDetail(venueId),
   })
   return (
