@@ -49,7 +49,7 @@ export function SubscribedConcertList({
     ({ item }) => {
       return (
         <Suspense fallback={<ConcertListItem.Skeleton size={horizontal ? 'small' : 'large'} />}>
-          <SubscribedConcertListItem concertId={item.id} onPress={onPressItem} size={horizontal ? 'small' : 'large'} />
+          <SubscribedConcertListItem data={item} onPress={onPressItem} size={horizontal ? 'small' : 'large'} />
         </Suspense>
       )
     },
