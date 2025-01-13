@@ -44,6 +44,7 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
+import { ArtistDetailDTOSchema } from './dtos/artist-detail.dto'
 
 dotenv.config()
 
@@ -161,6 +162,7 @@ app.register(fastifySwagger, {
       EventDTOSchema,
       EventDetailDTOSchema,
       TicketPromotionDTOSchema,
+      ArtistDetailDTOSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
