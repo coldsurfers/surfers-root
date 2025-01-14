@@ -38,34 +38,6 @@ export class VenueRepositoryImpl implements VenueRepository {
     return subscribedVenue ? this.toDTO(subscribedVenue.venue) : null
   }
 
-  async subscribe(params: { venueId: string; userId: string }): Promise<VenueDTO> {
-    const data = await dbClient.usersOnSubscribedVenues.create({
-      data: {
-        userId: params.userId,
-        venueId: params.venueId,
-      },
-      include: {
-        venue: true,
-      },
-    })
-    return this.toDTO(data.venue)
-  }
-
-  async unsubscribe(params: { venueId: string; userId: string }): Promise<VenueDTO> {
-    const data = await dbClient.usersOnSubscribedVenues.delete({
-      where: {
-        userId_venueId: {
-          userId: params.userId,
-          venueId: params.venueId,
-        },
-      },
-      include: {
-        venue: true,
-      },
-    })
-    return this.toDTO(data.venue)
-  }
-
   private toDTO(model: Venue): VenueDTO {
     return {
       id: model.id,
