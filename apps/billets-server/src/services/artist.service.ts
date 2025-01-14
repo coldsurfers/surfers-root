@@ -14,13 +14,4 @@ export class ArtistService {
   async getManyByConcertId(concertId: string): Promise<ArtistDTO[]> {
     return this.artistRepository.findManyByConcertId(concertId)
   }
-  async getSubscribedArtist(params: { artistId: string; userId: string }): Promise<ArtistDTO | null> {
-    return this.artistRepository.findSubscribedArtist(params)
-  }
-  async subscribe(params: { userId: string; artistId: string }): Promise<ArtistDTO> {
-    return this.artistRepository.subscribe(params)
-  }
-  async unsubscribe(params: { userId: string; artistId: string }): Promise<ArtistDTO> {
-    return this.artistRepository.unsubscribe(params)
-  }
 }
