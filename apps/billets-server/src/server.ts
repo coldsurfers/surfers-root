@@ -20,7 +20,6 @@ import { jwtPlugin } from '@/plugins'
 import artistProfileImageRoute from '@/routes/artist-profile-image.route'
 import artistRoute from '@/routes/artist.route'
 import authRoute from '@/routes/auth.route'
-import copyrightRoute from '@/routes/copyright.route'
 import eventRoute from '@/routes/event.route'
 import fcmRoute from '@/routes/fcm.route'
 import locationRoute from '@/routes/location.route'
@@ -45,6 +44,8 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 import { ArtistDetailDTOSchema } from './dtos/artist-detail.dto'
+import { ArtistProfileImageDetailDTOSchema } from './dtos/artist-profile-image-detail.dto'
+import { PosterDetailDTOSchema } from './dtos/poster-detail.dto'
 
 dotenv.config()
 
@@ -163,6 +164,8 @@ app.register(fastifySwagger, {
       EventDetailDTOSchema,
       TicketPromotionDTOSchema,
       ArtistDetailDTOSchema,
+      PosterDetailDTOSchema,
+      ArtistProfileImageDetailDTOSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
@@ -195,7 +198,6 @@ app.register(locationRoute, { prefix: '/v1/location' })
 app.register(mailerRoute, { prefix: '/v1/mailer' })
 app.register(posterRoute, { prefix: '/v1/poster' })
 app.register(artistProfileImageRoute, { prefix: '/v1/artist-profile-image' })
-app.register(copyrightRoute, { prefix: '/v1/copyright' })
 app.register(ticketRoute, { prefix: '/v1/ticket' })
 app.register(priceRoute, { prefix: '/v1/price' })
 app.register(eventRoute, { prefix: '/v1/event' })

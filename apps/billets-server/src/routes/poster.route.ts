@@ -1,5 +1,6 @@
-import { getPostersByEventIdHandler } from '@/controllers/poster.controller'
+import { getPosterDetailByPosterIdHandler, getPostersByEventIdHandler } from '@/controllers/poster.controller'
 import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
+import { GetPosterDetailByPosterIdParamsDTOSchema, PosterDetailDTOSchema } from '@/dtos/poster-detail.dto'
 import { GetPostersByEventIdQueryStringDTOSchema, PosterDTOSchema } from '@/dtos/poster.dto'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
@@ -18,6 +19,21 @@ const posterRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
     },
     getPostersByEventIdHandler,
+  )
+  fastify.withTypeProvider<ZodTypeProvider>().get(
+    '/:posterId',
+    {
+      schema: {
+        tags: ['v1', 'poster'],
+        params: GetPosterDetailByPosterIdParamsDTOSchema,
+        response: {
+          200: PosterDetailDTOSchema,
+          404: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
+        },
+      },
+    },
+    getPosterDetailByPosterIdHandler,
   )
   done()
 }

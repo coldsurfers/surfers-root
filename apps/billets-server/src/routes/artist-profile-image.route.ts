@@ -1,7 +1,14 @@
-import { getArtistProfileImagesByArtistIdHandler } from '@/controllers/artist-profile-image.controller'
+import {
+  GetArtistProfileImageDetailHandler,
+  getArtistProfileImagesByArtistIdHandler,
+} from '@/controllers/artist-profile-image.controller'
+import {
+  ArtistProfileImageDetailDTOSchema,
+  GetArtistProfileImageDetailParamsDTOSchema,
+} from '@/dtos/artist-profile-image-detail.dto'
 import {
   ArtistProfileImageDTOSchema,
-  GetArtistProfileImagesByArtistIdParamsDTOSchema,
+  GetArtistProfileImagesByArtistIdQueryStringDTOSchema,
 } from '@/dtos/artist-profile-image.dto'
 import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
@@ -9,11 +16,11 @@ import { FastifyPluginCallback } from 'fastify/types/plugin'
 
 const artistProfileImageRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
-    '/artist/:artistId',
+    '/',
     {
       schema: {
         tags: ['v1', 'artist-profile-image'],
-        params: GetArtistProfileImagesByArtistIdParamsDTOSchema,
+        querystring: GetArtistProfileImagesByArtistIdQueryStringDTOSchema,
         response: {
           200: ArtistProfileImageDTOSchema.array(),
           500: ErrorResponseDTOSchema,
@@ -21,6 +28,21 @@ const artistProfileImageRoute: FastifyPluginCallback = (fastify, opts, done) => 
       },
     },
     getArtistProfileImagesByArtistIdHandler,
+  )
+  fastify.withTypeProvider<ZodTypeProvider>().get(
+    '/:artistProfileImageId',
+    {
+      schema: {
+        tags: ['v1', 'artist-profile-image'],
+        params: GetArtistProfileImageDetailParamsDTOSchema,
+        response: {
+          200: ArtistProfileImageDetailDTOSchema,
+          404: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
+        },
+      },
+    },
+    GetArtistProfileImageDetailHandler,
   )
   done()
 }

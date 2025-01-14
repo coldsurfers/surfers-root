@@ -60,6 +60,7 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
       title: model.title,
       date: model.date.toISOString(),
       posters: model.posters.map((poster) => ({
+        id: poster.id,
         url: poster.imageURL,
       })),
       venues: model.venues.map((venue) => ({
