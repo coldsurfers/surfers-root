@@ -1,6 +1,6 @@
 import { apiClient } from '@/lib/api/openapi-client'
 import { components } from '@/types/api'
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { ConcertListItem } from '../../../concert/ui'
 
 export function SubscribedConcertListItem({
@@ -12,7 +12,7 @@ export function SubscribedConcertListItem({
   onPress: (concertId: string) => void
   size?: 'small' | 'large'
 }) {
-  const { data: eventDetailData } = useQuery({
+  const { data: eventDetailData } = useSuspenseQuery({
     queryKey: apiClient.event.queryKeys.detail({ eventId: data.eventId }),
     queryFn: () => apiClient.event.getDetail({ eventId: data.eventId }),
   })

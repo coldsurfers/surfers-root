@@ -89,7 +89,7 @@ export const ConcertList = forwardRef<FlatList, ConcertListProps>(
             <CommonListEmpty emptyText={`🥺\n앗,\n해당하는\n위치에\n공연 정보가 없어요!`} />
           )
         }
-        ListFooterComponent={isFetchingNextPage ? <Spinner /> : null}
+        ListFooterComponent={isFetchingNextPage ? <Spinner size="medium" /> : null}
         refreshControl={
           <RefreshControl
             refreshing={isRefreshing}
