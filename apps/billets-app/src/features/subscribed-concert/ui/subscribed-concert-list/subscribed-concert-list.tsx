@@ -1,11 +1,14 @@
 import { ConcertListItem } from '@/features/concert'
+import { apiClient } from '@/lib/api/openapi-client'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useMemo, useState } from 'react'
 import { FlatList, ListRenderItem, View } from 'react-native'
-import useSubscribedConcertListQuery from '../../../../lib/react-query/queries/useSubscribedConcertListQuery'
 import { SubscribedConcertListItem } from '../subscribed-concert-list-item'
 import { subscribedConcertListStyles } from './subscribed-concert-list.styles'
 
 const ItemSeparator = () => <View style={subscribedConcertListStyles.itemSeparator} />
+
+const PER_PAGE = 20
 
 export function SubscribedConcertList({
   onPressItem,
@@ -25,19 +28,28 @@ export function SubscribedConcertList({
     hasNextPage,
     isPending,
     refetch,
-  } = useSubscribedConcertListQuery()
+  } = useInfiniteQuery({
+    initialPageParam: 0,
+    queryKey: apiClient.subscribe.queryKeys.eventList({}),
+    queryFn: ({ pageParam = 0 }) => apiClient.subscribe.getEventList({ offset: pageParam, size: PER_PAGE }),
+    getNextPageParam: (lastPage, allPages) => {
+      if (!lastPage) {
+        return undefined
+      }
+      if (lastPage.length < PER_PAGE) {
+        return undefined
+      }
+      return allPages.length * PER_PAGE
+    },
+  })
   const listData = useMemo(() => {
-    return concertListData?.pages.flatMap((page) => page).filter((v) => !!v) ?? []
+    return concertListData?.pages.flat() ?? []
   }, [concertListData])
   const renderItem = useCallback<ListRenderItem<(typeof listData)[number]>>(
-    (info) => {
+    ({ item }) => {
       return (
         <Suspense fallback={<ConcertListItem.Skeleton size={horizontal ? 'small' : 'large'} />}>
-          <SubscribedConcertListItem
-            concertId={info.item.concertId}
-            onPress={onPressItem}
-            size={horizontal ? 'small' : 'large'}
-          />
+          <SubscribedConcertListItem data={item} onPress={onPressItem} size={horizontal ? 'small' : 'large'} />
         </Suspense>
       )
     },
@@ -64,7 +76,7 @@ export function SubscribedConcertList({
     <FlatList
       horizontal={horizontal}
       data={listData}
-      keyExtractor={(item, index) => `${item.concertId}-${index}`}
+      keyExtractor={(item) => `${item.eventId}`}
       renderItem={renderItem}
       ItemSeparatorComponent={ItemSeparator}
       contentContainerStyle={subscribedConcertListStyles.contentContainer}

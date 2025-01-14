@@ -12,11 +12,11 @@ export const useMapPoints = ({ mapRegionWithZoomLevel }: { mapRegionWithZoomLeve
     {
       params: {
         query: {
-          latitude: `${mapRegionWithZoomLevel.latitude}`,
-          latitudeDelta: `${mapRegionWithZoomLevel.latitudeDelta}`,
-          longitude: `${mapRegionWithZoomLevel.longitude}`,
-          longitudeDelta: `${mapRegionWithZoomLevel.longitudeDelta}`,
-          zoomLevel: `${mapRegionWithZoomLevel.zoomLevel}`,
+          latitude: mapRegionWithZoomLevel.latitude,
+          latitudeDelta: mapRegionWithZoomLevel.latitudeDelta,
+          longitude: mapRegionWithZoomLevel.longitude,
+          longitudeDelta: mapRegionWithZoomLevel.longitudeDelta,
+          zoomLevel: mapRegionWithZoomLevel.zoomLevel,
         },
       },
     },

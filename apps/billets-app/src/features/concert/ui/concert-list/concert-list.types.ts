@@ -1,11 +1,3 @@
-export type ConcertListItemT = {
-  date: string
-  id: string
-  posters: {
-    imageUrl: string
-  }[]
-  title: string
-  venues: {
-    venueTitle: string
-  }[]
-}
+import { components } from '@/types/api'
+
+export type ConcertListItemType = components['schemas']['ConcertDTOSchema']

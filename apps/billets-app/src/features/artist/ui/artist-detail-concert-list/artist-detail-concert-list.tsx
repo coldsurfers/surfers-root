@@ -1,4 +1,5 @@
-import { useArtistConcertListQuery } from '@/lib/react-query'
+import { apiClient } from '@/lib/api/openapi-client'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
 import { ActivityIndicator, FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -15,20 +16,17 @@ export const ArtistDetailConcertList = ({
   onPressArtistProfile?: () => void
 }) => {
   const { bottom: bottomInset, top: topInset } = useSafeAreaInsets()
-  const {
-    data: artistConcertList,
-    isPending: isPendingArtistConcertList,
-    isFetchingNextPage: isFetchingNextPageArtistConcerList,
-    hasNextPage: hasNextPageArtistConcertList,
-    fetchNextPage: fetchNextPageArtistConcertList,
-  } = useArtistConcertListQuery({
-    artistId,
+  const { data: artistDetailData, isLoading: isLoadingArtistDetailData } = useSuspenseQuery({
+    queryKey: apiClient.artist.queryKeys.detail(artistId),
+    queryFn: () => apiClient.artist.getArtistDetail(artistId),
   })
   const artistConcertListUIData = useMemo(() => {
-    return artistConcertList?.pages.flat() ?? []
-  }, [artistConcertList?.pages])
-
-  const isInitialLoading = isPendingArtistConcertList
+    return artistDetailData.upcomingEvents
+      .filter((value) => value.type === 'concert')
+      .map((value) => {
+        return value.data
+      })
+  }, [artistDetailData.upcomingEvents])
 
   const renderItem = useCallback<ListRenderItem<(typeof artistConcertListUIData)[number]>>(
     (info) => {
@@ -37,19 +35,7 @@ export const ArtistDetailConcertList = ({
     [onPressItem],
   )
 
-  const onEndReached = useCallback(async () => {
-    if (isPendingArtistConcertList || isFetchingNextPageArtistConcerList || !hasNextPageArtistConcertList) {
-      return
-    }
-    await fetchNextPageArtistConcertList()
-  }, [
-    fetchNextPageArtistConcertList,
-    hasNextPageArtistConcertList,
-    isFetchingNextPageArtistConcerList,
-    isPendingArtistConcertList,
-  ])
-
-  if (isInitialLoading) {
+  if (isLoadingArtistDetailData) {
     return (
       <View style={styles.loading}>
         <ActivityIndicator animating />
@@ -67,7 +53,6 @@ export const ArtistDetailConcertList = ({
         styles.contentContainer,
         { paddingBottom: bottomInset ? bottomInset : 12, paddingTop: topInset ? topInset : 12 },
       ]}
-      onEndReached={onEndReached}
     />
   )
 }

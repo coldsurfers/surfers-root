@@ -1,7 +1,8 @@
-import { useArtistDetailQuery } from '@/lib/react-query'
+import { apiClient } from '@/lib/api/openapi-client'
 import { CommonImageViewer } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Modal, Text } from '@coldsurfers/ocean-road/native'
+import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -16,17 +17,33 @@ export const ArtistProfileImageModal = ({
   artistId: string
 }) => {
   const { top: topInset } = useSafeAreaInsets()
-  const { data, isLoading } = useArtistDetailQuery({ id: artistId })
-  const firstImage = useMemo(() => {
-    return data?.artistProfileImage.at(0)
-  }, [data?.artistProfileImage])
-  const firstImageCaption = useMemo(() => {
-    if (!firstImage?.copyright) {
-      return undefined
+  const { data: artistProfileImages, isLoading } = useQuery({
+    queryKey: apiClient.artistProfileImage.queryKeys.list({ artistId }),
+    queryFn: () => apiClient.artistProfileImage.getList({ artistId }),
+  })
+  const mainProfileImage = useMemo(() => {
+    return artistProfileImages?.at(0) ?? null
+  }, [artistProfileImages])
+  const { data: artistProfileImageDetail } = useQuery({
+    queryKey: mainProfileImage?.id
+      ? apiClient.artistProfileImage.queryKeys.detail({ artistProfileImageId: mainProfileImage.id })
+      : [],
+    queryFn: () => {
+      if (mainProfileImage?.id) {
+        return apiClient.artistProfileImage.getDetail({ artistProfileImageId: mainProfileImage.id })
+      }
+      return null
+    },
+    enabled: !!mainProfileImage?.id,
+  })
+  const copyrightCaptionText = useMemo(() => {
+    if (!artistProfileImageDetail || !artistProfileImageDetail.copyright) {
+      return ''
     }
-    const { license, owner, licenseURL } = firstImage.copyright
+
+    const { license, owner, licenseURL } = artistProfileImageDetail.copyright
     return `© ${owner}, ${license} (${licenseURL}).`
-  }, [firstImage?.copyright])
+  }, [artistProfileImageDetail])
 
   return (
     <Modal visible={visible}>
@@ -49,7 +66,7 @@ export const ArtistProfileImageModal = ({
             <Text style={styles.imageViewerCloseText}>닫기</Text>
           </Pressable>
           <View style={styles.imageContainer}>
-            <CommonImageViewer imageUri={firstImage?.imageURL ?? ''} caption={firstImageCaption} />
+            <CommonImageViewer imageUri={mainProfileImage?.url ?? ''} caption={copyrightCaptionText} />
           </View>
         </View>
       )}
