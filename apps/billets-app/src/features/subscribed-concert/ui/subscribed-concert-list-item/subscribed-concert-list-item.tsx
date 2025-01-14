@@ -1,39 +1,42 @@
-import format from 'date-fns/format'
-import { useMemo } from 'react'
-import useConcertQuery from '../../../../lib/react-query/queries/useConcertQuery'
+import { apiClient } from '@/lib/api/openapi-client'
+import { components } from '@/types/api'
+import { useQuery } from '@tanstack/react-query'
 import { ConcertListItem } from '../../../concert/ui'
 
 export function SubscribedConcertListItem({
-  concertId,
+  data,
   onPress,
   size = 'small',
 }: {
-  concertId: string
+  data: components['schemas']['EventSubscribeDTOSchema']
   onPress: (concertId: string) => void
   size?: 'small' | 'large'
 }) {
-  const { data: concertData } = useConcertQuery({
-    concertId,
+  const { data: eventDetailData } = useQuery({
+    queryKey: apiClient.event.queryKeys.detail({ eventId: data.eventId }),
+    queryFn: () => apiClient.event.getDetail({ eventId: data.eventId }),
   })
-
-  const date = useMemo(() => {
-    if (!concertData) {
-      return ''
-    }
-    return format(new Date(concertData.date), 'EEE, MMM d')
-  }, [concertData])
-
-  if (!concertData) {
+  if (!eventDetailData || eventDetailData.type !== 'concert') {
     return null
   }
-
+  const mainPoster = eventDetailData.data.posters.at(0)
+  const mainVenue = eventDetailData.data.venues.at(0)
+  if (!mainPoster || !mainVenue) {
+    return null
+  }
   return (
     <ConcertListItem
-      concertId={concertData.id}
-      thumbnailUrl={concertData.posters.at(0)?.imageUrl ?? ''}
-      title={concertData.title}
-      date={date}
-      venue={concertData.venues.at(0)?.venueTitle}
+      data={{
+        id: eventDetailData.data.id,
+        title: eventDetailData.data.title,
+        date: eventDetailData.data.date,
+        mainPoster: {
+          url: mainPoster.url,
+        },
+        mainVenue: {
+          name: mainVenue.name,
+        },
+      }}
       onPress={onPress}
       size={size}
     />
