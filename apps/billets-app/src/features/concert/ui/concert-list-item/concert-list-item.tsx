@@ -115,7 +115,7 @@ ConcertListItem.Skeleton = ({ size = 'large' }: { size?: 'small' | 'large' }) =>
           styles.concertThumbnail,
           styles.skeletonBackground,
           {
-            backgroundColor: semantics.background[1],
+            backgroundColor: semantics.background[2],
           },
         ]}
       />
@@ -125,17 +125,17 @@ ConcertListItem.Skeleton = ({ size = 'large' }: { size?: 'small' | 'large' }) =>
             style={[
               styles.skeletonTitle,
               {
-                backgroundColor: semantics.background[1],
+                backgroundColor: semantics.background[2],
               },
             ]}
           />
-          {size === 'small' && <View style={styles.skeletonTitle} />}
+          {size === 'small' && <View style={[styles.skeletonTitle, { backgroundColor: semantics.background[2] }]} />}
           <View
             style={[
               styles.skeletonSubtitle,
               {
                 marginTop: size === 'small' ? 4 : 8,
-                backgroundColor: semantics.background[1],
+                backgroundColor: semantics.background[2],
               },
             ]}
           />
@@ -179,6 +179,7 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 24,
     borderRadius: 8,
+    marginTop: 4,
   },
   skeletonSubtitle: {
     width: '20%',

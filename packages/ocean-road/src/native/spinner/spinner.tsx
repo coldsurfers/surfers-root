@@ -5,15 +5,15 @@ import { ColorValue, StyleProp, StyleSheet, View, ViewStyle } from 'react-native
 import Reanimated, { useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated'
 import { colors } from '../../tokens'
 
-const AnimatedView = Reanimated.View
+const AnimatedLoaderIcon = Reanimated.createAnimatedComponent(LoaderCircle)
 
-const LoaderIcon = styled(LoaderCircle)`
+const LoaderIcon = styled(AnimatedLoaderIcon)`
   color: ${colors.oc.cyan[5].value};
 `
 
 interface Props {
   positionCenter?: boolean
-  size?: number | 'small' | 'large'
+  size?: number | 'small' | 'large' | 'medium'
   color?: ColorValue
   style?: StyleProp<ViewStyle>
 }
@@ -34,6 +34,8 @@ export const Spinner = ({ positionCenter = false, size = 'large', color, style }
         return 42
       case 'small':
         return 20
+      case 'medium':
+        return 32
       default:
         return 42
     }
@@ -58,9 +60,9 @@ export const Spinner = ({ positionCenter = false, size = 'large', color, style }
         style,
       ]}
     >
-      <AnimatedView style={animatedStyle}>
-        <LoaderIcon size={sizeNumber} color={color} />
-      </AnimatedView>
+      <View style={styles.animationWrapper}>
+        <LoaderIcon size={sizeNumber} color={color} style={animatedStyle} />
+      </View>
     </View>
   )
 }
@@ -78,4 +80,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  animationWrapper: { justifyContent: 'center', alignItems: 'center' },
 })
