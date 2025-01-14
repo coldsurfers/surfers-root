@@ -1,14 +1,31 @@
-import { ArtistDTO, SubscribeArtistBodyDTO, UnsubscribeArtistBodyDTO } from '@/dtos/artist.dto'
-import { GetSubscribeCommonParamsDTO } from '@/dtos/common.dto'
-import { ConcertDTO, GetSubscribedConcertListQueryStringDTO, SubscribeConcertParamsDTO } from '@/dtos/concert.dto'
 import { ErrorResponseDTO } from '@/dtos/error-response.dto'
-import { SubscribeVenueBodyDTO, UnsubscribeVenueBodyDTO, VenueDTO } from '@/dtos/venue.dto'
+import {
+  ArtistSubscribeDTO,
+  EventSubscribeDTO,
+  GetSubscribedArtistParamsDTO,
+  GetSubscribedEventByEventIdParamsDTO,
+  GetSubscribedEventsQueryStringDTO,
+  GetSubscribedVenueParamsDTO,
+  SubscribeArtistBodyDTO,
+  SubscribeEventBodyDTO,
+  SubscribeVenueBodyDTO,
+  UnsubscribeArtistBodyDTO,
+  UnsubscribeVenueBodyDTO,
+  VenueSubscribeDTO,
+} from '@/dtos/subscribe.dto'
 import { ArtistRepositoryImpl } from '@/repositories/artist.repository.impl'
+import { ConcertDetailRepositoryImpl } from '@/repositories/concert-detail.repository.impl'
 import { ConcertRepositoryImpl } from '@/repositories/concert.repository.impl'
+import { SubscribeRepositoryImpl } from '@/repositories/subscribe.repository.impl'
+import { TicketRepositoryImpl } from '@/repositories/ticket.repository.impl'
 import { UserRepositoryImpl } from '@/repositories/user.repository.impl'
 import { VenueRepositoryImpl } from '@/repositories/venue.repository.impl'
 import { ArtistService } from '@/services/artist.service'
+import { ConcertDetailService } from '@/services/concert-detail.service'
 import { ConcertService } from '@/services/concert.service'
+import { EventService } from '@/services/event.service'
+import { SubscribeService } from '@/services/subscribe.service'
+import { TicketService } from '@/services/ticket.service'
 import { UserService } from '@/services/user.service'
 import { VenueService } from '@/services/venue.service'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -23,21 +40,30 @@ const artistService = new ArtistService(artistRepository)
 const venueRepository = new VenueRepositoryImpl()
 const venueService = new VenueService(venueRepository)
 
+const subscribeRepository = new SubscribeRepositoryImpl()
+const subscribeService = new SubscribeService(subscribeRepository)
+
 const concertRepository = new ConcertRepositoryImpl()
 const concertService = new ConcertService(concertRepository)
+const concertDetailRepository = new ConcertDetailRepositoryImpl()
+const concertDetailService = new ConcertDetailService(concertDetailRepository)
+const ticketRepository = new TicketRepositoryImpl()
+const ticketService = new TicketService(ticketRepository)
 
-interface GetSubscribedConcertListRoute extends RouteGenericInterface {
-  Querystring: GetSubscribedConcertListQueryStringDTO
+const eventService = new EventService(concertService, concertDetailService, ticketService)
+
+interface GetSubscribedEventsRoute extends RouteGenericInterface {
+  Querystring: GetSubscribedEventsQueryStringDTO
   Reply: {
-    200: ConcertDTO[]
+    200: EventSubscribeDTO[]
     401: ErrorResponseDTO
     500: ErrorResponseDTO
   }
 }
 
-export const getSubscribedConcertListHandler = async (
-  req: FastifyRequest<GetSubscribedConcertListRoute>,
-  rep: FastifyReply<GetSubscribedConcertListRoute>,
+export const getSubscribedEventsHandler = async (
+  req: FastifyRequest<GetSubscribedEventsRoute>,
+  rep: FastifyReply<GetSubscribedEventsRoute>,
 ) => {
   try {
     const user = await userService.getUserById(req.user.id)
@@ -47,36 +73,32 @@ export const getSubscribedConcertListHandler = async (
 
     const { offset, size } = req.query
 
-    const subscribedConcerts = await concertService.getManySubscribedConcerts({
-      userId: user.id,
-      take: +size,
-      skip: +offset,
-    })
+    const subscribedEvents = await subscribeService.getSubscribedEvents({ userId: user.id, take: +size, skip: +offset })
 
-    return rep.status(200).send(subscribedConcerts)
+    return rep.status(200).send(subscribedEvents)
   } catch (e) {
     console.error(e)
     return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
   }
 }
 
-interface GetConcertSubscribeRoute extends RouteGenericInterface {
-  Params: GetSubscribeCommonParamsDTO
+interface GetSubscribedEventRoute extends RouteGenericInterface {
+  Params: GetSubscribedEventByEventIdParamsDTO
   Reply: {
-    200: ConcertDTO
+    200: EventSubscribeDTO
     401: ErrorResponseDTO
     404: ErrorResponseDTO
     500: ErrorResponseDTO
   }
 }
 
-export const getConcertSubscribeHandler = async (
-  req: FastifyRequest<GetConcertSubscribeRoute>,
-  rep: FastifyReply<GetConcertSubscribeRoute>,
+export const getSubscribedEventHandler = async (
+  req: FastifyRequest<GetSubscribedEventRoute>,
+  rep: FastifyReply<GetSubscribedEventRoute>,
 ) => {
   try {
-    const { id: concertId } = req.params
-    const subscribedConcert = await concertService.getSubscribedConcert({ concertId, userId: req.user.id })
+    const { eventId } = req.params
+    const subscribedConcert = await subscribeService.getSubscribedEvent({ eventId, userId: req.user.id })
     if (!subscribedConcert) {
       return rep.status(404).send({
         code: 'SUBSCRIBED_CONCERT_NOT_FOUND',
@@ -91,22 +113,29 @@ export const getConcertSubscribeHandler = async (
 }
 
 interface GetArtistSubscribeRoute extends RouteGenericInterface {
-  Params: GetSubscribeCommonParamsDTO
+  Params: GetSubscribedArtistParamsDTO
   Reply: {
-    200: ArtistDTO
+    200: ArtistSubscribeDTO
     401: ErrorResponseDTO
     404: ErrorResponseDTO
     500: ErrorResponseDTO
   }
 }
 
-export const getArtistSubscribeHandler = async (
+export const getSubscribedArtistHandler = async (
   req: FastifyRequest<GetArtistSubscribeRoute>,
   rep: FastifyReply<GetArtistSubscribeRoute>,
 ) => {
   try {
-    const { id: artistId } = req.params
-    const subscribedArtist = await artistService.getSubscribedArtist({ artistId, userId: req.user.id })
+    const { artistId } = req.params
+    const artist = await artistService.findById(artistId)
+    if (!artist) {
+      return rep.status(404).send({
+        code: 'ARTIST_NOT_FOUND',
+        message: 'artist not found',
+      })
+    }
+    const subscribedArtist = await subscribeService.getSubscribedArtist({ artistId, userId: req.user.id })
     if (!subscribedArtist) {
       return rep.status(404).send({
         code: 'SUBSCRIBED_ARTIST_NOT_FOUND',
@@ -124,9 +153,9 @@ export const getArtistSubscribeHandler = async (
 }
 
 interface GetVenueSubscribeRoute extends RouteGenericInterface {
-  Params: GetSubscribeCommonParamsDTO
+  Params: GetSubscribedVenueParamsDTO
   Reply: {
-    200: VenueDTO
+    200: VenueSubscribeDTO
     401: ErrorResponseDTO
     404: ErrorResponseDTO
     500: ErrorResponseDTO
@@ -138,8 +167,15 @@ export const getVenueSubscribeHandler = async (
   rep: FastifyReply<GetVenueSubscribeRoute>,
 ) => {
   try {
-    const { id: venueId } = req.params
-    const subscribedVenue = await venueService.getVenueByVenueIdUserId({ venueId, userId: req.user.id })
+    const { venueId } = req.params
+    const venue = await venueService.getVenueById(venueId)
+    if (!venue) {
+      return rep.status(404).send({
+        code: 'VENUE_NOT_FOUND',
+        message: 'venue not found',
+      })
+    }
+    const subscribedVenue = await subscribeService.getSubscribedVenue({ venueId, userId: req.user.id })
     if (!subscribedVenue) {
       return rep.status(404).send({
         code: 'SUBSCRIBED_VENUE_NOT_FOUND',
@@ -156,78 +192,93 @@ export const getVenueSubscribeHandler = async (
   }
 }
 
-interface PostSubscribeConcertRoute extends RouteGenericInterface {
-  Params: SubscribeConcertParamsDTO
+interface PostSubscribeEventRoute extends RouteGenericInterface {
+  Body: SubscribeEventBodyDTO
   Reply: {
-    200: ConcertDTO
+    200: EventSubscribeDTO
     401: ErrorResponseDTO
     404: ErrorResponseDTO
     500: ErrorResponseDTO
   }
 }
 
-export const postSubscribeConcertHandler = async (
-  req: FastifyRequest<PostSubscribeConcertRoute>,
-  rep: FastifyReply<PostSubscribeConcertRoute>,
+export const postSubscribeEventHandler = async (
+  req: FastifyRequest<PostSubscribeEventRoute>,
+  rep: FastifyReply<PostSubscribeEventRoute>,
 ) => {
   try {
-    const { id: concertId } = req.params
+    const { eventId } = req.body
 
-    const concert = await concertService.getById(concertId)
-    if (!concert) {
-      return rep.status(404).send({ code: 'CONCERT_NOT_FOUND', message: 'Concert not found' })
-    }
-
-    const subscribedConcert = await concertService.getSubscribedConcert({ concertId, userId: req.user.id })
-
-    if (subscribedConcert) {
-      return rep.status(200).send(subscribedConcert)
-    }
-
-    const newSubscribedConcert = await concertService.subscribe({
-      concertId,
-      userId: req.user.id,
+    const event = await eventService.getEventDetailById({
+      type: 'concert',
+      data: {
+        id: eventId,
+      },
     })
 
-    return rep.status(200).send(newSubscribedConcert)
+    if (!event) {
+      return rep.status(404).send({
+        code: 'EVENT_NOT_FOUND',
+        message: 'event not found',
+      })
+    }
+
+    const subscribedEvent = await subscribeService.getSubscribedEvent({ userId: req.user.id, eventId })
+
+    if (subscribedEvent) {
+      return rep.status(200).send(subscribedEvent)
+    }
+
+    const newSubscribedEvent = await subscribeService.subscribeEvent({
+      userId: req.user.id,
+      eventId,
+    })
+
+    return rep.status(200).send(newSubscribedEvent)
   } catch (e) {
     console.error(e)
     return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
   }
 }
 
-interface DeleteUnsubscribeConcertRoute extends RouteGenericInterface {
-  Params: SubscribeConcertParamsDTO
+interface UnsubscribeEventRoute extends RouteGenericInterface {
+  Body: SubscribeEventBodyDTO
   Reply: {
-    200: ConcertDTO
+    200: EventSubscribeDTO
     401: ErrorResponseDTO
     404: ErrorResponseDTO
     500: ErrorResponseDTO
   }
 }
 
-export const deleteUnsubscribeConcertHandler = async (
-  req: FastifyRequest<DeleteUnsubscribeConcertRoute>,
-  rep: FastifyReply<DeleteUnsubscribeConcertRoute>,
+export const unsubscribeEventHandler = async (
+  req: FastifyRequest<UnsubscribeEventRoute>,
+  rep: FastifyReply<UnsubscribeEventRoute>,
 ) => {
   try {
-    const { id: concertId } = req.params
+    const { eventId } = req.body
 
-    const concert = await concertService.getById(concertId)
-    if (!concert) {
-      return rep.status(404).send({ code: 'CONCERT_NOT_FOUND', message: 'Concert not found' })
-    }
-
-    const subscribedConcert = await concertService.getSubscribedConcert({
-      userId: req.user.id,
-      concertId,
+    const event = await eventService.getEventDetailById({
+      type: 'concert',
+      data: {
+        id: eventId,
+      },
     })
 
-    if (!subscribedConcert) {
+    if (!event) {
+      return rep.status(404).send({ code: 'EVENT_NOT_FOUND', message: 'Event not found' })
+    }
+
+    const subscribedEvent = await subscribeService.getSubscribedEvent({
+      userId: req.user.id,
+      eventId,
+    })
+
+    if (!subscribedEvent) {
       return rep.status(404).send({ code: 'SUBSCRIBED_CONCERT_NOT_FOUND', message: 'Concert not found' })
     }
 
-    const data = await concertService.unsubscribe({ concertId, userId: req.user.id })
+    const data = await subscribeService.unsubscribeEvent({ eventId, userId: req.user.id })
 
     return rep.status(200).send(data)
   } catch (e) {
@@ -237,10 +288,9 @@ export const deleteUnsubscribeConcertHandler = async (
 }
 
 interface PostSubscribeArtistRoute extends RouteGenericInterface {
-  Params: GetSubscribeCommonParamsDTO
   Body: SubscribeArtistBodyDTO
   Reply: {
-    200: ArtistDTO
+    200: ArtistSubscribeDTO
     401: ErrorResponseDTO
     404: ErrorResponseDTO
     500: ErrorResponseDTO
@@ -252,20 +302,20 @@ export const postSubscribeArtistHandler = async (
   rep: FastifyReply<PostSubscribeArtistRoute>,
 ) => {
   try {
-    const { id: artistId } = req.params
+    const { artistId } = req.body
 
     const artist = await artistService.findById(artistId)
     if (!artist) {
       return rep.status(404).send({ code: 'ARTIST_NOT_FOUND', message: 'Artist not found' })
     }
 
-    const subscribedArtist = await artistService.getSubscribedArtist({ artistId, userId: req.user.id })
+    const subscribedArtist = await subscribeService.getSubscribedArtist({ artistId, userId: req.user.id })
 
     if (subscribedArtist) {
       return rep.status(200).send(subscribedArtist)
     }
 
-    const data = await artistService.subscribe({
+    const data = await subscribeService.subscribeArtist({
       artistId,
       userId: req.user.id,
     })
@@ -278,10 +328,9 @@ export const postSubscribeArtistHandler = async (
 }
 
 interface DeleteUnsubscribeArtistRoute extends RouteGenericInterface {
-  Params: GetSubscribeCommonParamsDTO
   Body: UnsubscribeArtistBodyDTO
   Reply: {
-    200: ArtistDTO
+    200: ArtistSubscribeDTO
     401: ErrorResponseDTO
     404: ErrorResponseDTO
     500: ErrorResponseDTO
@@ -293,20 +342,20 @@ export const deleteUnsubscribeArtistHandler = async (
   rep: FastifyReply,
 ) => {
   try {
-    const { id: artistId } = req.params
+    const { artistId } = req.body
 
     const artist = await artistService.findById(artistId)
     if (!artist) {
       return rep.status(404).send({ code: 'ARTIST_NOT_FOUND', message: 'Artist not found' })
     }
 
-    const subscribedArtist = await artistService.getSubscribedArtist({ artistId, userId: req.user.id })
+    const subscribedArtist = await subscribeService.getSubscribedArtist({ artistId, userId: req.user.id })
 
     if (!subscribedArtist) {
       return rep.status(404).send({ code: 'SUBSCRIBED_ARTIST_NOT_FOUND', message: 'Artist not found' })
     }
 
-    const data = await artistService.unsubscribe({
+    const data = await subscribeService.unsubscribeArtist({
       artistId,
       userId: req.user.id,
     })
@@ -319,10 +368,9 @@ export const deleteUnsubscribeArtistHandler = async (
 }
 
 interface PostSubscribeVenueRoute extends RouteGenericInterface {
-  Params: GetSubscribeCommonParamsDTO
   Body: SubscribeVenueBodyDTO
   Reply: {
-    200: VenueDTO
+    200: VenueSubscribeDTO
     401: ErrorResponseDTO
     404: ErrorResponseDTO
     500: ErrorResponseDTO
@@ -334,20 +382,20 @@ export const postSubscribeVenueHandler = async (
   rep: FastifyReply<PostSubscribeVenueRoute>,
 ) => {
   try {
-    const { id: venueId } = req.params
+    const { venueId } = req.body
 
     const venue = await venueService.getVenueById(venueId)
     if (!venue) {
       return rep.status(404).send({ code: 'VENUE_NOT_FOUND', message: 'Venue not found' })
     }
 
-    const subscribedVenue = await venueService.getVenueByVenueIdUserId({ venueId, userId: req.user.id })
+    const subscribedVenue = await subscribeService.getSubscribedVenue({ venueId, userId: req.user.id })
 
     if (subscribedVenue) {
       return rep.status(200).send(subscribedVenue)
     }
 
-    const data = await venueService.subscribe({ venueId, userId: req.user.id })
+    const data = await subscribeService.subscribeVenue({ venueId, userId: req.user.id })
 
     return rep.status(200).send(data)
   } catch (e) {
@@ -357,10 +405,9 @@ export const postSubscribeVenueHandler = async (
 }
 
 interface DeleteUnsubscribeVenueRoute extends RouteGenericInterface {
-  Params: GetSubscribeCommonParamsDTO
   Body: UnsubscribeVenueBodyDTO
   Reply: {
-    200: VenueDTO
+    200: VenueSubscribeDTO
     401: ErrorResponseDTO
     404: ErrorResponseDTO
     500: ErrorResponseDTO
@@ -372,20 +419,20 @@ export const deleteUnsubscribeVenueHandler = async (
   rep: FastifyReply<DeleteUnsubscribeVenueRoute>,
 ) => {
   try {
-    const { id: venueId } = req.params
+    const { venueId } = req.body
 
     const venue = await venueService.getVenueById(venueId)
     if (!venue) {
       return rep.status(404).send({ code: 'VENUE_NOT_FOUND', message: 'Venue not found' })
     }
 
-    const subscribedVenue = await venueService.getVenueByVenueIdUserId({ venueId, userId: req.user.id })
+    const subscribedVenue = await subscribeService.getSubscribedVenue({ venueId, userId: req.user.id })
 
     if (!subscribedVenue) {
       return rep.status(404).send({ code: 'SUBSCRIBED_VENUE_NOT_FOUND', message: 'Venue not found' })
     }
 
-    const data = await venueService.unsubscribe({ venueId, userId: req.user.id })
+    const data = await subscribeService.unsubscribeVenue({ venueId, userId: req.user.id })
 
     return rep.status(200).send(data)
   } catch (e) {

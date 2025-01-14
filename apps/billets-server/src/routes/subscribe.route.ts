@@ -1,133 +1,165 @@
 import {
   deleteUnsubscribeArtistHandler,
-  deleteUnsubscribeConcertHandler,
   deleteUnsubscribeVenueHandler,
-  getArtistSubscribeHandler,
-  getConcertSubscribeHandler,
-  getSubscribedConcertListHandler,
+  getSubscribedArtistHandler,
+  getSubscribedEventHandler,
+  getSubscribedEventsHandler,
   getVenueSubscribeHandler,
   postSubscribeArtistHandler,
-  postSubscribeConcertHandler,
+  postSubscribeEventHandler,
   postSubscribeVenueHandler,
+  unsubscribeEventHandler,
 } from '@/controllers/subscribe.controller'
-import { ArtistDTOSchema, SubscribeArtistBodyDTOSchema, UnsubscribeArtistBodyDTOSchema } from '@/dtos/artist.dto'
-import { GetSubscribeCommonParamsDTOSchema } from '@/dtos/common.dto'
-import {
-  ConcertDTOSchema,
-  GetSubscribedConcertListQueryStringDTOSchema,
-  SubscribeConcertBodyDTOSchema,
-  SubscribeConcertParamsDTOSchema,
-} from '@/dtos/concert.dto'
 import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
-import { SubscribeVenueBodyDTOSchema, UnsubscribeVenueBodyDTOSchema, VenueDTOSchema } from '@/dtos/venue.dto'
+import {
+  ArtistSubscribeDTOSchema,
+  EventSubscribeDTOSchema,
+  GetSubscribedArtistParamsDTOSchema,
+  GetSubscribedEventByEventIdParamsDTOSchema,
+  GetSubscribedEventsQueryStringDTOSchema,
+  GetSubscribedVenueParamsDTOSchema,
+  SubscribeArtistBodyDTOSchema,
+  SubscribeEventBodyDTOSchema,
+  SubscribeVenueBodyDTOSchema,
+  UnsubscribeArtistBodyDTOSchema,
+  UnsubscribeVenueBodyDTOSchema,
+  VenueSubscribeDTOSchema,
+} from '@/dtos/subscribe.dto'
 import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 
 const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
-    '/concert',
+    '/event',
     {
       schema: {
         tags: ['v1', 'subscribe'],
-        querystring: GetSubscribedConcertListQueryStringDTOSchema,
+        querystring: GetSubscribedEventsQueryStringDTOSchema,
         response: {
-          200: ConcertDTOSchema.array(),
+          200: EventSubscribeDTOSchema.array(),
           401: ErrorResponseDTOSchema,
           500: ErrorResponseDTOSchema,
         },
+        security: [
+          {
+            AccessTokenAuth: [],
+          },
+        ],
       },
       preHandler: [fastify.authenticate],
     },
-    getSubscribedConcertListHandler,
+    getSubscribedEventsHandler,
   )
 
   fastify.withTypeProvider<ZodTypeProvider>().get(
-    '/concert/:id',
+    '/event/:eventId',
     {
       schema: {
         tags: ['v1', 'subscribe'],
-        params: GetSubscribeCommonParamsDTOSchema,
+        params: GetSubscribedEventByEventIdParamsDTOSchema,
         response: {
-          200: ConcertDTOSchema,
+          200: EventSubscribeDTOSchema,
           401: ErrorResponseDTOSchema,
           404: ErrorResponseDTOSchema,
           500: ErrorResponseDTOSchema,
         },
+        security: [
+          {
+            AccessTokenAuth: [],
+          },
+        ],
       },
       preHandler: [fastify.authenticate],
     },
-    getConcertSubscribeHandler,
-  )
-  // concert subscribe
-  fastify.withTypeProvider<ZodTypeProvider>().post(
-    '/concert/:id',
-    {
-      schema: {
-        tags: ['v1', 'subscribe'],
-        params: SubscribeConcertParamsDTOSchema,
-        body: SubscribeConcertBodyDTOSchema,
-        response: {
-          200: ConcertDTOSchema,
-          401: ErrorResponseDTOSchema,
-          404: ErrorResponseDTOSchema,
-          500: ErrorResponseDTOSchema,
-        },
-      },
-      preHandler: [fastify.authenticate],
-    },
-    postSubscribeConcertHandler,
+    getSubscribedEventHandler,
   )
 
-  // concert unsubscribe
-  fastify.withTypeProvider<ZodTypeProvider>().delete(
-    '/concert/:id',
+  fastify.withTypeProvider<ZodTypeProvider>().post(
+    '/event',
     {
       schema: {
         tags: ['v1', 'subscribe'],
-        params: SubscribeConcertParamsDTOSchema,
-        body: SubscribeConcertBodyDTOSchema,
+        body: SubscribeEventBodyDTOSchema,
         response: {
-          200: ConcertDTOSchema,
+          200: EventSubscribeDTOSchema,
           401: ErrorResponseDTOSchema,
           404: ErrorResponseDTOSchema,
           500: ErrorResponseDTOSchema,
         },
+        security: [
+          {
+            AccessTokenAuth: [],
+          },
+        ],
       },
       preHandler: [fastify.authenticate],
     },
-    deleteUnsubscribeConcertHandler,
+    postSubscribeEventHandler,
+  )
+
+  fastify.withTypeProvider<ZodTypeProvider>().delete(
+    '/event',
+    {
+      schema: {
+        tags: ['v1', 'subscribe'],
+        body: SubscribeEventBodyDTOSchema,
+        response: {
+          200: EventSubscribeDTOSchema,
+          401: ErrorResponseDTOSchema,
+          404: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
+        },
+        security: [
+          {
+            AccessTokenAuth: [],
+          },
+        ],
+      },
+      preHandler: [fastify.authenticate],
+    },
+    unsubscribeEventHandler,
   )
 
   // artist subscribe
   fastify.withTypeProvider<ZodTypeProvider>().get(
-    '/artist/:id',
+    '/artist/:artistId',
     {
       schema: {
         tags: ['v1', 'subscribe'],
-        params: GetSubscribeCommonParamsDTOSchema,
+        params: GetSubscribedArtistParamsDTOSchema,
         response: {
-          200: ArtistDTOSchema,
+          200: ArtistSubscribeDTOSchema,
           401: ErrorResponseDTOSchema,
           404: ErrorResponseDTOSchema,
           500: ErrorResponseDTOSchema,
         },
+        security: [
+          {
+            AccessTokenAuth: [],
+          },
+        ],
       },
       preHandler: [fastify.authenticate],
     },
-    getArtistSubscribeHandler,
+    getSubscribedArtistHandler,
   )
   fastify.withTypeProvider<ZodTypeProvider>().post(
-    '/artist/:id',
+    '/artist',
     {
       schema: {
         tags: ['v1', 'subscribe'],
         body: SubscribeArtistBodyDTOSchema,
         response: {
-          200: ArtistDTOSchema,
+          200: ArtistSubscribeDTOSchema,
           401: ErrorResponseDTOSchema,
           404: ErrorResponseDTOSchema,
           500: ErrorResponseDTOSchema,
         },
+        security: [
+          {
+            AccessTokenAuth: [],
+          },
+        ],
       },
       preHandler: [fastify.authenticate],
     },
@@ -136,17 +168,22 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
 
   // artist unsubscribe
   fastify.withTypeProvider<ZodTypeProvider>().delete(
-    '/artist/:id',
+    '/artist',
     {
       schema: {
         tags: ['v1', 'subscribe'],
         body: UnsubscribeArtistBodyDTOSchema,
         response: {
-          200: ArtistDTOSchema,
+          200: ArtistSubscribeDTOSchema,
           401: ErrorResponseDTOSchema,
           404: ErrorResponseDTOSchema,
           500: ErrorResponseDTOSchema,
         },
+        security: [
+          {
+            AccessTokenAuth: [],
+          },
+        ],
       },
       preHandler: [fastify.authenticate],
     },
@@ -155,35 +192,44 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
 
   //  venue subscribe
   fastify.withTypeProvider<ZodTypeProvider>().get(
-    '/venue/:id',
+    '/venue/:venueId',
     {
       schema: {
         tags: ['v1', 'subscribe'],
-        params: GetSubscribeCommonParamsDTOSchema,
+        params: GetSubscribedVenueParamsDTOSchema,
         response: {
-          200: VenueDTOSchema,
+          200: VenueSubscribeDTOSchema,
           401: ErrorResponseDTOSchema,
           404: ErrorResponseDTOSchema,
           500: ErrorResponseDTOSchema,
         },
+        security: [
+          {
+            AccessTokenAuth: [],
+          },
+        ],
       },
       preHandler: [fastify.authenticate],
     },
     getVenueSubscribeHandler,
   )
   fastify.withTypeProvider<ZodTypeProvider>().post(
-    '/venue/:id',
+    '/venue',
     {
       schema: {
         tags: ['v1', 'subscribe'],
-        params: GetSubscribeCommonParamsDTOSchema,
         body: SubscribeVenueBodyDTOSchema,
         response: {
-          200: VenueDTOSchema,
+          200: VenueSubscribeDTOSchema,
           401: ErrorResponseDTOSchema,
           404: ErrorResponseDTOSchema,
           500: ErrorResponseDTOSchema,
         },
+        security: [
+          {
+            AccessTokenAuth: [],
+          },
+        ],
       },
       preHandler: [fastify.authenticate],
     },
@@ -192,18 +238,22 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
 
   // venue unsubscribe
   fastify.withTypeProvider<ZodTypeProvider>().delete(
-    '/venue/:id',
+    '/venue',
     {
       schema: {
         tags: ['v1', 'subscribe'],
-        params: GetSubscribeCommonParamsDTOSchema,
         body: UnsubscribeVenueBodyDTOSchema,
         response: {
-          200: VenueDTOSchema,
+          200: VenueSubscribeDTOSchema,
           401: ErrorResponseDTOSchema,
           404: ErrorResponseDTOSchema,
           500: ErrorResponseDTOSchema,
         },
+        security: [
+          {
+            AccessTokenAuth: [],
+          },
+        ],
       },
       preHandler: [fastify.authenticate],
     },

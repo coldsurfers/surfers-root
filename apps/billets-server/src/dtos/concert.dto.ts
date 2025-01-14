@@ -80,19 +80,3 @@ export const ConcertSearchQueryStringDTOSchema = z.object({
   size: z.coerce.number().int().min(0).default(0),
 })
 export type ConcertSearchQueryStringDTO = z.infer<typeof ConcertSearchQueryStringDTOSchema>
-
-export const GetSubscribedConcertListQueryStringDTOSchema = z.object({
-  offset: z.coerce.number().int().min(0).default(0),
-  size: z.coerce.number().int().min(0).max(100).default(20),
-})
-export type GetSubscribedConcertListQueryStringDTO = z.infer<typeof GetSubscribedConcertListQueryStringDTOSchema>
-
-export const SubscribeConcertParamsDTOSchema = z.object({
-  id: z.string(),
-})
-export type SubscribeConcertParamsDTO = z.infer<typeof SubscribeConcertParamsDTOSchema>
-
-export const SubscribeConcertBodyDTOSchema = z.object({
-  id: z.string(),
-})
-export type SubscribeConcertBodyDTO = z.infer<typeof SubscribeConcertBodyDTOSchema>

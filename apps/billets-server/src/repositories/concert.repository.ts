@@ -14,5 +14,4 @@ export interface ConcertRepository {
   subscribe(params: SubscribeUnsubscribeConcertDTO): Promise<ConcertDTO>
   unsubscribe(params: SubscribeUnsubscribeConcertDTO): Promise<ConcertDTO>
   findSubscribedConcert(params: { userId: string; concertId: string }): Promise<ConcertDTO | null>
-  findManySubscribedConcerts(params: { userId: string; take: number; skip: number }): Promise<ConcertDTO[]>
 }
