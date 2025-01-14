@@ -9,7 +9,7 @@ export const getConcertListItemWrapperDynamicStyles = (size: 'small' | 'large'):
 
 export const getConcertListBottomWrapperDynamicStyles = (size: 'small' | 'large') => {
   return {
-    marginTop: size === 'small' ? 4 : 8,
-    marginBottom: size === 'small' ? 2 : 4,
+    marginTop: size === 'small' ? 6 : 10,
+    marginBottom: size === 'small' ? 4 : 6,
   }
 }

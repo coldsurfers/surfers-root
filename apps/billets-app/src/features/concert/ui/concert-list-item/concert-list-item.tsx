@@ -79,7 +79,7 @@ export const ConcertListItem = ({ data, onPress, onPressSubscribe, size = 'large
                 styles.concertFormattedDate,
                 {
                   color: semantics.foreground[4],
-                  fontSize: size === 'small' ? 10 : 12,
+                  fontSize: size === 'small' ? 12 : 14,
                   marginTop: size === 'small' ? 2 : 4,
                 },
               ]}
@@ -91,7 +91,7 @@ export const ConcertListItem = ({ data, onPress, onPressSubscribe, size = 'large
                 style={[
                   {
                     color: semantics.foreground[3],
-                    fontSize: size === 'small' ? 10 : 12,
+                    fontSize: size === 'small' ? 12 : 14,
                   },
                 ]}
               >
