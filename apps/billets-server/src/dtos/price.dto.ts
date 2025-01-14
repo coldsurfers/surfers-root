@@ -8,7 +8,7 @@ export const PriceDTOSchema = z.object({
 })
 export type PriceDTO = z.infer<typeof PriceDTOSchema>
 
-export const GetPricesByTicketIdParamsDTOSchema = z.object({
+export const GetPricesByTicketIdQueryStringDTOSchema = z.object({
   ticketId: z.string(),
 })
-export type GetPricesByTicketIdParamsDTO = z.infer<typeof GetPricesByTicketIdParamsDTOSchema>
+export type GetPricesByTicketIdQueryStringDTO = z.infer<typeof GetPricesByTicketIdQueryStringDTOSchema>

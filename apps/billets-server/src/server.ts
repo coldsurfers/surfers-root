@@ -121,7 +121,7 @@ app.register(fastifySwagger, {
         name: 'user',
       },
       {
-        name: 'concert',
+        name: 'event',
       },
       {
         name: 'artist',

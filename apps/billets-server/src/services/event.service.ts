@@ -39,7 +39,7 @@ export class EventService {
         return null
       }
       const { id: concertId } = concertDetail
-      const tickets = await this.ticketService.getManyByConcertId(concertId)
+      const tickets = await this.ticketService.getMany({ eventId: concertId })
       const ticketPromotes = tickets.map((ticket) => {
         const { prices } = ticket
         const cheapestPrice = getCheapestPrice(prices)

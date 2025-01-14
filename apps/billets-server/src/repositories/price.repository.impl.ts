@@ -4,12 +4,12 @@ import { Price } from '@prisma/client'
 import { PriceRepository } from './price.repository'
 
 export class PriceRepositoryImpl implements PriceRepository {
-  async findManyByTicketId(ticketId: string): Promise<PriceDTO[]> {
+  async findMany(params: { ticketId: string }): Promise<PriceDTO[]> {
     const data = await dbClient.price.findMany({
       where: {
         tickets: {
           some: {
-            ticketId,
+            ticketId: params.ticketId,
           },
         },
       },

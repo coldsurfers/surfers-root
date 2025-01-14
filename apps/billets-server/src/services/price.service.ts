@@ -8,7 +8,7 @@ export class PriceService {
     this.priceRepository = priceRepository
   }
 
-  async getManyByTicketId(ticketId: string): Promise<PriceDTO[]> {
-    return this.priceRepository.findManyByTicketId(ticketId)
+  async getMany(params: { ticketId: string }): Promise<PriceDTO[]> {
+    return this.priceRepository.findMany(params)
   }
 }
