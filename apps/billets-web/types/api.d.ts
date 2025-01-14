@@ -74,7 +74,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ArtistDTOSchema']
+            'application/json': components['schemas']['ArtistDetailDTOSchema']
           }
         }
         /** @description Default Response */
@@ -84,101 +84,6 @@ export interface paths {
           }
           content: {
             'application/json': components['schemas']['ErrorResponseDTOSchema']
-          }
-        }
-        /** @description Default Response */
-        500: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema']
-          }
-        }
-      }
-    }
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/v1/artist/concert-list/{artistId}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get: {
-      parameters: {
-        query?: {
-          offset?: number
-          size?: number
-        }
-        header?: never
-        path: {
-          artistId: string
-        }
-        cookie?: never
-      }
-      requestBody?: never
-      responses: {
-        /** @description Default Response */
-        200: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['ConcertDTOSchema'][]
-          }
-        }
-        /** @description Default Response */
-        500: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema']
-          }
-        }
-      }
-    }
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/v1/artist/concert/{concertId}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get: {
-      parameters: {
-        query?: never
-        header?: never
-        path: {
-          concertId: string
-        }
-        cookie?: never
-      }
-      requestBody?: never
-      responses: {
-        /** @description Default Response */
-        200: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['ArtistDTOSchema'][]
           }
         }
         /** @description Default Response */
@@ -465,149 +370,6 @@ export interface paths {
         }
       }
     }
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/v1/concert/': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get: {
-      parameters: {
-        query?: {
-          latitude?: number
-          longitude?: number
-          offset?: number
-          size?: number
-        }
-        header?: never
-        path?: never
-        cookie?: never
-      }
-      requestBody?: never
-      responses: {
-        /** @description Default Response */
-        200: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['ConcertDTOSchema'][]
-          }
-        }
-        /** @description Default Response */
-        500: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema']
-          }
-        }
-      }
-    }
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/v1/concert/{id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get: {
-      parameters: {
-        query?: never
-        header?: never
-        path: {
-          id: string
-        }
-        cookie?: never
-      }
-      requestBody?: never
-      responses: {
-        /** @description Default Response */
-        200: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['ConcertDTOSchema']
-          }
-        }
-        /** @description Default Response */
-        404: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema']
-          }
-        }
-        /** @description Default Response */
-        500: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema']
-          }
-        }
-      }
-    }
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/v1/concert/search': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get: {
-      parameters: {
-        query: {
-          keyword: string
-          offset?: number
-          size?: number
-        }
-        header?: never
-        path?: never
-        cookie?: never
-      }
-      requestBody?: never
-      responses: {
-        /** @description Default Response */
-        200: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['ConcertDTOSchema'][]
-          }
-        }
-      }
-    }
-    put?: never
-    post?: never
     delete?: never
     options?: never
     head?: never
@@ -2016,7 +1778,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['VenueDTOSchema']
+            'application/json': components['schemas']['VenueDetailDTOSchema']
           }
         }
         /** @description Default Response */
@@ -2047,105 +1809,16 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/v1/venue/concert-list/{venueId}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get: {
-      parameters: {
-        query?: {
-          offset?: number
-          size?: number
-        }
-        header?: never
-        path: {
-          venueId: string
-        }
-        cookie?: never
-      }
-      requestBody?: never
-      responses: {
-        /** @description Default Response */
-        200: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['ConcertDTOSchema'][]
-          }
-        }
-        /** @description Default Response */
-        500: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema']
-          }
-        }
-      }
-    }
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/v1/venue/concert/{concertId}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get: {
-      parameters: {
-        query?: never
-        header?: never
-        path: {
-          concertId: string
-        }
-        cookie?: never
-      }
-      requestBody?: never
-      responses: {
-        /** @description Default Response */
-        200: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['VenueDTOSchema'][]
-          }
-        }
-        /** @description Default Response */
-        500: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema']
-          }
-        }
-      }
-    }
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
 }
 export type webhooks = Record<string, never>
 export interface components {
   schemas: {
+    ArtistDetailDTOSchema: {
+      id: string
+      name: string
+      thumbUrl: string | null
+      upcomingEvents: components['schemas']['EventDTOSchema'][]
+    }
     ArtistDTOSchema: {
       id: string
       name: string
@@ -2307,6 +1980,14 @@ export interface components {
         refreshToken: string
       }
       user: components['schemas']['UserDTOSchema']
+    }
+    VenueDetailDTOSchema: {
+      address: string
+      id: string
+      lat: number
+      lng: number
+      name: string
+      upcomingEvents: components['schemas']['EventDTOSchema'][]
     }
     VenueDTOSchema: {
       address: string
