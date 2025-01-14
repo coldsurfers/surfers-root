@@ -10,14 +10,11 @@ export const GlobalErrorBoundaryRegistry = ({ children }: PropsWithChildren) => 
         return (
           <ErrorBoundary
             FallbackComponent={({ resetErrorBoundary }) => {
-              return (
-                <UnknownError
-                  onPressRetry={() => {
-                    reset()
-                    resetErrorBoundary()
-                  }}
-                />
-              )
+              const onPressRetry = () => {
+                reset()
+                resetErrorBoundary()
+              }
+              return <UnknownError onPressRetry={onPressRetry} />
             }}
           >
             {children}
