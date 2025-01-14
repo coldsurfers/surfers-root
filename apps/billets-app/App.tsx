@@ -1,4 +1,5 @@
 import { AuthContextProvider, useFirebaseAnalytics, useFirebaseCrashlytics } from '@/lib'
+import { GlobalErrorBoundaryRegistry } from '@/lib/errors'
 import { useColorSchemeStorage } from '@/lib/storage'
 import { CommonScreenLayout } from '@/ui'
 import { colors, ColorScheme } from '@coldsurfers/ocean-road'
@@ -140,16 +141,18 @@ const App = () => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ColorSchemeProvider initialColorScheme={initialColorScheme}>
-        <AppSystemColorSwitcher />
-        <QueryClientProvider client={queryClient}>
-          <Suspense fallback={<GlobalSuspenseFallback />}>
-            <AuthContextProvider>
-              <BootSplashAwaiter>
-                <AppContainer />
-              </BootSplashAwaiter>
-            </AuthContextProvider>
-          </Suspense>
-        </QueryClientProvider>
+        <GlobalErrorBoundaryRegistry>
+          <AppSystemColorSwitcher />
+          <QueryClientProvider client={queryClient}>
+            <Suspense fallback={<GlobalSuspenseFallback />}>
+              <AuthContextProvider>
+                <BootSplashAwaiter>
+                  <AppContainer />
+                </BootSplashAwaiter>
+              </AuthContextProvider>
+            </Suspense>
+          </QueryClientProvider>
+        </GlobalErrorBoundaryRegistry>
       </ColorSchemeProvider>
     </GestureHandlerRootView>
   )

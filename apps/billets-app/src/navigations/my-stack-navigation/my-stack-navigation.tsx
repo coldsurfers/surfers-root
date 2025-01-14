@@ -1,14 +1,18 @@
-import { AuthContext } from '@/lib'
+import { apiClient } from '@/lib/api/openapi-client'
 import { MyScreen } from '@/screens'
 import { NavigationHeader } from '@/ui'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import React, { useContext } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import React from 'react'
 import { MyStackParamList } from './my-stack-navigation.types'
 
 const Stack = createNativeStackNavigator<MyStackParamList>()
 
 export const MyStackNavigation = () => {
-  const { user } = useContext(AuthContext)
+  const { data: user } = useQuery({
+    queryKey: apiClient.user.queryKeys.me,
+    queryFn: () => apiClient.user.getMe(),
+  })
   return (
     <Stack.Navigator
       screenOptions={{

@@ -185,8 +185,8 @@ const SuspenseMyScreen = () => {
                 },
                 {
                   text: '로그아웃',
-                  onPress: async () => {
-                    await logout()
+                  onPress: () => {
+                    logout()
                     navigation.navigate('HomeStackNavigation', {
                       screen: 'HomeScreen',
                       params: {},
