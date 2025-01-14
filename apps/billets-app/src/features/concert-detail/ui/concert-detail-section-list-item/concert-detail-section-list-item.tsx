@@ -66,14 +66,15 @@ ConcertDetailSectionListItem.TitleItem = ({ title }: ConcertDetailSectionListTit
     </Text>
   )
 }
+
 ConcertDetailSectionListItem.LineupItem = memo(
-  ({ thumbnailUrl, name, onPress, artistId }: ConcertDetailSectionListLineupItemProps) => {
+  ({ name, onPress, artistId, thumbUrl }: ConcertDetailSectionListLineupItemProps) => {
     const navigation = useConcertDetailScreenNavigation()
     const { semantics } = useColorScheme()
     return (
       <TouchableOpacity onPress={onPress} style={styles.rowItem}>
         <View style={styles.profileLine}>
-          <ProfileThumbnail type="circle" size="sm" emptyBgText={name.at(0) ?? ''} imageUrl={thumbnailUrl} />
+          <ProfileThumbnail type="circle" size="sm" emptyBgText={name.slice(0, 1)} imageUrl={thumbUrl} />
           <Text style={[styles.name, { color: semantics.foreground[1] }]}>{name}</Text>
         </View>
         <ArtistSubscribeButton
