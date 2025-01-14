@@ -1,13 +1,14 @@
 import { colors } from '@coldsurfers/ocean-road'
-import { Button, Text } from '@coldsurfers/ocean-road/native'
+import { Button, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { memo } from 'react'
 import { StyleSheet } from 'react-native'
 import { CommonScreenLayout } from '../common-screen-layout'
 
 export const MyScreenLandingLayout = memo(({ onPressLoginButton }: { onPressLoginButton: () => void }) => {
+  const { semantics } = useColorScheme()
   return (
     <CommonScreenLayout style={styles.wrapper}>
-      <Text weight="bold" style={styles.loginText}>
+      <Text weight="bold" style={[styles.loginText, { color: semantics.foreground[1] }]}>
         {`🎉\n예정된 많은\n공연을\n놓치지 마세요`}
       </Text>
       <Text style={styles.loginSubText}>{`로그인 후 찜하기를 사용해보세요`}</Text>

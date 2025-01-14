@@ -1,56 +1,53 @@
-import useConcertListQuery from '@/lib/react-query/queries/useConcertListQuery'
+// import useConcertListQuery from '@/lib/react-query/queries/useConcertListQuery'
+import { apiClient } from '@/lib/api/openapi-client'
 import { CommonListEmpty } from '@/ui'
-import { format } from 'date-fns'
+import { colors } from '@coldsurfers/ocean-road'
+import { Spinner } from '@coldsurfers/ocean-road/native'
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 import { forwardRef, useCallback, useMemo, useState } from 'react'
-import { ActivityIndicator, FlatList, ListRenderItem, View } from 'react-native'
+import { FlatList, ListRenderItem, RefreshControl, View } from 'react-native'
 import { ConcertListItem } from '../concert-list-item'
 import { concertListStyles } from './concert-list.styles'
-import { ConcertListItemT } from './concert-list.types'
+import { ConcertListItemType } from './concert-list.types'
 
 type ConcertListProps = {
-  onPressItem?: (item: ConcertListItemT) => void
-  onPressSubscribe?: (item: ConcertListItemT, options: { isSubscribed: boolean }) => void
+  onPressItem?: (item: ConcertListItemType) => void
+  onPressSubscribe?: (item: ConcertListItemType, options: { isSubscribed: boolean }) => void
   latitude: number
   longitude: number
 }
+
+const PER_PAGE = 20
 
 export const ConcertList = forwardRef<FlatList, ConcertListProps>(
   ({ onPressItem, onPressSubscribe, latitude, longitude }, ref) => {
     const [isRefreshing, setIsRefreshing] = useState(false)
 
-    const {
-      data: concertListData,
-      isPending: isPendingConcertList,
-      fetchNextPage: fetchNextConcertList,
-      isFetchingNextPage: isFetchingNextConcertList,
-      hasNextPage: hasNextConcertListPage,
-      refetch: refetchConcertList,
-    } = useConcertListQuery(
-      {
-        latLng: {
-          latitude,
-          longitude,
-        },
+    const { data, isPending, fetchNextPage, isFetchingNextPage, hasNextPage, refetch } = useSuspenseInfiniteQuery({
+      initialPageParam: 0,
+      queryKey: apiClient.event.queryKeys.list({ latitude, longitude }),
+      queryFn: ({ pageParam = 0 }) =>
+        apiClient.event.getList({ offset: pageParam, size: PER_PAGE, latitude, longitude }),
+      getNextPageParam: (lastPage, allPages) => {
+        if (lastPage.length < PER_PAGE) {
+          return undefined
+        }
+        return allPages.length * PER_PAGE
       },
-      {
-        refetchOnWindowFocus: false,
-      },
-    )
-    const concertList = useMemo(() => {
-      return concertListData?.pages.flat() ?? []
-    }, [concertListData])
+      refetchOnWindowFocus: false,
+    })
 
-    const renderItem: ListRenderItem<ConcertListItemT> = useCallback(
-      (info) => {
+    const concertList = useMemo<ConcertListItemType[]>(() => {
+      return data.pages.flatMap((page) => page).map((data) => data.data)
+    }, [data?.pages])
+
+    const renderItem: ListRenderItem<ConcertListItemType> = useCallback(
+      ({ item }) => {
         return (
           <ConcertListItem
-            concertId={info.item.id}
-            thumbnailUrl={info.item.posters.at(0)?.imageUrl ?? ''}
-            title={info.item.title}
-            date={format(new Date(info.item.date), 'EEE, MMM d')}
-            venue={info.item.venues.at(0)?.venueTitle}
-            onPress={() => onPressItem?.(info.item)}
-            onPressSubscribe={({ isSubscribed }) => onPressSubscribe?.(info.item, { isSubscribed })}
+            data={item}
+            onPress={() => onPressItem?.(item)}
+            onPressSubscribe={({ isSubscribed }) => onPressSubscribe?.(item, { isSubscribed })}
           />
         )
       },
@@ -58,42 +55,51 @@ export const ConcertList = forwardRef<FlatList, ConcertListProps>(
     )
 
     const onEndReached = useCallback(async () => {
-      if (isPendingConcertList || isFetchingNextConcertList) {
+      if (isPending || isFetchingNextPage) {
         return
       }
-      if (!hasNextConcertListPage) {
+      if (!hasNextPage) {
         return
       }
-      await fetchNextConcertList()
-    }, [fetchNextConcertList, hasNextConcertListPage, isFetchingNextConcertList, isPendingConcertList])
+      await fetchNextPage()
+    }, [fetchNextPage, hasNextPage, isFetchingNextPage, isPending])
 
     const onRefresh = useCallback(async () => {
       setIsRefreshing(true)
-      await refetchConcertList()
+      await refetch()
       setIsRefreshing(false)
-    }, [refetchConcertList])
+    }, [refetch])
 
     return (
       <FlatList
         scrollsToTop
         ref={ref}
+        numColumns={2}
         data={concertList}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={concertListStyles.concertListContentContainer}
         ListEmptyComponent={
-          isPendingConcertList ? (
+          isPending ? (
             <View style={concertListStyles.loadingIndicatorWrapper}>
-              <ActivityIndicator size="large" />
+              <Spinner />
             </View>
           ) : (
             <CommonListEmpty emptyText={`🥺\n앗,\n해당하는\n위치에\n공연 정보가 없어요!`} />
           )
         }
+        ListFooterComponent={isFetchingNextPage ? <Spinner size="medium" /> : null}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={onRefresh}
+            tintColor={colors.oc.cyan[5].value}
+            size={20}
+          />
+        }
+        scrollEnabled={!isRefreshing}
         onEndReached={onEndReached}
-        refreshing={isRefreshing}
-        onRefresh={onRefresh}
       />
     )
   },

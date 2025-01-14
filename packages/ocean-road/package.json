@@ -58,6 +58,7 @@
     "prettier": "*",
     "react": "*",
     "react-dom": "*",
+    "react-native-reanimated": "*",
     "react-native-svg": "*",
     "react-spinners": "*",
     "release-it": "*",
@@ -73,8 +74,11 @@
     "@emotion/styled": "*",
     "framer-motion": "*",
     "lucide-react": "*",
+    "lucide-react-native": "*",
     "react": "*",
     "react-dom": "*",
+    "react-native-reanimated": "*",
+    "react-native-svg": "*",
     "react-spinners": "*"
   },
   "publishConfig": {
