@@ -1,38 +1,36 @@
-import { artistDTOSerializedSchema } from '@/dtos/artist-dto/artist-dto.types'
-import { fcmTokenDTOSerializedSchema } from '@/dtos/fcm-token-dto'
-import { searchDTOSerializedSchema } from '@/dtos/search-dto/search-dto.types'
-import { subscribedArtistDTOSerializedSchema } from '@/dtos/subscribe-artist-dto/subscribe-artist-dto.types'
-import {
-  subscribeConcertDTOSerializedSchema,
-  subscribedConcertDTOSerializedListSchema,
-} from '@/dtos/subscribe-concert-dto/subscribe-concert-dto.types'
-import { subscribeVenueSerializedSchema } from '@/dtos/subscribe-venue-dto/subscribe-venue-dto.types'
-import { venueDTOSerializedSchema } from '@/dtos/venue-dto/venue-dto.types'
-import authRoute from '@/routes/auth/auth.route'
-import {
-  confirmAuthCodeBodySchema,
-  confirmAuthCodeResponseSchema,
-  sendAuthCodeBodySchema,
-  sendAuthCodeResponseSchema,
-  signInBodySchema,
-  signInResponseSchema,
-  signUpBodySchema,
-  signUpResponseSchema,
-} from '@/routes/auth/auth.types'
-import concertRoute from '@/routes/concert/concert.route'
-import {
-  concertDetailParamsSchema,
-  concertDetailResponseSchema,
-  concertListQueryStringSchema,
-  concertListResponseSchema,
-  concertSearchParamsSchema,
-  concertSearchResponseSchema,
-} from '@/routes/concert/concert.types'
-import searchRoute from '@/routes/search/search.route'
-import { searchListQuerystringSchema } from '@/routes/search/search.types'
-import subscribeRoute from '@/routes/subscribe/subscribe.route'
-import userRoute from '@/routes/user/user.route'
-import { activateUserBodySchema, deactivateUserBodySchema, getMeResponseSchema } from '@/routes/user/user.types'
+import { ArtistProfileImageDTOSchema } from '@/dtos/artist-profile-image.dto'
+import { ArtistDTOSchema } from '@/dtos/artist.dto'
+import { UserWithAuthTokenDTOSchema } from '@/dtos/auth.dto'
+import { ConcertDetailDTOSchema, ConcertDTOSchema } from '@/dtos/concert.dto'
+import { CopyrightDTOSchema } from '@/dtos/copyright.dto'
+import { ConfirmAuthCodeResponseDTOSchema, SendAuthCodeResponseDTOSchema } from '@/dtos/email-auth-request.dto'
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
+import { EventDetailDTOSchema, EventDTOSchema } from '@/dtos/event.dto'
+import { FCMTokenDTOSchema } from '@/dtos/fcm-token.dto'
+import { LocationCityDTOSchema, LocationConcertDTOSchema, LocationCountryDTOSchema } from '@/dtos/location.dto'
+import { SendEmailResponseDTOSchema } from '@/dtos/mailer.dto'
+import { PosterDTOSchema } from '@/dtos/poster.dto'
+import { PriceDTOSchema } from '@/dtos/price.dto'
+import { TicketDTOSchema, TicketPromotionDTOSchema } from '@/dtos/ticket.dto'
+import { UserDTOSchema } from '@/dtos/user.dto'
+import { VenueDetailDTOSchema } from '@/dtos/venue-detail-dto'
+import { VenueDTOSchema } from '@/dtos/venue.dto'
+import { SWAGGER_HOST } from '@/lib/constants'
+import { jwtPlugin } from '@/plugins'
+import artistProfileImageRoute from '@/routes/artist-profile-image.route'
+import artistRoute from '@/routes/artist.route'
+import authRoute from '@/routes/auth.route'
+import eventRoute from '@/routes/event.route'
+import fcmRoute from '@/routes/fcm.route'
+import locationRoute from '@/routes/location.route'
+import mailerRoute from '@/routes/mailer.route'
+import posterRoute from '@/routes/poster.route'
+import priceRoute from '@/routes/price.route'
+import searchRoute from '@/routes/search.route'
+import subscribeRoute from '@/routes/subscribe.route'
+import ticketRoute from '@/routes/ticket.route'
+import userRoute from '@/routes/user.route'
+import venueRoute from '@/routes/venue.route'
 import cors from '@fastify/cors'
 import rateLimit from '@fastify/rate-limit'
 import fastifySwagger from '@fastify/swagger'
@@ -45,57 +43,27 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
-import { locationCityDTOSerializedSchema } from './dtos/location-city-dto'
-import { locationConcertDTOSerializedSchema } from './dtos/location-concert-dto'
-import { locationCountryDTOSerializedSchema } from './dtos/location-country-dto'
-import { SWAGGER_HOST } from './lib/constants'
-import { errorResponseSchema } from './lib/error'
-import { artistRoute } from './routes/artist'
-import {
-  getArtistByIdParamsSchema,
-  getConcertListByArtistIdParamsSchema,
-  getConcertListByArtistIdQueryStringSchema,
-  getConcertListByArtistIdSuccessResponseSchema,
-} from './routes/artist/artist.types'
-import { fcmRoute, postFCMTokenBodySchema } from './routes/fcm'
-import { locationRoute } from './routes/location/location.route'
-import { getLocationConcertsQueryStringSchema } from './routes/location/location.types'
-import { mailerRoute } from './routes/mailer/mailer.route'
-import { sendEmailResponseSchema, sendUserVoiceBodySchema } from './routes/mailer/mailer.types'
-import {
-  getSubscribeCommonParamsSchema,
-  getSubscribedConcertListQueryStringSchema,
-  subscribeArtistBodySchema,
-  subscribeArtistParamsSchema,
-  subscribeConcertBodySchema,
-  subscribeConcertParamsSchema,
-  subscribeVenueBodySchema,
-  subscribeVenueParamsSchema,
-  unsubscribeArtistBodySchema,
-  unsubscribeVenueBodySchema,
-} from './routes/subscribe/subscribe.types'
-import {
-  getConcertListByVenueIdParamsSchema,
-  getConcertListByVenueIdQueryStringSchema,
-  getConcertListByVenueIdSuccessResponseSchema,
-  getVenueByIdParamsSchema,
-  venueRoute,
-} from './routes/venue'
+import { ArtistDetailDTOSchema } from './dtos/artist-detail.dto'
+import { ArtistProfileImageDetailDTOSchema } from './dtos/artist-profile-image-detail.dto'
+import { PosterDetailDTOSchema } from './dtos/poster-detail.dto'
+import { ArtistSubscribeDTOSchema, EventSubscribeDTOSchema, VenueSubscribeDTOSchema } from './dtos/subscribe.dto'
 
 dotenv.config()
 
-export const fastify = Fastify({
+export const app = Fastify({
   logger: true,
 })
 
-fastify.register(cors, {
+app.register(cors, {
   allowedHeaders: ['Authorization', 'Content-Type'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   origin: ['http://localhost:3000', 'https://billets.coldsurf.io'],
 })
 
-fastify.register(rateLimit, {
+app.register(jwtPlugin)
+
+app.register(rateLimit, {
   global: false,
   // max: 100, // Maximum number of requests
   // timeWindow: '1 minute', // Time window in milliseconds or a human-readable format
@@ -110,10 +78,10 @@ fastify.register(rateLimit, {
   // },
 })
 
-fastify.setValidatorCompiler(validatorCompiler)
-fastify.setSerializerCompiler(serializerCompiler)
+app.setValidatorCompiler(validatorCompiler)
+app.setSerializerCompiler(serializerCompiler)
 
-fastify.register(fastifySwagger, {
+app.register(fastifySwagger, {
   swagger: {
     host: SWAGGER_HOST,
     schemes: ['http'],
@@ -155,64 +123,53 @@ fastify.register(fastifySwagger, {
         name: 'user',
       },
       {
-        name: 'concert',
+        name: 'event',
+      },
+      {
+        name: 'artist',
+      },
+      {
+        name: 'venue',
+      },
+      {
+        name: 'fcm',
+      },
+      {
+        name: 'search',
       },
     ],
   },
   transformObject: createJsonSchemaTransformObject({
     schemas: {
-      SignInBody: signInBodySchema,
-      SignInSuccessResponse: signInResponseSchema,
-      SendAuthCodeBody: sendAuthCodeBodySchema,
-      SendAuthCodeSuccessResponse: sendAuthCodeResponseSchema,
-      SignUpBody: signUpBodySchema,
-      SignUpSuccessResponse: signUpResponseSchema,
-      GetMeSuccessResponse: getMeResponseSchema,
-      ConcertListQueryString: concertListQueryStringSchema,
-      ConcertListSuccessResponse: concertListResponseSchema,
-      ConcertDetailParams: concertDetailParamsSchema,
-      ConcertDetailSuccessResponse: concertDetailResponseSchema,
-      ConcertSearchParams: concertSearchParamsSchema,
-      ConcertSearchSuccessResponse: concertSearchResponseSchema,
-      ConfirmAuthCodeBody: confirmAuthCodeBodySchema,
-      ConfirmAuthCodeSuccessResponse: confirmAuthCodeResponseSchema,
-      ErrorResponse: errorResponseSchema,
-      SearchListQuerystring: searchListQuerystringSchema,
-      SearchDTOSerialized: searchDTOSerializedSchema,
-      SubscribeConcertDTOSerialized: subscribeConcertDTOSerializedSchema,
-      SubscribeConcertParams: subscribeConcertParamsSchema,
-      SubscribedArtistDTOSerialized: subscribedArtistDTOSerializedSchema,
-      SubscribeArtistParams: subscribeArtistParamsSchema,
-      SubscribeVenueParams: subscribeVenueParamsSchema,
-      SubscribeVenueSerialized: subscribeVenueSerializedSchema,
-      SubscribeConcertBody: subscribeConcertBodySchema,
-      GetSubscribedConcertListQueryString: getSubscribedConcertListQueryStringSchema,
-      SubscribedConcertSerializedList: subscribedConcertDTOSerializedListSchema,
-      PostFCMTokenBody: postFCMTokenBodySchema,
-      PostFCMTokenSuccessResponse: fcmTokenDTOSerializedSchema,
-      GetArtistByIdParams: getArtistByIdParamsSchema,
-      GetArtistByIdSuccessResponse: artistDTOSerializedSchema,
-      GetVenueByIdParams: getVenueByIdParamsSchema,
-      GetVenueByIdSuccessResponse: venueDTOSerializedSchema,
-      GetConcertListByVenueIdParams: getConcertListByVenueIdParamsSchema,
-      GetConcertListByVenueIdQuerystring: getConcertListByVenueIdQueryStringSchema,
-      GetConcertListByVenueIdSuccessResponse: getConcertListByVenueIdSuccessResponseSchema,
-      DeactivateUserBody: deactivateUserBodySchema,
-      ActivateUserBody: activateUserBodySchema,
-      GetConcertListByArtistIdParams: getConcertListByArtistIdParamsSchema,
-      GetConcertListByArtistIdQuerystring: getConcertListByArtistIdQueryStringSchema,
-      GetConcertListByArtistIdSuccessResponse: getConcertListByArtistIdSuccessResponseSchema,
-      GetSubscribeCommonParams: getSubscribeCommonParamsSchema,
-      SubscribeVenueBody: subscribeVenueBodySchema,
-      SubscribeArtistBody: subscribeArtistBodySchema,
-      UnsubscribeVenueBody: unsubscribeVenueBodySchema,
-      UnsubscribeArtistBody: unsubscribeArtistBodySchema,
-      GetLocationConcertsQueryString: getLocationConcertsQueryStringSchema,
-      LocationConcertDTOSerialized: locationConcertDTOSerializedSchema,
-      LocationCityDTOSerialized: locationCityDTOSerializedSchema,
-      LocationCountryDTOSerialized: locationCountryDTOSerializedSchema,
-      SendUserVoiceBody: sendUserVoiceBodySchema,
-      SendEmailResponse: sendEmailResponseSchema,
+      ConcertDTOSchema,
+      ConcertDetailDTOSchema,
+      ArtistDTOSchema,
+      ErrorResponseDTOSchema,
+      SendAuthCodeResponseDTOSchema,
+      ConfirmAuthCodeResponseDTOSchema,
+      UserWithAuthTokenDTOSchema,
+      FCMTokenDTOSchema,
+      LocationConcertDTOSchema,
+      LocationCityDTOSchema,
+      LocationCountryDTOSchema,
+      SendEmailResponseDTOSchema,
+      PosterDTOSchema,
+      ArtistProfileImageDTOSchema,
+      CopyrightDTOSchema,
+      TicketDTOSchema,
+      PriceDTOSchema,
+      VenueDTOSchema,
+      VenueDetailDTOSchema,
+      UserDTOSchema,
+      EventDTOSchema,
+      EventDetailDTOSchema,
+      TicketPromotionDTOSchema,
+      ArtistDetailDTOSchema,
+      PosterDetailDTOSchema,
+      ArtistProfileImageDetailDTOSchema,
+      EventSubscribeDTOSchema,
+      ArtistSubscribeDTOSchema,
+      VenueSubscribeDTOSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
@@ -222,7 +179,7 @@ fastify.register(fastifySwagger, {
   // })
 })
 
-fastify.register(fastifySwaggerUi, {
+app.register(fastifySwaggerUi, {
   routePrefix: '/docs',
   uiConfig: {
     defaultModelsExpandDepth: 1, // Show schemas in the Models section
@@ -234,13 +191,17 @@ fastify.register(fastifySwaggerUi, {
   },
 })
 
-fastify.register(authRoute, { prefix: '/v1/auth' })
-fastify.register(userRoute, { prefix: '/v1/user' })
-fastify.register(concertRoute, { prefix: '/v1/concert' })
-fastify.register(searchRoute, { prefix: '/v1/search' })
-fastify.register(subscribeRoute, { prefix: '/v1/subscribe' })
-fastify.register(fcmRoute, { prefix: '/v1/fcm' })
-fastify.register(artistRoute, { prefix: '/v1/artist' })
-fastify.register(venueRoute, { prefix: '/v1/venue' })
-fastify.register(locationRoute, { prefix: '/v1/location' })
-fastify.register(mailerRoute, { prefix: '/v1/mailer' })
+app.register(authRoute, { prefix: '/v1/auth' })
+app.register(userRoute, { prefix: '/v1/user' })
+app.register(searchRoute, { prefix: '/v1/search' })
+app.register(subscribeRoute, { prefix: '/v1/subscribe' })
+app.register(fcmRoute, { prefix: '/v1/fcm' })
+app.register(artistRoute, { prefix: '/v1/artist' })
+app.register(venueRoute, { prefix: '/v1/venue' })
+app.register(locationRoute, { prefix: '/v1/location' })
+app.register(mailerRoute, { prefix: '/v1/mailer' })
+app.register(posterRoute, { prefix: '/v1/poster' })
+app.register(artistProfileImageRoute, { prefix: '/v1/artist-profile-image' })
+app.register(ticketRoute, { prefix: '/v1/ticket' })
+app.register(priceRoute, { prefix: '/v1/price' })
+app.register(eventRoute, { prefix: '/v1/event' })
