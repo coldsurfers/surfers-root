@@ -1,10 +1,10 @@
 import { SubscribedConcertList, SubscribedConcertListSkeleton } from '@/features'
 import { useShowBottomTabBar } from '@/lib'
-import { $api, apiClient } from '@/lib/api/openapi-client'
+import { apiClient } from '@/lib/api/openapi-client'
 import { CommonScreenLayout, MyScreenLandingLayout } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, ProfileThumbnail, Spinner, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import React, { Suspense, useCallback, useContext, useMemo } from 'react'
 import { Alert, Pressable, SectionList, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import { match } from 'ts-pattern'
@@ -19,20 +19,24 @@ import {
 const ListFooterComponent = () => {
   const { logout } = useContext(AuthContext)
   const { semantics } = useColorScheme()
-  const { mutate: deactivateUser } = $api.useMutation('delete', '/v1/user/deactivate', {
+  const queryClient = useQueryClient()
+  const { mutate: deactivateUser } = useMutation({
+    mutationFn: apiClient.user.deactivate,
     onSuccess: () => logout(),
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: apiClient.user.queryKeys.me })
+      await queryClient.setQueryData(apiClient.user.queryKeys.me, null)
+    },
+    onSettled: async () => {
+      await queryClient.invalidateQueries({ queryKey: apiClient.user.queryKeys.me })
+    },
   })
   const onPress = useCallback(() => {
     Alert.alert('회원탈퇴', '회원탈퇴를 하면 더 이상 해당 계정으로 로그인 할 수 없어요', [
       {
         style: 'destructive',
         text: '탈퇴하기',
-        onPress: () =>
-          deactivateUser({
-            body: {
-              type: 'deactivate',
-            },
-          }),
+        onPress: () => deactivateUser(),
       },
       {
         style: 'cancel',

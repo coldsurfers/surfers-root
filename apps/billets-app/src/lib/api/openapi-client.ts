@@ -59,6 +59,17 @@ export const apiClient = {
       }
       return data.data
     },
+    deactivate: async () => {
+      const data = await fetchClient.DELETE('/v1/user/deactivate', {
+        body: {
+          type: 'deactivate',
+        },
+      })
+      if (data.error) {
+        throw new OpenApiError(data.error)
+      }
+      return data.data
+    },
   },
   artist: {
     queryKeys: {
