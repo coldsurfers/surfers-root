@@ -84,76 +84,6 @@ export const apiClient = {
       return response.data
     },
   },
-  concert: {
-    queryKeys: {
-      all: ['concert'],
-      list: {
-        all: ['concert', 'list'],
-        paginated: {
-          byLocation: ({ latitude, longitude }: { latitude?: number; longitude?: number }) => [
-            'concert',
-            'list',
-            'paginated',
-            { latitude, longitude },
-          ],
-        },
-        byLocation: ({
-          latitude,
-          longitude,
-          offset,
-          size,
-        }: {
-          latitude?: number
-          longitude?: number
-          offset: number
-          size: number
-        }) => ['concert', 'list', { latitude, longitude, offset, size }],
-      },
-      detail: (id: string) => ['concert', 'detail', id],
-    },
-    getConcerts: async ({
-      offset,
-      size,
-      latitude,
-      longitude,
-    }: {
-      offset: number
-      size: number
-      latitude?: number
-      longitude?: number
-    }) => {
-      const response = await baseFetchClient.GET('/v1/concert/', {
-        params: {
-          query: {
-            offset,
-            size,
-            latitude,
-            longitude,
-          },
-        },
-      })
-      if (response.error) {
-        throw new OpenApiError(response.error)
-      }
-      return response.data
-    },
-    getConcertById: async (id: string) => {
-      const response = await baseFetchClient.GET('/v1/concert/{id}', {
-        params: {
-          path: {
-            id,
-          },
-        },
-      })
-      if (!response.data || response.error) {
-        throw new OpenApiError({
-          code: 'CONCERT_NOT_FOUND',
-          message: 'concert not found',
-        })
-      }
-      return response.data
-    },
-  },
   location: {
     queryKeys: {
       getCountries: () => ['countries'],
@@ -205,46 +135,39 @@ export const apiClient = {
   venue: {
     queryKeys: {
       all: ['venue'],
-      list: {
-        all: ['venue', 'list'],
-        byConcertId: (concertId: string) => ['venue', 'list', { concertId }],
-      },
       detail: (id: string) => ['venue', 'detail', id],
     },
-    getVenuesByConcertId: async (concertId: string) => {
-      const response = await baseFetchClient.GET('/v1/venue/concert/{concertId}', {
+    getVenueDetail: async (id: string) => {
+      const data = await baseFetchClient.GET('/v1/venue/{id}', {
         params: {
           path: {
-            concertId,
+            id,
           },
         },
       })
-      if (response.error) {
-        throw new OpenApiError(response.error)
+      if (data.error) {
+        throw new OpenApiError(data.error)
       }
-      return response.data
+      return data.data
     },
   },
   artist: {
     queryKeys: {
       all: ['artist'],
-      list: {
-        all: ['artist', 'list'],
-        byConcertId: (concertId: string) => ['artist', 'list', { concertId }],
-      },
+      detail: (id: string) => ['artist', 'detail', id],
     },
-    getArtistsByConcertId: async (concertId: string) => {
-      const response = await baseFetchClient.GET('/v1/artist/concert/{concertId}', {
+    getArtistDetail: async (id: string) => {
+      const data = await baseFetchClient.GET('/v1/artist/{id}', {
         params: {
           path: {
-            concertId,
+            id,
           },
         },
       })
-      if (response.error) {
-        throw new OpenApiError(response.error)
+      if (data.error) {
+        throw new OpenApiError(data.error)
       }
-      return response.data
+      return data.data
     },
   },
   ticket: {
