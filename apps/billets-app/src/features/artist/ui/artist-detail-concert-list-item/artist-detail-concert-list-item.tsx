@@ -10,9 +10,9 @@ import { ArtistDetailConcertListItemProps } from './artist-detail-concert-list-i
 
 export const ArtistDetailConcertListItem = ({ item, onPress }: ArtistDetailConcertListItemProps) => {
   const toggleSubscribe = useToggleSubscribeConcert()
-  const { data: subscribedConcert } = useQuery({
-    queryKey: apiClient.queryKeys.subscribe.concert.detail(item.id),
-    queryFn: () => apiClient.subscribe.getSubscribedConcert(item.id),
+  const { data: eventSubscribeData } = useQuery({
+    queryKey: apiClient.subscribe.queryKeys.eventSubscribe({ eventId: item.id }),
+    queryFn: () => apiClient.subscribe.getEvent({ eventId: item.id }),
   })
   const { data: meData } = useQuery({
     queryKey: apiClient.user.queryKeys.me,
@@ -44,9 +44,9 @@ export const ArtistDetailConcertListItem = ({ item, onPress }: ArtistDetailConce
               })
               return
             }
-            toggleSubscribe({ concertId: item.id, isSubscribed: !!subscribedConcert })
+            toggleSubscribe({ concertId: item.id, isSubscribed: !!eventSubscribeData })
           }}
-          isSubscribed={!!subscribedConcert}
+          isSubscribed={!!eventSubscribeData}
         />
       }
     />

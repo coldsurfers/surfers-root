@@ -34,8 +34,8 @@ const _ConcertDetailScreen = () => {
     queryFn: () => apiClient.event.getDetail({ eventId: params.concertId }),
   })
   const { data: subscribedConcert } = useQuery({
-    queryKey: apiClient.queryKeys.subscribe.concert.detail(params.concertId),
-    queryFn: () => apiClient.subscribe.getSubscribedConcert(params.concertId),
+    queryKey: apiClient.subscribe.queryKeys.eventSubscribe({ eventId: params.concertId }),
+    queryFn: () => apiClient.subscribe.getEvent({ eventId: params.concertId }),
   })
   const { data: meData } = useQuery({
     queryKey: apiClient.user.queryKeys.me,

@@ -24,8 +24,8 @@ export const ConcertListItem = ({ data, onPress, onPressSubscribe, size = 'large
   const { semantics } = useColorScheme()
 
   const { data: subscribedConcertData } = useQuery({
-    queryKey: apiClient.queryKeys.subscribe.concert.detail(data.id),
-    queryFn: () => apiClient.subscribe.getSubscribedConcert(data.id),
+    queryKey: apiClient.subscribe.queryKeys.eventSubscribe({ eventId: data.id }),
+    queryFn: () => apiClient.subscribe.getEvent({ eventId: data.id }),
   })
 
   const thumbnailUrl = useMemo(() => data.mainPoster?.url ?? '', [data.mainPoster?.url])

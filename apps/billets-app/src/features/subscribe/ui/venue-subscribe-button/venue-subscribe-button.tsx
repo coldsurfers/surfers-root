@@ -12,36 +12,34 @@ export const VenueSubscribeButton = ({ venueId, onShouldLogin, style, size = 'md
     queryFn: () => apiClient.user.getMe(),
   })
   const { data: subscribeVenueData } = useQuery({
-    queryKey: apiClient.queryKeys.subscribe.venue.detail(venueId),
-    queryFn: () => apiClient.subscribe.getSubscribedVenue(venueId),
+    queryKey: apiClient.subscribe.queryKeys.venueSubscribe({ venueId }),
+    queryFn: () => apiClient.subscribe.getVenue({ venueId }),
   })
   const { mutate: subscribeVenue } = useMutation<
-    Awaited<ReturnType<typeof apiClient.subscribe.subscribeVenue>>,
+    components['schemas']['VenueSubscribeDTOSchema'],
     OpenApiError,
     {
-      id: string
+      venueId: string
     }
   >({
-    mutationFn: (variables) => apiClient.subscribe.subscribeVenue({ id: variables.id }),
+    mutationFn: (variables) => apiClient.subscribe.subscribeVenue(variables),
     onMutate: async (variables) => {
       if (!meData) {
         onShouldLogin()
         return
       }
-      const { id: venueId } = variables
+      const { venueId } = variables
       await queryClient.cancelQueries({
-        queryKey: apiClient.queryKeys.subscribe.venue.detail(venueId),
+        queryKey: apiClient.subscribe.queryKeys.venueSubscribe({ venueId }),
       })
 
-      const newSubscribeVenue: components['schemas']['VenueDTOSchema'] = {
-        id: venueId,
-        address: '',
-        lat: 0,
-        lng: 0,
-        name: '',
+      const newSubscribeVenue: components['schemas']['VenueSubscribeDTOSchema'] = {
+        subscribedAt: new Date().toISOString(),
+        userId: meData.id,
+        venueId,
       }
 
-      queryClient.setQueryData(apiClient.queryKeys.subscribe.venue.detail(venueId), newSubscribeVenue)
+      queryClient.setQueryData(apiClient.subscribe.queryKeys.venueSubscribe({ venueId }), newSubscribeVenue)
 
       return newSubscribeVenue
     },
@@ -50,29 +48,29 @@ export const VenueSubscribeButton = ({ venueId, onShouldLogin, style, size = 'md
         return
       }
       queryClient.invalidateQueries({
-        queryKey: apiClient.queryKeys.subscribe.venue.detail(data.id),
+        queryKey: apiClient.subscribe.queryKeys.venueSubscribe({ venueId }),
       })
     },
   })
   const { mutate: unsubscribeVenue } = useMutation<
-    Awaited<ReturnType<typeof apiClient.subscribe.unsubscribeVenue>>,
+    components['schemas']['VenueSubscribeDTOSchema'],
     OpenApiError,
     {
-      id: string
+      venueId: string
     }
   >({
-    mutationFn: (variables) => apiClient.subscribe.unsubscribeVenue({ id: variables.id }),
+    mutationFn: (variables) => apiClient.subscribe.unsubscribeVenue(variables),
     onMutate: async (variables) => {
       if (!meData) {
         onShouldLogin()
         return
       }
-      const { id: venueId } = variables
+      const { venueId } = variables
       await queryClient.cancelQueries({
-        queryKey: apiClient.queryKeys.subscribe.venue.detail(venueId),
+        queryKey: apiClient.subscribe.queryKeys.venueSubscribe({ venueId }),
       })
 
-      queryClient.setQueryData(apiClient.queryKeys.subscribe.venue.detail(venueId), null)
+      queryClient.setQueryData(apiClient.subscribe.queryKeys.venueSubscribe({ venueId }), null)
 
       return null
     },
@@ -82,7 +80,7 @@ export const VenueSubscribeButton = ({ venueId, onShouldLogin, style, size = 'md
         return
       }
       queryClient.invalidateQueries({
-        queryKey: apiClient.queryKeys.subscribe.venue.detail(data.id),
+        queryKey: apiClient.subscribe.queryKeys.venueSubscribe({ venueId: data.venueId }),
       })
     },
   })
@@ -93,11 +91,11 @@ export const VenueSubscribeButton = ({ venueId, onShouldLogin, style, size = 'md
       onPress={() => {
         if (subscribeVenueData) {
           unsubscribeVenue({
-            id: venueId,
+            venueId,
           })
         } else {
           subscribeVenue({
-            id: venueId,
+            venueId,
           })
         }
       }}

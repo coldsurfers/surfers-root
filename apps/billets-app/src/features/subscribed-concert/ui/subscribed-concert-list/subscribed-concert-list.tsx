@@ -30,8 +30,8 @@ export function SubscribedConcertList({
     refetch,
   } = useInfiniteQuery({
     initialPageParam: 0,
-    queryKey: apiClient.queryKeys.subscribe.concert.list.paginated,
-    queryFn: ({ pageParam = 0 }) => apiClient.subscribe.getSubscribedConcerts({ offset: pageParam, size: PER_PAGE }),
+    queryKey: apiClient.subscribe.queryKeys.eventList({}),
+    queryFn: ({ pageParam = 0 }) => apiClient.subscribe.getEventList({ offset: pageParam, size: PER_PAGE }),
     getNextPageParam: (lastPage, allPages) => {
       if (!lastPage) {
         return undefined
@@ -76,7 +76,7 @@ export function SubscribedConcertList({
     <FlatList
       horizontal={horizontal}
       data={listData}
-      keyExtractor={(item) => `${item.id}`}
+      keyExtractor={(item) => `${item.eventId}`}
       renderItem={renderItem}
       ItemSeparatorComponent={ItemSeparator}
       contentContainerStyle={subscribedConcertListStyles.contentContainer}
