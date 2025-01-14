@@ -1,7 +1,8 @@
-import { AuthContext } from '@/lib'
+import { apiClient } from '@/lib/api/openapi-client'
 import { colors } from '@coldsurfers/ocean-road'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import React, { useContext } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import React from 'react'
 import { ArtistStackNavigation } from '../artist-stack-navigation'
 import { ConcertStackNavigation } from '../concert-stack-navigation'
 import { LoginStackNavigation } from '../login-stack-navigation'
@@ -13,7 +14,10 @@ import { MainStackNavigationParamList } from './main-stack-navigation.types'
 const MainStack = createNativeStackNavigator<MainStackNavigationParamList>()
 
 export const MainStackNavigation = () => {
-  const { user } = useContext(AuthContext)
+  const { data: user } = useQuery({
+    queryKey: apiClient.user.queryKeys.me,
+    queryFn: () => apiClient.user.getMe(),
+  })
   return (
     <MainStack.Navigator
       screenOptions={{
