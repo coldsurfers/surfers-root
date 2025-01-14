@@ -4,7 +4,6 @@ import { useArtistDetailScreenNavigation } from '@/screens/artist-detail-screen/
 import { colors } from '@coldsurfers/ocean-road'
 import { ProfileThumbnail, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { useQuery } from '@tanstack/react-query'
-import { useMemo } from 'react'
 import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native'
 
 export const ArtistDetailTop = ({
@@ -17,16 +16,9 @@ export const ArtistDetailTop = ({
   const { semantics } = useColorScheme()
   const navigation = useArtistDetailScreenNavigation()
   const { data: artistDetail, isLoading: isLoadingArtistDetail } = useQuery({
-    queryKey: apiClient.queryKeys.artist.detail(artistId),
+    queryKey: apiClient.artist.queryKeys.detail(artistId),
     queryFn: () => apiClient.artist.getArtistDetail(artistId),
   })
-  const { data: artistProfileImages } = useQuery({
-    queryKey: apiClient.queryKeys.artistProfileImage.listByArtistId(artistId),
-    queryFn: () => apiClient.artistProfileImage.getArtistProfileImagesByArtistId(artistId),
-  })
-  const artistDetailUIData = useMemo(() => {
-    return artistDetail ?? null
-  }, [artistDetail])
   return (
     <View>
       <View style={styles.topContainer}>
@@ -36,15 +28,15 @@ export const ArtistDetailTop = ({
           <View style={styles.contentContainer}>
             <Pressable onPress={onPressArtistProfile}>
               <ProfileThumbnail
-                emptyBgText={artistDetailUIData?.name.at(0) ?? ''}
-                imageUrl={artistProfileImages?.at(0)?.url}
+                emptyBgText={artistDetail?.name.at(0) ?? ''}
+                imageUrl={artistDetail?.thumbUrl ?? ''}
                 size="lg"
                 type="circle"
                 style={styles.thumbnail}
               />
             </Pressable>
             <Text weight="medium" style={[styles.topTitle, { color: semantics.foreground[1] }]}>
-              {artistDetailUIData?.name ?? ''}
+              {artistDetail?.name ?? ''}
             </Text>
             <Text weight="regular" style={[styles.subTitle, { color: semantics.foreground[2] }]}>
               아티스트
