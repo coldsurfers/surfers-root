@@ -2,15 +2,16 @@
 
 import { memo } from 'react'
 
+import { components } from 'types/api'
 import { StyledLineupContainer, StyledLineupImage, StyledLineupNameText } from './lineup.styled'
 
-export const LineupItem = memo(
-  ({ id, name, profileImageUrl }: { profileImageUrl: string; name: string; id: string }) => {
-    return (
-      <StyledLineupContainer key={id}>
-        <StyledLineupImage src={profileImageUrl} alt={name} />
-        <StyledLineupNameText as="p">{name}</StyledLineupNameText>
-      </StyledLineupContainer>
-    )
-  },
-)
+export const LineupItem = memo(({ artist }: { artist: components['schemas']['ArtistDTOSchema'] }) => {
+  const profileImageUrl = artist.thumbUrl
+  const name = artist.name
+  return (
+    <StyledLineupContainer>
+      <StyledLineupImage src={profileImageUrl ?? ''} alt={name} />
+      <StyledLineupNameText as="p">{name}</StyledLineupNameText>
+    </StyledLineupContainer>
+  )
+})

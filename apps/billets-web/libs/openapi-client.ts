@@ -16,63 +16,69 @@ const baseFetchClient = createFetchClient<paths>({
 
 export const $api = createClient(baseFetchClient)
 
-type GetConcertsParams = {
-  offset: number
-  size: number
-  latitude?: number
-  longitude?: number
-}
-
 export const apiClient = {
-  concerts: {
+  event: {
     queryKeys: {
-      getConcerts: ({ offset, size, latitude, longitude }: GetConcertsParams) => [
-        'concerts',
-        { offset, size, latitude, longitude },
-      ],
-      getConcertById: (id: string) => ['concerts', id],
+      all: ['event'],
+      list: ({
+        latitude,
+        longitude,
+        offset,
+        size,
+      }: {
+        latitude?: number
+        longitude?: number
+        offset?: number
+        size?: number
+      }) => ['event', 'list', { latitude, longitude, offset, size }],
+      detail: (id: string) => ['event', 'detail', id],
     },
-    getConcerts: async ({ offset, size, latitude, longitude }: GetConcertsParams) => {
-      const query: {
-        offset: string
-        size: string
-        latitude?: string
-        longitude?: string
-      } = {
-        offset: `${offset}`,
-        size: `${size}`,
-      }
-      if (latitude && longitude) {
-        query.latitude = `${latitude}`
-        query.longitude = `${longitude}`
-      }
-      const response = await baseFetchClient.GET('/v1/concert/', {
+    getEvents: async ({
+      offset,
+      size,
+      latitude,
+      longitude,
+    }: {
+      offset: number
+      size: number
+      latitude?: number
+      longitude?: number
+    }) => {
+      const response = await baseFetchClient.GET('/v1/event/', {
         params: {
-          query,
-        },
-      })
-      return response.data
-    },
-    getConcertById: async (id: string) => {
-      const response = await baseFetchClient.GET('/v1/concert/{id}', {
-        params: {
-          path: {
-            id,
+          query: {
+            offset,
+            size,
+            latitude,
+            longitude,
           },
         },
       })
-      if (!response.data || response.error) {
-        throw new OpenApiError({
-          code: 'CONCERT_NOT_FOUND',
-          message: 'concert not found',
-        })
+      if (response.error) {
+        throw new OpenApiError(response.error)
+      }
+      return response.data
+    },
+    getEventDetail: async (id: string) => {
+      const response = await baseFetchClient.GET('/v1/event/{eventId}', {
+        params: {
+          path: {
+            eventId: id,
+          },
+        },
+      })
+      if (response.error) {
+        throw new OpenApiError(response.error)
       }
       return response.data
     },
   },
   location: {
     queryKeys: {
-      getCountries: () => ['countries'],
+      country: {
+        all: ['country'],
+        list: ['country', 'list'],
+      },
     },
     getCountries: async () => {
       const response = await baseFetchClient.GET('/v1/location/country')
@@ -83,12 +89,28 @@ export const apiClient = {
     },
   },
   mailer: {
-    queryKeys: {
-      sendUserVoice: () => ['sendUserVoice'],
-    },
     sendUserVoice: async (body: { email: string; name: string; message: string; updateAgreement: boolean }) => {
       const response = await baseFetchClient.POST('/v1/mailer/user-voice', {
         body,
+      })
+      if (response.error) {
+        throw new OpenApiError(response.error)
+      }
+      return response.data
+    },
+  },
+  ticket: {
+    queryKeys: {
+      all: ['ticket'],
+      list: ({ eventId }: { eventId: string }) => ['ticket', 'list', { eventId }],
+    },
+    getTicketsByEventId: async (eventId: string) => {
+      const response = await baseFetchClient.GET('/v1/ticket/', {
+        params: {
+          query: {
+            eventId,
+          },
+        },
       })
       if (response.error) {
         throw new OpenApiError(response.error)
