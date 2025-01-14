@@ -30,26 +30,6 @@ fetchClient.use(authMiddleware)
 export const $api = createClient(fetchClient)
 
 export const apiClient = {
-  queryKeys: {
-    subscribe: {
-      concert: {
-        all: ['v1', 'subscribe', 'concert'],
-        list: {
-          all: ['v1', 'subscribe', 'concert', 'list'],
-          paginated: ['v1', 'subscribe', 'concert', 'list', 'paginated'],
-        },
-        detail: (id: string) => ['v1', 'subscribe', 'concert', 'detail', id],
-      },
-      artist: {
-        all: ['v1', 'subscribe', 'artist'],
-        detail: (id: string) => ['v1', 'subscribe', 'artist', 'detail', id],
-      },
-      venue: {
-        all: ['v1', 'subscribe', 'venue'],
-        detail: (id: string) => ['v1', 'subscribe', 'venue', 'detail', id],
-      },
-    },
-  },
   auth: {
     signIn: async (body: {
       email: string
@@ -183,11 +163,35 @@ export const apiClient = {
     },
   },
   subscribe: {
-    getSubscribedConcerts: async (params: { offset: number; size: number }) => {
-      const data = await fetchClient.GET('/v1/subscribe/concert', {
+    queryKeys: {
+      all: ['v1', 'subscribe'],
+      eventList: ({ offset, size }: { offset?: number; size?: number }) => [
+        'v1',
+        'subscribe',
+        'list',
+        'event',
+        { offset, size },
+      ],
+      eventSubscribe: ({ eventId }: { eventId: string }) => ['v1', 'subscribe', 'event', { eventId }],
+      artistSubscribe: ({ artistId }: { artistId: string }) => ['v1', 'subscribe', 'artist', { artistId }],
+      venueSubscribe: ({ venueId }: { venueId: string }) => ['v1', 'subscribe', 'venue', { venueId }],
+    },
+    getEventList: async (params: { offset: number; size: number }) => {
+      const data = await fetchClient.GET('/v1/subscribe/event', {
         params: {
-          query: {
-            ...params,
+          query: params,
+        },
+      })
+      if (data.error) {
+        throw new OpenApiError(data.error)
+      }
+      return data.data
+    },
+    getEvent: async ({ eventId }: { eventId: string }) => {
+      const data = await fetchClient.GET('/v1/subscribe/event/{eventId}', {
+        params: {
+          path: {
+            eventId,
           },
         },
       })
@@ -196,11 +200,11 @@ export const apiClient = {
       }
       return data.data
     },
-    getSubscribedConcert: async (id: string) => {
-      const data = await fetchClient.GET('/v1/subscribe/concert/{id}', {
+    getVenue: async ({ venueId }: { venueId: string }) => {
+      const data = await fetchClient.GET('/v1/subscribe/venue/{venueId}', {
         params: {
           path: {
-            id,
+            venueId,
           },
         },
       })
@@ -209,11 +213,11 @@ export const apiClient = {
       }
       return data.data
     },
-    getSubscribedVenue: async (id: string) => {
-      const data = await fetchClient.GET('/v1/subscribe/venue/{id}', {
+    getArtist: async ({ artistId }: { artistId: string }) => {
+      const data = await fetchClient.GET('/v1/subscribe/artist/{artistId}', {
         params: {
           path: {
-            id,
+            artistId,
           },
         },
       })
@@ -222,28 +226,10 @@ export const apiClient = {
       }
       return data.data
     },
-    getSubscribedArtist: async (id: string) => {
-      const data = await fetchClient.GET('/v1/subscribe/artist/{id}', {
-        params: {
-          path: {
-            id,
-          },
-        },
-      })
-      if (data.error) {
-        throw new OpenApiError(data.error)
-      }
-      return data.data
-    },
-    subscribeConcert: async (params: { id: string }) => {
-      const data = await fetchClient.POST('/v1/subscribe/concert/{id}', {
-        params: {
-          path: {
-            id: params.id,
-          },
-        },
+    subscribeEvent: async (params: { eventId: string }) => {
+      const data = await fetchClient.POST('/v1/subscribe/event', {
         body: {
-          id: params.id,
+          eventId: params.eventId,
         },
       })
       if (data.error) {
@@ -251,15 +237,10 @@ export const apiClient = {
       }
       return data.data
     },
-    unsubscribeConcert: async (params: { id: string }) => {
-      const data = await fetchClient.DELETE('/v1/subscribe/concert/{id}', {
-        params: {
-          path: {
-            id: params.id,
-          },
-        },
+    unsubscribeEvent: async (params: { eventId: string }) => {
+      const data = await fetchClient.DELETE('/v1/subscribe/event', {
         body: {
-          id: params.id,
+          eventId: params.eventId,
         },
       })
       if (data.error) {
@@ -267,15 +248,10 @@ export const apiClient = {
       }
       return data.data
     },
-    subscribeArtist: async (params: { id: string }) => {
-      const data = await fetchClient.POST('/v1/subscribe/artist/{id}', {
-        params: {
-          path: {
-            id: params.id,
-          },
-        },
+    subscribeArtist: async (params: { artistId: string }) => {
+      const data = await fetchClient.POST('/v1/subscribe/artist', {
         body: {
-          type: 'subscribe-artist',
+          artistId: params.artistId,
         },
       })
       if (data.error) {
@@ -283,15 +259,10 @@ export const apiClient = {
       }
       return data.data
     },
-    unsubscribeArtist: async (params: { id: string }) => {
-      const data = await fetchClient.DELETE('/v1/subscribe/artist/{id}', {
-        params: {
-          path: {
-            id: params.id,
-          },
-        },
+    unsubscribeArtist: async (params: { artistId: string }) => {
+      const data = await fetchClient.DELETE('/v1/subscribe/artist', {
         body: {
-          type: 'unsubscribe-artist',
+          artistId: params.artistId,
         },
       })
       if (data.error) {
@@ -299,15 +270,10 @@ export const apiClient = {
       }
       return data.data
     },
-    subscribeVenue: async (params: { id: string }) => {
-      const data = await fetchClient.POST('/v1/subscribe/venue/{id}', {
-        params: {
-          path: {
-            id: params.id,
-          },
-        },
+    subscribeVenue: async (params: { venueId: string }) => {
+      const data = await fetchClient.POST('/v1/subscribe/venue', {
         body: {
-          type: 'subscribe-venue',
+          venueId: params.venueId,
         },
       })
       if (data.error) {
@@ -315,15 +281,10 @@ export const apiClient = {
       }
       return data.data
     },
-    unsubscribeVenue: async (params: { id: string }) => {
-      const data = await fetchClient.DELETE('/v1/subscribe/venue/{id}', {
-        params: {
-          path: {
-            id: params.id,
-          },
-        },
+    unsubscribeVenue: async (params: { venueId: string }) => {
+      const data = await fetchClient.DELETE('/v1/subscribe/venue', {
         body: {
-          type: 'unsubscribe-venue',
+          venueId: params.venueId,
         },
       })
       if (data.error) {

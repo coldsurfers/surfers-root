@@ -13,33 +13,33 @@ export const ArtistSubscribeButton = ({ artistId, onShouldLogin, style, size = '
     queryFn: () => apiClient.user.getMe(),
   })
   const { data: subscribeArtistData } = useQuery({
-    queryKey: apiClient.queryKeys.subscribe.artist.detail(artistId),
-    queryFn: () => apiClient.subscribe.getSubscribedArtist(artistId),
+    queryKey: apiClient.subscribe.queryKeys.artistSubscribe({ artistId }),
+    queryFn: () => apiClient.subscribe.getArtist({ artistId }),
   })
   const { mutate: subscribeArtist } = useMutation<
-    Awaited<ReturnType<typeof apiClient.subscribe.subscribeArtist>>,
+    components['schemas']['ArtistSubscribeDTOSchema'],
     OpenApiError,
     {
-      id: string
+      artistId: string
     }
   >({
-    mutationFn: (variables) => apiClient.subscribe.subscribeArtist({ id: variables.id }),
+    mutationFn: (variables) => apiClient.subscribe.subscribeArtist({ artistId: variables.artistId }),
     onMutate: async (variables) => {
       if (!meData) {
         onShouldLogin()
         return
       }
-      const { id: artistId } = variables
+      const { artistId } = variables
       await queryClient.cancelQueries({
-        queryKey: apiClient.queryKeys.subscribe.artist.detail(artistId),
+        queryKey: apiClient.subscribe.queryKeys.artistSubscribe({ artistId }),
       })
-      const newSubscribeArtist: components['schemas']['ArtistDTOSchema'] = {
-        id: artistId,
-        name: '',
-        thumbUrl: '',
+      const newSubscribeArtist: components['schemas']['ArtistSubscribeDTOSchema'] = {
+        artistId,
+        subscribedAt: new Date().toISOString(),
+        userId: '',
       }
-      queryClient.setQueryData<components['schemas']['ArtistDTOSchema']>(
-        apiClient.queryKeys.subscribe.artist.detail(artistId),
+      queryClient.setQueryData<components['schemas']['ArtistSubscribeDTOSchema']>(
+        apiClient.subscribe.queryKeys.artistSubscribe({ artistId }),
         newSubscribeArtist,
       )
 
@@ -50,28 +50,28 @@ export const ArtistSubscribeButton = ({ artistId, onShouldLogin, style, size = '
         return
       }
       queryClient.invalidateQueries({
-        queryKey: apiClient.queryKeys.subscribe.artist.detail(data.id),
+        queryKey: apiClient.subscribe.queryKeys.artistSubscribe({ artistId }),
       })
     },
   })
   const { mutate: unsubscribeArtist } = useMutation<
-    Awaited<ReturnType<typeof apiClient.subscribe.unsubscribeArtist>>,
+    components['schemas']['ArtistSubscribeDTOSchema'],
     OpenApiError,
     {
-      id: string
+      artistId: string
     }
   >({
-    mutationFn: (variables) => apiClient.subscribe.unsubscribeArtist({ id: variables.id }),
+    mutationFn: (variables) => apiClient.subscribe.unsubscribeArtist(variables),
     onMutate: async (variables) => {
       if (!meData) {
         onShouldLogin()
         return
       }
-      const { id: artistId } = variables
+      const { artistId } = variables
       await queryClient.cancelQueries({
-        queryKey: apiClient.queryKeys.subscribe.artist.detail(artistId),
+        queryKey: apiClient.subscribe.queryKeys.artistSubscribe({ artistId }),
       })
-      queryClient.setQueryData(apiClient.queryKeys.subscribe.artist.detail(artistId), null)
+      queryClient.setQueryData(apiClient.subscribe.queryKeys.artistSubscribe({ artistId }), null)
 
       return null
     },
@@ -80,7 +80,7 @@ export const ArtistSubscribeButton = ({ artistId, onShouldLogin, style, size = '
         return
       }
       queryClient.invalidateQueries({
-        queryKey: apiClient.queryKeys.subscribe.artist.detail(data.id),
+        queryKey: apiClient.subscribe.queryKeys.artistSubscribe({ artistId }),
       })
     },
   })
@@ -89,11 +89,11 @@ export const ArtistSubscribeButton = ({ artistId, onShouldLogin, style, size = '
     const isSubscribed = !!subscribeArtistData
     if (isSubscribed) {
       unsubscribeArtist({
-        id: artistId,
+        artistId,
       })
     } else {
       subscribeArtist({
-        id: artistId,
+        artistId,
       })
     }
   }, [artistId, subscribeArtist, subscribeArtistData, unsubscribeArtist])

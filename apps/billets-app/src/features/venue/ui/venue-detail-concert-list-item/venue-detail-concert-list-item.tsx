@@ -8,8 +8,8 @@ import { VenueDetailConcertListItemProps } from './venue-detail-concert-list-ite
 
 export const VenueDetailConcertListItem = ({ item, onPress, onPressSubscribe }: VenueDetailConcertListItemProps) => {
   const { data: subscribedConcert } = useQuery({
-    queryKey: apiClient.queryKeys.subscribe.concert.detail(item.id),
-    queryFn: () => apiClient.subscribe.getSubscribedConcert(item.id),
+    queryKey: apiClient.subscribe.queryKeys.eventSubscribe({ eventId: item.id }),
+    queryFn: () => apiClient.subscribe.getEvent({ eventId: item.id }),
   })
   return (
     <HorizontalConcertItem
