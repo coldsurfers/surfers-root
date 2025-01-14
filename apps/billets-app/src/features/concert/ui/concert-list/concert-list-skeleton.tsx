@@ -13,6 +13,7 @@ export const ConcertListSkeleton = memo(() => {
   return (
     <FlatList
       data={data}
+      numColumns={2}
       renderItem={renderItem}
       contentContainerStyle={concertListStyles.concertListContentContainer}
     />
