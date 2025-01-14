@@ -30,7 +30,7 @@ export const AuthContext = createContext<{
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const queryClient = useQueryClient()
   const { isLoading: isLoadingMe, data: meData } = useQuery({
-    queryKey: apiClient.queryKeys.user.me,
+    queryKey: apiClient.user.queryKeys.me,
     queryFn: () => apiClient.user.getMe(),
   })
   const { mutateAsync: sendFCMToken } = $api.useMutation('post', '/v1/fcm/token')

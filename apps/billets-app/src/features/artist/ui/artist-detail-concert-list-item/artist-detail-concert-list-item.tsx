@@ -15,7 +15,7 @@ export const ArtistDetailConcertListItem = ({ item, onPress }: ArtistDetailConce
     queryFn: () => apiClient.subscribe.getSubscribedConcert(item.id),
   })
   const { data: meData } = useQuery({
-    queryKey: apiClient.queryKeys.user.me,
+    queryKey: apiClient.user.queryKeys.me,
     queryFn: () => apiClient.user.getMe(),
   })
   const navigation = useVenueDetailScreenNavigation()

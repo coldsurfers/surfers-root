@@ -62,7 +62,7 @@ const SuspenseMyScreen = () => {
   const navigation = useMyScreenNavigation()
   const { logout } = useContext(AuthContext)
   const { data: user } = useQuery({
-    queryKey: apiClient.queryKeys.user.me,
+    queryKey: apiClient.user.queryKeys.me,
     queryFn: () => apiClient.user.getMe(),
   })
   const { semantics } = useColorScheme()

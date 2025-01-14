@@ -25,9 +25,9 @@ export const ConcertList = forwardRef<FlatList, ConcertListProps>(
 
     const { data, isPending, fetchNextPage, isFetchingNextPage, hasNextPage, refetch } = useSuspenseInfiniteQuery({
       initialPageParam: 0,
-      queryKey: apiClient.event.queryKeys.list.paginated.byLocation({ latitude, longitude }),
+      queryKey: apiClient.event.queryKeys.list({ latitude, longitude }),
       queryFn: ({ pageParam = 0 }) =>
-        apiClient.event.getEvents({ offset: pageParam, size: PER_PAGE, latitude, longitude }),
+        apiClient.event.getList({ offset: pageParam, size: PER_PAGE, latitude, longitude }),
       getNextPageParam: (lastPage, allPages) => {
         if (lastPage.length < PER_PAGE) {
           return undefined

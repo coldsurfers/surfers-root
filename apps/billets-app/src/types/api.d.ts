@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-  '/v1/artist-profile-image/artist/{artistId}': {
+  '/v1/artist-profile-image/': {
     parameters: {
       query?: never
       header?: never
@@ -13,11 +13,11 @@ export interface paths {
     }
     get: {
       parameters: {
-        query?: never
-        header?: never
-        path: {
+        query: {
           artistId: string
         }
+        header?: never
+        path?: never
         cookie?: never
       }
       requestBody?: never
@@ -29,6 +29,61 @@ export interface paths {
           }
           content: {
             'application/json': components['schemas']['ArtistProfileImageDTOSchema'][]
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/artist-profile-image/{artistProfileImageId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          artistProfileImageId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ArtistProfileImageDetailDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
           }
         }
         /** @description Default Response */
@@ -370,52 +425,6 @@ export interface paths {
         }
       }
     }
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/v1/copyright/artist-profile-image/{artistProfileImageId}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get: {
-      parameters: {
-        query?: never
-        header?: never
-        path: {
-          artistProfileImageId: string
-        }
-        cookie?: never
-      }
-      requestBody?: never
-      responses: {
-        /** @description Default Response */
-        200: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['CopyrightDTOSchema'] | null
-          }
-        }
-        /** @description Default Response */
-        500: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema']
-          }
-        }
-      }
-    }
-    put?: never
-    post?: never
     delete?: never
     options?: never
     head?: never
@@ -767,7 +776,7 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/v1/poster/concert/{concertId}': {
+  '/v1/poster/': {
     parameters: {
       query?: never
       header?: never
@@ -776,11 +785,11 @@ export interface paths {
     }
     get: {
       parameters: {
-        query?: never
-        header?: never
-        path: {
-          concertId: string
+        query: {
+          eventId: string
         }
+        header?: never
+        path?: never
         cookie?: never
       }
       requestBody?: never
@@ -813,7 +822,7 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/v1/price/ticket/{ticketId}': {
+  '/v1/poster/{posterId}': {
     parameters: {
       query?: never
       header?: never
@@ -825,8 +834,63 @@ export interface paths {
         query?: never
         header?: never
         path: {
+          posterId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ArtistProfileImageDetailDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/price/': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query: {
           ticketId: string
         }
+        header?: never
+        path?: never
         cookie?: never
       }
       requestBody?: never
@@ -1505,7 +1569,7 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/v1/ticket/concert/{concertId}': {
+  '/v1/ticket/': {
     parameters: {
       query?: never
       header?: never
@@ -1514,11 +1578,11 @@ export interface paths {
     }
     get: {
       parameters: {
-        query?: never
-        header?: never
-        path: {
-          concertId: string
+        query: {
+          eventId: string
         }
+        header?: never
+        path?: never
         cookie?: never
       }
       requestBody?: never
@@ -1824,7 +1888,16 @@ export interface components {
       name: string
       thumbUrl: string | null
     }
+    ArtistProfileImageDetailDTOSchema: {
+      copyright: components['schemas']['CopyrightDTOSchema'] | null
+      /** Format: uuid */
+      id: string
+      /** Format: uri */
+      url: string
+    }
     ArtistProfileImageDTOSchema: {
+      /** Format: uuid */
+      id: string
       /** Format: uri */
       url: string
     }
@@ -1843,7 +1916,10 @@ export interface components {
       date: string
       /** Format: uuid */
       id: string
-      mainPoster: components['schemas']['ArtistProfileImageDTOSchema'] | null
+      mainPoster: {
+        /** Format: uri */
+        url: string
+      } | null
       mainVenue: {
         name: string
       } | null
@@ -1882,6 +1958,8 @@ export interface components {
         | 'EMAIL_AUTH_REQUEST_TIMEOUT'
         | 'UNKNOWN'
         | 'EVENT_NOT_FOUND'
+        | 'POSTER_NOT_FOUND'
+        | 'ARTIST_PROFILE_IMAGE_NOT_FOUND'
       message: string
     }
     EventDetailDTOSchema: {
@@ -1934,7 +2012,16 @@ export interface components {
       name: string
       uiName: string
     }
+    PosterDetailDTOSchema: {
+      copyright: components['schemas']['CopyrightDTOSchema'] | null
+      /** Format: uuid */
+      id: string
+      /** Format: uri */
+      url: string
+    }
     PosterDTOSchema: {
+      /** Format: uuid */
+      id: string
       /** Format: uri */
       url: string
     }

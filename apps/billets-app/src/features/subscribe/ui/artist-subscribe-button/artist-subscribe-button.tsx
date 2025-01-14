@@ -9,7 +9,7 @@ import { ArtistSubscribeButtonProps } from './artist-subscribe-button.types'
 export const ArtistSubscribeButton = ({ artistId, onShouldLogin, style, size = 'md' }: ArtistSubscribeButtonProps) => {
   const queryClient = useQueryClient()
   const { data: meData } = useQuery({
-    queryKey: apiClient.queryKeys.user.me,
+    queryKey: apiClient.user.queryKeys.me,
     queryFn: () => apiClient.user.getMe(),
   })
   const { data: subscribeArtistData } = useQuery({

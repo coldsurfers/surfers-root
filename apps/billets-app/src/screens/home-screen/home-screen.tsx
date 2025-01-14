@@ -32,7 +32,7 @@ const SuspenseHomeScreen = () => {
   )
 
   const { data: meData } = useQuery({
-    queryKey: apiClient.queryKeys.user.me,
+    queryKey: apiClient.user.queryKeys.me,
     queryFn: () => apiClient.user.getMe(),
   })
 

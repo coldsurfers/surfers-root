@@ -31,15 +31,6 @@ export const $api = createClient(fetchClient)
 
 export const apiClient = {
   queryKeys: {
-    user: {
-      all: ['v1', 'user'],
-      me: ['v1', 'user', 'me'],
-    },
-    artistProfileImage: {
-      all: ['v1', 'artist-profile-image'],
-      allList: ['v1', 'artist-profile-image', 'list'],
-      listByArtistId: (artistId: string) => ['v1', 'artist-profile-image', 'list', { artistId }],
-    },
     subscribe: {
       concert: {
         all: ['v1', 'subscribe', 'concert'],
@@ -57,26 +48,6 @@ export const apiClient = {
         all: ['v1', 'subscribe', 'venue'],
         detail: (id: string) => ['v1', 'subscribe', 'venue', 'detail', id],
       },
-    },
-    poster: {
-      all: ['v1', 'poster'],
-      allList: ['v1', 'poster', 'list'],
-      listByConcertId: (concertId: string) => ['v1', 'poster', 'list', { concertId }],
-    },
-    copyright: {
-      all: ['v1', 'copyright'],
-      detail: ['v1', 'copyright', 'detail'],
-      detailByArtistProfileImageId: (artistProfileImageId: string) => [
-        'v1',
-        'copyright',
-        'detailByArtistProfileImageId',
-        { artistProfileImageId },
-      ],
-    },
-    price: {
-      all: ['v1', 'price'],
-      allList: ['v1', 'price', 'list'],
-      listByTicketId: (ticketId: string) => ['v1', 'price', 'list', { ticketId }],
     },
   },
   auth: {
@@ -97,6 +68,10 @@ export const apiClient = {
     },
   },
   user: {
+    queryKeys: {
+      all: ['v1', 'user'],
+      me: ['v1', 'user', 'me'],
+    },
     getMe: async () => {
       const data = await fetchClient.GET('/v1/user/me')
       if (data.error) {
@@ -129,10 +104,20 @@ export const apiClient = {
     },
   },
   artistProfileImage: {
-    getArtistProfileImagesByArtistId: async (artistId: string) => {
-      const data = await fetchClient.GET('/v1/artist-profile-image/artist/{artistId}', {
+    queryKeys: {
+      all: ['v1', 'artist-profile-image'],
+      list: ({ artistId }: { artistId: string }) => ['v1', 'artist-profile-image', 'list', { artistId }],
+      detail: ({ artistProfileImageId }: { artistProfileImageId: string }) => [
+        'v1',
+        'artist-profile-image',
+        'detail',
+        { artistProfileImageId },
+      ],
+    },
+    getList: async ({ artistId }: { artistId: string }) => {
+      const data = await fetchClient.GET('/v1/artist-profile-image/', {
         params: {
-          path: {
+          query: {
             artistId,
           },
         },
@@ -142,10 +127,8 @@ export const apiClient = {
       }
       return data.data
     },
-  },
-  copyright: {
-    getCopyrightByArtistProfileImageId: async (artistProfileImageId: string) => {
-      const data = await fetchClient.GET('/v1/copyright/artist-profile-image/{artistProfileImageId}', {
+    getDetail: async ({ artistProfileImageId }: { artistProfileImageId: string }) => {
+      const data = await fetchClient.GET('/v1/artist-profile-image/{artistProfileImageId}', {
         params: {
           path: {
             artistProfileImageId,
@@ -181,11 +164,15 @@ export const apiClient = {
     },
   },
   poster: {
-    getPostersByConcertId: async (concertId: string) => {
-      const data = await fetchClient.GET('/v1/poster/concert/{concertId}', {
+    queryKeys: {
+      all: ['v1', 'poster'],
+      list: ({ eventId }: { eventId: string }) => ['v1', 'poster', 'list', { eventId }],
+    },
+    getList: async ({ eventId }: { eventId: string }) => {
+      const data = await fetchClient.GET('/v1/poster/', {
         params: {
-          path: {
-            concertId,
+          query: {
+            eventId,
           },
         },
       })
@@ -348,16 +335,13 @@ export const apiClient = {
   ticket: {
     queryKeys: {
       all: ['v1', 'ticket'],
-      list: {
-        all: ['v1', 'ticket', 'list'],
-        byConcertId: (concertId: string) => ['v1', 'ticket', 'list', { concertId }],
-      },
+      list: ({ eventId }: { eventId: string }) => ['v1', 'ticket', 'list', { eventId }],
     },
-    getTicketsByConcertId: async (concertId: string) => {
-      const data = await fetchClient.GET('/v1/ticket/concert/{concertId}', {
+    getList: async ({ eventId }: { eventId: string }) => {
+      const data = await fetchClient.GET('/v1/ticket/', {
         params: {
-          path: {
-            concertId,
+          query: {
+            eventId,
           },
         },
       })
@@ -368,10 +352,14 @@ export const apiClient = {
     },
   },
   price: {
-    getPricesByTicketId: async (ticketId: string) => {
-      const data = await fetchClient.GET('/v1/price/ticket/{ticketId}', {
+    queryKeys: {
+      all: ['v1', 'price'],
+      list: ({ ticketId }: { ticketId: string }) => ['v1', 'price', 'list', { ticketId }],
+    },
+    getList: async ({ ticketId }: { ticketId: string }) => {
+      const data = await fetchClient.GET('/v1/price/', {
         params: {
-          path: {
+          query: {
             ticketId,
           },
         },
@@ -385,16 +373,20 @@ export const apiClient = {
   event: {
     queryKeys: {
       all: ['v1', 'event'],
-      list: {
-        all: ['v1', 'event', 'list'],
-        paginated: {
-          byLocation: (params: { latitude: number; longitude: number }) => ['v1', 'event', 'list', 'paginated', params],
-        },
-        byLocation: (params: { latitude: number; longitude: number }) => ['v1', 'event', 'list', params],
-      },
-      detail: (id: string) => ['v1', 'event', 'detail', id],
+      list: ({
+        latitude,
+        longitude,
+        offset,
+        size,
+      }: {
+        latitude: number
+        longitude: number
+        offset?: number
+        size?: number
+      }) => ['v1', 'event', ' list', { latitude, longitude, offset, size }],
+      detail: ({ eventId }: { eventId: string }) => ['v1', 'event', 'detail', { eventId }],
     },
-    getEvents: async ({
+    getList: async ({
       latitude,
       longitude,
       offset,
@@ -420,11 +412,11 @@ export const apiClient = {
       }
       return data.data
     },
-    getEventDetail: async (id: string) => {
+    getDetail: async ({ eventId }: { eventId: string }) => {
       const data = await fetchClient.GET('/v1/event/{eventId}', {
         params: {
           path: {
-            eventId: id,
+            eventId,
           },
         },
       })

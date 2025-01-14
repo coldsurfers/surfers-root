@@ -17,24 +17,33 @@ export const ArtistProfileImageModal = ({
   artistId: string
 }) => {
   const { top: topInset } = useSafeAreaInsets()
-  const { data: profileImages, isLoading } = useQuery({
-    queryKey: apiClient.queryKeys.artistProfileImage.listByArtistId(artistId),
-    queryFn: () => apiClient.artistProfileImage.getArtistProfileImagesByArtistId(artistId),
+  const { data: artistProfileImages, isLoading } = useQuery({
+    queryKey: apiClient.artistProfileImage.queryKeys.list({ artistId }),
+    queryFn: () => apiClient.artistProfileImage.getList({ artistId }),
   })
-  const { data: copyright } = useQuery({
-    queryKey: apiClient.queryKeys.copyright.detailByArtistProfileImageId(artistId),
-    queryFn: () => apiClient.copyright.getCopyrightByArtistProfileImageId(artistId),
+  const mainProfileImage = useMemo(() => {
+    return artistProfileImages?.at(0) ?? null
+  }, [artistProfileImages])
+  const { data: artistProfileImageDetail } = useQuery({
+    queryKey: mainProfileImage?.id
+      ? apiClient.artistProfileImage.queryKeys.detail({ artistProfileImageId: mainProfileImage.id })
+      : [],
+    queryFn: () => {
+      if (mainProfileImage?.id) {
+        return apiClient.artistProfileImage.getDetail({ artistProfileImageId: mainProfileImage.id })
+      }
+      return null
+    },
+    enabled: !!mainProfileImage?.id,
   })
-  const firstImage = useMemo(() => {
-    return profileImages?.at(0)
-  }, [profileImages])
-  const firstImageCaption = useMemo(() => {
-    if (!copyright) {
-      return undefined
+  const copyrightCaptionText = useMemo(() => {
+    if (!artistProfileImageDetail || !artistProfileImageDetail.copyright) {
+      return ''
     }
-    const { license, owner, licenseURL } = copyright
+
+    const { license, owner, licenseURL } = artistProfileImageDetail.copyright
     return `© ${owner}, ${license} (${licenseURL}).`
-  }, [copyright])
+  }, [artistProfileImageDetail])
 
   return (
     <Modal visible={visible}>
@@ -57,7 +66,7 @@ export const ArtistProfileImageModal = ({
             <Text style={styles.imageViewerCloseText}>닫기</Text>
           </Pressable>
           <View style={styles.imageContainer}>
-            <CommonImageViewer imageUri={firstImage?.url ?? ''} caption={firstImageCaption} />
+            <CommonImageViewer imageUri={mainProfileImage?.url ?? ''} caption={copyrightCaptionText} />
           </View>
         </View>
       )}

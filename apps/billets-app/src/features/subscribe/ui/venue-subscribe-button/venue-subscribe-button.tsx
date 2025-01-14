@@ -8,7 +8,7 @@ import { VenueSubscribeButtonProps } from './venue-subscribe-button.types'
 export const VenueSubscribeButton = ({ venueId, onShouldLogin, style, size = 'md' }: VenueSubscribeButtonProps) => {
   const queryClient = useQueryClient()
   const { data: meData } = useQuery({
-    queryKey: apiClient.queryKeys.user.me,
+    queryKey: apiClient.user.queryKeys.me,
     queryFn: () => apiClient.user.getMe(),
   })
   const { data: subscribeVenueData } = useQuery({
