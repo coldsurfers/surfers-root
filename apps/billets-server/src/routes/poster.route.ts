@@ -6,7 +6,7 @@ import { ZodTypeProvider } from 'fastify-type-provider-zod'
 
 const posterRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
-    '/concert/:concertId',
+    '/',
     {
       schema: {
         tags: ['v1', 'poster'],
