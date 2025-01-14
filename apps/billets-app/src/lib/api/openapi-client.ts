@@ -35,12 +35,6 @@ export const apiClient = {
       all: ['v1', 'user'],
       me: ['v1', 'user', 'me'],
     },
-    artist: {
-      all: ['v1', 'artist'],
-      allList: ['v1', 'artist', 'list'],
-      listByConcertId: (concertId: string) => ['v1', 'artist', 'list', { concertId }],
-      detail: (id: string) => ['v1', 'artist', 'detail', id],
-    },
     artistProfileImage: {
       all: ['v1', 'artist-profile-image'],
       allList: ['v1', 'artist-profile-image', 'list'],
@@ -112,18 +106,13 @@ export const apiClient = {
     },
   },
   artist: {
-    getArtistsByConcertId: async (concertId: string) => {
-      const data = await fetchClient.GET('/v1/artist/concert/{concertId}', {
-        params: {
-          path: {
-            concertId,
-          },
-        },
-      })
-      if (data.error) {
-        throw new OpenApiError(data.error)
-      }
-      return data.data
+    queryKeys: {
+      all: ['v1', 'artist'],
+      list: {
+        all: ['v1', 'artist', 'list'],
+        byConcertId: (concertId: string) => ['v1', 'artist', 'list', { concertId }],
+      },
+      detail: (id: string) => ['v1', 'artist', 'detail', id],
     },
     getArtistDetail: async (id: string) => {
       const data = await fetchClient.GET('/v1/artist/{id}', {

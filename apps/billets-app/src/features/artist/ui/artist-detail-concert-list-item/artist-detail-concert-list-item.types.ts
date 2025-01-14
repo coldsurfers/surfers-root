@@ -1,10 +1,6 @@
-type ArtistDetailConcertListItemType = {
-  date: string | null
-  id: string
-  title: string
-}
+import { components } from '@/types/api'
 
 export type ArtistDetailConcertListItemProps = {
-  item: ArtistDetailConcertListItemType
-  onPress: (item: ArtistDetailConcertListItemType) => void
+  item: components['schemas']['ConcertDTOSchema']
+  onPress: (item: components['schemas']['ConcertDTOSchema']) => void
 }
