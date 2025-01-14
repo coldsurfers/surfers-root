@@ -20,28 +20,17 @@ export const apiClient = {
   event: {
     queryKeys: {
       all: ['event'],
-      list: {
-        all: ['event', 'list'],
-        paginated: {
-          byLocation: ({ latitude, longitude }: { latitude?: number; longitude?: number }) => [
-            'event',
-            'list',
-            'paginated',
-            { latitude, longitude },
-          ],
-        },
-        byLocation: ({
-          latitude,
-          longitude,
-          offset,
-          size,
-        }: {
-          latitude?: number
-          longitude?: number
-          offset: number
-          size: number
-        }) => ['event', 'list', { latitude, longitude, offset, size }],
-      },
+      list: ({
+        latitude,
+        longitude,
+        offset,
+        size,
+      }: {
+        latitude?: number
+        longitude?: number
+        offset?: number
+        size?: number
+      }) => ['event', 'list', { latitude, longitude, offset, size }],
       detail: (id: string) => ['event', 'detail', id],
     },
     getEvents: async ({
@@ -86,7 +75,10 @@ export const apiClient = {
   },
   location: {
     queryKeys: {
-      getCountries: () => ['countries'],
+      country: {
+        all: ['country'],
+        list: ['country', 'list'],
+      },
     },
     getCountries: async () => {
       const response = await baseFetchClient.GET('/v1/location/country')
@@ -97,9 +89,6 @@ export const apiClient = {
     },
   },
   mailer: {
-    queryKeys: {
-      sendUserVoice: () => ['sendUserVoice'],
-    },
     sendUserVoice: async (body: { email: string; name: string; message: string; updateAgreement: boolean }) => {
       const response = await baseFetchClient.POST('/v1/mailer/user-voice', {
         body,
@@ -108,63 +97,6 @@ export const apiClient = {
         throw new OpenApiError(response.error)
       }
       return response.data
-    },
-  },
-  poster: {
-    queryKeys: {
-      all: ['poster'],
-      list: ({ eventId }: { eventId: string }) => ['poster', 'list', { eventId }],
-    },
-    getPostersByEventId: async (eventId: string) => {
-      const response = await baseFetchClient.GET('/v1/poster/', {
-        params: {
-          query: {
-            eventId,
-          },
-        },
-      })
-      if (response.error) {
-        throw new OpenApiError(response.error)
-      }
-      return response.data
-    },
-  },
-  venue: {
-    queryKeys: {
-      all: ['venue'],
-      detail: (id: string) => ['venue', 'detail', id],
-    },
-    getVenueDetail: async (id: string) => {
-      const data = await baseFetchClient.GET('/v1/venue/{id}', {
-        params: {
-          path: {
-            id,
-          },
-        },
-      })
-      if (data.error) {
-        throw new OpenApiError(data.error)
-      }
-      return data.data
-    },
-  },
-  artist: {
-    queryKeys: {
-      all: ['artist'],
-      detail: (id: string) => ['artist', 'detail', id],
-    },
-    getArtistDetail: async (id: string) => {
-      const data = await baseFetchClient.GET('/v1/artist/{id}', {
-        params: {
-          path: {
-            id,
-          },
-        },
-      })
-      if (data.error) {
-        throw new OpenApiError(data.error)
-      }
-      return data.data
     },
   },
   ticket: {
@@ -177,44 +109,6 @@ export const apiClient = {
         params: {
           query: {
             eventId,
-          },
-        },
-      })
-      if (response.error) {
-        throw new OpenApiError(response.error)
-      }
-      return response.data
-    },
-  },
-  price: {
-    queryKeys: {
-      all: ['price'],
-      list: ({ ticketId }: { ticketId: string }) => ['price', 'list', { ticketId }],
-    },
-    getPricesByTicketId: async (ticketId: string) => {
-      const response = await baseFetchClient.GET('/v1/price/', {
-        params: {
-          query: {
-            ticketId,
-          },
-        },
-      })
-      if (response.error) {
-        throw new OpenApiError(response.error)
-      }
-      return response.data
-    },
-  },
-  artistProfileImage: {
-    queryKeys: {
-      all: ['artist-profile-image'],
-      list: ({ artistId }: { artistId: string }) => ['artist-profile-image', 'list', { artistId }],
-    },
-    getArtistProfileImagesByArtistId: async (artistId: string) => {
-      const response = await baseFetchClient.GET('/v1/artist-profile-image/', {
-        params: {
-          query: {
-            artistId,
           },
         },
       })

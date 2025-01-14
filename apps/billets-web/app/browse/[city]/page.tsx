@@ -38,7 +38,7 @@ async function PageInner({ params }: PageProps<{ city: string }>) {
 
   try {
     await queryClient.prefetchQuery({
-      queryKey: apiClient.event.queryKeys.list.byLocation({
+      queryKey: apiClient.event.queryKeys.list({
         offset: 0,
         size: 100,
         latitude: cityData.lat,
