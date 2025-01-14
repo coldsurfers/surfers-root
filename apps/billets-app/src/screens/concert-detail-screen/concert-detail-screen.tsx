@@ -30,27 +30,15 @@ const _ConcertDetailScreen = () => {
   const { requestReview } = useStoreReview()
 
   const { data: eventData, isLoading: isLoadingConcertDetail } = useSuspenseQuery({
-    queryKey: apiClient.event.queryKeys.detail(params.concertId),
-    queryFn: () => apiClient.event.getEventDetail(params.concertId),
+    queryKey: apiClient.event.queryKeys.detail({ eventId: params.concertId }),
+    queryFn: () => apiClient.event.getDetail({ eventId: params.concertId }),
   })
-  // const { data: venuesByConcertId, isLoading: isLoadingVenuesByConcertId } = useSuspenseQuery({
-  //   queryKey: apiClient.queryKeys.venue.listByConcertId(params.concertId),
-  //   queryFn: () => apiClient.venue.getVenuesByConcertId(params.concertId),
-  // })
-  // const { data: artistsByConcertId, isLoading: isLoadingArtistsByConcertId } = useSuspenseQuery({
-  //   queryKey: apiClient.queryKeys.artist.listByConcertId(params.concertId),
-  //   queryFn: () => apiClient.artist.getArtistsByConcertId(params.concertId),
-  // })
-  // const { data: postersByConcertId, isLoading: isLoadingPostersByConcertId } = useSuspenseQuery({
-  //   queryKey: apiClient.queryKeys.poster.listByConcertId(params.concertId),
-  //   queryFn: () => apiClient.poster.getPostersByConcertId(params.concertId),
-  // })
   const { data: subscribedConcert } = useQuery({
     queryKey: apiClient.queryKeys.subscribe.concert.detail(params.concertId),
     queryFn: () => apiClient.subscribe.getSubscribedConcert(params.concertId),
   })
   const { data: meData } = useQuery({
-    queryKey: apiClient.queryKeys.user.me,
+    queryKey: apiClient.user.queryKeys.me,
     queryFn: () => apiClient.user.getMe(),
   })
   const toggleSubscribeConcert = useToggleSubscribeConcert()

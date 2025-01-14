@@ -46,12 +46,12 @@ export const ConcertTicketListScreen = () => {
   const route = useConcertTicketListScreenRoute()
   const { concertId } = route.params
   const { data } = useSuspenseQuery({
-    queryKey: apiClient.event.queryKeys.detail(concertId),
-    queryFn: () => apiClient.event.getEventDetail(concertId),
+    queryKey: apiClient.event.queryKeys.detail({ eventId: concertId }),
+    queryFn: () => apiClient.event.getDetail({ eventId: concertId }),
   })
   const { data: ticketData } = useSuspenseQuery({
-    queryKey: apiClient.ticket.queryKeys.list.byConcertId(concertId),
-    queryFn: () => apiClient.ticket.getTicketsByConcertId(concertId),
+    queryKey: apiClient.ticket.queryKeys.list({ eventId: concertId }),
+    queryFn: () => apiClient.ticket.getList({ eventId: concertId }),
   })
 
   const concertDetailData = useMemo(() => {

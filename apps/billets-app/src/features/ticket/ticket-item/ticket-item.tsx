@@ -11,8 +11,8 @@ export const TicketItem = ({ ticket }: { ticket: components['schemas']['TicketDT
   const { semantics } = useColorScheme()
   const { sellerName, id: ticketId, openDate, url } = ticket
   const { data: prices = [] } = useQuery({
-    queryKey: apiClient.queryKeys.price.listByTicketId(ticketId),
-    queryFn: () => apiClient.price.getPricesByTicketId(ticketId),
+    queryKey: apiClient.price.queryKeys.list({ ticketId }),
+    queryFn: () => apiClient.price.getList({ ticketId }),
   })
   const cheapestPrice =
     prices.length > 0
