@@ -113,16 +113,13 @@ export const apiClient = {
   poster: {
     queryKeys: {
       all: ['poster'],
-      list: {
-        all: ['poster', 'list'],
-        byConcertId: (concertId: string) => ['poster', 'list', { concertId }],
-      },
+      list: ({ eventId }: { eventId: string }) => ['poster', 'list', { eventId }],
     },
-    getPostersByConcertId: async (concertId: string) => {
-      const response = await baseFetchClient.GET('/v1/poster/concert/{concertId}', {
+    getPostersByEventId: async (eventId: string) => {
+      const response = await baseFetchClient.GET('/v1/poster/', {
         params: {
-          path: {
-            concertId,
+          query: {
+            eventId,
           },
         },
       })
@@ -173,16 +170,13 @@ export const apiClient = {
   ticket: {
     queryKeys: {
       all: ['ticket'],
-      list: {
-        all: ['ticket', 'list'],
-        byConcertId: (concertId: string) => ['ticket', 'list', { concertId }],
-      },
+      list: ({ eventId }: { eventId: string }) => ['ticket', 'list', { eventId }],
     },
-    getTicketsByConcertId: async (concertId: string) => {
-      const response = await baseFetchClient.GET('/v1/ticket/concert/{concertId}', {
+    getTicketsByEventId: async (eventId: string) => {
+      const response = await baseFetchClient.GET('/v1/ticket/', {
         params: {
-          path: {
-            concertId,
+          query: {
+            eventId,
           },
         },
       })
@@ -195,15 +189,12 @@ export const apiClient = {
   price: {
     queryKeys: {
       all: ['price'],
-      list: {
-        all: ['price', 'list'],
-        byTicketId: (ticketId: string) => ['price', 'list', { ticketId }],
-      },
+      list: ({ ticketId }: { ticketId: string }) => ['price', 'list', { ticketId }],
     },
     getPricesByTicketId: async (ticketId: string) => {
-      const response = await baseFetchClient.GET('/v1/price/ticket/{ticketId}', {
+      const response = await baseFetchClient.GET('/v1/price/', {
         params: {
-          path: {
+          query: {
             ticketId,
           },
         },
@@ -217,15 +208,12 @@ export const apiClient = {
   artistProfileImage: {
     queryKeys: {
       all: ['artist-profile-image'],
-      list: {
-        all: ['artist-profile-image', 'list'],
-        byArtistId: (artistId: string) => ['artist-profile-image', 'list', { artistId }],
-      },
+      list: ({ artistId }: { artistId: string }) => ['artist-profile-image', 'list', { artistId }],
     },
     getArtistProfileImagesByArtistId: async (artistId: string) => {
-      const response = await baseFetchClient.GET('/v1/artist-profile-image/artist/{artistId}', {
+      const response = await baseFetchClient.GET('/v1/artist-profile-image/', {
         params: {
-          path: {
+          query: {
             artistId,
           },
         },
