@@ -151,10 +151,12 @@ model Concert {
 }
 
 model Poster {
-  id        String              @id @default(uuid())
-  imageURL  String
-  concerts  ConcertsOnPosters[]
-  createdAt DateTime            @default(now())
+  id          String              @id @default(uuid())
+  imageURL    String
+  copyright   Copyright?          @relation(fields: [copyrightId], references: [id])
+  copyrightId String?
+  concerts    ConcertsOnPosters[]
+  createdAt   DateTime            @default(now())
 }
 
 model TicketsOnPrices {
@@ -263,6 +265,7 @@ model Copyright {
   licenseURL         String
   createdAt          DateTime             @default(now())
   ArtistProfileImage ArtistProfileImage[]
+  Posters            Poster[]
 }
 
 model LocationCity {

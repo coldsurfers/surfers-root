@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
 export const PosterDTOSchema = z.object({
+  id: z.string().uuid(),
   url: z.string().url(),
 })
 export type PosterDTO = z.infer<typeof PosterDTOSchema>
