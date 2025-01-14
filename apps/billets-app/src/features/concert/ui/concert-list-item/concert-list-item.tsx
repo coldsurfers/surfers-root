@@ -10,7 +10,6 @@ import FastImage from 'react-native-fast-image'
 import {
   getConcertListBottomWrapperDynamicStyles,
   getConcertListItemWrapperDynamicStyles,
-  getConcertListThumbnailWrapperDynamicStyles,
 } from './concert-list-item.utils'
 
 type ConcertListItemProps = {
@@ -42,16 +41,7 @@ export const ConcertListItem = ({ data, onPress, onPressSubscribe, size = 'large
   }, [onPressSubscribe, subscribedConcertData, data.id])
 
   return (
-    <Pressable
-      onPress={handlePress}
-      style={[
-        styles.concertListItem,
-        {
-          borderColor: semantics.border[1],
-        },
-        getConcertListItemWrapperDynamicStyles(size),
-      ]}
-    >
+    <Pressable onPress={handlePress} style={[styles.concertListItem, getConcertListItemWrapperDynamicStyles(size)]}>
       <FastImage
         source={{ uri: thumbnailUrl }}
         style={[
@@ -59,7 +49,6 @@ export const ConcertListItem = ({ data, onPress, onPressSubscribe, size = 'large
           {
             backgroundColor: semantics.background[1],
           },
-          getConcertListThumbnailWrapperDynamicStyles(size),
         ]}
       >
         {onPressSubscribe && (
@@ -78,7 +67,7 @@ export const ConcertListItem = ({ data, onPress, onPressSubscribe, size = 'large
                 color: semantics.foreground[1],
               },
               {
-                fontSize: size === 'small' ? 14 : 20,
+                fontSize: size === 'small' ? 12 : 14,
               },
             ]}
           >
@@ -90,8 +79,8 @@ export const ConcertListItem = ({ data, onPress, onPressSubscribe, size = 'large
                 styles.concertFormattedDate,
                 {
                   color: semantics.foreground[4],
-                  fontSize: size === 'small' ? 12 : 14,
-                  marginTop: size === 'small' ? 4 : 8,
+                  fontSize: size === 'small' ? 10 : 12,
+                  marginTop: size === 'small' ? 2 : 4,
                 },
               ]}
             >
@@ -100,10 +89,9 @@ export const ConcertListItem = ({ data, onPress, onPressSubscribe, size = 'large
             {venue ? (
               <Text
                 style={[
-                  styles.concertVenue,
                   {
                     color: semantics.foreground[3],
-                    fontSize: size === 'small' ? 12 : 14,
+                    fontSize: size === 'small' ? 10 : 12,
                   },
                 ]}
               >
@@ -125,7 +113,6 @@ ConcertListItem.Skeleton = ({ size = 'large' }: { size?: 'small' | 'large' }) =>
       <View
         style={[
           styles.concertThumbnail,
-          getConcertListThumbnailWrapperDynamicStyles(size),
           styles.skeletonBackground,
           {
             backgroundColor: semantics.background[1],
@@ -160,11 +147,8 @@ ConcertListItem.Skeleton = ({ size = 'large' }: { size?: 'small' | 'large' }) =>
 
 const styles = StyleSheet.create({
   concertListItem: {
-    width: '100%',
     backgroundColor: 'transparent',
     marginBottom: 16,
-    borderRadius: 8,
-    borderWidth: 1.5,
   },
   concertThumbnail: {
     width: '100%',
@@ -176,7 +160,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   concertVenue: {
-    fontSize: 14,
+    fontSize: 12,
   },
   concertListContentContainer: {
     paddingHorizontal: 12,
@@ -189,7 +173,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  subscribeBtnWrapper: { position: 'absolute', right: 12, bottom: 12 },
+  subscribeBtnWrapper: { position: 'absolute', right: 6, bottom: 6 },
   skeletonBackground: {},
   skeletonTitle: {
     width: '80%',
