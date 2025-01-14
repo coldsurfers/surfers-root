@@ -28,7 +28,7 @@ export const Navigation = ({ initialCity }: { initialCity: string }) => {
     left: 0,
   })
   const { data } = useQuery({
-    queryKey: apiClient.location.queryKeys.getCountries(),
+    queryKey: apiClient.location.queryKeys.country.list,
     queryFn: apiClient.location.getCountries,
   })
 

@@ -5,19 +5,17 @@ import { TicketCtaItem } from './ticket-cta-item'
 
 export const TicketCta = memo(
   ({
-    ticketPromotes,
+    ticketPromotion,
   }: {
-    ticketPromotes: {
+    ticketPromotion: {
       seller: string
       sellingURL: string
       formattedLowestPrice: string
-    }[]
+    }
   }) => {
     return (
       <>
-        {ticketPromotes.map((ticketPromote) => (
-          <TicketCtaItem key={ticketPromote.seller} {...ticketPromote} />
-        ))}
+        <TicketCtaItem {...ticketPromotion} />
       </>
     )
   },

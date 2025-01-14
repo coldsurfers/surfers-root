@@ -3,8 +3,8 @@
 import { OpenApiError } from '@/libs/errors'
 import { apiClient } from '@/libs/openapi-client'
 import { useQuery } from '@tanstack/react-query'
-import { format } from 'date-fns'
 import { memo } from 'react'
+import { components } from 'types/api'
 import { ConcertListItem } from './concert-list-item'
 import { StyledGridContainer, StyledListContainer, StyledListHeader, StyledListHeaderText } from './concert-list.styled'
 
@@ -19,15 +19,15 @@ type ConcertListProps = {
 }
 
 export const ConcertList = memo(({ cityData }: ConcertListProps) => {
-  const { data } = useQuery<Awaited<ReturnType<typeof apiClient.concerts.getConcerts>>, OpenApiError>({
-    queryKey: apiClient.concerts.queryKeys.getConcerts({
+  const { data } = useQuery<components['schemas']['EventDTOSchema'][], OpenApiError>({
+    queryKey: apiClient.event.queryKeys.list({
       offset: 0,
       size: 100,
       latitude: cityData.lat,
       longitude: cityData.lng,
     }),
     queryFn: () =>
-      apiClient.concerts.getConcerts({
+      apiClient.event.getEvents({
         offset: 0,
         size: 100,
         latitude: cityData.lat,
@@ -43,19 +43,10 @@ export const ConcertList = memo(({ cityData }: ConcertListProps) => {
       </StyledListHeader>
       <StyledGridContainer>
         {data?.map((item) => {
-          const poster = item.posters.at(0)
-          const posterUrl = poster?.imageUrl
-          const venue = item.venues.at(0)
-          return (
-            <ConcertListItem
-              key={item.id}
-              id={item.id}
-              posterUrl={posterUrl}
-              title={item.title}
-              date={format(new Date(item.date), 'EEE, MMM d')}
-              venueTitle={venue?.venueTitle}
-            />
-          )
+          if (item.type !== 'concert') {
+            return null
+          }
+          return <ConcertListItem key={item.data.id} data={item.data} />
         })}
       </StyledGridContainer>
     </StyledListContainer>

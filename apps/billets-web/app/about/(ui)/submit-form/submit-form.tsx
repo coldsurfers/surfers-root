@@ -55,7 +55,6 @@ export const SubmitForm = memo(() => {
     Parameters<typeof apiClient.mailer.sendUserVoice>[0]
   >({
     mutationFn: apiClient.mailer.sendUserVoice,
-    mutationKey: apiClient.mailer.queryKeys.sendUserVoice(),
   })
   const action = useCallback(
     async ({ email, name, message, updateAgreement }: FormValues) => {

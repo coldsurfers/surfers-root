@@ -67,7 +67,7 @@ export default async function sitemap() {
           return []
         }
         const { data: cityData } = validation
-        const events = await apiClient.concerts.getConcerts({
+        const events = await apiClient.event.getEvents({
           offset: 0,
           // @todo: temp
           size: 100,
@@ -79,7 +79,7 @@ export default async function sitemap() {
         const priority = 0.8
         return (
           events?.map((event) => ({
-            url: generateUrl(`/event/${event.id}`),
+            url: generateUrl(`/event/${event.data.id}`),
             lastModified,
             changeFrequency,
             priority,
