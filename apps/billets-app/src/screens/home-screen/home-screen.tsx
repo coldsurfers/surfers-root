@@ -5,15 +5,16 @@ import {
   useToggleSubscribeConcert,
   useUserCurrentLocationStore,
 } from '@/features'
-import { ConcertListItemT } from '@/features/concert/ui/concert-list/concert-list.types'
+import { ConcertListItemType } from '@/features/concert/ui/concert-list/concert-list.types'
 import { useShowBottomTabBar } from '@/lib'
+import { apiClient } from '@/lib/api/openapi-client'
 import { AnimatePresence, CommonScreenLayout } from '@/ui'
 import { useScrollToTop } from '@react-navigation/native'
+import { useQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useRef, useState } from 'react'
 import { FlatList } from 'react-native'
 import { useShallow } from 'zustand/shallow'
 import { ConcertList, ConcertListSkeleton } from '../../features/concert'
-import useGetMeQuery from '../../lib/react-query/queries/useGetMeQuery'
 import { useHomeScreenNavigation } from './home-screen.hooks'
 
 const SuspenseHomeScreen = () => {
@@ -30,12 +31,15 @@ const SuspenseHomeScreen = () => {
     })),
   )
 
-  const { data: meData } = useGetMeQuery()
+  const { data: meData } = useQuery({
+    queryKey: apiClient.user.queryKeys.me,
+    queryFn: () => apiClient.user.getMe(),
+  })
 
   const toggleSubscribeConcert = useToggleSubscribeConcert()
 
   const onPressConcertListItem = useCallback(
-    (item: ConcertListItemT) => {
+    (item: ConcertListItemType) => {
       navigation.navigate('ConcertStackNavigation', {
         screen: 'ConcertDetailScreen',
         params: { concertId: item.id },
@@ -64,7 +68,7 @@ const SuspenseHomeScreen = () => {
 
   const onPressSubscribe = useCallback(
     (
-      item: ConcertListItemT,
+      item: ConcertListItemType,
       options: {
         isSubscribed: boolean
       },

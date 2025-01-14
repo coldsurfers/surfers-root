@@ -1,47 +1,45 @@
 import { ConcertSubscribeButton } from '@/features/subscribe'
+import { apiClient } from '@/lib/api/openapi-client'
+import { components } from '@/types/api'
 import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
-import { useCallback } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import format from 'date-fns/format'
+import { useCallback, useMemo } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import useSubscribedConcertQuery from '../../../../lib/react-query/queries/useSubscribedConcertQuery'
 import {
   getConcertListBottomWrapperDynamicStyles,
   getConcertListItemWrapperDynamicStyles,
   getConcertListThumbnailWrapperDynamicStyles,
 } from './concert-list-item.utils'
 
-export const ConcertListItem = ({
-  concertId,
-  thumbnailUrl,
-  title,
-  date,
-  venue,
-  onPress,
-  onPressSubscribe,
-  size = 'large',
-}: {
-  concertId: string
-  thumbnailUrl: string
-  title: string
-  date: string
-  venue?: string
+type ConcertListItemProps = {
+  data: components['schemas']['ConcertDTOSchema']
   onPress: (concertId: string) => void
   onPressSubscribe?: (params: { isSubscribed: boolean; concertId: string }) => void
   size?: 'small' | 'large'
-}) => {
+}
+
+export const ConcertListItem = ({ data, onPress, onPressSubscribe, size = 'large' }: ConcertListItemProps) => {
   const { semantics } = useColorScheme()
-  const { data: subscribedConcertData } = useSubscribedConcertQuery({
-    concertId,
+
+  const { data: subscribedConcertData } = useQuery({
+    queryKey: apiClient.subscribe.queryKeys.eventSubscribe({ eventId: data.id }),
+    queryFn: () => apiClient.subscribe.getEvent({ eventId: data.id }),
   })
+
+  const thumbnailUrl = useMemo(() => data.mainPoster?.url ?? '', [data.mainPoster?.url])
+  const venue = useMemo(() => data.mainVenue, [data.mainVenue])
+
   const handlePress = useCallback(() => {
-    onPress(concertId)
-  }, [onPress, concertId])
+    onPress(data.id)
+  }, [data.id, onPress])
   const handlePressSubscribe = useCallback(() => {
     onPressSubscribe?.({
       isSubscribed: !!subscribedConcertData,
-      concertId,
+      concertId: data.id,
     })
-  }, [onPressSubscribe, subscribedConcertData, concertId])
+  }, [onPressSubscribe, subscribedConcertData, data.id])
 
   return (
     <Pressable
@@ -84,7 +82,7 @@ export const ConcertListItem = ({
               },
             ]}
           >
-            {title}
+            {data.title}
           </Text>
           <View>
             <Text
@@ -97,7 +95,7 @@ export const ConcertListItem = ({
                 },
               ]}
             >
-              {date}
+              {format(new Date(data.date), 'EEE, MMM d')}
             </Text>
             {venue ? (
               <Text
@@ -109,7 +107,7 @@ export const ConcertListItem = ({
                   },
                 ]}
               >
-                {venue}
+                {venue.name}
               </Text>
             ) : null}
           </View>
