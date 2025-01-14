@@ -1,6 +1,6 @@
 import { ConcertListItem } from '@/features/concert'
 import { apiClient } from '@/lib/api/openapi-client'
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useMemo, useState } from 'react'
 import { FlatList, ListRenderItem, View } from 'react-native'
 import { SubscribedConcertListItem } from '../subscribed-concert-list-item'
@@ -28,7 +28,7 @@ export function SubscribedConcertList({
     hasNextPage,
     isPending,
     refetch,
-  } = useInfiniteQuery({
+  } = useSuspenseInfiniteQuery({
     initialPageParam: 0,
     queryKey: apiClient.subscribe.queryKeys.eventList({}),
     queryFn: ({ pageParam = 0 }) => apiClient.subscribe.getEventList({ offset: pageParam, size: PER_PAGE }),
@@ -75,6 +75,7 @@ export function SubscribedConcertList({
   return (
     <FlatList
       horizontal={horizontal}
+      numColumns={horizontal ? 1 : 2}
       data={listData}
       keyExtractor={(item) => `${item.eventId}`}
       renderItem={renderItem}
