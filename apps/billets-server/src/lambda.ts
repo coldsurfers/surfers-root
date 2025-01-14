@@ -1,12 +1,12 @@
 import AwsLambdaFastify from '@fastify/aws-lambda'
-import { connect, disconnect } from './prisma/connect'
-import { fastify } from './server'
+import { connectDbClient, disconnectDbClient } from './lib/db'
+import { app } from './server'
 
-const _handler = AwsLambdaFastify(fastify)
+const _handler = AwsLambdaFastify(app)
 
 export const handler = async (event: unknown, context: unknown) => {
-  await connect()
+  await connectDbClient()
   const response = await _handler(event, context)
-  await disconnect()
+  await disconnectDbClient()
   return response
 }
