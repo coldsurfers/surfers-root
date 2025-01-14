@@ -22,7 +22,7 @@ async function getEventMetadata(eventId: string) {
     if (eventDetailData.type !== 'concert') {
       return null
     }
-    const ticketsData = await apiClient.ticket.getTicketsByConcertId(eventId)
+    const ticketsData = await apiClient.ticket.getTicketsByEventId(eventId)
     return {
       eventDetail: eventDetailData.data,
       tickets: ticketsData,
