@@ -21,4 +21,7 @@ export const errorCodeSchema = z.union([
   z.literal('EMAIL_AUTH_REQUEST_ALREADY_AUTHENTICATED'),
   z.literal('EMAIL_AUTH_REQUEST_TIMEOUT'),
   z.literal('UNKNOWN'),
+  z.literal('EVENT_NOT_FOUND'),
+  z.literal('POSTER_NOT_FOUND'),
+  z.literal('ARTIST_PROFILE_IMAGE_NOT_FOUND'),
 ])

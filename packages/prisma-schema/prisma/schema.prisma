@@ -83,7 +83,7 @@ model Venue {
   lng             Float
   geohash         String
   // @todo: i18n with tables
-  address         String?
+  address         String
   concerts        ConcertsOnVenues[]
   subscribedUsers UsersOnSubscribedVenues[]
   createdAt       DateTime                  @default(now())
@@ -141,7 +141,7 @@ model Concert {
   artists         ConcertsOnArtists[]
   title           String
   venues          ConcertsOnVenues[]
-  date            DateTime?
+  date            DateTime
   posters         ConcertsOnPosters[]
   tickets         ConcertsOnTickets[]
   subscribedUsers UsersOnSubscribedConcerts[]
@@ -151,10 +151,12 @@ model Concert {
 }
 
 model Poster {
-  id        String              @id @default(uuid())
-  imageURL  String
-  concerts  ConcertsOnPosters[]
-  createdAt DateTime            @default(now())
+  id          String              @id @default(uuid())
+  imageURL    String
+  copyright   Copyright?          @relation(fields: [copyrightId], references: [id])
+  copyrightId String?
+  concerts    ConcertsOnPosters[]
+  createdAt   DateTime            @default(now())
 }
 
 model TicketsOnPrices {
@@ -263,6 +265,7 @@ model Copyright {
   licenseURL         String
   createdAt          DateTime             @default(now())
   ArtistProfileImage ArtistProfileImage[]
+  Posters            Poster[]
 }
 
 model LocationCity {
