@@ -14,9 +14,9 @@ export const ConcertSubscribeButton = ({
   return (
     <IconButton
       onPress={onPress}
-      style={[styles.bgColor, style]}
+      style={[styles.iconBtn, style]}
       icon={'Heart'}
-      size="lg"
+      size="md"
       color={colors.oc.cyan[9].value}
       strokeWidth={isSubscribed ? 1 : 2.5}
       fill={isSubscribed ? colors.oc.cyan[9].value : 'transparent'}
@@ -25,7 +25,9 @@ export const ConcertSubscribeButton = ({
 }
 
 const styles = StyleSheet.create({
-  bgColor: {
+  iconBtn: {
     backgroundColor: colors.oc.gray[4].value,
+    width: 24,
+    height: 24,
   },
 })

@@ -75,6 +75,7 @@ export function SubscribedConcertList({
   return (
     <FlatList
       horizontal={horizontal}
+      numColumns={horizontal ? 1 : 2}
       data={listData}
       keyExtractor={(item) => `${item.eventId}`}
       renderItem={renderItem}

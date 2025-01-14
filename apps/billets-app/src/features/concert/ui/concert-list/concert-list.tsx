@@ -74,6 +74,7 @@ export const ConcertList = forwardRef<FlatList, ConcertListProps>(
       <FlatList
         scrollsToTop
         ref={ref}
+        numColumns={2}
         data={concertList}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
