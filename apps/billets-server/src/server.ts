@@ -46,7 +46,7 @@ import {
 import { ArtistDetailDTOSchema } from './dtos/artist-detail.dto'
 import { ArtistProfileImageDetailDTOSchema } from './dtos/artist-profile-image-detail.dto'
 import { PosterDetailDTOSchema } from './dtos/poster-detail.dto'
-import { EventSubscribeDTOSchema } from './dtos/subscribe.dto'
+import { ArtistSubscribeDTOSchema, EventSubscribeDTOSchema, VenueSubscribeDTOSchema } from './dtos/subscribe.dto'
 
 dotenv.config()
 
@@ -168,6 +168,8 @@ app.register(fastifySwagger, {
       PosterDetailDTOSchema,
       ArtistProfileImageDetailDTOSchema,
       EventSubscribeDTOSchema,
+      ArtistSubscribeDTOSchema,
+      VenueSubscribeDTOSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
