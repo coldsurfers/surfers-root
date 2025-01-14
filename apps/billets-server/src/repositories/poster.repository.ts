@@ -1,5 +1,5 @@
 import { PosterDTO } from '@/dtos/poster.dto'
 
 export interface PosterRepository {
-  getPostersByConcertId(concertId: string): Promise<PosterDTO[]>
+  findMany(params: { eventId: string }): Promise<PosterDTO[]>
 }

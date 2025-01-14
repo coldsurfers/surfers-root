@@ -5,7 +5,7 @@ export const PosterDTOSchema = z.object({
 })
 export type PosterDTO = z.infer<typeof PosterDTOSchema>
 
-export const GetPostersByConcertIdParamsDTOSchema = z.object({
-  concertId: z.string(),
+export const GetPostersByEventIdQueryStringDTOSchema = z.object({
+  eventId: z.string(),
 })
-export type GetPostersByConcertIdParamsDTO = z.infer<typeof GetPostersByConcertIdParamsDTOSchema>
+export type GetPostersByEventIdQueryStringDTO = z.infer<typeof GetPostersByEventIdQueryStringDTOSchema>
