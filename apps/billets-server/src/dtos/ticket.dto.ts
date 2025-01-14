@@ -10,10 +10,10 @@ export const TicketDTOSchema = z.object({
 })
 export type TicketDTO = z.infer<typeof TicketDTOSchema>
 
-export const GetTicketsByConcertIdParamsDTOSchema = z.object({
-  concertId: z.string(),
+export const GetTicketsByEventIdQueryStringDTOSchema = z.object({
+  eventId: z.string(),
 })
-export type GetTicketsByConcertIdParamsDTO = z.infer<typeof GetTicketsByConcertIdParamsDTOSchema>
+export type GetTicketsByEventIdQueryStringDTO = z.infer<typeof GetTicketsByEventIdQueryStringDTOSchema>
 
 export const TicketPromotionDTOSchema = TicketDTOSchema.omit({
   prices: true,

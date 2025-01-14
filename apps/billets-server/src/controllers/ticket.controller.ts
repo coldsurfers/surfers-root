@@ -1,5 +1,5 @@
 import { ErrorResponseDTO } from '@/dtos/error-response.dto'
-import { GetTicketsByConcertIdParamsDTO, TicketDTO } from '@/dtos/ticket.dto'
+import { GetTicketsByEventIdQueryStringDTO, TicketDTO } from '@/dtos/ticket.dto'
 import { TicketRepositoryImpl } from '@/repositories/ticket.repository.impl'
 import { TicketService } from '@/services/ticket.service'
 import { RouteGenericInterface } from 'fastify'
@@ -9,20 +9,21 @@ import { FastifyRequest } from 'fastify/types/request'
 const ticketRepository = new TicketRepositoryImpl()
 const ticketService = new TicketService(ticketRepository)
 
-interface GetTicketsByConcertIdRoute extends RouteGenericInterface {
-  Params: GetTicketsByConcertIdParamsDTO
+interface GetTicketsByEventIdRoute extends RouteGenericInterface {
+  Querystring: GetTicketsByEventIdQueryStringDTO
   Reply: {
     200: TicketDTO[]
     500: ErrorResponseDTO
   }
 }
 
-export const getTicketsByConcertIdHandler = async (
-  req: FastifyRequest<GetTicketsByConcertIdRoute>,
-  rep: FastifyReply<GetTicketsByConcertIdRoute>,
+export const getTicketsByEventIdHandler = async (
+  req: FastifyRequest<GetTicketsByEventIdRoute>,
+  rep: FastifyReply<GetTicketsByEventIdRoute>,
 ) => {
   try {
-    const data = await ticketService.getManyByConcertId(req.params.concertId)
+    const { eventId } = req.query
+    const data = await ticketService.getMany({ eventId })
     return rep.status(200).send(data)
   } catch (e) {
     return rep.status(500).send({

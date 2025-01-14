@@ -8,12 +8,12 @@ interface TicketModel extends Ticket {
 }
 
 export class TicketRepositoryImpl implements TicketRepository {
-  async findManyByConcertId(concertId: string): Promise<TicketDTO[]> {
+  async findMany(params: { eventId: string }): Promise<TicketDTO[]> {
     const data = await dbClient.ticket.findMany({
       where: {
         concerts: {
           some: {
-            concertId,
+            concertId: params.eventId,
           },
         },
       },

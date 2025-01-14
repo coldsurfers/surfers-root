@@ -8,7 +8,7 @@ export class TicketService {
     this.ticketRepository = ticketRepository
   }
 
-  async getManyByConcertId(concertId: string): Promise<TicketDTO[]> {
-    return this.ticketRepository.findManyByConcertId(concertId)
+  async getMany(params: { eventId: string }): Promise<TicketDTO[]> {
+    return this.ticketRepository.findMany(params)
   }
 }

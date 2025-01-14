@@ -1,5 +1,5 @@
 import { TicketDTO } from '@/dtos/ticket.dto'
 
 export interface TicketRepository {
-  findManyByConcertId(concertId: string): Promise<TicketDTO[]>
+  findMany(params: { eventId: string }): Promise<TicketDTO[]>
 }
