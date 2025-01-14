@@ -26,26 +26,26 @@ export async function generateMetadata({ params }: PageProps<{ city: string }>):
 }
 
 async function PageInner({ params }: PageProps<{ city: string }>) {
-  const validation = await validateCityParam(params.city)
+  const cityParamValidation = await validateCityParam(params.city)
 
-  if (!validation.isValid) {
+  if (!cityParamValidation.isValid) {
     return redirect('/404')
   }
 
-  const cityData = validation.data
+  const { data: cityData } = cityParamValidation
 
   const queryClient = getQueryClient()
 
   try {
     await queryClient.prefetchQuery({
-      queryKey: apiClient.concerts.queryKeys.getConcerts({
+      queryKey: apiClient.event.queryKeys.list({
         offset: 0,
         size: 100,
         latitude: cityData.lat,
         longitude: cityData.lng,
       }),
       queryFn: () =>
-        apiClient.concerts.getConcerts({
+        apiClient.event.getEvents({
           offset: 0,
           size: 100,
           latitude: cityData.lat,

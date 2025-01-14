@@ -4,18 +4,18 @@ import { memo } from 'react'
 import { LineupItem } from './lineup-item'
 
 type LineupProps = {
-  lineupData: {
-    profileImageUrl: string
-    name: string
+  artists: {
     id: string
+    name: string
+    thumbUrl: string | null
   }[]
 }
 
-export const Lineup = memo(({ lineupData }: LineupProps) => {
+export const Lineup = memo(({ artists }: LineupProps) => {
   return (
     <>
-      {lineupData.map((artist) => (
-        <LineupItem key={artist.id} {...artist} />
+      {artists.map((artist) => (
+        <LineupItem key={artist.id} artist={artist} />
       ))}
     </>
   )
