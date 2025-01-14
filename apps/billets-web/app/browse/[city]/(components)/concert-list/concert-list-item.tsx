@@ -1,6 +1,7 @@
 import { format } from 'date-fns'
 import Link from 'next/link'
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
+import { components } from 'types/api'
 import {
   StyledGridDate,
   StyledGridImage,
@@ -10,31 +11,23 @@ import {
   StyledVenueText,
 } from './concert-list.styled'
 
-export const ConcertListItem = memo(
-  ({
-    id,
-    posterUrl,
-    title,
-    date,
-    venueTitle,
-  }: {
-    id: string
-    posterUrl?: string
-    title: string
-    date: string
-    venueTitle?: string
-  }) => {
-    return (
-      <Link href={`/event/${id}`}>
-        <StyledGridItem>
-          <StyledGridImage src={posterUrl} alt={title} />
-          <StyledGridTextContainer>
-            <StyledGridTitle as="p">{title}</StyledGridTitle>
-            <StyledGridDate as="p">{format(new Date(date), 'EEE, MMM dd')}</StyledGridDate>
-            {venueTitle && <StyledVenueText as="p">{venueTitle}</StyledVenueText>}
-          </StyledGridTextContainer>
-        </StyledGridItem>
-      </Link>
-    )
-  },
-)
+export const ConcertListItem = memo(({ data }: { data: components['schemas']['ConcertDTOSchema'] }) => {
+  const formattedDate = useMemo(() => {
+    if (!data.date) {
+      return ''
+    }
+    return format(new Date(data.date), 'EEE, MMM dd')
+  }, [data.date])
+  return (
+    <Link href={`/event/${data.id}`}>
+      <StyledGridItem>
+        <StyledGridImage src={data.mainPoster?.url ?? ''} alt={data.title} />
+        <StyledGridTextContainer>
+          <StyledGridTitle as="p">{data.title}</StyledGridTitle>
+          <StyledGridDate as="p">{formattedDate}</StyledGridDate>
+          {data.mainVenue?.name && <StyledVenueText as="p">{data.mainVenue.name}</StyledVenueText>}
+        </StyledGridTextContainer>
+      </StyledGridItem>
+    </Link>
+  )
+})
