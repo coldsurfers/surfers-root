@@ -993,77 +993,27 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/v1/subscribe/artist/{id}': {
+  '/v1/subscribe/artist': {
     parameters: {
       query?: never
       header?: never
       path?: never
       cookie?: never
     }
-    get: {
-      parameters: {
-        query?: never
-        header?: never
-        path: {
-          id: string
-        }
-        cookie?: never
-      }
-      requestBody?: never
-      responses: {
-        /** @description Default Response */
-        200: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['ArtistDTOSchema']
-          }
-        }
-        /** @description Default Response */
-        401: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema']
-          }
-        }
-        /** @description Default Response */
-        404: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema']
-          }
-        }
-        /** @description Default Response */
-        500: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema']
-          }
-        }
-      }
-    }
+    get?: never
     put?: never
     post: {
       parameters: {
         query?: never
         header?: never
-        path: {
-          id: string
-        }
+        path?: never
         cookie?: never
       }
       requestBody: {
         content: {
           'application/json': {
-            /** @enum {string} */
-            type: 'subscribe-artist'
+            /** Format: uuid */
+            artistId: string
           }
         }
       }
@@ -1074,7 +1024,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ArtistDTOSchema']
+            'application/json': components['schemas']['ArtistSubscribeDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1110,16 +1060,14 @@ export interface paths {
       parameters: {
         query?: never
         header?: never
-        path: {
-          id: string
-        }
+        path?: never
         cookie?: never
       }
       requestBody: {
         content: {
           'application/json': {
-            /** @enum {string} */
-            type: 'unsubscribe-artist'
+            /** Format: uuid */
+            artistId: string
           }
         }
       }
@@ -1130,7 +1078,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ArtistDTOSchema']
+            'application/json': components['schemas']['ArtistSubscribeDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1167,7 +1115,7 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/v1/subscribe/concert': {
+  '/v1/subscribe/artist/{artistId}': {
     parameters: {
       query?: never
       header?: never
@@ -1176,12 +1124,11 @@ export interface paths {
     }
     get: {
       parameters: {
-        query?: {
-          offset?: number
-          size?: number
-        }
+        query?: never
         header?: never
-        path?: never
+        path: {
+          artistId: string
+        }
         cookie?: never
       }
       requestBody?: never
@@ -1192,11 +1139,20 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ConcertDTOSchema'][]
+            'application/json': components['schemas']['ArtistSubscribeDTOSchema']
           }
         }
         /** @description Default Response */
         401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        404: {
           headers: {
             [name: string]: unknown
           }
@@ -1223,7 +1179,7 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/v1/subscribe/concert/{id}': {
+  '/v1/subscribe/event': {
     parameters: {
       query?: never
       header?: never
@@ -1232,11 +1188,12 @@ export interface paths {
     }
     get: {
       parameters: {
-        query?: never
-        header?: never
-        path: {
-          id: string
+        query?: {
+          offset?: number
+          size?: number
         }
+        header?: never
+        path?: never
         cookie?: never
       }
       requestBody?: never
@@ -1247,20 +1204,11 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ConcertDTOSchema']
+            'application/json': components['schemas']['EventSubscribeDTOSchema'][]
           }
         }
         /** @description Default Response */
         401: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema']
-          }
-        }
-        /** @description Default Response */
-        404: {
           headers: {
             [name: string]: unknown
           }
@@ -1284,15 +1232,13 @@ export interface paths {
       parameters: {
         query?: never
         header?: never
-        path: {
-          id: string
-        }
+        path?: never
         cookie?: never
       }
       requestBody: {
         content: {
           'application/json': {
-            id: string
+            eventId: string
           }
         }
       }
@@ -1303,7 +1249,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ConcertDTOSchema']
+            'application/json': components['schemas']['EventSubscribeDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1339,15 +1285,13 @@ export interface paths {
       parameters: {
         query?: never
         header?: never
-        path: {
-          id: string
-        }
+        path?: never
         cookie?: never
       }
       requestBody: {
         content: {
           'application/json': {
-            id: string
+            eventId: string
           }
         }
       }
@@ -1358,7 +1302,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['ConcertDTOSchema']
+            'application/json': components['schemas']['EventSubscribeDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1395,7 +1339,7 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/v1/subscribe/venue/{id}': {
+  '/v1/subscribe/event/{eventId}': {
     parameters: {
       query?: never
       header?: never
@@ -1407,7 +1351,7 @@ export interface paths {
         query?: never
         header?: never
         path: {
-          id: string
+          eventId: string
         }
         cookie?: never
       }
@@ -1419,7 +1363,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['VenueDTOSchema']
+            'application/json': components['schemas']['EventSubscribeDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1452,20 +1396,34 @@ export interface paths {
       }
     }
     put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/subscribe/venue': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
     post: {
       parameters: {
         query?: never
         header?: never
-        path: {
-          id: string
-        }
+        path?: never
         cookie?: never
       }
       requestBody: {
         content: {
           'application/json': {
-            /** @enum {string} */
-            type: 'subscribe-venue'
+            /** Format: uuid */
+            venueId: string
           }
         }
       }
@@ -1476,7 +1434,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['VenueDTOSchema']
+            'application/json': components['schemas']['VenueSubscribeDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1512,16 +1470,14 @@ export interface paths {
       parameters: {
         query?: never
         header?: never
-        path: {
-          id: string
-        }
+        path?: never
         cookie?: never
       }
       requestBody: {
         content: {
           'application/json': {
-            /** @enum {string} */
-            type: 'unsubscribe-venue'
+            /** Format: uuid */
+            venueId: string
           }
         }
       }
@@ -1532,7 +1488,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['VenueDTOSchema']
+            'application/json': components['schemas']['VenueSubscribeDTOSchema']
           }
         }
         /** @description Default Response */
@@ -1564,6 +1520,70 @@ export interface paths {
         }
       }
     }
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/subscribe/venue/{venueId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          venueId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['VenueSubscribeDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
     options?: never
     head?: never
     patch?: never
@@ -1901,6 +1921,14 @@ export interface components {
       /** Format: uri */
       url: string
     }
+    ArtistSubscribeDTOSchema: {
+      /** Format: uuid */
+      artistId: string
+      /** Format: date-time */
+      subscribedAt: string
+      /** Format: uuid */
+      userId: string
+    }
     ConcertDetailDTOSchema: {
       artists: components['schemas']['ArtistDTOSchema'][]
       /** Format: date-time */
@@ -1981,6 +2009,14 @@ export interface components {
       data: components['schemas']['ConcertDTOSchema']
       /** @enum {string} */
       type: 'concert'
+    }
+    EventSubscribeDTOSchema: {
+      /** Format: uuid */
+      eventId: string
+      /** Format: date-time */
+      subscribedAt: string
+      /** Format: uuid */
+      userId: string
     }
     FCMTokenDTOSchema: {
       id: string
@@ -2082,6 +2118,14 @@ export interface components {
       lat: number
       lng: number
       name: string
+    }
+    VenueSubscribeDTOSchema: {
+      /** Format: date-time */
+      subscribedAt: string
+      /** Format: uuid */
+      userId: string
+      /** Format: uuid */
+      venueId: string
     }
   }
   responses: never

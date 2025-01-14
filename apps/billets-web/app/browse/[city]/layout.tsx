@@ -10,7 +10,7 @@ async function LayoutInner({ city, children }: PropsWithChildren<{ city: string 
 
   try {
     await queryClient.prefetchQuery({
-      queryKey: apiClient.location.queryKeys.getCountries(),
+      queryKey: apiClient.location.queryKeys.country.list,
       queryFn: () => apiClient.location.getCountries(),
     })
   } catch (e) {
@@ -38,7 +38,7 @@ export default async function BrowseByCityLayout({
 
   try {
     await queryClient.prefetchQuery({
-      queryKey: apiClient.location.queryKeys.getCountries(),
+      queryKey: apiClient.location.queryKeys.country.list,
       queryFn: () => apiClient.location.getCountries(),
     })
   } catch (e) {

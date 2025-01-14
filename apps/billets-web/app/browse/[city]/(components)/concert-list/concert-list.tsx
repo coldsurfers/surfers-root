@@ -20,7 +20,7 @@ type ConcertListProps = {
 
 export const ConcertList = memo(({ cityData }: ConcertListProps) => {
   const { data } = useQuery<components['schemas']['EventDTOSchema'][], OpenApiError>({
-    queryKey: apiClient.event.queryKeys.list.byLocation({
+    queryKey: apiClient.event.queryKeys.list({
       offset: 0,
       size: 100,
       latitude: cityData.lat,

@@ -18,7 +18,7 @@ export const RecentConcertList = () => {
         offset: 0,
         size: 20,
       }),
-    queryKey: apiClient.event.queryKeys.list.byLocation({
+    queryKey: apiClient.event.queryKeys.list({
       offset: 0,
       size: 20,
     }),
