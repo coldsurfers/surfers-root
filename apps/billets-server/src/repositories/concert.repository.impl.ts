@@ -274,41 +274,41 @@ export class ConcertRepositoryImpl implements ConcertRepository {
       : null
   }
 
-  async findManySubscribedConcerts(params: { userId: string; take: number; skip: number }): Promise<ConcertDTO[]> {
-    const data = await dbClient.usersOnSubscribedConcerts.findMany({
-      where: {
-        userId: params.userId,
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-      take: params.take,
-      skip: params.skip,
-      include: {
-        concert: {
-          include: {
-            posters: {
-              include: {
-                poster: true,
-              },
-            },
-            venues: {
-              include: {
-                venue: true,
-              },
-            },
-          },
-        },
-      },
-    })
-    return data.map((value) =>
-      this.toDTO({
-        ...value.concert,
-        posters: value.concert.posters.map((value) => value.poster),
-        venues: value.concert.venues.map((value) => value.venue),
-      }),
-    )
-  }
+  // async findManySubscribedConcerts(params: { userId: string; take: number; skip: number }): Promise<ConcertDTO[]> {
+  //   const data = await dbClient.usersOnSubscribedConcerts.findMany({
+  //     where: {
+  //       userId: params.userId,
+  //     },
+  //     orderBy: {
+  //       createdAt: 'desc',
+  //     },
+  //     take: params.take,
+  //     skip: params.skip,
+  //     include: {
+  //       concert: {
+  //         include: {
+  //           posters: {
+  //             include: {
+  //               poster: true,
+  //             },
+  //           },
+  //           venues: {
+  //             include: {
+  //               venue: true,
+  //             },
+  //           },
+  //         },
+  //       },
+  //     },
+  //   })
+  //   return data.map((value) =>
+  //     this.toDTO({
+  //       ...value.concert,
+  //       posters: value.concert.posters.map((value) => value.poster),
+  //       venues: value.concert.venues.map((value) => value.venue),
+  //     }),
+  //   )
+  // }
 
   private toDTO(model: ConcertModel): ConcertDTO {
     const mainPoster = model.posters.at(0)

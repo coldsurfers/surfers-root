@@ -25,9 +25,6 @@ export class ConcertService {
   getManyByArtistId(params: FindManyByArtistIdConcertDTO): Promise<ConcertDTO[]> {
     return this.concertRepository.findManyByArtistId(params)
   }
-  getManySubscribedConcerts(params: { userId: string; take: number; skip: number }): Promise<ConcertDTO[]> {
-    return this.concertRepository.findManySubscribedConcerts(params)
-  }
   getSubscribedConcert(params: { userId: string; concertId: string }): Promise<ConcertDTO | null> {
     return this.concertRepository.findSubscribedConcert(params)
   }

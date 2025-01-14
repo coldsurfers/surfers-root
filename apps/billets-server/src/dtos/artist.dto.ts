@@ -23,16 +23,6 @@ export const GetConcertListByArtistIdQueryStringDTOSchema = z.object({
 })
 export type GetConcertListByArtistIdQueryStringDTO = z.infer<typeof GetConcertListByArtistIdQueryStringDTOSchema>
 
-export const SubscribeArtistBodyDTOSchema = z.object({
-  type: z.literal('subscribe-artist'),
-})
-export type SubscribeArtistBodyDTO = z.infer<typeof SubscribeArtistBodyDTOSchema>
-
-export const UnsubscribeArtistBodyDTOSchema = z.object({
-  type: z.literal('unsubscribe-artist'),
-})
-export type UnsubscribeArtistBodyDTO = z.infer<typeof UnsubscribeArtistBodyDTOSchema>
-
 export const GetArtistsByConcertIdParamsDTOSchema = z.object({
   concertId: z.string(),
 })

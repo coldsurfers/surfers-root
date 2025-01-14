@@ -9,16 +9,6 @@ export const VenueDTOSchema = z.object({
 })
 export type VenueDTO = z.infer<typeof VenueDTOSchema>
 
-export const SubscribeVenueBodyDTOSchema = z.object({
-  type: z.literal('subscribe-venue'),
-})
-export type SubscribeVenueBodyDTO = z.infer<typeof SubscribeVenueBodyDTOSchema>
-
-export const UnsubscribeVenueBodyDTOSchema = z.object({
-  type: z.literal('unsubscribe-venue'),
-})
-export type UnsubscribeVenueBodyDTO = z.infer<typeof UnsubscribeVenueBodyDTOSchema>
-
 export const SubscribeVenueParamsDTOSchema = z.object({
   id: z.string(),
 })
