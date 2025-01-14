@@ -16,6 +16,7 @@ export const useToggleSubscribeConcert = () => {
       await queryClient.cancelQueries({
         queryKey: apiClient.queryKeys.subscribe.concert.detail(concertId),
       })
+      // @todo: fix this date and subscribe response schema type
       const newSubscribedConcert = {
         id: concertId,
         date: '',
