@@ -1,9 +1,8 @@
+import { $api } from '@/lib/api/openapi-client'
 import { useFirebaseMessaging } from '@/lib/hooks'
-// import { useSendFCMTokenMutation } from '@/lib/react-query'
-import { $api, apiClient } from '@/lib/api/openapi-client'
 import { mmkvKeys } from '@/lib/storage/constants'
 import { mmkvInstance } from '@/lib/storage/mmkvInstance'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import React, { createContext, PropsWithChildren, useCallback } from 'react'
 import { components } from '../../../types/api'
 
@@ -18,21 +17,13 @@ export const AuthContext = createContext<{
     user: User
   }) => Promise<void>
   logout: () => Promise<void>
-  isLoading: boolean
-  user: User
 }>({
   login: async () => {},
   logout: async () => {},
-  isLoading: true,
-  user: null,
 })
 
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const queryClient = useQueryClient()
-  const { isLoading: isLoadingMe, data: meData } = useQuery({
-    queryKey: apiClient.user.queryKeys.me,
-    queryFn: () => apiClient.user.getMe(),
-  })
   const { mutateAsync: sendFCMToken } = $api.useMutation('post', '/v1/fcm/token')
   const { getFCMToken } = useFirebaseMessaging()
 
@@ -53,7 +44,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
             fcmToken,
           },
         })
-        await queryClient.invalidateQueries()
+        await queryClient.resetQueries()
       } catch (e) {
         console.error(e)
       }
@@ -74,8 +65,6 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
       value={{
         login,
         logout,
-        isLoading: isLoadingMe,
-        user: meData ?? null,
       }}
     >
       {children}
