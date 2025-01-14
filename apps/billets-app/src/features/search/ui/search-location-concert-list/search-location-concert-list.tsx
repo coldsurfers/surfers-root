@@ -1,6 +1,6 @@
 import { useKeyboard } from '@/lib'
 import { CommonListEmpty } from '@/ui'
-import { colors } from '@coldsurfers/ocean-road'
+import { useColorScheme } from '@coldsurfers/ocean-road/native'
 import { BottomSheetFlatList } from '@gorhom/bottom-sheet'
 import { useFocusEffect } from '@react-navigation/native'
 import { memo, useCallback, useMemo, useState } from 'react'
@@ -11,6 +11,7 @@ import { SearchLocationConcertListProps } from './search-location-concert-list.t
 const PER_PAGE = 20
 
 export const SearchLocationConcertList = memo(({ locationConcerts }: SearchLocationConcertListProps) => {
+  const { semantics } = useColorScheme()
   const { bottomPadding } = useKeyboard()
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
@@ -51,7 +52,10 @@ export const SearchLocationConcertList = memo(({ locationConcerts }: SearchLocat
       keyExtractor={(item) => item.id}
       onEndReached={onEndReached}
       style={styles.list}
-      contentContainerStyle={[styles.contentContainer, { paddingBottom: bottomPadding }]}
+      contentContainerStyle={[
+        styles.contentContainer,
+        { paddingBottom: bottomPadding, backgroundColor: semantics.background[4] },
+      ]}
       ListEmptyComponent={<CommonListEmpty emptyText={`🥺\n앗,\n해당하는\n정보가 없어요!`} />}
       ListFooterComponent={isLoading ? <ActivityIndicator animating style={styles.indicator} /> : null}
     />
@@ -66,7 +70,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingVertical: 12,
     paddingHorizontal: 14,
-    backgroundColor: colors.oc.gray[1].value,
+    // backgroundColor: colors.oc.gray[1].value,
   },
   indicator: { paddingTop: 24 },
 })

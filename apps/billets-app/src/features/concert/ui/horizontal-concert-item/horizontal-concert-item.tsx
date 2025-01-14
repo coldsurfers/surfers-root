@@ -1,5 +1,5 @@
 import { colors } from '@coldsurfers/ocean-road'
-import { Text } from '@coldsurfers/ocean-road/native'
+import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { ReactNode } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 
@@ -18,17 +18,18 @@ export const HorizontalConcertItem = ({
   description: string
   bottomRightAddOn?: ReactNode
 }) => {
+  const { semantics } = useColorScheme()
   return (
     <TouchableOpacity onPress={onPress} style={styles.itemWrapper}>
       {thumbnailComponent}
       <View style={styles.itemInnerRight}>
-        <Text weight="bold" numberOfLines={1} style={[styles.textTitle]}>
+        <Text weight="bold" numberOfLines={1} style={[styles.textTitle, { color: semantics.foreground[1] }]}>
           {title}
         </Text>
-        <Text weight="medium" style={styles.text}>
+        <Text weight="medium" style={[styles.text, { color: semantics.foreground[3] }]}>
           {subtitle}
         </Text>
-        <Text weight="medium" style={styles.textDescription}>
+        <Text weight="medium" style={[styles.textDescription, { color: semantics.foreground[2] }]}>
           {description}
         </Text>
       </View>

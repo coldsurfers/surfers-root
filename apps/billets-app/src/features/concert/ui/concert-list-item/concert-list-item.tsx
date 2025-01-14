@@ -1,59 +1,47 @@
 import { ConcertSubscribeButton } from '@/features/subscribe'
+import { apiClient } from '@/lib/api/openapi-client'
+import { components } from '@/types/api'
 import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
-import { useCallback } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import format from 'date-fns/format'
+import { useCallback, useMemo } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import useSubscribedConcertQuery from '../../../../lib/react-query/queries/useSubscribedConcertQuery'
 import {
   getConcertListBottomWrapperDynamicStyles,
   getConcertListItemWrapperDynamicStyles,
-  getConcertListThumbnailWrapperDynamicStyles,
 } from './concert-list-item.utils'
 
-export const ConcertListItem = ({
-  concertId,
-  thumbnailUrl,
-  title,
-  date,
-  venue,
-  onPress,
-  onPressSubscribe,
-  size = 'large',
-}: {
-  concertId: string
-  thumbnailUrl: string
-  title: string
-  date: string
-  venue?: string
+type ConcertListItemProps = {
+  data: components['schemas']['ConcertDTOSchema']
   onPress: (concertId: string) => void
   onPressSubscribe?: (params: { isSubscribed: boolean; concertId: string }) => void
   size?: 'small' | 'large'
-}) => {
+}
+
+export const ConcertListItem = ({ data, onPress, onPressSubscribe, size = 'large' }: ConcertListItemProps) => {
   const { semantics } = useColorScheme()
-  const { data: subscribedConcertData } = useSubscribedConcertQuery({
-    concertId,
+
+  const { data: subscribedConcertData } = useQuery({
+    queryKey: apiClient.subscribe.queryKeys.eventSubscribe({ eventId: data.id }),
+    queryFn: () => apiClient.subscribe.getEvent({ eventId: data.id }),
   })
+
+  const thumbnailUrl = useMemo(() => data.mainPoster?.url ?? '', [data.mainPoster?.url])
+  const venue = useMemo(() => data.mainVenue, [data.mainVenue])
+
   const handlePress = useCallback(() => {
-    onPress(concertId)
-  }, [onPress, concertId])
+    onPress(data.id)
+  }, [data.id, onPress])
   const handlePressSubscribe = useCallback(() => {
     onPressSubscribe?.({
       isSubscribed: !!subscribedConcertData,
-      concertId,
+      concertId: data.id,
     })
-  }, [onPressSubscribe, subscribedConcertData, concertId])
+  }, [onPressSubscribe, subscribedConcertData, data.id])
 
   return (
-    <Pressable
-      onPress={handlePress}
-      style={[
-        styles.concertListItem,
-        {
-          borderColor: semantics.border[1],
-        },
-        getConcertListItemWrapperDynamicStyles(size),
-      ]}
-    >
+    <Pressable onPress={handlePress} style={[styles.concertListItem, getConcertListItemWrapperDynamicStyles(size)]}>
       <FastImage
         source={{ uri: thumbnailUrl }}
         style={[
@@ -61,7 +49,6 @@ export const ConcertListItem = ({
           {
             backgroundColor: semantics.background[1],
           },
-          getConcertListThumbnailWrapperDynamicStyles(size),
         ]}
       >
         {onPressSubscribe && (
@@ -80,11 +67,11 @@ export const ConcertListItem = ({
                 color: semantics.foreground[1],
               },
               {
-                fontSize: size === 'small' ? 14 : 20,
+                fontSize: size === 'small' ? 12 : 14,
               },
             ]}
           >
-            {title}
+            {data.title}
           </Text>
           <View>
             <Text
@@ -92,24 +79,23 @@ export const ConcertListItem = ({
                 styles.concertFormattedDate,
                 {
                   color: semantics.foreground[4],
-                  fontSize: size === 'small' ? 12 : 14,
-                  marginTop: size === 'small' ? 4 : 8,
+                  fontSize: size === 'small' ? 10 : 12,
+                  marginTop: size === 'small' ? 2 : 4,
                 },
               ]}
             >
-              {date}
+              {format(new Date(data.date), 'EEE, MMM d')}
             </Text>
             {venue ? (
               <Text
                 style={[
-                  styles.concertVenue,
                   {
                     color: semantics.foreground[3],
-                    fontSize: size === 'small' ? 12 : 14,
+                    fontSize: size === 'small' ? 10 : 12,
                   },
                 ]}
               >
-                {venue}
+                {venue.name}
               </Text>
             ) : null}
           </View>
@@ -127,10 +113,9 @@ ConcertListItem.Skeleton = ({ size = 'large' }: { size?: 'small' | 'large' }) =>
       <View
         style={[
           styles.concertThumbnail,
-          getConcertListThumbnailWrapperDynamicStyles(size),
           styles.skeletonBackground,
           {
-            backgroundColor: semantics.background[1],
+            backgroundColor: semantics.background[2],
           },
         ]}
       />
@@ -140,17 +125,17 @@ ConcertListItem.Skeleton = ({ size = 'large' }: { size?: 'small' | 'large' }) =>
             style={[
               styles.skeletonTitle,
               {
-                backgroundColor: semantics.background[1],
+                backgroundColor: semantics.background[2],
               },
             ]}
           />
-          {size === 'small' && <View style={styles.skeletonTitle} />}
+          {size === 'small' && <View style={[styles.skeletonTitle, { backgroundColor: semantics.background[2] }]} />}
           <View
             style={[
               styles.skeletonSubtitle,
               {
                 marginTop: size === 'small' ? 4 : 8,
-                backgroundColor: semantics.background[1],
+                backgroundColor: semantics.background[2],
               },
             ]}
           />
@@ -162,11 +147,8 @@ ConcertListItem.Skeleton = ({ size = 'large' }: { size?: 'small' | 'large' }) =>
 
 const styles = StyleSheet.create({
   concertListItem: {
-    width: '100%',
     backgroundColor: 'transparent',
     marginBottom: 16,
-    borderRadius: 8,
-    borderWidth: 1.5,
   },
   concertThumbnail: {
     width: '100%',
@@ -178,7 +160,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   concertVenue: {
-    fontSize: 14,
+    fontSize: 12,
   },
   concertListContentContainer: {
     paddingHorizontal: 12,
@@ -191,12 +173,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  subscribeBtnWrapper: { position: 'absolute', right: 12, bottom: 12 },
+  subscribeBtnWrapper: { position: 'absolute', right: 6, bottom: 6 },
   skeletonBackground: {},
   skeletonTitle: {
     width: '80%',
     height: 24,
     borderRadius: 8,
+    marginTop: 4,
   },
   skeletonSubtitle: {
     width: '20%',

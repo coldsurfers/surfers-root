@@ -14,8 +14,13 @@ export const ColorSchemeContext = createContext<{
   },
 })
 
-export const ColorSchemeProvider = ({ children }: PropsWithChildren) => {
-  const [colorScheme, setColorScheme] = useState<ColorScheme>('light')
+export const ColorSchemeProvider = ({
+  children,
+  initialColorScheme,
+}: PropsWithChildren<{
+  initialColorScheme?: ColorScheme
+}>) => {
+  const [colorScheme, setColorScheme] = useState<ColorScheme>(initialColorScheme ?? 'light')
   const semantics = useMemo(() => {
     switch (colorScheme) {
       case 'light':

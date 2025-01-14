@@ -1,6 +1,6 @@
 import { NAVIGATION_HEADER_HEIGHT } from '@/ui/navigation-header'
 import { colors } from '@coldsurfers/ocean-road'
-import { Button, Text, TextInput } from '@coldsurfers/ocean-road/native'
+import { Button, Text, TextInput, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { X as XIcon } from 'lucide-react-native'
 import { memo, useCallback, useState } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
@@ -13,6 +13,7 @@ import { FULLY_EXPANDED_SNAP_INDEX } from '../../store/search-store.constants'
 import { SEARCH_DIM_HEIGHT_FLAG } from '../search.ui.constants'
 
 export const SearchScreenNavigationHeader = memo(({ animatedPosition }: { animatedPosition: SharedValue<number> }) => {
+  const { semantics } = useColorScheme()
   const { top: topInset } = useSafeAreaInsets()
   const [placeholder, setPlaceholder] = useState('🔎 어떤 공연을 찾고 싶으세요?')
   const { keyword, setKeyword } = useSearchStore(
@@ -64,7 +65,7 @@ export const SearchScreenNavigationHeader = memo(({ animatedPosition }: { animat
       /**
        * oc gray 1
        */
-      ['#f1f3f5', 'rgba(0, 0, 0, 0)'], // From original color to dimmed black overlay
+      [semantics.background[4], 'rgba(0, 0, 0, 0)'], // From original color to dimmed black overlay
     )
 
     return {
@@ -97,6 +98,8 @@ export const SearchScreenNavigationHeader = memo(({ animatedPosition }: { animat
         clearButtonMode="while-editing"
         style={{
           marginHorizontal: 14,
+          backgroundColor: semantics.background[3],
+          color: semantics.foreground[1],
         }}
       />
       <View style={styles.filters}>

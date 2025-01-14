@@ -1,19 +1,18 @@
 import { VenueSubscribeButton } from '@/features/subscribe'
-import { useVenueDetailQuery } from '@/lib/react-query'
+import { apiClient } from '@/lib/api/openapi-client'
 import { useVenueDetailScreenNavigation } from '@/screens/venue-detail-screen/venue-detail-screen.hooks'
 import { colors } from '@coldsurfers/ocean-road'
-import { Text } from '@coldsurfers/ocean-road/native'
-import { useMemo } from 'react'
+import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 
 export const VenueDetailTop = ({ venueId }: { venueId: string }) => {
+  const { semantics } = useColorScheme()
   const navigation = useVenueDetailScreenNavigation()
-  const { data: venueDetail, isLoading: isLoadingVenueDetail } = useVenueDetailQuery({
-    id: venueId,
+  const { data: venueDetail, isLoading: isLoadingVenueDetail } = useSuspenseQuery({
+    queryKey: apiClient.venue.queryKeys.detail(venueId),
+    queryFn: () => apiClient.venue.getVenueDetail(venueId),
   })
-  const venueDetailUIData = useMemo(() => {
-    return venueDetail?.data ?? null
-  }, [venueDetail?.data])
   return (
     <View>
       <View style={styles.topContainer}>
@@ -21,10 +20,10 @@ export const VenueDetailTop = ({ venueId }: { venueId: string }) => {
           <ActivityIndicator animating />
         ) : (
           <View style={styles.contentContainer}>
-            <Text weight="medium" style={styles.topTitle}>
-              {venueDetailUIData?.name}
+            <Text weight="medium" style={[styles.topTitle, { color: semantics.foreground[1] }]}>
+              {venueDetail.name}
             </Text>
-            <Text weight="regular" style={styles.subTitle}>
+            <Text weight="regular" style={[styles.subTitle, { color: semantics.foreground[2] }]}>
               공연장
             </Text>
             <VenueSubscribeButton
@@ -40,7 +39,7 @@ export const VenueDetailTop = ({ venueId }: { venueId: string }) => {
           </View>
         )}
       </View>
-      <Text weight="medium" style={styles.subText}>
+      <Text weight="medium" style={[styles.subText, { color: semantics.foreground[1] }]}>
         콘서트 리스트
       </Text>
     </View>

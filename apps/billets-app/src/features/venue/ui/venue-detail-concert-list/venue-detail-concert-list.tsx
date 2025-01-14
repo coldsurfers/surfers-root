@@ -1,7 +1,7 @@
 import { useToggleSubscribeConcert } from '@/features/subscribe'
-import { useVenueConcertListQuery } from '@/lib/react-query/queries/use-venue-concert-list-query'
-import useGetMeQuery from '@/lib/react-query/queries/useGetMeQuery'
+import { apiClient } from '@/lib/api/openapi-client'
 import { useVenueDetailScreenNavigation } from '@/screens/venue-detail-screen/venue-detail-screen.hooks'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
 import { ActivityIndicator, FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -17,30 +17,29 @@ export const VenueDetailConcertList = ({
 }) => {
   const navigation = useVenueDetailScreenNavigation()
   const { bottom: bottomInset } = useSafeAreaInsets()
-  const {
-    data: venueConcertList,
-    isPending: isPendingVenueConcertList,
-    isFetchingNextPage: isFetchingNextPageVenueConcerList,
-    hasNextPage: hasNextPageVenueConcertList,
-    fetchNextPage: fetchNextPageVenueConcertList,
-  } = useVenueConcertListQuery({
-    venueId,
+  const { data: venueDetail, isLoading: isLoadingVenueDetail } = useSuspenseQuery({
+    queryKey: apiClient.venue.queryKeys.detail(venueId),
+    queryFn: () => apiClient.venue.getVenueDetail(venueId),
   })
-  const { data: meData } = useGetMeQuery()
+  const upcomingEvents = useMemo(() => {
+    return venueDetail.upcomingEvents
+      .filter((value) => value.type === 'concert')
+      .map((value) => {
+        return value.data
+      })
+  }, [venueDetail.upcomingEvents])
+  const { data: meData } = useQuery({
+    queryKey: apiClient.user.queryKeys.me,
+    queryFn: () => apiClient.user.getMe(),
+  })
   const toggleSubscribeConcert = useToggleSubscribeConcert()
 
-  const venueConcertListUIData = useMemo(() => {
-    return venueConcertList?.pages.flat() ?? []
-  }, [venueConcertList?.pages])
-
-  const isInitialLoading = isPendingVenueConcertList
-
-  const renderItem = useCallback<ListRenderItem<(typeof venueConcertListUIData)[number]>>(
-    (info) => {
+  const renderItem = useCallback<ListRenderItem<(typeof upcomingEvents)[number]>>(
+    ({ item }) => {
       return (
         <VenueDetailConcertListItem
-          item={info.item}
-          onPress={() => onPressItem?.({ concertId: info.item.id })}
+          item={item}
+          onPress={() => onPressItem?.({ concertId: item.id })}
           onPressSubscribe={({ concertId, isSubscribed }) => {
             if (!meData) {
               navigation.navigate('LoginStackNavigation', {
@@ -60,19 +59,7 @@ export const VenueDetailConcertList = ({
     [meData, navigation, onPressItem, toggleSubscribeConcert],
   )
 
-  const onEndReached = useCallback(async () => {
-    if (isPendingVenueConcertList || isFetchingNextPageVenueConcerList || !hasNextPageVenueConcertList) {
-      return
-    }
-    await fetchNextPageVenueConcertList()
-  }, [
-    fetchNextPageVenueConcertList,
-    hasNextPageVenueConcertList,
-    isFetchingNextPageVenueConcerList,
-    isPendingVenueConcertList,
-  ])
-
-  if (isInitialLoading) {
+  if (isLoadingVenueDetail) {
     return (
       <View style={styles.loading}>
         <ActivityIndicator animating />
@@ -83,12 +70,11 @@ export const VenueDetailConcertList = ({
   return (
     <FlatList
       ListHeaderComponent={<VenueDetailTop venueId={venueId} />}
-      data={venueConcertListUIData}
+      data={upcomingEvents}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
       contentContainerStyle={[styles.contentContainer, { paddingBottom: bottomInset }]}
-      onEndReached={onEndReached}
-      style={{ flex: 1 }}
+      style={styles.list}
     />
   )
 }
@@ -103,4 +89,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  list: { flex: 1 },
 })

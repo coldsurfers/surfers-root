@@ -1,11 +1,14 @@
 import { AuthContext, decodeJwt, GOOGLE_SIGNIN_OPTIONS, ToastVisibleContext, ToastVisibleContextProvider } from '@/lib'
-import { $api } from '@/lib/api/openapi-client'
+import { apiClient } from '@/lib/api/openapi-client'
+import { OpenApiError } from '@/lib/errors'
+import { components } from '@/types/api'
 import { CommonScreenLayout } from '@/ui'
 import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner } from '@coldsurfers/ocean-road/native'
 import appleAuth from '@invertase/react-native-apple-authentication'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
+import { useMutation } from '@tanstack/react-query'
 import React, { useCallback, useContext } from 'react'
 import { Alert, Platform, StyleSheet, View } from 'react-native'
 import { useLoginSelectionScreenNavigation } from './login-selection-screen.hooks'
@@ -32,7 +35,18 @@ export const _LoginSelectionScreen = () => {
   const { show } = useContext(ToastVisibleContext)
   const { login } = useContext(AuthContext)
   const { navigate } = useLoginSelectionScreenNavigation()
-  const { mutate: mutateSignIn, isPending: isPendingMutateSignIn } = $api.useMutation('post', '/v1/auth/signin', {
+  const { mutate: mutateSignIn, isPending: isPendingMutateSignIn } = useMutation<
+    components['schemas']['UserWithAuthTokenDTOSchema'],
+    OpenApiError,
+    {
+      email: string
+      password?: string
+      platform?: 'android' | 'ios'
+      provider: 'google' | 'apple' | 'email'
+      token?: string
+    }
+  >({
+    mutationFn: apiClient.auth.signIn,
     onSuccess: async (data) => {
       if (!data) {
         return
@@ -65,16 +79,14 @@ export const _LoginSelectionScreen = () => {
       }
       mutateSignIn(
         {
-          body: {
-            provider: 'google',
-            email,
-            token: user.idToken,
-            platform: Platform.select({
-              ios: 'ios',
-              android: 'android',
-              default: 'android',
-            }),
-          },
+          provider: 'google',
+          email,
+          token: user.idToken,
+          platform: Platform.select({
+            ios: 'ios',
+            android: 'android',
+            default: 'android',
+          }),
         },
         {
           onError: (error) => {
@@ -137,16 +149,14 @@ export const _LoginSelectionScreen = () => {
         }
         mutateSignIn(
           {
-            body: {
-              provider: 'apple',
-              email: email,
-              token: identityToken,
-              platform: Platform.select({
-                ios: 'ios',
-                android: 'android',
-                default: 'android',
-              }),
-            },
+            provider: 'apple',
+            email: email,
+            token: identityToken,
+            platform: Platform.select({
+              ios: 'ios',
+              android: 'android',
+              default: 'android',
+            }),
           },
           {
             onError: (error) => {

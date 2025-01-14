@@ -1,9 +1,9 @@
 import { ArtistSubscribeButton } from '@/features/subscribe'
-import { useArtistDetailQuery } from '@/lib/react-query'
+import { apiClient } from '@/lib/api/openapi-client'
 import { useArtistDetailScreenNavigation } from '@/screens/artist-detail-screen/artist-detail-screen.hooks'
 import { colors } from '@coldsurfers/ocean-road'
-import { ProfileThumbnail, Text } from '@coldsurfers/ocean-road/native'
-import { useMemo } from 'react'
+import { ProfileThumbnail, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
+import { useQuery } from '@tanstack/react-query'
 import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native'
 
 export const ArtistDetailTop = ({
@@ -13,13 +13,12 @@ export const ArtistDetailTop = ({
   artistId: string
   onPressArtistProfile?: () => void
 }) => {
+  const { semantics } = useColorScheme()
   const navigation = useArtistDetailScreenNavigation()
-  const { data: artistDetail, isLoading: isLoadingArtistDetail } = useArtistDetailQuery({
-    id: artistId,
+  const { data: artistDetail, isLoading: isLoadingArtistDetail } = useQuery({
+    queryKey: apiClient.artist.queryKeys.detail(artistId),
+    queryFn: () => apiClient.artist.getArtistDetail(artistId),
   })
-  const artistDetailUIData = useMemo(() => {
-    return artistDetail ?? null
-  }, [artistDetail])
   return (
     <View>
       <View style={styles.topContainer}>
@@ -29,17 +28,17 @@ export const ArtistDetailTop = ({
           <View style={styles.contentContainer}>
             <Pressable onPress={onPressArtistProfile}>
               <ProfileThumbnail
-                emptyBgText={artistDetailUIData?.name.at(0) ?? ''}
-                imageUrl={artistDetailUIData?.artistProfileImage.at(0)?.imageURL}
+                emptyBgText={artistDetail?.name.at(0) ?? ''}
+                imageUrl={artistDetail?.thumbUrl ?? ''}
                 size="lg"
                 type="circle"
                 style={styles.thumbnail}
               />
             </Pressable>
-            <Text weight="medium" style={styles.topTitle}>
-              {artistDetailUIData?.name ?? ''}
+            <Text weight="medium" style={[styles.topTitle, { color: semantics.foreground[1] }]}>
+              {artistDetail?.name ?? ''}
             </Text>
-            <Text weight="regular" style={styles.subTitle}>
+            <Text weight="regular" style={[styles.subTitle, { color: semantics.foreground[2] }]}>
               아티스트
             </Text>
             <ArtistSubscribeButton
@@ -55,7 +54,7 @@ export const ArtistDetailTop = ({
           </View>
         )}
       </View>
-      <Text weight="medium" style={styles.subText}>
+      <Text weight="medium" style={[styles.subText, { color: semantics.foreground[1] }]}>
         콘서트 리스트
       </Text>
     </View>

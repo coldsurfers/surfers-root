@@ -117,8 +117,4 @@ export const zodScreen = createZodScreen({
       artistId: z.string().uuid(),
     }),
   },
-  ConcertMapScreen: {
-    name: 'ConcertMapScreen',
-    params: z.object({}),
-  },
 } as const)

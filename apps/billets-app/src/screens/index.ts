@@ -1,7 +1,6 @@
 export * from './activate-user-confirm-screen'
 export * from './artist-detail-screen'
 export * from './concert-detail-screen'
-export * from './concert-map-screen'
 export * from './concert-ticket-list-screen'
 export * from './email-confirm-screen'
 export * from './email-login-screen'
