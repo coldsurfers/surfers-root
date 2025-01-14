@@ -4,12 +4,12 @@ import { Poster } from '@prisma/client'
 import { PosterRepository } from './poster.repository'
 
 export class PosterRepositoryImpl implements PosterRepository {
-  async getPostersByConcertId(concertId: string): Promise<PosterDTO[]> {
+  async findMany(params: { eventId: string }): Promise<PosterDTO[]> {
     const posters = await dbClient.poster.findMany({
       where: {
         concerts: {
           some: {
-            concertId,
+            concertId: params.eventId,
           },
         },
       },

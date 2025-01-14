@@ -8,7 +8,7 @@ export class PosterService {
     this.posterRepository = posterRepository
   }
 
-  async getPostersByConcertId(concertId: string): Promise<PosterDTO[]> {
-    return this.posterRepository.getPostersByConcertId(concertId)
+  async getPosters(params: { eventId: string }): Promise<PosterDTO[]> {
+    return this.posterRepository.findMany(params)
   }
 }
