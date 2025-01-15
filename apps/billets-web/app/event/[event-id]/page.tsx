@@ -2,7 +2,7 @@ import { GLOBAL_TIME_ZONE, SITE_URL } from '@/libs/constants'
 import { metadataInstance } from '@/libs/metadata'
 import { apiClient } from '@/libs/openapi-client'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
-import { formatPrice, generateBilletsLdJson, getQueryClient } from '@/libs/utils'
+import { formatPrice, getQueryClient } from '@/libs/utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { toZonedTime } from 'date-fns-tz'
@@ -156,7 +156,7 @@ async function PageInner({ params }: PageProps<{ ['event-id']: string }>) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
-            generateBilletsLdJson({
+            metadataInstance.generateLdJson({
               type: 'MusicEvent',
               description: metaDescription,
               endDate: concertDate.toISOString(),

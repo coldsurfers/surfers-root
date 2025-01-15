@@ -1,6 +1,6 @@
+import { SITE_URL } from '@/libs/constants'
 import { metadataInstance } from '@/libs/metadata'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
-import { generateBilletsLdJson } from '@/libs/utils'
 import { Metadata } from 'next'
 import { PageTop, SubmitForm } from './(ui)'
 
@@ -19,8 +19,10 @@ function PageInner() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
-            generateBilletsLdJson({
+            metadataInstance.generateLdJson({
               type: 'WebSite',
+              url: SITE_URL,
+              name: 'Billets',
             }),
           ),
         }}
