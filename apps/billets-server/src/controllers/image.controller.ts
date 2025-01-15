@@ -7,10 +7,10 @@ import { FastifyRequest } from 'fastify/types/request'
 import sharp, { FormatEnum } from 'sharp'
 
 const s3 = new S3Client({
-  region: process.env.AWS_REGION,
+  region: process.env.COLDSURF_AWS_REGION,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? '',
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? '',
+    accessKeyId: process.env.COLDSURF_AWS_ACCESS_KEY_ID ?? '',
+    secretAccessKey: process.env.COLDSURF_AWS_SECRET_ACCESS_KEY ?? '',
   },
 })
 
@@ -43,7 +43,7 @@ export const getImageResizeHandler = async (
     const targetFormat = format || 'jpeg'
 
     const getObjectCommand = new GetObjectCommand({
-      Bucket: process.env.AWS_S3_BUCKET ?? '',
+      Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
       Key: key,
     })
 
