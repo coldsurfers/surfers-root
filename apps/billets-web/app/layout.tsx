@@ -1,3 +1,4 @@
+import { metadataInstance } from '@/libs/metadata'
 import {
   FirebaseRegistry,
   GlobalErrorBoundaryRegistry,
@@ -5,7 +6,6 @@ import {
   QueryClientRegistry,
   RegistryProvider,
 } from '@/libs/registries'
-import { generateBilletsMetadata } from '@/libs/utils'
 import type { Metadata } from 'next'
 import { Noto_Sans as notoSans } from 'next/font/google'
 import { ReactNode } from 'react'
@@ -14,7 +14,7 @@ import { AppLayout } from './(ui)'
 const notoSansFont = notoSans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  ...generateBilletsMetadata({
+  ...metadataInstance.generateMetadata<Metadata>({
     title: 'Discover live events and tickets | Browser tickets on Billets',
   }),
 }

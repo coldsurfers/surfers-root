@@ -1,10 +1,11 @@
+import { metadataInstance } from '@/libs/metadata'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
-import { generateBilletsLdJson, generateBilletsMetadata } from '@/libs/utils'
+import { generateBilletsLdJson } from '@/libs/utils'
 import { Metadata } from 'next'
 import { PageTop, SubmitForm } from './(ui)'
 
 export async function generateMetadata(): Promise<Metadata> {
-  return generateBilletsMetadata({
+  return metadataInstance.generateMetadata<Metadata>({
     title: 'Story and Mission | About Billets and COLDSURF',
   })
 }
