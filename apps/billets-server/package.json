@@ -29,6 +29,7 @@
     ]
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.726.1",
     "@coldsurfers/prisma-schema": "workspace:*",
     "@coldsurfers/zod-schema": "workspace:*",
     "@fastify/aws-lambda": "*",
@@ -53,6 +54,7 @@
     "ngeohash": "*",
     "nodemailer": "^6.9.14",
     "nodemailer-smtp-transport": "^2.7.4",
+    "sharp": "^0.33.5",
     "ts-pattern": "*",
     "zod": "*"
   },
