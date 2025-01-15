@@ -1,4 +1,4 @@
-import { MusicEvent, WebSite, WithContext } from 'schema-dts'
+import { Brand, MusicEvent, WebSite, WithContext } from 'schema-dts'
 
 type BaseData = {
   keywords: string[]
@@ -147,7 +147,7 @@ export class NextMetadataGenerator {
         } satisfies WithContext<MusicEvent>
       case 'Brand':
         return {
-          '@context': 'http://schema.org',
+          '@context': 'https://schema.org',
           '@type': 'Brand',
           'name': params.name,
           'image': params.image,
