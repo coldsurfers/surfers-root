@@ -1,7 +1,8 @@
 import { GLOBAL_TIME_ZONE, SITE_URL } from '@/libs/constants'
+import { metadataInstance } from '@/libs/metadata'
 import { apiClient } from '@/libs/openapi-client'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
-import { formatPrice, generateBilletsLdJson, generateBilletsMetadata, getQueryClient } from '@/libs/utils'
+import { formatPrice, generateBilletsLdJson, getQueryClient } from '@/libs/utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { toZonedTime } from 'date-fns-tz'
@@ -75,18 +76,20 @@ export async function generateMetadata({ params }: PageProps<{ ['event-id']: str
     }
   })
 
-  return generateBilletsMetadata({
+  const openGraph: Metadata['openGraph'] = {
+    type: 'website',
+    title: metaTitle,
+    description: metaDescription,
+    images: metaImages,
+    url: `https://billets.coldsurf.io/event/${params['event-id']}`,
+  }
+
+  return metadataInstance.generateMetadata<Metadata>({
     title: metaTitle,
     description: metaDescription,
     other: metaOther,
     keywords: metaKeywords,
-    openGraph: {
-      type: 'website',
-      title: metaTitle,
-      description: metaDescription,
-      images: metaImages,
-      url: `https://billets.coldsurf.io/event/${params['event-id']}`,
-    },
+    openGraph,
   })
 }
 
