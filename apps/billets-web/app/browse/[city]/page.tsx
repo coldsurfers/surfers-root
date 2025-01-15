@@ -1,3 +1,4 @@
+import { metadataInstance } from '@/libs/metadata'
 import { apiClient } from '@/libs/openapi-client'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import { getQueryClient, validateCityParam } from '@/libs/utils'
@@ -12,17 +13,29 @@ export const revalidate = 600
 export async function generateMetadata({ params }: PageProps<{ city: string }>): Promise<Metadata> {
   const validation = await validateCityParam(params.city)
   if (!validation.isValid) {
-    return {
+    const openGraph: Metadata['openGraph'] = {
       title: 'Billets | Discover shows around the world',
       description:
         'Billets is a platform to find live shows around the world. Download Billets to see live shows in your city.',
     }
+    return metadataInstance.generateMetadata<Metadata>({
+      title: 'Billets | Discover shows around the world',
+      description:
+        'Billets is a platform to find live shows around the world. Download Billets to see live shows in your city.',
+      openGraph,
+    })
   }
-  return {
+  const openGraph: Metadata['openGraph'] = {
     title: `Popular shows in ${validation.data.uiName} | Billets`,
     description:
       'Billets is a platform to find live shows around the world. Download Billets to see live shows in your city.',
   }
+  return metadataInstance.generateMetadata<Metadata>({
+    title: `Popular shows in ${validation.data.uiName} | Billets`,
+    description:
+      'Billets is a platform to find live shows around the world. Download Billets to see live shows in your city.',
+    openGraph,
+  })
 }
 
 async function PageInner({ params }: PageProps<{ city: string }>) {
