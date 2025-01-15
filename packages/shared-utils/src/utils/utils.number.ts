@@ -6,7 +6,7 @@
  * @param {number} maximum - The largest integer value that can be returned, inclusive.
  * @returns {number} - A random integer between `min` and `max`, inclusive.
  */
-export default function getRandomInt(minimum: number, maximum: number) {
+export function getRandomInt(minimum: number, maximum: number) {
   const min = Math.ceil(minimum)
   const max = Math.floor(maximum)
   return Math.floor(Math.random() * (max - min + 1)) + min
