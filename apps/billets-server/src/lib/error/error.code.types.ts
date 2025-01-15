@@ -24,4 +24,6 @@ export const errorCodeSchema = z.union([
   z.literal('EVENT_NOT_FOUND'),
   z.literal('POSTER_NOT_FOUND'),
   z.literal('ARTIST_PROFILE_IMAGE_NOT_FOUND'),
+  z.literal('IMAGE_KEY_NOT_FOUND'),
+  z.literal('IMAGE_NOT_FOUND'),
 ])
