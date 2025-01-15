@@ -24,7 +24,7 @@ async function LayoutInner({ city, children }: PropsWithChildren<{ city: string 
       <Navigation initialCity={city} />
       {children}
       <script
-        type="application/json"
+        type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
             metadataInstance.generateLdJson({
