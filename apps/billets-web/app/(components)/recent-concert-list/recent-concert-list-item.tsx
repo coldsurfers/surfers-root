@@ -18,10 +18,16 @@ export const RecentConcertListItem = ({ data }: { data: components['schemas']['C
     }
     return format(parseISO(data.date), 'yyyy.MM.dd')
   }, [data.date])
+  const thumbUrl = useMemo(() => {
+    if (!data.mainPoster) {
+      return ''
+    }
+    return `${data.mainPoster.url}&width=250&height=250`
+  }, [data.mainPoster])
   return (
     <Link href={`/event/${data.id}`}>
       <StyledRecentListBilletsConcertCard $isLoading={false}>
-        <StyledRecentListBilletsConcertCardImage src={data.mainPoster?.url} alt="concert" />
+        <StyledRecentListBilletsConcertCardImage src={thumbUrl} alt="concert" />
         <StyledTitle as="p">{data.title}</StyledTitle>
         <div style={{ display: 'flex', flexDirection: 'column', marginTop: '4px' }}>
           <StyledRecentListParagraph as="p">{formattedDate}</StyledRecentListParagraph>

@@ -15,7 +15,7 @@ async function migrate() {
         id: poster.id,
       },
       data: {
-        imageURL: `${imageURL}&width=300&height=300&format=png`,
+        imageURL: imageURL.split('&width=')[0],
       },
     })
   }
