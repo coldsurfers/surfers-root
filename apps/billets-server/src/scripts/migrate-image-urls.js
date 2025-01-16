@@ -5,7 +5,7 @@ const dbClient = new PrismaClient({
   log: ['warn', 'info', 'error'],
 })
 
-async function migrate() {
+async function migratePosters() {
   const allPosters = await dbClient.poster.findMany()
 
   for (const poster of allPosters) {
@@ -21,4 +21,23 @@ async function migrate() {
   }
 }
 
-migrate()
+// migratePosters()
+
+async function migrateArtistProfileImages() {
+  const allArtistProfileImages = await dbClient.artistProfileImage.findMany()
+
+  for (const artistProfileImage of allArtistProfileImages) {
+    const { imageURL } = artistProfileImage
+    const [_, key] = imageURL.split('https://abyss.coldsurf.io/')
+    await dbClient.artistProfileImage.update({
+      where: {
+        id: artistProfileImage.id,
+      },
+      data: {
+        imageURL: `https://api.billets.coldsurf.io/v1/image?key=${key}`,
+      },
+    })
+  }
+}
+
+// migrateArtistProfileImages()
