@@ -1,10 +1,11 @@
+import { SITE_URL } from '@/libs/constants'
+import { metadataInstance } from '@/libs/metadata'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
-import { generateBilletsLdJson, generateBilletsMetadata } from '@/libs/utils'
 import { Metadata } from 'next'
 import { PageTop, SubmitForm } from './(ui)'
 
 export async function generateMetadata(): Promise<Metadata> {
-  return generateBilletsMetadata({
+  return metadataInstance.generateMetadata<Metadata>({
     title: 'Story and Mission | About Billets and COLDSURF',
   })
 }
@@ -18,8 +19,10 @@ function PageInner() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
-            generateBilletsLdJson({
+            metadataInstance.generateLdJson({
               type: 'WebSite',
+              url: SITE_URL,
+              name: 'Billets',
             }),
           ),
         }}

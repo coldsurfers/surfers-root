@@ -24,6 +24,7 @@
     "billets-web",
     "prisma-schema",
     "surf-tree",
-    "coldsurf-io"
+    "coldsurf-io",
+    "shared-utils"
   ]
 }
