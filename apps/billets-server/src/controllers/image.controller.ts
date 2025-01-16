@@ -64,7 +64,7 @@ export const getImageResizeHandler = async (
           'Cache-Control': 'public, max-age=31536000, immutable',
           'ETag': `"${cacheKey}"`,
         })
-        .status(304)
+        .status(200)
         .send(Buffer.from(await cachedImageBody.transformToByteArray()))
     } catch (e) {
       console.error(e)
