@@ -24,6 +24,9 @@ interface GetImageResizeRoute extends RouteGenericInterface {
   }
 }
 
+const DEFAULT_SIZE = 512
+const DEFAULT_FORMAT = 'png'
+
 export const getImageResizeHandler = async (
   req: FastifyRequest<GetImageResizeRoute>,
   rep: FastifyReply<GetImageResizeRoute>,
@@ -38,9 +41,9 @@ export const getImageResizeHandler = async (
 
     if (!key) return rep.status(400).send({ code: 'IMAGE_KEY_NOT_FOUND', message: 'Image key is required' })
 
-    const targetWidth = width || 1024
-    const targetHeight = height || 1024
-    const targetFormat = format || 'png'
+    const targetWidth = width || DEFAULT_SIZE
+    const targetHeight = height || DEFAULT_SIZE
+    const targetFormat = format || DEFAULT_FORMAT
 
     const getObjectCommand = new GetObjectCommand({
       Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
