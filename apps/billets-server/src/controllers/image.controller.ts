@@ -1,23 +1,17 @@
 import { ErrorResponseDTO } from '@/dtos/error-response.dto'
 import { GetImageResizeQueryStringDTO, GetImageResizeQueryStringDTOSchema } from '@/dtos/image.dto'
-import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import { S3Client } from '@/lib/s3-client'
+import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3'
 import { RouteGenericInterface } from 'fastify'
 import { FastifyReply } from 'fastify/types/reply'
 import { FastifyRequest } from 'fastify/types/request'
 import sharp, { FormatEnum } from 'sharp'
 
-const s3 = new S3Client({
-  region: process.env.COLDSURF_AWS_REGION,
-  credentials: {
-    accessKeyId: process.env.COLDSURF_AWS_ACCESS_KEY_ID ?? '',
-    secretAccessKey: process.env.COLDSURF_AWS_SECRET_ACCESS_KEY ?? '',
-  },
-})
-
 interface GetImageResizeRoute extends RouteGenericInterface {
   Querystring: GetImageResizeQueryStringDTO
   Reply: {
     200: Buffer
+    304: Buffer
     400: ErrorResponseDTO
     404: ErrorResponseDTO
     500: ErrorResponseDTO
@@ -45,28 +39,76 @@ export const getImageResizeHandler = async (
     const targetHeight = height || DEFAULT_SIZE
     const targetFormat = format || DEFAULT_FORMAT
 
-    const getObjectCommand = new GetObjectCommand({
-      Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
-      Key: key,
-    })
+    const cacheKey = `${key}-${targetWidth}x${targetHeight}.${targetFormat}`
 
-    const { Body: originalImage } = await s3.send(getObjectCommand)
+    try {
+      const cachedImage = await new S3Client()
+        .setGetObjectCommand(
+          new GetObjectCommand({
+            Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
+            Key: cacheKey,
+          }),
+        )
+        .get()
 
-    if (!originalImage) {
+      const { Body: cachedImageBody } = cachedImage
+
+      if (!cachedImageBody) {
+        console.log('CachedImageBody Not Found')
+        throw Error('Cached image not found')
+      }
+
+      return rep
+        .headers({
+          'Content-Type': `image/${targetFormat}`,
+          'Cache-Control': 'public, max-age=31536000, immutable',
+          'ETag': `"${cacheKey}"`,
+        })
+        .status(304)
+        .send(Buffer.from(await cachedImageBody.transformToByteArray()))
+    } catch (e) {
+      console.error(e)
+      console.log('Cache miss, resizing image...')
+    }
+
+    const originalImage = await new S3Client()
+      .setGetObjectCommand(
+        new GetObjectCommand({
+          Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
+          Key: key,
+        }),
+      )
+      .get()
+
+    if (!originalImage || !originalImage.Body) {
       return rep.status(404).send({ code: 'IMAGE_NOT_FOUND', message: 'Image not found' })
     }
 
-    const originalImageBuffer = await originalImage.transformToByteArray()
+    const originalImageBuffer = await originalImage.Body.transformToByteArray()
 
-    // Resize image using Sharp
     const processedImage = await sharp(originalImageBuffer)
       .resize(targetWidth, targetHeight)
       .toFormat(targetFormat as keyof FormatEnum)
       .toBuffer()
 
-    // Return processed image
+    await new S3Client()
+      .setPutObjectCommand(
+        new PutObjectCommand({
+          Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
+          Key: cacheKey,
+          Body: processedImage,
+          ContentType: `image/${targetFormat}`,
+          CacheControl: 'public, max-age=31536000, immutable',
+        }),
+      )
+      .put()
+
     return rep
-      .headers({ 'Content-Type': `image/${targetFormat}` })
+      .headers({
+        'Content-Type': `image/${targetFormat}`,
+        'Cache-Control': 'public, max-age=31536000, immutable',
+        'ETag': `"${cacheKey}"`,
+      })
       .status(200)
       .send(processedImage)
   } catch (err) {
