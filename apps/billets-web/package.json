@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-web",
-  "version": "1.0.29",
+  "version": "1.0.30",
   "scripts": {
     "build": "next build",
     "build:vercel": "npx vercel build --prod",
@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@coldsurfers/ocean-road": "workspace:*",
+    "@coldsurfers/shared-utils": "workspace:*",
     "@emotion/css": "*",
     "@emotion/react": "*",
     "@emotion/styled": "*",
@@ -35,7 +36,7 @@
     "react-hook-form": "*",
     "react-notion-x": "*",
     "react-spinners": "*",
-    "schema-dts": "^1.1.2",
+    "schema-dts": "*",
     "zod": "*",
     "zustand": "*"
   },

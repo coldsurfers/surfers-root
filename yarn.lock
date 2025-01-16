@@ -3455,6 +3455,7 @@ __metadata:
   resolution: "@coldsurfers/billets-web@workspace:apps/billets-web"
   dependencies:
     "@coldsurfers/ocean-road": "workspace:*"
+    "@coldsurfers/shared-utils": "workspace:*"
     "@emotion/css": "npm:*"
     "@emotion/react": "npm:*"
     "@emotion/styled": "npm:*"
@@ -3481,7 +3482,7 @@ __metadata:
     react-hook-form: "npm:*"
     react-notion-x: "npm:*"
     react-spinners: "npm:*"
-    schema-dts: "npm:^1.1.2"
+    schema-dts: "npm:*"
     sst: "npm:*"
     ts-node: "npm:^10.9.2"
     typescript: "npm:*"
@@ -3723,7 +3724,10 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^4.6.0"
     prettier: "npm:^3.2.4"
     release-it: "npm:*"
+    schema-dts: "npm:*"
     typescript: "npm:5.3.3"
+  peerDependencies:
+    schema-dts: ^1.1.2
   languageName: unknown
   linkType: soft
 
@@ -33644,7 +33648,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"schema-dts@npm:^1.1.2":
+"schema-dts@npm:1.1.2":
   version: 1.1.2
   resolution: "schema-dts@npm:1.1.2"
   peerDependencies:
