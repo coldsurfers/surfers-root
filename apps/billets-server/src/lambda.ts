@@ -2,7 +2,9 @@ import AwsLambdaFastify from '@fastify/aws-lambda'
 import { connectDbClient, disconnectDbClient } from './lib/db'
 import { app } from './server'
 
-const _handler = AwsLambdaFastify(app)
+const _handler = AwsLambdaFastify(app, {
+  binaryMimeTypes: ['image/png', 'image/jpeg'],
+})
 
 export const handler = async (event: unknown, context: unknown) => {
   await connectDbClient()

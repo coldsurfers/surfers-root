@@ -53,14 +53,19 @@ export const getImageResizeHandler = async (
       return rep.status(404).send({ code: 'IMAGE_NOT_FOUND', message: 'Image not found' })
     }
 
+    const originalImageBuffer = await originalImage.transformToByteArray()
+
     // Resize image using Sharp
-    const processedImage = await sharp(await originalImage.transformToByteArray())
+    const processedImage = await sharp(originalImageBuffer)
       .resize(targetWidth, targetHeight)
       .toFormat(targetFormat as keyof FormatEnum)
       .toBuffer()
 
     // Return processed image
-    return rep.type(`image/${targetFormat}`).status(200).send(processedImage)
+    return rep
+      .headers({ 'Content-Type': `image/${targetFormat}` })
+      .status(200)
+      .send(processedImage)
   } catch (err) {
     console.error(err)
     return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
