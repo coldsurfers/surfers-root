@@ -18,9 +18,10 @@
     "prisma:studio": "yarn prisma studio --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "serverless:offline": "npx serverless offline --httpPort 3001",
-    "serverless:deploy:dev": "yarn build && yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage dev",
-    "serverless:deploy:prod": "yarn build && yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage prod",
-    "circular": "dpdm ./src/start-server.ts"
+    "serverless:deploy:dev": "yarn install:sharp && yarn build && yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage dev",
+    "serverless:deploy:prod": "yarn install:sharp && yarn build && yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage prod",
+    "circular": "dpdm ./src/start-server.ts",
+    "install:sharp": "node ./src/scripts/install-sharp.js"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -56,7 +57,7 @@
     "ngeohash": "*",
     "nodemailer": "^6.9.14",
     "nodemailer-smtp-transport": "^2.7.4",
-    "sharp": "^0.33.5",
+    "sharp": "0.33.5",
     "ts-pattern": "*",
     "zod": "*"
   },
@@ -79,6 +80,7 @@
     "serverless-dotenv-plugin": "*",
     "serverless-offline": "*",
     "serverless-plugin-monorepo": "*",
+    "tar": "^7.4.3",
     "ts-node-dev": "^2.0.0",
     "tsup": "*",
     "typescript": "*"
