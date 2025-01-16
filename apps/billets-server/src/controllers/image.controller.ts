@@ -38,9 +38,9 @@ export const getImageResizeHandler = async (
 
     if (!key) return rep.status(400).send({ code: 'IMAGE_KEY_NOT_FOUND', message: 'Image key is required' })
 
-    const targetWidth = width || null
-    const targetHeight = height || null
-    const targetFormat = format || 'jpeg'
+    const targetWidth = width || 1024
+    const targetHeight = height || 1024
+    const targetFormat = format || 'png'
 
     const getObjectCommand = new GetObjectCommand({
       Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
