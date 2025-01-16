@@ -22,6 +22,7 @@ import artistRoute from '@/routes/artist.route'
 import authRoute from '@/routes/auth.route'
 import eventRoute from '@/routes/event.route'
 import fcmRoute from '@/routes/fcm.route'
+import imageRoute from '@/routes/image.route'
 import locationRoute from '@/routes/location.route'
 import mailerRoute from '@/routes/mailer.route'
 import posterRoute from '@/routes/poster.route'
@@ -205,3 +206,4 @@ app.register(artistProfileImageRoute, { prefix: '/v1/artist-profile-image' })
 app.register(ticketRoute, { prefix: '/v1/ticket' })
 app.register(priceRoute, { prefix: '/v1/price' })
 app.register(eventRoute, { prefix: '/v1/event' })
+app.register(imageRoute, { prefix: '/v1/image' })
