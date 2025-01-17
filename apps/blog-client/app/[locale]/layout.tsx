@@ -1,6 +1,8 @@
 import Script from 'next/script'
 
 import { OceanRoadThemeRegistry, QueryClientRegistry } from '@/lib'
+import { SITE_URL } from '@/lib/constants'
+import { metadataInstance } from '@/lib/metadata/metadata-instance'
 import { routing } from 'i18n/routing'
 import { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
@@ -11,18 +13,39 @@ import { PropsWithChildren } from 'react'
 
 const notoSansKR = Noto_Sans_KR({ subsets: ['latin'] })
 
-const metaTitle = 'COLDSURF Blog: The Latest Articles'
-const metaDescription = 'Make products that support artists'
+const metaTitle = 'COLDSURF Blog: Latest News and Blogs'
+const metaDescription = 'Updates from COLDSURF'
 
-export const metadata: Metadata = {
+const og: Metadata['openGraph'] = {
+  url: SITE_URL,
+  type: 'website',
   title: metaTitle,
   description: metaDescription,
-  icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/favicon.ico',
+  images: {
+    url: `${SITE_URL}/icons/favicon.ico`,
   },
+  siteName: 'COLDSURF Blog',
 }
+
+const alternates: Metadata['alternates'] = {
+  canonical: SITE_URL,
+  languages: routing.locales.reduce(
+    (acc, locale) => ({
+      ...acc,
+      [locale]: `${SITE_URL}/${locale}`,
+    }),
+    {},
+  ),
+}
+
+const meta = metadataInstance.generateMetadata<Metadata>({
+  title: metaTitle,
+  description: metaDescription,
+  openGraph: og,
+  alternates,
+})
+
+export const metadata: Metadata = meta
 
 export default async function RootLayout({
   children,
