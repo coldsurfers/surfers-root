@@ -41,22 +41,19 @@ export class NextMetadataGenerator {
     this.baseData = baseData
   }
 
-  public generateMetadata<T>(additionalMetadata: {
-    keywords?: string[]
-    title?: string
-    description?: string
-    other?: Record<string, unknown>
-    openGraph?: Record<string, unknown>
-  }): T {
+  public generateMetadata<T>(additionalMetadata: T): T {
     const { icons, metadataBase, appLinks, keywords, twitter } = this.baseData
-    return {
+    const value = {
       ...additionalMetadata,
       icons,
       metadataBase,
       appLinks,
+      // @ts-ignore
       keywords: [...keywords, ...(additionalMetadata.keywords ?? [])],
       twitter,
     } as T
+
+    return value
   }
 
   public generateLdJson(
