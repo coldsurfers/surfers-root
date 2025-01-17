@@ -99,3 +99,35 @@ export const generateLogDetailMetadata = (
 
   return metadata
 }
+
+export const generateLogListMetadata = ({
+  title,
+  description,
+  locale,
+  logType,
+}: {
+  title: string
+  description: string
+  locale: (typeof routing.locales)[number]
+  logType: 'surflog' | 'techlog' | 'filmlog' | 'soundlog' | 'squarelog' | 'textlog'
+}) => {
+  const metaTitle = title
+  const metaDescription = description
+
+  const meta = metadataInstance.generateMetadata<Metadata>({
+    title: metaTitle,
+    description: metaDescription,
+    openGraph: {
+      title: metaTitle,
+      description: metaDescription,
+      type: 'website',
+      url: `${SITE_URL}/${locale}/${logType}`,
+    },
+    alternates: {
+      canonical: `${SITE_URL}/${locale}/${logType}`,
+      languages: Object.fromEntries(routing.locales.map((locale) => [locale, `${SITE_URL}/${locale}/${logType}`])),
+    },
+  })
+
+  return meta
+}
