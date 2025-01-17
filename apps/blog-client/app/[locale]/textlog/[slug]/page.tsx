@@ -1,11 +1,13 @@
 // prismjs
 import { LogDetailRenderer, queryLogs, queryTextlogDetail } from '@/features'
+import { generateLogDetailMetadata } from '@/lib/metadata/metadata-instance'
 import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
 import { getQueryClient } from '@/lib/react-query/react-query.utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { routing } from 'i18n/routing'
 import { PageProps } from 'i18n/types'
 import { setRequestLocale } from 'next-intl/server'
+import { Metadata } from 'next/types'
 
 export const revalidate = 3600
 
@@ -17,21 +19,9 @@ export async function generateStaticParams() {
   return result.map((value) => ({ slug: value.slug, locale: value.lang }))
 }
 
-export async function generateMetadata({ params }: PageProps<{ slug: string }>) {
-  // fetch data
+export async function generateMetadata({ params }: PageProps<{ slug: string }>): Promise<Metadata> {
   const page = await queryTextlogDetail({ slug: params?.slug ?? '', lang: params.locale })
-  const pageTitle = page?.properties.Name.type === 'title' ? page.properties.Name.title.at(0)?.plain_text : ''
-
-  if (!page || !pageTitle) {
-    return {
-      title: 'Blog, ColdSurf',
-    }
-  }
-
-  return {
-    title: `${pageTitle} | Blog, ColdSurf`,
-    description: `${pageTitle}`,
-  }
+  return generateLogDetailMetadata(page, { locale: params.locale, slug: params.slug, logType: 'textlog' })
 }
 
 export default async function Page({ params }: PageProps<{ slug: string }>) {
