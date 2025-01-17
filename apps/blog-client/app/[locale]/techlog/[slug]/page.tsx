@@ -1,5 +1,6 @@
 import { LogDetailRenderer, queryLogs } from '@/features'
 import { queryTechlogDetail } from '@/features/logs/logs.query'
+import { generateLogDetailMetadata } from '@/lib/metadata/metadata-instance'
 import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
 import { getQueryClient } from '@/lib/react-query/react-query.utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
@@ -18,20 +19,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PageProps<{ slug: string }>) {
-  // fetch data
   const page = await queryTechlogDetail({ slug: params.slug ?? '', lang: params.locale })
-  const pageTitle = page?.properties.Name.type === 'title' ? page.properties.Name.title.at(0)?.plain_text : ''
-
-  if (!page || !pageTitle) {
-    return {
-      title: 'Blog, ColdSurf',
-    }
-  }
-
-  return {
-    title: `${pageTitle} | Blog, ColdSurf`,
-    description: `${pageTitle}`,
-  }
+  return generateLogDetailMetadata(page, { locale: params.locale, slug: params.slug, logType: 'techlog' })
 }
 
 export default async function Page({ params }: PageProps<{ slug: string }>) {
