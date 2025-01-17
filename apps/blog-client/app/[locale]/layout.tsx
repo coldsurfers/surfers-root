@@ -150,6 +150,18 @@ export default async function RootLayout({
             `,
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              metadataInstance.generateLdJson({
+                type: 'WebSite',
+                name: 'COLDSURF Blog',
+                url: SITE_URL,
+              }),
+            ),
+          }}
+        />
         <NextIntlClientProvider messages={messages}>
           <OceanRoadThemeRegistry>
             <QueryClientRegistry>{children}</QueryClientRegistry>
