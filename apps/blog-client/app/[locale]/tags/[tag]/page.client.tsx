@@ -15,11 +15,6 @@ export const TagsTagPageClient = ({ locale, tag }: { locale: AppLocale; tag: str
     platform: 'techlog',
     tag,
   })
-  const { data: surflogs, isLoading: isLoadingSurflogs } = useGetLogsQuery({
-    locale,
-    platform: 'surflog',
-    tag,
-  })
   const { data: filmlogs, isLoading: isLoadingFilmlogs } = useGetLogsQuery({
     locale,
     platform: 'filmlog',
@@ -41,22 +36,10 @@ export const TagsTagPageClient = ({ locale, tag }: { locale: AppLocale; tag: str
     tag,
   })
   const logs = useMemo(() => {
-    return [
-      ...(techlogs ?? []),
-      ...(surflogs ?? []),
-      ...(filmlogs ?? []),
-      ...(soundlogs ?? []),
-      ...(squarelogs ?? []),
-      ...(textlogs ?? []),
-    ]
-  }, [filmlogs, soundlogs, squarelogs, surflogs, techlogs, textlogs])
+    return [...(techlogs ?? []), ...(filmlogs ?? []), ...(soundlogs ?? []), ...(squarelogs ?? []), ...(textlogs ?? [])]
+  }, [filmlogs, soundlogs, squarelogs, textlogs, techlogs])
   const isLoading =
-    isLoadingTechlogs ||
-    isLoadingSurflogs ||
-    isLoadingFilmlogs ||
-    isLoadingSoundlogs ||
-    isLoadingSquarelogs ||
-    isLoadingTextlogs
+    isLoadingFilmlogs || isLoadingSoundlogs || isLoadingSquarelogs || isLoadingTextlogs || isLoadingTechlogs
   if (isLoading) {
     return <Spinner variant="page-overlay" />
   }

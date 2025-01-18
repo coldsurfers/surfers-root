@@ -26,10 +26,6 @@ export default function Page({ locale, page }: { locale: AppLocale; page: number
     platform: 'techlog',
     locale,
   })
-  const { data: surflogs } = useGetLogsQuery({
-    platform: 'surflog',
-    locale,
-  })
   const { data: filmlogs } = useGetLogsQuery({
     platform: 'filmlog',
     locale,
@@ -51,7 +47,6 @@ export default function Page({ locale, page }: { locale: AppLocale; page: number
     ...(squarelogs ?? []),
     ...(filmlogs ?? []),
     ...(techlogs ?? []),
-    ...(surflogs ?? []),
     ...(soundlogs ?? []),
     ...(textlogs ?? []),
   ].sort((a, b) => new Date(b.createdTime).getTime() - new Date(a.createdTime).getTime())

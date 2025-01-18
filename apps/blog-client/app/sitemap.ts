@@ -7,8 +7,6 @@ const host = 'https://blog.coldsurf.io'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const locales = routing.locales.map((locale) => ({ locale }))
-  const surflogPromises = locales.map(async (locale) => await queryLogs('surflog', locale.locale))
-  const surflogSlugs = (await Promise.all(surflogPromises)).flat().map((value) => ({ slug: value.slug }))
   const techlogPromises = locales.map(async (locale) => await queryLogs('techlog', locale.locale))
   const techlogSlugs = (await Promise.all(techlogPromises)).flat().map((value) => ({ slug: value.slug }))
   const allTags = await queryTags()
@@ -26,16 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Adapt this as necessary
   return [
     getEntry('/'),
-    getEntry('/surflog'),
     getEntry('/techlog'),
-    ...surflogSlugs.map(({ slug }) => {
-      return getEntry({
-        pathname: '/surflog/[slug]',
-        params: {
-          slug,
-        },
-      })
-    }),
     ...techlogSlugs.map(({ slug }) => {
       return getEntry({
         pathname: '/techlog/[slug]',

@@ -4,7 +4,6 @@ import {
   queryFilmlogDetail,
   querySoundlogDetail,
   querySquarelogDetail,
-  querySurflogDetail,
   queryTechlogDetail,
   queryTextlogDetail,
 } from '@/features'
@@ -30,7 +29,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   }
   const slug = (await params).slug
   const page = await match(platformValidation.data)
-    .with('surflog', async () => await querySurflogDetail({ slug, lang: locale }))
     .with('techlog', async () => await queryTechlogDetail({ slug, lang: locale }))
     .with('filmlog', async () => await queryFilmlogDetail({ slug, lang: locale }))
     .with('soundlog', async () => await querySoundlogDetail({ slug, lang: locale }))
