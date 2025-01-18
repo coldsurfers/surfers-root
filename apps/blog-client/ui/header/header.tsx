@@ -14,9 +14,6 @@ export const Header = () => {
   return (
     <StyledHeaderBigContainer>
       <StyledHeaderContainer>
-        <StyledHeaderLinkBadge href="/surflog">
-          <StyledHeaderHeading $isActive={pathname.startsWith('/surflog')}>{'LIFE'}</StyledHeaderHeading>
-        </StyledHeaderLinkBadge>
         <StyledHeaderLinkBadge href="/techlog">
           <StyledHeaderHeading $isActive={pathname.startsWith('/techlog')}>{'TECH'}</StyledHeaderHeading>
         </StyledHeaderLinkBadge>

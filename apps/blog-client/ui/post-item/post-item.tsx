@@ -24,9 +24,6 @@ export function PostItem(props: LogItem) {
       .with('squarelog', () => ({
         pathname: '/squarelog',
       }))
-      .with('surflog', () => ({
-        pathname: '/surflog',
-      }))
       .with('techlog', () => ({
         pathname: '/techlog',
       }))
@@ -51,12 +48,6 @@ export function PostItem(props: LogItem) {
       }))
       .with('squarelog', () => ({
         pathname: '/squarelog/[slug]',
-        params: {
-          slug: props.slug,
-        },
-      }))
-      .with('surflog', () => ({
-        pathname: '/surflog/[slug]',
         params: {
           slug: props.slug,
         },

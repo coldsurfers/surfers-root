@@ -11,13 +11,11 @@ export type I18nPathWithParams =
   | { pathname: '/filmlog' }
   | { pathname: '/soundlog' }
   | { pathname: '/squarelog' }
-  | { pathname: '/surflog' }
   | { pathname: '/techlog' }
   | { pathname: '/textlog' }
   | { pathname: '/filmlog/[slug]'; params: { slug: string } }
   | { pathname: '/soundlog/[slug]'; params: { slug: string } }
   | { pathname: '/squarelog/[slug]'; params: { slug: string } }
-  | { pathname: '/surflog/[slug]'; params: { slug: string } }
   | { pathname: '/techlog/[slug]'; params: { slug: string } }
   | { pathname: '/textlog/[slug]'; params: { slug: string } }
   | { pathname: '/writers' } // No params needed
