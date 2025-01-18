@@ -5,7 +5,7 @@ import { colors } from '@coldsurfers/ocean-road'
 import { Spinner } from '@coldsurfers/ocean-road/native'
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 import { forwardRef, useCallback, useMemo, useState } from 'react'
-import { FlatList, ListRenderItem, RefreshControl, View } from 'react-native'
+import { FlatList, ListRenderItem, Platform, RefreshControl, View } from 'react-native'
 import { ConcertListItem } from '../concert-list-item'
 import { concertListStyles } from './concert-list.styles'
 import { ConcertListItemType } from './concert-list.types'
@@ -95,7 +95,7 @@ export const ConcertList = forwardRef<FlatList, ConcertListProps>(
             refreshing={isRefreshing}
             onRefresh={onRefresh}
             tintColor={colors.oc.cyan[5].value}
-            size={20}
+            size={Platform.select({ ios: 20, default: undefined })}
           />
         }
         scrollEnabled={!isRefreshing}
