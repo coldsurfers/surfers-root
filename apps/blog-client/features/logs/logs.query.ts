@@ -46,7 +46,6 @@ export const queryLogDetail = (platform: LogPlatform) =>
   })
 
 export const queryTechlogDetail = queryLogDetail('techlog')
-export const querySurflogDetail = queryLogDetail('surflog')
 export const queryFilmlogDetail = queryLogDetail('filmlog')
 export const querySoundlogDetail = queryLogDetail('soundlog')
 export const querySquarelogDetail = queryLogDetail('squarelog')
