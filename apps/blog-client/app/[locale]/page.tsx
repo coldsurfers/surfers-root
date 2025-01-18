@@ -20,12 +20,6 @@ export default async function RootPage({ params, searchParams }: PageProps) {
   const promises = [
     queryClient.prefetchQuery(
       queryKeyFactory.logs.list({
-        platform: 'surflog',
-        locale: params.locale,
-      }),
-    ),
-    queryClient.prefetchQuery(
-      queryKeyFactory.logs.list({
         platform: 'techlog',
         locale: params.locale,
       }),

@@ -1,3 +1,4 @@
+import { LogPlatform } from '@/features'
 import { NextMetadataGenerator } from '@coldsurfers/shared-utils'
 import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import { routing } from 'i18n/routing'
@@ -34,7 +35,7 @@ export const generateLogDetailMetadata = (
   options: {
     locale: (typeof routing.locales)[number]
     slug: string
-    logType: 'surflog' | 'techlog' | 'filmlog' | 'soundlog' | 'squarelog' | 'textlog'
+    logType: LogPlatform
   },
 ) => {
   const pageTitle = page?.properties.Name.type === 'title' ? page.properties.Name.title.at(0)?.plain_text : ''
@@ -109,7 +110,7 @@ export const generateLogListMetadata = ({
   title: string
   description: string
   locale: (typeof routing.locales)[number]
-  logType: 'surflog' | 'techlog' | 'filmlog' | 'soundlog' | 'squarelog' | 'textlog'
+  logType: LogPlatform
 }) => {
   const metaTitle = title
   const metaDescription = description
