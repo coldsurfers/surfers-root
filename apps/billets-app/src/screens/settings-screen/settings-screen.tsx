@@ -1,5 +1,9 @@
-import { CommonScreenLayout } from '@/ui'
+import { CommonScreenLayout, SettingsMenuList } from '@/ui'
 
 export const SettingsScreen = () => {
-  return <CommonScreenLayout></CommonScreenLayout>
+  return (
+    <CommonScreenLayout>
+      <SettingsMenuList />
+    </CommonScreenLayout>
+  )
 }
