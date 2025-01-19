@@ -4,6 +4,7 @@ import { NavigationContainer, NavigationContainerRef } from '@react-navigation/n
 import React, { useCallback, useEffect, useRef } from 'react'
 import { ActivityIndicator } from 'react-native'
 import { $api } from './lib/api/openapi-client'
+import { GeolocationPermissionAlertModal } from './ui'
 
 const AppContainer = () => {
   const { logScreenView } = useFirebaseAnalytics()
@@ -77,15 +78,18 @@ const AppContainer = () => {
   }, [getCurrentRoute, logScreenView])
 
   return (
-    <NavigationContainer
-      ref={navigationRef}
-      linking={deepLinking}
-      onReady={onReady}
-      onStateChange={onStateChange}
-      fallback={<ActivityIndicator animating />}
-    >
-      <MainStackNavigation />
-    </NavigationContainer>
+    <>
+      <NavigationContainer
+        ref={navigationRef}
+        linking={deepLinking}
+        onReady={onReady}
+        onStateChange={onStateChange}
+        fallback={<ActivityIndicator animating />}
+      >
+        <MainStackNavigation />
+      </NavigationContainer>
+      <GeolocationPermissionAlertModal visible={false} />
+    </>
   )
 }
 
