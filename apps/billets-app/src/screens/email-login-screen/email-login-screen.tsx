@@ -86,28 +86,12 @@ const _EmailLoginScreen = () => {
     <CommonScreenLayout>
       <KeyboardAvoidingView style={styles.innerWrapper} behavior="padding">
         <View style={styles.formWrapper}>
-          <TextInput
-            placeholder="이메일"
-            onChangeText={(text) => setEmail(text)}
-            autoCapitalize="none"
-            style={{
-              color: semantics.foreground[1],
-              backgroundColor: semantics.background[4],
-              fontSize: 12,
-            }}
-          />
+          <TextInput placeholder="이메일" onChangeText={(text) => setEmail(text)} autoCapitalize="none" />
           <TextInput
             placeholder="비밀번호"
             onChangeText={(text) => setPassword(text)}
             secureTextEntry
-            style={[
-              styles.textInputSpace,
-              {
-                color: semantics.foreground[1],
-                backgroundColor: semantics.background[4],
-                fontSize: 12,
-              },
-            ]}
+            style={styles.textInputSpace}
           />
           <Button onPress={onPressSignIn} style={styles.buttonSpace}>
             로그인하기

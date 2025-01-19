@@ -157,28 +157,14 @@ const _EmailConfirmScreen = () => {
         <>
           <TextInput
             placeholder="비밀번호를 입력해주세요"
-            style={[
-              styles.textInput,
-              {
-                fontSize: 12,
-                color: semantics.foreground[1],
-                backgroundColor: semantics.background[4],
-              },
-            ]}
+            style={styles.textInput}
             onChangeText={onChangePasswordText}
             secureTextEntry
             autoCapitalize="none"
           />
           <TextInput
             placeholder="비밀번호 확인"
-            style={[
-              styles.textInput,
-              {
-                fontSize: 12,
-                color: semantics.foreground[1],
-                backgroundColor: semantics.background[4],
-              },
-            ]}
+            style={styles.textInput}
             onChangeText={onChangePasswordConfirmText}
             secureTextEntry
             autoCapitalize="none"
@@ -188,14 +174,7 @@ const _EmailConfirmScreen = () => {
         <TextInput
           placeholder="인증번호를 입력해주세요"
           keyboardType="number-pad"
-          style={[
-            styles.textInput,
-            {
-              fontSize: 12,
-              color: semantics.foreground[1],
-              backgroundColor: semantics.background[4],
-            },
-          ]}
+          style={styles.textInput}
           editable={!confirmed}
           onChangeText={onChangeConfirmText}
         />

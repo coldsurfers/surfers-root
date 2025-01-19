@@ -98,8 +98,6 @@ export const SearchScreenNavigationHeader = memo(({ animatedPosition }: { animat
         clearButtonMode="while-editing"
         style={{
           marginHorizontal: 14,
-          backgroundColor: semantics.background[4],
-          color: semantics.foreground[1],
         }}
       />
       <View style={styles.filters}>
