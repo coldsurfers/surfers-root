@@ -1,4 +1,4 @@
-import { Button, Modal } from '@coldsurfers/ocean-road/native'
+import { Button, Modal, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { useUserCurrentLocationStore } from '../../features/location/stores'
@@ -14,6 +14,7 @@ export const LocationSelectorModal = ({
   visible: boolean
   onPressBackground: () => void
 }) => {
+  const { semantics } = useColorScheme()
   const navigation = useHomeScreenNavigation()
   const setUserCurrentLocation = useUserCurrentLocationStore((state) => state.setUserCurrentLocation)
   const onPressCurrentLocation = useCallback(async () => {
@@ -34,7 +35,15 @@ export const LocationSelectorModal = ({
 
   return (
     <Modal visible={visible} onPressBackground={onPressBackground}>
-      <View style={[styles.innerView, commonStyles.shadowBox]}>
+      <View
+        style={[
+          styles.innerView,
+          commonStyles.shadowBox,
+          {
+            backgroundColor: semantics.background[4],
+          },
+        ]}
+      >
         <Button onPress={onPressCurrentLocation}>현재 위치 사용하기</Button>
         <Button onPress={onPressOtherLocations} style={styles.anotherLocBtn}>
           위치 선택하기
