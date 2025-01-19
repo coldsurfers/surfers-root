@@ -1,14 +1,8 @@
-import {
-  CurrentLocationTracker,
-  LocationSelector,
-  LocationSelectorModal,
-  useToggleSubscribeConcert,
-  useUserCurrentLocationStore,
-} from '@/features'
+import { CurrentLocationTracker, useToggleSubscribeConcert, useUserCurrentLocationStore } from '@/features'
 import { ConcertListItemType } from '@/features/concert/ui/concert-list/concert-list.types'
 import { useShowBottomTabBar } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
-import { AnimatePresence, CommonScreenLayout } from '@/ui'
+import { AnimatePresence, CommonScreenLayout, LocationSelector, LocationSelectorModal } from '@/ui'
 import { useScrollToTop } from '@react-navigation/native'
 import { useQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useRef, useState } from 'react'

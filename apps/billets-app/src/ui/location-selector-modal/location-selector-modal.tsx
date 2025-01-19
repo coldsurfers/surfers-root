@@ -1,11 +1,11 @@
 import { Button, Modal } from '@coldsurfers/ocean-road/native'
 import { useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
-import commonStyles from '../../../../lib/common-styles'
-import geolocationUtils from '../../../../lib/geolocationUtils'
-import palettes from '../../../../lib/palettes'
-import { useHomeScreenNavigation } from '../../../../screens/home-screen/home-screen.hooks'
-import { useUserCurrentLocationStore } from '../../stores'
+import { useUserCurrentLocationStore } from '../../features/location/stores'
+import commonStyles from '../../lib/common-styles'
+import geolocationUtils from '../../lib/geolocationUtils'
+import palettes from '../../lib/palettes'
+import { useHomeScreenNavigation } from '../../screens/home-screen/home-screen.hooks'
 
 export const LocationSelectorModal = ({
   visible,
