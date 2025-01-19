@@ -3,7 +3,7 @@ import { StyleProp, ViewStyle } from 'react-native'
 export const getConcertListItemWrapperDynamicStyles = (size: 'small' | 'large'): StyleProp<ViewStyle> => {
   return {
     width: size === 'small' ? 140 : '50%',
-    padding: size === 'small' ? 0 : 6,
+    // padding: size === 'small' ? 0 : 6,
   }
 }
 
