@@ -69,7 +69,11 @@ const LocationSelectionScreenContent = () => {
   const renderItem = useCallback(
     (info: { item: { city: string; latLng: LatLng } }) => {
       const onPress = () => {
-        setUserCurrentLocation(info.item.latLng)
+        setUserCurrentLocation({
+          ...info.item.latLng,
+          cityName: info.item.city,
+          type: 'city-location',
+        })
         navigation.goBack()
       }
       return (
