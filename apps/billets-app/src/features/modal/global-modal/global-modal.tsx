@@ -11,11 +11,12 @@ export const GlobalModal = memo(() => {
     })),
   )
   const { geolocationPermissionAlertModal } = globalModalVisible
+
   return (
     <>
       <GeolocationPermissionAlertModal
         visible={geolocationPermissionAlertModal}
-        onPressBackdrop={() => close('geolocationPermissionAlertModal')}
+        closeModal={() => close('geolocationPermissionAlertModal')}
       />
     </>
   )

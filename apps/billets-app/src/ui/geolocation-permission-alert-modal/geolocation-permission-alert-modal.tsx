@@ -4,13 +4,13 @@ import { StyledButton, StyledModal, StyledModalInner, StyledText } from './geolo
 
 interface GeolocationPermissionAlertModalProps {
   visible: boolean
-  onPressBackdrop?: () => void
+  closeModal: () => void
 }
 
-export const GeolocationPermissionAlertModal = ({ visible, onPressBackdrop }: GeolocationPermissionAlertModalProps) => {
+export const GeolocationPermissionAlertModal = ({ visible, closeModal }: GeolocationPermissionAlertModalProps) => {
   const { semantics } = useColorScheme()
   return (
-    <StyledModal visible={visible} onPressBackground={onPressBackdrop}>
+    <StyledModal visible={visible} onPressBackground={closeModal}>
       <StyledModalInner style={{ backgroundColor: semantics.background[4] }}>
         <StyledText weight="bold" style={{ color: semantics.foreground[1], fontSize: 16 }}>
           앗, 위치 권한이 필요해요!
@@ -18,7 +18,14 @@ export const GeolocationPermissionAlertModal = ({ visible, onPressBackdrop }: Ge
         <StyledText style={{ color: semantics.foreground[1], marginTop: 8 }}>
           내 주변의 더 정확한 이벤트들을 찾기 위해 위치 권한을 허용해주세요
         </StyledText>
-        <StyledButton onPress={() => Linking.openSettings()}>위치 권한 설정하기</StyledButton>
+        <StyledButton
+          onPress={() => {
+            closeModal()
+            Linking.openSettings()
+          }}
+        >
+          위치 권한 설정하기
+        </StyledButton>
       </StyledModalInner>
     </StyledModal>
   )
