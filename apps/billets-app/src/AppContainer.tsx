@@ -3,6 +3,7 @@ import { MainStackNavigation, MainStackNavigationParamList } from '@/navigations
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
 import React, { useCallback, useEffect, useRef } from 'react'
 import { ActivityIndicator } from 'react-native'
+import { GlobalModal } from './features'
 import { $api } from './lib/api/openapi-client'
 
 const AppContainer = () => {
@@ -77,15 +78,18 @@ const AppContainer = () => {
   }, [getCurrentRoute, logScreenView])
 
   return (
-    <NavigationContainer
-      ref={navigationRef}
-      linking={deepLinking}
-      onReady={onReady}
-      onStateChange={onStateChange}
-      fallback={<ActivityIndicator animating />}
-    >
-      <MainStackNavigation />
-    </NavigationContainer>
+    <>
+      <NavigationContainer
+        ref={navigationRef}
+        linking={deepLinking}
+        onReady={onReady}
+        onStateChange={onStateChange}
+        fallback={<ActivityIndicator animating />}
+      >
+        <MainStackNavigation />
+      </NavigationContainer>
+      <GlobalModal />
+    </>
   )
 }
 
