@@ -14,6 +14,8 @@ export const CurrentLocationTracker = () => {
       setUserCurrentLocation({
         latitude,
         longitude,
+        type: 'current-location',
+        cityName: null,
       })
     } catch (e) {
       console.error('failed to get current location', e)

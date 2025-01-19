@@ -1,14 +1,8 @@
-import {
-  CurrentLocationTracker,
-  LocationSelector,
-  LocationSelectorModal,
-  useToggleSubscribeConcert,
-  useUserCurrentLocationStore,
-} from '@/features'
+import { CurrentLocationTracker, useToggleSubscribeConcert, useUserCurrentLocationStore } from '@/features'
 import { ConcertListItemType } from '@/features/concert/ui/concert-list/concert-list.types'
 import { useShowBottomTabBar } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
-import { AnimatePresence, CommonScreenLayout } from '@/ui'
+import { AnimatePresence, CommonScreenLayout, LocationSelector, LocationSelectorModal } from '@/ui'
 import { useScrollToTop } from '@react-navigation/native'
 import { useQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useRef, useState } from 'react'
@@ -24,10 +18,17 @@ const SuspenseHomeScreen = () => {
   useShowBottomTabBar()
 
   const [locationModalVisible, setLocationModalVisible] = useState(false)
-  const { latitude, longitude } = useUserCurrentLocationStore(
+  const {
+    latitude,
+    longitude,
+    cityName,
+    type: userCurrentLocationType,
+  } = useUserCurrentLocationStore(
     useShallow((state) => ({
       latitude: state.latitude ? +`${state.latitude}`.substring(0, 7) : null,
       longitude: state.longitude ? +`${state.longitude}`.substring(0, 8) : null,
+      cityName: state.cityName,
+      type: state.type,
     })),
   )
 
@@ -87,7 +88,7 @@ const SuspenseHomeScreen = () => {
   return (
     <CommonScreenLayout edges={['top', 'bottom']}>
       {latitude === null && longitude === null && <CurrentLocationTracker />}
-      <LocationSelector onPress={showLocationModal} />
+      <LocationSelector type={userCurrentLocationType} cityName={cityName} onPress={showLocationModal} />
       {latitude !== null && longitude !== null && (
         <Suspense fallback={<ConcertListSkeleton />}>
           <ConcertList
