@@ -1,6 +1,5 @@
-import { zodScreen } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
-import { MyScreen, SettingsScreen } from '@/screens'
+import { MyScreen } from '@/screens'
 import { NavigationHeader } from '@/ui'
 import { useColorScheme } from '@coldsurfers/ocean-road/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -40,7 +39,14 @@ export const MyStackNavigation = () => {
                   title: '프로필',
                   headerBackVisible: false,
                   headerRight: () => (
-                    <TouchableOpacity onPress={() => props.navigation.navigate(zodScreen.SettingsScreen.name)}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        props.navigation.navigate('SettingsStackNavigation', {
+                          screen: 'SettingsScreen',
+                          params: {},
+                        })
+                      }
+                    >
                       <Bolt color={semantics.foreground[1]} />
                     </TouchableOpacity>
                   ),
@@ -50,7 +56,6 @@ export const MyStackNavigation = () => {
           },
         }}
       />
-      <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
     </Stack.Navigator>
   )
 }

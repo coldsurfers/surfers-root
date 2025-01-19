@@ -44,6 +44,10 @@ export const zodNavigation = createZodNavigation({
     name: 'MainStackNavigation',
     params: z.object({}),
   },
+  SettingsStackNavigation: {
+    name: 'SettingsStackNavigation',
+    params: z.object({}),
+  },
 } as const)
 
 export const zodScreen = createZodScreen({

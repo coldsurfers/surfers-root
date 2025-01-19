@@ -1,6 +1,6 @@
 import { zodScreen } from '@/lib/navigations/constants'
 import { ZodScreenParams } from '@/lib/navigations/navigations.types'
-import { MyStackScreenProps } from '@/navigations/my-stack-navigation/my-stack-navigation.types'
+import { SettingsStackScreenProps } from '@/navigations/settings-stack-navigation/settings-stack-navigation.types'
 
 export type SettingsScreenParams = ZodScreenParams<typeof zodScreen.SettingsScreen>
-export type SettingsScreenProps = MyStackScreenProps<'SettingsScreen'>
+export type SettingsScreenProps = SettingsStackScreenProps<'SettingsScreen'>

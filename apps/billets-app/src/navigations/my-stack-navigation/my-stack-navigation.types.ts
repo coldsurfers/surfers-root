@@ -1,6 +1,5 @@
 import { ZodNavigationParamList, ZodNavigationParams } from '@/lib'
 import { MyScreenParams } from '@/screens'
-import { SettingsScreenParams } from '@/screens/settings-screen/settings-screen.types'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { zodNavigation, zodScreen } from '../../lib/navigations/constants'
@@ -10,7 +9,6 @@ export type MyStackParams = ZodNavigationParams<typeof zodNavigation.MyStackNavi
 
 export type MyStackParamList = ZodNavigationParamList<{
   [zodScreen.MyScreen.name]: MyScreenParams
-  [zodScreen.SettingsScreen.name]: SettingsScreenParams
 }>
 
 export type MyStackScreenProps<T extends keyof MyStackParamList> = CompositeScreenProps<
