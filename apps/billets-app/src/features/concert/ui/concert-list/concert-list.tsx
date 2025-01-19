@@ -42,12 +42,16 @@ export const ConcertList = forwardRef<FlatList, ConcertListProps>(
     }, [data?.pages])
 
     const renderItem: ListRenderItem<ConcertListItemType> = useCallback(
-      ({ item }) => {
+      ({ item, index }) => {
         return (
           <ConcertListItem
             data={item}
             onPress={() => onPressItem?.(item)}
             onPressSubscribe={({ isSubscribed }) => onPressSubscribe?.(item, { isSubscribed })}
+            style={{
+              paddingLeft: index % 2 === 0 ? 0 : 6,
+              paddingRight: index % 2 === 0 ? 6 : 0,
+            }}
           />
         )
       },
@@ -78,6 +82,7 @@ export const ConcertList = forwardRef<FlatList, ConcertListProps>(
         data={concertList}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
+        // ItemSeparatorComponent={() => <View style={{ width: 12, backgroundColor: 'blue', height: 12 }} />}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={concertListStyles.concertListContentContainer}
         ListEmptyComponent={

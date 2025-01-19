@@ -46,10 +46,27 @@ export function SubscribedConcertList({
     return concertListData?.pages.flat() ?? []
   }, [concertListData])
   const renderItem = useCallback<ListRenderItem<(typeof listData)[number]>>(
-    ({ item }) => {
+    ({ item, index }) => {
       return (
-        <Suspense fallback={<ConcertListItem.Skeleton size={horizontal ? 'small' : 'large'} />}>
-          <SubscribedConcertListItem data={item} onPress={onPressItem} size={horizontal ? 'small' : 'large'} />
+        <Suspense
+          fallback={
+            <ConcertListItem.Skeleton
+              size={horizontal ? 'small' : 'large'}
+              style={
+                !horizontal && {
+                  paddingLeft: index % 2 === 0 ? 0 : 6,
+                  paddingRight: index % 2 === 0 ? 6 : 0,
+                }
+              }
+            />
+          }
+        >
+          <SubscribedConcertListItem
+            index={index}
+            data={item}
+            onPress={onPressItem}
+            size={horizontal ? 'small' : 'large'}
+          />
         </Suspense>
       )
     },
