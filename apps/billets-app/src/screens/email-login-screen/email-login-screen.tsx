@@ -1,12 +1,13 @@
 import { AuthContext, ToastVisibleContext, ToastVisibleContextProvider } from '@/lib'
 import { $api } from '@/lib/api/openapi-client'
 import { CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
-import { Button, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
+import { Button, Spinner, TextInput, useColorScheme } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, View } from 'react-native'
 import { useEmailLoginScreenNavigation } from './email-login-screen.hooks'
 
 const _EmailLoginScreen = () => {
+  const { semantics } = useColorScheme()
   const { show } = useContext(ToastVisibleContext)
   const { login } = useContext(AuthContext)
   const { navigate } = useEmailLoginScreenNavigation()
@@ -85,12 +86,28 @@ const _EmailLoginScreen = () => {
     <CommonScreenLayout>
       <KeyboardAvoidingView style={styles.innerWrapper} behavior="padding">
         <View style={styles.formWrapper}>
-          <TextInput placeholder="이메일" onChangeText={(text) => setEmail(text)} autoCapitalize="none" />
+          <TextInput
+            placeholder="이메일"
+            onChangeText={(text) => setEmail(text)}
+            autoCapitalize="none"
+            style={{
+              color: semantics.foreground[1],
+              backgroundColor: semantics.background[4],
+              fontSize: 12,
+            }}
+          />
           <TextInput
             placeholder="비밀번호"
             onChangeText={(text) => setPassword(text)}
             secureTextEntry
-            style={styles.textInputSpace}
+            style={[
+              styles.textInputSpace,
+              {
+                color: semantics.foreground[1],
+                backgroundColor: semantics.background[4],
+                fontSize: 12,
+              },
+            ]}
           />
           <Button onPress={onPressSignIn} style={styles.buttonSpace}>
             로그인하기

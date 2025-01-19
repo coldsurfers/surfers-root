@@ -51,15 +51,7 @@ export const Spinner = ({ positionCenter = false, size = 'large', color, style }
   }, [rotation])
 
   return (
-    <View
-      style={[
-        positionCenter && styles.positionCenter,
-        {
-          height: sizeNumber,
-        },
-        style,
-      ]}
-    >
+    <View style={[positionCenter && styles.positionCenter, style]}>
       <View style={styles.animationWrapper}>
         <LoaderIcon size={sizeNumber} color={color} style={animatedStyle} />
       </View>
@@ -69,13 +61,7 @@ export const Spinner = ({ positionCenter = false, size = 'large', color, style }
 
 const styles = StyleSheet.create({
   positionCenter: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    flex: 1,
-    width: '100%',
+    ...StyleSheet.absoluteFillObject,
     backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
