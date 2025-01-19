@@ -63,14 +63,7 @@ const _EmailSignupScreen = () => {
         autoCapitalize="none"
         onChangeText={onChangeText}
         placeholder="이메일을 입력해주세요"
-        style={[
-          styles.textInput,
-          {
-            backgroundColor: semantics.background[4],
-            color: semantics.foreground[1],
-            fontSize: 12,
-          },
-        ]}
+        style={styles.textInput}
       />
       <Button style={styles.button} onPress={onPressNext} disabled={!validated}>
         다음으로 이동하기

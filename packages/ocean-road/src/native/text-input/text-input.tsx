@@ -2,12 +2,16 @@ import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import { forwardRef, memo, useCallback, useState } from 'react'
 import { Platform, TextInput as RNTextInput, StyleSheet } from 'react-native'
 import { colors } from '../../tokens'
+import { useColorScheme } from '../contexts'
 import { TextInputProps } from './text-input.types'
 
+const DEFAULT_FONT_SIZE = 12
+
 const _TextInput = forwardRef<RNTextInput, TextInputProps>(({ style, ...otherProps }, ref) => {
+  const { semantics, colorScheme } = useColorScheme()
   const [focused, setFocused] = useState<boolean>(false)
   const flattenedStyle = StyleSheet.flatten(style)
-  const lineHeight = (flattenedStyle?.fontSize ?? 0) * 1.275
+  const lineHeight = (flattenedStyle?.fontSize ?? DEFAULT_FONT_SIZE) * 1.275
   const onFocus = useCallback(() => {
     setFocused(true)
   }, [])
@@ -23,7 +27,15 @@ const _TextInput = forwardRef<RNTextInput, TextInputProps>(({ style, ...otherPro
       {...otherProps}
       style={[
         styles.textInput,
-        focused && styles.focused,
+        {
+          color: semantics.foreground[1],
+          backgroundColor: semantics.background[4],
+          fontSize: DEFAULT_FONT_SIZE,
+          borderColor: colorScheme === 'light' ? semantics.border[2] : semantics.border[1],
+        },
+        focused && {
+          borderColor: colorScheme === 'light' ? semantics.border[1] : semantics.border[2],
+        },
         typeof otherProps.editable === 'boolean' && !otherProps.editable && styles.disabled,
         {
           lineHeight,
@@ -38,7 +50,7 @@ export const TextInput = memo(_TextInput)
 
 const styles = StyleSheet.create({
   textInput: {
-    borderColor: colors.oc.gray[6].value,
+    // borderColor: colors.oc.gray[6].value,
     borderWidth: 2,
     borderRadius: 24,
     paddingLeft: 16,
