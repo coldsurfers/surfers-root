@@ -43,13 +43,13 @@ const LocationSelectionScreenContent = () => {
   const searchedSections = useMemo(() => {
     return sectionData
       .map((section) => {
-        const data = section.data.filter((item) => item.city.toLowerCase().includes(searchKeyword.toLowerCase()))
-        if (data.length === 0) {
-          return null
-        }
         return {
           ...section,
-          data: section.data.filter((item) => item.city.toLowerCase().includes(searchKeyword.toLowerCase())),
+          data: section.data.filter(
+            (item) =>
+              item.city.toLowerCase().includes(searchKeyword.toLowerCase()) ||
+              section.country.toLowerCase().includes(searchKeyword.toLowerCase()),
+          ),
         }
       })
       .filter((section) => section !== null)
@@ -57,6 +57,9 @@ const LocationSelectionScreenContent = () => {
 
   const renderSectionHeader = useCallback(
     (info: { section: SectionListData<{ city: string; latLng: LatLng }, { country: string }> }) => {
+      if (info.section.data.length === 0) {
+        return null
+      }
       return (
         <View>
           <Text style={[styles.sectionHeader, { color: semantics.foreground[1] }]}>{info.section.country}</Text>
