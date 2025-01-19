@@ -232,7 +232,7 @@ export const _LoginSelectionScreen = () => {
           Google로 계속하기
         </Button>
       </View>
-      {isPendingMutateSignIn ? <Spinner /> : null}
+      {isPendingMutateSignIn ? <Spinner positionCenter /> : null}
     </CommonScreenLayout>
   )
 }
