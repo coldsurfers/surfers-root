@@ -3,8 +3,8 @@ import { MainStackNavigation, MainStackNavigationParamList } from '@/navigations
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
 import React, { useCallback, useEffect, useRef } from 'react'
 import { ActivityIndicator } from 'react-native'
+import { GlobalModal } from './features'
 import { $api } from './lib/api/openapi-client'
-import { GeolocationPermissionAlertModal } from './ui'
 
 const AppContainer = () => {
   const { logScreenView } = useFirebaseAnalytics()
@@ -88,7 +88,7 @@ const AppContainer = () => {
       >
         <MainStackNavigation />
       </NavigationContainer>
-      <GeolocationPermissionAlertModal visible={false} />
+      <GlobalModal />
     </>
   )
 }
