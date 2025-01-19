@@ -1,5 +1,5 @@
 import { apiClient } from '@/lib/api/openapi-client'
-import { MyScreen } from '@/screens'
+import { MyScreen, SettingsScreen } from '@/screens'
 import { NavigationHeader } from '@/ui'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useQuery } from '@tanstack/react-query'
@@ -40,6 +40,7 @@ export const MyStackNavigation = () => {
           },
         }}
       />
+      <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
     </Stack.Navigator>
   )
 }

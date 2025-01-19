@@ -117,4 +117,8 @@ export const zodScreen = createZodScreen({
       artistId: z.string().uuid(),
     }),
   },
+  SettingsScreen: {
+    name: 'SettingsScreen',
+    params: z.object({}),
+  },
 } as const)
