@@ -1,3 +1,4 @@
+import { permissionsUtils } from '@/features/permissions'
 import { Button, Modal, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -18,6 +19,11 @@ export const LocationSelectorModal = ({
   const navigation = useHomeScreenNavigation()
   const setUserCurrentLocation = useUserCurrentLocationStore((state) => state.setUserCurrentLocation)
   const onPressCurrentLocation = useCallback(async () => {
+    const permission = await permissionsUtils.checkLocationPermission()
+    if (permission !== 'granted') {
+      // @todo: show alert
+      return
+    }
     const data = await geolocationUtils.getCurrentLocation()
     const { latitude, longitude } = data.coords
     setUserCurrentLocation({
