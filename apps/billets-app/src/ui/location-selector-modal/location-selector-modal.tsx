@@ -1,7 +1,9 @@
+import { useGlobalModalStore } from '@/features'
 import { permissionsUtils } from '@/features/permissions'
 import { Button, Modal, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
+import { useShallow } from 'zustand/shallow'
 import { useUserCurrentLocationStore } from '../../features/location/stores'
 import commonStyles from '../../lib/common-styles'
 import geolocationUtils from '../../lib/geolocationUtils'
@@ -16,12 +18,18 @@ export const LocationSelectorModal = ({
   onPressBackground: () => void
 }) => {
   const { semantics } = useColorScheme()
+  const { open: openGlobalModal } = useGlobalModalStore(
+    useShallow((state) => ({
+      open: state.open,
+    })),
+  )
   const navigation = useHomeScreenNavigation()
   const setUserCurrentLocation = useUserCurrentLocationStore((state) => state.setUserCurrentLocation)
   const onPressCurrentLocation = useCallback(async () => {
     const permission = await permissionsUtils.checkLocationPermission()
     if (permission !== 'granted') {
-      // @todo: show alert
+      onPressBackground()
+      openGlobalModal('geolocationPermissionAlertModal')
       return
     }
     const data = await geolocationUtils.getCurrentLocation()
@@ -33,7 +41,7 @@ export const LocationSelectorModal = ({
       cityName: null,
     })
     onPressBackground()
-  }, [onPressBackground, setUserCurrentLocation])
+  }, [onPressBackground, openGlobalModal, setUserCurrentLocation])
   const onPressOtherLocations = useCallback(() => {
     navigation.navigate('LocationSelectionScreen', {})
     onPressBackground()
