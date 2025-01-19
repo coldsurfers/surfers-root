@@ -17,10 +17,19 @@ import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
-import React, { Suspense, useCallback, useMemo, useRef } from 'react'
+import React, { PropsWithChildren, Suspense, useCallback, useMemo, useRef } from 'react'
 import { Dimensions, Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useConcertDetailScreenNavigation, useConcertDetailScreenRoute } from './concert-detail-screen.hooks'
+
+const ConcertDetailScreenLayout = ({ children }: PropsWithChildren) => {
+  const { semantics } = useColorScheme()
+  return (
+    <View style={{ flex: 1, marginTop: -NAVIGATION_HEADER_HEIGHT, backgroundColor: semantics.background[3] }}>
+      {children}
+    </View>
+  )
+}
 
 const _ConcertDetailScreen = () => {
   const { semantics } = useColorScheme()
@@ -190,7 +199,7 @@ const _ConcertDetailScreen = () => {
   const { data: concertDetail } = eventData
 
   return (
-    <View style={{ flex: 1, marginTop: -NAVIGATION_HEADER_HEIGHT, backgroundColor: semantics.background[3] }}>
+    <ConcertDetailScreenLayout>
       <StatusBar hidden={Platform.OS === 'ios'} />
       <View style={[styles.wrapper, { backgroundColor: semantics.background[3] }]}>
         {isLoadingConcertDetail ? (
@@ -227,20 +236,17 @@ const _ConcertDetailScreen = () => {
           }}
         />
       )}
-    </View>
+    </ConcertDetailScreenLayout>
   )
 }
 
 export const ConcertDetailScreen = () => {
-  const { semantics } = useColorScheme()
   return (
     <Suspense
       fallback={
-        <View
-          style={{ flex: 1, backgroundColor: semantics.background[3], alignItems: 'center', justifyContent: 'center' }}
-        >
-          <Spinner />
-        </View>
+        <ConcertDetailScreenLayout>
+          <Spinner positionCenter />
+        </ConcertDetailScreenLayout>
       }
     >
       <_ConcertDetailScreen />
