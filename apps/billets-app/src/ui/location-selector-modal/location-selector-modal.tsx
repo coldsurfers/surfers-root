@@ -22,6 +22,8 @@ export const LocationSelectorModal = ({
     setUserCurrentLocation({
       latitude,
       longitude,
+      type: 'current-location',
+      cityName: null,
     })
     onPressBackground()
   }, [onPressBackground, setUserCurrentLocation])
