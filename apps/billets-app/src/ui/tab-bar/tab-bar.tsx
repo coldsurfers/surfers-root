@@ -37,7 +37,7 @@ export const TabBar = memo((props: Props) => {
 
   useEffect(() => {
     bottomTabBarTranslateY.value = withTiming(bottomTabBarVisible ? 0 : tabBarHeight, {
-      duration: 300,
+      duration: 150,
     })
   }, [bottomTabBarTranslateY, bottomTabBarVisible, tabBarHeight])
 

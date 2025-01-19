@@ -11,7 +11,7 @@ export const MyScreenLandingLayout = memo(({ onPressLoginButton }: { onPressLogi
       <Text weight="bold" style={[styles.loginText, { color: semantics.foreground[1] }]}>
         {`🎉\n예정된 많은\n공연을\n놓치지 마세요`}
       </Text>
-      <Text style={styles.loginSubText}>{`로그인 후 찜하기를 사용해보세요`}</Text>
+      <Text style={[styles.loginSubText, { color: semantics.foreground[3] }]}>{`로그인 후 찜하기를 사용해보세요`}</Text>
       <Button style={styles.loginButton} onPress={onPressLoginButton}>
         로그인 / 회원가입
       </Button>
@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
   loginSubText: {
     fontSize: 16,
     textAlign: 'center',
-    color: colors.oc.gray[7].value,
     marginTop: 8,
   },
 })

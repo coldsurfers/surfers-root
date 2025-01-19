@@ -64,7 +64,6 @@ export const ProfileThumbnail = ({
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: colors.oc.lime[3].value,
     alignItems: 'center',
     justifyContent: 'center',
   },

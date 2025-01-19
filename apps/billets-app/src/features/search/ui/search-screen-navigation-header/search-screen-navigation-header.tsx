@@ -65,7 +65,7 @@ export const SearchScreenNavigationHeader = memo(({ animatedPosition }: { animat
       /**
        * oc gray 1
        */
-      [semantics.background[4], 'rgba(0, 0, 0, 0)'], // From original color to dimmed black overlay
+      [semantics.background[3], 'rgba(0, 0, 0, 0)'], // From original color to dimmed black overlay
     )
 
     return {
@@ -98,7 +98,7 @@ export const SearchScreenNavigationHeader = memo(({ animatedPosition }: { animat
         clearButtonMode="while-editing"
         style={{
           marginHorizontal: 14,
-          backgroundColor: semantics.background[3],
+          backgroundColor: semantics.background[4],
           color: semantics.foreground[1],
         }}
       />

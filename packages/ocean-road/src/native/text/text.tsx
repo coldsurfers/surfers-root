@@ -10,8 +10,8 @@ export const Text = ({ children, weight = 'regular', style, ...others }: TextPro
     medium: styles.medium,
     bold: styles.bold,
   }
-  const flattenedStyles = StyleSheet.flatten(style)
-  const lineHeight = (flattenedStyles?.fontSize ?? 0) * 1.25
+  const flattenedStyle = StyleSheet.flatten(style)
+  const lineHeight = (flattenedStyle?.fontSize ?? 0) * 1.275
   return (
     <RNText
       {...others}

@@ -1,7 +1,7 @@
 import { ToastVisibleContext, ToastVisibleContextProvider, validateEmail } from '@/lib'
 import { $api } from '@/lib/api/openapi-client'
 import { CommonScreenLayout } from '@/ui'
-import { Button, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
+import { Button, Spinner, TextInput, useColorScheme } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { match } from 'ts-pattern'
@@ -9,6 +9,7 @@ import { useEmailSignupScreenNavigation, useEmailSignupScreenRoute } from './ema
 
 // @todo: refactor EmailSignupScreen to SendAuthCodeScreen
 const _EmailSignupScreen = () => {
+  const { semantics } = useColorScheme()
   const route = useEmailSignupScreenRoute()
   const { show } = useContext(ToastVisibleContext)
   const { navigate } = useEmailSignupScreenNavigation()
@@ -62,12 +63,19 @@ const _EmailSignupScreen = () => {
         autoCapitalize="none"
         onChangeText={onChangeText}
         placeholder="이메일을 입력해주세요"
-        style={styles.textInput}
+        style={[
+          styles.textInput,
+          {
+            backgroundColor: semantics.background[4],
+            color: semantics.foreground[1],
+            fontSize: 12,
+          },
+        ]}
       />
       <Button style={styles.button} onPress={onPressNext} disabled={!validated}>
         다음으로 이동하기
       </Button>
-      {isPendingSendConfirmEmail && <Spinner />}
+      {isPendingSendConfirmEmail && <Spinner positionCenter />}
     </CommonScreenLayout>
   )
 }
