@@ -4,11 +4,10 @@ import { apiClient } from '@/lib/api/openapi-client'
 import { CommonScreenLayout, MyScreenLandingLayout } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, ProfileThumbnail, Spinner, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import React, { Suspense, useCallback, useContext, useMemo } from 'react'
-import { Alert, Pressable, SectionList, SectionListRenderItem, StyleSheet, View } from 'react-native'
+import { useQuery } from '@tanstack/react-query'
+import React, { Suspense, useCallback, useMemo } from 'react'
+import { Pressable, SectionList, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import { match } from 'ts-pattern'
-import { AuthContext } from '../../lib/contexts/auth-context/auth-context'
 import { useMyScreenNavigation } from './my-screen.hooks'
 import {
   MyScreenSettingSectionListData,
@@ -16,55 +15,8 @@ import {
   MyScreenSettingSectionListSectionT,
 } from './my-screen.types'
 
-const ListFooterComponent = () => {
-  const { logout } = useContext(AuthContext)
-  const { semantics } = useColorScheme()
-  const queryClient = useQueryClient()
-  const { mutate: deactivateUser } = useMutation({
-    mutationFn: apiClient.user.deactivate,
-    onSuccess: () => logout(),
-    onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: apiClient.user.queryKeys.me })
-      await queryClient.setQueryData(apiClient.user.queryKeys.me, null)
-    },
-    onSettled: async () => {
-      await queryClient.invalidateQueries({ queryKey: apiClient.user.queryKeys.me })
-    },
-  })
-  const onPress = useCallback(() => {
-    Alert.alert('회원탈퇴', '회원탈퇴를 하면 더 이상 해당 계정으로 로그인 할 수 없어요', [
-      {
-        style: 'destructive',
-        text: '탈퇴하기',
-        onPress: () => deactivateUser(),
-      },
-      {
-        style: 'cancel',
-        text: '취소',
-      },
-    ])
-  }, [deactivateUser])
-  return (
-    <View style={styles.deactivateUserWrapper}>
-      <Button
-        theme="transparent"
-        hitSlop={{
-          top: 20,
-          bottom: 20,
-          left: 20,
-          right: 20,
-        }}
-        onPress={onPress}
-      >
-        <Text style={{ color: semantics.foreground[1] }}>회원탈퇴</Text>
-      </Button>
-    </View>
-  )
-}
-
 const SuspenseMyScreen = () => {
   const navigation = useMyScreenNavigation()
-  const { logout } = useContext(AuthContext)
   const { data: user } = useQuery({
     queryKey: apiClient.user.queryKeys.me,
     queryFn: () => apiClient.user.getMe(),
@@ -171,35 +123,8 @@ const SuspenseMyScreen = () => {
         },
         data: [{ title: user.email.split('@')[0], onPress: () => {} }],
       },
-      {
-        title: 'account',
-        uiTitle: '🔧 계정설정',
-        data: [
-          {
-            title: '로그아웃',
-            onPress: async () => {
-              Alert.alert('로그아웃', '로그아웃 하시겠어요?', [
-                {
-                  text: '취소',
-                  style: 'cancel',
-                },
-                {
-                  text: '로그아웃',
-                  onPress: () => {
-                    logout()
-                    navigation.navigate('HomeStackNavigation', {
-                      screen: 'HomeScreen',
-                      params: {},
-                    })
-                  },
-                },
-              ])
-            },
-          },
-        ],
-      },
     ]
-  }, [logout, navigation, user])
+  }, [navigation, user])
 
   return user ? (
     <CommonScreenLayout>
@@ -208,7 +133,6 @@ const SuspenseMyScreen = () => {
         style={[styles.sectionList, { backgroundColor: semantics.background[3] }]}
         sections={sections}
         stickySectionHeadersEnabled={false}
-        ListFooterComponent={ListFooterComponent}
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
       />
