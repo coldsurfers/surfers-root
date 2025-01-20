@@ -5,6 +5,7 @@ import { ArtistStackParamList } from '../artist-stack-navigation'
 import { ConcertStackParamList } from '../concert-stack-navigation'
 import { LoginStackParamList } from '../login-stack-navigation'
 import { MainTabParamList } from '../main-tab-navigation'
+import { SettingsStackParamList } from '../settings-stack-navigation/settings-stack-navigation.types'
 import { SubscribedStackParamList } from '../subscribed-stack-navigation'
 import { VenueStackParamList } from '../venue-stack-navigation'
 
@@ -17,6 +18,7 @@ export type MainStackNavigationParamList = ZodNavigationParamList<{
   [zodNavigation.SubscribedStackNavigation.name]: NavigatorScreenParams<SubscribedStackParamList>
   [zodNavigation.VenueStackNavigation.name]: NavigatorScreenParams<VenueStackParamList>
   [zodNavigation.ArtistStackNavigation.name]: NavigatorScreenParams<ArtistStackParamList>
+  [zodNavigation.SettingsStackNavigation.name]: NavigatorScreenParams<SettingsStackParamList>
 }>
 
 export type MainStackScreenProps<T extends keyof MainStackNavigationParamList> = NativeStackScreenProps<
