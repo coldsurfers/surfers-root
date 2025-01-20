@@ -1,7 +1,8 @@
 import { useColorScheme } from '@coldsurfers/ocean-road/native'
 import { LogOut, UserRoundX } from 'lucide-react-native'
-import { FlatList } from 'react-native'
-import { StyledMenuItem, StyledText } from './settings-menu-list.styled'
+import { FlatList, View } from 'react-native'
+import { getBuildNumber, getVersion } from 'react-native-device-info'
+import { StyledMenuItem, StyledText, StyledVersionText } from './settings-menu-list.styled'
 
 export const SettingsMenuList = () => {
   const { semantics } = useColorScheme()
@@ -16,6 +17,8 @@ export const SettingsMenuList = () => {
       icon: <UserRoundX color={semantics.foreground[1]} />,
     },
   ] as const
+
+  const versionInfoText = `${getVersion()} (${getBuildNumber()})`
 
   return (
     <FlatList
@@ -36,6 +39,11 @@ export const SettingsMenuList = () => {
         backgroundColor: semantics.background[3],
         flex: 1,
       }}
+      ListFooterComponent={
+        <View>
+          <StyledVersionText style={{ color: semantics.foreground[4] }}>{versionInfoText}</StyledVersionText>
+        </View>
+      }
       contentContainerStyle={{
         paddingHorizontal: 16,
       }}
