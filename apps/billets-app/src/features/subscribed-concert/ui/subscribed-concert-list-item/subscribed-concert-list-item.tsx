@@ -7,10 +7,12 @@ export function SubscribedConcertListItem({
   data,
   onPress,
   size = 'small',
+  index,
 }: {
   data: components['schemas']['EventSubscribeDTOSchema']
   onPress: (concertId: string) => void
   size?: 'small' | 'large'
+  index: number
 }) {
   const { data: eventDetailData } = useSuspenseQuery({
     queryKey: apiClient.event.queryKeys.detail({ eventId: data.eventId }),
@@ -39,6 +41,12 @@ export function SubscribedConcertListItem({
       }}
       onPress={onPress}
       size={size}
+      style={
+        size === 'large' && {
+          paddingLeft: index % 2 === 0 ? 0 : 6,
+          paddingRight: index % 2 === 0 ? 6 : 0,
+        }
+      }
     />
   )
 }

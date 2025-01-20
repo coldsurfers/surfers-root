@@ -285,10 +285,18 @@ export const SearchScreen = () => {
       {floatingBtnVisible && !searchKeyword && (
         <AnimatedButton
           theme="border"
-          style={[styles.floatingButton, floatingBtnOpacityStyle]}
+          style={[
+            styles.floatingButton,
+            floatingBtnOpacityStyle,
+            {
+              backgroundColor: semantics.background['5'],
+            },
+          ]}
           onPress={onPressMapFloatingBtn}
         >
-          맵으로 보기
+          <Text weight="bold" style={{ color: semantics.foreground[3], fontSize: 14 }}>
+            맵으로 보기
+          </Text>
         </AnimatedButton>
       )}
     </BottomSheetModalProvider>

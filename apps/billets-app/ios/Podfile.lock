@@ -1748,7 +1748,7 @@ PODS:
     - React-Core
   - RNDateTimePicker (8.2.0):
     - React-Core
-  - RNDeviceInfo (9.0.2):
+  - RNDeviceInfo (14.0.2):
     - React-Core
   - RNFastImage (8.6.3):
     - React-Core
@@ -2357,7 +2357,7 @@ SPEC CHECKSUMS:
   RNCClipboard: 69ab8e51324d5b351f6ba72bbdb72478087a2c64
   RNCPicker: f963e01f78e546a93b98aa201501713dbda14e94
   RNDateTimePicker: 40ffda97d071a98a10fdca4fa97e3977102ccd14
-  RNDeviceInfo: 1e3f62b9ec32f7754fac60bd06b8f8a27124e7f0
+  RNDeviceInfo: 3f2e5fcca3637f75c6d30ba287293c2f97206781
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNFBAnalytics: ac15dbf65e05ce0e2b1b7fc30d75633403d2abc3
   RNFBApp: f54f97b84af43a870372c6d9915ebe6a61a35bed

@@ -75,7 +75,7 @@ export const SearchDefaultBottomResultList = ({ latitude, longitude }: { latitud
       }
       contentContainerStyle={[
         styles.contentContainer,
-        { paddingBottom: bottomPadding, backgroundColor: semantics.background[4] },
+        { paddingBottom: bottomPadding, backgroundColor: semantics.background[3] },
       ]}
       keyExtractor={(item) => item.id}
       renderItem={renderConcertListItem}

@@ -3974,7 +3974,7 @@ __metadata:
     react-native-calendars: "npm:^1.1289.0"
     react-native-code-push: "npm:^9.0.0"
     react-native-config: "npm:^1.5.3"
-    react-native-device-info: "npm:^9.0.2"
+    react-native-device-info: "npm:14.0.2"
     react-native-fast-image: "npm:^8.6.1"
     react-native-gesture-handler: "npm:^2.21.2"
     react-native-google-mobile-ads: "npm:^14.6.0"
@@ -33294,12 +33294,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-device-info@npm:^9.0.2":
-  version: 9.0.2
-  resolution: "react-native-device-info@npm:9.0.2"
+"react-native-device-info@npm:14.0.2":
+  version: 14.0.2
+  resolution: "react-native-device-info@npm:14.0.2"
   peerDependencies:
     react-native: "*"
-  checksum: 10c0/c1c23a1160d914def6907f11cffb8408f053c9e9882bbd5ff50ac5cb5234efe26175a5ef60fa8e783ee5e2981ab809d3f6439c587c24c6fb4f768e7d06620b8f
+  checksum: 10c0/ac1704cfccd563714ebe7f3abf076af2d26caca6a5bd4789edb1ea67b1d7ce2036924663a7a185d4f99b1730de96b7e69e36b363828b19159081109a8dc588c8
   languageName: node
   linkType: hard
 

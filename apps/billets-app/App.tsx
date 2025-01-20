@@ -83,8 +83,8 @@ const BootSplashAwaiter = ({ children }: PropsWithChildren) => {
       existingUpdate: RemotePackage | null
     }> => {
       try {
-        await enableFirebaseAnalytics(true)
-        await enableFirebaseCrashlytics(true)
+        await enableFirebaseAnalytics(!__DEV__)
+        await enableFirebaseCrashlytics(!__DEV__)
         const existingUpdate = __DEV__
           ? null
           : await codePush.checkForUpdate(

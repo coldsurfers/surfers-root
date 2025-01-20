@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native'
 
 export const concertListStyles = StyleSheet.create({
   concertListContentContainer: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
     marginTop: 12,
     paddingBottom: 64,
     flexGrow: 1,

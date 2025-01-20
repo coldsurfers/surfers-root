@@ -5,7 +5,7 @@ import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { useQuery } from '@tanstack/react-query'
 import format from 'date-fns/format'
 import { useCallback, useMemo } from 'react'
-import { Pressable, StyleSheet, View } from 'react-native'
+import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import {
   getConcertListBottomWrapperDynamicStyles,
@@ -17,9 +17,10 @@ type ConcertListItemProps = {
   onPress: (concertId: string) => void
   onPressSubscribe?: (params: { isSubscribed: boolean; concertId: string }) => void
   size?: 'small' | 'large'
+  style?: StyleProp<ViewStyle>
 }
 
-export const ConcertListItem = ({ data, onPress, onPressSubscribe, size = 'large' }: ConcertListItemProps) => {
+export const ConcertListItem = ({ data, onPress, onPressSubscribe, size = 'large', style }: ConcertListItemProps) => {
   const { semantics } = useColorScheme()
 
   const { data: subscribedConcertData } = useQuery({
@@ -41,7 +42,10 @@ export const ConcertListItem = ({ data, onPress, onPressSubscribe, size = 'large
   }, [onPressSubscribe, subscribedConcertData, data.id])
 
   return (
-    <Pressable onPress={handlePress} style={[styles.concertListItem, getConcertListItemWrapperDynamicStyles(size)]}>
+    <Pressable
+      onPress={handlePress}
+      style={[styles.concertListItem, getConcertListItemWrapperDynamicStyles(size), style]}
+    >
       <FastImage
         source={{ uri: thumbnailUrl }}
         style={[
@@ -105,11 +109,11 @@ export const ConcertListItem = ({ data, onPress, onPressSubscribe, size = 'large
   )
 }
 
-ConcertListItem.Skeleton = ({ size = 'large' }: { size?: 'small' | 'large' }) => {
+ConcertListItem.Skeleton = ({ size = 'large', style }: { size?: 'small' | 'large'; style?: StyleProp<ViewStyle> }) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { semantics } = useColorScheme()
   return (
-    <Pressable style={[styles.concertListItem, getConcertListItemWrapperDynamicStyles(size)]}>
+    <Pressable style={[styles.concertListItem, getConcertListItemWrapperDynamicStyles(size), style]}>
       <View
         style={[
           styles.concertThumbnail,

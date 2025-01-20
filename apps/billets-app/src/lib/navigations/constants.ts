@@ -44,6 +44,10 @@ export const zodNavigation = createZodNavigation({
     name: 'MainStackNavigation',
     params: z.object({}),
   },
+  SettingsStackNavigation: {
+    name: 'SettingsStackNavigation',
+    params: z.object({}),
+  },
 } as const)
 
 export const zodScreen = createZodScreen({
@@ -116,5 +120,9 @@ export const zodScreen = createZodScreen({
     params: z.object({
       artistId: z.string().uuid(),
     }),
+  },
+  SettingsScreen: {
+    name: 'SettingsScreen',
+    params: z.object({}),
   },
 } as const)

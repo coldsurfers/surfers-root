@@ -54,7 +54,7 @@ export const SearchLocationConcertList = memo(({ locationConcerts }: SearchLocat
       style={styles.list}
       contentContainerStyle={[
         styles.contentContainer,
-        { paddingBottom: bottomPadding, backgroundColor: semantics.background[4] },
+        { paddingBottom: bottomPadding, backgroundColor: semantics.background[3] },
       ]}
       ListEmptyComponent={<CommonListEmpty emptyText={`🥺\n앗,\n해당하는\n정보가 없어요!`} />}
       ListFooterComponent={isLoading ? <ActivityIndicator animating style={styles.indicator} /> : null}
