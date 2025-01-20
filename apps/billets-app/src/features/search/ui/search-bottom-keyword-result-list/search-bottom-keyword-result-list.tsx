@@ -115,7 +115,7 @@ export const SearchBottomKeywordResultList = ({ keyword }: { keyword: string }) 
       style={styles.list}
       contentContainerStyle={[
         styles.contentContainer,
-        { paddingBottom: bottomPadding, backgroundColor: semantics.background[4] },
+        { paddingBottom: bottomPadding, backgroundColor: semantics.background[3] },
       ]}
       showsVerticalScrollIndicator={false}
       ListEmptyComponent={

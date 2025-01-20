@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { colors } from '../../tokens'
+import { useColorScheme } from '../contexts'
 import { Text } from '../text'
 
 const PROFILE_THUMBNAIL_SIZE = {
@@ -33,6 +34,7 @@ export const ProfileThumbnail = ({
   type = 'square',
   style,
 }: ProfileThumbnailProps) => {
+  const { semantics } = useColorScheme()
   const sizeStyle = useMemo(() => {
     return PROFILE_THUMBNAIL_SIZE[size]
   }, [size])
@@ -51,7 +53,17 @@ export const ProfileThumbnail = ({
     }
   }, [sizeStyle.width, type])
   return (
-    <View style={[styles.wrapper, sizeStyle, borderRadiusStyle, style]}>
+    <View
+      style={[
+        styles.wrapper,
+        sizeStyle,
+        borderRadiusStyle,
+        {
+          backgroundColor: semantics.background[4],
+        },
+        style,
+      ]}
+    >
       {emptyBgText ? (
         <Text weight="bold" style={styles.bgText}>
           {emptyBgText}
@@ -64,7 +76,6 @@ export const ProfileThumbnail = ({
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: colors.oc.lime[3].value,
     alignItems: 'center',
     justifyContent: 'center',
   },

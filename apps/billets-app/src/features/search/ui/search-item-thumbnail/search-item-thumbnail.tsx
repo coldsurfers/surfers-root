@@ -1,5 +1,5 @@
 import { colors } from '@coldsurfers/ocean-road'
-import { ProfileThumbnail } from '@coldsurfers/ocean-road/native'
+import { ProfileThumbnail, useColorScheme } from '@coldsurfers/ocean-road/native'
 
 export const SearchItemThumbnail = ({
   uri,
@@ -10,7 +10,18 @@ export const SearchItemThumbnail = ({
   type: 'square' | 'circle'
   emptyBgText?: string
 }) => {
-  return <ProfileThumbnail type={type} emptyBgText={emptyBgText} imageUrl={uri} size="md" />
+  const { semantics } = useColorScheme()
+  return (
+    <ProfileThumbnail
+      type={type}
+      emptyBgText={emptyBgText}
+      imageUrl={uri}
+      size="md"
+      style={{
+        backgroundColor: semantics.background[4],
+      }}
+    />
+  )
 }
 
 SearchItemThumbnail.Skeleton = () => {

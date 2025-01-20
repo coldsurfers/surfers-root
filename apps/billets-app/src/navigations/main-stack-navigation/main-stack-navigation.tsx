@@ -7,6 +7,7 @@ import { ArtistStackNavigation } from '../artist-stack-navigation'
 import { ConcertStackNavigation } from '../concert-stack-navigation'
 import { LoginStackNavigation } from '../login-stack-navigation'
 import { MainTabNavigation } from '../main-tab-navigation'
+import { SettingsStackNavigation } from '../settings-stack-navigation'
 import { SubscribedStackNavigation } from '../subscribed-stack-navigation'
 import { VenueStackNavigation } from '../venue-stack-navigation'
 import { MainStackNavigationParamList } from './main-stack-navigation.types'
@@ -49,6 +50,7 @@ export const MainStackNavigation = () => {
           presentation: 'card',
         }}
       />
+      <MainStack.Screen name="SettingsStackNavigation" component={SettingsStackNavigation} />
       {user ? null : (
         <MainStack.Screen
           name="LoginStackNavigation"

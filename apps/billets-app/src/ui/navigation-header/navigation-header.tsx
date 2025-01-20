@@ -18,13 +18,14 @@ export const NavigationHeader = (
   }, [props.options.headerBackVisible])
   const showRightClose = useMemo(() => {
     return (
-      props.options.presentation === 'containedModal' ||
-      props.options.presentation === 'containedTransparentModal' ||
-      props.options.presentation === 'fullScreenModal' ||
-      props.options.presentation === 'modal' ||
-      props.options.presentation === 'transparentModal'
+      (props.options.presentation === 'containedModal' ||
+        props.options.presentation === 'containedTransparentModal' ||
+        props.options.presentation === 'fullScreenModal' ||
+        props.options.presentation === 'modal' ||
+        props.options.presentation === 'transparentModal') &&
+      !props.options.headerRight
     )
-  }, [props.options.presentation])
+  }, [props.options.headerRight, props.options.presentation])
   return (
     <SafeAreaView
       edges={['top']}
@@ -53,13 +54,15 @@ export const NavigationHeader = (
             <Text style={[styles.headerTitle, { color: semantics.foreground[1] }]}>{props.options.title}</Text>
           </View>
         )}
-        {showRightClose && (
+        {showRightClose ? (
           <IconButton
             onPress={() => props.navigation.goBack()}
             theme="transparentDarkGray"
             icon="X"
-            style={[styles.leftClose]}
+            style={styles.absoluteRight}
           />
+        ) : (
+          <View style={styles.absoluteRight}>{props.options.headerRight?.({ canGoBack: false })}</View>
         )}
       </View>
       {props.searchBarComponent && props.searchBarComponent}
@@ -74,10 +77,7 @@ const styles = StyleSheet.create({
   },
   headerTitleWrapper: { marginLeft: 'auto', marginRight: 'auto' },
   headerTitle: { fontSize: 16 },
-  leftClose: {
-    position: 'absolute',
-    right: 12,
-  },
+  absoluteRight: { position: 'absolute', right: 12 },
   safeAreaView: {
     justifyContent: 'center',
   },

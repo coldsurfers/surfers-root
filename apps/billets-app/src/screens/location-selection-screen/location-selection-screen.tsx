@@ -1,10 +1,9 @@
 import { useUserCurrentLocationStore } from '@/features/location/stores'
 import { $api } from '@/lib/api/openapi-client'
-import { Spinner, Text, TextInput } from '@coldsurfers/ocean-road/native'
+import { CommonScreenLayout } from '@/ui'
+import { Spinner, Text, TextInput, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { Suspense, useCallback, useMemo, useState } from 'react'
 import { KeyboardAvoidingView, SectionList, SectionListData, StyleSheet, TouchableOpacity, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import palettes from '../../lib/palettes'
 import { LatLng } from '../../types/LatLng'
 import { useLocationSelectionScreenNavigation } from './location-selection-screen.hooks'
 
@@ -21,6 +20,7 @@ type LocationSelectionListSectionData = ReadonlyArray<
 >
 
 const LocationSelectionScreenContent = () => {
+  const { semantics } = useColorScheme()
   const navigation = useLocationSelectionScreenNavigation()
   const setUserCurrentLocation = useUserCurrentLocationStore((state) => state.setUserCurrentLocation)
   const [searchKeyword, setSearchKeyword] = useState('')
@@ -43,13 +43,13 @@ const LocationSelectionScreenContent = () => {
   const searchedSections = useMemo(() => {
     return sectionData
       .map((section) => {
-        const data = section.data.filter((item) => item.city.toLowerCase().includes(searchKeyword.toLowerCase()))
-        if (data.length === 0) {
-          return null
-        }
         return {
           ...section,
-          data: section.data.filter((item) => item.city.toLowerCase().includes(searchKeyword.toLowerCase())),
+          data: section.data.filter(
+            (item) =>
+              item.city.toLowerCase().includes(searchKeyword.toLowerCase()) ||
+              section.country.toLowerCase().includes(searchKeyword.toLowerCase()),
+          ),
         }
       })
       .filter((section) => section !== null)
@@ -57,32 +57,39 @@ const LocationSelectionScreenContent = () => {
 
   const renderSectionHeader = useCallback(
     (info: { section: SectionListData<{ city: string; latLng: LatLng }, { country: string }> }) => {
+      if (info.section.data.length === 0) {
+        return null
+      }
       return (
         <View>
-          <Text style={styles.sectionHeader}>{info.section.country}</Text>
+          <Text style={[styles.sectionHeader, { color: semantics.foreground[1] }]}>{info.section.country}</Text>
         </View>
       )
     },
-    [],
+    [semantics.foreground],
   )
 
   const renderItem = useCallback(
     (info: { item: { city: string; latLng: LatLng } }) => {
       const onPress = () => {
-        setUserCurrentLocation(info.item.latLng)
+        setUserCurrentLocation({
+          ...info.item.latLng,
+          cityName: info.item.city,
+          type: 'city-location',
+        })
         navigation.goBack()
       }
       return (
         <TouchableOpacity onPress={onPress}>
-          <Text style={styles.itemText}>{info.item.city}</Text>
+          <Text style={[styles.itemText, { color: semantics.foreground[1] }]}>{info.item.city}</Text>
         </TouchableOpacity>
       )
     },
-    [navigation, setUserCurrentLocation],
+    [navigation, semantics.foreground, setUserCurrentLocation],
   )
 
   return (
-    <SafeAreaView style={styles.wrapper}>
+    <CommonScreenLayout style={styles.wrapper}>
       <TextInput
         value={searchKeyword}
         onChangeText={setSearchKeyword}
@@ -98,7 +105,7 @@ const LocationSelectionScreenContent = () => {
           contentContainerStyle={styles.listContainer}
         />
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </CommonScreenLayout>
   )
 }
 
@@ -112,9 +119,8 @@ export const LocationSelectionScreen = () => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    flex: 1,
-    backgroundColor: palettes.gray['200'],
     paddingHorizontal: 12,
+    paddingVertical: 24,
   },
   listWrapper: { flex: 1 },
   listContainer: {

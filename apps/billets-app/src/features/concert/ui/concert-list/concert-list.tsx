@@ -5,7 +5,7 @@ import { colors } from '@coldsurfers/ocean-road'
 import { Spinner } from '@coldsurfers/ocean-road/native'
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 import { forwardRef, useCallback, useMemo, useState } from 'react'
-import { FlatList, ListRenderItem, RefreshControl, View } from 'react-native'
+import { FlatList, ListRenderItem, Platform, RefreshControl, View } from 'react-native'
 import { ConcertListItem } from '../concert-list-item'
 import { concertListStyles } from './concert-list.styles'
 import { ConcertListItemType } from './concert-list.types'
@@ -42,12 +42,16 @@ export const ConcertList = forwardRef<FlatList, ConcertListProps>(
     }, [data?.pages])
 
     const renderItem: ListRenderItem<ConcertListItemType> = useCallback(
-      ({ item }) => {
+      ({ item, index }) => {
         return (
           <ConcertListItem
             data={item}
             onPress={() => onPressItem?.(item)}
             onPressSubscribe={({ isSubscribed }) => onPressSubscribe?.(item, { isSubscribed })}
+            style={{
+              paddingLeft: index % 2 === 0 ? 0 : 6,
+              paddingRight: index % 2 === 0 ? 6 : 0,
+            }}
           />
         )
       },
@@ -78,6 +82,7 @@ export const ConcertList = forwardRef<FlatList, ConcertListProps>(
         data={concertList}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
+        // ItemSeparatorComponent={() => <View style={{ width: 12, backgroundColor: 'blue', height: 12 }} />}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={concertListStyles.concertListContentContainer}
         ListEmptyComponent={
@@ -95,7 +100,7 @@ export const ConcertList = forwardRef<FlatList, ConcertListProps>(
             refreshing={isRefreshing}
             onRefresh={onRefresh}
             tintColor={colors.oc.cyan[5].value}
-            size={20}
+            size={Platform.select({ ios: 20, default: undefined })}
           />
         }
         scrollEnabled={!isRefreshing}

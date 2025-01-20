@@ -1,9 +1,9 @@
 import { useBottomTab, zodNavigation } from '@/lib'
 import { useUIStore } from '@/lib/stores/ui-store'
 import { colors } from '@coldsurfers/ocean-road'
-import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
+import { useColorScheme } from '@coldsurfers/ocean-road/native'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
-import { House, Search, Smile } from 'lucide-react-native'
+import { House, Search, UserRound } from 'lucide-react-native'
 import React, { memo, useEffect } from 'react'
 import { Platform, StyleSheet, TouchableOpacity } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
@@ -37,7 +37,7 @@ export const TabBar = memo((props: Props) => {
 
   useEffect(() => {
     bottomTabBarTranslateY.value = withTiming(bottomTabBarVisible ? 0 : tabBarHeight, {
-      duration: 300,
+      duration: 150,
     })
   }, [bottomTabBarTranslateY, bottomTabBarVisible, tabBarHeight])
 
@@ -68,22 +68,22 @@ export const TabBar = memo((props: Props) => {
     >
       {state.routes.map((route, index) => {
         const isFocused = state.index === index
-        const { options } = descriptors[route.key]
-        const label =
-          options.tabBarLabel !== undefined
-            ? options.tabBarLabel
-            : options.title !== undefined
-              ? options.title
-              : route.name
+        // const { options } = descriptors[route.key]
+        // const label =
+        //   options.tabBarLabel !== undefined
+        //     ? options.tabBarLabel
+        //     : options.title !== undefined
+        //       ? options.title
+        //       : route.name
         const renderIcon = () => {
           const strokeWidth = isFocused ? 2.5 : 1.5
           switch (route.name) {
             case zodNavigation.HomeStackNavigation.name:
-              return <House color={colors.oc.white.value} strokeWidth={strokeWidth} />
+              return <House color={colors.oc.white.value} strokeWidth={strokeWidth} size={25} />
             case zodNavigation.SearchStackNavigation.name:
-              return <Search color={colors.oc.white.value} strokeWidth={strokeWidth} />
+              return <Search color={colors.oc.white.value} strokeWidth={strokeWidth} size={25} />
             case zodNavigation.MyStackNavigation.name:
-              return <Smile color={colors.oc.white.value} strokeWidth={strokeWidth} />
+              return <UserRound color={colors.oc.white.value} strokeWidth={strokeWidth} size={25} />
             default:
               return null
           }
@@ -116,15 +116,6 @@ export const TabBar = memo((props: Props) => {
             style={styles.tabBarButton}
           >
             {renderIcon()}
-            <Text
-              style={[
-                styles.tabBarTitle,
-                { color: colorScheme === 'light' ? semantics.background[2] : semantics.foreground[1] },
-                isFocused && styles.tabBarTitleFocused,
-              ]}
-            >
-              {typeof label === 'string' && label}
-            </Text>
           </TouchableOpacity>
         )
       })}
@@ -147,10 +138,6 @@ const styles = StyleSheet.create({
   emoji: {
     marginBottom: 4,
     fontSize: 20,
-  },
-  tabBarTitle: { color: colors.oc.white.value, fontWeight: '500', fontSize: 14 },
-  tabBarTitleFocused: {
-    fontWeight: '800',
   },
   shadowBox: {
     // iOS Shadow Properties

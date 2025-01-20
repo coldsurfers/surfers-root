@@ -1,7 +1,8 @@
 import { $api } from '@/lib/api/openapi-client'
-import { Button, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
+import { CommonScreenLayout } from '@/ui'
+import { Button, Spinner, TextInput, useColorScheme } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useState } from 'react'
-import { SafeAreaView, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { AuthContext } from '../../lib/contexts/auth-context/auth-context'
 import {
   ToastVisibleContext,
@@ -11,6 +12,7 @@ import palettes from '../../lib/palettes'
 import { useEmailConfirmScreenNavigation, useEmailConfirmScreenRoute } from './email-confirm-screen.hooks'
 
 const _EmailConfirmScreen = () => {
+  const { semantics } = useColorScheme()
   const navigation = useEmailConfirmScreenNavigation()
   const { params } = useEmailConfirmScreenRoute()
   const { show } = useContext(ToastVisibleContext)
@@ -150,7 +152,7 @@ const _EmailConfirmScreen = () => {
   }, [isLoadingSignupEmail, mutateSignupEmail, params.email, passwordConfirmText, passwordText, show])
 
   return (
-    <SafeAreaView style={styles.wrapper}>
+    <CommonScreenLayout>
       {confirmed ? (
         <>
           <TextInput
@@ -190,7 +192,7 @@ const _EmailConfirmScreen = () => {
         {confirmed ? '비밀번호 설정하기' : '인증하기'}
       </Button>
       {isLoadingEmailConfirm && <Spinner />}
-    </SafeAreaView>
+    </CommonScreenLayout>
   )
 }
 
