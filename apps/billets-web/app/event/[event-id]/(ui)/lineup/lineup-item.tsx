@@ -14,7 +14,7 @@ export const LineupItem = memo(({ artist }: { artist: components['schemas']['Art
   }, [artist.thumbUrl])
   const name = artist.name
   return (
-    <StyledLineupContainer>
+    <StyledLineupContainer href={`/artist/${artist.id}`}>
       <StyledLineupImage src={profileImageUrl} alt={name} />
       <StyledLineupNameText as="p">{name}</StyledLineupNameText>
     </StyledLineupContainer>
