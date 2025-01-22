@@ -1,7 +1,8 @@
 import { semantics, Text } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
+import Link from 'next/link'
 
-export const StyledLineupContainer = styled.div`
+export const StyledLineupContainer = styled(Link)`
   display: flex;
 
   align-items: center;
