@@ -68,3 +68,17 @@ export const StyledVenueDetailEventListItemTitleText = styled(Text)`
     margin-left: 0.5rem;
   `)}
 `
+
+export const StyledVenueDetailEventListItemDateText = styled(Text)`
+  margin: unset;
+  margin-top: 0.25rem;
+  font-size: 16px;
+  color: ${semantics.color.foreground[1]};
+`
+
+export const StyledVenueDetailEventListItemVenueText = styled(Text)`
+  margin: unset;
+  margin-top: 0.25rem;
+  font-size: 16px;
+  color: ${semantics.color.foreground[1]};
+`
