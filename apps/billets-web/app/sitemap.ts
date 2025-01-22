@@ -88,5 +88,9 @@ export default async function sitemap() {
       }),
     )
   ).flat()
+
+  // "/venue/[venue-id]"
+  // @todo: connect prisma directly
+  // const venueSitemaps = ()
   return [...staticSitemaps, ...browseByCitySitemaps, ...eventSitemaps]
 }

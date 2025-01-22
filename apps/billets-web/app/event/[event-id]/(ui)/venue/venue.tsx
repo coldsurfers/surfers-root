@@ -19,14 +19,16 @@ type VenueProps = { address: string; id: string; latitude: number; longitude: nu
 
 // 'https://maps.google.com/?q=The Shacklewell Arms, 71 Shacklewell Lane, London E8 2EB&ll=51.5531551,-0.0699228999999377'
 
-export const Venue = memo(({ address, venueTitle, latitude, longitude }: VenueProps) => {
+export const Venue = memo(({ address, venueTitle, latitude, longitude, id }: VenueProps) => {
   const openInMapsHref = useMemo(() => {
     const url = `https://maps.google.com/?q=${venueTitle} ${address}&ll=${latitude},${longitude}`
     return encodeURI(url)
   }, [address, latitude, longitude, venueTitle])
   return (
     <StyledVenueContainer>
-      <StyledVenueTitleText as="h3">{venueTitle}</StyledVenueTitleText>
+      <Link href={`/venue/${id}`}>
+        <StyledVenueTitleText as="h3">{venueTitle}</StyledVenueTitleText>
+      </Link>
       <StyledVenueAddressContainer>
         <StyledVenueAddressText as="p">{address}</StyledVenueAddressText>
         <StyledIconButton onClick={() => navigator.clipboard.writeText(address)}>
