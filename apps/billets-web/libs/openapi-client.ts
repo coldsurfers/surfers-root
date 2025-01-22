@@ -118,4 +118,23 @@ export const apiClient = {
       return response.data
     },
   },
+  venue: {
+    queryKeys: {
+      all: ['venue'],
+      detail: (venueId: string) => ['venue', 'detail', venueId],
+    },
+    getVenueDetail: async (venueId: string) => {
+      const response = await baseFetchClient.GET('/v1/venue/{id}', {
+        params: {
+          path: {
+            id: venueId,
+          },
+        },
+      })
+      if (response.error) {
+        throw new OpenApiError(response.error)
+      }
+      return response.data
+    },
+  },
 }
