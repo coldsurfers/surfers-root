@@ -11,7 +11,11 @@
     "deploy:vercel": "npx vercel deploy --prod --prebuilt",
     "dev": "next dev",
     "lint": "next lint --fix && prettier --write .",
-    "start": "next start"
+    "start": "next start",
+    "prisma:db-push": "yarn prisma db push --schema ../../packages/prisma-schema/prisma/schema.prisma",
+    "prisma:migrate-dev": "yarn prisma migrate dev --schema ../../packages/prisma-schema/prisma/schema.prisma",
+    "prisma:studio": "yarn prisma studio --schema ../../packages/prisma-schema/prisma/schema.prisma",
+    "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma"
   },
   "dependencies": {
     "@coldsurfers/ocean-road": "workspace:*",
