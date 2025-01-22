@@ -32,6 +32,7 @@ export const StyledVenueDetailEventListItem = styled.div`
 
   ${media.small(css`
     flex-direction: row;
+    align-items: center;
   `)}
 `
 
@@ -59,5 +60,10 @@ export const StyledVenueDetailEventListItemTitleText = styled(Text)`
   ${media.medium(css`
     font-size: 14px;
     margin-top: 0.5rem;
+  `)}
+
+  ${media.small(css`
+    margin-top: unset;
+    margin-left: 0.5rem;
   `)}
 `
