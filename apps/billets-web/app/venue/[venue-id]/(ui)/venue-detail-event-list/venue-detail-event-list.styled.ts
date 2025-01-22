@@ -15,7 +15,7 @@ export const StyledVenueDetailEventListLayout = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
 
-  ${media.medium(css`
+  ${media.small(css`
     grid-template-columns: repeat(1, 1fr);
   `)}
 `
@@ -23,14 +23,41 @@ export const StyledVenueDetailEventListLayout = styled.div`
 export const StyledVenueDetailEventListItem = styled.div`
   display: flex;
   flex-direction: column;
+
+  margin-bottom: 2rem;
+
+  ${media.medium(css`
+    margin-bottom: 1.5rem;
+  `)}
+
+  ${media.small(css`
+    flex-direction: row;
+  `)}
 `
 
 export const StyledVenueDetailEventListItemThumbnail = styled.img`
   width: 100%;
-  height: 100%;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   object-position: 50%;
   background-color: ${semantics.color.background[4]};
 
   border-radius: 12px;
+
+  ${media.small(css`
+    width: 100px;
+    height: 100px;
+  `)}
+`
+
+export const StyledVenueDetailEventListItemTitleText = styled(Text)`
+  font-size: 16px;
+
+  margin: unset;
+  margin-top: 1rem;
+
+  ${media.medium(css`
+    font-size: 14px;
+    margin-top: 0.5rem;
+  `)}
 `
