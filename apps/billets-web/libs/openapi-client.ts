@@ -137,4 +137,23 @@ export const apiClient = {
       return response.data
     },
   },
+  artist: {
+    queryKeys: {
+      all: ['artist'],
+      detail: (artistId: string) => ['artist', 'detail', artistId],
+    },
+    getArtistDetail: async (artistId: string) => {
+      const response = await baseFetchClient.GET('/v1/artist/{id}', {
+        params: {
+          path: {
+            id: artistId,
+          },
+        },
+      })
+      if (response.error) {
+        throw new OpenApiError(response.error)
+      }
+      return response.data
+    },
+  },
 }
