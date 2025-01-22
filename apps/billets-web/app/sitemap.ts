@@ -1,10 +1,20 @@
 import { SITE_URL } from '@/libs/constants'
+import { dbClient } from '@/libs/db/db.client'
 import { apiClient } from '@/libs/openapi-client'
 import { validateCityParam } from '@/libs/utils'
+import { cache } from 'react'
 
 const generateUrl = (subPath: string) => {
   return `${SITE_URL}${subPath}`
 }
+const findAllVenues = cache(async () => {
+  const venues = await dbClient.venue.findMany()
+  return venues
+})
+const findAllArtists = cache(async () => {
+  const artists = await dbClient.artist.findMany()
+  return artists
+})
 
 export default async function sitemap() {
   const staticSitemaps = [
@@ -90,7 +100,31 @@ export default async function sitemap() {
   ).flat()
 
   // "/venue/[venue-id]"
-  // @todo: connect prisma directly
-  // const venueSitemaps = ()
-  return [...staticSitemaps, ...browseByCitySitemaps, ...eventSitemaps]
+  const allVenues = await findAllVenues()
+  const venueSitemaps = allVenues.map((venue) => {
+    const lastModified = new Date()
+    const changeFrequency = 'weekly'
+    const priority = 0.8
+    return {
+      url: generateUrl(`/venue/${venue.id}`),
+      lastModified,
+      changeFrequency,
+      priority,
+    }
+  })
+
+  // "/artist/[artist-id]"
+  const allArtists = await findAllArtists()
+  const artistSitemaps = allArtists.map((artist) => {
+    const lastModified = new Date()
+    const changeFrequency = 'weekly'
+    const priority = 0.8
+    return {
+      url: generateUrl(`/artist/${artist.id}`),
+      lastModified,
+      changeFrequency,
+      priority,
+    }
+  })
+  return [...staticSitemaps, ...browseByCitySitemaps, ...eventSitemaps, ...venueSitemaps, ...artistSitemaps]
 }
