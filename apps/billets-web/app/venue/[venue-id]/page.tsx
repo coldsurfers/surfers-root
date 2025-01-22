@@ -5,6 +5,7 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { redirect } from 'next/navigation'
 import { cache } from 'react'
 import { PageProps } from 'types/common-types'
+import { VenueDetailTop } from './(ui)'
 
 const getVenueDetail = cache((venueId: string) => apiClient.venue.getVenueDetail(venueId))
 
@@ -39,7 +40,11 @@ async function PageInner({ params }: PageProps<{ ['venue-id']: string }>) {
     queryFn: () => getVenueDetail(venueId),
   })
 
-  return <HydrationBoundary state={dehydrate(queryClient)}></HydrationBoundary>
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <VenueDetailTop venueId={venueId} />
+    </HydrationBoundary>
+  )
 }
 
 export default function VenueDetailPage(pageProps: PageProps<{ ['venue-id']: string }>) {
