@@ -2,6 +2,7 @@
 
 import { apiClient } from '@/libs/openapi-client'
 import { useQuery } from '@tanstack/react-query'
+import { VenueDetailTopTitleText } from './venue-detail-top.styled'
 
 export function VenueDetailTop({ venueId }: { venueId: string }) {
   const { data: venueDetail, isLoading: isLoadingVenueDetail } = useQuery({
@@ -9,8 +10,8 @@ export function VenueDetailTop({ venueId }: { venueId: string }) {
     queryFn: () => apiClient.venue.getVenueDetail(venueId),
   })
   return (
-    <div>
-      <p>{venueDetail?.name}</p>
-    </div>
+    <>
+      <VenueDetailTopTitleText as="h1">{venueDetail?.name}</VenueDetailTopTitleText>
+    </>
   )
 }
