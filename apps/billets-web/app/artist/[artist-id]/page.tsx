@@ -5,6 +5,7 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { redirect } from 'next/navigation'
 import { cache } from 'react'
 import { PageProps } from 'types/common-types'
+import { ArtistDetailPageLayout } from './(ui)'
 
 const getArtistDetail = cache((artistId: string) => apiClient.artist.getArtistDetail(artistId))
 
@@ -36,7 +37,11 @@ async function PageInner({ params }: PageProps<{ ['artist-id']: string }>) {
     queryFn: () => getArtistDetail(artistId),
   })
 
-  return <HydrationBoundary state={dehydrate(queryClient)}></HydrationBoundary>
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <ArtistDetailPageLayout></ArtistDetailPageLayout>
+    </HydrationBoundary>
+  )
 }
 
 export default function ArtistDetailPage(pageProps: PageProps<{ ['artist-id']: string }>) {
