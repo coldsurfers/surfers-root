@@ -28,7 +28,7 @@ export function VenueDetailEventList({ venueId }: { venueId: string }) {
           const { mainPoster } = value.data
           const posterUrl = mainPoster?.url ? `${mainPoster.url}&width=400&height=400&format=png` : ''
           return (
-            <StyledVenueDetailEventListItem key={value.data.id}>
+            <StyledVenueDetailEventListItem key={value.data.id} href={`/event/${value.data.id}`}>
               <StyledVenueDetailEventListItemThumbnail src={posterUrl} />
               <StyledVenueDetailEventListItemTitleText as="h4">
                 {value.data.title}
