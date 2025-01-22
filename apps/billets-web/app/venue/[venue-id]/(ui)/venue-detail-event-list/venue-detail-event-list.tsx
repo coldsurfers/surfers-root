@@ -2,11 +2,14 @@
 
 import { apiClient } from '@/libs/openapi-client'
 import { useQuery } from '@tanstack/react-query'
+import { format } from 'date-fns'
 import { useMemo } from 'react'
 import {
   StyledVenueDetailEventListItem,
+  StyledVenueDetailEventListItemDateText,
   StyledVenueDetailEventListItemThumbnail,
   StyledVenueDetailEventListItemTitleText,
+  StyledVenueDetailEventListItemVenueText,
   StyledVenueDetailEventListLayout,
   StyledVenueDetailEventListTitleText,
 } from './venue-detail-event-list.styled'
@@ -27,12 +30,17 @@ export function VenueDetailEventList({ venueId }: { venueId: string }) {
         {upcomingEvents.map((value) => {
           const { mainPoster } = value.data
           const posterUrl = mainPoster?.url ? `${mainPoster.url}&width=400&height=400&format=png` : ''
+          const formattedDate = format(new Date(value.data.date), 'EEE, MMM dd')
           return (
             <StyledVenueDetailEventListItem key={value.data.id} href={`/event/${value.data.id}`}>
               <StyledVenueDetailEventListItemThumbnail src={posterUrl} />
               <StyledVenueDetailEventListItemTitleText as="h4">
                 {value.data.title}
               </StyledVenueDetailEventListItemTitleText>
+              <StyledVenueDetailEventListItemDateText as="p">{formattedDate}</StyledVenueDetailEventListItemDateText>
+              <StyledVenueDetailEventListItemVenueText as="p">
+                {value.data.mainVenue?.name}
+              </StyledVenueDetailEventListItemVenueText>
             </StyledVenueDetailEventListItem>
           )
         })}
