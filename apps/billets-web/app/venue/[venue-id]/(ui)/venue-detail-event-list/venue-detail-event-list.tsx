@@ -12,6 +12,7 @@ import {
   StyledVenueDetailEventListItemVenueText,
   StyledVenueDetailEventListLayout,
   StyledVenueDetailEventListTitleText,
+  StyledVenueDetailItemDescriptionWrapper,
 } from './venue-detail-event-list.styled'
 
 export function VenueDetailEventList({ venueId }: { venueId: string }) {
@@ -34,13 +35,15 @@ export function VenueDetailEventList({ venueId }: { venueId: string }) {
           return (
             <StyledVenueDetailEventListItem key={value.data.id} href={`/event/${value.data.id}`}>
               <StyledVenueDetailEventListItemThumbnail src={posterUrl} />
-              <StyledVenueDetailEventListItemTitleText as="h4">
-                {value.data.title}
-              </StyledVenueDetailEventListItemTitleText>
-              <StyledVenueDetailEventListItemDateText as="p">{formattedDate}</StyledVenueDetailEventListItemDateText>
-              <StyledVenueDetailEventListItemVenueText as="p">
-                {value.data.mainVenue?.name}
-              </StyledVenueDetailEventListItemVenueText>
+              <StyledVenueDetailItemDescriptionWrapper>
+                <StyledVenueDetailEventListItemTitleText as="h4">
+                  {value.data.title}
+                </StyledVenueDetailEventListItemTitleText>
+                <StyledVenueDetailEventListItemDateText as="p">{formattedDate}</StyledVenueDetailEventListItemDateText>
+                <StyledVenueDetailEventListItemVenueText as="p">
+                  {value.data.mainVenue?.name}
+                </StyledVenueDetailEventListItemVenueText>
+              </StyledVenueDetailItemDescriptionWrapper>
             </StyledVenueDetailEventListItem>
           )
         })}

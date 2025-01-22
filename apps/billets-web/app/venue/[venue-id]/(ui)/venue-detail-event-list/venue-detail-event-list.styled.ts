@@ -52,20 +52,26 @@ export const StyledVenueDetailEventListItemThumbnail = styled.img`
   `)}
 `
 
+export const StyledVenueDetailItemDescriptionWrapper = styled.div`
+  margin-top: 1rem;
+  width: 100%;
+  ${media.small(css`
+    margin-top: unset;
+    margin-left: 0.5rem;
+  `)}
+`
+
 export const StyledVenueDetailEventListItemTitleText = styled(Text)`
   font-size: 16px;
 
   margin: unset;
-  margin-top: 1rem;
 
   ${media.medium(css`
     font-size: 14px;
-    margin-top: 0.5rem;
   `)}
 
   ${media.small(css`
     margin-top: unset;
-    margin-left: 0.5rem;
   `)}
 `
 
@@ -74,6 +80,10 @@ export const StyledVenueDetailEventListItemDateText = styled(Text)`
   margin-top: 0.25rem;
   font-size: 16px;
   color: ${semantics.color.foreground[1]};
+
+  ${media.medium(css`
+    font-size: 14px;
+  `)}
 `
 
 export const StyledVenueDetailEventListItemVenueText = styled(Text)`
@@ -81,4 +91,8 @@ export const StyledVenueDetailEventListItemVenueText = styled(Text)`
   margin-top: 0.25rem;
   font-size: 16px;
   color: ${semantics.color.foreground[1]};
+
+  ${media.medium(css`
+    font-size: 14px;
+  `)}
 `
