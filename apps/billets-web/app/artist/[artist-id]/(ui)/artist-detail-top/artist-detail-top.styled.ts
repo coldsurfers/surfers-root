@@ -31,6 +31,12 @@ export const StyledArtistThumbnail = styled.img`
   aspect-ratio: 1 / 1;
 
   border-radius: 1rem;
+
+  transform: translate(0px, 82px);
+
+  ${media.medium(css`
+    transform: none;
+  `)}
 `
 
 export const StyledArtistTopDescriptionWrapper = styled.div`
