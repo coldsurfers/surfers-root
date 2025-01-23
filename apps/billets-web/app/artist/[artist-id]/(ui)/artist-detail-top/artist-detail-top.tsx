@@ -9,6 +9,7 @@ import {
   StyledArtistDetailTopRight,
   StyledArtistNameText,
   StyledArtistThumbnail,
+  StyledArtistThumbnailWrapper,
   StyledArtistTopDescriptionWrapper,
   StyledArtistTopSectionTitleText,
 } from './artist-detail-top.styled'
@@ -33,7 +34,9 @@ export function ArtistDetailTop({ artistId }: { artistId: string }) {
         </StyledArtistTopDescriptionWrapper>
       </StyledArtistDetailTopLeft>
       <StyledArtistDetailTopRight>
-        <StyledArtistThumbnail src={thumbUrl} />
+        <StyledArtistThumbnailWrapper>
+          {thumbUrl && <StyledArtistThumbnail src={thumbUrl} />}
+        </StyledArtistThumbnailWrapper>
       </StyledArtistDetailTopRight>
     </StyledArtistDetailTopContainer>
   )

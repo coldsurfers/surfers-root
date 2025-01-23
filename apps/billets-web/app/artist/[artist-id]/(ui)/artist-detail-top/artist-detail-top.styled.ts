@@ -24,19 +24,27 @@ export const StyledArtistDetailTopRight = styled.div`
   `)}
 `
 
-export const StyledArtistThumbnail = styled.img`
+export const StyledArtistThumbnailWrapper = styled.div`
   max-width: calc(405px + 37.5vw);
   width: 100%;
 
   aspect-ratio: 1 / 1;
+  transform: translate(0px, 82px);
 
   border-radius: 1rem;
 
-  transform: translate(0px, 82px);
+  background-color: transparent;
 
   ${media.medium(css`
     transform: none;
   `)}
+`
+
+export const StyledArtistThumbnail = styled.img`
+  width: 100%;
+  height: 100%;
+
+  border-radius: 1rem;
 `
 
 export const StyledArtistTopDescriptionWrapper = styled.div`
