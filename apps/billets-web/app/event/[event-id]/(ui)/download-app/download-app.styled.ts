@@ -1,4 +1,4 @@
-import { Button, semantics, Text } from '@coldsurfers/ocean-road'
+import { Button, colors, semantics, Text } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { BellDot as BellDotIcon, MapPinned as MapPinnedIcon } from 'lucide-react'
 
@@ -56,6 +56,6 @@ export const AppDownloadButton = styled(Button)`
 export const StyledAppDownloadText = styled(Text)`
   font-size: 14px;
   font-weight: 500;
-  color: ${semantics.color.foreground[1]};
+  color: ${colors.oc.white.value};
   margin: unset;
 `
