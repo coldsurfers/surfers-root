@@ -11,7 +11,11 @@
     "deploy:vercel": "npx vercel deploy --prod --prebuilt",
     "dev": "next dev",
     "lint": "next lint --fix && prettier --write .",
-    "start": "next start"
+    "start": "next start",
+    "prisma:db-push": "yarn prisma db push --schema ../../packages/prisma-schema/prisma/schema.prisma",
+    "prisma:migrate-dev": "yarn prisma migrate dev --schema ../../packages/prisma-schema/prisma/schema.prisma",
+    "prisma:studio": "yarn prisma studio --schema ../../packages/prisma-schema/prisma/schema.prisma",
+    "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma"
   },
   "dependencies": {
     "@coldsurfers/ocean-road": "workspace:*",
@@ -20,6 +24,7 @@
     "@emotion/react": "*",
     "@emotion/styled": "*",
     "@lukemorales/query-key-factory": "*",
+    "@prisma/client": "*",
     "@tanstack/react-query": "*",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
@@ -30,6 +35,7 @@
     "notion-client": "*",
     "openapi-fetch": "^0.12.2",
     "openapi-react-query": "*",
+    "prisma": "*",
     "react": "*",
     "react-dom": "*",
     "react-error-boundary": "*",
