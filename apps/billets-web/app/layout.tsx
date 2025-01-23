@@ -1,4 +1,4 @@
-import { APP_STORE_URL, SITE_NAME, SITE_URL } from '@/libs/constants'
+import { APP_STORE_URL, COMMON_META_DESCRIPTION, COMMON_META_TITLE, SITE_NAME, SITE_URL } from '@/libs/constants'
 import { metadataInstance } from '@/libs/metadata'
 import {
   FirebaseRegistry,
@@ -16,7 +16,13 @@ const notoSansFont = notoSans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   ...metadataInstance.generateMetadata<Metadata>({
-    title: 'Discover live events and tickets | Browser tickets on Billets',
+    title: COMMON_META_TITLE,
+    description: COMMON_META_DESCRIPTION,
+    openGraph: {
+      siteName: SITE_NAME,
+      title: COMMON_META_TITLE,
+      description: COMMON_META_DESCRIPTION,
+    },
   }),
 }
 
