@@ -1,4 +1,4 @@
-import { IconButton, semantics, Text } from '@coldsurfers/ocean-road'
+import { colors, IconButton, semantics, Text } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { Copy as CopyIcon, MapPin } from 'lucide-react'
 
@@ -40,7 +40,7 @@ export const StyledVenueCopyIcon = styled(CopyIcon)`
 `
 
 export const MapPinIcon = styled(MapPin)`
-  color: ${semantics.color.foreground[2]};
+  color: ${colors.oc.white.value};
   width: 20px;
   height: 20px;
   margin-right: 0.25rem;
@@ -52,7 +52,7 @@ export const CtaButtonWrapper = styled.div`
 `
 
 export const OpenInMapsText = styled(Text)`
-  color: ${semantics.color.foreground[2]};
+  color: ${colors.oc.white.value};
   font-size: 14px;
   font-weight: 500;
 `
