@@ -1,4 +1,4 @@
-import { Brand, MusicEvent, WebSite, WithContext } from 'schema-dts'
+import { Brand, MusicEvent, Place, WebSite, WithContext } from 'schema-dts'
 
 type BaseData = {
   keywords: string[]
@@ -35,6 +35,71 @@ type BaseData = {
   }
 }
 
+type CustomMusicEvent = {
+  type: 'MusicEvent'
+  url: string
+  name: string
+  startDate: string
+  endDate: string
+  venue: {
+    name: string
+    address: string
+    latitude: number
+    longitude: number
+  }
+  images: string[]
+  description: string
+  offers: {
+    price: number
+    currency: string
+    url: string
+    validFrom: string
+    name?: string
+  }[]
+}
+
+function generateMusicEvent(event: CustomMusicEvent) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'MusicEvent',
+    'url': event.url,
+    'name': event.name,
+    'startDate': event.startDate,
+    'endDate': event.endDate,
+    'eventAttendanceMode': 'https://schema.org/OfflineEventAttendanceMode',
+    'eventStatus': 'https://schema.org/EventScheduled',
+    'location': [
+      {
+        '@type': 'Place',
+        'name': event.venue.name,
+        'address': event.venue.address,
+        'geo': {
+          '@type': 'GeoCoordinates',
+          'latitude': event.venue.latitude,
+          'longitude': event.venue.longitude,
+        },
+      },
+    ],
+    'image': event.images,
+    'description': event.description,
+    'offers': event.offers.map((offer) => {
+      return {
+        '@type': 'Offer',
+        'availability': 'https://schema.org/InStock',
+        'price': offer.price,
+        'priceCurrency': offer.currency,
+        'url': offer.url,
+        'validFrom': offer.validFrom,
+        'name': offer.name,
+      }
+    }),
+    'organizer': {
+      '@type': 'Organization',
+      'name': event.venue.name,
+    },
+  } satisfies WithContext<MusicEvent>
+}
+
 export class NextMetadataGenerator {
   public baseData: BaseData
   constructor({ baseData }: { baseData: BaseData }) {
@@ -63,28 +128,7 @@ export class NextMetadataGenerator {
           url: string
           name: string
         }
-      | {
-          type: 'MusicEvent'
-          url: string
-          name: string
-          startDate: string
-          endDate: string
-          venue: {
-            name: string
-            address: string
-            latitude: number
-            longitude: number
-          }
-          images: string[]
-          description: string
-          offers: {
-            price: number
-            currency: string
-            url: string
-            validFrom: string
-            name?: string
-          }[]
-        }
+      | CustomMusicEvent
       | {
           type: 'Brand'
           name: string
@@ -92,6 +136,15 @@ export class NextMetadataGenerator {
           logo: string
           url: string
           sameAs: string[]
+        }
+      | {
+          type: 'Place'
+          address: string
+          latitude: number
+          longitude: number
+          name: string
+          url: string
+          events: CustomMusicEvent[]
         },
   ) {
     switch (params.type) {
@@ -103,45 +156,7 @@ export class NextMetadataGenerator {
           'name': params.name,
         } satisfies WithContext<WebSite>
       case 'MusicEvent':
-        return {
-          '@context': 'https://schema.org',
-          '@type': 'MusicEvent',
-          'url': params.url,
-          'name': params.name,
-          'startDate': params.startDate,
-          'endDate': params.endDate,
-          'eventAttendanceMode': 'https://schema.org/OfflineEventAttendanceMode',
-          'eventStatus': 'https://schema.org/EventScheduled',
-          'location': [
-            {
-              '@type': 'Place',
-              'name': params.venue.name,
-              'address': params.venue.address,
-              'geo': {
-                '@type': 'GeoCoordinates',
-                'latitude': params.venue.latitude,
-                'longitude': params.venue.longitude,
-              },
-            },
-          ],
-          'image': params.images,
-          'description': params.description,
-          'offers': params.offers.map((offer) => {
-            return {
-              '@type': 'Offer',
-              'availability': 'https://schema.org/InStock',
-              'price': offer.price,
-              'priceCurrency': offer.currency,
-              'url': offer.url,
-              'validFrom': offer.validFrom,
-              'name': offer.name,
-            }
-          }),
-          'organizer': {
-            '@type': 'Organization',
-            'name': params.venue.name,
-          },
-        } satisfies WithContext<MusicEvent>
+        return generateMusicEvent(params)
       case 'Brand':
         return {
           '@context': 'https://schema.org',
@@ -152,6 +167,20 @@ export class NextMetadataGenerator {
           'url': params.url,
           'sameAs': params.sameAs,
         } satisfies WithContext<Brand>
+      case 'Place':
+        return {
+          '@context': 'https://schema.org',
+          '@type': 'Place',
+          'address': params.address,
+          'event': params.events.map((event) => generateMusicEvent(event)),
+          'geo': {
+            '@type': 'GeoCoordinates',
+            'latitude': params.latitude,
+            'longitude': params.longitude,
+          },
+          'name': params.name,
+          'url': params.url,
+        } satisfies WithContext<Place>
       default:
         return {}
     }
