@@ -2,15 +2,15 @@ import { SITE_NAME, SITE_URL } from '@/libs/constants'
 import { metadataInstance } from '@/libs/metadata'
 import { apiClient } from '@/libs/openapi-client'
 import { Metadata } from 'next/types'
-import { cache, PropsWithChildren } from 'react'
-import { PageProps } from 'types/common-types'
+import { cache, ReactNode } from 'react'
 
 const getArtistDetail = cache(async (artistId: string) => {
   return await apiClient.artist.getArtistDetail(artistId)
 })
 
-export const generateMetadata = async ({ params }: PageProps<{ ['artist-id']: string }>) => {
-  const artistDetail = await getArtistDetail(params['artist-id'])
+export const generateMetadata = async ({ params }: { params: Promise<{ ['artist-id']: string }> }) => {
+  const pageParams = await params
+  const artistDetail = await getArtistDetail(pageParams['artist-id'])
   if (!artistDetail) {
     return undefined
   }
@@ -33,8 +33,12 @@ export const generateMetadata = async ({ params }: PageProps<{ ['artist-id']: st
 export default async function ArtistDetailPageLayout({
   children,
   params,
-}: PropsWithChildren<PageProps<{ ['artist-id']: string }>>) {
-  const artistDetail = await getArtistDetail(params['artist-id'])
+}: {
+  children: ReactNode
+  params: Promise<{ ['artist-id']: string }>
+}) {
+  const pageParams = await params
+  const artistDetail = await getArtistDetail(pageParams['artist-id'])
   if (!artistDetail) {
     return null
   }
@@ -49,7 +53,7 @@ export default async function ArtistDetailPageLayout({
               type: 'PerformingGroup',
               image: artistDetail.thumbUrl ? `${artistDetail.thumbUrl}&width=500&height=500&format=png` : '',
               name: artistDetail.name,
-              url: `${SITE_URL}/artist/${params['artist-id']}`,
+              url: `${SITE_URL}/artist/${pageParams['artist-id']}`,
               events: artistDetail.upcomingEvents.map((event) => ({
                 type: 'MusicEvent',
                 url: `${SITE_URL}/event/${event.data.id}`,
