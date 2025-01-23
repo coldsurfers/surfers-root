@@ -1,5 +1,5 @@
 import { SITE_URL } from '@/libs/constants'
-import { dbClient } from '@/libs/db/db.client'
+import { connectDbClient, dbClient, disconnectDbClient } from '@/libs/db/db.client'
 import { cache } from 'react'
 
 const generateUrl = (subPath: string) => {
@@ -23,6 +23,7 @@ const findAllEvents = cache(async () => {
 })
 
 export default async function sitemap() {
+  await connectDbClient()
   const staticSitemaps = [
     {
       url: generateUrl(''),
@@ -115,5 +116,6 @@ export default async function sitemap() {
       priority,
     }
   })
+  await disconnectDbClient()
   return [...staticSitemaps, ...browseByCitySitemaps, ...eventSitemaps, ...venueSitemaps, ...artistSitemaps]
 }
