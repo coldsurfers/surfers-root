@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/libs/constants'
 import { metadataInstance } from '@/libs/metadata'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import { Metadata } from 'next'
@@ -15,18 +14,6 @@ function PageInner() {
     <>
       <PageTop />
       <SubmitForm />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            metadataInstance.generateLdJson({
-              type: 'WebSite',
-              url: SITE_URL,
-              name: 'Billets',
-            }),
-          ),
-        }}
-      />
     </>
   )
 }
