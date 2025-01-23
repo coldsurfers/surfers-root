@@ -27,6 +27,9 @@ export const metadataInstance = new NextMetadataGenerator({
       apple: '/icons/favicon.ico',
     },
     metadataBase: new URL(SITE_URL),
+    openGraph: {
+      siteName: 'COLDSURF Blog',
+    },
   },
 })
 
@@ -77,7 +80,7 @@ export const generateLogDetailMetadata = (
     authors,
     openGraph: {
       type: 'article',
-      siteName: 'COLDSURF News',
+      siteName: 'COLDSURF Blog',
       publishedTime: publishDate?.toISOString(),
       authors: writers,
       url: `${SITE_URL}/${options.locale}/${options.logType}/${options.slug}`,

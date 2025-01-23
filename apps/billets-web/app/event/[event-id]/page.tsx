@@ -135,7 +135,7 @@ async function PageInner({ params }: PageProps<{ ['event-id']: string }>) {
     <HydrationBoundary state={dehydrate(queryClient)}>
       <PageLayout
         poster={<PosterThumbnail src={posterUrl} alt={title} />}
-        topInfo={<TopInfo title={title} venueTitle={venueTitle} formattedDate={formattedDate} />}
+        topInfo={<TopInfo title={title} venueTitle={venueTitle} formattedDate={formattedDate} venueId={venueInfo.id} />}
         ticketCTA={
           ticketPromotion &&
           ticketPromotion.price && (

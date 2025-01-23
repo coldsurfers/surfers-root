@@ -3,7 +3,13 @@
 import { memo, useMemo } from 'react'
 
 import { components } from 'types/api'
-import { StyledLineupContainer, StyledLineupImage, StyledLineupNameText } from './lineup.styled'
+import {
+  StyledLineupContainer,
+  StyledLineupImage,
+  StyledLineupImageEmptyText,
+  StyledLineupImageWrapper,
+  StyledLineupNameText,
+} from './lineup.styled'
 
 export const LineupItem = memo(({ artist }: { artist: components['schemas']['ArtistDTOSchema'] }) => {
   const profileImageUrl = useMemo(() => {
@@ -14,8 +20,14 @@ export const LineupItem = memo(({ artist }: { artist: components['schemas']['Art
   }, [artist.thumbUrl])
   const name = artist.name
   return (
-    <StyledLineupContainer>
-      <StyledLineupImage src={profileImageUrl} alt={name} />
+    <StyledLineupContainer href={`/artist/${artist.id}`}>
+      <StyledLineupImageWrapper>
+        {profileImageUrl ? (
+          <StyledLineupImage src={profileImageUrl} alt={name} />
+        ) : (
+          <StyledLineupImageEmptyText>{artist.name.at(0)}</StyledLineupImageEmptyText>
+        )}
+      </StyledLineupImageWrapper>
       <StyledLineupNameText as="p">{name}</StyledLineupNameText>
     </StyledLineupContainer>
   )

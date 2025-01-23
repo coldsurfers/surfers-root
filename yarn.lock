@@ -4067,6 +4067,7 @@ __metadata:
     "@emotion/react": "npm:*"
     "@emotion/styled": "npm:*"
     "@lukemorales/query-key-factory": "npm:*"
+    "@prisma/client": "npm:*"
     "@tanstack/react-query": "npm:*"
     "@types/node": "npm:*"
     "@types/react": "npm:*"
@@ -4083,6 +4084,7 @@ __metadata:
     openapi-fetch: "npm:^0.12.2"
     openapi-react-query: "npm:*"
     prettier: "npm:*"
+    prisma: "npm:*"
     react: "npm:*"
     react-dom: "npm:*"
     react-error-boundary: "npm:*"
@@ -4286,7 +4288,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@coldsurfers/root@workspace:."
   dependencies:
-    "@prisma/client": "npm:5.21.1"
+    "@prisma/client": "npm:*"
     "@tanstack/eslint-plugin-query": "npm:^5.12.1"
     "@types/ngeohash": "npm:0.6.8"
     "@types/node": "npm:*"
@@ -4309,7 +4311,7 @@ __metadata:
     pm2: "npm:5.4.2"
     postinstall-postinstall: "npm:^2.1.0"
     prettier: "npm:3.2.5"
-    prisma: "npm:5.21.1"
+    prisma: "npm:*"
     react: "npm:*"
     react-dom: "npm:*"
     typescript: "npm:*"
@@ -9380,7 +9382,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/client@npm:*, @prisma/client@npm:5.21.1, @prisma/client@npm:^5.19.0":
+"@prisma/client@npm:5.21.1":
   version: 5.21.1
   resolution: "@prisma/client@npm:5.21.1"
   peerDependencies:
@@ -32434,7 +32436,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prisma@npm:*, prisma@npm:5.21.1, prisma@npm:^5.19.0":
+"prisma@npm:5.21.1":
   version: 5.21.1
   resolution: "prisma@npm:5.21.1"
   dependencies:

@@ -1,7 +1,8 @@
 import { semantics, Text } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
+import Link from 'next/link'
 
-export const StyledLineupContainer = styled.div`
+export const StyledLineupContainer = styled(Link)`
   display: flex;
 
   align-items: center;
@@ -10,13 +11,27 @@ export const StyledLineupContainer = styled.div`
   padding-bottom: 1rem;
 `
 
-export const StyledLineupImage = styled.img`
+export const StyledLineupImageWrapper = styled.div`
   border-radius: 50%;
   width: 56px;
   height: 56px;
+  background-color: ${semantics.color.background[3]};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+export const StyledLineupImageEmptyText = styled(Text)`
+  margin: unset;
+  font-weight: 600;
+`
+
+export const StyledLineupImage = styled.img`
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: 50%;
-  background-color: ${semantics.color.background[3]};
 `
 
 export const StyledLineupNameText = styled(Text)`
