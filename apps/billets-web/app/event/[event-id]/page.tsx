@@ -8,7 +8,6 @@ import { format } from 'date-fns'
 import { toZonedTime } from 'date-fns-tz'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
-import { PageProps } from 'types'
 import { DownloadApp, Lineup, PageLayout, PosterThumbnail, TicketCta, TopInfo, Venue } from './(ui)'
 
 async function getEventMetadata(eventId: string) {
@@ -36,8 +35,9 @@ async function getEventMetadata(eventId: string) {
 
 export const revalidate = 600
 
-export async function generateMetadata({ params }: PageProps<{ ['event-id']: string }>): Promise<Metadata> {
-  const meta = await getEventMetadata(params['event-id'])
+export async function generateMetadata({ params }: { params: Promise<{ ['event-id']: string }> }): Promise<Metadata> {
+  const pageParams = await params
+  const meta = await getEventMetadata(pageParams['event-id'])
   if (!meta) {
     return {
       title: 'Billets | Discover shows around the world',
@@ -81,7 +81,7 @@ export async function generateMetadata({ params }: PageProps<{ ['event-id']: str
     title: metaTitle,
     description: metaDescription,
     images: metaImages,
-    url: `https://billets.coldsurf.io/event/${params['event-id']}`,
+    url: `https://billets.coldsurf.io/event/${pageParams['event-id']}`,
   }
 
   return metadataInstance.generateMetadata<Metadata>({
@@ -93,7 +93,7 @@ export async function generateMetadata({ params }: PageProps<{ ['event-id']: str
   })
 }
 
-async function PageInner({ params }: PageProps<{ ['event-id']: string }>) {
+async function PageInner({ params }: { params: { ['event-id']: string } }) {
   const meta = await getEventMetadata(params['event-id'])
   if (!meta) {
     return redirect('/404')
@@ -192,10 +192,10 @@ async function PageInner({ params }: PageProps<{ ['event-id']: string }>) {
   )
 }
 
-export default async function EventDetailPage(props: PageProps<{ ['event-id']: string }>) {
+export default async function EventDetailPage({ params }: { params: Promise<{ ['event-id']: string }> }) {
   return (
     <ApiErrorBoundaryRegistry>
-      <PageInner {...props} />
+      <PageInner params={await params} />
     </ApiErrorBoundaryRegistry>
   )
 }
