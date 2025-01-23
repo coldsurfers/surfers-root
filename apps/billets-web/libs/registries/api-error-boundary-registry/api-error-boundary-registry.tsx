@@ -1,6 +1,6 @@
 'use client'
 
-import { NetworkError } from 'app/ui'
+import { NetworkError } from 'app/(ui)'
 import { PropsWithChildren } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 

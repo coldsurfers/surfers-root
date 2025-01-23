@@ -1,6 +1,6 @@
 'use client'
 
-import { UnknownError } from 'app/ui'
+import { UnknownError } from 'app/(ui)'
 import { PropsWithChildren } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 

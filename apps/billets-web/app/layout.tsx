@@ -1,3 +1,4 @@
+import { APP_STORE_URL, SITE_NAME, SITE_URL } from '@/libs/constants'
 import { metadataInstance } from '@/libs/metadata'
 import {
   FirebaseRegistry,
@@ -34,6 +35,33 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
               const theme = systemDark ? 'dark' : 'light';
               document.documentElement.setAttribute('data-theme', theme);
           `,
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              metadataInstance.generateLdJson({
+                type: 'Brand',
+                image: `${SITE_URL}/favicon.ico`,
+                logo: `${SITE_URL}/favicon.ico`,
+                url: SITE_URL,
+                name: 'Billets',
+                sameAs: [APP_STORE_URL, 'https://coldsurf.io', 'https://blog.coldsurf.io'],
+              }),
+            ),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              metadataInstance.generateLdJson({
+                type: 'WebSite',
+                url: SITE_URL,
+                name: SITE_NAME,
+              }),
+            ),
           }}
         />
         <RegistryProvider registries={[OceanRoadThemeRegistry, FirebaseRegistry]}>
