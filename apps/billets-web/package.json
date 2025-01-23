@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@coldsurfers/ocean-road": "workspace:*",
+    "@coldsurfers/prisma-schema": "workspace:*",
     "@coldsurfers/shared-utils": "workspace:*",
     "@emotion/css": "*",
     "@emotion/react": "*",
