@@ -2,7 +2,7 @@
   "name": "@coldsurfers/billets-web",
   "version": "1.0.33",
   "scripts": {
-    "build": "next build",
+    "build": "yarn prisma:generate && next build",
     "build:vercel": "npx vercel build --prod",
     "swagger": "npx openapi-typescript https://api.billets.coldsurf.io/docs/json -o types/api.d.ts --alphabetize && prettier --write ./types/api.d.ts",
     "swagger:dev": "npx openapi-typescript https://dev.api.billets.coldsurf.io/docs/json -o types/api.d.ts --alphabetize && prettier --write ./types/api.d.ts",
