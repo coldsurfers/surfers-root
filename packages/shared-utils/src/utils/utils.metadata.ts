@@ -33,6 +33,9 @@ type BaseData = {
     }
     card: 'app'
   }
+  openGraph?: {
+    siteName: string
+  }
 }
 
 type CustomMusicEvent = {
@@ -107,7 +110,7 @@ export class NextMetadataGenerator {
   }
 
   public generateMetadata<T>(additionalMetadata: T): T {
-    const { icons, metadataBase, appLinks, keywords, twitter } = this.baseData
+    const { icons, metadataBase, appLinks, keywords, twitter, openGraph } = this.baseData
     const value = {
       ...additionalMetadata,
       icons,
@@ -116,6 +119,11 @@ export class NextMetadataGenerator {
       // @ts-ignore
       keywords: [...keywords, ...(additionalMetadata.keywords ?? [])],
       twitter,
+      openGraph: {
+        siteName: openGraph?.siteName,
+        // @ts-ignore
+        ...additionalMetadata.openGraph,
+      },
     } as T
 
     return value
