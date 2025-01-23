@@ -13,8 +13,7 @@ const storage =
             const parsed = JSON.parse(value) as ParsedValueT
             return parsed
           } catch (e) {
-            console.error(e)
-            return null
+            return value
           }
         },
         remove(item: StorageItem) {
