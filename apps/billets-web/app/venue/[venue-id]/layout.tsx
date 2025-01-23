@@ -17,7 +17,7 @@ export const generateMetadata = async ({
     return undefined
   }
   const title = `${venueDetail.name} tickets and upcoming events | ${SITE_NAME}`
-  const description = `Find out more tickets and upcoming events at ${venueDetail.name}`
+  const description = `Find tickets at ${venueDetail.name} on ${SITE_NAME}. Download the ${SITE_NAME} app and discover recommendations for events you'll like.`
   const meta = metadataInstance.generateMetadata<Metadata>({
     title,
     description,
