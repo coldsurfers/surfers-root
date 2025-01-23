@@ -1,11 +1,11 @@
+import { COMMON_META_DESCRIPTION, COMMON_META_TITLE } from '@/libs/constants'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 
 export function generateMetadata(): Metadata {
   return {
-    title: 'Billets | Discover shows around the world',
-    description:
-      'Billets is a platform to find live shows around the world. Download Billets to see live shows in your city.',
+    title: COMMON_META_TITLE,
+    description: COMMON_META_DESCRIPTION,
   }
 }
 
