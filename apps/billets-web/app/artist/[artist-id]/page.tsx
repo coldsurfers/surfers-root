@@ -4,7 +4,6 @@ import { getQueryClient } from '@/libs/utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { redirect } from 'next/navigation'
 import { cache } from 'react'
-import { PageProps } from 'types/common-types'
 import { ArtistDetailEventList, ArtistDetailPageLayout, ArtistDetailTop } from './(ui)'
 
 const getArtistDetail = cache((artistId: string) => apiClient.artist.getArtistDetail(artistId))
@@ -24,8 +23,8 @@ async function validateArtist(artistId: string) {
   }
 }
 
-async function PageInner({ params }: PageProps<{ ['artist-id']: string }>) {
-  const artistId = params['artist-id']
+async function PageInner({ params }: { params: { ['artist-id']: string } }) {
+  const artistId = (await params)['artist-id']
   const validation = await validateArtist(artistId)
   if (!validation.isValid) {
     return redirect('/404')
@@ -47,10 +46,10 @@ async function PageInner({ params }: PageProps<{ ['artist-id']: string }>) {
   )
 }
 
-export default function ArtistDetailPage(pageProps: PageProps<{ ['artist-id']: string }>) {
+export default async function ArtistDetailPage(pageProps: { params: Promise<{ ['artist-id']: string }> }) {
   return (
     <ApiErrorBoundaryRegistry>
-      <PageInner {...pageProps} />
+      <PageInner params={await pageProps.params} />
     </ApiErrorBoundaryRegistry>
   )
 }

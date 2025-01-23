@@ -6,13 +6,12 @@ import { getQueryClient, validateCityParam } from '@/libs/utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
-import { PageProps } from 'types/common-types'
 import { ConcertList } from './(components)'
 
 export const revalidate = 600
 
-export async function generateMetadata({ params }: PageProps<{ city: string }>): Promise<Metadata> {
-  const validation = await validateCityParam(params.city)
+export async function generateMetadata({ params }: { params: Promise<{ city: string }> }): Promise<Metadata> {
+  const validation = await validateCityParam((await params).city)
   if (!validation.isValid) {
     const openGraph: Metadata['openGraph'] = {
       title: COMMON_META_TITLE,
@@ -35,7 +34,7 @@ export async function generateMetadata({ params }: PageProps<{ city: string }>):
   })
 }
 
-async function PageInner({ params }: PageProps<{ city: string }>) {
+async function PageInner({ params }: { params: { city: string } }) {
   const cityParamValidation = await validateCityParam(params.city)
 
   if (!cityParamValidation.isValid) {
@@ -73,10 +72,10 @@ async function PageInner({ params }: PageProps<{ city: string }>) {
   )
 }
 
-export default async function BrowseByCityPage(props: PageProps<{ city: string }>) {
+export default async function BrowseByCityPage({ params }: { params: Promise<{ city: string }> }) {
   return (
     <ApiErrorBoundaryRegistry>
-      <PageInner {...props} />
+      <PageInner params={await params} />
     </ApiErrorBoundaryRegistry>
   )
 }

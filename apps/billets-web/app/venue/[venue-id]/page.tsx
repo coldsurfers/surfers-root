@@ -4,7 +4,6 @@ import { getQueryClient } from '@/libs/utils/utils.query-client'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { redirect } from 'next/navigation'
 import { cache } from 'react'
-import { PageProps } from 'types/common-types'
 import { VenueDetailAbout, VenueDetailEventList, VenueDetailPageLayout, VenueDetailTop } from './(ui)'
 
 const getVenueDetail = cache((venueId: string) => apiClient.venue.getVenueDetail(venueId))
@@ -24,7 +23,7 @@ async function validateVenue(venueId: string) {
   }
 }
 
-async function PageInner({ params }: PageProps<{ ['venue-id']: string }>) {
+async function PageInner({ params }: { params: { ['venue-id']: string } }) {
   const venueId = params['venue-id']
 
   const validation = await validateVenue(venueId)
@@ -51,10 +50,10 @@ async function PageInner({ params }: PageProps<{ ['venue-id']: string }>) {
   )
 }
 
-export default function VenueDetailPage(pageProps: PageProps<{ ['venue-id']: string }>) {
+export default async function VenueDetailPage({ params }: { params: Promise<{ ['venue-id']: string }> }) {
   return (
     <ApiErrorBoundaryRegistry>
-      <PageInner {...pageProps} />
+      <PageInner params={await params} />
     </ApiErrorBoundaryRegistry>
   )
 }
