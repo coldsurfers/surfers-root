@@ -52,7 +52,7 @@ export async function startApp() {
     typeDefs,
     resolvers,
     plugins: [fastifyApolloDrainPlugin(fastify)],
-    introspection: process.env.IS_OFFLINE === 'true',
+    introspection: true,
   })
 
   await apollo.start()

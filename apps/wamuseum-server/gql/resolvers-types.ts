@@ -105,7 +105,7 @@ export type CreateArtistData = ArtistWithProfileImage | HttpError;
 
 export type CreateArtistInput = {
   artistName: Scalars['String'];
-  imageURL: Scalars['String'];
+  key: Scalars['String'];
 };
 
 export type CreateConcertArtistData = Artist | HttpError;
