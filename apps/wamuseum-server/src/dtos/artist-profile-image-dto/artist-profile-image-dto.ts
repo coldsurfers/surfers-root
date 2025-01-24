@@ -11,16 +11,13 @@ export class ArtistProfileImageDTO {
     this.props = props
   }
 
-  async create() {
-    if (!this.props.imageURL) {
-      throw Error('invalid imageURL')
-    }
+  async create({ imageKey }: { imageKey: string }) {
     if (!this.props.artistId) {
       throw Error('invalid artistId')
     }
     const data = await prisma.artistProfileImage.create({
       data: {
-        imageURL: this.props.imageURL,
+        imageURL: `https://api.billets.coldsurf.io/v1/image?key=${imageKey}`,
         artistId: this.props.artistId,
       },
     })

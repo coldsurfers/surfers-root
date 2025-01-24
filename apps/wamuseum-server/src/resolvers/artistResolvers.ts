@@ -39,9 +39,8 @@ const artistResolvers: Resolvers = {
       }
       const profileImageDTO = new ArtistProfileImageDTO({
         artistId: createdArtist.id,
-        imageURL: args.input.imageURL,
       })
-      const createdProfileImage = await profileImageDTO.create()
+      const createdProfileImage = await profileImageDTO.create({ imageKey: args.input.key })
 
       return {
         __typename: 'ArtistWithProfileImage',
