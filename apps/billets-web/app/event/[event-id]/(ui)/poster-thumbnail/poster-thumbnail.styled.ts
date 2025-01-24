@@ -1,5 +1,6 @@
 import { semantics, Text } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
+import { Info } from 'lucide-react'
 
 export const StyledPosterThumbnail = styled.img`
   border-radius: 12px;
@@ -7,6 +8,8 @@ export const StyledPosterThumbnail = styled.img`
   object-position: 50%;
   width: 100%;
   aspect-ratio: 1 / 1;
+  cursor: pointer;
+  user-select: none;
 `
 
 export const StyledPosterThumbnailEmpty = styled.div`
@@ -30,4 +33,15 @@ export const StyledPosterThumbnailEmptyText = styled(Text)`
 
   padding-left: 1rem;
   padding-right: 1rem;
+`
+
+export const StyledInfoIcon = styled(Info)`
+  margin-left: auto;
+  cursor: pointer;
+`
+
+export const StyledContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 `

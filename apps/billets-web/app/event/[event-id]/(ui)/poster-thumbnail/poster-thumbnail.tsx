@@ -2,6 +2,8 @@
 
 import { useMemo } from 'react'
 import {
+  StyledContentWrapper,
+  StyledInfoIcon,
   StyledPosterThumbnail,
   StyledPosterThumbnailEmpty,
   StyledPosterThumbnailEmptyText,
@@ -13,7 +15,10 @@ export function PosterThumbnail({ src, alt }: { src: string; alt?: string }) {
     return `${src}&width=350&height=350`
   }, [src])
   return source ? (
-    <StyledPosterThumbnail src={source} alt={alt} />
+    <StyledContentWrapper>
+      <StyledPosterThumbnail src={source} alt={alt} />
+      <StyledInfoIcon />
+    </StyledContentWrapper>
   ) : (
     <StyledPosterThumbnailEmpty>
       <StyledPosterThumbnailEmptyText>{alt}</StyledPosterThumbnailEmptyText>

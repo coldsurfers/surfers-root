@@ -12,6 +12,8 @@ import {
   StyledArtistThumbnailWrapper,
   StyledArtistTopDescriptionWrapper,
   StyledArtistTopSectionTitleText,
+  StyledContentWrapper,
+  StyledInfoIcon,
 } from './artist-detail-top.styled'
 
 export function ArtistDetailTop({ artistId }: { artistId: string }) {
@@ -35,7 +37,12 @@ export function ArtistDetailTop({ artistId }: { artistId: string }) {
       </StyledArtistDetailTopLeft>
       <StyledArtistDetailTopRight>
         <StyledArtistThumbnailWrapper>
-          {thumbUrl && <StyledArtistThumbnail src={thumbUrl} />}
+          {thumbUrl && (
+            <StyledContentWrapper>
+              <StyledArtistThumbnail src={thumbUrl} />
+              <StyledInfoIcon />
+            </StyledContentWrapper>
+          )}
         </StyledArtistThumbnailWrapper>
       </StyledArtistDetailTopRight>
     </StyledArtistDetailTopContainer>
