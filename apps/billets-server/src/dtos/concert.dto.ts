@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { ArtistDTOSchema } from './artist.dto'
+import { CopyrightDTOSchema } from './copyright.dto'
 import { PosterDTOSchema } from './poster.dto'
 import { VenueDTOSchema } from './venue.dto'
 
@@ -9,7 +10,8 @@ export const ConcertDTOSchema = z.object({
   date: z.string().datetime(),
   mainPoster: z
     .object({
-      url: z.string().url(),
+      url: z.string(),
+      copyright: CopyrightDTOSchema.nullable(),
     })
     .nullable(),
   mainVenue: z
