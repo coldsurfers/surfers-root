@@ -168,7 +168,7 @@ const typeDefs = `#graphql
 
   input CreateConcertPosterInput {
     concertId: String!
-    imageURL: String!
+    key: String!
   }
 
   type HttpError {
