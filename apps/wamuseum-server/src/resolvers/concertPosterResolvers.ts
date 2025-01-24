@@ -35,9 +35,9 @@ const concertPosterResolvers: Resolvers = {
     },
     updateConcertPoster: async (parent, args, ctx) => {
       await authorizeUser(ctx, { requiredRole: 'staff' })
-      const { id, imageURL } = args.input
-      if (!imageURL) {
-        throw new GraphQLError('invalid image url', {
+      const { id, key } = args.input
+      if (!key) {
+        throw new GraphQLError('invalid image key', {
           extensions: {
             code: 400,
           },
@@ -46,7 +46,7 @@ const concertPosterResolvers: Resolvers = {
       const posterDTO = new PosterDTO({
         id,
       })
-      const updated = await posterDTO.update({ imageURL })
+      const updated = await posterDTO.update({ imageKey: key })
       return updated.serialize()
     },
   },
