@@ -6,12 +6,13 @@ import {
   SubscribeUnsubscribeConcertDTO,
 } from '@/dtos/concert.dto'
 import { dbClient } from '@/lib/db/db.client'
-import { Concert, Poster, Venue } from '@prisma/client'
+import { Artist, ArtistProfileImage, Concert, Copyright, Poster, Venue } from '@prisma/client'
 import { ConcertRepository } from './concert.repository'
 
 interface ConcertModel extends Concert {
   posters: Poster[]
   venues: Venue[]
+  artists: (Artist & { artistProfileImage: (ArtistProfileImage & { copyright: Copyright | null })[] })[]
 }
 
 export class ConcertRepositoryImpl implements ConcertRepository {
@@ -42,6 +43,7 @@ export class ConcertRepositoryImpl implements ConcertRepository {
       ...data,
       posters,
       venues,
+      artists: [],
     })
   }
   async findMany(params: FindManyConcertDTO): Promise<ConcertDTO[]> {
@@ -86,6 +88,19 @@ export class ConcertRepositoryImpl implements ConcertRepository {
             venue: true,
           },
         },
+        artists: {
+          include: {
+            artist: {
+              include: {
+                artistProfileImage: {
+                  include: {
+                    copyright: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     })
 
@@ -94,6 +109,7 @@ export class ConcertRepositoryImpl implements ConcertRepository {
         ...value,
         posters: value.posters.map((value) => value.poster),
         venues: value.venues.map((value) => value.venue),
+        artists: value.artists.map((value) => value.artist),
       }),
     )
   }
@@ -133,6 +149,7 @@ export class ConcertRepositoryImpl implements ConcertRepository {
         ...value,
         posters: value.posters.map((value) => value.poster),
         venues: value.venues.map((value) => value.venue),
+        artists: [],
       })
     })
   }
@@ -172,6 +189,7 @@ export class ConcertRepositoryImpl implements ConcertRepository {
         ...value,
         posters: value.posters.map((value) => value.poster),
         venues: value.venues.map((value) => value.venue),
+        artists: [],
       }),
     )
   }
@@ -204,6 +222,7 @@ export class ConcertRepositoryImpl implements ConcertRepository {
       ...data.concert,
       posters: data.concert.posters.map((value) => value.poster),
       venues: data.concert.venues.map((value) => value.venue),
+      artists: [],
     })
   }
 
@@ -237,6 +256,7 @@ export class ConcertRepositoryImpl implements ConcertRepository {
       ...data.concert,
       posters: data.concert.posters.map((value) => value.poster),
       venues: data.concert.venues.map((value) => value.venue),
+      artists: [],
     })
   }
 
@@ -270,56 +290,22 @@ export class ConcertRepositoryImpl implements ConcertRepository {
           ...data.concert,
           posters: data.concert.posters.map((value) => value.poster),
           venues: data.concert.venues.map((value) => value.venue),
+          artists: [],
         })
       : null
   }
 
-  // async findManySubscribedConcerts(params: { userId: string; take: number; skip: number }): Promise<ConcertDTO[]> {
-  //   const data = await dbClient.usersOnSubscribedConcerts.findMany({
-  //     where: {
-  //       userId: params.userId,
-  //     },
-  //     orderBy: {
-  //       createdAt: 'desc',
-  //     },
-  //     take: params.take,
-  //     skip: params.skip,
-  //     include: {
-  //       concert: {
-  //         include: {
-  //           posters: {
-  //             include: {
-  //               poster: true,
-  //             },
-  //           },
-  //           venues: {
-  //             include: {
-  //               venue: true,
-  //             },
-  //           },
-  //         },
-  //       },
-  //     },
-  //   })
-  //   return data.map((value) =>
-  //     this.toDTO({
-  //       ...value.concert,
-  //       posters: value.concert.posters.map((value) => value.poster),
-  //       venues: value.concert.venues.map((value) => value.venue),
-  //     }),
-  //   )
-  // }
-
   private toDTO(model: ConcertModel): ConcertDTO {
-    const mainPoster = model.posters.at(0)
     const mainVenue = model.venues.at(0)
+    const mainArtist = model.artists.at(0)
     return {
       id: model.id,
       title: model.title,
       date: model.date.toISOString(),
-      mainPoster: mainPoster
+      mainPoster: mainArtist
         ? {
-            url: mainPoster.imageURL,
+            url: mainArtist?.artistProfileImage.at(0)?.imageURL ?? '',
+            copyright: mainArtist?.artistProfileImage.at(0)?.copyright ?? null,
           }
         : null,
       mainVenue: mainVenue

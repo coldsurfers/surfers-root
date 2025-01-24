@@ -1,12 +1,13 @@
 import { VenueDetailDTO } from '@/dtos/venue-detail-dto'
 import { dbClient } from '@/lib/db'
-import { Concert, Poster, Venue } from '@prisma/client'
+import { Artist, ArtistProfileImage, Concert, Copyright, Poster, Venue } from '@prisma/client'
 import { VenueDetailRepository } from './venue-detail-repository'
 
 interface VenueDetailModel extends Venue {
   concerts: (Concert & {
     posters: Poster[]
     venues: Venue[]
+    artists: (Artist & { artistProfileImage: (ArtistProfileImage & { copyright: Copyright | null })[] })[]
   })[]
 }
 
@@ -38,6 +39,19 @@ export class VenueDetailRepositoryImpl implements VenueDetailRepository {
                     venue: true,
                   },
                 },
+                artists: {
+                  include: {
+                    artist: {
+                      include: {
+                        artistProfileImage: {
+                          include: {
+                            copyright: true,
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
               },
             },
           },
@@ -54,6 +68,7 @@ export class VenueDetailRepositoryImpl implements VenueDetailRepository {
           ...concert.concert,
           posters: concert.concert.posters.map((value) => value.poster),
           venues: concert.concert.venues.map((value) => value.venue),
+          artists: concert.concert.artists.map((value) => value.artist),
         }
       }),
     })
@@ -67,17 +82,18 @@ export class VenueDetailRepositoryImpl implements VenueDetailRepository {
       lat: model.lat,
       lng: model.lng,
       upcomingEvents: model.concerts.map((concert) => {
-        const mainPoster = concert.posters.at(0)
         const mainVenue = concert.venues.at(0)
+        const mainArtist = concert.artists.at(0)
         return {
           type: 'concert',
           data: {
             id: concert.id,
             title: concert.title,
             date: concert.date.toISOString(),
-            mainPoster: mainPoster
+            mainPoster: mainArtist
               ? {
-                  url: mainPoster.imageURL,
+                  url: mainArtist.artistProfileImage.at(0)?.imageURL ?? '',
+                  copyright: mainArtist.artistProfileImage.at(0)?.copyright ?? null,
                 }
               : null,
             mainVenue: mainVenue
