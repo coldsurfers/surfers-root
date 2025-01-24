@@ -1,6 +1,6 @@
 import { ArtistDetailDTO } from '@/dtos/artist-detail.dto'
 import { dbClient } from '@/lib/db'
-import { Artist, ArtistProfileImage, Concert, Poster, Venue } from '@prisma/client'
+import { Artist, ArtistProfileImage, Concert, Copyright, Poster, Venue } from '@prisma/client'
 import { ArtistDetailRepository } from './artist-detail.repository'
 
 interface ArtistDetailModel extends Artist {
@@ -8,7 +8,7 @@ interface ArtistDetailModel extends Artist {
     posters: Poster[]
     venues: Venue[]
   })[]
-  artistProfileImage: ArtistProfileImage[]
+  artistProfileImage: (ArtistProfileImage & { copyright: Copyright | null })[]
 }
 
 export class ArtistDetailRepositoryImpl implements ArtistDetailRepository {
@@ -18,7 +18,11 @@ export class ArtistDetailRepositoryImpl implements ArtistDetailRepository {
         id,
       },
       include: {
-        artistProfileImage: true,
+        artistProfileImage: {
+          include: {
+            copyright: true,
+          },
+        },
         concerts: {
           where: {
             concert: {
@@ -63,10 +67,13 @@ export class ArtistDetailRepositoryImpl implements ArtistDetailRepository {
   }
 
   private toDTO(model: ArtistDetailModel): ArtistDetailDTO {
+    const thumbUrl = model.artistProfileImage.at(0)?.imageURL ?? ''
+    const thumbCopyright = model.artistProfileImage.at(0)?.copyright ?? null
     return {
       id: model.id,
       name: model.name,
-      thumbUrl: model.artistProfileImage.at(0)?.imageURL ?? '',
+      thumbUrl,
+      thumbCopyright: thumbCopyright,
       upcomingEvents: model.concerts.map((concert) => {
         const mainPoster = concert.posters.at(0)
         const mainVenue = concert.venues.at(0)
@@ -78,7 +85,8 @@ export class ArtistDetailRepositoryImpl implements ArtistDetailRepository {
             date: concert.date.toISOString(),
             mainPoster: mainPoster
               ? {
-                  url: mainPoster.imageURL,
+                  url: thumbUrl,
+                  copyright: thumbCopyright,
                 }
               : null,
             mainVenue: mainVenue
