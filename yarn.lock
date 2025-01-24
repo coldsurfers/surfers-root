@@ -4431,6 +4431,7 @@ __metadata:
   dependencies:
     "@apollo/client": "npm:^3.10.4"
     "@coldsurfers/ocean-road": "workspace:*"
+    "@coldsurfers/prisma-schema": "workspace:*"
     "@coldsurfers/zod-schema": "workspace:*"
     "@emotion/css": "npm:*"
     "@emotion/react": "npm:*"
@@ -4442,6 +4443,7 @@ __metadata:
     "@graphql-codegen/typescript-react-apollo": "npm:^4.3.2"
     "@graphql-typed-document-node/core": "npm:^3.2.0"
     "@next/font": "npm:13.1.1"
+    "@prisma/client": "npm:*"
     "@tanstack/react-table": "npm:^8.7.6"
     "@types/file-saver": "npm:^2"
     "@types/node": "npm:18.11.18"
@@ -4458,6 +4460,7 @@ __metadata:
     next: "npm:14.2.3"
     pm2: "npm:*"
     prettier: "npm:*"
+    prisma: "npm:*"
     react: "npm:*"
     react-dom: "npm:*"
     react-hook-form: "npm:*"
