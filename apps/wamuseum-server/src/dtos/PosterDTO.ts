@@ -1,6 +1,7 @@
 import { Poster } from '@prisma/client'
 import { Poster as PosterResolver } from '../../gql/resolvers-types'
 import { prisma } from '../libs/db/db.utils'
+import { generateImageApiUrl } from '../utils/image.utils'
 
 type PosterDTOProps = Partial<Poster>
 
@@ -24,13 +25,10 @@ export default class PosterDTO {
     return posters.map((poster) => new PosterDTO(poster))
   }
 
-  async create({ concertId }: { concertId: string }) {
-    if (!this.props.imageURL) {
-      throw Error('image url is invalid')
-    }
+  async create({ concertId, imageKey }: { concertId: string; imageKey: string }) {
     const poster = await prisma.poster.create({
       data: {
-        imageURL: this.props.imageURL,
+        imageURL: generateImageApiUrl(imageKey),
       },
     })
     const created = await prisma.concertsOnPosters.create({
