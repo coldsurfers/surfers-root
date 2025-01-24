@@ -1,5 +1,6 @@
 import { ArtistProfileImage } from '@prisma/client'
 import { prisma } from '../../libs/db/db.utils'
+import { generateImageApiUrl } from '../../utils/image.utils'
 import {
   ArtistProfileImageDTOSerialized,
   artistProfileImageDTOSerializedSchema,
@@ -17,7 +18,7 @@ export class ArtistProfileImageDTO {
     }
     const data = await prisma.artistProfileImage.create({
       data: {
-        imageURL: `https://api.billets.coldsurf.io/v1/image?key=${imageKey}`,
+        imageURL: generateImageApiUrl(imageKey),
         artistId: this.props.artistId,
       },
     })
