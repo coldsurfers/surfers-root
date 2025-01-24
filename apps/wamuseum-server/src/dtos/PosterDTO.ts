@@ -46,12 +46,14 @@ export default class PosterDTO {
     })
   }
 
-  async update(data: { imageURL: string }) {
+  async update(data: { imageKey: string }) {
     const updated = await prisma.poster.update({
       where: {
         id: this.props.id,
       },
-      data,
+      data: {
+        imageURL: generateImageApiUrl(data.imageKey),
+      },
     })
     return new PosterDTO(updated)
   }

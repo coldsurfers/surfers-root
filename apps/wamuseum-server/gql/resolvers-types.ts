@@ -568,7 +568,7 @@ export type UpdateConcertPosterData = HttpError | Poster;
 
 export type UpdateConcertPosterInput = {
   id: Scalars['String'];
-  imageURL?: InputMaybe<Scalars['String']>;
+  key?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateConcertTicketData = HttpError | Ticket;
