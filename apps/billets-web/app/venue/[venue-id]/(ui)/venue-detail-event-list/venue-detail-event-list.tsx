@@ -8,6 +8,8 @@ import {
   StyledVenueDetailEventListItem,
   StyledVenueDetailEventListItemDateText,
   StyledVenueDetailEventListItemThumbnail,
+  StyledVenueDetailEventListItemThumbnailEmpty,
+  StyledVenueDetailEventListItemThumbnailEmptyText,
   StyledVenueDetailEventListItemTitleText,
   StyledVenueDetailEventListItemVenueText,
   StyledVenueDetailEventListLayout,
@@ -34,7 +36,15 @@ export function VenueDetailEventList({ venueId }: { venueId: string }) {
           const formattedDate = format(new Date(value.data.date), 'EEE, MMM dd')
           return (
             <StyledVenueDetailEventListItem key={value.data.id} href={`/event/${value.data.id}`}>
-              <StyledVenueDetailEventListItemThumbnail src={posterUrl} />
+              {posterUrl ? (
+                <StyledVenueDetailEventListItemThumbnail src={posterUrl} />
+              ) : (
+                <StyledVenueDetailEventListItemThumbnailEmpty>
+                  <StyledVenueDetailEventListItemThumbnailEmptyText>
+                    {value.data.title}
+                  </StyledVenueDetailEventListItemThumbnailEmptyText>
+                </StyledVenueDetailEventListItemThumbnailEmpty>
+              )}
               <StyledVenueDetailItemDescriptionWrapper>
                 <StyledVenueDetailEventListItemTitleText as="h4">
                   {value.data.title}
