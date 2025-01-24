@@ -1,10 +1,10 @@
 import { ArtistDTO } from '@/dtos/artist.dto'
 import { dbClient } from '@/lib/db/db.client'
-import { Artist, ArtistProfileImage } from '@prisma/client'
+import { Artist, ArtistProfileImage, Copyright } from '@prisma/client'
 import { ArtistRepository } from './artist.repository'
 
 interface ArtistModel extends Artist {
-  artistProfileImage: ArtistProfileImage[]
+  artistProfileImage: (ArtistProfileImage & { copyright: Copyright | null })[]
 }
 
 export class ArtistRepositoryImpl implements ArtistRepository {
@@ -18,7 +18,11 @@ export class ArtistRepositoryImpl implements ArtistRepository {
         },
       },
       include: {
-        artistProfileImage: true,
+        artistProfileImage: {
+          include: {
+            copyright: true,
+          },
+        },
       },
     })
     return artists.map(this.toDTO)
@@ -45,6 +49,7 @@ export class ArtistRepositoryImpl implements ArtistRepository {
       id: model.id,
       name: model.name,
       thumbUrl: mainProfileImage ? mainProfileImage.imageURL : null,
+      thumbCopyright: mainProfileImage?.copyright ?? null,
     }
   }
 }
