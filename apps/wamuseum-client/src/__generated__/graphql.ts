@@ -141,7 +141,7 @@ export type CreateConcertPosterData = HttpError | Poster;
 
 export type CreateConcertPosterInput = {
   concertId: Scalars['String']['input'];
-  imageURL: Scalars['String']['input'];
+  key: Scalars['String']['input'];
 };
 
 export type CreateConcertTicketData = HttpError | Ticket;
