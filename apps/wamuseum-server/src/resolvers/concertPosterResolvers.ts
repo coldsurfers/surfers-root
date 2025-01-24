@@ -18,12 +18,11 @@ const concertPosterResolvers: Resolvers = {
   Mutation: {
     createConcertPoster: async (parent, args, ctx) => {
       await authorizeUser(ctx, { requiredRole: 'staff' })
-      const { concertId, imageURL } = args.input
-      const posterDTO = new PosterDTO({
-        imageURL,
-      })
+      const { concertId, key } = args.input
+      const posterDTO = new PosterDTO({})
       const poster = await posterDTO.create({
         concertId,
+        imageKey: key,
       })
       if (!poster) {
         return {
