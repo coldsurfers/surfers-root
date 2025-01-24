@@ -576,6 +576,73 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/image/': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query: {
+          format?: 'jpg' | 'jpeg' | 'png'
+          height?: number
+          key: string
+          width?: number
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': unknown
+          }
+        }
+        /** @description Default Response */
+        304: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': unknown
+          }
+        }
+        /** @description Default Response */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/location/city': {
     parameters: {
       query?: never
@@ -1945,7 +2012,7 @@ export interface components {
       /** Format: uuid */
       id: string
       mainPoster: {
-        /** Format: uri */
+        copyright: components['schemas']['CopyrightDTOSchema'] | null
         url: string
       } | null
       mainVenue: {
@@ -1988,6 +2055,8 @@ export interface components {
         | 'EVENT_NOT_FOUND'
         | 'POSTER_NOT_FOUND'
         | 'ARTIST_PROFILE_IMAGE_NOT_FOUND'
+        | 'IMAGE_KEY_NOT_FOUND'
+        | 'IMAGE_NOT_FOUND'
       message: string
     }
     EventDetailDTOSchema: {
