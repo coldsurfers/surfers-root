@@ -8,7 +8,7 @@
     "build": "rm -rf build && tsup && cp -r ./assets ./build/assets",
     "codegen": "graphql-codegen --config ./gql/codegen.yml",
     "dev": "tsup --watch",
-    "watch": "tsup --watch --onSuccess 'node ./build/start-server.mjs'",
+    "watch": "NODE_ENV=development tsup --watch --onSuccess 'node ./build/start-server.js'",
     "dev:file-upload": "ts-node-dev --respawn --transpile-only ./src/dev-server/file-upload-server.ts",
     "lint": "eslint --cache \"src/**/*.{js,jsx,ts,tsx}\" \"vercel/**/*.{js,jsx,ts,tsx}\"",
     "prisma:db-push": "yarn prisma db push --schema ../../packages/prisma-schema/prisma/schema.prisma",
