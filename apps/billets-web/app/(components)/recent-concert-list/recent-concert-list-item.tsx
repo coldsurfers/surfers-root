@@ -7,6 +7,8 @@ import { components } from 'types/api'
 import {
   StyledRecentListBilletsConcertCard,
   StyledRecentListBilletsConcertCardImage,
+  StyledRecentListBilletsConcertCardImageEmpty,
+  StyledRecentListBilletsConcertCardImageEmptyText,
   StyledRecentListParagraph,
   StyledTitle,
 } from './recent-concert-list.styled'
@@ -19,7 +21,7 @@ export const RecentConcertListItem = ({ data }: { data: components['schemas']['C
     return format(parseISO(data.date), 'yyyy.MM.dd')
   }, [data.date])
   const thumbUrl = useMemo(() => {
-    if (!data.mainPoster) {
+    if (!data.mainPoster || !data.mainPoster.url) {
       return ''
     }
     return `${data.mainPoster.url}&width=250&height=250`
@@ -27,7 +29,15 @@ export const RecentConcertListItem = ({ data }: { data: components['schemas']['C
   return (
     <Link href={`/event/${data.id}`}>
       <StyledRecentListBilletsConcertCard $isLoading={false}>
-        <StyledRecentListBilletsConcertCardImage src={thumbUrl} alt="concert" />
+        {thumbUrl ? (
+          <StyledRecentListBilletsConcertCardImage src={thumbUrl} alt={data.title} />
+        ) : (
+          <StyledRecentListBilletsConcertCardImageEmpty>
+            <StyledRecentListBilletsConcertCardImageEmptyText>
+              {data.title}
+            </StyledRecentListBilletsConcertCardImageEmptyText>
+          </StyledRecentListBilletsConcertCardImageEmpty>
+        )}
         <StyledTitle as="p">{data.title}</StyledTitle>
         <div style={{ display: 'flex', flexDirection: 'column', marginTop: '4px' }}>
           <StyledRecentListParagraph as="p">{formattedDate}</StyledRecentListParagraph>

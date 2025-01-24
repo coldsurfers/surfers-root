@@ -10,6 +10,8 @@ import {
   StyledArtistDetailEventListItemDate,
   StyledArtistDetailEventListItemDescriptionWrapper,
   StyledArtistDetailEventListItemThumbnail,
+  StyledArtistDetailEventListItemThumbnailEmpty,
+  StyledArtistDetailEventListItemThumbnailEmptyText,
   StyledArtistDetailEventListItemTitle,
   StyledArtistDetailEventListItemVenueText,
   StyledArtistDetailEventListTitleText,
@@ -35,7 +37,15 @@ export function ArtistDetailEventList({ artistId }: { artistId: string }) {
             : ''
           return (
             <StyledArtistDetailEventListItem key={event.data.id} href={`/event/${event.data.id}`}>
-              <StyledArtistDetailEventListItemThumbnail src={thumbUrl} />
+              {thumbUrl ? (
+                <StyledArtistDetailEventListItemThumbnail src={thumbUrl} />
+              ) : (
+                <StyledArtistDetailEventListItemThumbnailEmpty>
+                  <StyledArtistDetailEventListItemThumbnailEmptyText>
+                    {event.data.title}
+                  </StyledArtistDetailEventListItemThumbnailEmptyText>
+                </StyledArtistDetailEventListItemThumbnailEmpty>
+              )}
               <StyledArtistDetailEventListItemDescriptionWrapper>
                 <StyledArtistDetailEventListItemTitle as="h4">{event.data.title}</StyledArtistDetailEventListItemTitle>
                 <StyledArtistDetailEventListItemDate as="p">
