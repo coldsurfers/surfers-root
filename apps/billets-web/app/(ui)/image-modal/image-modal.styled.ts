@@ -27,8 +27,7 @@ export const StyledFigcaption = styled.figcaption`
   text-align: center;
   background-color: ${semantics.color.background[3]};
   margin: unset;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding: 1rem;
   border-radius: 1rem;
 `
 
@@ -37,4 +36,8 @@ export const StyledFigcaptionText = styled(Text)`
   font-size: 14px;
   font-weight: 500;
   margin: unset;
+
+  ${media.medium(css`
+    font-size: 12px;
+  `)}
 `
