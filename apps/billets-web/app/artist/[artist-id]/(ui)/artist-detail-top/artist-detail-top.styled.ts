@@ -1,6 +1,7 @@
 import { media, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
+import { Info } from 'lucide-react'
 
 export const StyledArtistDetailTopContainer = styled.section`
   display: flex;
@@ -45,6 +46,20 @@ export const StyledArtistThumbnail = styled.img`
   height: 100%;
 
   border-radius: 1rem;
+
+  cursor: pointer;
+  user-select: none;
+`
+
+export const StyledInfoIcon = styled(Info)`
+  margin-left: auto;
+  cursor: pointer;
+`
+
+export const StyledContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 `
 
 export const StyledArtistTopDescriptionWrapper = styled.div`

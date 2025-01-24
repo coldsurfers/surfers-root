@@ -52,6 +52,44 @@ export const StyledVenueDetailEventListItemThumbnail = styled.img`
   `)}
 `
 
+export const StyledVenueDetailEventListItemThumbnailEmpty = styled.div`
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: ${semantics.color.background[1]};
+
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ${media.small(css`
+    width: 100px;
+    height: 100px;
+  `)}
+`
+
+export const StyledVenueDetailEventListItemThumbnailEmptyText = styled(Text)`
+  font-size: 22px;
+  text-align: center;
+  font-weight: 600;
+
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+
+  ${media.medium(css`
+    font-size: 18px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  `)}
+
+  ${media.small(css`
+    font-size: 14px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  `)}
+`
+
 export const StyledVenueDetailItemDescriptionWrapper = styled.div`
   margin-top: 1rem;
   width: 100%;

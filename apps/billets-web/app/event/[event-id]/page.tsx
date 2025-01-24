@@ -111,7 +111,8 @@ async function PageInner({ params }: { params: { ['event-id']: string } }) {
 
   const { posters, venues, artists, date, ticketPromotion, title } = meta.eventDetail
   const { tickets } = meta
-  const posterUrl = posters.at(0)?.url ?? ''
+  const posterUrl = artists.at(0)?.thumbUrl ?? ''
+  const posterCopyright = artists.at(0)?.thumbCopyright ?? undefined
   const mainVenue = venues.at(0)
   const venueTitle = mainVenue?.name ?? ''
 
@@ -134,7 +135,7 @@ async function PageInner({ params }: { params: { ['event-id']: string } }) {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <PageLayout
-        poster={<PosterThumbnail src={posterUrl} alt={title} />}
+        poster={<PosterThumbnail src={posterUrl} alt={title} copyright={posterCopyright} />}
         topInfo={<TopInfo title={title} venueTitle={venueTitle} formattedDate={formattedDate} venueId={venueInfo.id} />}
         ticketCTA={
           ticketPromotion &&
