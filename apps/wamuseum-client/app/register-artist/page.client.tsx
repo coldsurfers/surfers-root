@@ -4,6 +4,7 @@ import { CopyrightForm, CopyrightModal } from '@/features'
 import { AddButton } from '@/ui'
 import InputWithLabel from '@/ui/InputWithLabel'
 import { presign, uploadToPresignedURL } from '@/utils/fetcher'
+import { generateS3ImageUrl } from '@/utils/image.utils'
 import pickFile from '@/utils/pickFile'
 import { Button, Spinner, Text, colors } from '@coldsurfers/ocean-road'
 import { useRouter } from 'next/navigation'
@@ -51,9 +52,9 @@ export const RegisterArtistPageClient = () => {
           data: presignedData,
           file: files[0],
         })
-        const key = `billets/artist/profile-images/${encodeURIComponent(filename)}`
+        const { url, key } = generateS3ImageUrl('artist/profile-images', filename)
         setArtistProfileImageInfo({
-          s3Url: `${process.env.NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL}/${key}`,
+          s3Url: url,
           key,
         })
       } catch (err) {
