@@ -1967,12 +1967,14 @@ export interface components {
     ArtistDetailDTOSchema: {
       id: string
       name: string
+      thumbCopyright: components['schemas']['CopyrightDTOSchema'] | null
       thumbUrl: string | null
       upcomingEvents: components['schemas']['EventDTOSchema'][]
     }
     ArtistDTOSchema: {
       id: string
       name: string
+      thumbCopyright: components['schemas']['CopyrightDTOSchema'] | null
       thumbUrl: string | null
     }
     ArtistProfileImageDetailDTOSchema: {
