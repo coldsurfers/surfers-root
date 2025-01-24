@@ -1,3 +1,4 @@
+import storage from '@/utils/storage/storage'
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { onError } from '@apollo/client/link/error'
@@ -10,12 +11,11 @@ export const createApolloClient = ({ token }: { token?: string }) => {
   })
 
   const authLink = setContext(async (_, { headers }) => {
-    const accessToken = token
-    // typeof window === 'undefined' ? token : storage?.get<AuthToken>('@wamuseum-client/auth-token')?.accessToken
+    const accessToken = typeof window === 'undefined' ? token : storage?.get<string>('@wamuseum-client/access-token')
     return {
       headers: {
         ...headers,
-        authorization: accessToken ? `${accessToken}` : '',
+        authorization: accessToken,
       },
     }
   })

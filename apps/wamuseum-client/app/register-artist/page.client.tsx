@@ -4,6 +4,7 @@ import { CopyrightForm, CopyrightModal } from '@/features'
 import { AddButton } from '@/ui'
 import InputWithLabel from '@/ui/InputWithLabel'
 import { presign, uploadToPresignedURL } from '@/utils/fetcher'
+import { generateS3ImageUrl } from '@/utils/image.utils'
 import pickFile from '@/utils/pickFile'
 import { Button, Spinner, Text, colors } from '@coldsurfers/ocean-road'
 import { useRouter } from 'next/navigation'
@@ -21,7 +22,13 @@ export const RegisterArtistPageClient = () => {
   const router = useRouter()
   const [artistName, setArtistName] = useState('')
   const [uploadFileLoading, setUploadFileLoading] = useState(false)
-  const [artistProfileImageUrl, setArtistProfileImageUrl] = useState('')
+  const [artistProfileImageInfo, setArtistProfileImageInfo] = useState<{
+    s3Url: string
+    key: string
+  }>({
+    s3Url: '',
+    key: '',
+  })
   const [createArtist, { loading: loadingCreateArtist }] = useCreateArtistMutation()
   const [createCopyright, { loading: loadingCreateCopyright }] = useCreateCopyrightMutation()
   const [copyrightModalVisible, setCopyrightModalVisible] = useState(false)
@@ -45,9 +52,11 @@ export const RegisterArtistPageClient = () => {
           data: presignedData,
           file: files[0],
         })
-        setArtistProfileImageUrl(
-          `${process.env.NEXT_PUBLIC_WAMUSEUM_S3_BUCKET_URL}/billets/artist/profile-images/${encodeURIComponent(filename)}`,
-        )
+        const { url, key } = generateS3ImageUrl('artist/profile-images', filename)
+        setArtistProfileImageInfo({
+          s3Url: url,
+          key,
+        })
       } catch (err) {
         console.error(err)
       } finally {
@@ -61,7 +70,7 @@ export const RegisterArtistPageClient = () => {
       variables: {
         input: {
           artistName,
-          imageURL: artistProfileImageUrl,
+          key: artistProfileImageInfo.key,
         },
       },
       onCompleted: (data) => {
@@ -85,7 +94,7 @@ export const RegisterArtistPageClient = () => {
         }
       },
     })
-  }, [artistName, artistProfileImageUrl, copyrightForm, createArtist, createCopyright, router])
+  }, [artistName, artistProfileImageInfo.key, copyrightForm, createArtist, createCopyright, router])
 
   return (
     <StyledWrapper>
@@ -93,11 +102,14 @@ export const RegisterArtistPageClient = () => {
         <InputWithLabel label="아티스트 등록" value={artistName} onChangeText={setArtistName} />
         <StyledHeadWrapper>
           <Text style={{ fontSize: 16 }}>아티스트 프로필 이미지</Text>
-          {artistProfileImageUrl ? (
+          {artistProfileImageInfo.s3Url ? (
             <Button
               style={{ width: 10, height: 10, marginLeft: 'auto' }}
               onClick={() => {
-                setArtistProfileImageUrl('')
+                setArtistProfileImageInfo({
+                  s3Url: '',
+                  key: '',
+                })
               }}
             >
               ✘
@@ -106,8 +118,8 @@ export const RegisterArtistPageClient = () => {
             <AddButton onClick={getThumbnail} />
           )}
         </StyledHeadWrapper>
-        {artistProfileImageUrl && <StyledPosterThumbnail src={artistProfileImageUrl} />}
-        {artistProfileImageUrl && (
+        {artistProfileImageInfo.s3Url && <StyledPosterThumbnail src={artistProfileImageInfo.s3Url} />}
+        {artistProfileImageInfo.s3Url && (
           <StyledCopyrightSection>
             <Text>잠깐, 사진에 저작권이 있나요?</Text>
             <Button onClick={() => setCopyrightModalVisible(true)}>저작권 등록하기</Button>
