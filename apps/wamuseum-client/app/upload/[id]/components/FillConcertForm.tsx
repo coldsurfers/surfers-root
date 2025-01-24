@@ -2,7 +2,7 @@
 
 import { AddButton } from '@/ui'
 import { presign, uploadToPresignedURL } from '@/utils/fetcher'
-import { getPosterS3Url } from '@/utils/get-poster-s3-url'
+import { generateS3ImageUrl } from '@/utils/image.utils'
 import pickFile from '@/utils/pickFile'
 import { Button, Spinner, Text, colors } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
@@ -56,7 +56,13 @@ const FillConcertForm = ({ concertId }: { concertId: string }) => {
       router.push('/')
     },
   })
-  const [posterUrl, setPosterUrl] = useState('')
+  const [posterInfo, setPosterInfo] = useState<{
+    s3Url: string
+    key: string
+  }>({
+    s3Url: '',
+    key: '',
+  })
   const getThumbnail = useCallback<MouseEventHandler<HTMLButtonElement>>(async () => {
     pickFile(async (e) => {
       const { target } = e
@@ -75,7 +81,11 @@ const FillConcertForm = ({ concertId }: { concertId: string }) => {
           data: presignedData,
           file: files[0],
         })
-        setPosterUrl(getPosterS3Url(filename))
+        const { url, key } = generateS3ImageUrl('poster-thumbnails', filename)
+        setPosterInfo({
+          s3Url: url,
+          key,
+        })
       } catch (err) {
         console.error(err)
       } finally {
@@ -89,22 +99,25 @@ const FillConcertForm = ({ concertId }: { concertId: string }) => {
       variables: {
         input: {
           concertId,
-          imageURL: posterUrl,
+          key: posterInfo.key,
         },
       },
     })
-  }, [concertId, mutate, posterUrl])
+  }, [concertId, mutate, posterInfo.key])
 
   return (
     <Wrapper>
       <Form onSubmit={(e) => e.preventDefault()}>
         <HeadWrapper>
           <Text style={{ fontSize: 16 }}>공연 포스터</Text>
-          {posterUrl ? (
+          {posterInfo.s3Url ? (
             <Button
               style={{ width: 10, height: 10, marginLeft: 'auto' }}
               onClick={() => {
-                setPosterUrl('')
+                setPosterInfo({
+                  s3Url: '',
+                  key: '',
+                })
               }}
             >
               ✘
@@ -113,7 +126,7 @@ const FillConcertForm = ({ concertId }: { concertId: string }) => {
             <AddButton onClick={getThumbnail} />
           )}
         </HeadWrapper>
-        {posterUrl && <PosterThumbnail src={posterUrl} />}
+        {posterInfo.s3Url && <PosterThumbnail src={posterInfo.s3Url} />}
         <Button style={{ marginTop: 10, backgroundColor: colors.oc.black.value }} onClick={createPoster}>
           다음
         </Button>
