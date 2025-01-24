@@ -147,7 +147,7 @@ const typeDefs = `#graphql
 
   input UpdateConcertPosterInput {
     id: String!
-    imageURL: String
+    key: String
   }
 
   input CreateConcertTicketPriceInput {
@@ -168,7 +168,7 @@ const typeDefs = `#graphql
 
   input CreateConcertPosterInput {
     concertId: String!
-    imageURL: String!
+    key: String!
   }
 
   type HttpError {
