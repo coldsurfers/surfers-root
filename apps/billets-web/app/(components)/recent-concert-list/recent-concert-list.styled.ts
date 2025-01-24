@@ -1,4 +1,4 @@
-import { media, Text } from '@coldsurfers/ocean-road'
+import { media, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { motion } from 'framer-motion'
@@ -90,6 +90,30 @@ export const StyledRecentListBilletsConcertCardImage = styled.img`
   width: 100%;
   aspect-ratio: 1 / 1;
   object-position: 50%;
+`
+
+export const StyledRecentListBilletsConcertCardImageEmpty = styled.div`
+  border-radius: 8px;
+  object-fit: cover;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-position: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: ${semantics.color.background[1]};
+  margin-bottom: 0.25rem;
+`
+
+export const StyledRecentListBilletsConcertCardImageEmptyText = styled(Text)`
+  text-align: center;
+  font-weight: 600;
+  font-size: 16px;
+
+  padding-left: 1rem;
+  padding-right: 1rem;
 `
 
 export const StyledMotionDiv = styled(motion.div)`

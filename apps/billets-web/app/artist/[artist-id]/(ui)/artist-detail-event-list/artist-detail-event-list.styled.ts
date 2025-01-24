@@ -40,6 +40,30 @@ export const StyledArtistDetailEventListItemThumbnail = styled.img`
   margin-right: 1rem;
 `
 
+export const StyledArtistDetailEventListItemThumbnailEmpty = styled.div`
+  width: 110px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: 50%;
+  border-radius: 8px;
+  margin-right: 1rem;
+
+  background-color: ${semantics.color.background[1]};
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+export const StyledArtistDetailEventListItemThumbnailEmptyText = styled(Text)`
+  text-align: center;
+  font-weight: 600;
+  font-size: 12px;
+
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+`
+
 export const StyledArtistDetailEventListItemDescriptionWrapper = styled.div`
   display: flex;
   flex-direction: column;

@@ -47,6 +47,29 @@ export const StyledGridImage = styled.img`
   background-color: ${semantics.color.background[4]};
 `
 
+export const StyledGridImageEmptyContainer = styled.div`
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: 50%;
+  border-radius: 12px;
+  background-color: ${semantics.color.background[1]};
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+`
+
+export const StyledGridImageEmptyText = styled(Text)`
+  text-align: center;
+  font-weight: 600;
+  font-size: 16px;
+
+  padding-left: 1rem;
+  padding-right: 1rem;
+`
+
 export const StyledGridTextContainer = styled.div`
   margin-top: 0.5rem;
 `
