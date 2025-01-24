@@ -1,5 +1,5 @@
 import { presign, uploadToPresignedURL } from '@/utils/fetcher'
-import { getPosterS3Url } from '@/utils/get-poster-s3-url'
+import { generateS3ImageUrl } from '@/utils/image.utils'
 import pickFile from '@/utils/pickFile'
 import { Button } from '@coldsurfers/ocean-road'
 import { useCallback, useMemo } from 'react'
@@ -45,7 +45,7 @@ export const UpdateConcertPosterUI = ({ concertId }: Props) => {
         variables: {
           input: {
             id: concertPoster.id,
-            imageURL: getPosterS3Url(filename),
+            key: generateS3ImageUrl('poster-thumbnails', filename).key,
           },
         },
         update: (cache, { data }) => {
