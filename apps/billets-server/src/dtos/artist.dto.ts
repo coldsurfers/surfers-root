@@ -1,9 +1,11 @@
 import { z } from 'zod'
+import { CopyrightDTOSchema } from './copyright.dto'
 
 export const ArtistDTOSchema = z.object({
   id: z.string(),
   name: z.string(),
   thumbUrl: z.string().nullable(),
+  thumbCopyright: CopyrightDTOSchema.nullable(),
 })
 export type ArtistDTO = z.infer<typeof ArtistDTOSchema>
 

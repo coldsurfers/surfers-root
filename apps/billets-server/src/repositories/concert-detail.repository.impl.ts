@@ -1,12 +1,12 @@
 import { ConcertDetailDTO } from '@/dtos/concert.dto'
 import { dbClient } from '@/lib/db'
-import { Artist, ArtistProfileImage, Concert, Poster, Venue } from '@prisma/client'
+import { Artist, ArtistProfileImage, Concert, Copyright, Poster, Venue } from '@prisma/client'
 import { ConcertDetailRepository } from './concert-detail.repository'
 
 interface ConcertDetailModel extends Concert {
   posters: Poster[]
   venues: Venue[]
-  artists: (Artist & { artistProfileImage: ArtistProfileImage[] })[]
+  artists: (Artist & { artistProfileImage: (ArtistProfileImage & { copyright: Copyright | null })[] })[]
 }
 
 export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
@@ -30,7 +30,11 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
           include: {
             artist: {
               include: {
-                artistProfileImage: true,
+                artistProfileImage: {
+                  include: {
+                    copyright: true,
+                  },
+                },
               },
             },
           },
@@ -76,6 +80,7 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
           id: artist.id,
           name: artist.name,
           thumbUrl: artistProfileImage ? artistProfileImage.imageURL : null,
+          thumbCopyright: artistProfileImage?.copyright ?? null,
         }
       }),
     }
