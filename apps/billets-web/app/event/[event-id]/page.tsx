@@ -111,7 +111,7 @@ async function PageInner({ params }: { params: { ['event-id']: string } }) {
 
   const { posters, venues, artists, date, ticketPromotion, title } = meta.eventDetail
   const { tickets } = meta
-  const posterUrl = posters.at(0)?.url ?? ''
+  const posterUrl = artists.at(0)?.thumbUrl ?? ''
   const mainVenue = venues.at(0)
   const venueTitle = mainVenue?.name ?? ''
 
