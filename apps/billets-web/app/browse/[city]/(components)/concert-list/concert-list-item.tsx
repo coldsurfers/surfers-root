@@ -5,6 +5,8 @@ import { components } from 'types/api'
 import {
   StyledGridDate,
   StyledGridImage,
+  StyledGridImageEmptyContainer,
+  StyledGridImageEmptyText,
   StyledGridItem,
   StyledGridTextContainer,
   StyledGridTitle,
@@ -19,7 +21,7 @@ export const ConcertListItem = memo(({ data }: { data: components['schemas']['Co
     return format(new Date(data.date), 'EEE, MMM dd')
   }, [data.date])
   const thumbUrl = useMemo(() => {
-    if (!data.mainPoster) {
+    if (!data.mainPoster || !data.mainPoster.url) {
       return ''
     }
     return `${data.mainPoster.url}&width=300&height=300`
@@ -27,7 +29,13 @@ export const ConcertListItem = memo(({ data }: { data: components['schemas']['Co
   return (
     <Link href={`/event/${data.id}`}>
       <StyledGridItem>
-        <StyledGridImage src={thumbUrl} alt={data.title} />
+        {thumbUrl ? (
+          <StyledGridImage src={thumbUrl} alt={data.title} />
+        ) : (
+          <StyledGridImageEmptyContainer>
+            <StyledGridImageEmptyText>{data.title}</StyledGridImageEmptyText>
+          </StyledGridImageEmptyContainer>
+        )}
         <StyledGridTextContainer>
           <StyledGridTitle as="p">{data.title}</StyledGridTitle>
           <StyledGridDate as="p">{formattedDate}</StyledGridDate>
