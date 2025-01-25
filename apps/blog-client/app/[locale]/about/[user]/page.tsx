@@ -28,7 +28,7 @@ const AboutDetailPage = async ({ params }: PageProps<{ user: string }>) => {
     return redirect({ href: '/404', locale: locale })
   }
   const careerPageId =
-    locale === 'en' ? 'Resume-1352bbac5782803a8a6de858f18f3b8c' : 'Resume-2025-1862bbac5782802db432c9b8ee5016b4'
+    locale === 'en' ? 'Resume-2025-1862bbac578280e39760f02a88e17941' : 'Resume-2025-1862bbac5782802db432c9b8ee5016b4'
   const careerRecordMap = await notion.getPage(careerPageId)
   setRequestLocale(locale)
 
