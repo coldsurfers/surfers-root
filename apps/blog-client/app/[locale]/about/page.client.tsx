@@ -1,12 +1,12 @@
 'use client'
 
 import { useGetUsersQuery } from '@/lib'
-import { Text } from '@coldsurfers/ocean-road'
 
-import { Link } from 'i18n/routing'
 import { ExtendedRecordMap } from 'notion-types'
 
 import { NotionRenderer } from '@/features/notion'
+import { Text } from '@coldsurfers/ocean-road'
+import { Link } from 'i18n/routing'
 import { StyledWritersPageHeader } from './page.styled'
 
 export function WritersPageClient({ recordMap }: { recordMap: ExtendedRecordMap }) {
@@ -37,8 +37,16 @@ export function WritersPageClient({ recordMap }: { recordMap: ExtendedRecordMap 
             </div>
             <StyledWritersPageHeader>
               <NotionRenderer recordMap={recordMap} />
-              <Link href="/resume" style={{ marginTop: 14, fontSize: 16, marginLeft: 'auto' }}>
-                <Text style={{ textDecorationLine: 'underline' }}>Resume →</Text>
+              <Link
+                href={{
+                  pathname: '/about/[user]',
+                  params: {
+                    user: 'paul',
+                  },
+                }}
+                style={{ marginTop: 14, fontSize: 16, marginLeft: 'auto' }}
+              >
+                <Text style={{ textDecorationLine: 'underline' }}>More →</Text>
               </Link>
             </StyledWritersPageHeader>
           </div>
