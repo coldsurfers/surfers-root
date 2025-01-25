@@ -18,8 +18,9 @@ export type I18nPathWithParams =
   | { pathname: '/squarelog/[slug]'; params: { slug: string } }
   | { pathname: '/techlog/[slug]'; params: { slug: string } }
   | { pathname: '/textlog/[slug]'; params: { slug: string } }
-  | { pathname: '/writers' } // No params needed
-  | { pathname: '/resume' }
+  | { pathname: '/about/[user]'; params: { user: string } }
+  | { pathname: '/about' }
   | { pathname: '/tags/[tag]'; params: { tag: string } }
   | { pathname: '/tags' }
+  | { pathname: '/404' }
   | { pathname: '/' }
