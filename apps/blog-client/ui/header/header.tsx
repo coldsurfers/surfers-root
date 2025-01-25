@@ -29,7 +29,7 @@ export const Header = () => {
         <StyledHeaderLinkBadge href="/squarelog">
           <StyledHeaderHeading $isActive={pathname.startsWith('/squarelog')}>{'PHOTO'}</StyledHeaderHeading>
         </StyledHeaderLinkBadge>
-        <StyledHeaderLinkBadge href="/writers">
+        <StyledHeaderLinkBadge href="/about">
           <StyledHeaderHeading $isActive={pathname.startsWith('/writers')}>{'ABOUT'}</StyledHeaderHeading>
         </StyledHeaderLinkBadge>
       </StyledHeaderContainer>
