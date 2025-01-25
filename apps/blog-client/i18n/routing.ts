@@ -17,9 +17,10 @@ export const i18nRoutingPathnames = {
   '/textlog/[slug]': '/textlog/[slug]',
   '/tags/[tag]': '/tags/[tag]',
   //
-  '/writers': '/writers',
-  '/resume': '/resume',
+  '/about': '/about',
+  '/about/[user]': '/about/[user]',
   '/tags': '/tags',
+  '/404': '/404',
 } as const
 
 export const routing = defineRouting({

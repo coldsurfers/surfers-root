@@ -9,7 +9,7 @@ import { AppLocale } from 'i18n/types'
 import Link from 'next/link'
 import { ExtendedRecordMap } from 'notion-types'
 import { useEffect } from 'react'
-import postStyles from '../../../styles/post.module.css'
+import postStyles from '../../../../../../styles/post.module.css'
 
 const Wrapper = styled.div`
   a {
@@ -19,13 +19,13 @@ const Wrapper = styled.div`
 
 const shouldGeneratePDF = process.env.NODE_ENV === 'development'
 
-export default function ResumePage({
+export function PageRenderer({
   careerRecordMap,
-  sideProjectRecordMap,
+  title,
 }: {
   locale: AppLocale
   careerRecordMap: ExtendedRecordMap
-  sideProjectRecordMap: ExtendedRecordMap
+  title: string
 }) {
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout> | null = null
@@ -43,12 +43,10 @@ export default function ResumePage({
   }, [])
 
   return (
-    <PageLayout title="Résumé">
+    <PageLayout title={title}>
       <Wrapper>
         {/* career */}
         <NotionRenderer recordMap={careerRecordMap} />
-        {/* side project */}
-        <NotionRenderer recordMap={sideProjectRecordMap} />
 
         {process.env.NODE_ENV === 'production' && (
           <article className={postStyles.container}>
