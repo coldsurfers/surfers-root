@@ -24,7 +24,7 @@ export const ConcertListItem = memo(({ data }: { data: components['schemas']['Co
     if (!data.mainPoster || !data.mainPoster.url) {
       return ''
     }
-    return `${data.mainPoster.url}&width=300&height=300`
+    return `${data.mainPoster.url}&width=400&height=400`
   }, [data.mainPoster])
   return (
     <Link href={`/event/${data.id}`}>
