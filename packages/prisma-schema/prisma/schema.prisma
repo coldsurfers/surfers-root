@@ -145,9 +145,18 @@ model Concert {
   posters         ConcertsOnPosters[]
   tickets         ConcertsOnTickets[]
   subscribedUsers UsersOnSubscribedConcerts[]
+  isKOPIS         Boolean                     @default(false)
+  kopisEvent      KOPISEvent?
   createdAt       DateTime                    @default(now())
   updatedAt       DateTime?
   deletedAt       DateTime?
+}
+
+model KOPISEvent {
+  id        String   @id
+  concert   Concert  @relation(fields: [concertId], references: [id])
+  concertId String   @unique
+  createdAt DateTime @default(now())
 }
 
 model Poster {
