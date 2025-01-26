@@ -8,7 +8,7 @@ import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { ConcertList } from './(components)'
 
-export const revalidate = 600
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: Promise<{ city: string }> }): Promise<Metadata> {
   const validation = await validateCityParam((await params).city)
