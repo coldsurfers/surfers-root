@@ -4,6 +4,7 @@ import { apiClient } from '@/libs/openapi-client'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import { formatPrice, getQueryClient } from '@/libs/utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
+import { RouteLoading } from 'app/(ui)'
 import { format } from 'date-fns'
 import { toZonedTime } from 'date-fns-tz'
 import { Metadata } from 'next'
@@ -33,7 +34,7 @@ async function getEventMetadata(eventId: string) {
   }
 }
 
-export const revalidate = 600
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: Promise<{ ['event-id']: string }> }): Promise<Metadata> {
   const pageParams = await params
@@ -196,7 +197,9 @@ async function PageInner({ params }: { params: { ['event-id']: string } }) {
 export default async function EventDetailPage({ params }: { params: Promise<{ ['event-id']: string }> }) {
   return (
     <ApiErrorBoundaryRegistry>
-      <PageInner params={await params} />
+      <RouteLoading>
+        <PageInner params={await params} />
+      </RouteLoading>
     </ApiErrorBoundaryRegistry>
   )
 }

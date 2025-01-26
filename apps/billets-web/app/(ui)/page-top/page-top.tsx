@@ -9,8 +9,10 @@ export function PageTop() {
   return (
     <>
       <StyledWrapper>
-        <StyledHomeMainTitle as="h1">Billets</StyledHomeMainTitle>
-        <StyledHomeMainTitle as="h1">{'예정된\n많은 공연을\n놓치지 마세요 🎉'}</StyledHomeMainTitle>
+        <StyledHomeMainTitle as="h1">{'SURF YOUR TICKETS\nLIKE A PRO'}</StyledHomeMainTitle>
+        <StyledHomeMainTitle as="h2" style={{ fontSize: '32px' }}>
+          Billets by COLDSURF
+        </StyledHomeMainTitle>
         <Link href={APP_STORE_URL} style={{ display: 'inline-block' }}>
           <Button theme="border">GET THE APP</Button>
         </Link>

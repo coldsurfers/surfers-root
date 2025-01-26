@@ -1,19 +1,30 @@
-import FadeLoader from 'react-spinners/FadeLoader'
-import { semantics } from '../tokens'
-import { StyledPageLoadingWrapper } from './spinner.styled'
+import { StyledPageLoadingWrapper, StyledSpinner } from './spinner.styled'
 import { SpinnerVariant } from './spinner.types'
 
-export const Spinner = ({ variant }: { variant: SpinnerVariant }) => {
+const RotateSpinner = () => {
+  return (
+    <StyledSpinner
+      animate={{
+        rotate: 360, // Rotates the element 360 degrees
+      }}
+      transition={{
+        repeat: Infinity, // Loops the animation infinitely
+        duration: 0.5, // Each full rotation takes 2 seconds
+        ease: 'linear', // Smooth, constant speed
+      }}
+    />
+  )
+}
+
+export const Spinner = ({ variant }: { variant?: SpinnerVariant }) => {
   switch (variant) {
     case 'page-overlay':
       return (
         <StyledPageLoadingWrapper>
-          <StyledPageLoadingWrapper>
-            <FadeLoader height={13} color={semantics.color.foreground[1]} />
-          </StyledPageLoadingWrapper>
+          <RotateSpinner />
         </StyledPageLoadingWrapper>
       )
     default:
-      return null
+      return <RotateSpinner />
   }
 }

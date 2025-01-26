@@ -1,10 +1,8 @@
 'use client'
 
-import { colors } from '@coldsurfers/ocean-road'
-import { motion } from 'framer-motion'
+import { colors, Spinner } from '@coldsurfers/ocean-road'
 import { Link } from 'i18n/routing'
 import 'katex/dist/katex.min.css' // For equations
-import { LoaderCircle } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { ExtendedRecordMap } from 'notion-types'
 import 'prismjs/themes/prism-tomorrow.css' // For syntax highlighting
@@ -12,8 +10,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { NotionRenderer as NR, type MapImageUrlFn, type NotionComponents } from 'react-notion-x'
 import 'react-notion-x/src/styles.css'
 import { Tweet as TweetEmbed } from 'react-tweet'
-
-const MotionIcon = motion.create(LoaderCircle)
 
 function isNotionImage(url: string) {
   return url.startsWith('https://prod-files-secure.s3.us-west-2.amazonaws.com')
@@ -106,18 +102,7 @@ const CustomImage = (props: {
             transform: 'translate(-50%, -50%)',
           }}
         >
-          <MotionIcon
-            animate={{
-              rotate: 360, // Rotates the element 360 degrees
-            }}
-            width={32}
-            height={32}
-            transition={{
-              repeat: Infinity, // Loops the animation infinitely
-              duration: 0.5, // Each full rotation takes 2 seconds
-              ease: 'linear', // Smooth, constant speed
-            }}
-          />
+          <Spinner />
         </div>
       ) : null}
       <img
