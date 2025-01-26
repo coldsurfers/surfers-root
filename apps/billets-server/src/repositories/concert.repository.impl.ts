@@ -299,7 +299,6 @@ export class ConcertRepositoryImpl implements ConcertRepository {
   }
 
   private generateMainPoster(model: ConcertModel) {
-    console.log('model', model)
     if (model.kopisEvent) {
       const posterUrl = model.posters.at(0)?.imageURL ?? ''
       return {
