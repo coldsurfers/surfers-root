@@ -33,7 +33,7 @@ async function getEventMetadata(eventId: string) {
   }
 }
 
-export const revalidate = 600
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: Promise<{ ['event-id']: string }> }): Promise<Metadata> {
   const pageParams = await params
