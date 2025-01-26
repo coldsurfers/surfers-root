@@ -29,6 +29,7 @@ export const ConcertDetailDTOSchema = z.object({
   posters: PosterDTOSchema.array(),
   venues: VenueDTOSchema.array(),
   artists: ArtistDTOSchema.array(),
+  isKOPIS: z.boolean(),
 })
 export type ConcertDetailDTO = z.infer<typeof ConcertDetailDTOSchema>
 
