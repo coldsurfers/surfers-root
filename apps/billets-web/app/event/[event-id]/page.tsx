@@ -110,10 +110,12 @@ async function PageInner({ params }: { params: { ['event-id']: string } }) {
     console.error(e)
   }
 
-  const { posters, venues, artists, date, ticketPromotion, title } = meta.eventDetail
+  const { posters, venues, artists, date, ticketPromotion, title, isKOPIS } = meta.eventDetail
   const { tickets } = meta
-  const posterUrl = artists.at(0)?.thumbUrl ?? ''
-  const posterCopyright = artists.at(0)?.thumbCopyright ?? undefined
+  // eslint-disable-next-line prettier/prettier
+  const posterUrl = isKOPIS ? (posters.at(0)?.url ?? '') : (artists.at(0)?.thumbUrl ?? '')
+  // eslint-disable-next-line prettier/prettier
+  const posterCopyright = isKOPIS ? undefined : (artists.at(0)?.thumbCopyright ?? undefined)
   const mainVenue = venues.at(0)
   const venueTitle = mainVenue?.name ?? ''
 
@@ -137,7 +139,15 @@ async function PageInner({ params }: { params: { ['event-id']: string } }) {
     <HydrationBoundary state={dehydrate(queryClient)}>
       <PageLayout
         poster={<PosterThumbnail src={posterUrl} alt={title} copyright={posterCopyright} />}
-        topInfo={<TopInfo title={title} venueTitle={venueTitle} formattedDate={formattedDate} venueId={venueInfo.id} />}
+        topInfo={
+          <TopInfo
+            title={title}
+            venueTitle={venueTitle}
+            formattedDate={formattedDate}
+            venueId={venueInfo.id}
+            isKOPIS={isKOPIS}
+          />
+        }
         ticketCTA={
           ticketPromotion &&
           ticketPromotion.price && (
