@@ -295,19 +295,30 @@ export class ConcertRepositoryImpl implements ConcertRepository {
       : null
   }
 
+  private generateMainPoster(model: ConcertModel) {
+    if (model.isKOPIS) {
+      const posterUrl = model.posters.at(0)?.imageURL ?? ''
+      return {
+        url: posterUrl,
+        copyright: null,
+      }
+    }
+    const mainArtist = model.artists.at(0)
+    return mainArtist
+      ? {
+          url: mainArtist?.artistProfileImage.at(0)?.imageURL ?? '',
+          copyright: mainArtist?.artistProfileImage.at(0)?.copyright ?? null,
+        }
+      : null
+  }
+
   private toDTO(model: ConcertModel): ConcertDTO {
     const mainVenue = model.venues.at(0)
-    const mainArtist = model.artists.at(0)
     return {
       id: model.id,
       title: model.title,
       date: model.date.toISOString(),
-      mainPoster: mainArtist
-        ? {
-            url: mainArtist?.artistProfileImage.at(0)?.imageURL ?? '',
-            copyright: mainArtist?.artistProfileImage.at(0)?.copyright ?? null,
-          }
-        : null,
+      mainPoster: this.generateMainPoster(model),
       mainVenue: mainVenue
         ? {
             name: mainVenue.name,
