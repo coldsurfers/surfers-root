@@ -1,4 +1,4 @@
-import { media, Text } from '@coldsurfers/ocean-road'
+import { media, Text, semantics } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 
@@ -36,5 +36,17 @@ export const StyledFormattedDate = styled(Text)`
 
   ${media.medium(css`
     font-size: 18px;
+  `)}
+`
+
+export const StyledKOPISLabel = styled(Text)`
+  margin: unset;
+  font-weight: 500;
+  font-size: 14px;
+
+  color: ${semantics.color.foreground[4]};
+
+  ${media.medium(css`
+    font-size: 12px;
   `)}
 `
