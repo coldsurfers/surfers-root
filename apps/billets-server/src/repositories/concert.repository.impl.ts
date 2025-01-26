@@ -6,13 +6,14 @@ import {
   SubscribeUnsubscribeConcertDTO,
 } from '@/dtos/concert.dto'
 import { dbClient } from '@/lib/db/db.client'
-import { Artist, ArtistProfileImage, Concert, Copyright, Poster, Venue } from '@prisma/client'
+import { Artist, ArtistProfileImage, Concert, Copyright, KOPISEvent, Poster, Venue } from '@prisma/client'
 import { ConcertRepository } from './concert.repository'
 
 interface ConcertModel extends Concert {
   posters: Poster[]
   venues: Venue[]
   artists: (Artist & { artistProfileImage: (ArtistProfileImage & { copyright: Copyright | null })[] })[]
+  kopisEvent?: KOPISEvent | null
 }
 
 export class ConcertRepositoryImpl implements ConcertRepository {
@@ -78,6 +79,7 @@ export class ConcertRepositoryImpl implements ConcertRepository {
       take: params.take,
       skip: params.skip,
       include: {
+        kopisEvent: true,
         posters: {
           include: {
             poster: true,
@@ -110,6 +112,7 @@ export class ConcertRepositoryImpl implements ConcertRepository {
         posters: value.posters.map((value) => value.poster),
         venues: value.venues.map((value) => value.venue),
         artists: value.artists.map((value) => value.artist),
+        kopisEvent: value.kopisEvent,
       }),
     )
   }
@@ -296,7 +299,8 @@ export class ConcertRepositoryImpl implements ConcertRepository {
   }
 
   private generateMainPoster(model: ConcertModel) {
-    if (model.isKOPIS) {
+    console.log('model', model)
+    if (model.kopisEvent) {
       const posterUrl = model.posters.at(0)?.imageURL ?? ''
       return {
         url: posterUrl,
