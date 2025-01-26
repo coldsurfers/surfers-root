@@ -22,6 +22,7 @@ dotenv.config()
 const parser = new xml2js.Parser({ explicitArray: false })
 
 async function getList() {
+  await dbClient.$connect()
   const currentDate = dateFns.format(new Date(), 'yyyyMMdd')
   const endDate = '20251231'
   const 대중음악 = 'CCCD'
@@ -48,6 +49,7 @@ async function getList() {
       title: dbItem.prfnm,
       poster: dbItem.poster,
       date: dbItem.prfpdfrom,
+      venue: dbItem.fcltynm,
     }
   })
 
@@ -55,15 +57,15 @@ async function getList() {
     const fetchedPoster = await fetch(item.poster)
     const buffer = await fetchedPoster.arrayBuffer()
     const posterKey = `billets/poster-thumbnails/${new Date().toISOString()}`
-    await S3Client.send(
-      new PutObjectCommand({
-        Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
-        Key: posterKey,
-        Body: buffer,
-        ContentType: `image/png`,
-        CacheControl: 'public, max-age=31536000, immutable',
-      }),
-    )
+    // await S3Client.send(
+    //   new PutObjectCommand({
+    //     Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
+    //     Key: posterKey,
+    //     Body: buffer,
+    //     ContentType: `image/png`,
+    //     CacheControl: 'public, max-age=31536000, immutable',
+    //   }),
+    // )
     const existing = await dbClient.concert.findFirst({
       where: {
         kopisEvent: {
@@ -71,27 +73,59 @@ async function getList() {
         },
       },
     })
-    console.log(existing)
-    if (existing) {
-      await dbClient.concert.update({
+    const venue = await fetch(`https://dapi.kakao.com/v2/local/search/keyword.json?query=${item.venue}`, {
+      headers: {
+        Authorization: `KakaoAK ${process.env.KAKAO_REST_API_KEY}`,
+      },
+    })
+    const venueJson = await venue.json()
+    const existingVenue = (
+      await dbClient.venue.findMany({
         where: {
-          id: existing.id,
-          kopisEvent: {
-            id: item.id,
-          },
-        },
-        data: {
-          posters: {
-            create: {
-              poster: {
-                create: {
-                  imageURL: `https://api.billets.coldsurf.io/v1/image?key=${posterKey}`,
-                },
-              },
-            },
-          },
+          name: venueJson?.['documents']?.[0]?.['place_name'],
         },
       })
+    ).at(0)
+    console.log(venueJson?.['documents']?.[0], item.venue)
+    console.log(existing, existingVenue)
+    if (existing) {
+      if (existingVenue) {
+        const existingConcertOnVenue = await dbClient.concertsOnVenues.findUnique({
+          where: {
+            concertId_venueId: {
+              concertId: existing.id,
+              venueId: existingVenue.id,
+            },
+          },
+        })
+        if (!existingConcertOnVenue) {
+          await dbClient.concertsOnVenues.create({
+            data: {
+              concertId: existing.id,
+              venueId: existingVenue.id,
+            },
+          })
+        }
+      }
+      //   await dbClient.concert.update({
+      //     where: {
+      //       id: existing.id,
+      //       kopisEvent: {
+      //         id: item.id,
+      //       },
+      //     },
+      //     data: {
+      //       posters: {
+      //         create: {
+      //           poster: {
+      //             create: {
+      //               imageURL: `https://api.billets.coldsurf.io/v1/image?key=${posterKey}`,
+      //             },
+      //           },
+      //         },
+      //       },
+      //     },
+      //   })
     } else {
       const event = await dbClient.concert.create({
         data: {
@@ -107,6 +141,7 @@ async function getList() {
       })
     }
   }
+  await dbClient.$disconnect()
 }
 
 getList()
