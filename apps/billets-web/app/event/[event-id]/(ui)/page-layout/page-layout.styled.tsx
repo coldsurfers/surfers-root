@@ -38,7 +38,7 @@ export const StyledPosterContainer = styled.div`
 export const StyledRightSideContainer = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 2;
+  flex: 1.75;
   margin-left: 48px;
 
   ${media.large(css`
