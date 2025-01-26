@@ -25,6 +25,9 @@ export class LocationRepositoryImpl implements LocationRepository {
         date: {
           gte: new Date(),
         },
+        deletedAt: {
+          equals: null,
+        },
       },
       orderBy: {
         date: 'asc',
