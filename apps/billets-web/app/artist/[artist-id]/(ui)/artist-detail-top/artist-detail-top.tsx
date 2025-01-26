@@ -27,7 +27,7 @@ export function ArtistDetailTop({ artistId }: { artistId: string }) {
     if (!artistDetail?.thumbUrl) {
       return ''
     }
-    return `${artistDetail.thumbUrl}&width=500&height=500&format=png`
+    return `${artistDetail.thumbUrl}&width=640&height=640&format=png`
   }, [artistDetail?.thumbUrl])
   const imageModalThumbUrl = useMemo(() => {
     if (!artistDetail?.thumbUrl) {
@@ -35,6 +35,7 @@ export function ArtistDetailTop({ artistId }: { artistId: string }) {
     }
     return `${artistDetail.thumbUrl}&width=1300&height=1300`
   }, [artistDetail?.thumbUrl])
+
   const thumbCopyright = useMemo(() => {
     return artistDetail?.thumbCopyright ?? undefined
   }, [artistDetail?.thumbCopyright])

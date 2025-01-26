@@ -23,7 +23,7 @@ export function PosterThumbnail({
   const [isModalOpen, setIsModalOpen] = useState(false)
   const source = useMemo(() => {
     if (!src) return ''
-    return `${src}&width=350&height=350`
+    return `${src}&width=480&height=480`
   }, [src])
   const imageModalSource = useMemo(() => {
     if (!src) return ''
