@@ -4,6 +4,7 @@ import { apiClient } from '@/libs/openapi-client'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import { getQueryClient, validateCityParam } from '@/libs/utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
+import { RouteLoading } from 'app/(ui)'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { ConcertList } from './(components)'
@@ -75,7 +76,9 @@ async function PageInner({ params }: { params: { city: string } }) {
 export default async function BrowseByCityPage({ params }: { params: Promise<{ city: string }> }) {
   return (
     <ApiErrorBoundaryRegistry>
-      <PageInner params={await params} />
+      <RouteLoading>
+        <PageInner params={await params} />
+      </RouteLoading>
     </ApiErrorBoundaryRegistry>
   )
 }
