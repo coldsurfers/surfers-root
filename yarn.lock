@@ -4021,6 +4021,7 @@ __metadata:
     "@types/ngeohash": "npm:*"
     "@types/nodemailer": "npm:^6.4.15"
     "@types/nodemailer-smtp-transport": "npm:^2.7.8"
+    "@types/xml2js": "npm:^0"
     axios: "npm:*"
     crypto-js: "npm:4.2.0"
     date-fns: "npm:^4.1.0"
@@ -4052,6 +4053,7 @@ __metadata:
     ts-pattern: "npm:*"
     tsup: "npm:*"
     typescript: "npm:*"
+    xml2js: "npm:^0.6.2"
     zod: "npm:*"
   languageName: unknown
   linkType: soft
@@ -14535,6 +14537,15 @@ __metadata:
   dependencies:
     "@types/node": "npm:*"
   checksum: 10c0/3fd77c9e4e05c24ce42bfc7647f7506b08c40a40fe2aea236ef6d4e96fc7cb4006a81ed1b28ec9c457e177a74a72924f4768b7b4652680b42dfd52bc380e15f9
+  languageName: node
+  linkType: hard
+
+"@types/xml2js@npm:^0":
+  version: 0.4.14
+  resolution: "@types/xml2js@npm:0.4.14"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10c0/06776e7f7aec55a698795e60425417caa7d7db3ff680a7b4ccaae1567c5fec28ff49b9975e9a0d74ff4acb8f4a43730501bbe64f9f761d784c6476ba4db12e13
   languageName: node
   linkType: hard
 
@@ -39120,7 +39131,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"xml2js@npm:0.6.2":
+"xml2js@npm:0.6.2, xml2js@npm:^0.6.2":
   version: 0.6.2
   resolution: "xml2js@npm:0.6.2"
   dependencies:
