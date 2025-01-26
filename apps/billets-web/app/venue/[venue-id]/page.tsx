@@ -2,6 +2,7 @@ import { apiClient } from '@/libs/openapi-client'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import { getQueryClient } from '@/libs/utils/utils.query-client'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
+import { RouteLoading } from 'app/(ui)'
 import { redirect } from 'next/navigation'
 import { cache } from 'react'
 import { VenueDetailAbout, VenueDetailEventList, VenueDetailPageLayout, VenueDetailTop } from './(ui)'
@@ -53,7 +54,9 @@ async function PageInner({ params }: { params: { ['venue-id']: string } }) {
 export default async function VenueDetailPage({ params }: { params: Promise<{ ['venue-id']: string }> }) {
   return (
     <ApiErrorBoundaryRegistry>
-      <PageInner params={await params} />
+      <RouteLoading>
+        <PageInner params={await params} />
+      </RouteLoading>
     </ApiErrorBoundaryRegistry>
   )
 }

@@ -1,4 +1,6 @@
 import styled from '@emotion/styled'
+import { LoaderCircle } from 'lucide-react'
+import { semantics } from '../tokens'
 
 export const StyledPageLoadingWrapper = styled.div`
   position: absolute;
@@ -9,4 +11,10 @@ export const StyledPageLoadingWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`
+
+export const StyledSpinner = styled(LoaderCircle)`
+  color: ${semantics.color.foreground[1]};
+  width: 32px;
+  height: 32px;
 `
