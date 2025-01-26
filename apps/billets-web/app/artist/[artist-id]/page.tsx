@@ -2,6 +2,7 @@ import { apiClient } from '@/libs/openapi-client'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import { getQueryClient } from '@/libs/utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
+import { RouteLoading } from 'app/(ui)'
 import { redirect } from 'next/navigation'
 import { cache } from 'react'
 import { ArtistDetailEventList, ArtistDetailPageLayout, ArtistDetailTop } from './(ui)'
@@ -49,7 +50,9 @@ async function PageInner({ params }: { params: { ['artist-id']: string } }) {
 export default async function ArtistDetailPage(pageProps: { params: Promise<{ ['artist-id']: string }> }) {
   return (
     <ApiErrorBoundaryRegistry>
-      <PageInner params={await pageProps.params} />
+      <RouteLoading>
+        <PageInner params={await pageProps.params} />
+      </RouteLoading>
     </ApiErrorBoundaryRegistry>
   )
 }
