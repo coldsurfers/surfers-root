@@ -18,7 +18,6 @@ interface GetImageResizeRoute extends RouteGenericInterface {
   }
 }
 
-const DEFAULT_SIZE = 512
 const DEFAULT_FORMAT = 'png'
 
 export const getImageResizeHandler = async (
@@ -35,8 +34,8 @@ export const getImageResizeHandler = async (
 
     if (!key) return rep.status(400).send({ code: 'IMAGE_KEY_NOT_FOUND', message: 'Image key is required' })
 
-    const targetWidth = width || DEFAULT_SIZE
-    const targetHeight = height || DEFAULT_SIZE
+    const targetWidth = width
+    const targetHeight = height
     const targetFormat = format || DEFAULT_FORMAT
 
     const cacheKey = `${key}-${targetWidth}x${targetHeight}.${targetFormat}`
@@ -87,7 +86,7 @@ export const getImageResizeHandler = async (
     const originalImageBuffer = await originalImage.Body.transformToByteArray()
 
     const processedImage = await sharp(originalImageBuffer)
-      .resize(targetWidth, targetHeight)
+      .resize(targetWidth, targetHeight, { fit: 'contain' })
       .toFormat(targetFormat as keyof FormatEnum)
       .toBuffer()
 
