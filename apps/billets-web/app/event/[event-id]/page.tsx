@@ -2,7 +2,7 @@ import { GLOBAL_TIME_ZONE, SITE_URL } from '@/libs/constants'
 import { metadataInstance } from '@/libs/metadata'
 import { apiClient } from '@/libs/openapi-client'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
-import { formatPrice, getQueryClient } from '@/libs/utils'
+import { getQueryClient } from '@/libs/utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { RouteLoading } from 'app/(ui)'
 import { format } from 'date-fns'
@@ -149,11 +149,9 @@ async function PageInner({ params }: { params: { ['event-id']: string } }) {
           />
         }
         ticketCTA={
-          ticketPromotion &&
-          ticketPromotion.price && (
+          ticketPromotion && (
             <TicketCta
               ticketPromotion={{
-                formattedLowestPrice: formatPrice(ticketPromotion.price),
                 sellingURL: ticketPromotion.url,
                 seller: ticketPromotion.sellerName,
               }}
