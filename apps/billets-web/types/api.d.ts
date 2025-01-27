@@ -2004,6 +2004,7 @@ export interface components {
       date: string
       /** Format: uuid */
       id: string
+      isKOPIS: boolean
       posters: components['schemas']['ArtistProfileImageDTOSchema'][]
       title: string
       venues: components['schemas']['VenueDTOSchema'][]
@@ -2068,6 +2069,7 @@ export interface components {
         date: string
         /** Format: uuid */
         id: string
+        isKOPIS: boolean
         posters: components['schemas']['ArtistProfileImageDTOSchema'][]
         ticketPromotion: components['schemas']['TicketPromotionDTOSchema'] | null
         title: string
