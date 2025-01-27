@@ -1,14 +1,17 @@
 import { VenueDetailDTO } from '@/dtos/venue-detail-dto'
 import { dbClient } from '@/lib/db'
-import { Artist, ArtistProfileImage, Concert, Copyright, Poster, Venue } from '@prisma/client'
+import { Artist, ArtistProfileImage, Concert, Copyright, KOPISEvent, Poster, Venue } from '@prisma/client'
 import { VenueDetailRepository } from './venue-detail-repository'
 
+type VenueDetailConcertModel = Concert & {
+  posters: Poster[]
+  venues: Venue[]
+  artists: (Artist & { artistProfileImage: (ArtistProfileImage & { copyright: Copyright | null })[] })[]
+  kopisEvent: KOPISEvent | null
+}
+
 interface VenueDetailModel extends Venue {
-  concerts: (Concert & {
-    posters: Poster[]
-    venues: Venue[]
-    artists: (Artist & { artistProfileImage: (ArtistProfileImage & { copyright: Copyright | null })[] })[]
-  })[]
+  concerts: VenueDetailConcertModel[]
 }
 
 export class VenueDetailRepositoryImpl implements VenueDetailRepository {
@@ -29,6 +32,7 @@ export class VenueDetailRepositoryImpl implements VenueDetailRepository {
           include: {
             concert: {
               include: {
+                kopisEvent: true,
                 posters: {
                   include: {
                     poster: true,
@@ -69,9 +73,27 @@ export class VenueDetailRepositoryImpl implements VenueDetailRepository {
           posters: concert.concert.posters.map((value) => value.poster),
           venues: concert.concert.venues.map((value) => value.venue),
           artists: concert.concert.artists.map((value) => value.artist),
+          kopisEvent: concert.concert.kopisEvent,
         }
       }),
     })
+  }
+
+  private generateMainPoster(model: VenueDetailConcertModel) {
+    if (model.kopisEvent) {
+      const posterUrl = model.posters.at(0)?.imageURL ?? ''
+      return {
+        url: posterUrl,
+        copyright: null,
+      }
+    }
+    const mainArtist = model.artists.at(0)
+    return mainArtist
+      ? {
+          url: mainArtist?.artistProfileImage.at(0)?.imageURL ?? '',
+          copyright: mainArtist?.artistProfileImage.at(0)?.copyright ?? null,
+        }
+      : null
   }
 
   private toDTO(model: VenueDetailModel): VenueDetailDTO {
@@ -83,19 +105,13 @@ export class VenueDetailRepositoryImpl implements VenueDetailRepository {
       lng: model.lng,
       upcomingEvents: model.concerts.map((concert) => {
         const mainVenue = concert.venues.at(0)
-        const mainArtist = concert.artists.at(0)
         return {
           type: 'concert',
           data: {
             id: concert.id,
             title: concert.title,
             date: concert.date.toISOString(),
-            mainPoster: mainArtist
-              ? {
-                  url: mainArtist.artistProfileImage.at(0)?.imageURL ?? '',
-                  copyright: mainArtist.artistProfileImage.at(0)?.copyright ?? null,
-                }
-              : null,
+            mainPoster: this.generateMainPoster(concert),
             mainVenue: mainVenue
               ? {
                   name: mainVenue.name,
