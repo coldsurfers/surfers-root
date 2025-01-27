@@ -10,7 +10,6 @@ export const TicketCta = memo(
     ticketPromotion: {
       seller: string
       sellingURL: string
-      formattedLowestPrice: string
     }
   }) => {
     return (
