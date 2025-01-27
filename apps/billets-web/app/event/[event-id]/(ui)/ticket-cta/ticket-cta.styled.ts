@@ -22,15 +22,6 @@ export const StyledTicketCTALeft = styled.div`
 export const StyledTicketSellerText = styled(Text)`
   margin: unset;
   margin-top: 0.25rem;
-  font-size: 16px;
-
-  ${media.medium(css`
-    font-size: 14px;
-  `)}
-`
-
-export const StyledTicketPriceText = styled(Text)`
-  margin: unset;
   font-size: 20px;
   font-weight: 600;
 
