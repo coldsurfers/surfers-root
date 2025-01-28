@@ -141,13 +141,24 @@ model Concert {
   artists         ConcertsOnArtists[]
   title           String
   venues          ConcertsOnVenues[]
-  date            DateTime
+  date            DateTime                    @db.Timestamptz
   posters         ConcertsOnPosters[]
   tickets         ConcertsOnTickets[]
   subscribedUsers UsersOnSubscribedConcerts[]
+  isKOPIS         Boolean                     @default(false)
+  kopisEvent      KOPISEvent?
+  locationCity    LocationCity?               @relation(fields: [locationCityId], references: [id])
+  locationCityId  String?
   createdAt       DateTime                    @default(now())
   updatedAt       DateTime?
   deletedAt       DateTime?
+}
+
+model KOPISEvent {
+  id        String   @id
+  concert   Concert  @relation(fields: [concertId], references: [id])
+  concertId String   @unique
+  createdAt DateTime @default(now())
 }
 
 model Poster {
@@ -276,6 +287,8 @@ model LocationCity {
   lng               Float
   geohash           String?
   locationCountries LocationCitiesOnLocationCountries[]
+  concerts          Concert[]
+  disabled          Boolean                             @default(false)
   createdAt         DateTime                            @default(now())
 }
 
