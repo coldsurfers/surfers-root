@@ -101,11 +101,7 @@ async function PageInner({ params }: { params: { ['event-id']: string } }) {
   }
   const queryClient = getQueryClient()
 
-  try {
-    await queryClient.prefetchQuery(initialPageQuery.eventDetail(params['event-id']))
-  } catch (e) {
-    console.error(e)
-  }
+  await queryClient.prefetchQuery(initialPageQuery.eventDetail(params['event-id']))
 
   const { posters, venues, artists, date, ticketPromotion, title, isKOPIS } = meta.eventDetail
   const { tickets } = meta

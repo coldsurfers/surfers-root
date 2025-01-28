@@ -1,19 +1,16 @@
 import { initialPageQuery } from '@/libs/openapi-client'
+import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import { getQueryClient } from '@/libs/utils/utils.query-client'
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
 import { RecentConcertList } from 'app/(components)'
 import { PageLayout, PageTop } from './(ui)'
 
-export const revalidate = 600
+export const dynamic = 'force-dynamic'
 
-export default async function Home() {
+export async function PageInner() {
   const queryClient = getQueryClient()
 
-  try {
-    await queryClient.prefetchQuery(initialPageQuery.home())
-  } catch (e) {
-    console.error(e)
-  }
+  await queryClient.prefetchQuery(initialPageQuery.home())
 
   const dehydratedState = JSON.parse(JSON.stringify(dehydrate(queryClient)))
 
@@ -21,5 +18,13 @@ export default async function Home() {
     <HydrationBoundary state={dehydratedState}>
       <PageLayout top={<PageTop />} bottomList={<RecentConcertList />} />
     </HydrationBoundary>
+  )
+}
+
+export default async function Home() {
+  return (
+    <ApiErrorBoundaryRegistry>
+      <PageInner />
+    </ApiErrorBoundaryRegistry>
   )
 }

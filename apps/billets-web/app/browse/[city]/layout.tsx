@@ -1,4 +1,4 @@
-import { apiClient } from '@/libs/openapi-client'
+import { initialPageQuery } from '@/libs/openapi-client'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import { getQueryClient } from '@/libs/utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
@@ -8,14 +8,7 @@ import { Navigation } from './(components)'
 async function LayoutInner({ city, children }: PropsWithChildren<{ city: string }>) {
   const queryClient = getQueryClient()
 
-  try {
-    await queryClient.prefetchQuery({
-      queryKey: apiClient.location.queryKeys.country.list,
-      queryFn: () => apiClient.location.getCountries(),
-    })
-  } catch (e) {
-    console.error(e)
-  }
+  await queryClient.prefetchQuery(initialPageQuery.getCountries())
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
@@ -34,17 +27,6 @@ export default async function BrowseByCityLayout({
     city: string
   }
 }) {
-  const queryClient = getQueryClient()
-
-  try {
-    await queryClient.prefetchQuery({
-      queryKey: apiClient.location.queryKeys.country.list,
-      queryFn: () => apiClient.location.getCountries(),
-    })
-  } catch (e) {
-    console.error(e)
-  }
-
   return (
     <ApiErrorBoundaryRegistry>
       <LayoutInner city={params.city}>{children}</LayoutInner>
