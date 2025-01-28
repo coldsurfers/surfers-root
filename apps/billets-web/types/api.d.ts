@@ -442,6 +442,7 @@ export interface paths {
       parameters: {
         query?: {
           latitude?: number
+          locationCityId?: string
           longitude?: number
           offset?: number
           size?: number
