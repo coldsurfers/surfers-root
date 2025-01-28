@@ -288,6 +288,7 @@ model LocationCity {
   geohash           String?
   locationCountries LocationCitiesOnLocationCountries[]
   concerts          Concert[]
+  disabled          Boolean                             @default(false)
   createdAt         DateTime                            @default(now())
 }
 

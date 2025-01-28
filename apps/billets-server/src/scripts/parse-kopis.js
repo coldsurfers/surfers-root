@@ -28,6 +28,14 @@ function areaToLocationCityId(area) {
       return 'a0cdb908-7cf9-4b3d-b750-e09f4f154ef5'
     case '인천광역시':
       return 'aa994394-aeee-4a86-9fe8-88185a20c593'
+    case '울산광역시':
+      return '1a4e2baa-4954-4510-b9f7-fe504fb3c540'
+    case '부산광역시':
+      return '7817484b-5fa2-4965-87d7-0e3d7c8c3abb'
+    case '대구광역시':
+      return 'b152efa3-b765-4cd3-a880-a4fd15f0b696'
+    case '제주특별자치도':
+      return 'ef7372f0-7952-40ab-9d0a-fd1b913ae772'
     default:
       return null
   }
