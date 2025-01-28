@@ -1,11 +1,10 @@
 'use client'
 
-import { OpenApiError } from '@/libs/errors'
-import { apiClient } from '@/libs/openapi-client'
-import { useQuery } from '@tanstack/react-query'
-import { memo } from 'react'
-import { components } from 'types/api'
+import { initialPageQuery } from '@/libs/openapi-client'
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { memo, useCallback, useMemo } from 'react'
 import { ConcertListItem } from './concert-list-item'
+import { ConcertListLoadMore } from './concert-list.load-more'
 import { StyledGridContainer, StyledListContainer, StyledListHeader, StyledListHeaderText } from './concert-list.styled'
 
 type ConcertListProps = {
@@ -19,22 +18,20 @@ type ConcertListProps = {
 }
 
 export const ConcertList = memo(({ cityData }: ConcertListProps) => {
-  const { data } = useQuery<components['schemas']['EventDTOSchema'][], OpenApiError>({
-    queryKey: apiClient.event.queryKeys.list({
-      offset: 0,
-      size: 100,
-      latitude: cityData.lat,
-      longitude: cityData.lng,
-    }),
-    queryFn: () =>
-      apiClient.event.getEvents({
-        offset: 0,
-        size: 100,
-        latitude: cityData.lat,
-        longitude: cityData.lng,
-      }),
-    throwOnError: true,
-  })
+  const { data, fetchNextPage, isFetchingNextPage, isFetching, hasNextPage } = useInfiniteQuery(
+    initialPageQuery.browseByCity(cityData),
+  )
+
+  const pages = useMemo(() => {
+    return data?.pages.flat()
+  }, [data?.pages])
+
+  const loadMore = useCallback(() => {
+    if (!hasNextPage || isFetchingNextPage || isFetching) {
+      return
+    }
+    fetchNextPage()
+  }, [fetchNextPage, hasNextPage, isFetching, isFetchingNextPage])
 
   return (
     <StyledListContainer>
@@ -42,13 +39,14 @@ export const ConcertList = memo(({ cityData }: ConcertListProps) => {
         <StyledListHeaderText as="h1">Upcoming Shows in {cityData.uiName}</StyledListHeaderText>
       </StyledListHeader>
       <StyledGridContainer>
-        {data?.map((item) => {
+        {pages?.map((item) => {
           if (item.type !== 'concert') {
             return null
           }
           return <ConcertListItem key={item.data.id} data={item.data} />
         })}
       </StyledGridContainer>
+      {hasNextPage && <ConcertListLoadMore onLoadMore={loadMore} />}
     </StyledListContainer>
   )
 })

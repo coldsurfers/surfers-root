@@ -94,3 +94,15 @@ export const StyledVenueText = styled(Text)`
   font-size: 14px;
   color: ${semantics.color.foreground[1]};
 `
+
+export const StyledLoadMoreContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+
+  ${media.medium(css`
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  `)}
+`
