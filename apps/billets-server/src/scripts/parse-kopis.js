@@ -22,6 +22,17 @@ dotenv.config()
 
 const parser = new xml2js.Parser({ explicitArray: false })
 
+function areaToLocationCityId(area) {
+  switch (area) {
+    case '서울특별시':
+      return 'a0cdb908-7cf9-4b3d-b750-e09f4f154ef5'
+    case '인천광역시':
+      return 'aa994394-aeee-4a86-9fe8-88185a20c593'
+    default:
+      return null
+  }
+}
+
 function extractFirstTimes(input) {
   const regex = /[가-힣A-Z]+[\w\s~]*(\([\d:,]+\))/g // Matches each day and its times
   const matches = input.match(regex)
@@ -138,6 +149,25 @@ async function connectOrCreateTicket(kopisEventId, ticketSeller, ticketURL) {
   }
 }
 
+async function connectLocationCity(eventId, area) {
+  const locationCityId = areaToLocationCityId(area)
+  if (!locationCityId) {
+    return
+  }
+  await dbClient.concert.update({
+    where: {
+      id: eventId,
+    },
+    data: {
+      locationCity: {
+        connect: {
+          id: locationCityId,
+        },
+      },
+    },
+  })
+}
+
 async function connectOrCreateVenue(venue, eventId) {
   const { existingVenue, kakaoSearchFirstResult } = await findVenue(venue)
 
@@ -223,6 +253,7 @@ async function insertKOPISEvents(page) {
       poster: dbItem.poster,
       date: dbItem.prfpdfrom,
       venue: dbItem.fcltynm,
+      area: dbItem.area,
     }
   })
 
@@ -237,8 +268,10 @@ async function insertKOPISEvents(page) {
       })
     ).at(0)
     if (existing) {
+      await connectLocationCity(existing.id, item.area)
       await connectOrCreateVenue(item.venue, existing.id)
     } else {
+      const locationCityId = areaToLocationCityId(item.area)
       const event = await dbClient.concert.create({
         data: {
           title: item.title,
@@ -249,6 +282,13 @@ async function insertKOPISEvents(page) {
               id: item.id,
             },
           },
+          ...(locationCityId && {
+            locationCity: {
+              connect: {
+                id: locationCityId,
+              },
+            },
+          }),
         },
       })
       const { posterKey } = await uploadPoster(item.poster)

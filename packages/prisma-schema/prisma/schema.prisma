@@ -147,6 +147,8 @@ model Concert {
   subscribedUsers UsersOnSubscribedConcerts[]
   isKOPIS         Boolean                     @default(false)
   kopisEvent      KOPISEvent?
+  locationCity    LocationCity?               @relation(fields: [locationCityId], references: [id])
+  locationCityId  String?
   createdAt       DateTime                    @default(now())
   updatedAt       DateTime?
   deletedAt       DateTime?
@@ -285,6 +287,7 @@ model LocationCity {
   lng               Float
   geohash           String?
   locationCountries LocationCitiesOnLocationCountries[]
+  concerts          Concert[]
   createdAt         DateTime                            @default(now())
 }
 

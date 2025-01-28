@@ -29,7 +29,7 @@ interface GetEventsRoute extends RouteGenericInterface {
 
 export const getEventsHandler = async (req: FastifyRequest<GetEventsRoute>, rep: FastifyReply<GetEventsRoute>) => {
   try {
-    const { offset, size, latitude, longitude } = req.query
+    const { offset, size, latitude, longitude, locationCityId } = req.query
     const latLng: LatLng | null =
       latitude && longitude
         ? {
@@ -46,6 +46,7 @@ export const getEventsHandler = async (req: FastifyRequest<GetEventsRoute>, rep:
         take: +size,
         skip: +offset,
         venueGeohash: geohash,
+        locationCityId: locationCityId ?? null,
       },
     })
     return rep.status(200).send(events)
