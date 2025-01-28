@@ -158,7 +158,7 @@ async function PageInner({ params }: { params: { ['event-id']: string } }) {
             />
           )
         }
-        lineup={<Lineup artists={artists} />}
+        lineup={artists.length > 0 && <Lineup artists={artists} />}
         venue={<Venue {...venueInfo} />}
         downloadApp={<DownloadApp />}
       />
