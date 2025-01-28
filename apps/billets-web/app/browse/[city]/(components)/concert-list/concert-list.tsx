@@ -3,7 +3,7 @@
 import { initialPageQuery } from '@/libs/openapi-client'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { memo, useCallback, useMemo } from 'react'
-import { ConcertListItem } from './concert-list-item'
+import { ConcertListItem } from './concert-list.item'
 import { ConcertListLoadMore } from './concert-list.load-more'
 import { StyledGridContainer, StyledListContainer, StyledListHeader, StyledListHeaderText } from './concert-list.styled'
 
