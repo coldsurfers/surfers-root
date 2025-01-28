@@ -1,6 +1,6 @@
 import { ConcertDetailDTO } from '@/dtos/concert.dto'
 import { dbClient } from '@/lib/db'
-import { Artist, ArtistProfileImage, Concert, Copyright, KOPISEvent, Poster, Venue } from '@prisma/client'
+import { Artist, ArtistProfileImage, Concert, Copyright, KOPISEvent, Poster, Ticket, Venue } from '@prisma/client'
 import { ConcertDetailRepository } from './concert-detail.repository'
 
 interface ConcertDetailModel extends Concert {
@@ -8,6 +8,7 @@ interface ConcertDetailModel extends Concert {
   venues: Venue[]
   artists: (Artist & { artistProfileImage: (ArtistProfileImage & { copyright: Copyright | null })[] })[]
   kopisEvent: KOPISEvent | null
+  tickets: Ticket[]
 }
 
 export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
@@ -40,6 +41,11 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
             },
           },
         },
+        tickets: {
+          include: {
+            ticket: true,
+          },
+        },
         kopisEvent: true,
       },
     })
@@ -52,11 +58,13 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
       ...value.artist,
       artistProfileImage: value.artist.artistProfileImage,
     }))
+    const tickets = data.tickets.map((value) => value.ticket)
     return this.toDTO({
       ...data,
       posters,
       venues,
       artists,
+      tickets,
     })
   }
 
@@ -85,6 +93,13 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
           thumbCopyright: artistProfileImage?.copyright ?? null,
         }
       }),
+      tickets: model.tickets.map((ticket) => ({
+        id: ticket.id,
+        openDate: ticket.openDate.toISOString(),
+        prices: [],
+        sellerName: ticket.seller,
+        url: ticket.sellingURL,
+      })),
       isKOPIS: !!model.kopisEvent,
     }
   }
