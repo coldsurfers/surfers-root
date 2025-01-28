@@ -10,6 +10,14 @@ export const StyledTicketCTAContainer = styled.div`
   padding: 1rem;
 
   background-color: ${semantics.color.background[3]};
+
+  & + & {
+    margin-top: 1rem;
+
+    ${media.medium(css`
+      margin-top: 0.5rem;
+    `)}
+  }
 `
 
 export const StyledTicketCTALeft = styled.div`
