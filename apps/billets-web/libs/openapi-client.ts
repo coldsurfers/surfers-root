@@ -25,12 +25,14 @@ export const apiClient = {
         longitude,
         offset,
         size,
+        locationCityId,
       }: {
         latitude?: number
         longitude?: number
         offset?: number
         size?: number
-      }) => ['event', 'list', { latitude, longitude, offset, size }],
+        locationCityId?: string
+      }) => ['event', 'list', { latitude, longitude, offset, size, locationCityId }],
       detail: (id: string) => ['event', 'detail', id],
     },
     getEvents: async ({
@@ -38,11 +40,13 @@ export const apiClient = {
       size,
       latitude,
       longitude,
+      locationCityId,
     }: {
       offset: number
       size: number
       latitude?: number
       longitude?: number
+      locationCityId?: string
     }) => {
       const response = await baseFetchClient.GET('/v1/event/', {
         params: {
@@ -51,6 +55,7 @@ export const apiClient = {
             size,
             latitude,
             longitude,
+            locationCityId,
           },
         },
       })
@@ -201,15 +206,13 @@ export const initialPageQuery = {
       queryKey: apiClient.event.queryKeys.list({
         offset: 0,
         size,
-        latitude: cityData.lat,
-        longitude: cityData.lng,
+        locationCityId: cityData.id,
       }),
       queryFn: ({ pageParam = 0 }) => {
         return apiClient.event.getEvents({
           offset: pageParam,
           size,
-          latitude: cityData.lat,
-          longitude: cityData.lng,
+          locationCityId: cityData.id,
         })
       },
       getNextPageParam: (
