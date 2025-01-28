@@ -22,6 +22,20 @@ dotenv.config()
 
 const parser = new xml2js.Parser({ explicitArray: false })
 
+function extractFirstTimes(input) {
+  const regex = /[가-힣A-Z]+[\w\s~]*(\([\d:,]+\))/g // Matches each day and its times
+  const matches = input.match(regex)
+
+  if (!matches) return []
+
+  return matches
+    .map((match) => {
+      const timeMatch = match.match(/\d{2}:\d{2}/) // Extract the first time
+      return timeMatch ? timeMatch[0] : null
+    })
+    .filter(Boolean) // Filter out null values
+}
+
 async function uploadPoster(posterUrl) {
   const fetchedPoster = await fetch(posterUrl)
   const buffer = await fetchedPoster.arrayBuffer()
@@ -60,6 +74,32 @@ async function findVenue(venue) {
     existingVenue,
     kakaoSearchFirstResult: kakaoJson?.['documents']?.[0],
   }
+}
+
+/**
+ *
+ * @param {string} kopisEventId
+ * @param {string} timeString ex) 14:00
+ */
+async function updateTime(kopisEventId, eventDate) {
+  const existingEvent = await dbClient.concert.findFirst({
+    where: {
+      kopisEvent: {
+        id: kopisEventId,
+      },
+    },
+  })
+  if (!existingEvent) {
+    return
+  }
+  await dbClient.concert.update({
+    where: {
+      id: existingEvent.id,
+    },
+    data: {
+      date: eventDate,
+    },
+  })
 }
 
 async function connectOrCreateTicket(kopisEventId, ticketSeller, ticketURL) {
@@ -202,7 +242,7 @@ async function insertKOPISEvents(page) {
       const event = await dbClient.concert.create({
         data: {
           title: item.title,
-          date: new Date(item.date),
+          // date: new Date(item.date),
           isKOPIS: true,
           kopisEvent: {
             create: {
@@ -253,7 +293,19 @@ async function insertKOPISEventDetail(kopisEventId) {
   if (!db.relates) {
     return
   }
-  const { relates } = db
+  const { relates, dtguidance, prfpdfrom } = db
+
+  if (dtguidance && prfpdfrom) {
+    const times = extractFirstTimes(dtguidance)
+    if (times[0]) {
+      /**
+       * prfpdfrom: ex) 2024.01.01
+       */
+      const eventDate = new Date(`${prfpdfrom} ${times[0]}`)
+      await updateTime(kopisEventId, eventDate)
+    }
+  }
+
   if (!relates.relate) {
     return
   }
@@ -283,7 +335,7 @@ const sleep = () => new Promise((resolve) => setTimeout(resolve, 1000))
 async function main() {
   try {
     await dbClient.$connect()
-    const { items } = await insertKOPISEvents(3)
+    const { items } = await insertKOPISEvents(1)
     await dbClient.$disconnect()
     await Promise.all(
       items.map(async (item, index) => {
