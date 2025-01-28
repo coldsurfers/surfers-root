@@ -1,4 +1,4 @@
-import { apiClient } from '@/libs/openapi-client'
+import { apiClient, initialPageQuery } from '@/libs/openapi-client'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import { getQueryClient } from '@/libs/utils/utils.query-client'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
@@ -35,10 +35,7 @@ async function PageInner({ params }: { params: { ['venue-id']: string } }) {
 
   const queryClient = getQueryClient()
 
-  await queryClient.prefetchQuery({
-    queryKey: apiClient.venue.queryKeys.detail(venueId),
-    queryFn: () => getVenueDetail(venueId),
-  })
+  await queryClient.prefetchQuery(initialPageQuery.venueDetail(venueId))
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

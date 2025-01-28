@@ -1,4 +1,4 @@
-import { apiClient } from '@/libs/openapi-client'
+import { initialPageQuery } from '@/libs/openapi-client'
 import { getQueryClient } from '@/libs/utils/utils.query-client'
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
 import { RecentConcertList } from 'app/(components)'
@@ -10,14 +10,7 @@ export default async function Home() {
   const queryClient = getQueryClient()
 
   try {
-    await queryClient.prefetchQuery({
-      queryKey: apiClient.event.queryKeys.list({ offset: 0, size: 20 }),
-      queryFn: () =>
-        apiClient.event.getEvents({
-          offset: 0,
-          size: 20,
-        }),
-    })
+    await queryClient.prefetchQuery(initialPageQuery.home())
   } catch (e) {
     console.error(e)
   }

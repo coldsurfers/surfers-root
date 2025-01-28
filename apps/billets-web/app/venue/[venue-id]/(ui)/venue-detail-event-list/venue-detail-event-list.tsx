@@ -1,6 +1,6 @@
 'use client'
 
-import { apiClient } from '@/libs/openapi-client'
+import { initialPageQuery } from '@/libs/openapi-client'
 import { useQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { useMemo } from 'react'
@@ -18,10 +18,7 @@ import {
 } from './venue-detail-event-list.styled'
 
 export function VenueDetailEventList({ venueId }: { venueId: string }) {
-  const { data: venueDetail } = useQuery({
-    queryKey: apiClient.venue.queryKeys.detail(venueId),
-    queryFn: () => apiClient.venue.getVenueDetail(venueId),
-  })
+  const { data: venueDetail } = useQuery(initialPageQuery.venueDetail(venueId))
   const upcomingEvents = useMemo(() => {
     return venueDetail?.upcomingEvents ?? []
   }, [venueDetail?.upcomingEvents])
