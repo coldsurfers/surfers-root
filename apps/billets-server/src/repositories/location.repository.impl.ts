@@ -5,7 +5,11 @@ import { LocationRepository } from './location.repository'
 
 export class LocationRepositoryImpl implements LocationRepository {
   async findAllCity(): Promise<LocationCityDTO[]> {
-    const data = await dbClient.locationCity.findMany({})
+    const data = await dbClient.locationCity.findMany({
+      where: {
+        disabled: false,
+      },
+    })
     return data.map((value) => this.toLocationCityDTO(value))
   }
   async findAllConcertsByGeohashes(geohashes: string[]): Promise<LocationConcertDTO[]> {
@@ -24,6 +28,9 @@ export class LocationRepositoryImpl implements LocationRepository {
         },
         date: {
           gte: new Date(),
+        },
+        deletedAt: {
+          equals: null,
         },
       },
       orderBy: {
@@ -55,6 +62,11 @@ export class LocationRepositoryImpl implements LocationRepository {
     const data = await dbClient.locationCountry.findMany({
       include: {
         locationCities: {
+          where: {
+            locationCity: {
+              disabled: false,
+            },
+          },
           include: {
             locationCity: true,
           },

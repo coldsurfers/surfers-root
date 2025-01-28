@@ -40,6 +40,8 @@ jobs:
           echo "COLDSURF_AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ./apps/billets-server/.env
           echo "COLDSURF_AWS_REGION=${{ secrets.AWS_REGION }}" >> ./apps/billets-server/.env
           echo "COLDSURF_AWS_S3_BUCKET=${{ secrets.COLDSURF_AWS_S3_BUCKET }}" >> ./apps/billets-server/.env
+          echo "KOPIS_KEY=${{ secrets.KOPIS_KEY }}" >> ./apps/billets-server/.env
+          echo "KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }}" >> ./apps/billets-server/.env
 
       - name: setup node
         uses: actions/setup-node@v2

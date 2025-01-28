@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-server",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "license": "MIT",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "debug": "npx nodemon",
     "deploy": "pm2 start ecosystem.config.js",
     "clean": "del build",
-    "lint": "eslint --cache \"src/**/*.{js,jsx,ts,tsx}\" \"vercel/**/*.{js,jsx,ts,tsx}\"",
+    "lint": "eslint --cache \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "yarn lint --fix",
     "prisma:db-push": "yarn prisma db push --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "prisma:migrate-dev": "yarn prisma migrate dev --schema ../../packages/prisma-schema/prisma/schema.prisma",
@@ -42,7 +42,6 @@
     "@img/sharp-libvips-linux-x64": "1.0.4",
     "@img/sharp-linux-x64": "0.33.5",
     "@prisma/client": "*",
-    "@vercel/node": "^2.9.0",
     "axios": "*",
     "crypto-js": "4.2.0",
     "date-fns": "^4.1.0",
@@ -69,6 +68,7 @@
     "@types/ngeohash": "*",
     "@types/nodemailer": "^6.4.15",
     "@types/nodemailer-smtp-transport": "^2.7.8",
+    "@types/xml2js": "^0",
     "del-cli": "*",
     "dpdm": "^3.14.0",
     "eslint": "8.57.0",
@@ -83,7 +83,8 @@
     "tar": "^7.4.3",
     "ts-node-dev": "^2.0.0",
     "tsup": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "xml2js": "^0.6.2"
   },
   "packageManager": "yarn@4.2.2"
 }
