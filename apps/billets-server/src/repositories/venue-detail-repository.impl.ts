@@ -27,6 +27,9 @@ export class VenueDetailRepositoryImpl implements VenueDetailRepository {
               date: {
                 gte: new Date(),
               },
+              deletedAt: {
+                equals: null,
+              },
             },
           },
           include: {
