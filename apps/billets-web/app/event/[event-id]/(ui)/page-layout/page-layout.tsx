@@ -22,7 +22,7 @@ export function PageLayout({
   poster: ReactNode
   topInfo: ReactNode
   ticketCTA: ReactNode
-  lineup: ReactNode
+  lineup: ReactNode | null
   venue: ReactNode
   downloadApp: ReactNode
 }) {
@@ -32,10 +32,12 @@ export function PageLayout({
       <StyledRightSideContainer>
         <StyledTopInfoContainer>{topInfo}</StyledTopInfoContainer>
         <StyledTicketCTAContainer>{ticketCTA}</StyledTicketCTAContainer>
-        <StyledSectionContainer>
-          <StyledSectionHeaderText as="h3">Lineup</StyledSectionHeaderText>
-          {lineup}
-        </StyledSectionContainer>
+        {lineup && (
+          <StyledSectionContainer>
+            <StyledSectionHeaderText as="h3">Lineup</StyledSectionHeaderText>
+            {lineup}
+          </StyledSectionContainer>
+        )}
         <StyledSectionContainer>
           <StyledSectionHeaderText as="h3">Venue</StyledSectionHeaderText>
           {venue}
