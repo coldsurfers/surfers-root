@@ -7,7 +7,7 @@ import { PageLayout, PageTop } from './(ui)'
 
 export const dynamic = 'force-dynamic'
 
-export async function PageInner() {
+async function PageInner() {
   const queryClient = getQueryClient()
 
   await queryClient.prefetchQuery(initialPageQuery.home())
