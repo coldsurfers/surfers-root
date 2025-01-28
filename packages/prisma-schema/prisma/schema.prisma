@@ -141,7 +141,7 @@ model Concert {
   artists         ConcertsOnArtists[]
   title           String
   venues          ConcertsOnVenues[]
-  date            DateTime
+  date            DateTime                    @db.Timestamptz
   posters         ConcertsOnPosters[]
   tickets         ConcertsOnTickets[]
   subscribedUsers UsersOnSubscribedConcerts[]
