@@ -1,6 +1,6 @@
 'use client'
 
-import { apiClient } from '@/libs/openapi-client'
+import { initialPageQuery } from '@/libs/openapi-client'
 import { useQuery } from '@tanstack/react-query'
 import { ResolvedValues, useAnimation } from 'framer-motion'
 import { useCallback, useLayoutEffect, useRef } from 'react'
@@ -12,17 +12,7 @@ import {
 } from './recent-concert-list.styled'
 
 export const RecentConcertList = () => {
-  const { data, isLoading } = useQuery({
-    queryFn: async () =>
-      await apiClient.event.getEvents({
-        offset: 0,
-        size: 20,
-      }),
-    queryKey: apiClient.event.queryKeys.list({
-      offset: 0,
-      size: 20,
-    }),
-  })
+  const { data, isLoading } = useQuery(initialPageQuery.home())
 
   const controls = useAnimation()
   const latestX = useRef<string>('0%')

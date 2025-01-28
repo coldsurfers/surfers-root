@@ -1,6 +1,6 @@
 import { GLOBAL_TIME_ZONE, SITE_URL } from '@/libs/constants'
 import { metadataInstance } from '@/libs/metadata'
-import { apiClient } from '@/libs/openapi-client'
+import { apiClient, initialPageQuery } from '@/libs/openapi-client'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import { getQueryClient } from '@/libs/utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
@@ -102,10 +102,7 @@ async function PageInner({ params }: { params: { ['event-id']: string } }) {
   const queryClient = getQueryClient()
 
   try {
-    await queryClient.prefetchQuery({
-      queryKey: apiClient.event.queryKeys.detail(params['event-id']),
-      queryFn: () => apiClient.event.getEventDetail(params['event-id']),
-    })
+    await queryClient.prefetchQuery(initialPageQuery.eventDetail(params['event-id']))
   } catch (e) {
     console.error(e)
   }

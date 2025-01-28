@@ -159,6 +159,35 @@ export const apiClient = {
 }
 
 export const initialPageQuery = {
+  home: () => {
+    const size = 20
+    return {
+      queryKey: apiClient.event.queryKeys.list({ offset: 0, size }),
+      queryFn: () =>
+        apiClient.event.getEvents({
+          offset: 0,
+          size,
+        }),
+    }
+  },
+  venueDetail: (venueId: string) => {
+    return {
+      queryKey: apiClient.venue.queryKeys.detail(venueId),
+      queryFn: () => apiClient.venue.getVenueDetail(venueId),
+    }
+  },
+  eventDetail: (eventId: string) => {
+    return {
+      queryKey: apiClient.event.queryKeys.detail(eventId),
+      queryFn: () => apiClient.event.getEventDetail(eventId),
+    }
+  },
+  artistDetail: (artistId: string) => {
+    return {
+      queryKey: apiClient.artist.queryKeys.detail(artistId),
+      queryFn: () => apiClient.artist.getArtistDetail(artistId),
+    }
+  },
   browseByCity: (cityData: components['schemas']['LocationCountryDTOSchema']['cities'][number]) => {
     const size = 20
     return {
