@@ -1,6 +1,6 @@
 import createFetchClient from 'openapi-fetch'
 import createClient from 'openapi-react-query'
-import { paths } from '../types/api'
+import { components, paths } from '../types/api'
 import { API_BASE_URL } from './constants'
 import { OpenApiError } from './errors'
 
@@ -155,5 +155,41 @@ export const apiClient = {
       }
       return response.data
     },
+  },
+}
+
+export const initialPageQuery = {
+  browseByCity: (cityData: components['schemas']['LocationCountryDTOSchema']['cities'][number]) => {
+    const size = 20
+    return {
+      initialPageParam: 0,
+      queryKey: apiClient.event.queryKeys.list({
+        offset: 0,
+        size,
+        latitude: cityData.lat,
+        longitude: cityData.lng,
+      }),
+      queryFn: ({ pageParam = 0 }) => {
+        return apiClient.event.getEvents({
+          offset: pageParam,
+          size,
+          latitude: cityData.lat,
+          longitude: cityData.lng,
+        })
+      },
+      getNextPageParam: (
+        lastPage: {
+          data: components['schemas']['ConcertDTOSchema']
+          type: 'concert'
+        }[],
+        allPages: {
+          data: components['schemas']['ConcertDTOSchema']
+          type: 'concert'
+        }[][],
+      ) => {
+        return lastPage.length > 0 ? allPages.length * size : undefined
+      },
+      throwOnError: true,
+    }
   },
 }

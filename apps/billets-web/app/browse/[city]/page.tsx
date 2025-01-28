@@ -1,6 +1,6 @@
 import { COMMON_META_DESCRIPTION, COMMON_META_TITLE } from '@/libs/constants'
 import { metadataInstance } from '@/libs/metadata'
-import { apiClient } from '@/libs/openapi-client'
+import { initialPageQuery } from '@/libs/openapi-client'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import { getQueryClient, validateCityParam } from '@/libs/utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
@@ -47,21 +47,7 @@ async function PageInner({ params }: { params: { city: string } }) {
   const queryClient = getQueryClient()
 
   try {
-    await queryClient.prefetchQuery({
-      queryKey: apiClient.event.queryKeys.list({
-        offset: 0,
-        size: 100,
-        latitude: cityData.lat,
-        longitude: cityData.lng,
-      }),
-      queryFn: () =>
-        apiClient.event.getEvents({
-          offset: 0,
-          size: 100,
-          latitude: cityData.lat,
-          longitude: cityData.lng,
-        }),
-    })
+    await queryClient.prefetchInfiniteQuery(initialPageQuery.browseByCity(cityData))
   } catch (e) {
     console.error(e)
   }
