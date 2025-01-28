@@ -23,10 +23,8 @@ async function getEventMetadata(eventId: string) {
     if (eventDetailData.type !== 'concert') {
       return null
     }
-    const ticketsData = await apiClient.ticket.getTicketsByEventId(eventId)
     return {
       eventDetail: eventDetailData.data,
-      tickets: ticketsData,
     }
   } catch (e) {
     console.error(e)
@@ -46,8 +44,7 @@ export async function generateMetadata({ params }: { params: Promise<{ ['event-i
         'Billets is a platform to find live shows around the world. Download Billets to see live shows in your city.',
     }
   }
-  const { venues, artists, ticketPromotion, posters, title, date } = meta.eventDetail
-  const { tickets } = meta
+  const { venues, artists, ticketPromotion, posters, title, date, tickets } = meta.eventDetail
 
   const zonedDate = toZonedTime(new Date(date), GLOBAL_TIME_ZONE)
   const formattedDate = format(zonedDate, 'EEE, MMM d')
@@ -103,8 +100,7 @@ async function PageInner({ params }: { params: { ['event-id']: string } }) {
 
   await queryClient.prefetchQuery(initialPageQuery.eventDetail(params['event-id']))
 
-  const { posters, venues, artists, date, ticketPromotion, title, isKOPIS } = meta.eventDetail
-  const { tickets } = meta
+  const { posters, venues, artists, date, ticketPromotion, title, isKOPIS, tickets } = meta.eventDetail
   // eslint-disable-next-line prettier/prettier
   const posterUrl = isKOPIS ? (posters.at(0)?.url ?? '') : (artists.at(0)?.thumbUrl ?? '')
   // eslint-disable-next-line prettier/prettier
@@ -144,10 +140,10 @@ async function PageInner({ params }: { params: { ['event-id']: string } }) {
         ticketCTA={
           ticketPromotion && (
             <TicketCta
-              ticketPromotion={{
-                sellingURL: ticketPromotion.url,
-                seller: ticketPromotion.sellerName,
-              }}
+              tickets={tickets.map((ticket) => ({
+                seller: ticket.sellerName,
+                sellingURL: ticket.url,
+              }))}
             />
           )
         }

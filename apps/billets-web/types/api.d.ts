@@ -2006,6 +2006,7 @@ export interface components {
       id: string
       isKOPIS: boolean
       posters: components['schemas']['ArtistProfileImageDTOSchema'][]
+      tickets: components['schemas']['TicketDTOSchema'][]
       title: string
       venues: components['schemas']['VenueDTOSchema'][]
     }
@@ -2072,6 +2073,7 @@ export interface components {
         isKOPIS: boolean
         posters: components['schemas']['ArtistProfileImageDTOSchema'][]
         ticketPromotion: components['schemas']['TicketPromotionDTOSchema'] | null
+        tickets: components['schemas']['TicketDTOSchema'][]
         title: string
         venues: components['schemas']['VenueDTOSchema'][]
       }
