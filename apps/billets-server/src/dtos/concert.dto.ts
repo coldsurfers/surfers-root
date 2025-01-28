@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { ArtistDTOSchema } from './artist.dto'
 import { CopyrightDTOSchema } from './copyright.dto'
 import { PosterDTOSchema } from './poster.dto'
+import { TicketDTOSchema } from './ticket.dto'
 import { VenueDTOSchema } from './venue.dto'
 
 export const ConcertDTOSchema = z.object({
@@ -29,6 +30,8 @@ export const ConcertDetailDTOSchema = z.object({
   posters: PosterDTOSchema.array(),
   venues: VenueDTOSchema.array(),
   artists: ArtistDTOSchema.array(),
+  tickets: TicketDTOSchema.array(),
+  isKOPIS: z.boolean(),
 })
 export type ConcertDetailDTO = z.infer<typeof ConcertDetailDTOSchema>
 
@@ -38,6 +41,7 @@ export const FindManyConcertDTOSchema = z.object({
   take: z.number(),
   skip: z.number(),
   venueGeohash: z.string().nullable(),
+  locationCityId: z.string().uuid().nullable(),
 })
 export type FindManyConcertDTO = z.infer<typeof FindManyConcertDTOSchema>
 

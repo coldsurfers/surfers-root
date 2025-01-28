@@ -6,13 +6,14 @@ import {
   SubscribeUnsubscribeConcertDTO,
 } from '@/dtos/concert.dto'
 import { dbClient } from '@/lib/db/db.client'
-import { Artist, ArtistProfileImage, Concert, Copyright, Poster, Venue } from '@prisma/client'
+import { Artist, ArtistProfileImage, Concert, Copyright, KOPISEvent, Poster, Venue } from '@prisma/client'
 import { ConcertRepository } from './concert.repository'
 
 interface ConcertModel extends Concert {
   posters: Poster[]
   venues: Venue[]
   artists: (Artist & { artistProfileImage: (ArtistProfileImage & { copyright: Copyright | null })[] })[]
+  kopisEvent?: KOPISEvent | null
 }
 
 export class ConcertRepositoryImpl implements ConcertRepository {
@@ -49,6 +50,9 @@ export class ConcertRepositoryImpl implements ConcertRepository {
   async findMany(params: FindManyConcertDTO): Promise<ConcertDTO[]> {
     const data = await dbClient.concert.findMany({
       where: {
+        ...(params.locationCityId && {
+          locationCityId: params.locationCityId,
+        }),
         ...(params.titleContains && {
           title: {
             contains: params.titleContains,
@@ -78,6 +82,7 @@ export class ConcertRepositoryImpl implements ConcertRepository {
       take: params.take,
       skip: params.skip,
       include: {
+        kopisEvent: true,
         posters: {
           include: {
             poster: true,
@@ -110,6 +115,7 @@ export class ConcertRepositoryImpl implements ConcertRepository {
         posters: value.posters.map((value) => value.poster),
         venues: value.venues.map((value) => value.venue),
         artists: value.artists.map((value) => value.artist),
+        kopisEvent: value.kopisEvent,
       }),
     )
   }
@@ -295,19 +301,30 @@ export class ConcertRepositoryImpl implements ConcertRepository {
       : null
   }
 
+  private generateMainPoster(model: ConcertModel) {
+    if (model.kopisEvent) {
+      const posterUrl = model.posters.at(0)?.imageURL ?? ''
+      return {
+        url: posterUrl,
+        copyright: null,
+      }
+    }
+    const mainArtist = model.artists.at(0)
+    return mainArtist
+      ? {
+          url: mainArtist?.artistProfileImage.at(0)?.imageURL ?? '',
+          copyright: mainArtist?.artistProfileImage.at(0)?.copyright ?? null,
+        }
+      : null
+  }
+
   private toDTO(model: ConcertModel): ConcertDTO {
     const mainVenue = model.venues.at(0)
-    const mainArtist = model.artists.at(0)
     return {
       id: model.id,
       title: model.title,
       date: model.date.toISOString(),
-      mainPoster: mainArtist
-        ? {
-            url: mainArtist?.artistProfileImage.at(0)?.imageURL ?? '',
-            copyright: mainArtist?.artistProfileImage.at(0)?.copyright ?? null,
-          }
-        : null,
+      mainPoster: this.generateMainPoster(model),
       mainVenue: mainVenue
         ? {
             name: mainVenue.name,
