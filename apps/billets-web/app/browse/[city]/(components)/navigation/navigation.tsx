@@ -1,7 +1,7 @@
 'use client'
 
 import { GLOBAL_Z_INDEX } from '@/libs/constants'
-import { apiClient } from '@/libs/openapi-client'
+import { initialPageQuery } from '@/libs/openapi-client'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useCallback, useMemo, useRef, useState } from 'react'
@@ -27,10 +27,7 @@ export const Navigation = ({ initialCity }: { initialCity: string }) => {
     top: 0,
     left: 0,
   })
-  const { data } = useQuery({
-    queryKey: apiClient.location.queryKeys.country.list,
-    queryFn: apiClient.location.getCountries,
-  })
+  const { data } = useQuery(initialPageQuery.getCountries())
 
   const dropdownData = useMemo<
     {

@@ -188,6 +188,12 @@ export const initialPageQuery = {
       queryFn: () => apiClient.artist.getArtistDetail(artistId),
     }
   },
+  getCountries: () => {
+    return {
+      queryKey: apiClient.location.queryKeys.country.list,
+      queryFn: () => apiClient.location.getCountries(),
+    }
+  },
   browseByCity: (cityData: components['schemas']['LocationCountryDTOSchema']['cities'][number]) => {
     const size = 20
     return {
