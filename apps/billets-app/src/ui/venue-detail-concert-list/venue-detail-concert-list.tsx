@@ -13,7 +13,7 @@ export const VenueDetailConcertList = ({
   onPressItem,
 }: {
   venueId: string
-  onPressItem?: (params: { concertId: string }) => void
+  onPressItem?: (params: { eventId: string }) => void
 }) => {
   const navigation = useVenueDetailScreenNavigation()
   const { bottom: bottomInset } = useSafeAreaInsets()
@@ -39,7 +39,7 @@ export const VenueDetailConcertList = ({
       return (
         <VenueDetailConcertListItem
           item={item}
-          onPress={() => onPressItem?.({ concertId: item.id })}
+          onPress={() => onPressItem?.({ eventId: item.id })}
           onPressSubscribe={({ concertId, isSubscribed }) => {
             if (!meData) {
               navigation.navigate('LoginStackNavigation', {
