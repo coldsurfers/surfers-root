@@ -12,7 +12,7 @@ export const ArtistDetailConcertList = ({
   onPressArtistProfile,
 }: {
   artistId: string
-  onPressItem?: (params: { concertId: string }) => void
+  onPressItem?: (params: { eventId: string }) => void
   onPressArtistProfile?: () => void
 }) => {
   const { bottom: bottomInset, top: topInset } = useSafeAreaInsets()
@@ -30,7 +30,7 @@ export const ArtistDetailConcertList = ({
 
   const renderItem = useCallback<ListRenderItem<(typeof artistConcertListUIData)[number]>>(
     (info) => {
-      return <ArtistDetailConcertListItem item={info.item} onPress={() => onPressItem?.({ concertId: info.item.id })} />
+      return <ArtistDetailConcertListItem item={info.item} onPress={() => onPressItem?.({ eventId: info.item.id })} />
     },
     [onPressItem],
   )

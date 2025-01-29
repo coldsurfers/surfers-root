@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { ArtistStackNavigation } from '../artist-stack-navigation'
-import { ConcertStackNavigation } from '../concert-stack-navigation'
+import { EventStackNavigation } from '../event-stack-navigation/event-stack-navigation'
 import { LoginStackNavigation } from '../login-stack-navigation'
 import { MainTabNavigation } from '../main-tab-navigation'
 import { SettingsStackNavigation } from '../settings-stack-navigation'
@@ -30,8 +30,8 @@ export const MainStackNavigation = () => {
     >
       <MainStack.Screen name="MainTabNavigation" component={MainTabNavigation} />
       <MainStack.Screen
-        name="ConcertStackNavigation"
-        component={ConcertStackNavigation}
+        name="EventStackNavigation"
+        component={EventStackNavigation}
         options={{
           presentation: 'card',
         }}

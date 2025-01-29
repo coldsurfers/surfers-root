@@ -31,10 +31,10 @@ const SuspenseMyScreen = () => {
     })
   }, [navigation])
   const onPressSubscribedConcertListItem = useCallback(
-    (concertId: string) => {
-      navigation.navigate('ConcertStackNavigation', {
-        screen: 'ConcertDetailScreen',
-        params: { concertId },
+    (eventId: string) => {
+      navigation.navigate('EventStackNavigation', {
+        screen: 'EventDetailScreen',
+        params: { eventId },
       })
     },
     [navigation],
