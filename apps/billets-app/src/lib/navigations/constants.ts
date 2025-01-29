@@ -2,8 +2,8 @@ import { z } from 'zod'
 import { createZodNavigation, createZodScreen } from './navigations.utils'
 
 export const zodNavigation = createZodNavigation({
-  ConcertStackNavigation: {
-    name: 'ConcertStackNavigation',
+  EventStackNavigation: {
+    name: 'EventStackNavigation',
     params: z.object({}),
   },
   MyStackNavigation: {
@@ -51,10 +51,10 @@ export const zodNavigation = createZodNavigation({
 } as const)
 
 export const zodScreen = createZodScreen({
-  ConcertDetailScreen: {
-    name: 'ConcertDetailScreen',
+  EventDetailScreen: {
+    name: 'EventDetailScreen',
     params: z.object({
-      concertId: z.string().uuid(),
+      eventId: z.string().uuid(),
     }),
   },
   ConcertTicketListScreen: {

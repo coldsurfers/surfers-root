@@ -60,9 +60,9 @@ export const SearchBottomKeywordResultList = ({ keyword }: { keyword: string }) 
         })
       }
       const onPressConcertItem = () =>
-        navigation.navigate('ConcertStackNavigation', {
-          screen: 'ConcertDetailScreen',
-          params: { concertId: item.id },
+        navigation.navigate('EventStackNavigation', {
+          screen: 'EventDetailScreen',
+          params: { eventId: item.id },
         })
       return match(item)
         .with({ type: 'artist' }, (value) => (
