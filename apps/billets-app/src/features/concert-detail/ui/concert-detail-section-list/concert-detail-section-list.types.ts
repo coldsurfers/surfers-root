@@ -6,6 +6,7 @@ import {
   ConcertDetailSectionListPriceItemProps,
   ConcertDetailSectionListTicketOpenDateItemProps,
   ConcertDetailSectionListTicketSellerItemProps,
+  ConcertDetailSectionListTicketsItemProps,
   ConcertDetailSectionListTitleItemProps,
   ConcertDetailSectionListVenueMapItemProps,
 } from '../concert-detail-section-list-item'
@@ -19,6 +20,7 @@ export type ConcertDetailSectionListItemT =
   | ConcertDetailSectionListLineupItemProps
   | ConcertDetailSectionListTicketSellerItemProps
   | ConcertDetailSectionListVenueMapItemProps
+  | ConcertDetailSectionListTicketsItemProps
 
 export type ConcertDetailSectionListSectionT = {
   title:
@@ -30,7 +32,7 @@ export type ConcertDetailSectionListSectionT = {
     | 'title'
     | 'price-info'
     | 'ticket-open-date'
-    | 'html'
+    | 'tickets'
   sectionHeaderTitle?:
     | '라인업'
     | '티켓 판매처'
@@ -39,6 +41,7 @@ export type ConcertDetailSectionListSectionT = {
     | '공연 장소'
     | '티켓 오픈 날짜'
     | '종합 정보'
+    | '티켓'
 }
 
 export type ConcertDetailSectionListSection = SectionListData<
