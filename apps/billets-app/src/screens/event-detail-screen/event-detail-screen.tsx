@@ -3,7 +3,6 @@ import {
   ConcertDetailSectionListSections,
   ConcertDetailVenueMapBottomSheet,
 } from '@/features/concert-detail'
-import { useInterstitialAd } from '@/features/google-ads'
 import { useToggleSubscribeConcert } from '@/features/subscribe'
 import { useEffectOnce, useStoreReview } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
@@ -48,15 +47,6 @@ const ScreenInner = () => {
     queryFn: () => apiClient.user.getMe(),
   })
   const toggleSubscribeConcert = useToggleSubscribeConcert()
-
-  const { show, loaded } = useInterstitialAd({
-    onAdOpened: () => console.log('opened'),
-    onAdClosed: () => {
-      navigation.navigate('ConcertTicketListScreen', {
-        concertId: params.eventId,
-      })
-    },
-  })
 
   const mapDetailBottomSheetModalRef = useRef<BottomSheetModal>(null)
 
