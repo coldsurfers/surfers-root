@@ -25,12 +25,12 @@ function buildDeepLinkFromNotificationData(data: FirebaseMessagingTypes.RemoteMe
   if (navigationId === 'search') {
     return `${prefix}search`
   }
-  if (navigationId === 'concert-detail') {
-    const concertId = data?.concertId
-    if (typeof concertId === 'string') {
-      return `${prefix}concert-detail/${concertId}`
+  if (navigationId === 'event-detail') {
+    const eventId = data?.eventId
+    if (typeof eventId === 'string') {
+      return `${prefix}event/${eventId}`
     }
-    console.warn('Unverified concertId', concertId)
+    console.warn('Unverified eventId', eventId)
     return null
   }
 
@@ -57,10 +57,10 @@ export const deepLinking: LinkingOptions<MainStackNavigationParamList> = {
           },
         },
       },
-      ConcertStackNavigation: {
+      EventStackNavigation: {
         screens: {
-          ConcertDetailScreen: {
-            path: '/concert-detail/:concertId',
+          EventDetailScreen: {
+            path: '/event/:eventId',
           },
         },
       },
