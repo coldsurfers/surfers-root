@@ -39,6 +39,7 @@ export const LocationSelectorModal = ({
       longitude,
       type: 'current-location',
       cityName: null,
+      cityId: null,
     })
     onPressBackground()
   }, [onPressBackground, openGlobalModal, setUserCurrentLocation])

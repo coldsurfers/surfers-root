@@ -10,3 +10,5 @@ export const GOOGLE_SIGNIN_OPTIONS = {
 }
 
 export const API_BASE_URL = __DEV__ ? 'https://dev.api.billets.coldsurf.io' : 'https://api.billets.coldsurf.io'
+
+export const KOPIS_COPYRIGHT_TEXT = '출처: (재)예술경영지원센터 공연예술통합전산망(www.kopis.or.kr)'

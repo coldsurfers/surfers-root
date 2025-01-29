@@ -1,5 +1,4 @@
-import { VenueDetailConcertList } from '@/features/venue/ui'
-import { CommonScreenLayout } from '@/ui'
+import { CommonScreenLayout, VenueDetailConcertList } from '@/ui'
 import { useVenueDetailScreenNavigation, useVenueDetailScreenRoute } from './venue-detail-screen.hooks'
 
 export const VenueDetailScreen = () => {
@@ -9,11 +8,11 @@ export const VenueDetailScreen = () => {
     <CommonScreenLayout>
       <VenueDetailConcertList
         venueId={route.params.id}
-        onPressItem={({ concertId }) => {
-          navigation.navigate('ConcertStackNavigation', {
-            screen: 'ConcertDetailScreen',
+        onPressItem={({ eventId }) => {
+          navigation.navigate('EventStackNavigation', {
+            screen: 'EventDetailScreen',
             params: {
-              concertId,
+              eventId,
             },
           })
         }}

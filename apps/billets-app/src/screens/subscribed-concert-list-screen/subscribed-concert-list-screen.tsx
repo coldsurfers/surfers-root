@@ -1,5 +1,4 @@
-import { SubscribedConcertList } from '@/features'
-import { CommonScreenLayout } from '@/ui'
+import { CommonScreenLayout, SubscribedConcertList } from '@/ui'
 import { Spinner } from '@coldsurfers/ocean-road/native'
 import { Suspense, useCallback } from 'react'
 import { useSubscribedConcertListScreenNavigation } from './subscribed-concert-list-screen.hooks'
@@ -7,11 +6,11 @@ import { useSubscribedConcertListScreenNavigation } from './subscribed-concert-l
 const ScreenContent = () => {
   const navigation = useSubscribedConcertListScreenNavigation()
   const onPressItem = useCallback(
-    (concertId: string) => {
-      navigation.navigate('ConcertStackNavigation', {
-        screen: 'ConcertDetailScreen',
+    (eventId: string) => {
+      navigation.navigate('EventStackNavigation', {
+        screen: 'EventDetailScreen',
         params: {
-          concertId,
+          eventId,
         },
       })
     },
