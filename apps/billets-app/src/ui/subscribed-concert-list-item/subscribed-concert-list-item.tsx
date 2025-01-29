@@ -34,6 +34,7 @@ export function SubscribedConcertListItem({
         date: eventDetailData.data.date,
         mainPoster: {
           url: mainPoster.url,
+          copyright: null,
         },
         mainVenue: {
           name: mainVenue.name,

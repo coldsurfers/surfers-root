@@ -442,6 +442,7 @@ export interface paths {
       parameters: {
         query?: {
           latitude?: number
+          locationCityId?: string
           longitude?: number
           offset?: number
           size?: number
@@ -570,6 +571,73 @@ export interface paths {
         }
       }
     }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/image/': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query: {
+          format?: 'jpg' | 'jpeg' | 'png'
+          height?: number
+          key: string
+          width?: number
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': unknown
+          }
+        }
+        /** @description Default Response */
+        304: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': unknown
+          }
+        }
+        /** @description Default Response */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
     delete?: never
     options?: never
     head?: never
@@ -1900,12 +1968,14 @@ export interface components {
     ArtistDetailDTOSchema: {
       id: string
       name: string
+      thumbCopyright: components['schemas']['CopyrightDTOSchema'] | null
       thumbUrl: string | null
       upcomingEvents: components['schemas']['EventDTOSchema'][]
     }
     ArtistDTOSchema: {
       id: string
       name: string
+      thumbCopyright: components['schemas']['CopyrightDTOSchema'] | null
       thumbUrl: string | null
     }
     ArtistProfileImageDetailDTOSchema: {
@@ -1935,7 +2005,9 @@ export interface components {
       date: string
       /** Format: uuid */
       id: string
+      isKOPIS: boolean
       posters: components['schemas']['ArtistProfileImageDTOSchema'][]
+      tickets: components['schemas']['TicketDTOSchema'][]
       title: string
       venues: components['schemas']['VenueDTOSchema'][]
     }
@@ -1945,7 +2017,7 @@ export interface components {
       /** Format: uuid */
       id: string
       mainPoster: {
-        /** Format: uri */
+        copyright: components['schemas']['CopyrightDTOSchema'] | null
         url: string
       } | null
       mainVenue: {
@@ -1988,6 +2060,8 @@ export interface components {
         | 'EVENT_NOT_FOUND'
         | 'POSTER_NOT_FOUND'
         | 'ARTIST_PROFILE_IMAGE_NOT_FOUND'
+        | 'IMAGE_KEY_NOT_FOUND'
+        | 'IMAGE_NOT_FOUND'
       message: string
     }
     EventDetailDTOSchema: {
@@ -1997,8 +2071,10 @@ export interface components {
         date: string
         /** Format: uuid */
         id: string
+        isKOPIS: boolean
         posters: components['schemas']['ArtistProfileImageDTOSchema'][]
         ticketPromotion: components['schemas']['TicketPromotionDTOSchema'] | null
+        tickets: components['schemas']['TicketDTOSchema'][]
         title: string
         venues: components['schemas']['VenueDTOSchema'][]
       }
