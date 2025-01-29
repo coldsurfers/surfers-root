@@ -2,8 +2,9 @@
 import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/concert-venue-map-view'
 import { ArtistSubscribeButton, VenueSubscribeButton } from '@/features/subscribe'
 import { useConcertDetailScreenNavigation } from '@/screens/concert-detail-screen/concert-detail-screen.hooks'
+import { TicketItem } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
-import { ProfileThumbnail, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
+import { Button, ProfileThumbnail, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { format } from 'date-fns'
 import { Copy, MapPin } from 'lucide-react-native'
@@ -17,6 +18,7 @@ import {
   ConcertDetailSectionListPriceItemProps,
   ConcertDetailSectionListTicketOpenDateItemProps,
   ConcertDetailSectionListTicketSellerItemProps,
+  ConcertDetailSectionListTicketsItemProps,
   ConcertDetailSectionListTitleItemProps,
   ConcertDetailSectionListVenueMapItemProps,
 } from './concert-detail-section-list-item.types'
@@ -162,7 +164,35 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
   },
 )
 
+ConcertDetailSectionListItem.TicketsItem = ({ tickets, onPressCta }: ConcertDetailSectionListTicketsItemProps) => {
+  if (tickets.length === 0) return null
+  if (tickets.length === 1) return <TicketItem {...tickets[0]} />
+
+  return (
+    <Button theme="pink" onPress={onPressCta} style={styles.bigTicketBtn}>
+      티켓 찾기
+    </Button>
+  )
+}
+
 const styles = StyleSheet.create({
+  ticketWrapper: {
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    marginHorizontal: 12,
+    marginTop: 8,
+    marginBottom: 8,
+    borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  ticketBtn: {
+    marginLeft: 'auto',
+  },
+  bigTicketBtn: {
+    marginHorizontal: 12,
+    marginVertical: 8,
+  },
   text: {
     paddingHorizontal: 12,
   },
@@ -190,11 +220,11 @@ const styles = StyleSheet.create({
     color: '#2e94f4',
   },
   dateText: {
-    marginTop: 6,
+    marginTop: 4,
     fontSize: 14,
     color: colors.oc.black.value,
   },
-  venueText: { marginTop: 6, color: colors.oc.gray[8].value, marginBottom: 8, fontSize: 14 },
+  venueText: { color: colors.oc.gray[8].value, marginBottom: 8, fontSize: 14 },
   venueMap: {
     width: Dimensions.get('screen').width - 12 * 2,
     height: VENUE_MAP_HEIGHT,
