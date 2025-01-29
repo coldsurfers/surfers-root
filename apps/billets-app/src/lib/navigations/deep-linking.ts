@@ -33,6 +33,22 @@ function buildDeepLinkFromNotificationData(data: FirebaseMessagingTypes.RemoteMe
     console.warn('Unverified eventId', eventId)
     return null
   }
+  if (navigationId === 'artist-detail') {
+    const artistId = data?.artistId
+    if (typeof artistId === 'string') {
+      return `${prefix}artist/${artistId}`
+    }
+    console.warn('Unverified artistId', artistId)
+    return null
+  }
+  if (navigationId === 'venue-detail') {
+    const venueId = data?.venueId
+    if (typeof venueId === 'string') {
+      return `${prefix}venue/${venueId}`
+    }
+    console.warn('Unverified venueId', venueId)
+    return null
+  }
 
   console.warn('Missing concertId')
   return null
@@ -61,6 +77,20 @@ export const deepLinking: LinkingOptions<MainStackNavigationParamList> = {
         screens: {
           EventDetailScreen: {
             path: '/event/:eventId',
+          },
+        },
+      },
+      ArtistStackNavigation: {
+        screens: {
+          ArtistDetailScreen: {
+            path: '/artist/:artistId',
+          },
+        },
+      },
+      VenueStackNavigation: {
+        screens: {
+          VenueDetailScreen: {
+            path: '/venue/:venueId',
           },
         },
       },
