@@ -16,6 +16,7 @@ export const CurrentLocationTracker = () => {
         longitude,
         type: 'current-location',
         cityName: null,
+        cityId: null,
       })
     } catch (e) {
       console.error('failed to get current location', e)

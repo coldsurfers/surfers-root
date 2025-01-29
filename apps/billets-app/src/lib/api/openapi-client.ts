@@ -350,12 +350,14 @@ export const apiClient = {
         longitude,
         offset,
         size,
+        locationCityId,
       }: {
-        latitude: number
-        longitude: number
+        latitude?: number
+        longitude?: number
+        locationCityId?: string
         offset?: number
         size?: number
-      }) => ['v1', 'event', ' list', { latitude, longitude, offset, size }],
+      }) => ['v1', 'event', ' list', { latitude, longitude, offset, size, locationCityId }],
       detail: ({ eventId }: { eventId: string }) => ['v1', 'event', 'detail', { eventId }],
     },
     getList: async ({
@@ -363,19 +365,22 @@ export const apiClient = {
       longitude,
       offset,
       size,
+      locationCityId,
     }: {
-      latitude: number
-      longitude: number
+      latitude?: number
+      longitude?: number
       offset: number
       size: number
+      locationCityId?: string
     }) => {
       const data = await fetchClient.GET('/v1/event/', {
         params: {
           query: {
-            latitude: latitude,
-            longitude: longitude,
-            offset: offset,
-            size: size,
+            latitude,
+            longitude,
+            offset,
+            size,
+            locationCityId,
           },
         },
       })
@@ -396,6 +401,21 @@ export const apiClient = {
         throw new OpenApiError(data.error)
       }
       return data.data
+    },
+  },
+  location: {
+    queryKeys: {
+      country: {
+        all: ['country'],
+        list: ['country', 'list'],
+      },
+    },
+    getCountries: async () => {
+      const response = await fetchClient.GET('/v1/location/country')
+      if (response.error) {
+        throw new OpenApiError(response.error)
+      }
+      return response.data
     },
   },
 }

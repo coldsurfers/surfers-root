@@ -97,13 +97,7 @@ const SuspenseHomeScreen = () => {
       <LocationSelector type={userCurrentLocationType} cityName={cityName} onPress={showLocationModal} />
       {latitude !== null && longitude !== null && (
         <Suspense fallback={<ConcertListSkeleton />}>
-          <ConcertList
-            ref={listRef}
-            onPressItem={onPressConcertListItem}
-            onPressSubscribe={onPressSubscribe}
-            latitude={latitude}
-            longitude={longitude}
-          />
+          <ConcertList ref={listRef} onPressItem={onPressConcertListItem} onPressSubscribe={onPressSubscribe} />
         </Suspense>
       )}
       <AnimatePresence>
