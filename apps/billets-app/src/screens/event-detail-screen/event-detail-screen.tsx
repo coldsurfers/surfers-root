@@ -87,15 +87,6 @@ const ScreenInner = () => {
         ],
       },
       {
-        title: 'date',
-        sectionHeaderTitle: '공연 날짜',
-        data: [
-          {
-            date: concertDetail.date ?? new Date().toISOString(),
-          },
-        ],
-      },
-      {
         title: 'venue',
         sectionHeaderTitle: '공연 장소',
         data: [
@@ -105,11 +96,21 @@ const ScreenInner = () => {
         ],
       },
       {
+        title: 'date',
+        sectionHeaderTitle: '공연 날짜',
+        data: [
+          {
+            date: concertDetail.date ?? new Date().toISOString(),
+            isKOPIS: concertDetail.isKOPIS,
+          },
+        ],
+      },
+      {
         title: 'tickets',
         sectionHeaderTitle: '티켓',
         data: [
           {
-            tickets: eventData.data.tickets,
+            tickets: concertDetail.tickets,
             onPressCta: () => {
               ticketSheetRef.current?.present()
             },

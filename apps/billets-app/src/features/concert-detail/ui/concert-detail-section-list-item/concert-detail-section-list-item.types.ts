@@ -2,6 +2,7 @@ import { components } from '@/types/api'
 
 export interface ConcertDetailSectionListDateItemProps {
   date: string
+  isKOPIS?: boolean
 }
 export interface ConcertDetailSectionListLocationItemProps {
   location: string

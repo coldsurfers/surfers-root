@@ -82,7 +82,7 @@ export const ConcertDetailSectionList = ({
             break
           case 'date':
             children = (
-              <ConcertDetailSectionListItem.DateItem date={(info.item as ConcertDetailSectionListDateItemProps).date} />
+              <ConcertDetailSectionListItem.DateItem {...(info.item as ConcertDetailSectionListDateItemProps)} />
             )
             break
           case 'tickets':
