@@ -5,7 +5,7 @@ import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { useQuery } from '@tanstack/react-query'
 import format from 'date-fns/format'
 import { useCallback, useMemo } from 'react'
-import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Dimensions, Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import {
   getConcertListBottomWrapperDynamicStyles,
@@ -28,7 +28,14 @@ export const ConcertListItem = ({ data, onPress, onPressSubscribe, size = 'large
     queryFn: () => apiClient.subscribe.getEvent({ eventId: data.id }),
   })
 
-  const thumbnailUrl = useMemo(() => data.mainPoster?.url ?? '', [data.mainPoster?.url])
+  const thumbnailUrl = useMemo(() => {
+    const url = data.mainPoster?.url
+    if (!url) {
+      return ''
+    }
+    const width = size === 'small' ? 140 : Dimensions.get('window').width / 2
+    return `${url}&width=${width}&height=${width}`
+  }, [data.mainPoster?.url, size])
   const venue = useMemo(() => data.mainVenue, [data.mainVenue])
 
   const handlePress = useCallback(() => {
