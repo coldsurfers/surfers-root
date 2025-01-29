@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/concert-venue-map-view'
 import { ArtistSubscribeButton, VenueSubscribeButton } from '@/features/subscribe'
+import { KOPIS_COPYRIGHT_TEXT } from '@/lib'
 import { useEventDetailScreenNavigation } from '@/screens/event-detail-screen/event-detail-screen.hooks'
 import { TicketItem } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
@@ -25,12 +26,19 @@ import {
 
 export const ConcertDetailSectionListItem = () => null
 
-ConcertDetailSectionListItem.DateItem = ({ date }: ConcertDetailSectionListDateItemProps) => {
+ConcertDetailSectionListItem.DateItem = ({ date, isKOPIS }: ConcertDetailSectionListDateItemProps) => {
   const { semantics } = useColorScheme()
   return (
-    <Text style={[styles.text, styles.dateText, { color: semantics.foreground[2] }]}>
-      {format(new Date(date ?? ''), 'MMM dd, hh:mm a')}
-    </Text>
+    <>
+      <Text style={[styles.text, styles.dateText, { color: semantics.foreground[2] }]}>
+        {format(new Date(date ?? ''), 'MMM dd, hh:mm a')}
+      </Text>
+      {isKOPIS ? (
+        <Text weight="medium" style={styles.kopis}>
+          {KOPIS_COPYRIGHT_TEXT}
+        </Text>
+      ) : null}
+    </>
   )
 }
 ConcertDetailSectionListItem.LocationItem = ({ location }: ConcertDetailSectionListLocationItemProps) => {
@@ -220,11 +228,10 @@ const styles = StyleSheet.create({
     color: '#2e94f4',
   },
   dateText: {
-    marginTop: 4,
     fontSize: 14,
     color: colors.oc.black.value,
   },
-  venueText: { color: colors.oc.gray[8].value, marginBottom: 8, fontSize: 14 },
+  venueText: { color: colors.oc.gray[8].value, fontSize: 14, marginTop: 8, marginBottom: 4 },
   venueMap: {
     width: Dimensions.get('screen').width - 12 * 2,
     height: VENUE_MAP_HEIGHT,
@@ -265,5 +272,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: colors.oc.gray[4].value,
     borderWidth: 1.5,
+  },
+  kopis: {
+    fontSize: 12,
+    paddingHorizontal: 12,
+    marginVertical: 8,
+    color: colors.oc.gray[3].value,
   },
 })
