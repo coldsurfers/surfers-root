@@ -7,10 +7,15 @@ import {
 } from '@/features'
 import { getViewMode, SearchStoreLocationConcert, SearchStoreSnapIndex, useSearchStore } from '@/features/search/store'
 import { FULLY_EXPANDED_SNAP_INDEX } from '@/features/search/store/search-store.constants'
-import { SEARCH_DIM_HEIGHT_FLAG, SearchBottomList, SearchScreenNavigationHeader } from '@/features/search/ui'
 import { useBottomTab } from '@/lib'
 import { useUIStore } from '@/lib/stores'
-import { CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
+import {
+  CommonScreenLayout,
+  NAVIGATION_HEADER_HEIGHT,
+  SEARCH_DIM_HEIGHT_FLAG,
+  SearchBottomList,
+  SearchScreenNavigationHeader,
+} from '@/ui'
 import { Button, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import BottomSheet, { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { useDebounce } from '@uidotdev/usehooks'

@@ -13,13 +13,13 @@ import {
   concertTicketBtnPressCountForInterstitialAdStorage,
 } from '@/lib/storage'
 import { NAVIGATION_HEADER_HEIGHT } from '@/ui'
+import { TicketListBottomSheet } from '@/ui/ticket-list-bottom-sheet/ticket-list-bottom-sheet'
 import { colors } from '@coldsurfers/ocean-road'
-import { Button, Spinner, useColorScheme } from '@coldsurfers/ocean-road/native'
+import { Spinner, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import React, { PropsWithChildren, Suspense, useCallback, useMemo, useRef } from 'react'
 import { Dimensions, Platform, StatusBar, StyleSheet, View } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useConcertDetailScreenNavigation, useConcertDetailScreenRoute } from './concert-detail-screen.hooks'
 
 const ConcertDetailScreenLayout = ({ children }: PropsWithChildren) => {
@@ -33,10 +33,10 @@ const ConcertDetailScreenLayout = ({ children }: PropsWithChildren) => {
 
 const _ConcertDetailScreen = () => {
   const { semantics } = useColorScheme()
-  const { bottom: bottomInset } = useSafeAreaInsets()
   const navigation = useConcertDetailScreenNavigation()
   const { params } = useConcertDetailScreenRoute()
   const { requestReview } = useStoreReview()
+  const ticketSheetRef = useRef<BottomSheetModal>(null)
 
   const { data: eventData, isLoading: isLoadingConcertDetail } = useSuspenseQuery({
     queryKey: apiClient.event.queryKeys.detail({ eventId: params.concertId }),
@@ -114,6 +114,18 @@ const _ConcertDetailScreen = () => {
         data: [
           {
             location: mainVenue?.name ?? '',
+          },
+        ],
+      },
+      {
+        title: 'tickets',
+        sectionHeaderTitle: '티켓',
+        data: [
+          {
+            tickets: eventData.data.tickets,
+            onPressCta: () => {
+              ticketSheetRef.current?.present()
+            },
           },
         ],
       },
@@ -212,11 +224,6 @@ const _ConcertDetailScreen = () => {
               isSubscribed={!!subscribedConcert}
               onPressSubscribe={onPressSubscribe}
             />
-            <View style={[styles.fixedBottom, { backgroundColor: semantics.background[2] }]}>
-              <Button onPress={onPressTicketBtn} style={[styles.ticketBtn, { marginBottom: bottomInset }]}>
-                🎫 티켓 찾기 🎫
-              </Button>
-            </View>
           </>
         )}
       </View>
@@ -236,6 +243,11 @@ const _ConcertDetailScreen = () => {
           }}
         />
       )}
+      <TicketListBottomSheet
+        ref={ticketSheetRef}
+        onPressBackdrop={() => ticketSheetRef.current?.close()}
+        tickets={eventData.data.tickets}
+      />
     </ConcertDetailScreenLayout>
   )
 }
