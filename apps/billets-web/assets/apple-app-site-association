@@ -8,6 +8,22 @@
         ],
         "components": [
           {
+            "/": "/terms-of-service",
+            "exclude": true
+          },
+          {
+            "/": "/privacy-policy",
+            "exclude": true
+          },
+          {
+            "/": "/about",
+            "exclude": true
+          },
+          {
+            "/": "/browse/*",
+            "exclude": true
+          },
+          {
             "/": "*"
           }
         ]
@@ -15,6 +31,10 @@
       {
         "appID": "578PDZSTMS.com.fstvllife.ios",
         "paths": [
+          "NOT /terms-of-service",
+          "NOT /privacy-policy",
+          "NOT /about",
+          "NOT /browse/*",
           "*"
         ]
       }
