@@ -3,7 +3,7 @@ import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messag
 import { LinkingOptions } from '@react-navigation/native'
 import { Linking } from 'react-native'
 
-const NAVIGATION_IDS = ['home', 'my', 'search', 'concert-detail']
+const NAVIGATION_IDS = ['home', 'my', 'search', 'event-detail', 'artist-detail', 'venue-detail']
 
 function buildDeepLinkFromNotificationData(data: FirebaseMessagingTypes.RemoteMessage['data']): string | null {
   const navigationId = data?.navigationId
