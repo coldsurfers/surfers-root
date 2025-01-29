@@ -47,9 +47,9 @@ const SuspenseHomeScreen = () => {
 
   const onPressConcertListItem = useCallback(
     (item: ConcertListItemType) => {
-      navigation.navigate('ConcertStackNavigation', {
-        screen: 'ConcertDetailScreen',
-        params: { concertId: item.id },
+      navigation.navigate('EventStackNavigation', {
+        screen: 'EventDetailScreen',
+        params: { eventId: item.id },
       })
     },
     [navigation],

@@ -1,5 +1,5 @@
 export * from './artist-stack-navigation'
-export * from './concert-stack-navigation'
+export * from './event-stack-navigation'
 export * from './home-stack-navigation'
 export * from './login-stack-navigation'
 export * from './main-stack-navigation'

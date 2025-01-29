@@ -25,9 +25,9 @@ export const SearchFetchItem = ({ concertId }: { concertId: string }) => {
       subtitle: format(new Date(concertDetail.date), 'EEE, MMM dd'),
       description: concertDetail.venues?.at(0)?.name ?? '',
       onPress: () =>
-        navigation.navigate('ConcertStackNavigation', {
-          screen: 'ConcertDetailScreen',
-          params: { concertId: concertDetail.id },
+        navigation.navigate('EventStackNavigation', {
+          screen: 'EventDetailScreen',
+          params: { eventId: concertDetail.id },
         }),
     }
   }, [data, navigation])

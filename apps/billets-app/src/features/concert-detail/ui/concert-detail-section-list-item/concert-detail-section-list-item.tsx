@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/concert-venue-map-view'
 import { ArtistSubscribeButton, VenueSubscribeButton } from '@/features/subscribe'
-import { useConcertDetailScreenNavigation } from '@/screens/concert-detail-screen/concert-detail-screen.hooks'
+import { useEventDetailScreenNavigation } from '@/screens/event-detail-screen/event-detail-screen.hooks'
 import { TicketItem } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, ProfileThumbnail, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
@@ -71,7 +71,7 @@ ConcertDetailSectionListItem.TitleItem = ({ title }: ConcertDetailSectionListTit
 
 ConcertDetailSectionListItem.LineupItem = memo(
   ({ name, onPress, artistId, thumbUrl }: ConcertDetailSectionListLineupItemProps) => {
-    const navigation = useConcertDetailScreenNavigation()
+    const navigation = useEventDetailScreenNavigation()
     const { semantics } = useColorScheme()
     return (
       <TouchableOpacity onPress={onPress} style={styles.rowItem}>
@@ -118,7 +118,7 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
     onPressProfile,
     venueId,
   }: ConcertDetailSectionListVenueMapItemProps) => {
-    const navigation = useConcertDetailScreenNavigation()
+    const navigation = useEventDetailScreenNavigation()
     const { semantics } = useColorScheme()
     return (
       <View>

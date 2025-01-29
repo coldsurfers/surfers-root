@@ -8,10 +8,7 @@ import { useToggleSubscribeConcert } from '@/features/subscribe'
 import { useEffectOnce, useStoreReview } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
 import commonStyles from '@/lib/common-styles'
-import {
-  concertDetailCountForStoreReviewStorage,
-  concertTicketBtnPressCountForInterstitialAdStorage,
-} from '@/lib/storage'
+import { concertDetailCountForStoreReviewStorage } from '@/lib/storage'
 import { NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { TicketListBottomSheet } from '@/ui/ticket-list-bottom-sheet/ticket-list-bottom-sheet'
 import { colors } from '@coldsurfers/ocean-road'
@@ -20,9 +17,9 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import React, { PropsWithChildren, Suspense, useCallback, useMemo, useRef } from 'react'
 import { Dimensions, Platform, StatusBar, StyleSheet, View } from 'react-native'
-import { useConcertDetailScreenNavigation, useConcertDetailScreenRoute } from './concert-detail-screen.hooks'
+import { useEventDetailScreenNavigation, useEventDetailScreenRoute } from './event-detail-screen.hooks'
 
-const ConcertDetailScreenLayout = ({ children }: PropsWithChildren) => {
+const EventDetailScreenLayout = ({ children }: PropsWithChildren) => {
   const { semantics } = useColorScheme()
   return (
     <View style={{ flex: 1, marginTop: -NAVIGATION_HEADER_HEIGHT, backgroundColor: semantics.background[3] }}>
@@ -31,20 +28,20 @@ const ConcertDetailScreenLayout = ({ children }: PropsWithChildren) => {
   )
 }
 
-const _ConcertDetailScreen = () => {
+const ScreenInner = () => {
   const { semantics } = useColorScheme()
-  const navigation = useConcertDetailScreenNavigation()
-  const { params } = useConcertDetailScreenRoute()
+  const navigation = useEventDetailScreenNavigation()
+  const { params } = useEventDetailScreenRoute()
   const { requestReview } = useStoreReview()
   const ticketSheetRef = useRef<BottomSheetModal>(null)
 
   const { data: eventData, isLoading: isLoadingConcertDetail } = useSuspenseQuery({
-    queryKey: apiClient.event.queryKeys.detail({ eventId: params.concertId }),
-    queryFn: () => apiClient.event.getDetail({ eventId: params.concertId }),
+    queryKey: apiClient.event.queryKeys.detail({ eventId: params.eventId }),
+    queryFn: () => apiClient.event.getDetail({ eventId: params.eventId }),
   })
   const { data: subscribedConcert } = useQuery({
-    queryKey: apiClient.subscribe.queryKeys.eventSubscribe({ eventId: params.concertId }),
-    queryFn: () => apiClient.subscribe.getEvent({ eventId: params.concertId }),
+    queryKey: apiClient.subscribe.queryKeys.eventSubscribe({ eventId: params.eventId }),
+    queryFn: () => apiClient.subscribe.getEvent({ eventId: params.eventId }),
   })
   const { data: meData } = useQuery({
     queryKey: apiClient.user.queryKeys.me,
@@ -56,7 +53,7 @@ const _ConcertDetailScreen = () => {
     onAdOpened: () => console.log('opened'),
     onAdClosed: () => {
       navigation.navigate('ConcertTicketListScreen', {
-        concertId: params.concertId,
+        concertId: params.eventId,
       })
     },
   })
@@ -74,9 +71,9 @@ const _ConcertDetailScreen = () => {
     }
     toggleSubscribeConcert({
       isSubscribed: !!subscribedConcert,
-      concertId: params.concertId,
+      concertId: params.eventId,
     })
-  }, [meData, navigation, params.concertId, subscribedConcert, toggleSubscribeConcert])
+  }, [meData, navigation, params.eventId, subscribedConcert, toggleSubscribeConcert])
 
   const mainVenue = useMemo(() => {
     if (eventData.type !== 'concert') {
@@ -190,20 +187,6 @@ const _ConcertDetailScreen = () => {
     }
   })
 
-  const onPressTicketBtn = useCallback(async () => {
-    const prevCount = concertTicketBtnPressCountForInterstitialAdStorage.get() ?? 0
-    const nextCount = prevCount + 1
-    concertTicketBtnPressCountForInterstitialAdStorage.set(nextCount)
-    const shouldShowAd = nextCount % 5 === 0 && loaded
-    if (shouldShowAd) {
-      await show()
-    } else {
-      navigation.navigate('ConcertTicketListScreen', {
-        concertId: params.concertId,
-      })
-    }
-  }, [loaded, navigation, params.concertId, show])
-
   if (eventData.type !== 'concert') {
     return null
   }
@@ -211,7 +194,7 @@ const _ConcertDetailScreen = () => {
   const { data: concertDetail } = eventData
 
   return (
-    <ConcertDetailScreenLayout>
+    <EventDetailScreenLayout>
       <StatusBar hidden={Platform.OS === 'ios'} />
       <View style={[styles.wrapper, { backgroundColor: semantics.background[3] }]}>
         {isLoadingConcertDetail ? (
@@ -248,20 +231,20 @@ const _ConcertDetailScreen = () => {
         onPressBackdrop={() => ticketSheetRef.current?.close()}
         tickets={eventData.data.tickets}
       />
-    </ConcertDetailScreenLayout>
+    </EventDetailScreenLayout>
   )
 }
 
-export const ConcertDetailScreen = () => {
+export const EventDetailScreen = () => {
   return (
     <Suspense
       fallback={
-        <ConcertDetailScreenLayout>
+        <EventDetailScreenLayout>
           <Spinner positionCenter />
-        </ConcertDetailScreenLayout>
+        </EventDetailScreenLayout>
       }
     >
-      <_ConcertDetailScreen />
+      <ScreenInner />
     </Suspense>
   )
 }
