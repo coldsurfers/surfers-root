@@ -1,14 +1,20 @@
 import { CurrentLocationTracker, useToggleSubscribeConcert, useUserCurrentLocationStore } from '@/features'
-import { ConcertListItemType } from '@/features/concert/ui/concert-list/concert-list.types'
 import { useShowBottomTabBar } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
-import { AnimatePresence, CommonScreenLayout, LocationSelector, LocationSelectorModal } from '@/ui'
+import {
+  AnimatePresence,
+  CommonScreenLayout,
+  ConcertList,
+  ConcertListSkeleton,
+  LocationSelector,
+  LocationSelectorModal,
+} from '@/ui'
+import { ConcertListItemType } from '@/ui/concert-list/concert-list.types'
 import { useScrollToTop } from '@react-navigation/native'
 import { useQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useRef, useState } from 'react'
 import { FlatList } from 'react-native'
 import { useShallow } from 'zustand/shallow'
-import { ConcertList, ConcertListSkeleton } from '../../features/concert'
 import { useHomeScreenNavigation } from './home-screen.hooks'
 
 const SuspenseHomeScreen = () => {
