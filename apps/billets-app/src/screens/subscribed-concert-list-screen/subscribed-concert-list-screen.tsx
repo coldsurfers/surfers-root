@@ -6,11 +6,11 @@ import { useSubscribedConcertListScreenNavigation } from './subscribed-concert-l
 const ScreenContent = () => {
   const navigation = useSubscribedConcertListScreenNavigation()
   const onPressItem = useCallback(
-    (concertId: string) => {
-      navigation.navigate('ConcertStackNavigation', {
-        screen: 'ConcertDetailScreen',
+    (eventId: string) => {
+      navigation.navigate('EventStackNavigation', {
+        screen: 'EventDetailScreen',
         params: {
-          concertId,
+          eventId,
         },
       })
     },

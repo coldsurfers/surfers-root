@@ -53,9 +53,9 @@ export const SearchDefaultBottomResultList = ({ latitude, longitude }: { latitud
   const renderConcertListItem: ListRenderItem<(typeof concertListUIData)[number]> = useCallback(
     ({ item: value }) => {
       const onPress = () => {
-        navigation.navigate('ConcertStackNavigation', {
-          screen: 'ConcertDetailScreen',
-          params: { concertId: value.id },
+        navigation.navigate('EventStackNavigation', {
+          screen: 'EventDetailScreen',
+          params: { eventId: value.id },
         })
       }
       return <FetchSearchConcertItem item={value} onPress={onPress} />
