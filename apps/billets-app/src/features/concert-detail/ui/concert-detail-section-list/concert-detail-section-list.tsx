@@ -14,6 +14,7 @@ import {
   ConcertDetailSectionListPriceItemProps,
   ConcertDetailSectionListTicketOpenDateItemProps,
   ConcertDetailSectionListTicketSellerItemProps,
+  ConcertDetailSectionListTicketsItemProps,
   ConcertDetailSectionListTitleItemProps,
   ConcertDetailSectionListVenueMapItemProps,
   VENUE_MAP_HEIGHT,
@@ -82,6 +83,11 @@ export const ConcertDetailSectionList = ({
           case 'date':
             children = (
               <ConcertDetailSectionListItem.DateItem date={(info.item as ConcertDetailSectionListDateItemProps).date} />
+            )
+            break
+          case 'tickets':
+            children = (
+              <ConcertDetailSectionListItem.TicketsItem {...(info.item as ConcertDetailSectionListTicketsItemProps)} />
             )
             break
           case 'venue':
@@ -195,6 +201,7 @@ export const ConcertDetailSectionList = ({
 const styles = StyleSheet.create({
   headerWrapper: {
     backgroundColor: colors.oc.gray[1].value,
+    marginTop: 12,
   },
   commonContentWrapper: {
     backgroundColor: colors.oc.gray[1].value,
