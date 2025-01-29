@@ -1,5 +1,4 @@
-import { SubscribedConcertList } from '@/features'
-import { CommonScreenLayout } from '@/ui'
+import { CommonScreenLayout, SubscribedConcertList } from '@/ui'
 import { Spinner } from '@coldsurfers/ocean-road/native'
 import { Suspense, useCallback } from 'react'
 import { useSubscribedConcertListScreenNavigation } from './subscribed-concert-list-screen.hooks'

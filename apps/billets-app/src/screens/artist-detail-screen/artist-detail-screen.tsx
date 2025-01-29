@@ -1,5 +1,4 @@
-import { ArtistDetailConcertList, ArtistProfileImageModal } from '@/features/artist'
-import { CommonScreenLayout } from '@/ui'
+import { ArtistDetailConcertList, ArtistProfileImageModal, CommonScreenLayout } from '@/ui'
 import { useState } from 'react'
 import { useArtistDetailScreenNavigation, useArtistDetailScreenRoute } from './artist-detail-screen.hooks'
 

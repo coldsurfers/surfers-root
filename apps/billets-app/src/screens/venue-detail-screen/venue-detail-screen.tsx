@@ -1,5 +1,4 @@
-import { VenueDetailConcertList } from '@/features/venue/ui'
-import { CommonScreenLayout } from '@/ui'
+import { CommonScreenLayout, VenueDetailConcertList } from '@/ui'
 import { useVenueDetailScreenNavigation, useVenueDetailScreenRoute } from './venue-detail-screen.hooks'
 
 export const VenueDetailScreen = () => {
