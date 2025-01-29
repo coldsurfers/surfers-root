@@ -2,8 +2,8 @@ import { ConcertSubscribeButton } from '@/features/subscribe'
 import { CONCERT_DETAIL_LIST_HEADER_HEIGHT } from '@/lib'
 import { colors } from '@coldsurfers/ocean-road'
 import { useColorScheme } from '@coldsurfers/ocean-road/native'
-import React, { ReactElement, ReactNode, useCallback } from 'react'
-import { Animated, SectionListRenderItem, StyleSheet, View } from 'react-native'
+import React, { ReactElement, ReactNode, useCallback, useMemo } from 'react'
+import { Animated, Dimensions, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { ConcertDetailSectionListHeaderItem } from '../concert-detail-section-list-header-item'
 import {
@@ -43,6 +43,15 @@ export const ConcertDetailSectionList = ({
     outputRange: [2, 1],
     extrapolateRight: 'clamp',
   })
+
+  const thumbnailUrl = useMemo(() => {
+    const thumbnail = thumbnails.at(0)
+    if (!thumbnail) {
+      return ''
+    }
+    return `${thumbnail}&width=${Dimensions.get('window').width}&height=${CONCERT_DETAIL_LIST_HEADER_HEIGHT}`
+  }, [thumbnails])
+
   const renderSectionHeader: (info: { section: ConcertDetailSectionListSection }) => ReactElement | null = useCallback(
     (info) => {
       const { title, sectionHeaderTitle, data } = info.section
@@ -180,7 +189,7 @@ export const ConcertDetailSectionList = ({
           >
             <FastImage
               source={{
-                uri: thumbnails[0],
+                uri: thumbnailUrl,
               }}
               style={styles.thumbnail}
             />

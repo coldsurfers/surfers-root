@@ -21,17 +21,14 @@ const PER_PAGE = 20
 
 export const ConcertList = forwardRef<FlatList, ConcertListProps>(({ onPressItem, onPressSubscribe }, ref) => {
   const [isRefreshing, setIsRefreshing] = useState(false)
-  const { latitude, longitude, cityName, type, cityId } = useUserCurrentLocationStore(
+  const { latitude, longitude, type, cityId } = useUserCurrentLocationStore(
     useShallow((state) => ({
       latitude: state.latitude,
       longitude: state.longitude,
-      cityName: state.cityName,
       type: state.type,
       cityId: state.cityId,
     })),
   )
-
-  console.log(cityName, cityId)
 
   const queryParams = useMemo(() => {
     return match(type)
