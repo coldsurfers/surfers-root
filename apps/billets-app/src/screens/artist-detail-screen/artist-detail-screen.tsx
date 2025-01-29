@@ -1,5 +1,4 @@
-import { ArtistDetailConcertList, ArtistProfileImageModal } from '@/features/artist'
-import { CommonScreenLayout } from '@/ui'
+import { ArtistDetailConcertList, ArtistProfileImageModal, CommonScreenLayout } from '@/ui'
 import { useState } from 'react'
 import { useArtistDetailScreenNavigation, useArtistDetailScreenRoute } from './artist-detail-screen.hooks'
 
@@ -12,11 +11,11 @@ export const ArtistDetailScreen = () => {
     <CommonScreenLayout>
       <ArtistDetailConcertList
         artistId={route.params.artistId}
-        onPressItem={({ concertId }) => {
-          navigation.navigate('ConcertStackNavigation', {
-            screen: 'ConcertDetailScreen',
+        onPressItem={({ eventId }) => {
+          navigation.navigate('EventStackNavigation', {
+            screen: 'EventDetailScreen',
             params: {
-              concertId,
+              eventId,
             },
           })
         }}

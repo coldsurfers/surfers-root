@@ -1,5 +1,8 @@
+import { components } from '@/types/api'
+
 export interface ConcertDetailSectionListDateItemProps {
   date: string
+  isKOPIS?: boolean
 }
 export interface ConcertDetailSectionListLocationItemProps {
   location: string
@@ -35,4 +38,9 @@ export type ConcertDetailSectionListVenueMapItemProps = {
   onPressProfile?: () => void
   venueTitle: string
   venueId: string
+}
+
+export type ConcertDetailSectionListTicketsItemProps = {
+  tickets: components['schemas']['TicketDTOSchema'][]
+  onPressCta?: () => void
 }

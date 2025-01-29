@@ -1,14 +1,20 @@
 import { CurrentLocationTracker, useToggleSubscribeConcert, useUserCurrentLocationStore } from '@/features'
-import { ConcertListItemType } from '@/features/concert/ui/concert-list/concert-list.types'
 import { useShowBottomTabBar } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
-import { AnimatePresence, CommonScreenLayout, LocationSelector, LocationSelectorModal } from '@/ui'
+import {
+  AnimatePresence,
+  CommonScreenLayout,
+  ConcertList,
+  ConcertListSkeleton,
+  LocationSelector,
+  LocationSelectorModal,
+} from '@/ui'
+import { ConcertListItemType } from '@/ui/concert-list/concert-list.types'
 import { useScrollToTop } from '@react-navigation/native'
 import { useQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useRef, useState } from 'react'
 import { FlatList } from 'react-native'
 import { useShallow } from 'zustand/shallow'
-import { ConcertList, ConcertListSkeleton } from '../../features/concert'
 import { useHomeScreenNavigation } from './home-screen.hooks'
 
 const SuspenseHomeScreen = () => {
@@ -41,9 +47,9 @@ const SuspenseHomeScreen = () => {
 
   const onPressConcertListItem = useCallback(
     (item: ConcertListItemType) => {
-      navigation.navigate('ConcertStackNavigation', {
-        screen: 'ConcertDetailScreen',
-        params: { concertId: item.id },
+      navigation.navigate('EventStackNavigation', {
+        screen: 'EventDetailScreen',
+        params: { eventId: item.id },
       })
     },
     [navigation],
@@ -91,13 +97,7 @@ const SuspenseHomeScreen = () => {
       <LocationSelector type={userCurrentLocationType} cityName={cityName} onPress={showLocationModal} />
       {latitude !== null && longitude !== null && (
         <Suspense fallback={<ConcertListSkeleton />}>
-          <ConcertList
-            ref={listRef}
-            onPressItem={onPressConcertListItem}
-            onPressSubscribe={onPressSubscribe}
-            latitude={latitude}
-            longitude={longitude}
-          />
+          <ConcertList ref={listRef} onPressItem={onPressConcertListItem} onPressSubscribe={onPressSubscribe} />
         </Suspense>
       )}
       <AnimatePresence>

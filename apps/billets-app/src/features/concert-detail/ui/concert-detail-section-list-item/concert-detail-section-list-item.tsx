@@ -1,9 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/concert-venue-map-view'
 import { ArtistSubscribeButton, VenueSubscribeButton } from '@/features/subscribe'
-import { useConcertDetailScreenNavigation } from '@/screens/concert-detail-screen/concert-detail-screen.hooks'
+import { KOPIS_COPYRIGHT_TEXT } from '@/lib'
+import { useEventDetailScreenNavigation } from '@/screens/event-detail-screen/event-detail-screen.hooks'
+import { TicketItem } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
-import { ProfileThumbnail, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
+import { Button, ProfileThumbnail, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { format } from 'date-fns'
 import { Copy, MapPin } from 'lucide-react-native'
@@ -17,18 +19,26 @@ import {
   ConcertDetailSectionListPriceItemProps,
   ConcertDetailSectionListTicketOpenDateItemProps,
   ConcertDetailSectionListTicketSellerItemProps,
+  ConcertDetailSectionListTicketsItemProps,
   ConcertDetailSectionListTitleItemProps,
   ConcertDetailSectionListVenueMapItemProps,
 } from './concert-detail-section-list-item.types'
 
 export const ConcertDetailSectionListItem = () => null
 
-ConcertDetailSectionListItem.DateItem = ({ date }: ConcertDetailSectionListDateItemProps) => {
+ConcertDetailSectionListItem.DateItem = ({ date, isKOPIS }: ConcertDetailSectionListDateItemProps) => {
   const { semantics } = useColorScheme()
   return (
-    <Text style={[styles.text, styles.dateText, { color: semantics.foreground[2] }]}>
-      {format(new Date(date ?? ''), 'MMM dd, hh:mm a')}
-    </Text>
+    <>
+      <Text style={[styles.text, styles.dateText, { color: semantics.foreground[2] }]}>
+        {format(new Date(date ?? ''), 'MMM dd, hh:mm a')}
+      </Text>
+      {isKOPIS ? (
+        <Text weight="medium" style={styles.kopis}>
+          {KOPIS_COPYRIGHT_TEXT}
+        </Text>
+      ) : null}
+    </>
   )
 }
 ConcertDetailSectionListItem.LocationItem = ({ location }: ConcertDetailSectionListLocationItemProps) => {
@@ -69,7 +79,7 @@ ConcertDetailSectionListItem.TitleItem = ({ title }: ConcertDetailSectionListTit
 
 ConcertDetailSectionListItem.LineupItem = memo(
   ({ name, onPress, artistId, thumbUrl }: ConcertDetailSectionListLineupItemProps) => {
-    const navigation = useConcertDetailScreenNavigation()
+    const navigation = useEventDetailScreenNavigation()
     const { semantics } = useColorScheme()
     return (
       <TouchableOpacity onPress={onPress} style={styles.rowItem}>
@@ -116,7 +126,7 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
     onPressProfile,
     venueId,
   }: ConcertDetailSectionListVenueMapItemProps) => {
-    const navigation = useConcertDetailScreenNavigation()
+    const navigation = useEventDetailScreenNavigation()
     const { semantics } = useColorScheme()
     return (
       <View>
@@ -162,7 +172,35 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
   },
 )
 
+ConcertDetailSectionListItem.TicketsItem = ({ tickets, onPressCta }: ConcertDetailSectionListTicketsItemProps) => {
+  if (tickets.length === 0) return null
+  if (tickets.length === 1) return <TicketItem {...tickets[0]} />
+
+  return (
+    <Button theme="pink" onPress={onPressCta} style={styles.bigTicketBtn}>
+      티켓 찾기
+    </Button>
+  )
+}
+
 const styles = StyleSheet.create({
+  ticketWrapper: {
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    marginHorizontal: 12,
+    marginTop: 8,
+    marginBottom: 8,
+    borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  ticketBtn: {
+    marginLeft: 'auto',
+  },
+  bigTicketBtn: {
+    marginHorizontal: 12,
+    marginVertical: 8,
+  },
   text: {
     paddingHorizontal: 12,
   },
@@ -190,11 +228,10 @@ const styles = StyleSheet.create({
     color: '#2e94f4',
   },
   dateText: {
-    marginTop: 6,
     fontSize: 14,
     color: colors.oc.black.value,
   },
-  venueText: { marginTop: 6, color: colors.oc.gray[8].value, marginBottom: 8, fontSize: 14 },
+  venueText: { color: colors.oc.gray[8].value, fontSize: 14, marginTop: 8, marginBottom: 4 },
   venueMap: {
     width: Dimensions.get('screen').width - 12 * 2,
     height: VENUE_MAP_HEIGHT,
@@ -235,5 +272,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: colors.oc.gray[4].value,
     borderWidth: 1.5,
+  },
+  kopis: {
+    fontSize: 12,
+    paddingHorizontal: 12,
+    marginVertical: 8,
+    color: colors.oc.gray[3].value,
   },
 })

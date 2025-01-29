@@ -1,22 +1,24 @@
 import { useUserCurrentLocationStore } from '@/features/location/stores'
-import { $api } from '@/lib/api/openapi-client'
+import { apiClient } from '@/lib/api/openapi-client'
 import { CommonScreenLayout } from '@/ui'
 import { Spinner, Text, TextInput, useColorScheme } from '@coldsurfers/ocean-road/native'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useMemo, useState } from 'react'
 import { KeyboardAvoidingView, SectionList, SectionListData, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { LatLng } from '../../types/LatLng'
 import { useLocationSelectionScreenNavigation } from './location-selection-screen.hooks'
 
+type LocationSelectionListItemType = {
+  cityId: string
+  city: string
+  latLng: LatLng
+}
+type LocationSelectionListSectionType = {
+  country: string
+}
+
 type LocationSelectionListSectionData = ReadonlyArray<
-  SectionListData<
-    {
-      city: string
-      latLng: LatLng
-    },
-    {
-      country: string
-    }
-  >
+  SectionListData<LocationSelectionListItemType, LocationSelectionListSectionType>
 >
 
 const LocationSelectionScreenContent = () => {
@@ -24,13 +26,17 @@ const LocationSelectionScreenContent = () => {
   const navigation = useLocationSelectionScreenNavigation()
   const setUserCurrentLocation = useUserCurrentLocationStore((state) => state.setUserCurrentLocation)
   const [searchKeyword, setSearchKeyword] = useState('')
-  const { data: locationCountries } = $api.useSuspenseQuery('get', '/v1/location/country')
+  const { data: locationCountries } = useSuspenseQuery({
+    queryKey: apiClient.location.queryKeys.country.all,
+    queryFn: () => apiClient.location.getCountries(),
+  })
   const sectionData = useMemo<LocationSelectionListSectionData>(() => {
     return locationCountries?.map((country) => ({
       country: country.uiName,
       data: country.cities.map((city) => {
         return {
           city: city.uiName,
+          cityId: city.id,
           latLng: {
             latitude: city.lat,
             longitude: city.lng,
@@ -56,7 +62,7 @@ const LocationSelectionScreenContent = () => {
   }, [searchKeyword, sectionData])
 
   const renderSectionHeader = useCallback(
-    (info: { section: SectionListData<{ city: string; latLng: LatLng }, { country: string }> }) => {
+    (info: { section: SectionListData<LocationSelectionListItemType, LocationSelectionListSectionType> }) => {
       if (info.section.data.length === 0) {
         return null
       }
@@ -70,12 +76,13 @@ const LocationSelectionScreenContent = () => {
   )
 
   const renderItem = useCallback(
-    (info: { item: { city: string; latLng: LatLng } }) => {
+    (info: { item: LocationSelectionListItemType }) => {
       const onPress = () => {
         setUserCurrentLocation({
           ...info.item.latLng,
           cityName: info.item.city,
           type: 'city-location',
+          cityId: info.item.cityId,
         })
         navigation.goBack()
       }

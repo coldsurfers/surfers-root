@@ -9,6 +9,7 @@ export const useUserCurrentLocationStore = create<UserCurrentLocationStore>()(
       latitude: null,
       longitude: null,
       cityName: null,
+      cityId: null,
       type: null,
       setUserCurrentLocation: (payload) =>
         set(() => ({
@@ -16,6 +17,7 @@ export const useUserCurrentLocationStore = create<UserCurrentLocationStore>()(
           longitude: payload.longitude,
           cityName: payload.cityName,
           type: payload.type,
+          cityId: payload.cityId,
         })),
     }),
     {

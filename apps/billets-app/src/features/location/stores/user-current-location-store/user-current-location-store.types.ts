@@ -6,12 +6,14 @@ export interface UserCurrentLocationStoreState {
   latitude: number | null
   longitude: number | null
   cityName: string | null
+  cityId: string | null
   type: UserCurrentLocationType | null
 }
 
 export interface UserCurrentLocationStoreAction {
   setUserCurrentLocation: (
     payload: LatLng & {
+      cityId: string | null
       cityName: string | null
       type: UserCurrentLocationType
     },

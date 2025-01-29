@@ -1,7 +1,6 @@
-import { SubscribedConcertList, SubscribedConcertListSkeleton } from '@/features'
 import { useShowBottomTabBar } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
-import { CommonScreenLayout, MyScreenLandingLayout } from '@/ui'
+import { CommonScreenLayout, MyScreenLandingLayout, SubscribedConcertList, SubscribedConcertListSkeleton } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, ProfileThumbnail, Spinner, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { useQuery } from '@tanstack/react-query'
@@ -32,10 +31,10 @@ const SuspenseMyScreen = () => {
     })
   }, [navigation])
   const onPressSubscribedConcertListItem = useCallback(
-    (concertId: string) => {
-      navigation.navigate('ConcertStackNavigation', {
-        screen: 'ConcertDetailScreen',
-        params: { concertId },
+    (eventId: string) => {
+      navigation.navigate('EventStackNavigation', {
+        screen: 'EventDetailScreen',
+        params: { eventId },
       })
     },
     [navigation],
