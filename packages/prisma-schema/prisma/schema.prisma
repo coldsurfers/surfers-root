@@ -139,8 +139,6 @@ model Staff {
 model EventCategory {
   id String @id @default(uuid())
   name String @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
   deletedAt DateTime?
   serialNumber Int
   concerts Concert[]
