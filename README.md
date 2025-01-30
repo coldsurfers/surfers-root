@@ -11,3 +11,7 @@
 ## Infrastructure
 
 - [Link to a markdown in a folder](docs/infrastructure.md)
+
+## Admin System
+
+- [Link to a markdown in a folder](docs/admin-system.md)
