@@ -299,6 +299,7 @@ model LocationCity {
   geohash           String?
   locationCountries LocationCitiesOnLocationCountries[]
   concerts          Concert[]
+  serialNumber      Int?
   disabled          Boolean                             @default(false)
   createdAt         DateTime                            @default(now())
 }
