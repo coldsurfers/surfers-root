@@ -142,6 +142,7 @@ model EventCategory {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   deletedAt DateTime?
+  serialNumber Int
   concerts Concert[]
 }
 
