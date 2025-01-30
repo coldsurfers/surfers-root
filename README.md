@@ -7,3 +7,7 @@
 ## Global Date
 
 - [Link to a markdown in a folder](docs/global-date.md)
+
+## Infrastructure
+
+- [Link to a markdown in a folder](docs/infrastructure.md)
