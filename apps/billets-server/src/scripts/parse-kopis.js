@@ -28,6 +28,8 @@ const KOPISEVENT_CATEGORIES = {
   '서양음악(클래식)': 'CCCA',
   '한국음악(국악)': 'CCCC',
   '뮤지컬': 'GGGA',
+  '무용(서양/한국무용)': 'BBBC',
+  '대중무용': 'BBBE',
 }
 
 function categoryToEventCategoryId(category) {
@@ -39,6 +41,9 @@ function categoryToEventCategoryId(category) {
     case 'AAAA':
     case 'GGGA':
       return '41e8895c-c1c8-4863-b6c1-fd9f029d8f57'
+    case 'BBBC':
+    case 'BBBE':
+      return '3f8a7c2d-9b5e-4d1f-82a6-7e0c4b9d3f2a'
     default:
       return null
   }

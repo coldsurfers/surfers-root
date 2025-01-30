@@ -15,3 +15,7 @@
 ## Admin System
 
 - [Link to a markdown in a folder](docs/admin-system.md)
+
+## Event Categories
+
+- [Link to a markdown in a folder](docs/event-categories.md)
