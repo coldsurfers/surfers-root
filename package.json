@@ -1,5 +1,5 @@
 {
-  "name": "@coldsurfers/root",
+  "name": "@coldsurfers/surfers-root",
   "private": true,
   "version": "1.0.0",
   "packageManager": "yarn@4.2.2",
