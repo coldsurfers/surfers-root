@@ -22,31 +22,18 @@ export default $config({
   },
   async run() {
     const name = (() => {
-      switch (process.env.DEPLOYMENT_STAGE) {
+      switch (process.env.NODE_ENV) {
         case 'production':
           return 'BilletsWeb'
-        case 'staging':
         default:
           return 'BilletsWebStaging'
       }
     })()
-    const domain = (() => {
-      switch (process.env.DEPLOYMENT_STAGE) {
-        case 'production':
-          return {
-            name: process.env.BILLETS_WEB_DOMAIN_NAME!,
-            cert: process.env.BILLETS_WEB_DOMAIN_CERT_ARN!,
-          }
-        case 'staging':
-        default:
-          return {
-            name: process.env.BILLETS_WEB_STAGING_DOMAIN_NAME!,
-            cert: process.env.BILLETS_WEB_STAGING_DOMAIN_CERT_ARN!,
-          }
-      }
-    })()
     new sst.aws.Nextjs(name, {
-      domain,
+      domain: {
+        name: process.env.BILLETS_WEB_DOMAIN_NAME!,
+        cert: process.env.BILLETS_WEB_DOMAIN_CERT_ARN!,
+      },
     })
   },
 })
