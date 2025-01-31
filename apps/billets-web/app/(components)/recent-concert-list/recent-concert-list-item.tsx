@@ -1,9 +1,9 @@
 'use client'
 
 import { format, parseISO } from 'date-fns'
-import Link from 'next/link'
 import { useMemo } from 'react'
 import { components } from 'types/api'
+import { GlobalLink } from '../../(ui)'
 import {
   StyledRecentListBilletsConcertCard,
   StyledRecentListBilletsConcertCardImage,
@@ -27,7 +27,7 @@ export const RecentConcertListItem = ({ data }: { data: components['schemas']['C
     return `${data.mainPoster.url}&width=250&height=250`
   }, [data.mainPoster])
   return (
-    <Link href={`/event/${data.id}`}>
+    <GlobalLink href={`/event/${data.id}`}>
       <StyledRecentListBilletsConcertCard $isLoading={false}>
         {thumbUrl ? (
           <StyledRecentListBilletsConcertCardImage src={thumbUrl} alt={data.title} />
@@ -44,6 +44,6 @@ export const RecentConcertListItem = ({ data }: { data: components['schemas']['C
           <StyledRecentListParagraph as="p">{data.mainVenue?.name}</StyledRecentListParagraph>
         </div>
       </StyledRecentListBilletsConcertCard>
-    </Link>
+    </GlobalLink>
   )
 }
