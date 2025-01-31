@@ -78,6 +78,19 @@ export const apiClient = {
       return response.data
     },
   },
+  eventCategory: {
+    queryKeys: {
+      all: ['event-category'],
+      list: ['event-category', 'list'],
+    },
+    getEventCategories: async () => {
+      const response = await baseFetchClient.GET('/v1/event-category/')
+      if (response.error) {
+        throw new OpenApiError(response.error)
+      }
+      return response.data
+    },
+  },
   location: {
     queryKeys: {
       country: {
