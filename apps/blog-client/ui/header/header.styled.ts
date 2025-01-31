@@ -3,10 +3,16 @@ import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { Link } from 'i18n/routing'
 
-export const StyledHeaderLinkBadge = styled(Link)`
+export const StyledHeaderLinkBadge = styled(Link)<{ $isActive: boolean }>`
   border-radius: 32px;
   border: 1px solid ${semantics.color.border[2]};
   padding: 1rem;
+
+  ${(props) =>
+    props.$isActive &&
+    css`
+      background-color: ${semantics.color.background[4]};
+    `}
 `
 
 export const StyledHeaderHeading = styled(Text)<{ $isActive: boolean }>`
@@ -15,6 +21,12 @@ export const StyledHeaderHeading = styled(Text)<{ $isActive: boolean }>`
   font-size: 24px;
   letter-spacing: 0.5px;
   font-weight: bold;
+
+  ${(props) =>
+    props.$isActive &&
+    css`
+      background-color: ${semantics.color.background[4]};
+    `}
 
   ${media.medium(css`
     font-size: 20px;
