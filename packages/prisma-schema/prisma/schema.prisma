@@ -136,6 +136,14 @@ model Staff {
   users        UsersOnStaffs[]
 }
 
+model EventCategory {
+  id String @id @default(uuid())
+  name String @unique
+  deletedAt DateTime?
+  serialNumber Int
+  concerts Concert[]
+}
+
 model Concert {
   id              String                      @id @default(uuid())
   artists         ConcertsOnArtists[]
@@ -149,6 +157,8 @@ model Concert {
   kopisEvent      KOPISEvent?
   locationCity    LocationCity?               @relation(fields: [locationCityId], references: [id])
   locationCityId  String?
+  eventCategory   EventCategory?             @relation(fields: [eventCategoryId], references: [id])
+  eventCategoryId String?
   createdAt       DateTime                    @default(now())
   updatedAt       DateTime?
   deletedAt       DateTime?
@@ -288,6 +298,7 @@ model LocationCity {
   geohash           String?
   locationCountries LocationCitiesOnLocationCountries[]
   concerts          Concert[]
+  serialNumber      Int?
   disabled          Boolean                             @default(false)
   createdAt         DateTime                            @default(now())
 }
