@@ -3,8 +3,8 @@
 import { GLOBAL_Z_INDEX } from '@/libs/constants'
 import { initialPageQuery } from '@/libs/openapi-client'
 import { useQuery } from '@tanstack/react-query'
-import Link from 'next/link'
 import { useCallback, useMemo, useRef, useState } from 'react'
+import { GlobalLink } from '../../../../(ui)/global-link/global-link'
 import { NavigationCityDropdown } from './navigation-city-dropdown'
 import {
   DropdownItem,
@@ -71,14 +71,14 @@ export const Navigation = ({ initialCity }: { initialCity: string }) => {
           <>
             {item.cities.map((city, index) => {
               return (
-                <Link href={`/browse/${city.name}`} key={city.name}>
+                <GlobalLink href={`/browse/${city.name}`} key={city.name}>
                   <DropdownItem $isLast={index === item.cities.length - 1}>
                     <DropdownItemText as="p" $isSelected={city.name === initialCity}>
                       {city.name[0].toUpperCase()}
                       {city.name.slice(1, city.name.length)}
                     </DropdownItemText>
                   </DropdownItem>
-                </Link>
+                </GlobalLink>
               )
             })}
           </>
