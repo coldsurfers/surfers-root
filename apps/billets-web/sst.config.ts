@@ -21,6 +21,15 @@ export default $config({
     }
   },
   async run() {
+    const name = (() => {
+      switch (process.env.DEPLOYMENT_STAGE) {
+        case 'production':
+          return 'BilletsWeb'
+        case 'staging':
+        default:
+          return 'BilletsWebStaging'
+      }
+    })()
     const domain = (() => {
       switch (process.env.DEPLOYMENT_STAGE) {
         case 'production':
@@ -36,7 +45,7 @@ export default $config({
           }
       }
     })()
-    new sst.aws.Nextjs('BilletsWeb', {
+    new sst.aws.Nextjs(name, {
       domain,
     })
   },
