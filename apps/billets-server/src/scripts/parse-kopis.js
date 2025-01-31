@@ -22,6 +22,33 @@ dotenv.config()
 
 const parser = new xml2js.Parser({ explicitArray: false })
 
+const KOPISEVENT_CATEGORIES = {
+  '대중음악': 'CCCD',
+  '연극': 'AAAA',
+  '서양음악(클래식)': 'CCCA',
+  '한국음악(국악)': 'CCCC',
+  '뮤지컬': 'GGGA',
+  '무용(서양/한국무용)': 'BBBC',
+  '대중무용': 'BBBE',
+}
+
+function categoryToEventCategoryId(category) {
+  switch (category) {
+    case 'CCCD':
+    case 'CCCA':
+    case 'CCCC':
+      return '99133f58-38bc-40e3-92bf-877342dbf8cc'
+    case 'AAAA':
+    case 'GGGA':
+      return '41e8895c-c1c8-4863-b6c1-fd9f029d8f57'
+    case 'BBBC':
+    case 'BBBE':
+      return '3f8a7c2d-9b5e-4d1f-82a6-7e0c4b9d3f2a'
+    default:
+      return null
+  }
+}
+
 function areaToLocationCityId(area) {
   switch (area) {
     case '서울특별시':
@@ -36,6 +63,28 @@ function areaToLocationCityId(area) {
       return 'b152efa3-b765-4cd3-a880-a4fd15f0b696'
     case '제주특별자치도':
       return 'ef7372f0-7952-40ab-9d0a-fd1b913ae772'
+    case '광주광역시':
+      return '4e2f1b7d-9d73-4b4e-982d-0a37e76c5d71'
+    case '대전광역시':
+      return 'b42c6f8a-63f4-4b5a-96c7-2a8f4c6d9e0d'
+    case '세종특별자치시':
+      return 'c1f8d5e4-47a1-4e1f-897e-9f2d8b3a2b6e'
+    case '경기도':
+      return 'f59b3d8e-2784-4e4e-917c-4f7a9e6c3b5d'
+    case '강원특별자치도':
+      return '9d1a2e4f-6b8c-42d7-a7e1-3f5c9d2b1e7a'
+    case '충청북도':
+      return '8a3d4b7c-5e9f-4d6a-9281-0c7e8d1f2b5a'
+    case '충청남도':
+      return '3f6e7b8c-2d1a-4d5e-9f7c-8a0b4e2d1f6a'
+    case '전라북도':
+      return '1b7c4e2d-5a9f-6d8a-3f0c-7e2d1f9a8b4e'
+    case '전라남도':
+      return '5e9f7c8a-0b4e-2d1f-6a3d-7c8b4e2d1f9a'
+    case '경상북도':
+      return '7f3a9d4e-5c12-4a3d-91f8-08c9e4bdbd13'
+    case '경상남도':
+      return '2b6c13f5-2e17-41e9-9cf6-1d4d8c8f5b7e'
     default:
       return null
   }
@@ -157,6 +206,25 @@ async function connectOrCreateTicket(kopisEventId, ticketSeller, ticketURL) {
   }
 }
 
+async function connectEventCategory(eventId, category) {
+  const eventCategoryId = categoryToEventCategoryId(category)
+  if (!eventCategoryId) {
+    return
+  }
+  await dbClient.concert.update({
+    where: {
+      id: eventId,
+    },
+    data: {
+      eventCategory: {
+        connect: {
+          id: eventCategoryId,
+        },
+      },
+    },
+  })
+}
+
 async function connectLocationCity(eventId, area) {
   const locationCityId = areaToLocationCityId(area)
   if (!locationCityId) {
@@ -233,12 +301,17 @@ async function connectOrCreateVenue(venue, eventId) {
   }
 }
 
-async function insertKOPISEvents(page) {
+/**
+ *
+ * @param {number} page
+ * @param {string} category
+ * @returns
+ */
+async function insertKOPISEvents(page, category) {
   const currentDate = dateFns.format(new Date(), 'yyyyMMdd')
-  const endDate = '20251231'
-  const 대중음악 = 'CCCD'
+  const endDate = '20261231'
   const response = await fetch(
-    `http://www.kopis.or.kr/openApi/restful/pblprfr?service=${process.env.KOPIS_KEY}&stdate=${currentDate}&eddate=${endDate}&rows=100&cpage=${page}&shcate=${대중음악}`,
+    `http://www.kopis.or.kr/openApi/restful/pblprfr?service=${process.env.KOPIS_KEY}&stdate=${currentDate}&eddate=${endDate}&rows=100&cpage=${page}&shcate=${category}`,
   )
   const xmlText = await response.text()
 
@@ -276,6 +349,7 @@ async function insertKOPISEvents(page) {
       })
     ).at(0)
     if (existing) {
+      await connectEventCategory(existing.id, category)
       await connectLocationCity(existing.id, item.area)
       await connectOrCreateVenue(item.venue, existing.id)
     } else {
@@ -283,7 +357,7 @@ async function insertKOPISEvents(page) {
       const event = await dbClient.concert.create({
         data: {
           title: item.title,
-          // date: new Date(item.date),
+          date: new Date(item.date),
           isKOPIS: true,
           kopisEvent: {
             create: {
@@ -297,6 +371,11 @@ async function insertKOPISEvents(page) {
               },
             },
           }),
+          eventCategory: {
+            connect: {
+              id: categoryToEventCategoryId(category),
+            },
+          },
         },
       })
       const { posterKey } = await uploadPoster(item.poster)
@@ -383,7 +462,7 @@ const sleep = () => new Promise((resolve) => setTimeout(resolve, 1000))
 async function main() {
   try {
     await dbClient.$connect()
-    const { items } = await insertKOPISEvents(1)
+    const { items } = await insertKOPISEvents(1, KOPISEVENT_CATEGORIES['한국음악(국악)'])
     await dbClient.$disconnect()
     await Promise.all(
       items.map(async (item, index) => {
@@ -399,6 +478,7 @@ async function main() {
     console.error(e)
   } finally {
     console.log(success)
+    await dbClient.$disconnect()
   }
 }
 
