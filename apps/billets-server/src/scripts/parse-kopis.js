@@ -462,7 +462,7 @@ const sleep = () => new Promise((resolve) => setTimeout(resolve, 1000))
 async function main() {
   try {
     await dbClient.$connect()
-    const { items } = await insertKOPISEvents(1, KOPISEVENT_CATEGORIES['한국음악(국악)'])
+    const { items } = await insertKOPISEvents(5, KOPISEVENT_CATEGORIES.뮤지컬)
     await dbClient.$disconnect()
     await Promise.all(
       items.map(async (item, index) => {
@@ -483,3 +483,40 @@ async function main() {
 }
 
 main()
+
+async function restore남부터미널() {
+  const data = []
+
+  await Promise.all(
+    data.map(async (item) => {
+      const existing = await dbClient.concertsOnVenues.findUnique({
+        where: {
+          concertId_venueId: {
+            concertId: item.data.id,
+            venueId: 'ab49e350-1f23-4c17-9d43-d4197dc230e2',
+          },
+        },
+      })
+
+      if (existing) {
+        await dbClient.concertsOnVenues.delete({
+          where: {
+            concertId_venueId: {
+              concertId: item.data.id,
+              venueId: 'ab49e350-1f23-4c17-9d43-d4197dc230e2',
+            },
+          },
+        })
+      }
+
+      await dbClient.concertsOnVenues.create({
+        data: {
+          concertId: item.data.id,
+          venueId: '0ab15b5d-73ac-4f29-ac15-53aa2a12d95d',
+        },
+      })
+    }),
+  )
+}
+
+// restore남부터미널()
