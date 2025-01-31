@@ -5,10 +5,13 @@ dotenv.config()
 
 export default $config({
   app(input) {
+    const name = input?.stage === 'production' ? 'billets-web' : 'billets-web-staging'
+    const removal = input?.stage === 'production' || input?.stage === 'staging' ? 'retain' : 'remove'
+    const protect = ['production', 'staging'].includes(input?.stage)
     return {
-      name: 'billets-web',
-      removal: input?.stage === 'production' ? 'retain' : 'remove',
-      protect: ['production'].includes(input?.stage),
+      name,
+      removal,
+      protect,
       home: 'aws',
       providers: {
         aws: {
@@ -18,11 +21,23 @@ export default $config({
     }
   },
   async run() {
+    const domain = (() => {
+      switch (process.env.DEPLOYMENT_STAGE) {
+        case 'production':
+          return {
+            name: process.env.BILLETS_WEB_DOMAIN_NAME!,
+            cert: process.env.BILLETS_WEB_DOMAIN_CERT_ARN!,
+          }
+        case 'staging':
+        default:
+          return {
+            name: process.env.BILLETS_WEB_STAGING_DOMAIN_NAME!,
+            cert: process.env.BILLETS_WEB_STAGING_DOMAIN_CERT_ARN!,
+          }
+      }
+    })()
     new sst.aws.Nextjs('BilletsWeb', {
-      domain: {
-        name: process.env.BILLETS_WEB_DOMAIN_NAME!,
-        cert: process.env.BILLETS_WEB_DOMAIN_CERT_ARN!,
-      },
+      domain,
     })
   },
 })
