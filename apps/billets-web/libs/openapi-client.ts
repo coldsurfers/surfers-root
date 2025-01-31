@@ -194,6 +194,12 @@ export const initialPageQuery = {
       queryFn: () => apiClient.venue.getVenueDetail(venueId),
     }
   },
+  eventCategories: () => {
+    return {
+      queryKey: apiClient.eventCategory.queryKeys.list,
+      queryFn: () => apiClient.eventCategory.getEventCategories(),
+    }
+  },
   eventDetail: (eventId: string) => {
     return {
       queryKey: apiClient.event.queryKeys.detail(eventId),
