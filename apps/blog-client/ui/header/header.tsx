@@ -1,6 +1,8 @@
 'use client'
 
 import { usePathname } from 'i18n/routing'
+import { I18nPathWithParams } from 'i18n/types'
+import { useMemo } from 'react'
 import {
   StyledHeaderBigContainer,
   StyledHeaderContainer,
@@ -8,30 +10,76 @@ import {
   StyledHeaderLinkBadge,
 } from './header.styled'
 
+const HeaderBadge = ({ href, isActive, title }: { href: I18nPathWithParams; isActive: boolean; title: string }) => {
+  return (
+    <StyledHeaderLinkBadge href={href} $isActive={isActive}>
+      <StyledHeaderHeading $isActive={isActive}>{title}</StyledHeaderHeading>
+    </StyledHeaderLinkBadge>
+  )
+}
+
 export const Header = () => {
   const pathname = usePathname()
+
+  const data = useMemo<
+    {
+      href: I18nPathWithParams
+      title: string
+      isActive: boolean
+    }[]
+  >(() => {
+    return [
+      {
+        href: {
+          pathname: '/techlog',
+        },
+        title: 'TECH',
+        isActive: pathname.startsWith('/techlog'),
+      },
+      {
+        href: {
+          pathname: '/soundlog',
+        },
+        title: 'SOUND',
+        isActive: pathname.startsWith('/soundlog'),
+      },
+      {
+        href: {
+          pathname: '/filmlog',
+        },
+        title: 'VIDEO',
+        isActive: pathname.startsWith('/filmlog'),
+      },
+      {
+        href: {
+          pathname: '/textlog',
+        },
+        title: 'TEXT',
+        isActive: pathname.startsWith('/textlog'),
+      },
+      {
+        href: {
+          pathname: '/squarelog',
+        },
+        title: 'PHOTO',
+        isActive: pathname.startsWith('/squarelog'),
+      },
+      {
+        href: {
+          pathname: '/about',
+        },
+        title: 'ABOUT',
+        isActive: pathname.startsWith('/about'),
+      },
+    ]
+  }, [pathname])
 
   return (
     <StyledHeaderBigContainer>
       <StyledHeaderContainer>
-        <StyledHeaderLinkBadge href="/techlog">
-          <StyledHeaderHeading $isActive={pathname.startsWith('/techlog')}>{'TECH'}</StyledHeaderHeading>
-        </StyledHeaderLinkBadge>
-        <StyledHeaderLinkBadge href="/soundlog">
-          <StyledHeaderHeading $isActive={pathname.startsWith('/soundlog')}>{'MUSIC'}</StyledHeaderHeading>
-        </StyledHeaderLinkBadge>
-        <StyledHeaderLinkBadge href="/filmlog">
-          <StyledHeaderHeading $isActive={pathname.startsWith('/filmlog')}>{'VIDEO'}</StyledHeaderHeading>
-        </StyledHeaderLinkBadge>
-        <StyledHeaderLinkBadge href="/textlog">
-          <StyledHeaderHeading $isActive={pathname.startsWith('/textlog')}>{'TEXT'}</StyledHeaderHeading>
-        </StyledHeaderLinkBadge>
-        <StyledHeaderLinkBadge href="/squarelog">
-          <StyledHeaderHeading $isActive={pathname.startsWith('/squarelog')}>{'PHOTO'}</StyledHeaderHeading>
-        </StyledHeaderLinkBadge>
-        <StyledHeaderLinkBadge href="/about">
-          <StyledHeaderHeading $isActive={pathname.startsWith('/writers')}>{'ABOUT'}</StyledHeaderHeading>
-        </StyledHeaderLinkBadge>
+        {data.map((item) => (
+          <HeaderBadge key={item.href.pathname} {...item} />
+        ))}
       </StyledHeaderContainer>
     </StyledHeaderBigContainer>
   )
