@@ -109,12 +109,11 @@ const CustomImage = (props: {
         ref={imgRef}
         {...props}
         style={{
-          background: isLoading ? colors.oc.violet[4].value : 'transparent',
+          background: isLoading ? colors.oc.violet[4].value : colors.oc.black.value,
           width: '100%',
           height: '100%',
           aspectRatio: '1 / 1',
-          objectFit: 'cover',
-          objectPosition: '50%',
+          objectFit: 'contain',
         }}
       />
     </>
