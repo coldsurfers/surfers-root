@@ -4,6 +4,7 @@ import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { AlignRight } from 'lucide-react'
 import Link from 'next/link'
+import { GlobalLink } from '../global-link'
 import { HEADER_HEIGHT } from './app-header.constants'
 
 export const HeaderContainer = styled.header<{ $animation: 'show' | 'hide' }>`
@@ -50,7 +51,15 @@ export const HeaderLogo = styled.img`
   `)}
 `
 
-export const HeaderMenuContainer = styled(Link)`
+export const HeaderMenuContainerGlobalLink = styled(GlobalLink)`
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  padding: 10px;
+`
+
+export const HeaderMenuContainerLink = styled(Link)`
   background-color: transparent;
   border: none;
   cursor: pointer;
