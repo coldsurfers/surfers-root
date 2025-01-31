@@ -1,10 +1,8 @@
-name: Billets Web CI/CD Pipeline
+name: Billets Web Dev CI/CD Pipeline
 
 on:
   workflow_dispatch: # Allows the workflow to be triggered manually
-  push:
-    tags: # Trigger on push to a tag
-      - 'v*-billets-web' # Adjust pattern as needed (e.g., v1.0.0)
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
@@ -22,8 +20,8 @@ jobs:
       - name: Create .env file from template
         working-directory: ./apps/billets-web
         run: |
-          echo "BILLETS_WEB_DOMAIN_CERT_ARN=${{ secrets.BILLETS_WEB_DOMAIN_CERT_ARN }}" >> .env
-          echo "BILLETS_WEB_DOMAIN_NAME=${{ secrets.BILLETS_WEB_DOMAIN_NAME }}" >> .env
+          echo "BILLETS_WEB_STAGING_DOMAIN_CERT_ARN=${{ secrets.BILLETS_WEB_STAGING_DOMAIN_CERT_ARN }}" >> .env
+          echo "BILLETS_WEB_STAGING_DOMAIN_NAME=${{ secrets.BILLETS_WEB_STAGING_DOMAIN_NAME }}" >> .env
           echo "NEXT_PUBLIC_FIREBASE_API_KEY=${{ secrets.BILLETS_WEB_FIREBASE_API_KEY }}" >> .env
           echo "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ secrets.BILLETS_WEB_FIREBASE_AUTH_DOMAIN }}" >> .env
           echo "NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ secrets.BILLETS_WEB_FIREBASE_PROJECT_ID }}" >> .env
@@ -51,4 +49,4 @@ jobs:
 
       - name: sst deploy
         working-directory: ./apps/billets-web
-        run: DEPLOYMENT_STAGE=production npx sst deploy --stage production
+        run: DEPLOYMENT_STAGE=staging npx sst deploy --stage staging
