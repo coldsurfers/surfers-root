@@ -1,7 +1,14 @@
 export const API_BASE_URL =
   process.env.NODE_ENV === 'development' ? 'https://dev.api.billets.coldsurf.io' : 'https://api.billets.coldsurf.io'
 
-export const SITE_URL = 'https://billets.coldsurf.io'
+export const SITE_URL = (() => {
+  switch (process.env.NODE_ENV) {
+    case 'production':
+      return 'https://billets.coldsurf.io'
+    default:
+      return 'https://staging.billets.coldsurf.io'
+  }
+})()
 export const SITE_MAP_URL = 'https://billets.coldsurf.io/sitemap.xml'
 export const SITE_NAME = 'Billets'
 export const COMMON_META_TITLE = `Discover live events and tickets | Browse tickets on ${SITE_NAME}`
