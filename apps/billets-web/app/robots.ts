@@ -3,14 +3,27 @@ import type { MetadataRoute } from 'next'
 
 // https://nextjs.org/docs/app/api-reference/file-conventions/metadata/robots
 export default function robots(): MetadataRoute.Robots {
+  const rules = (() => {
+    switch (process.env.NODE_ENV) {
+      case 'production':
+        return [
+          {
+            allow: '/',
+            userAgent: '*',
+          },
+        ]
+      default:
+        return [
+          {
+            disallow: '/',
+            userAgent: '*',
+          },
+        ]
+    }
+  })()
   return {
     host: SITE_URL,
     sitemap: SITE_MAP_URL,
-    rules: [
-      {
-        allow: '/',
-        userAgent: '*',
-      },
-    ],
+    rules,
   }
 }
