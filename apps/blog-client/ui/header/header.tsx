@@ -2,7 +2,7 @@
 
 import { usePathname } from 'i18n/routing'
 import { I18nPathWithParams } from 'i18n/types'
-import { useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import {
   StyledHeaderBigContainer,
   StyledHeaderContainer,
@@ -10,13 +10,15 @@ import {
   StyledHeaderLinkBadge,
 } from './header.styled'
 
-const HeaderBadge = ({ href, isActive, title }: { href: I18nPathWithParams; isActive: boolean; title: string }) => {
-  return (
-    <StyledHeaderLinkBadge href={href} $isActive={isActive}>
-      <StyledHeaderHeading $isActive={isActive}>{title}</StyledHeaderHeading>
-    </StyledHeaderLinkBadge>
-  )
-}
+const HeaderBadge = memo(
+  ({ href, isActive, title }: { href: I18nPathWithParams; isActive: boolean; title: string }) => {
+    return (
+      <StyledHeaderLinkBadge href={href} $isActive={isActive}>
+        <StyledHeaderHeading $isActive={isActive}>{title}</StyledHeaderHeading>
+      </StyledHeaderLinkBadge>
+    )
+  },
+)
 
 export const Header = () => {
   const pathname = usePathname()
