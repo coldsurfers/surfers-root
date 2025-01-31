@@ -1,3 +1,5 @@
+import { ArtistDetailDTOSchema } from '@/dtos/artist-detail.dto'
+import { ArtistProfileImageDetailDTOSchema } from '@/dtos/artist-profile-image-detail.dto'
 import { ArtistProfileImageDTOSchema } from '@/dtos/artist-profile-image.dto'
 import { ArtistDTOSchema } from '@/dtos/artist.dto'
 import { UserWithAuthTokenDTOSchema } from '@/dtos/auth.dto'
@@ -9,8 +11,10 @@ import { EventDetailDTOSchema, EventDTOSchema } from '@/dtos/event.dto'
 import { FCMTokenDTOSchema } from '@/dtos/fcm-token.dto'
 import { LocationCityDTOSchema, LocationConcertDTOSchema, LocationCountryDTOSchema } from '@/dtos/location.dto'
 import { SendEmailResponseDTOSchema } from '@/dtos/mailer.dto'
+import { PosterDetailDTOSchema } from '@/dtos/poster-detail.dto'
 import { PosterDTOSchema } from '@/dtos/poster.dto'
 import { PriceDTOSchema } from '@/dtos/price.dto'
+import { ArtistSubscribeDTOSchema, EventSubscribeDTOSchema, VenueSubscribeDTOSchema } from '@/dtos/subscribe.dto'
 import { TicketDTOSchema, TicketPromotionDTOSchema } from '@/dtos/ticket.dto'
 import { UserDTOSchema } from '@/dtos/user.dto'
 import { VenueDetailDTOSchema } from '@/dtos/venue-detail-dto'
@@ -20,6 +24,7 @@ import { jwtPlugin } from '@/plugins'
 import artistProfileImageRoute from '@/routes/artist-profile-image.route'
 import artistRoute from '@/routes/artist.route'
 import authRoute from '@/routes/auth.route'
+import eventCategoryRoute from '@/routes/event-category.route'
 import eventRoute from '@/routes/event.route'
 import fcmRoute from '@/routes/fcm.route'
 import imageRoute from '@/routes/image.route'
@@ -44,10 +49,7 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
-import { ArtistDetailDTOSchema } from './dtos/artist-detail.dto'
-import { ArtistProfileImageDetailDTOSchema } from './dtos/artist-profile-image-detail.dto'
-import { PosterDetailDTOSchema } from './dtos/poster-detail.dto'
-import { ArtistSubscribeDTOSchema, EventSubscribeDTOSchema, VenueSubscribeDTOSchema } from './dtos/subscribe.dto'
+import { EventCategoryDTOSchema } from './dtos/event-category.dto'
 
 dotenv.config()
 
@@ -171,6 +173,7 @@ app.register(fastifySwagger, {
       EventSubscribeDTOSchema,
       ArtistSubscribeDTOSchema,
       VenueSubscribeDTOSchema,
+      EventCategoryDTOSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
@@ -207,3 +210,4 @@ app.register(ticketRoute, { prefix: '/v1/ticket' })
 app.register(priceRoute, { prefix: '/v1/price' })
 app.register(eventRoute, { prefix: '/v1/event' })
 app.register(imageRoute, { prefix: '/v1/image' })
+app.register(eventCategoryRoute, { prefix: '/v1/event-category' })
