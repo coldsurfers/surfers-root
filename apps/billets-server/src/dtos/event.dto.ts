@@ -25,7 +25,12 @@ export const GetEventsQueryStringDTOSchema = z.object({
   size: z.coerce.number().int().min(0).default(20),
   latitude: z.coerce.number().optional(),
   longitude: z.coerce.number().optional(),
+  /**
+   * @TODO: locationCityId should be replaced by locationCityName
+   */
   locationCityId: z.string().uuid().optional(),
+  locationCityName: z.string().optional(),
+  eventCategoryName: z.string().optional(),
 })
 export type GetEventsQueryStringDTO = z.infer<typeof GetEventsQueryStringDTOSchema>
 
