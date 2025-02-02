@@ -223,20 +223,28 @@ export const initialPageQuery = {
       queryFn: () => apiClient.location.getCountries(),
     }
   },
-  browseByCity: (cityData: components['schemas']['LocationCountryDTOSchema']['cities'][number]) => {
+  browseEvents: ({
+    cityName,
+    eventCategoryName,
+  }: {
+    cityName: components['schemas']['LocationCityDTOSchema']['name']
+    eventCategoryName?: string
+  }) => {
     const size = 20
     return {
       initialPageParam: 0,
       queryKey: apiClient.event.queryKeys.list({
         offset: 0,
         size,
-        locationCityId: cityData.id,
+        locationCityId: cityId,
+        eventCategoryName,
       }),
       queryFn: ({ pageParam = 0 }) => {
         return apiClient.event.getEvents({
           offset: pageParam,
           size,
-          locationCityId: cityData.id,
+          locationCityId: cityId,
+          eventCategoryName,
         })
       },
       getNextPageParam: (
