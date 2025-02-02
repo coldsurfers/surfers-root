@@ -50,6 +50,9 @@ export class ConcertRepositoryImpl implements ConcertRepository {
   async findMany(params: FindManyConcertDTO): Promise<ConcertDTO[]> {
     const data = await dbClient.concert.findMany({
       where: {
+        ...(params.eventCategoryId && {
+          eventCategoryId: params.eventCategoryId,
+        }),
         ...(params.locationCityId && {
           locationCityId: params.locationCityId,
         }),
