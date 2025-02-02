@@ -44,6 +44,7 @@
     "react-notion-x": "*",
     "react-spinners": "*",
     "schema-dts": "*",
+    "ts-pattern": "*",
     "zod": "*",
     "zustand": "*"
   },

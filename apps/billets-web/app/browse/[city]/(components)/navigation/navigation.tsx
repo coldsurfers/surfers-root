@@ -2,6 +2,7 @@
 
 import { GLOBAL_Z_INDEX } from '@/libs/constants'
 import { initialPageQuery } from '@/libs/openapi-client'
+import { getEventCategoryUIName } from '@/libs/utils/utils.event-category'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useCallback, useMemo, useRef, useState } from 'react'
@@ -20,19 +21,6 @@ import {
   NavContainer,
   TheatreIcon,
 } from './navigation.styled'
-
-const getUiName = (name: string) => {
-  switch (name) {
-    case 'Gigs':
-      return '콘서트'
-    case 'Theatre':
-      return '연극 / 뮤지컬'
-    case 'Dance':
-      return '무용'
-    default:
-      return name
-  }
-}
 
 const getUiIcon = (name: string) => {
   switch (name) {
@@ -69,7 +57,7 @@ export const Navigation = ({ initialCity }: { initialCity: string }) => {
       eventCategories?.map((value) => {
         return {
           ...value,
-          uiname: getUiName(value.name),
+          uiname: getEventCategoryUIName(value.name),
           uiIcon: getUiIcon(value.name),
         }
       }) ?? []
