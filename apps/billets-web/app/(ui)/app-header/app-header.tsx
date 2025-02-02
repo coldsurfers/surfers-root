@@ -2,13 +2,14 @@
 
 import { APP_STORE_URL } from '@/libs/constants'
 import { Button, IconButton, Text } from '@coldsurfers/ocean-road'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { MouseEventHandler, useEffect, useState } from 'react'
+import { GlobalLink } from '../global-link'
 import {
   HeaderContainer,
   HeaderLogo,
-  HeaderMenuContainer,
+  HeaderMenuContainerGlobalLink,
+  HeaderMenuContainerLink,
   HeaderMenuText,
   HeaderTitle,
   MobileMenuContainer,
@@ -65,7 +66,7 @@ function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
                 }
               }
               return (
-                <Link
+                <GlobalLink
                   key={item.link}
                   href={item.link}
                   target={item.target}
@@ -73,12 +74,12 @@ function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
                   style={{ alignSelf: 'flex-start' }}
                 >
                   <Text as="p">{item.title}</Text>
-                </Link>
+                </GlobalLink>
               )
             })}
-            <Link href={APP_STORE_URL} onClick={onClose} style={{ margin: '0 auto' }}>
+            <GlobalLink href={APP_STORE_URL} onClick={onClose} style={{ margin: '0 auto' }}>
               <Button theme="border">GET THE APP</Button>
-            </Link>
+            </GlobalLink>
           </ModalContent>
         </ModalPaper>
       )}
@@ -110,12 +111,12 @@ export function AppHeader() {
     <>
       <HeaderContainer $animation={animation}>
         <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
-          <Link href="/">
+          <GlobalLink href="/">
             <HeaderLogo src="/logo.png" alt="header_logo" />
-          </Link>
-          <Link href="/">
+          </GlobalLink>
+          <GlobalLink href="/">
             <HeaderTitle as="h1">Billets</HeaderTitle>
-          </Link>
+          </GlobalLink>
         </div>
         <WebMenuContainer>
           {menuItems.map((item) => {
@@ -125,15 +126,16 @@ export function AppHeader() {
                 router.push('/browse/seoul')
               }
             }
+            const Container = item.link === '/browse' ? HeaderMenuContainerLink : HeaderMenuContainerGlobalLink
             return (
-              <HeaderMenuContainer key={item.link} href={item.link} onClick={onClick} target={item.target}>
+              <Container key={item.link} href={item.link} onClick={onClick} target={item.target}>
                 <HeaderMenuText as="p">{item.title}</HeaderMenuText>
-              </HeaderMenuContainer>
+              </Container>
             )
           })}
-          <Link href={APP_STORE_URL}>
+          <GlobalLink href={APP_STORE_URL} target="_blank">
             <Button theme="border">GET THE APP</Button>
-          </Link>
+          </GlobalLink>
         </WebMenuContainer>
         <MobileMenuContainer>
           <IconButton onClick={() => setIsModalOpen(true)}>

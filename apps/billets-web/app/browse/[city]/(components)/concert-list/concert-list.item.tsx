@@ -1,5 +1,5 @@
+import { GlobalLink } from 'app/(ui)/global-link/global-link'
 import { format } from 'date-fns'
-import Link from 'next/link'
 import { memo, useMemo } from 'react'
 import { components } from 'types/api'
 import {
@@ -27,7 +27,7 @@ export const ConcertListItem = memo(({ data }: { data: components['schemas']['Co
     return `${data.mainPoster.url}&width=400&height=400`
   }, [data.mainPoster])
   return (
-    <Link href={`/event/${data.id}`}>
+    <GlobalLink href={`/event/${data.id}`}>
       <StyledGridItem>
         {thumbUrl ? (
           <StyledGridImage src={thumbUrl} alt={data.title} />
@@ -42,6 +42,6 @@ export const ConcertListItem = memo(({ data }: { data: components['schemas']['Co
           {data.mainVenue?.name && <StyledVenueText as="p">{data.mainVenue.name}</StyledVenueText>}
         </StyledGridTextContainer>
       </StyledGridItem>
-    </Link>
+    </GlobalLink>
   )
 })

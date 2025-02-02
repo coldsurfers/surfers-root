@@ -73,6 +73,8 @@ export const NavigationCityDropdown =
               style={{
                 top: `${position.top + POSITION_PADDING}px`,
                 left: `${position.left}px`,
+                maxHeight: '470px',
+                overflowY: 'scroll',
                 ...style,
               }}
             >

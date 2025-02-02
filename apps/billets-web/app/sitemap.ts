@@ -21,6 +21,10 @@ const findAllEvents = cache(async () => {
   const events = await dbClient.concert.findMany()
   return events
 })
+const findAllEventCategories = cache(async () => {
+  const eventCategories = await dbClient.eventCategory.findMany()
+  return eventCategories
+})
 
 export default async function sitemap() {
   await connectDbClient()
@@ -73,6 +77,25 @@ export default async function sitemap() {
     }
   })
 
+  // "/browse/[city]/[event-category]"
+  const allEventCategories = await findAllEventCategories()
+  const browseByCityEventCategorySitemaps = allCities
+    .map((city) => {
+      return allEventCategories.map((eventCategory) => {
+        const url = generateUrl(`/browse/${city.name}/${eventCategory.name.toLowerCase()}`)
+        const lastModified = new Date()
+        const changeFrequency = 'weekly'
+        const priority = 0.8
+        return {
+          url,
+          lastModified,
+          changeFrequency,
+          priority,
+        }
+      })
+    })
+    .flat()
+
   const allEvents = await findAllEvents()
 
   // "/event/[event-id]"
@@ -116,6 +139,14 @@ export default async function sitemap() {
       priority,
     }
   })
+
   await disconnectDbClient()
-  return [...staticSitemaps, ...browseByCitySitemaps, ...eventSitemaps, ...venueSitemaps, ...artistSitemaps]
+  return [
+    ...staticSitemaps,
+    ...browseByCitySitemaps,
+    ...browseByCityEventCategorySitemaps,
+    ...eventSitemaps,
+    ...venueSitemaps,
+    ...artistSitemaps,
+  ]
 }

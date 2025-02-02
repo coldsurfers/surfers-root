@@ -26,13 +26,21 @@ export const apiClient = {
         offset,
         size,
         locationCityId,
+        eventCategoryName,
+        locationCityName,
       }: {
         latitude?: number
         longitude?: number
         offset?: number
         size?: number
         locationCityId?: string
-      }) => ['event', 'list', { latitude, longitude, offset, size, locationCityId }],
+        eventCategoryName?: string
+        locationCityName?: string
+      }) => [
+        'event',
+        'list',
+        { latitude, longitude, offset, size, locationCityId, eventCategoryName, locationCityName },
+      ],
       detail: (id: string) => ['event', 'detail', id],
     },
     getEvents: async ({
@@ -41,12 +49,16 @@ export const apiClient = {
       latitude,
       longitude,
       locationCityId,
+      eventCategoryName,
+      locationCityName,
     }: {
       offset: number
       size: number
       latitude?: number
       longitude?: number
       locationCityId?: string
+      eventCategoryName?: string
+      locationCityName?: string
     }) => {
       const response = await baseFetchClient.GET('/v1/event/', {
         params: {
@@ -56,6 +68,8 @@ export const apiClient = {
             latitude,
             longitude,
             locationCityId,
+            eventCategoryName,
+            locationCityName,
           },
         },
       })
@@ -72,6 +86,19 @@ export const apiClient = {
           },
         },
       })
+      if (response.error) {
+        throw new OpenApiError(response.error)
+      }
+      return response.data
+    },
+  },
+  eventCategory: {
+    queryKeys: {
+      all: ['event-category'],
+      list: ['event-category', 'list'],
+    },
+    getEventCategories: async () => {
+      const response = await baseFetchClient.GET('/v1/event-category/')
       if (response.error) {
         throw new OpenApiError(response.error)
       }
@@ -181,6 +208,12 @@ export const initialPageQuery = {
       queryFn: () => apiClient.venue.getVenueDetail(venueId),
     }
   },
+  eventCategories: () => {
+    return {
+      queryKey: apiClient.eventCategory.queryKeys.list,
+      queryFn: () => apiClient.eventCategory.getEventCategories(),
+    }
+  },
   eventDetail: (eventId: string) => {
     return {
       queryKey: apiClient.event.queryKeys.detail(eventId),
@@ -199,20 +232,28 @@ export const initialPageQuery = {
       queryFn: () => apiClient.location.getCountries(),
     }
   },
-  browseByCity: (cityData: components['schemas']['LocationCountryDTOSchema']['cities'][number]) => {
+  browseEvents: ({
+    cityName,
+    eventCategoryName,
+  }: {
+    cityName: components['schemas']['LocationCityDTOSchema']['name']
+    eventCategoryName?: components['schemas']['EventCategoryDTOSchema']['name']
+  }) => {
     const size = 20
     return {
       initialPageParam: 0,
       queryKey: apiClient.event.queryKeys.list({
         offset: 0,
         size,
-        locationCityId: cityData.id,
+        locationCityName: cityName,
+        eventCategoryName,
       }),
       queryFn: ({ pageParam = 0 }) => {
         return apiClient.event.getEvents({
           offset: pageParam,
           size,
-          locationCityId: cityData.id,
+          locationCityName: cityName,
+          eventCategoryName,
         })
       },
       getNextPageParam: (
