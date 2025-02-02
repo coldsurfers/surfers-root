@@ -26,13 +26,15 @@ export const apiClient = {
         offset,
         size,
         locationCityId,
+        eventCategoryName,
       }: {
         latitude?: number
         longitude?: number
         offset?: number
         size?: number
         locationCityId?: string
-      }) => ['event', 'list', { latitude, longitude, offset, size, locationCityId }],
+        eventCategoryName?: string
+      }) => ['event', 'list', { latitude, longitude, offset, size, locationCityId, eventCategoryName }],
       detail: (id: string) => ['event', 'detail', id],
     },
     getEvents: async ({
@@ -41,12 +43,14 @@ export const apiClient = {
       latitude,
       longitude,
       locationCityId,
+      eventCategoryName,
     }: {
       offset: number
       size: number
       latitude?: number
       longitude?: number
       locationCityId?: string
+      eventCategoryName?: string
     }) => {
       const response = await baseFetchClient.GET('/v1/event/', {
         params: {
@@ -56,6 +60,7 @@ export const apiClient = {
             latitude,
             longitude,
             locationCityId,
+            eventCategoryName,
           },
         },
       })
