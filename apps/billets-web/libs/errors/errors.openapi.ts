@@ -6,5 +6,6 @@ export class OpenApiError extends Error {
     super(error.message)
     this.message = error.message
     this.code = error.code
+    Object.setPrototypeOf(this, OpenApiError.prototype) // Ensures instanceof works correctly
   }
 }

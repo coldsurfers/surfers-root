@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@coldsurfers/ocean-road'
-import Link from 'next/link'
+import { GlobalLink } from 'app/(ui)'
 import { memo, useMemo } from 'react'
 import {
   CtaButtonWrapper,
@@ -26,9 +26,9 @@ export const Venue = memo(({ address, venueTitle, latitude, longitude, id }: Ven
   }, [address, latitude, longitude, venueTitle])
   return (
     <StyledVenueContainer>
-      <Link href={`/venue/${id}`}>
+      <GlobalLink href={`/venue/${id}`}>
         <StyledVenueTitleText as="h3">{venueTitle}</StyledVenueTitleText>
-      </Link>
+      </GlobalLink>
       <StyledVenueAddressContainer>
         <StyledVenueAddressText as="p">{address}</StyledVenueAddressText>
         <StyledIconButton onClick={() => navigator.clipboard.writeText(address)}>
@@ -36,12 +36,12 @@ export const Venue = memo(({ address, venueTitle, latitude, longitude, id }: Ven
         </StyledIconButton>
       </StyledVenueAddressContainer>
       <CtaButtonWrapper>
-        <Link href={openInMapsHref} target="_blank">
+        <GlobalLink href={openInMapsHref} target="_blank">
           <Button>
             <MapPinIcon />
             <OpenInMapsText as="span">OPEN IN MAPS</OpenInMapsText>
           </Button>
-        </Link>
+        </GlobalLink>
       </CtaButtonWrapper>
     </StyledVenueContainer>
   )

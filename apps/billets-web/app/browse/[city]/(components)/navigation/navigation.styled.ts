@@ -3,10 +3,14 @@ import { Button, colors, media, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { motion } from 'framer-motion'
-import { MapPin } from 'lucide-react'
+import { Disc3, MapPin, MicVocal, VenetianMask } from 'lucide-react'
 
 export const NavContainer = styled.nav`
   display: flex;
+
+  & + & {
+    margin-top: 0.75rem;
+  }
 
   ${media.large(css`
     margin-left: 2rem;
@@ -19,11 +23,15 @@ export const NavContainer = styled.nav`
   `)}
 `
 
-export const NavButton = styled(Button)`
+export const NavButton = styled(Button)<{ $isActive: boolean }>`
   background: initial;
   border: none;
   border-radius: 8px;
-  background-color: ${semantics.color.background[4]};
+  background-color: ${(props) => (props.$isActive ? semantics.color.background[5] : semantics.color.background[4])};
+
+  display: flex;
+
+  align-items: center;
 
   padding: 1rem;
 `
@@ -34,10 +42,31 @@ export const NavBtnText = styled(Text)`
 `
 
 export const MapPinIcon = styled(MapPin)`
-  color: ${semantics.color.foreground[3]};
+  color: ${semantics.color.foreground[1]};
+  width: 20px;
+  height: 20px;
+  margin-right: 0.25rem;
+`
+
+export const MicVocalIcon = styled(MicVocal)`
+  color: ${semantics.color.foreground[1]};
   width: 16px;
   height: 16px;
-  margin-right: 0.25rem;
+  margin-right: 0.5rem;
+`
+
+export const TheatreIcon = styled(VenetianMask)`
+  color: ${semantics.color.foreground[1]};
+  width: 16px;
+  height: 16px;
+  margin-right: 0.5rem;
+`
+
+export const DanceIcon = styled(Disc3)`
+  color: ${semantics.color.foreground[1]};
+  width: 16px;
+  height: 16px;
+  margin-right: 0.5rem;
 `
 
 export const NavigationDropdownMotionDiv = styled(motion.div)`
