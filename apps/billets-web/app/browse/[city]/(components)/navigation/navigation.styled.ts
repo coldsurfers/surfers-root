@@ -23,11 +23,11 @@ export const NavContainer = styled.nav`
   `)}
 `
 
-export const NavButton = styled(Button)`
+export const NavButton = styled(Button)<{ $isActive: boolean }>`
   background: initial;
   border: none;
   border-radius: 8px;
-  background-color: ${semantics.color.background[4]};
+  background-color: ${(props) => (props.$isActive ? semantics.color.background[5] : semantics.color.background[4])};
 
   display: flex;
 

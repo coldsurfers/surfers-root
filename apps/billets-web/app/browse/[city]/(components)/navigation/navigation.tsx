@@ -139,6 +139,7 @@ export const Navigation = ({ initialCity }: { initialCity: string }) => {
     <>
       <NavContainer>
         <NavButton
+          $isActive={false}
           ref={cityDropdownBtnRef}
           onClick={openDropdown}
           style={{
@@ -157,7 +158,7 @@ export const Navigation = ({ initialCity }: { initialCity: string }) => {
               href={`/browse/${params.city}/${value.name.toLowerCase()}`}
               style={{ marginRight: '0.5rem' }}
             >
-              <NavButton>
+              <NavButton $isActive={value.name.toLowerCase() === params['event-category'].toString().toLowerCase()}>
                 {value.uiIcon}
                 <NavBtnText style={{ fontSize: 14 }}>{value.uiname}</NavBtnText>
               </NavButton>
