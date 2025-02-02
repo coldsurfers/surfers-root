@@ -485,7 +485,7 @@ export interface paths {
     get: {
       parameters: {
         query?: {
-          eventCategoryId?: string
+          eventCategoryName?: string
           latitude?: number
           locationCityId?: string
           longitude?: number
