@@ -3,19 +3,49 @@
 import { GLOBAL_Z_INDEX } from '@/libs/constants'
 import { initialPageQuery } from '@/libs/openapi-client'
 import { useQuery } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { GlobalLink } from '../../../../(ui)/global-link/global-link'
 import { NavigationCityDropdown } from './navigation-city-dropdown'
 import {
+  DanceIcon,
   DropdownItem,
   DropdownItemSectionHeader,
   DropdownItemSectionHeaderTitle,
   DropdownItemText,
   MapPinIcon,
+  MicVocalIcon,
   NavBtnText,
   NavButton,
   NavContainer,
+  TheatreIcon,
 } from './navigation.styled'
+
+const getUiName = (name: string) => {
+  switch (name) {
+    case 'Gigs':
+      return '콘서트'
+    case 'Theatre':
+      return '연극 / 뮤지컬'
+    case 'Dance':
+      return '무용'
+    default:
+      return name
+  }
+}
+
+const getUiIcon = (name: string) => {
+  switch (name) {
+    case 'Gigs':
+      return <MicVocalIcon />
+    case 'Theatre':
+      return <TheatreIcon />
+    case 'Dance':
+      return <DanceIcon />
+    default:
+      return ''
+  }
+}
 
 export const Navigation = ({ initialCity }: { initialCity: string }) => {
   const cityDropdownBtnRef = useRef<HTMLButtonElement | null>(null)
@@ -28,6 +58,23 @@ export const Navigation = ({ initialCity }: { initialCity: string }) => {
     left: 0,
   })
   const { data } = useQuery(initialPageQuery.getCountries())
+  const { data: eventCategories } = useQuery({
+    ...initialPageQuery.eventCategories(),
+    throwOnError: true,
+  })
+  const params = useParams()
+
+  const eventCategoriesUIData = useMemo(() => {
+    return (
+      eventCategories?.map((value) => {
+        return {
+          ...value,
+          uiname: getUiName(value.name),
+          uiIcon: getUiIcon(value.name),
+        }
+      }) ?? []
+    )
+  }, [eventCategories])
 
   const dropdownData = useMemo<
     {
@@ -92,6 +139,7 @@ export const Navigation = ({ initialCity }: { initialCity: string }) => {
     <>
       <NavContainer>
         <NavButton
+          $isActive={false}
           ref={cityDropdownBtnRef}
           onClick={openDropdown}
           style={{
@@ -101,6 +149,22 @@ export const Navigation = ({ initialCity }: { initialCity: string }) => {
           <MapPinIcon />
           <NavBtnText>{initialCity.toUpperCase()}</NavBtnText>
         </NavButton>
+      </NavContainer>
+      <NavContainer>
+        {eventCategoriesUIData.map((value) => {
+          return (
+            <GlobalLink
+              key={value.id}
+              href={`/browse/${params.city}/${value.name.toLowerCase()}`}
+              style={{ marginRight: '0.5rem' }}
+            >
+              <NavButton $isActive={value.name.toLowerCase() === params['event-category']?.toString().toLowerCase()}>
+                {value.uiIcon}
+                <NavBtnText style={{ fontSize: 14 }}>{value.uiname}</NavBtnText>
+              </NavButton>
+            </GlobalLink>
+          )
+        })}
       </NavContainer>
       <NavigationCityDropdown
         isOpen={isDropdownOpen}
