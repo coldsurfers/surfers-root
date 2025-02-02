@@ -17,7 +17,7 @@ async function LayoutInner({
   const queryClient = getQueryClient()
 
   await queryClient.prefetchInfiniteQuery(
-    initialPageQuery.browseEvents({ cityId: city, eventCategoryName: eventCategory }),
+    initialPageQuery.browseEvents({ cityName: city, eventCategoryName: eventCategory }),
   )
   return <HydrationBoundary>{children}</HydrationBoundary>
 }
@@ -27,8 +27,13 @@ export default function BrowseByCityEventCategoryLayout({
   params,
 }: {
   children: ReactNode
-  params: { ['event-category']: string }
+  params: { ['event-category']: string; city: string }
 }) {
   const eventCategory = params['event-category']
-  return <LayoutInner eventCategory={eventCategory}>{children}</LayoutInner>
+  const city = params['city']
+  return (
+    <LayoutInner eventCategory={eventCategory} city={city}>
+      {children}
+    </LayoutInner>
+  )
 }

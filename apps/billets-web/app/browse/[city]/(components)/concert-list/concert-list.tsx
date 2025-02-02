@@ -19,7 +19,7 @@ type ConcertListProps = {
 
 export const ConcertList = memo(({ cityData }: ConcertListProps) => {
   const { data, fetchNextPage, isFetchingNextPage, isFetching, hasNextPage } = useInfiniteQuery(
-    initialPageQuery.browseByCity(cityData),
+    initialPageQuery.browseEvents({ cityName: cityData.name, eventCategoryName: undefined }),
   )
 
   const pages = useMemo(() => {
