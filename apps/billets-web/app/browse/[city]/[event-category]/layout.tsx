@@ -1,9 +1,24 @@
+import { initialPageQuery } from '@/libs/openapi-client'
+import { getQueryClient } from '@/libs/utils/utils.query-client'
 import { HydrationBoundary } from '@tanstack/react-query'
 import { ReactNode } from 'react'
 
 export const dynamic = 'force-dynamic'
 
-async function LayoutInner({ children, eventCategory }: { children: ReactNode; eventCategory: string }) {
+async function LayoutInner({
+  children,
+  eventCategory,
+  city,
+}: {
+  children: ReactNode
+  eventCategory: string
+  city: string
+}) {
+  const queryClient = getQueryClient()
+
+  await queryClient.prefetchInfiniteQuery(
+    initialPageQuery.browseEvents({ cityId: city, eventCategoryName: eventCategory }),
+  )
   return <HydrationBoundary>{children}</HydrationBoundary>
 }
 
