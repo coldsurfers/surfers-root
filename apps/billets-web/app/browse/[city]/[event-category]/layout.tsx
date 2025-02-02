@@ -1,6 +1,8 @@
 import { initialPageQuery } from '@/libs/openapi-client'
+import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import { getQueryClient } from '@/libs/utils/utils.query-client'
-import { HydrationBoundary } from '@tanstack/react-query'
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
+import { RouteLoading } from 'app/(ui)'
 import { ReactNode } from 'react'
 
 export const dynamic = 'force-dynamic'
@@ -17,9 +19,10 @@ async function LayoutInner({
   const queryClient = getQueryClient()
 
   await queryClient.prefetchInfiniteQuery(
-    initialPageQuery.browseEvents({ cityName: city, eventCategoryName: eventCategory }),
+    initialPageQuery.browseEvents({ cityName: city, eventCategoryName: eventCategory.toLowerCase() }),
   )
-  return <HydrationBoundary>{children}</HydrationBoundary>
+
+  return <HydrationBoundary state={dehydrate(queryClient)}>{children}</HydrationBoundary>
 }
 
 export default function BrowseByCityEventCategoryLayout({
@@ -32,8 +35,12 @@ export default function BrowseByCityEventCategoryLayout({
   const eventCategory = params['event-category']
   const city = params['city']
   return (
-    <LayoutInner eventCategory={eventCategory} city={city}>
-      {children}
-    </LayoutInner>
+    <ApiErrorBoundaryRegistry>
+      <RouteLoading>
+        <LayoutInner eventCategory={eventCategory} city={city}>
+          {children}
+        </LayoutInner>
+      </RouteLoading>
+    </ApiErrorBoundaryRegistry>
   )
 }
