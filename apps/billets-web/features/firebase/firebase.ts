@@ -16,7 +16,7 @@ export class Firebase {
   }
 
   static initializeApp() {
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.APP_PLATFORM !== 'production') {
       return
     }
     const app = fbInitializeApp(firebaseConfig)

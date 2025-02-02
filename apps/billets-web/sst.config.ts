@@ -22,9 +22,10 @@ export default $config({
   },
   async run() {
     const name = (() => {
-      switch (process.env.NODE_ENV) {
+      switch (process.env.APP_PLATFORM) {
         case 'production':
           return 'BilletsWeb'
+        case 'staging':
         default:
           return 'BilletsWebStaging'
       }

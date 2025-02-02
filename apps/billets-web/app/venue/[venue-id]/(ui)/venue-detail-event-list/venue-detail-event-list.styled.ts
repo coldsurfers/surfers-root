@@ -1,7 +1,7 @@
 import { media, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import Link from 'next/link'
+import { GlobalLink } from 'app/(ui)'
 
 export const StyledVenueDetailEventListTitleText = styled(Text)`
   font-size: 28px;
@@ -21,7 +21,7 @@ export const StyledVenueDetailEventListLayout = styled.div`
   `)}
 `
 
-export const StyledVenueDetailEventListItem = styled(Link)`
+export const StyledVenueDetailEventListItem = styled(GlobalLink)`
   display: flex;
   flex-direction: column;
 

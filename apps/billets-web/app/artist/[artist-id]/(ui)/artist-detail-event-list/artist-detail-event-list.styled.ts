@@ -1,7 +1,7 @@
 import { media, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import Link from 'next/link'
+import { GlobalLink } from 'app/(ui)'
 
 export const StyledArtistDetailEventListTitleText = styled(Text)`
   margin-top: 8rem;
@@ -25,7 +25,7 @@ export const StyledArtistDetailEventListContainer = styled.div`
   gap: 1rem;
 `
 
-export const StyledArtistDetailEventListItem = styled(Link)`
+export const StyledArtistDetailEventListItem = styled(GlobalLink)`
   display: flex;
   flex-direction: row;
   align-items: center;

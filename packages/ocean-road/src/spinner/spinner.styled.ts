@@ -6,7 +6,7 @@ import { semantics } from '../tokens'
 const MotionIcon = motion.create(LoaderCircle)
 
 export const StyledPageLoadingWrapper = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -14,6 +14,8 @@ export const StyledPageLoadingWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: transparent;
+  backdrop-filter: blur(1px);
 `
 
 export const StyledSpinner = styled(MotionIcon)`
