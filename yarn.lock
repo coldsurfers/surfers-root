@@ -4096,6 +4096,7 @@ __metadata:
     schema-dts: "npm:*"
     sst: "npm:*"
     ts-node: "npm:^10.9.2"
+    ts-pattern: "npm:*"
     typescript: "npm:*"
     typescript-plugin-css-modules: "npm:^5.0.2"
     zod: "npm:*"
