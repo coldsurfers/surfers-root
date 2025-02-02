@@ -19,6 +19,9 @@ const nextConfig = {
       },
     ],
   },
+  env: {
+    APP_PLATFORM: process.env.APP_PLATFORM,
+  },
   async headers() {
     return [
       {
