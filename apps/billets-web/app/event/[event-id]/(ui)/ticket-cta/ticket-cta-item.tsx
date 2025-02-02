@@ -17,7 +17,9 @@ export const TicketCtaItem = memo(({ seller, sellingURL }: TicketCtaItemProps) =
         <StyledTicketSellerText as="p">{seller}</StyledTicketSellerText>
       </StyledTicketCTALeft>
       <Link href={sellingURL} target="_blank">
-        <Button theme="pink">티켓 찾기</Button>
+        <Button theme="pink" size="md" textWeight="bold" rightIcon={'SquareArrowOutUpRight'}>
+          티켓 찾기
+        </Button>
       </Link>
     </StyledTicketCTAContainer>
   )
