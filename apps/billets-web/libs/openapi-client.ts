@@ -27,6 +27,7 @@ export const apiClient = {
         size,
         locationCityId,
         eventCategoryName,
+        locationCityName,
       }: {
         latitude?: number
         longitude?: number
@@ -34,7 +35,12 @@ export const apiClient = {
         size?: number
         locationCityId?: string
         eventCategoryName?: string
-      }) => ['event', 'list', { latitude, longitude, offset, size, locationCityId, eventCategoryName }],
+        locationCityName?: string
+      }) => [
+        'event',
+        'list',
+        { latitude, longitude, offset, size, locationCityId, eventCategoryName, locationCityName },
+      ],
       detail: (id: string) => ['event', 'detail', id],
     },
     getEvents: async ({
@@ -44,6 +50,7 @@ export const apiClient = {
       longitude,
       locationCityId,
       eventCategoryName,
+      locationCityName,
     }: {
       offset: number
       size: number
@@ -51,6 +58,7 @@ export const apiClient = {
       longitude?: number
       locationCityId?: string
       eventCategoryName?: string
+      locationCityName?: string
     }) => {
       const response = await baseFetchClient.GET('/v1/event/', {
         params: {
@@ -61,6 +69,7 @@ export const apiClient = {
             longitude,
             locationCityId,
             eventCategoryName,
+            locationCityName,
           },
         },
       })
@@ -228,7 +237,7 @@ export const initialPageQuery = {
     eventCategoryName,
   }: {
     cityName: components['schemas']['LocationCityDTOSchema']['name']
-    eventCategoryName?: string
+    eventCategoryName?: components['schemas']['EventCategoryDTOSchema']['name']
   }) => {
     const size = 20
     return {
@@ -236,14 +245,14 @@ export const initialPageQuery = {
       queryKey: apiClient.event.queryKeys.list({
         offset: 0,
         size,
-        locationCityId: cityId,
+        locationCityName: cityName,
         eventCategoryName,
       }),
       queryFn: ({ pageParam = 0 }) => {
         return apiClient.event.getEvents({
           offset: pageParam,
           size,
-          locationCityId: cityId,
+          locationCityName: cityName,
           eventCategoryName,
         })
       },

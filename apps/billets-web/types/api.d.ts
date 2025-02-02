@@ -488,6 +488,7 @@ export interface paths {
           eventCategoryName?: string
           latitude?: number
           locationCityId?: string
+          locationCityName?: string
           longitude?: number
           offset?: number
           size?: number
