@@ -5,8 +5,6 @@ import { GlobalLink } from 'app/(ui)'
 import { memo, useMemo } from 'react'
 import {
   CtaButtonWrapper,
-  MapPinIcon,
-  OpenInMapsText,
   StyledIconButton,
   StyledVenueAddressContainer,
   StyledVenueAddressText,
@@ -37,9 +35,8 @@ export const Venue = memo(({ address, venueTitle, latitude, longitude, id }: Ven
       </StyledVenueAddressContainer>
       <CtaButtonWrapper>
         <GlobalLink href={openInMapsHref} target="_blank">
-          <Button>
-            <MapPinIcon />
-            <OpenInMapsText as="span">OPEN IN MAPS</OpenInMapsText>
+          <Button size="md" leftIcon="MapPin">
+            OPEN IN MAPS
           </Button>
         </GlobalLink>
       </CtaButtonWrapper>
