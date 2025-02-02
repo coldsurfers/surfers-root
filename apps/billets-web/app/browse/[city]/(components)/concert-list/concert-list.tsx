@@ -3,23 +3,19 @@
 import { initialPageQuery } from '@/libs/openapi-client'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { memo, useCallback, useMemo } from 'react'
+import { components } from 'types/api'
 import { ConcertListItem } from './concert-list.item'
 import { ConcertListLoadMore } from './concert-list.load-more'
 import { StyledGridContainer, StyledListContainer, StyledListHeader, StyledListHeaderText } from './concert-list.styled'
 
 type ConcertListProps = {
-  cityData: {
-    readonly id: string
-    readonly lat: number
-    readonly lng: number
-    readonly name: string
-    readonly uiName: string
-  }
+  cityData: components['schemas']['LocationCountryDTOSchema']['cities'][number]
+  eventCategoryName?: string
 }
 
-export const ConcertList = memo(({ cityData }: ConcertListProps) => {
+export const ConcertList = memo(({ cityData, eventCategoryName }: ConcertListProps) => {
   const { data, fetchNextPage, isFetchingNextPage, isFetching, hasNextPage } = useInfiniteQuery(
-    initialPageQuery.browseByCity(cityData),
+    initialPageQuery.browseEvents({ cityName: cityData.name, eventCategoryName: eventCategoryName?.toLowerCase() }),
   )
 
   const pages = useMemo(() => {

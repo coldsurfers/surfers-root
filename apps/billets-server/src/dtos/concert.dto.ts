@@ -42,6 +42,8 @@ export const FindManyConcertDTOSchema = z.object({
   skip: z.number(),
   venueGeohash: z.string().nullable(),
   locationCityId: z.string().uuid().nullable(),
+  eventCategoryName: z.string().nullable(),
+  locationCityName: z.string().nullable(),
 })
 export type FindManyConcertDTO = z.infer<typeof FindManyConcertDTOSchema>
 
