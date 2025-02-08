@@ -26,14 +26,16 @@ export function generateMetadata({ params }: PageProps): Metadata {
   })
 }
 
+const SERIES = 'YMWT'
+
 export default async function FilmLogPage({ params, searchParams }: PageProps) {
   setRequestLocale(params.locale)
   const queryClient = getQueryClient()
   const page = searchParams['page'] ? Number(searchParams['page']) : 1
   await queryClient.prefetchQuery(
-    queryKeyFactory.logs.list({
-      platform: 'filmlog',
-      locale: params.locale,
+    queryKeyFactory.series.list({
+      series: SERIES,
+      appLocale: params.locale,
     }),
   )
   const dehydratedState = dehydrate(queryClient)
@@ -41,7 +43,7 @@ export default async function FilmLogPage({ params, searchParams }: PageProps) {
   return (
     <HydrationBoundary state={dehydratedState}>
       <PageLayout title="VIDEO">
-        <LogListPage locale={params.locale} platform="filmlog" page={page} />
+        <LogListPage locale={params.locale} series={SERIES} page={page} />
       </PageLayout>
     </HydrationBoundary>
   )

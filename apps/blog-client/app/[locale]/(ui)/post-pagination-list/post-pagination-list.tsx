@@ -8,7 +8,7 @@ import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { useQuery } from '@tanstack/react-query'
 import { memo, useMemo } from 'react'
-import { PAGINATION_PER_LINE, PAGINATION_PER_PAGE } from '../pagination/pagination.constants'
+import { PAGINATION_PER_LINE, PAGINATION_PER_PAGE } from '../../../../lib/pagination.constants'
 
 const Container = styled.div`
   margin-top: 6.5rem;
