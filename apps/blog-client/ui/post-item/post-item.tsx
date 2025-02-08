@@ -16,12 +16,12 @@ import {
 
 export const PostItem = memo((props: SeriesItem) => {
   const platformHref = useMemo<I18nPathWithParams>(
-    () => generateSeriesHref({ series: props.series, query: {} }),
-    [props.series],
+    () => generateSeriesHref({ seriesCategory: props.seriesCategory, query: {} }),
+    [props.seriesCategory],
   )
   const postHref = useMemo<I18nPathWithParams>(
-    () => generateSeriesItemHref(props.series, props.slug),
-    [props.series, props.slug],
+    () => generateSeriesItemHref(props.seriesCategory, props.slug),
+    [props.seriesCategory, props.slug],
   )
 
   return (
@@ -39,7 +39,7 @@ export const PostItem = memo((props: SeriesItem) => {
         />
       </Link>
       <Link href={platformHref}>
-        <StyledPostPlatformText as="p">{props.series}</StyledPostPlatformText>
+        <StyledPostPlatformText as="p">{props.seriesCategory}</StyledPostPlatformText>
       </Link>
       <Link href={postHref}>
         <StyledPostTitleText as="h2">

@@ -2,9 +2,8 @@ import { AppLocaleSchema } from '@/lib/types/i18n'
 import { SeriesCategorySchema } from '@/lib/types/series'
 import { z } from 'zod'
 
-export const FetchGetSeriesSearchParamsSchema = z.object({
+export const FetchGetSeriesItemSearchParamsSchema = z.object({
   seriesCategory: SeriesCategorySchema,
   appLocale: AppLocaleSchema,
-  tag: z.string().optional(),
 })
-export type FetchGetSeriesSearchParams = z.infer<typeof FetchGetSeriesSearchParamsSchema>
+export type FetchGetSeriesItemSearchParams = z.infer<typeof FetchGetSeriesItemSearchParamsSchema>

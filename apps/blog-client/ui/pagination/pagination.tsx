@@ -1,33 +1,41 @@
 'use client'
 
+import { AppLocale } from '@/lib/types/i18n'
+import { SeriesCategory } from '@/lib/types/series'
 import { generateSeriesHref } from '@/lib/utils'
 import { Text } from '@coldsurfers/ocean-road'
 import { Link } from 'i18n/routing'
 import { useMemo } from 'react'
 import { MoveLeftIcon, MoveRightIcon, PageMoveButton, StyledPaginationContainer } from './pagination.styled'
-import { PaginationProps } from './pagination.types'
 
-export function Pagination({ currentPage, series, totalPage }: PaginationProps) {
+type PaginationProps = {
+  seriesCategory: SeriesCategory | null
+  currentPage: number
+  totalPage: number
+  appLocale: AppLocale
+}
+
+export function Pagination({ currentPage, seriesCategory, totalPage }: PaginationProps) {
   const seriesHrefPrev = useMemo(
     () =>
       generateSeriesHref({
-        series: series ?? undefined,
+        seriesCategory: seriesCategory ?? undefined,
         query: {
           page: currentPage - 1 > 0 ? currentPage - 1 : 1,
         },
       }),
-    [currentPage, series],
+    [currentPage, seriesCategory],
   )
 
   const seriesHrefNext = useMemo(
     () =>
       generateSeriesHref({
-        series: series ?? undefined,
+        seriesCategory: seriesCategory ?? undefined,
         query: {
           page: currentPage + 1 > totalPage ? totalPage : currentPage + 1,
         },
       }),
-    [currentPage, series, totalPage],
+    [currentPage, seriesCategory, totalPage],
   )
 
   return (

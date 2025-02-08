@@ -33,31 +33,43 @@ export const Header = () => {
     return [
       {
         href: {
-          pathname: '/techlog',
+          pathname: '/[series]',
+          params: {
+            series: 'tech',
+          },
         },
         title: 'TECH',
-        isActive: pathname.startsWith('/techlog'),
+        isActive: pathname.startsWith('/tech'),
       },
       {
         href: {
-          pathname: '/soundlog',
+          pathname: '/[series]',
+          params: {
+            series: 'sound',
+          },
         },
         title: 'SOUND',
-        isActive: pathname.startsWith('/soundlog'),
+        isActive: pathname.startsWith('/sound'),
       },
       {
         href: {
-          pathname: '/filmlog',
+          pathname: '/[series]',
+          params: {
+            series: 'video',
+          },
         },
         title: 'VIDEO',
-        isActive: pathname.startsWith('/filmlog'),
+        isActive: pathname.startsWith('/video'),
       },
       {
         href: {
-          pathname: '/textlog',
+          pathname: '/[series]',
+          params: {
+            series: 'text',
+          },
         },
         title: 'TEXT',
-        isActive: pathname.startsWith('/textlog'),
+        isActive: pathname.startsWith('/text'),
       },
       {
         href: {
