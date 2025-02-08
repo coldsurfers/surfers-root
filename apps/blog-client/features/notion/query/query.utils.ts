@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AppLocale } from '@/lib/types/i18n'
-import { Series, SeriesItemSchema } from '@/lib/types/series'
+import { Series } from '@/lib/types/series'
 import { getRandomInt } from '@coldsurfers/shared-utils'
 import {
   BlockObjectResponse,
@@ -162,26 +162,64 @@ export const querySeries = cache(async ({ series, lang, tag }: { series: Series;
     filter,
   })
 
-  const logs = result?.results?.map((post) => {
-    // @ts-ignore
-    const createdTime = new Date(post.properties?.['Publish date']?.date?.start ?? post.created_time)
-    // @ts-ignore
-    const lastEditedTime = new Date(post.last_edited_time)
-    // @ts-ignore
-    const slug = post.properties?.Slug?.rich_text?.at(0)?.text.content
-    // @ts-ignore
-    const title = post.properties?.Name?.title
-    // @ts-ignore
-    const postStatus = post.properties.Status.status.name
-    // @ts-ignore
-    const writer = post.properties?.Writer.people.at(0) ?? null
-    // @ts-ignore
-    const thumbnailUrl = post.properties?.thumb?.url ?? null
+  const seriesItems = result?.results?.map((post) => {
+    const createdTime = (() => {
+      const _post = post as PageObjectResponse
+      const pubDate = _post.properties?.['Publish date']
+      if (pubDate.type === 'date') {
+        return pubDate.date?.start ? new Date(pubDate.date?.start) : null
+      }
+      return null
+    })()
+    const lastEditedTime = (() => {
+      const _post = post as PageObjectResponse
+      return new Date(_post.last_edited_time)
+    })()
+    const slug = (() => {
+      const _post = post as PageObjectResponse
+      const _slug = _post.properties.Slug
+      if (_slug.type !== 'rich_text') {
+        return ''
+      }
+      const richText = _slug.rich_text.at(0)
+      if (!richText) {
+        return ''
+      }
+      return richText.type === 'text' ? richText.text.content : ''
+    })()
+    const title = (() => {
+      const _post = post as PageObjectResponse
+      return _post.properties?.Name?.type === 'title' ? _post.properties.Name.title : null
+    })()
+    const postStatus = (() => {
+      const _post = post as PageObjectResponse
+      const status = _post.properties.Status
+      if (status.type !== 'status') {
+        return ''
+      }
+      return status.status?.name
+    })()
+    const writer = (() => {
+      const _post = post as PageObjectResponse
+      const people = _post.properties.Writer
+      if (people.type !== 'people') {
+        return null
+      }
+      return people.people.at(0)
+    })()
+    const thumbnailUrl = (() => {
+      const _post = post as PageObjectResponse
+      const thumb = _post.properties.thumb
+      if (thumb.type !== 'url') {
+        return null
+      }
+      return thumb.url
+    })()
     return {
       id: post.id,
       createdTime,
       lastEditedTime,
-      dateLocale: createdTime.toLocaleString('en-US', {
+      dateLocale: createdTime?.toLocaleString('en-US', {
         month: 'short',
         day: '2-digit',
         year: 'numeric',
@@ -196,10 +234,5 @@ export const querySeries = cache(async ({ series, lang, tag }: { series: Series;
     }
   })
 
-  const validation = SeriesItemSchema.array().safeParse(logs)
-  if (!validation.success) {
-    return []
-  }
-
-  return validation.data
+  return seriesItems
 })

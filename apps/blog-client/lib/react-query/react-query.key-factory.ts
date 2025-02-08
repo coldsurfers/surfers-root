@@ -1,7 +1,37 @@
+import { FetchGetSeriesSearchParams } from '@/app/api/series/types'
 import { LogPlatform } from '@/features'
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory'
-import { AppLocale } from 'i18n/types'
-import { fetchGetLogDetail, fetchGetLogs, fetchGetResume, fetchGetTags, fetchGetUsers } from '../fetchers'
+import {
+  fetchGetLogDetail,
+  fetchGetLogs,
+  fetchGetResume,
+  fetchGetSeries,
+  fetchGetTags,
+  fetchGetUsers,
+} from '../fetchers'
+import { AppLocale } from '../types/i18n'
+
+const series = createQueryKeys('series', {
+  all: ['series'],
+  // listAll: (appLocale: AppLocale) => ({
+  //   queryKey: ['series', 'listAll'],
+  //   queryFn: async (ctx) => {
+  //     const allSeries: Series[] = ['YMLT', 'YMRT', 'YMWT']
+  //     const promises = allSeries.map(async (series) => {
+  //       return await fetchGetSeries({
+  //         series,
+  //         appLocale,
+  //       })
+  //     })
+  //     const response = await Promise.all(promises)
+  //     return response
+  //   }
+  // }),
+  list: (params: FetchGetSeriesSearchParams) => ({
+    queryKey: ['series', 'list', params],
+    queryFn: (ctx) => fetchGetSeries(params),
+  }),
+})
 
 const logs = createQueryKeys('logs', {
   all: null,
@@ -44,4 +74,4 @@ const tags = createQueryKeys('tags', {
   },
 })
 
-export const queryKeyFactory = mergeQueryKeys(logs, users, resume, tags)
+export const queryKeyFactory = mergeQueryKeys(logs, users, resume, series, tags)

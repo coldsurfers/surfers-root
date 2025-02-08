@@ -7,14 +7,19 @@ import { SeriesItemSchema } from '../types/series'
 
 const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://blog.coldsurf.io'
 
-export const fetchSeries = async (params: FetchGetSeriesSearchParams) => {
+export const fetchGetSeries = async (params: FetchGetSeriesSearchParams) => {
   const { series, appLocale, tag } = params
-  const response = await fetch(`${BASE_URL}/api/series?series=${series}&appLocale=${appLocale}&tag=${tag}`, {
+  let url = `${BASE_URL}/api/series?series=${series}&appLocale=${appLocale}`
+  if (tag) {
+    url += `&tag=${tag}`
+  }
+  const response = await fetch(url, {
     method: 'GET',
   })
   const json = await response.json()
   const validation = SeriesItemSchema.array().safeParse(json)
   if (!validation.success) {
+    console.error('fetch error, fetchGetSeries', params, validation.error)
     return []
   }
   return validation.data
