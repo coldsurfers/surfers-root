@@ -1,6 +1,7 @@
 'use client'
 
-import { LogItem, LogPlatform, Text } from '@/features'
+import { Text } from '@/features'
+import { Series, SeriesItem } from '@/lib/types/series'
 import { Link } from 'i18n/routing'
 import { I18nPathWithParams } from 'i18n/types'
 import { useMemo } from 'react'
@@ -12,60 +13,51 @@ import {
   StyledPostTitleText,
 } from './post-item.styled'
 
-export function PostItem(props: LogItem) {
+export function PostItem(props: SeriesItem) {
   const platformHref = useMemo<I18nPathWithParams>(() => {
-    return match<LogPlatform, I18nPathWithParams>(props.platform)
-      .with('filmlog', () => ({
+    return match<Series, I18nPathWithParams>(props.series)
+      .with('YMWT', () => ({
         pathname: '/filmlog',
       }))
-      .with('soundlog', () => ({
+      .with('YMLT', () => ({
         pathname: '/soundlog',
       }))
-      .with('squarelog', () => ({
-        pathname: '/squarelog',
-      }))
-      .with('techlog', () => ({
+      .with('YMCT', () => ({
         pathname: '/techlog',
       }))
-      .with('textlog', () => ({
+      .with('YMRT', () => ({
         pathname: '/textlog',
       }))
       .exhaustive()
-  }, [props.platform])
+  }, [props.series])
   const postHref = useMemo<I18nPathWithParams>(() => {
-    return match<LogPlatform, I18nPathWithParams>(props.platform)
-      .with('filmlog', () => ({
+    return match<Series, I18nPathWithParams>(props.series)
+      .with('YMWT', () => ({
         pathname: '/filmlog/[slug]',
         params: {
           slug: props.slug,
         },
       }))
-      .with('soundlog', () => ({
+      .with('YMLT', () => ({
         pathname: '/soundlog/[slug]',
         params: {
           slug: props.slug,
         },
       }))
-      .with('squarelog', () => ({
-        pathname: '/squarelog/[slug]',
-        params: {
-          slug: props.slug,
-        },
-      }))
-      .with('techlog', () => ({
+      .with('YMCT', () => ({
         pathname: '/techlog/[slug]',
         params: {
           slug: props.slug,
         },
       }))
-      .with('textlog', () => ({
+      .with('YMRT', () => ({
         pathname: '/textlog/[slug]',
         params: {
           slug: props.slug,
         },
       }))
       .exhaustive()
-  }, [props.platform, props.slug])
+  }, [props.series, props.slug])
 
   return (
     <div key={props.id} style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
@@ -78,11 +70,11 @@ export function PostItem(props: LogItem) {
           }
           width={500}
           height={500}
-          alt={props.title}
+          alt={props.slug}
         />
       </Link>
       <Link href={platformHref}>
-        <StyledPostPlatformText as="p">{props.platform}</StyledPostPlatformText>
+        <StyledPostPlatformText as="p">{props.series}</StyledPostPlatformText>
       </Link>
       <Link href={postHref}>
         <StyledPostTitleText as="h2">

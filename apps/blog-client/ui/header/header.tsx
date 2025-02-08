@@ -13,8 +13,8 @@ import {
 const HeaderBadge = memo(
   ({ href, isActive, title }: { href: I18nPathWithParams; isActive: boolean; title: string }) => {
     return (
-      <StyledHeaderLinkBadge href={href} $isActive={isActive}>
-        <StyledHeaderHeading $isActive={isActive}>{title}</StyledHeaderHeading>
+      <StyledHeaderLinkBadge href={href} $isactive={isActive ? 'true' : undefined}>
+        <StyledHeaderHeading $isactive={isActive ? 'true' : undefined}>{title}</StyledHeaderHeading>
       </StyledHeaderLinkBadge>
     )
   },
@@ -58,13 +58,6 @@ export const Header = () => {
         },
         title: 'TEXT',
         isActive: pathname.startsWith('/textlog'),
-      },
-      {
-        href: {
-          pathname: '/squarelog',
-        },
-        title: 'PHOTO',
-        isActive: pathname.startsWith('/squarelog'),
       },
       {
         href: {

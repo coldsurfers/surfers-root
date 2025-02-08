@@ -19,35 +19,53 @@ export default async function RootPage({ params, searchParams }: PageProps) {
   const queryClient = getQueryClient()
   const promises = [
     queryClient.prefetchQuery(
-      queryKeyFactory.logs.list({
-        platform: 'techlog',
-        locale: params.locale,
+      queryKeyFactory.series.list({
+        appLocale: params.locale,
+        series: 'YMWT',
       }),
     ),
     queryClient.prefetchQuery(
-      queryKeyFactory.logs.list({
-        platform: 'filmlog',
-        locale: params.locale,
+      queryKeyFactory.series.list({
+        appLocale: params.locale,
+        series: 'YMLT',
       }),
     ),
     queryClient.prefetchQuery(
-      queryKeyFactory.logs.list({
-        platform: 'soundlog',
-        locale: params.locale,
+      queryKeyFactory.series.list({
+        appLocale: params.locale,
+        series: 'YMRT',
       }),
     ),
     queryClient.prefetchQuery(
-      queryKeyFactory.logs.list({
-        platform: 'squarelog',
-        locale: params.locale,
+      queryKeyFactory.series.list({
+        appLocale: params.locale,
+        series: 'YMCT',
       }),
     ),
-    queryClient.prefetchQuery(
-      queryKeyFactory.logs.list({
-        platform: 'textlog',
-        locale: params.locale,
-      }),
-    ),
+    // queryClient.prefetchQuery(
+    //   queryKeyFactory.logs.list({
+    //     platform: 'filmlog',
+    //     locale: params.locale,
+    //   }),
+    // ),
+    // queryClient.prefetchQuery(
+    //   queryKeyFactory.logs.list({
+    //     platform: 'soundlog',
+    //     locale: params.locale,
+    //   }),
+    // ),
+    // queryClient.prefetchQuery(
+    //   queryKeyFactory.logs.list({
+    //     platform: 'squarelog',
+    //     locale: params.locale,
+    //   }),
+    // ),
+    // queryClient.prefetchQuery(
+    //   queryKeyFactory.logs.list({
+    //     platform: 'textlog',
+    //     locale: params.locale,
+    //   }),
+    // ),
   ]
 
   await Promise.all(promises)
