@@ -4,6 +4,14 @@ import { AppLocaleSchema } from './i18n'
 export const SeriesSchema = z.union([z.literal('YMWT'), z.literal('YMRT'), z.literal('YMLT'), z.literal('YMCT')])
 export type Series = z.infer<typeof SeriesSchema>
 
+export const SeriesCategorySchema = z.union([
+  z.literal('video'),
+  z.literal('text'),
+  z.literal('sound'),
+  z.literal('tech'),
+])
+export type SeriesCategory = z.infer<typeof SeriesCategorySchema>
+
 export const SeriesItemSchema = z.object({
   id: z.string(),
   createdTime: z.string(),
@@ -14,7 +22,7 @@ export const SeriesItemSchema = z.object({
   status: z.string(),
   writer: z.object({}), // PartialUserObjectResponse
   lang: AppLocaleSchema,
-  series: SeriesSchema,
+  seriesCategory: SeriesCategorySchema,
   thumbnailUrl: z.string().nullable(),
 })
 export type SeriesItem = z.infer<typeof SeriesItemSchema>

@@ -1,18 +1,23 @@
 'use client'
 
 import { PAGINATION_PER_PAGE } from '@/lib/pagination.constants'
+import { SeriesCategory } from '@/lib/types/series'
 import { Pagination, PostPaginationList } from '@/ui'
 import { PageProps } from 'i18n/types'
 import { useSearchParams } from 'next/navigation'
-import { SeriesListAllQuery } from './(components)'
+import { SeriesListQuery } from './(component)'
 
-export default async function RootPage({ params }: PageProps) {
+export default function SeriesPage({
+  params,
+}: PageProps<{
+  series: SeriesCategory
+}>) {
   const searchParams = useSearchParams()
   const pageParam = searchParams.get('page')
   const page = pageParam ? Number(pageParam) : 1
 
   return (
-    <SeriesListAllQuery locale={params.locale}>
+    <SeriesListQuery appLocale={params.locale} seriesCategory={params.series}>
       {(data) => {
         return (
           <>
@@ -20,12 +25,12 @@ export default async function RootPage({ params }: PageProps) {
             <Pagination
               currentPage={page}
               totalPage={Math.ceil(data.postItems.length / PAGINATION_PER_PAGE)}
-              seriesCategory={null}
+              seriesCategory={params.series}
               appLocale={params.locale}
             />
           </>
         )
       }}
-    </SeriesListAllQuery>
+    </SeriesListQuery>
   )
 }

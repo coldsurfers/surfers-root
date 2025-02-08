@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AppLocale } from '@/lib/types/i18n'
-import { Series } from '@/lib/types/series'
+import { SeriesCategory } from '@/lib/types/series'
 import { getRandomInt } from '@coldsurfers/shared-utils'
 import {
   BlockObjectResponse,
@@ -120,119 +120,163 @@ export const getBlocks = async ({
   )
 }
 
-export const querySeries = cache(async ({ series, lang, tag }: { series: Series; lang: AppLocale; tag?: string }) => {
-  const filter: QueryDatabaseParameters['filter'] = {
-    and: [
-      {
-        property: 'Status',
-        status: {
-          equals: 'Published',
+export const querySeries = cache(
+  async ({ seriesCategory, lang, tag }: { seriesCategory: SeriesCategory; lang: AppLocale; tag?: string }) => {
+    const filter: QueryDatabaseParameters['filter'] = {
+      and: [
+        {
+          property: 'Status',
+          status: {
+            equals: 'Published',
+          },
         },
-      },
-      {
-        property: 'category',
+        {
+          property: 'SeriesCategory',
+          multi_select: {
+            contains: seriesCategory,
+          },
+        },
+        {
+          property: 'lang',
+          multi_select: {
+            contains: lang,
+          },
+        },
+      ],
+    }
+    if (tag) {
+      filter.and.push({
+        property: 'tags',
         multi_select: {
-          contains: series,
+          contains: tag,
         },
-      },
-      {
-        property: 'lang',
-        multi_select: {
-          contains: lang,
+      })
+    }
+    const result = await notionInstance.databases.query({
+      database_id: notionDatabaseIds.blog ?? '',
+      sorts: [
+        {
+          property: 'Publish date',
+          direction: 'descending',
         },
-      },
-    ],
-  }
-  if (tag) {
-    filter.and.push({
-      property: 'tags',
-      multi_select: {
-        contains: tag,
+      ],
+      filter,
+    })
+
+    const seriesItems = result?.results?.map((post) => {
+      const createdTime = (() => {
+        const _post = post as PageObjectResponse
+        const pubDate = _post.properties?.['Publish date']
+        if (pubDate.type === 'date') {
+          return pubDate.date?.start ? new Date(pubDate.date?.start) : null
+        }
+        return null
+      })()
+      const lastEditedTime = (() => {
+        const _post = post as PageObjectResponse
+        return new Date(_post.last_edited_time)
+      })()
+      const slug = (() => {
+        const _post = post as PageObjectResponse
+        const _slug = _post.properties.Slug
+        if (_slug.type !== 'rich_text') {
+          return ''
+        }
+        const richText = _slug.rich_text.at(0)
+        if (!richText) {
+          return ''
+        }
+        return richText.type === 'text' ? richText.text.content : ''
+      })()
+      const title = (() => {
+        const _post = post as PageObjectResponse
+        return _post.properties?.Name?.type === 'title' ? _post.properties.Name.title : null
+      })()
+      const postStatus = (() => {
+        const _post = post as PageObjectResponse
+        const status = _post.properties.Status
+        if (status.type !== 'status') {
+          return ''
+        }
+        return status.status?.name
+      })()
+      const writer = (() => {
+        const _post = post as PageObjectResponse
+        const people = _post.properties.Writer
+        if (people.type !== 'people') {
+          return null
+        }
+        return people.people.at(0)
+      })()
+      const thumbnailUrl = (() => {
+        const _post = post as PageObjectResponse
+        const thumb = _post.properties.thumb
+        if (thumb.type !== 'url') {
+          return null
+        }
+        return thumb.url
+      })()
+      return {
+        id: post.id,
+        createdTime,
+        lastEditedTime,
+        dateLocale: createdTime?.toLocaleString('en-US', {
+          month: 'short',
+          day: '2-digit',
+          year: 'numeric',
+        }),
+        slug,
+        title,
+        status: postStatus,
+        writer,
+        lang,
+        seriesCategory,
+        thumbnailUrl,
+      }
+    })
+
+    return seriesItems
+  },
+)
+
+export const querySeriesItem = cache(
+  async ({ slug, lang, seriesCategory }: { slug: string; lang: AppLocale; seriesCategory: SeriesCategory }) => {
+    const res = await notionInstance.databases.query({
+      database_id: notionDatabaseIds.blog ?? '',
+      filter: {
+        and: [
+          {
+            property: 'Slug',
+            formula: {
+              string: {
+                equals: slug,
+              },
+            },
+          },
+          {
+            property: 'Status',
+            status: {
+              equals: 'Published',
+            },
+          },
+          {
+            property: 'SeriesCategory',
+            multi_select: {
+              contains: seriesCategory,
+            },
+          },
+          {
+            property: 'lang',
+            multi_select: {
+              contains: lang,
+            },
+          },
+        ],
       },
     })
-  }
-  const result = await notionInstance.databases.query({
-    database_id: notionDatabaseIds.blog ?? '',
-    sorts: [
-      {
-        property: 'Publish date',
-        direction: 'descending',
-      },
-    ],
-    filter,
-  })
-
-  const seriesItems = result?.results?.map((post) => {
-    const createdTime = (() => {
-      const _post = post as PageObjectResponse
-      const pubDate = _post.properties?.['Publish date']
-      if (pubDate.type === 'date') {
-        return pubDate.date?.start ? new Date(pubDate.date?.start) : null
-      }
-      return null
-    })()
-    const lastEditedTime = (() => {
-      const _post = post as PageObjectResponse
-      return new Date(_post.last_edited_time)
-    })()
-    const slug = (() => {
-      const _post = post as PageObjectResponse
-      const _slug = _post.properties.Slug
-      if (_slug.type !== 'rich_text') {
-        return ''
-      }
-      const richText = _slug.rich_text.at(0)
-      if (!richText) {
-        return ''
-      }
-      return richText.type === 'text' ? richText.text.content : ''
-    })()
-    const title = (() => {
-      const _post = post as PageObjectResponse
-      return _post.properties?.Name?.type === 'title' ? _post.properties.Name.title : null
-    })()
-    const postStatus = (() => {
-      const _post = post as PageObjectResponse
-      const status = _post.properties.Status
-      if (status.type !== 'status') {
-        return ''
-      }
-      return status.status?.name
-    })()
-    const writer = (() => {
-      const _post = post as PageObjectResponse
-      const people = _post.properties.Writer
-      if (people.type !== 'people') {
-        return null
-      }
-      return people.people.at(0)
-    })()
-    const thumbnailUrl = (() => {
-      const _post = post as PageObjectResponse
-      const thumb = _post.properties.thumb
-      if (thumb.type !== 'url') {
-        return null
-      }
-      return thumb.url
-    })()
-    return {
-      id: post.id,
-      createdTime,
-      lastEditedTime,
-      dateLocale: createdTime?.toLocaleString('en-US', {
-        month: 'short',
-        day: '2-digit',
-        year: 'numeric',
-      }),
-      slug,
-      title,
-      status: postStatus,
-      writer,
-      lang,
-      series,
-      thumbnailUrl,
+    if (res.results.length) {
+      return res.results[0] as PageObjectResponse
     }
-  })
-
-  return seriesItems
-})
+    return null
+  },
+)

@@ -1,4 +1,5 @@
 import { AppLocale } from '@/lib/types/i18n'
+import { SeriesCategory } from '@/lib/types/series'
 
 export type PageProps<T = unknown> = {
   params: T & {
@@ -10,14 +11,8 @@ export type PageProps<T = unknown> = {
 type PageQuery = { page?: number }
 
 export type I18nPathWithParams =
-  | { pathname: '/filmlog'; query?: PageQuery }
-  | { pathname: '/soundlog'; query?: PageQuery }
-  | { pathname: '/techlog'; query?: PageQuery }
-  | { pathname: '/textlog'; query?: PageQuery }
-  | { pathname: '/filmlog/[slug]'; params: { slug: string } }
-  | { pathname: '/soundlog/[slug]'; params: { slug: string } }
-  | { pathname: '/techlog/[slug]'; params: { slug: string } }
-  | { pathname: '/textlog/[slug]'; params: { slug: string } }
+  | { pathname: '/[series]'; params: { series: SeriesCategory }; query?: PageQuery }
+  | { pathname: '/[series]/[slug]'; params: { series: SeriesCategory; slug: string } }
   | { pathname: '/about/[user]'; params: { user: string } }
   | { pathname: '/about' }
   | { pathname: '/tags/[tag]'; params: { tag: string } }

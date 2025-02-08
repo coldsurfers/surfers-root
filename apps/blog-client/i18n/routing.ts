@@ -4,22 +4,16 @@ import { defineRouting } from 'next-intl/routing'
 export const i18nRoutingPathnames = {
   '/': '/',
   //
-  '/techlog': '/techlog',
-  '/filmlog': '/filmlog',
-  '/soundlog': '/soundlog',
-  '/squarelog': '/squarelog',
-  '/textlog': '/textlog',
+  '/[series]': '/[series]',
   //
-  '/techlog/[slug]': '/techlog/[slug]',
-  '/filmlog/[slug]': '/filmlog/[slug]',
-  '/soundlog/[slug]': '/soundlog/[slug]',
-  '/squarelog/[slug]': '/squarelog/[slug]',
-  '/textlog/[slug]': '/textlog/[slug]',
+  '/[series]/[slug]': '/[series]/[slug]',
+  //
+  '/tags': '/tags',
   '/tags/[tag]': '/tags/[tag]',
   //
   '/about': '/about',
   '/about/[user]': '/about/[user]',
-  '/tags': '/tags',
+  //
   '/404': '/404',
 } as const
 

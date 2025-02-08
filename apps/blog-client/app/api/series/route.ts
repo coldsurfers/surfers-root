@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
   const tagParam = searchParams.get('tag')
   const searchParamsValidation = FetchGetSeriesSearchParamsSchema.safeParse({
-    series: searchParams.get('series'),
+    seriesCategory: searchParams.get('seriesCategory'),
     appLocale: searchParams.get('appLocale'),
     tag: tagParam ? decodeURIComponent(tagParam) : undefined,
   })
@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'search params is not valid' }, { status: 409 })
   }
   const response = await querySeries({
-    series: searchParamsValidation.data.series,
+    seriesCategory: searchParamsValidation.data.seriesCategory,
     lang: searchParamsValidation.data.appLocale,
     tag: searchParamsValidation.data.tag,
   })
