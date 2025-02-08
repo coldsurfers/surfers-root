@@ -14,13 +14,14 @@ import { AppLocale } from '../types/i18n'
 
 const series = createQueryKeys('series', {
   all: ['series'],
-  listAll: (appLocale: AppLocale) => ({
-    queryKey: ['series', 'listAll'],
+  listAll: (appLocale: AppLocale, tag?: string) => ({
+    queryKey: ['series', 'listAll', { appLocale, tag }],
     queryFn: async (ctx) => {
       const promises = ALL_SERIES.map(async (series) => {
         return await fetchGetSeries({
           series,
           appLocale,
+          tag,
         })
       })
       const response = await Promise.all(promises)
