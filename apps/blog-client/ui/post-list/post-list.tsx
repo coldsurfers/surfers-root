@@ -2,16 +2,16 @@
 
 import { PAGINATION_PER_LINE, PAGINATION_PER_PAGE } from '@/lib/pagination.constants'
 import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
-import { AppLocale } from '@/lib/types/i18n'
-import { Series } from '@/lib/types/series'
+import { SeriesItem } from '@/lib/types/series'
 import { PostItem, PostListContainer } from '@/ui'
 import { useQuery } from '@tanstack/react-query'
 import { memo, useMemo } from 'react'
 import { Pagination } from '../pagination'
+import { StyledPostListContainer } from './post-list.styled'
 
-type LogListPageProps = { locale: AppLocale; series: Series; page: number }
+type PostListProps = { postItems: SeriesItem[]; page: number }
 
-export const LogListPage = memo(({ locale, series, page }: LogListPageProps) => {
+export const PostList = memo(({ postItems, page }: PostListProps) => {
   const offset = useMemo(() => (page - 1) * PAGINATION_PER_PAGE, [page])
   const { data: seriesItems } = useQuery({
     ...queryKeyFactory.series.list({
@@ -23,8 +23,7 @@ export const LogListPage = memo(({ locale, series, page }: LogListPageProps) => 
   const items = useMemo(() => seriesItems?.flat() ?? [], [seriesItems])
 
   return (
-    <>
-      <div style={{ marginTop: '6.5rem' }} />
+    <StyledPostListContainer>
       <PostListContainer>
         {items.slice(offset, offset + PAGINATION_PER_LINE).map((post) => (
           <PostItem key={post.id} {...post} />
@@ -41,6 +40,6 @@ export const LogListPage = memo(({ locale, series, page }: LogListPageProps) => 
         ))}
       </PostListContainer>
       <Pagination currentPage={page} series={series} appLocale={locale} />
-    </>
+    </StyledPostListContainer>
   )
 })

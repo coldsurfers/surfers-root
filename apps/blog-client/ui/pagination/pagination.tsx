@@ -1,30 +1,13 @@
 'use client'
 
-import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
 import { generateSeriesHref } from '@/lib/utils'
 import { Text } from '@coldsurfers/ocean-road'
-import { useQuery } from '@tanstack/react-query'
 import { Link } from 'i18n/routing'
 import { useMemo } from 'react'
-import { PAGINATION_PER_PAGE } from '../../../../lib/pagination.constants'
 import { MoveLeftIcon, MoveRightIcon, PageMoveButton, StyledPaginationContainer } from './pagination.styled'
 import { PaginationProps } from './pagination.types'
 
-export function Pagination({ appLocale, currentPage, series }: PaginationProps) {
-  const allSeriesQuery = useQuery({
-    ...queryKeyFactory.series.listAll(appLocale),
-  })
-
-  const latestPosts = useMemo(
-    () =>
-      (allSeriesQuery.data ?? [])
-        .flat()
-        .sort((a, b) => new Date(b.createdTime).getTime() - new Date(a.createdTime).getTime()),
-    [allSeriesQuery.data],
-  )
-
-  const wholePage = useMemo(() => Math.ceil(latestPosts.length / PAGINATION_PER_PAGE), [latestPosts.length])
-
+export function Pagination({ currentPage, series, totalPage }: PaginationProps) {
   const seriesHrefPrev = useMemo(
     () =>
       generateSeriesHref({
@@ -41,16 +24,16 @@ export function Pagination({ appLocale, currentPage, series }: PaginationProps) 
       generateSeriesHref({
         series: series ?? undefined,
         query: {
-          page: currentPage + 1 > wholePage ? wholePage : currentPage + 1,
+          page: currentPage + 1 > totalPage ? totalPage : currentPage + 1,
         },
       }),
-    [currentPage, series, wholePage],
+    [currentPage, series, totalPage],
   )
 
   return (
     <StyledPaginationContainer>
       <Text as="p">
-        {currentPage}/{wholePage}
+        {currentPage}/{totalPage}
       </Text>
       <Link href={seriesHrefPrev}>
         <PageMoveButton>
