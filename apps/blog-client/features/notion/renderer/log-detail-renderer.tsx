@@ -3,12 +3,12 @@
 import { LogPlatform } from '@/features/logs'
 import { NotionRenderer } from '@/features/notion'
 import { useGetLogDetailQuery } from '@/lib/react-query/queries/use-get-log-detail-query/use-get-log-detail-query'
+import { AppLocale } from '@/lib/types/i18n'
 import { CommonBack, PageLayout } from '@/ui'
 import { TagList } from '@/ui/tag-list/tag-list'
 import { media, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import { AppLocale } from 'i18n/types'
 import { useMemo } from 'react'
 
 const WriterText = styled(Text)`

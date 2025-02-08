@@ -2,8 +2,8 @@
 
 import { LogPlatform } from '@/features'
 import { useGetLogsQuery } from '@/lib'
+import { AppLocale } from '@/lib/types/i18n'
 import { PostItem, PostListContainer } from '@/ui'
-import { AppLocale } from 'i18n/types'
 import { Pagination } from '../../app/[locale]/(ui)/pagination'
 
 export const LogListPage = ({ locale, platform, page }: { locale: AppLocale; platform: LogPlatform; page: number }) => {
