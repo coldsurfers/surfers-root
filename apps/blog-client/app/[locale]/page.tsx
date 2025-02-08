@@ -16,61 +16,12 @@ export function generateStaticParams() {
 export default async function RootPage({ params, searchParams }: PageProps) {
   const page = searchParams['page'] ? Number(searchParams['page']) : 1
   setRequestLocale(params.locale)
-  const queryClient = getQueryClient()
-  const promises = [
-    queryClient.prefetchQuery(
-      queryKeyFactory.series.list({
-        appLocale: params.locale,
-        series: 'YMWT',
-      }),
-    ),
-    queryClient.prefetchQuery(
-      queryKeyFactory.series.list({
-        appLocale: params.locale,
-        series: 'YMLT',
-      }),
-    ),
-    queryClient.prefetchQuery(
-      queryKeyFactory.series.list({
-        appLocale: params.locale,
-        series: 'YMRT',
-      }),
-    ),
-    queryClient.prefetchQuery(
-      queryKeyFactory.series.list({
-        appLocale: params.locale,
-        series: 'YMCT',
-      }),
-    ),
-    // queryClient.prefetchQuery(
-    //   queryKeyFactory.logs.list({
-    //     platform: 'filmlog',
-    //     locale: params.locale,
-    //   }),
-    // ),
-    // queryClient.prefetchQuery(
-    //   queryKeyFactory.logs.list({
-    //     platform: 'soundlog',
-    //     locale: params.locale,
-    //   }),
-    // ),
-    // queryClient.prefetchQuery(
-    //   queryKeyFactory.logs.list({
-    //     platform: 'squarelog',
-    //     locale: params.locale,
-    //   }),
-    // ),
-    // queryClient.prefetchQuery(
-    //   queryKeyFactory.logs.list({
-    //     platform: 'textlog',
-    //     locale: params.locale,
-    //   }),
-    // ),
-  ]
 
-  await Promise.all(promises)
+  const queryClient = getQueryClient()
+  await queryClient.prefetchQuery(queryKeyFactory.series.listAll(params.locale))
 
   const dehydratedState = dehydrate(queryClient)
+
   return (
     <HydrationBoundary state={dehydratedState}>
       <PageLayout>

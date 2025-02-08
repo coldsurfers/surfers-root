@@ -23,67 +23,13 @@ export default function Page({ locale, page }: { locale: AppLocale; page: number
   const PAGE = page
   const offset = (PAGE - 1) * PER_PAGE
 
-  // return useQuery({
-  //   ...options,
-  //   ...queryKeyFactory.logs.list({
-  //     platform,
-  //     locale,
-  //     tag,
-  //   }),
-  // })
+  const allSeriesQuery = useQuery({
+    ...queryKeyFactory.series.listAll(locale),
+  })
 
-  const { data: YMLT } = useQuery({
-    ...queryKeyFactory.series.list({
-      appLocale: locale,
-      series: 'YMLT',
-    }),
-  })
-  const { data: YMRT } = useQuery({
-    ...queryKeyFactory.series.list({
-      appLocale: locale,
-      series: 'YMRT',
-    }),
-  })
-  const { data: YMWT } = useQuery({
-    ...queryKeyFactory.series.list({
-      appLocale: locale,
-      series: 'YMWT',
-    }),
-  })
-  const { data: YMCT } = useQuery({
-    ...queryKeyFactory.series.list({
-      appLocale: locale,
-      series: 'YMCT',
-    }),
-  })
-  // const { data: filmlogs } = useGetLogsQuery({
-  //   platform: 'filmlog',
-  //   locale,
-  // })
-  // const { data: soundlogs } = useGetLogsQuery({
-  //   platform: 'soundlog',
-  //   locale,
-  // })
-  // const { data: squarelogs } = useGetLogsQuery({
-  //   platform: 'squarelog',
-  //   locale,
-  // })
-  // const { data: textlogs } = useGetLogsQuery({
-  //   platform: 'textlog',
-  //   locale,
-  // })
-
-  const latestPosts = [
-    ...(YMLT ?? []),
-    ...(YMRT ?? []),
-    ...(YMWT ?? []),
-    ...(YMCT ?? []),
-    // ...(squarelogs ?? []),
-    // ...(filmlogs ?? []),
-    // ...(techlogs ?? []),
-    // ...(soundlogs ?? []),
-    // ...(textlogs ?? []),
-  ].sort((a, b) => new Date(b.createdTime).getTime() - new Date(a.createdTime).getTime())
+  const latestPosts = (allSeriesQuery.data ?? [])
+    .flat()
+    .sort((a, b) => new Date(b.createdTime).getTime() - new Date(a.createdTime).getTime())
 
   const wholePage = Math.ceil(latestPosts.length / PER_PAGE)
   const currPage = page

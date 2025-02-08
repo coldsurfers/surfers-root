@@ -28,7 +28,10 @@ export function PostItem(props: SeriesItem) {
       .with('YMRT', () => ({
         pathname: '/textlog',
       }))
-      .exhaustive()
+      .otherwise(() => ({
+        pathname: '/404',
+      }))
+    // .exhaustive()
   }, [props.series])
   const postHref = useMemo<I18nPathWithParams>(() => {
     return match<Series, I18nPathWithParams>(props.series)
@@ -56,7 +59,10 @@ export function PostItem(props: SeriesItem) {
           slug: props.slug,
         },
       }))
-      .exhaustive()
+      .otherwise(() => ({
+        pathname: '/404',
+      }))
+    // .exhaustive()
   }, [props.series, props.slug])
 
   return (
