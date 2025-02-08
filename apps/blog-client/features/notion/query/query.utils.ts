@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { AppLocale } from '@/lib/types/i18n'
+import { Series, SeriesItemSchema } from '@/lib/types/series'
 import { getRandomInt } from '@coldsurfers/shared-utils'
 import {
   BlockObjectResponse,
   PageObjectResponse,
   PartialBlockObjectResponse,
+  QueryDatabaseParameters,
 } from '@notionhq/client/build/src/api-endpoints'
 import { cache } from 'react'
 import { match } from 'ts-pattern'
@@ -116,3 +119,87 @@ export const getBlocks = async ({
     }, []),
   )
 }
+
+export const querySeries = cache(async ({ series, lang, tag }: { series: Series; lang: AppLocale; tag?: string }) => {
+  const filter: QueryDatabaseParameters['filter'] = {
+    and: [
+      {
+        property: 'Status',
+        status: {
+          equals: 'Published',
+        },
+      },
+      {
+        property: 'category',
+        multi_select: {
+          contains: series,
+        },
+      },
+      {
+        property: 'lang',
+        multi_select: {
+          contains: lang,
+        },
+      },
+    ],
+  }
+  if (tag) {
+    filter.and.push({
+      property: 'tags',
+      multi_select: {
+        contains: tag,
+      },
+    })
+  }
+  const result = await notionInstance.databases.query({
+    database_id: notionDatabaseIds.blog ?? '',
+    sorts: [
+      {
+        property: 'Publish date',
+        direction: 'descending',
+      },
+    ],
+    filter,
+  })
+
+  const logs = result?.results?.map((post) => {
+    // @ts-ignore
+    const createdTime = new Date(post.properties?.['Publish date']?.date?.start ?? post.created_time)
+    // @ts-ignore
+    const lastEditedTime = new Date(post.last_edited_time)
+    // @ts-ignore
+    const slug = post.properties?.Slug?.rich_text?.at(0)?.text.content
+    // @ts-ignore
+    const title = post.properties?.Name?.title
+    // @ts-ignore
+    const postStatus = post.properties.Status.status.name
+    // @ts-ignore
+    const writer = post.properties?.Writer.people.at(0) ?? null
+    // @ts-ignore
+    const thumbnailUrl = post.properties?.thumb?.url ?? null
+    return {
+      id: post.id,
+      createdTime,
+      lastEditedTime,
+      dateLocale: createdTime.toLocaleString('en-US', {
+        month: 'short',
+        day: '2-digit',
+        year: 'numeric',
+      }),
+      slug,
+      title,
+      status: postStatus,
+      writer,
+      lang,
+      series,
+      thumbnailUrl,
+    }
+  })
+
+  const validation = SeriesItemSchema.array().safeParse(logs)
+  if (!validation.success) {
+    return []
+  }
+
+  return validation.data
+})

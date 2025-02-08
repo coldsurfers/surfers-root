@@ -1,4 +1,4 @@
-import { AppLocale } from 'i18n/types'
+import { AppLocale } from '@/lib/types/i18n'
 import { LogPlatform } from './platform'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */

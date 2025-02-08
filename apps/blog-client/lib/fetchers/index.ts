@@ -1,9 +1,24 @@
+import { FetchGetSeriesSearchParams } from '@/app/api/series/types'
 import { LogPlatform, queryLogs } from '@/features'
 import { PageObjectResponse, PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoints'
-import { AppLocale } from 'i18n/types'
 import { ExtendedRecordMap } from 'notion-types'
+import { AppLocale } from '../types/i18n'
+import { SeriesItemSchema } from '../types/series'
 
 const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://blog.coldsurf.io'
+
+export const fetchSeries = async (params: FetchGetSeriesSearchParams) => {
+  const { series, appLocale, tag } = params
+  const response = await fetch(`${BASE_URL}/api/series?series=${series}&appLocale=${appLocale}&tag=${tag}`, {
+    method: 'GET',
+  })
+  const json = await response.json()
+  const validation = SeriesItemSchema.array().safeParse(json)
+  if (!validation.success) {
+    return []
+  }
+  return validation.data
+}
 
 export const fetchGetLogs = async ({
   platform,
