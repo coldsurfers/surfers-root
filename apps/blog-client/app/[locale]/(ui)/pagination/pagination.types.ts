@@ -1,7 +1,8 @@
-import { LogPlatform } from '@/features'
+import { AppLocale } from '@/lib/types/i18n'
+import { Series } from '@/lib/types/series'
 
 export type PaginationProps = {
-  currPage: number
-  wholePage: number
-  platform: LogPlatform | null
+  series: Series | null
+  currentPage: number
+  appLocale: AppLocale
 }

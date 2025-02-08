@@ -19,3 +19,9 @@ export const MoveLeftIcon = styled(MoveLeft)`
 export const MoveRightIcon = styled(MoveRight)`
   color: ${semantics.color.foreground[1]};
 `
+
+export const StyledPaginationContainer = styled.div`
+  display: flex;
+  margin-top: 2rem;
+  margin-bottom: 5rem;
+`

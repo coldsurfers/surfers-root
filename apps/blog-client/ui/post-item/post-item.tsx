@@ -1,11 +1,11 @@
 'use client'
 
 import { Text } from '@/features'
-import { Series, SeriesItem } from '@/lib/types/series'
+import { SeriesItem } from '@/lib/types/series'
+import { generateSeriesHref, generateSeriesItemHref } from '@/lib/utils'
 import { Link } from 'i18n/routing'
 import { I18nPathWithParams } from 'i18n/types'
 import { useMemo } from 'react'
-import { match } from 'ts-pattern'
 import {
   StyledPostDateText,
   StyledPostPlatformText,
@@ -14,56 +14,11 @@ import {
 } from './post-item.styled'
 
 export function PostItem(props: SeriesItem) {
-  const platformHref = useMemo<I18nPathWithParams>(() => {
-    return match<Series, I18nPathWithParams>(props.series)
-      .with('YMWT', () => ({
-        pathname: '/filmlog',
-      }))
-      .with('YMLT', () => ({
-        pathname: '/soundlog',
-      }))
-      .with('YMCT', () => ({
-        pathname: '/techlog',
-      }))
-      .with('YMRT', () => ({
-        pathname: '/textlog',
-      }))
-      .otherwise(() => ({
-        pathname: '/404',
-      }))
-    // .exhaustive()
-  }, [props.series])
-  const postHref = useMemo<I18nPathWithParams>(() => {
-    return match<Series, I18nPathWithParams>(props.series)
-      .with('YMWT', () => ({
-        pathname: '/filmlog/[slug]',
-        params: {
-          slug: props.slug,
-        },
-      }))
-      .with('YMLT', () => ({
-        pathname: '/soundlog/[slug]',
-        params: {
-          slug: props.slug,
-        },
-      }))
-      .with('YMCT', () => ({
-        pathname: '/techlog/[slug]',
-        params: {
-          slug: props.slug,
-        },
-      }))
-      .with('YMRT', () => ({
-        pathname: '/textlog/[slug]',
-        params: {
-          slug: props.slug,
-        },
-      }))
-      .otherwise(() => ({
-        pathname: '/404',
-      }))
-    // .exhaustive()
-  }, [props.series, props.slug])
+  const platformHref = useMemo<I18nPathWithParams>(() => generateSeriesHref(props.series), [props.series])
+  const postHref = useMemo<I18nPathWithParams>(
+    () => generateSeriesItemHref(props.series, props.slug),
+    [props.series, props.slug],
+  )
 
   return (
     <div key={props.id} style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>

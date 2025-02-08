@@ -1,38 +1,67 @@
+'use client'
+
+import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
+import { generateSeriesHref } from '@/lib/utils'
 import { Text } from '@coldsurfers/ocean-road'
+import { useQuery } from '@tanstack/react-query'
 import { Link } from 'i18n/routing'
-import { MoveLeftIcon, MoveRightIcon, PageMoveButton } from './pagination.styled'
+import { useMemo } from 'react'
+import { PAGINATION_PER_PAGE } from './pagination.constants'
+import { MoveLeftIcon, MoveRightIcon, PageMoveButton, StyledPaginationContainer } from './pagination.styled'
 import { PaginationProps } from './pagination.types'
 
-export function Pagination({ currPage, wholePage, platform }: PaginationProps) {
+export function Pagination({ appLocale, currentPage, series }: PaginationProps) {
+  const allSeriesQuery = useQuery({
+    ...queryKeyFactory.series.listAll(appLocale),
+  })
+
+  const latestPosts = useMemo(
+    () =>
+      (allSeriesQuery.data ?? [])
+        .flat()
+        .sort((a, b) => new Date(b.createdTime).getTime() - new Date(a.createdTime).getTime()),
+    [allSeriesQuery.data],
+  )
+
+  const wholePage = useMemo(() => Math.ceil(latestPosts.length / PAGINATION_PER_PAGE), [latestPosts.length])
+
+  const seriesHrefPrev = useMemo(
+    () =>
+      generateSeriesHref({
+        series: series ?? undefined,
+        query: {
+          page: currentPage - 1 > 0 ? currentPage - 1 : 1,
+        },
+      }),
+    [currentPage, series],
+  )
+
+  const seriesHrefNext = useMemo(
+    () =>
+      generateSeriesHref({
+        series: series ?? undefined,
+        query: {
+          page: currentPage + 1 > wholePage ? wholePage : currentPage + 1,
+        },
+      }),
+    [currentPage, series, wholePage],
+  )
+
   return (
-    <div style={{ display: 'flex', marginTop: '2rem', marginBottom: '5rem' }}>
+    <StyledPaginationContainer>
       <Text as="p">
-        {currPage}/{wholePage}
+        {currentPage}/{wholePage}
       </Text>
-      <Link
-        href={{
-          pathname: platform ? `/${platform}` : '/',
-          query: {
-            page: currPage - 1 > 0 ? currPage - 1 : 1,
-          },
-        }}
-      >
+      <Link href={seriesHrefPrev}>
         <PageMoveButton>
           <MoveLeftIcon />
         </PageMoveButton>
       </Link>
-      <Link
-        href={{
-          pathname: platform ? `/${platform}` : '/',
-          query: {
-            page: currPage + 1 > wholePage ? wholePage : currPage + 1,
-          },
-        }}
-      >
+      <Link href={seriesHrefNext}>
         <PageMoveButton>
           <MoveRightIcon />
         </PageMoveButton>
       </Link>
-    </div>
+    </StyledPaginationContainer>
   )
 }

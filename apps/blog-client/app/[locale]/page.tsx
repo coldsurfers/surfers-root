@@ -5,7 +5,8 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { routing } from 'i18n/routing'
 import { PageProps } from 'i18n/types'
 import { setRequestLocale } from 'next-intl/server'
-import PageClient from './page.client'
+import { Pagination } from './(ui)'
+import { PostPaginationList } from './(ui)/post-pagination-list/post-pagination-list'
 
 export const revalidate = 3600
 
@@ -25,7 +26,8 @@ export default async function RootPage({ params, searchParams }: PageProps) {
   return (
     <HydrationBoundary state={dehydratedState}>
       <PageLayout>
-        <PageClient locale={params.locale} page={page} />
+        <PostPaginationList locale={params.locale} page={page} />
+        <Pagination currentPage={page} series={null} appLocale={params.locale} />
       </PageLayout>
     </HydrationBoundary>
   )
