@@ -1,9 +1,9 @@
 'use client'
 
 import { useGetLogsQuery } from '@/lib'
+import { AppLocale } from '@/lib/types/i18n'
 import { PageLayout, PostItem, PostListContainer } from '@/ui'
 import { Spinner } from '@coldsurfers/ocean-road'
-import { AppLocale } from 'i18n/types'
 import { useMemo } from 'react'
 
 export const TagsTagPageClient = ({ locale, tag }: { locale: AppLocale; tag: string }) => {

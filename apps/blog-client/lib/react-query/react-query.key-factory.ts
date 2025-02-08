@@ -1,6 +1,7 @@
 import { FetchGetSeriesSearchParams } from '@/app/api/series/types'
 import { LogPlatform } from '@/features'
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory'
+import { ALL_SERIES } from '../constants'
 import {
   fetchGetLogDetail,
   fetchGetLogs,
@@ -13,20 +14,19 @@ import { AppLocale } from '../types/i18n'
 
 const series = createQueryKeys('series', {
   all: ['series'],
-  // listAll: (appLocale: AppLocale) => ({
-  //   queryKey: ['series', 'listAll'],
-  //   queryFn: async (ctx) => {
-  //     const allSeries: Series[] = ['YMLT', 'YMRT', 'YMWT']
-  //     const promises = allSeries.map(async (series) => {
-  //       return await fetchGetSeries({
-  //         series,
-  //         appLocale,
-  //       })
-  //     })
-  //     const response = await Promise.all(promises)
-  //     return response
-  //   }
-  // }),
+  listAll: (appLocale: AppLocale) => ({
+    queryKey: ['series', 'listAll'],
+    queryFn: async (ctx) => {
+      const promises = ALL_SERIES.map(async (series) => {
+        return await fetchGetSeries({
+          series,
+          appLocale,
+        })
+      })
+      const response = await Promise.all(promises)
+      return response
+    },
+  }),
   list: (params: FetchGetSeriesSearchParams) => ({
     queryKey: ['series', 'list', params],
     queryFn: (ctx) => fetchGetSeries(params),
