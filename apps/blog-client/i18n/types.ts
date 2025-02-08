@@ -1,4 +1,4 @@
-export type AppLocale = 'en' | 'ko'
+import { AppLocale } from '@/lib/types/i18n'
 
 export type PageProps<T = unknown> = {
   params: T & {
