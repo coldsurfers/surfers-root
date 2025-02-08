@@ -5,23 +5,27 @@ import { SeriesItem } from '@/lib/types/series'
 import { generateSeriesHref, generateSeriesItemHref } from '@/lib/utils'
 import { Link } from 'i18n/routing'
 import { I18nPathWithParams } from 'i18n/types'
-import { useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import {
   StyledPostDateText,
+  StyledPostItemContainer,
   StyledPostPlatformText,
   StyledPostThumbnail,
   StyledPostTitleText,
 } from './post-item.styled'
 
-export function PostItem(props: SeriesItem) {
-  const platformHref = useMemo<I18nPathWithParams>(() => generateSeriesHref(props.series), [props.series])
+export const PostItem = memo((props: SeriesItem) => {
+  const platformHref = useMemo<I18nPathWithParams>(
+    () => generateSeriesHref({ series: props.series, query: {} }),
+    [props.series],
+  )
   const postHref = useMemo<I18nPathWithParams>(
     () => generateSeriesItemHref(props.series, props.slug),
     [props.series, props.slug],
   )
 
   return (
-    <div key={props.id} style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+    <StyledPostItemContainer>
       <Link href={postHref}>
         <StyledPostThumbnail
           src={
@@ -43,6 +47,6 @@ export function PostItem(props: SeriesItem) {
         </StyledPostTitleText>
       </Link>
       <StyledPostDateText as="p">{props.dateLocale}</StyledPostDateText>
-    </div>
+    </StyledPostItemContainer>
   )
-}
+})

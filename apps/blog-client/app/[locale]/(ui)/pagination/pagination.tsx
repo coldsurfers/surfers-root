@@ -6,7 +6,7 @@ import { Text } from '@coldsurfers/ocean-road'
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'i18n/routing'
 import { useMemo } from 'react'
-import { PAGINATION_PER_PAGE } from './pagination.constants'
+import { PAGINATION_PER_PAGE } from '../../../../lib/pagination.constants'
 import { MoveLeftIcon, MoveRightIcon, PageMoveButton, StyledPaginationContainer } from './pagination.styled'
 import { PaginationProps } from './pagination.types'
 
