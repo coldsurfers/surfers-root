@@ -5,7 +5,6 @@ import { AppLocale } from '@/lib/types/i18n'
 import { SeriesCategory, SeriesCategorySchema } from '@/lib/types/series'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { redirect, routing } from 'i18n/routing'
-import { PageProps } from 'i18n/types'
 import { setRequestLocale } from 'next-intl/server'
 import { Metadata } from 'next/types'
 import { ReactNode } from 'react'
@@ -17,11 +16,7 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
-export function generateMetadata({
-  params,
-}: PageProps<{
-  series: SeriesCategory
-}>): Metadata {
+export function generateMetadata({ params }: { params: { series: SeriesCategory; locale: AppLocale } }): Metadata {
   const metaTitle = match(params.series)
     .with('sound', () => 'COLDSURF Blog: Article about music')
     .with('tech', () => 'COLDSURF Blog: Article about Software Development')
