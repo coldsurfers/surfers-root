@@ -9,7 +9,7 @@ const notion = new NotionAPI({
   activeUser: process.env.NOTION_ACTIVE_USER,
 })
 
-export const revalidate = 3600
+export const dynamic = 'force-dynamic'
 
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
