@@ -4,6 +4,11 @@ const dotenv = require('dotenv')
 const xml2js = require('xml2js')
 const { PrismaClient } = require('@prisma/client')
 const { S3Client: AWSS3Client } = require('@aws-sdk/client-s3')
+const { PutObjectCommand } = require('@aws-sdk/client-s3')
+const ngeohash = require('ngeohash')
+
+dotenv.config()
+
 const S3Client = new AWSS3Client({
   region: process.env.COLDSURF_AWS_REGION,
   credentials: {
@@ -11,14 +16,10 @@ const S3Client = new AWSS3Client({
     secretAccessKey: process.env.COLDSURF_AWS_SECRET_ACCESS_KEY ?? '',
   },
 })
-const { PutObjectCommand } = require('@aws-sdk/client-s3')
-const ngeohash = require('ngeohash')
 
 const dbClient = new PrismaClient({
   log: ['warn', 'info', 'error'],
 })
-
-dotenv.config()
 
 const parser = new xml2js.Parser({ explicitArray: false })
 
@@ -391,6 +392,7 @@ async function insertKOPISEvents(page, category) {
         },
       })
       await connectOrCreateVenue(item.venue, event.id)
+      console.log('newly created event', event.id)
     }
   }
 
