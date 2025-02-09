@@ -1,9 +1,43 @@
+import { FetchGetSeriesItemSearchParams } from '@/app/api/series/[slug]/types'
+import { FetchGetSeriesSearchParams } from '@/app/api/series/types'
 import { LogPlatform, queryLogs } from '@/features'
 import { PageObjectResponse, PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoints'
-import { AppLocale } from 'i18n/types'
 import { ExtendedRecordMap } from 'notion-types'
+import { AppLocale } from '../types/i18n'
+import { SeriesItemSchema } from '../types/series'
 
 const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://blog.coldsurf.io'
+
+export const fetchGetSeries = async (params: FetchGetSeriesSearchParams) => {
+  const { seriesCategory, appLocale, tag } = params
+  let url = `${BASE_URL}/api/series?seriesCategory=${seriesCategory}&appLocale=${appLocale}`
+  if (tag) {
+    url += `&tag=${tag}`
+  }
+  const response = await fetch(url, {
+    method: 'GET',
+  })
+  const json = await response.json()
+  const validation = SeriesItemSchema.array().safeParse(json)
+  if (!validation.success) {
+    console.error('fetch error, fetchGetSeries', params, validation.error)
+    return []
+  }
+  return validation.data
+}
+
+export const fetchGetSeriesItem = async (slug: string, searchParams: FetchGetSeriesItemSearchParams) => {
+  const { seriesCategory, appLocale } = searchParams
+  const url = `${BASE_URL}/api/series/${slug}?seriesCategory=${seriesCategory}&appLocale=${appLocale}`
+  const response = await fetch(url, {
+    method: 'GET',
+  })
+  const json = await response.json()
+  return json as {
+    page: PageObjectResponse
+    recordMap: ExtendedRecordMap
+  }
+}
 
 export const fetchGetLogs = async ({
   platform,

@@ -46,7 +46,7 @@ async function PageInner({ params }: { params: { city: string } }) {
 
   const queryClient = getQueryClient()
 
-  await queryClient.prefetchInfiniteQuery(initialPageQuery.browseByCity(cityData))
+  await queryClient.prefetchInfiniteQuery(initialPageQuery.browseEvents({ cityName: cityData.name }))
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

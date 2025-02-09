@@ -124,6 +124,7 @@ export class NextMetadataGenerator {
         // @ts-ignore
         ...additionalMetadata.openGraph,
       },
+      locale: 'ko',
     } as T
 
     return value

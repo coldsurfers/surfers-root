@@ -1,5 +1,5 @@
 import notionInstance, { notionDatabaseIds } from '@/lib/notionInstance'
-import { AppLocale } from 'i18n/types'
+import { AppLocale } from '@/lib/types/i18n'
 import { cache } from 'react'
 
 export const queryResumePage = cache(

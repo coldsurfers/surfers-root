@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-web",
-  "version": "1.0.36",
+  "version": "1.0.37",
   "scripts": {
     "build": "yarn prisma:generate && next build",
     "build:vercel": "npx vercel build --prod",
@@ -44,6 +44,7 @@
     "react-notion-x": "*",
     "react-spinners": "*",
     "schema-dts": "*",
+    "ts-pattern": "*",
     "zod": "*",
     "zustand": "*"
   },
