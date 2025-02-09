@@ -5,7 +5,6 @@ import { SITE_URL } from '@/lib/constants'
 import { metadataInstance } from '@/lib/metadata/metadata-instance'
 import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
 import { getQueryClient } from '@/lib/react-query/react-query.utils'
-import { PageLayout } from '@/ui'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { routing } from 'i18n/routing'
 import { PageProps } from 'i18n/types'
@@ -184,9 +183,7 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
           <OceanRoadThemeRegistry>
             <QueryClientRegistry>
-              <HydrationBoundary state={dehydratedState}>
-                <PageLayout>{children}</PageLayout>
-              </HydrationBoundary>
+              <HydrationBoundary state={dehydratedState}>{children}</HydrationBoundary>
             </QueryClientRegistry>
           </OceanRoadThemeRegistry>
         </NextIntlClientProvider>

@@ -11,14 +11,12 @@ import { ReactNode } from 'react'
 
 export const revalidate = 3600
 
-// Return a list of `params` to populate the [slug] dynamic segment
-export async function generateStaticParams({ params }: PageProps<{ series: SeriesCategory; slug: string }>) {
+export async function generateStaticParams() {
   const locales = routing.locales.map((locale) => ({ locale }))
   const promises = locales.map(
     async (locale) =>
       await querySeries({
         lang: locale.locale,
-        seriesCategory: params.series,
       }),
   )
   const result = (await Promise.all(promises)).flat()

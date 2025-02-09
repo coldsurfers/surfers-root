@@ -2,6 +2,7 @@
 
 import { usePathname } from 'i18n/routing'
 import { I18nPathWithParams } from 'i18n/types'
+import { useParams } from 'next/navigation'
 import { memo, useMemo } from 'react'
 import {
   StyledHeaderBigContainer,
@@ -22,6 +23,10 @@ const HeaderBadge = memo(
 
 export const Header = () => {
   const pathname = usePathname()
+  const params = useParams()
+  const seriesParam = useMemo(() => {
+    return params.series as string
+  }, [params.series])
 
   const data = useMemo<
     {
@@ -39,7 +44,7 @@ export const Header = () => {
           },
         },
         title: 'TECH',
-        isActive: pathname.startsWith('/tech'),
+        isActive: seriesParam === 'tech',
       },
       {
         href: {
@@ -49,7 +54,7 @@ export const Header = () => {
           },
         },
         title: 'SOUND',
-        isActive: pathname.startsWith('/sound'),
+        isActive: seriesParam === 'sound',
       },
       {
         href: {
@@ -59,7 +64,7 @@ export const Header = () => {
           },
         },
         title: 'VIDEO',
-        isActive: pathname.startsWith('/video'),
+        isActive: seriesParam === 'video',
       },
       {
         href: {
@@ -69,7 +74,7 @@ export const Header = () => {
           },
         },
         title: 'TEXT',
-        isActive: pathname.startsWith('/text'),
+        isActive: seriesParam === 'text',
       },
       {
         href: {
@@ -79,7 +84,7 @@ export const Header = () => {
         isActive: pathname.startsWith('/about'),
       },
     ]
-  }, [pathname])
+  }, [pathname, seriesParam])
 
   return (
     <StyledHeaderBigContainer>

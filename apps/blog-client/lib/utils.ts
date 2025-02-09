@@ -1,4 +1,5 @@
 import { I18nPathWithParams } from 'i18n/types'
+import { match } from 'ts-pattern'
 import { SeriesCategory } from './types/series'
 
 export const generateSeriesHref = ({
@@ -31,4 +32,13 @@ export const generateSeriesItemHref = (seriesCategory: SeriesCategory, slug: str
       slug,
     },
   }
+}
+
+export const convertSeriesCategoryToTitle = (seriesCategory: SeriesCategory) => {
+  return match(seriesCategory)
+    .with('sound', () => 'YOU MUST LISTEN THIS')
+    .with('tech', () => 'YOU MUST CODE THIS')
+    .with('text', () => 'YOU MUST READ THIS')
+    .with('video', () => 'YOU MUST WATCH THIS')
+    .exhaustive()
 }
