@@ -9,7 +9,7 @@ import { routing } from 'i18n/routing'
 import { setRequestLocale } from 'next-intl/server'
 import { ReactNode } from 'react'
 
-export const revalidate = 3600
+export const dynamic = 'force-dynamic'
 
 export async function generateStaticParams() {
   const locales = routing.locales.map((locale) => ({ locale }))
