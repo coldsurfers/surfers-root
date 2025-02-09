@@ -6,7 +6,6 @@ import { AppLocale } from '@/lib/types/i18n'
 import { SeriesCategory } from '@/lib/types/series'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { routing } from 'i18n/routing'
-import { PageProps } from 'i18n/types'
 import { setRequestLocale } from 'next-intl/server'
 import { ReactNode } from 'react'
 
@@ -24,7 +23,11 @@ export async function generateStaticParams() {
   return result.map((value) => ({ slug: value.slug, locale: value.lang }))
 }
 
-export async function generateMetadata({ params }: PageProps<{ series: SeriesCategory; slug: string }>) {
+export async function generateMetadata({
+  params,
+}: {
+  params: { series: SeriesCategory; slug: string; locale: AppLocale }
+}) {
   const page = await querySeriesItem({ slug: params.slug, lang: params.locale, seriesCategory: params.series })
   return generateLogDetailMetadata(page, { locale: params.locale, slug: params.slug, seriesCategory: params.series })
 }
