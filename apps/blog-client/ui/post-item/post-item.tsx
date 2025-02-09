@@ -1,74 +1,31 @@
 'use client'
 
-import { LogItem, LogPlatform, Text } from '@/features'
+import { Text } from '@/features'
+import { SeriesItem } from '@/lib/types/series'
+import { generateSeriesHref, generateSeriesItemHref } from '@/lib/utils'
 import { Link } from 'i18n/routing'
 import { I18nPathWithParams } from 'i18n/types'
-import { useMemo } from 'react'
-import { match } from 'ts-pattern'
+import { memo, useMemo } from 'react'
 import {
   StyledPostDateText,
+  StyledPostItemContainer,
   StyledPostPlatformText,
   StyledPostThumbnail,
   StyledPostTitleText,
 } from './post-item.styled'
 
-export function PostItem(props: LogItem) {
-  const platformHref = useMemo<I18nPathWithParams>(() => {
-    return match<LogPlatform, I18nPathWithParams>(props.platform)
-      .with('filmlog', () => ({
-        pathname: '/filmlog',
-      }))
-      .with('soundlog', () => ({
-        pathname: '/soundlog',
-      }))
-      .with('squarelog', () => ({
-        pathname: '/squarelog',
-      }))
-      .with('techlog', () => ({
-        pathname: '/techlog',
-      }))
-      .with('textlog', () => ({
-        pathname: '/textlog',
-      }))
-      .exhaustive()
-  }, [props.platform])
-  const postHref = useMemo<I18nPathWithParams>(() => {
-    return match<LogPlatform, I18nPathWithParams>(props.platform)
-      .with('filmlog', () => ({
-        pathname: '/filmlog/[slug]',
-        params: {
-          slug: props.slug,
-        },
-      }))
-      .with('soundlog', () => ({
-        pathname: '/soundlog/[slug]',
-        params: {
-          slug: props.slug,
-        },
-      }))
-      .with('squarelog', () => ({
-        pathname: '/squarelog/[slug]',
-        params: {
-          slug: props.slug,
-        },
-      }))
-      .with('techlog', () => ({
-        pathname: '/techlog/[slug]',
-        params: {
-          slug: props.slug,
-        },
-      }))
-      .with('textlog', () => ({
-        pathname: '/textlog/[slug]',
-        params: {
-          slug: props.slug,
-        },
-      }))
-      .exhaustive()
-  }, [props.platform, props.slug])
+export const PostItem = memo((props: SeriesItem) => {
+  const platformHref = useMemo<I18nPathWithParams>(
+    () => generateSeriesHref({ seriesCategory: props.seriesCategory, query: {} }),
+    [props.seriesCategory],
+  )
+  const postHref = useMemo<I18nPathWithParams>(
+    () => generateSeriesItemHref(props.seriesCategory, props.slug),
+    [props.seriesCategory, props.slug],
+  )
 
   return (
-    <div key={props.id} style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+    <StyledPostItemContainer>
       <Link href={postHref}>
         <StyledPostThumbnail
           src={
@@ -78,11 +35,11 @@ export function PostItem(props: LogItem) {
           }
           width={500}
           height={500}
-          alt={props.title}
+          alt={props.slug}
         />
       </Link>
       <Link href={platformHref}>
-        <StyledPostPlatformText as="p">{props.platform}</StyledPostPlatformText>
+        <StyledPostPlatformText as="p">{props.seriesCategory}</StyledPostPlatformText>
       </Link>
       <Link href={postHref}>
         <StyledPostTitleText as="h2">
@@ -90,6 +47,6 @@ export function PostItem(props: LogItem) {
         </StyledPostTitleText>
       </Link>
       <StyledPostDateText as="p">{props.dateLocale}</StyledPostDateText>
-    </div>
+    </StyledPostItemContainer>
   )
-}
+})

@@ -3,13 +3,17 @@ import Script from 'next/script'
 import { OceanRoadThemeRegistry, QueryClientRegistry } from '@/lib'
 import { SITE_URL } from '@/lib/constants'
 import { metadataInstance } from '@/lib/metadata/metadata-instance'
+import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
+import { getQueryClient } from '@/lib/react-query/react-query.utils'
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { routing } from 'i18n/routing'
+import { PageProps } from 'i18n/types'
 import { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, setRequestLocale } from 'next-intl/server'
 import { Noto_Sans_KR } from 'next/font/google'
 import { notFound } from 'next/navigation'
-import { PropsWithChildren } from 'react'
+import { ReactNode } from 'react'
 
 const notoSansKR = Noto_Sans_KR({ subsets: ['latin'] })
 
@@ -47,12 +51,19 @@ const meta = metadataInstance.generateMetadata<Metadata>({
 
 export const metadata: Metadata = meta
 
+export const revalidate = 3600
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }))
+}
+
 export default async function RootLayout({
   children,
-  params: { locale },
-}: PropsWithChildren<{
-  params: { locale: string }
-}>) {
+  params,
+}: PageProps & {
+  children: ReactNode
+}) {
+  const { locale } = params
   // Ensure that the incoming `locale` is valid
   if (!routing.locales.includes(locale as never)) {
     // redirect({ href: '/', locale: 'en' })
@@ -64,6 +75,13 @@ export default async function RootLayout({
   // Providing all messages to the client
   // side is the easiest way to get started
   const messages = await getMessages()
+
+  setRequestLocale(params.locale)
+
+  const queryClient = getQueryClient()
+  await queryClient.prefetchQuery(queryKeyFactory.series.listAll(params.locale))
+
+  const dehydratedState = dehydrate(queryClient)
 
   return (
     <html lang={locale}>
@@ -164,7 +182,9 @@ export default async function RootLayout({
         />
         <NextIntlClientProvider messages={messages}>
           <OceanRoadThemeRegistry>
-            <QueryClientRegistry>{children}</QueryClientRegistry>
+            <QueryClientRegistry>
+              <HydrationBoundary state={dehydratedState}>{children}</HydrationBoundary>
+            </QueryClientRegistry>
           </OceanRoadThemeRegistry>
         </NextIntlClientProvider>
       </body>

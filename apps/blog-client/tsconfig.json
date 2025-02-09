@@ -3,18 +3,46 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/features": ["./features"],
-      "@/features/*": ["./features/*"],
-      "@/app": ["./app"],
-      "@/app/*": ["./app/*"],
-      "@/ui": ["./ui"],
-      "@/ui/*": ["./ui/*"],
-      "@/stores": ["./stores"],
-      "@/stores/*": ["./stores/*"],
-      "@/lib": ["./lib"],
-      "@/lib/*": ["./lib/*"]
+      "@/features": [
+        "./features"
+      ],
+      "@/features/*": [
+        "./features/*"
+      ],
+      "@/app": [
+        "./app"
+      ],
+      "@/app/*": [
+        "./app/*"
+      ],
+      "@/ui": [
+        "./ui"
+      ],
+      "@/ui/*": [
+        "./ui/*"
+      ],
+      "@/stores": [
+        "./stores"
+      ],
+      "@/stores/*": [
+        "./stores/*"
+      ],
+      "@/lib": [
+        "./lib"
+      ],
+      "@/lib/*": [
+        "./lib/*"
+      ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "sst.config.ts"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "sst.config.ts"
+  ]
 }

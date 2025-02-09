@@ -1,14 +1,16 @@
 'use client'
 
-import { LogPlatform } from '@/features/logs'
 import { NotionRenderer } from '@/features/notion'
-import { useGetLogDetailQuery } from '@/lib/react-query/queries/use-get-log-detail-query/use-get-log-detail-query'
+import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
+import { AppLocale } from '@/lib/types/i18n'
+import { SeriesCategory } from '@/lib/types/series'
 import { CommonBack, PageLayout } from '@/ui'
 import { TagList } from '@/ui/tag-list/tag-list'
 import { media, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import { AppLocale } from 'i18n/types'
+import { PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
 const WriterText = styled(Text)`
@@ -30,19 +32,29 @@ const RendererSection = styled.section`
 export const LogDetailRenderer = ({
   slug,
   locale,
-  platform,
+  seriesCategory,
 }: {
   slug: string
   locale: AppLocale
-  platform: LogPlatform
+  seriesCategory: SeriesCategory
 }) => {
-  const { data } = useGetLogDetailQuery(slug, { platform, locale })
+  const { data } = useQuery(
+    queryKeyFactory.series.item(slug, {
+      appLocale: locale,
+      seriesCategory,
+    }),
+  )
   const page = useMemo(() => data?.page, [data])
   const recordMap = useMemo(() => data?.recordMap, [data?.recordMap])
 
   const pageTitle = useMemo(() => (page?.properties.Name.type === 'title' ? page.properties.Name.title : null), [page])
-  // @ts-ignore
-  const writerName = useMemo(() => page?.properties?.Writer?.people?.at(0)?.name, [page?.properties?.Writer?.people])
+  const writerName = useMemo(() => {
+    if (page?.properties.Writer?.type === 'people') {
+      const writer = page.properties.Writer.people.at(0) as PersonUserObjectResponse
+      return writer.name
+    }
+    return ''
+  }, [page])
 
   const tags = useMemo(
     () =>
