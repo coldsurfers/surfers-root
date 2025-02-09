@@ -13,8 +13,6 @@ import { Metadata } from 'next/types'
 import { NotionAPI } from 'notion-client'
 import { StyledAboutPageInnerLayout, StyledWritersPageHeader } from './page.styled'
 
-export const dynamic = 'force-dynamic'
-
 const notion = new NotionAPI({
   authToken: process.env.NOTION_AUTH_TOKEN,
   activeUser: process.env.NOTION_ACTIVE_USER,
