@@ -3,8 +3,7 @@
 import { media, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import Link from 'next/link'
-
+import { GlobalLink } from '../global-link'
 const Container = styled.div`
   width: 100%;
   height: 15rem;
@@ -26,16 +25,16 @@ export function AppFooter() {
       <Text as="p" style={{ fontWeight: 'bold', margin: 'unset' }}>
         &copy; 2024 COLDSURF, Inc.
       </Text>
-      <Link href="/privacy-policy">
+      <GlobalLink href="/privacy-policy">
         <Text as="p" style={{ margin: 'unset' }}>
           Privacy Policy
         </Text>
-      </Link>
-      <Link href="/terms-of-service">
+      </GlobalLink>
+      <GlobalLink href="/terms-of-service">
         <Text as="p" style={{ margin: 'unset' }}>
           Terms of Service
         </Text>
-      </Link>
+      </GlobalLink>
     </Container>
   )
 }

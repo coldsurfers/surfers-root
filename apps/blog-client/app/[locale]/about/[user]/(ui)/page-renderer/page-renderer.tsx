@@ -2,10 +2,10 @@
 
 import { NotionRenderer } from '@/features/notion'
 import { generatePDF } from '@/features/pdf'
+import { AppLocale } from '@/lib/types/i18n'
 import { PageLayout } from '@/ui'
 import variables from '@coldsurfers/design-tokens/dist/js/color/variables'
 import styled from '@emotion/styled'
-import { AppLocale } from 'i18n/types'
 import Link from 'next/link'
 import { ExtendedRecordMap } from 'notion-types'
 import { useEffect } from 'react'

@@ -8,7 +8,10 @@ import { Navigation } from './(components)'
 async function LayoutInner({ city, children }: PropsWithChildren<{ city: string }>) {
   const queryClient = getQueryClient()
 
-  await queryClient.prefetchQuery(initialPageQuery.getCountries())
+  await Promise.all([
+    await queryClient.prefetchQuery(initialPageQuery.getCountries()),
+    await queryClient.prefetchQuery(initialPageQuery.eventCategories()),
+  ])
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

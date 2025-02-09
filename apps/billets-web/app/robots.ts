@@ -4,7 +4,7 @@ import type { MetadataRoute } from 'next'
 // https://nextjs.org/docs/app/api-reference/file-conventions/metadata/robots
 export default function robots(): MetadataRoute.Robots {
   const rules = (() => {
-    switch (process.env.NODE_ENV) {
+    switch (process.env.APP_PLATFORM) {
       case 'production':
         return [
           {
@@ -12,6 +12,7 @@ export default function robots(): MetadataRoute.Robots {
             userAgent: '*',
           },
         ]
+      case 'staging':
       default:
         return [
           {
