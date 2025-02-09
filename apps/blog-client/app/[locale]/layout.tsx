@@ -13,7 +13,7 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, setRequestLocale } from 'next-intl/server'
 import { Noto_Sans_KR } from 'next/font/google'
 import { notFound } from 'next/navigation'
-import { ReactNode } from 'react'
+import { ReactNode, Suspense } from 'react'
 
 const notoSansKR = Noto_Sans_KR({ subsets: ['latin'] })
 
@@ -178,7 +178,9 @@ export default async function RootLayout({ children, params }: { params: { local
         <NextIntlClientProvider messages={messages}>
           <OceanRoadThemeRegistry>
             <QueryClientRegistry>
-              <HydrationBoundary state={dehydratedState}>{children}</HydrationBoundary>
+              <Suspense>
+                <HydrationBoundary state={dehydratedState}>{children}</HydrationBoundary>
+              </Suspense>
             </QueryClientRegistry>
           </OceanRoadThemeRegistry>
         </NextIntlClientProvider>
