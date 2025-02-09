@@ -1,4 +1,4 @@
-import { querySeries, querySeriesItem } from '@/features'
+import { queryAllSeries, querySeriesItem } from '@/features'
 import { generateLogDetailMetadata } from '@/lib/metadata'
 import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
 import { getQueryClient } from '@/lib/react-query/react-query.utils'
@@ -15,7 +15,7 @@ export async function generateStaticParams() {
   const locales = routing.locales.map((locale) => ({ locale }))
   const promises = locales.map(
     async (locale) =>
-      await querySeries({
+      await queryAllSeries({
         lang: locale.locale,
       }),
   )
