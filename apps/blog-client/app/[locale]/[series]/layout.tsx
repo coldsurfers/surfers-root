@@ -1,6 +1,7 @@
 import { generateLogListMetadata } from '@/lib/metadata'
 import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
 import { getQueryClient } from '@/lib/react-query/react-query.utils'
+import { AppLocale } from '@/lib/types/i18n'
 import { SeriesCategory, SeriesCategorySchema } from '@/lib/types/series'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { redirect, routing } from 'i18n/routing'
@@ -46,9 +47,13 @@ export function generateMetadata({
 export default async function SeriesPageLayout({
   params,
   children,
-}: PageProps<{
-  series: SeriesCategory
-}> & { children: ReactNode }) {
+}: {
+  children: ReactNode
+  params: {
+    locale: AppLocale
+    series: SeriesCategory
+  }
+}) {
   setRequestLocale(params.locale)
 
   const seriesValidation = SeriesCategorySchema.safeParse(params.series)

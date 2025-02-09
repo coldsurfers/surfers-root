@@ -5,9 +5,9 @@ import { SITE_URL } from '@/lib/constants'
 import { metadataInstance } from '@/lib/metadata/metadata-instance'
 import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
 import { getQueryClient } from '@/lib/react-query/react-query.utils'
+import { AppLocale } from '@/lib/types/i18n'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { routing } from 'i18n/routing'
-import { PageProps } from 'i18n/types'
 import { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, setRequestLocale } from 'next-intl/server'
@@ -57,12 +57,7 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
-export default async function RootLayout({
-  children,
-  params,
-}: PageProps & {
-  children: ReactNode
-}) {
+export default async function RootLayout({ children, params }: { params: { locale: AppLocale }; children: ReactNode }) {
   const { locale } = params
   // Ensure that the incoming `locale` is valid
   if (!routing.locales.includes(locale as never)) {
