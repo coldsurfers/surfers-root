@@ -2,6 +2,7 @@ import { queryAllSeries, querySeriesItem } from '@/features'
 import { generateLogDetailMetadata } from '@/lib/metadata'
 import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
 import { getQueryClient } from '@/lib/react-query/react-query.utils'
+import { AppLocale } from '@/lib/types/i18n'
 import { SeriesCategory } from '@/lib/types/series'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { routing } from 'i18n/routing'
@@ -31,7 +32,10 @@ export async function generateMetadata({ params }: PageProps<{ series: SeriesCat
 export default async function SeriesSlugPageLayout({
   params,
   children,
-}: PageProps<{ series: SeriesCategory; slug: string }> & { children: ReactNode }) {
+}: {
+  children: ReactNode
+  params: { series: SeriesCategory; slug: string; locale: AppLocale }
+}) {
   setRequestLocale(params.locale)
   const queryClient = getQueryClient()
   await queryClient.prefetchQuery(
