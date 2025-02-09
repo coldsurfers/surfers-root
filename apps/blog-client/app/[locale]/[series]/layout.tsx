@@ -7,7 +7,7 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { redirect, routing } from 'i18n/routing'
 import { setRequestLocale } from 'next-intl/server'
 import { Metadata } from 'next/types'
-import { ReactNode } from 'react'
+import { ReactNode, Suspense } from 'react'
 import { match } from 'ts-pattern'
 
 export const revalidate = 3600
@@ -66,5 +66,9 @@ export default async function SeriesPageLayout({
   )
   const dehydratedState = dehydrate(queryClient)
 
-  return <HydrationBoundary state={dehydratedState}>{children}</HydrationBoundary>
+  return (
+    <Suspense>
+      <HydrationBoundary state={dehydratedState}>{children}</HydrationBoundary>
+    </Suspense>
+  )
 }
