@@ -2,7 +2,8 @@
 
 import { PAGINATION_PER_PAGE } from '@/lib/pagination.constants'
 import { SeriesCategory } from '@/lib/types/series'
-import { Pagination, PostPaginationList } from '@/ui'
+import { convertSeriesCategoryToTitle } from '@/lib/utils'
+import { PageLayout, Pagination, PostPaginationList } from '@/ui'
 import { PageProps } from 'i18n/types'
 import { useSearchParams } from 'next/navigation'
 import { SeriesListQuery } from './(component)'
@@ -17,20 +18,22 @@ export default function SeriesPage({
   const page = pageParam ? Number(pageParam) : 1
 
   return (
-    <SeriesListQuery appLocale={params.locale} seriesCategory={params.series}>
-      {(data) => {
-        return (
-          <>
-            <PostPaginationList postItems={data.postItems} page={page} />
-            <Pagination
-              currentPage={page}
-              totalPage={Math.ceil(data.postItems.length / PAGINATION_PER_PAGE)}
-              seriesCategory={params.series}
-              appLocale={params.locale}
-            />
-          </>
-        )
-      }}
-    </SeriesListQuery>
+    <PageLayout title={convertSeriesCategoryToTitle(params.series)}>
+      <SeriesListQuery appLocale={params.locale} seriesCategory={params.series}>
+        {(data) => {
+          return (
+            <>
+              <PostPaginationList postItems={data.postItems} page={page} />
+              <Pagination
+                currentPage={page}
+                totalPage={Math.ceil(data.postItems.length / PAGINATION_PER_PAGE)}
+                seriesCategory={params.series}
+                appLocale={params.locale}
+              />
+            </>
+          )
+        }}
+      </SeriesListQuery>
+    </PageLayout>
   )
 }

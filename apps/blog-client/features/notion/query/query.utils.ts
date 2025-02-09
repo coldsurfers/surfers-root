@@ -121,7 +121,7 @@ export const getBlocks = async ({
 }
 
 export const querySeries = cache(
-  async ({ seriesCategory, lang, tag }: { seriesCategory: SeriesCategory; lang: AppLocale; tag?: string }) => {
+  async ({ seriesCategory, lang, tag }: { seriesCategory?: SeriesCategory; lang: AppLocale; tag?: string }) => {
     const filter: QueryDatabaseParameters['filter'] = {
       and: [
         {
@@ -131,18 +131,20 @@ export const querySeries = cache(
           },
         },
         {
-          property: 'SeriesCategory',
-          multi_select: {
-            contains: seriesCategory,
-          },
-        },
-        {
           property: 'lang',
           multi_select: {
             contains: lang,
           },
         },
       ],
+    }
+    if (seriesCategory) {
+      filter.and.push({
+        property: 'SeriesCategory',
+        multi_select: {
+          contains: seriesCategory,
+        },
+      })
     }
     if (tag) {
       filter.and.push({
