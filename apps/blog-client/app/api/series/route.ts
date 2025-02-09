@@ -1,4 +1,4 @@
-import { querySeries } from '@/features'
+import { querySeries } from '@/features/notion/query/query.utils'
 import { NextRequest, NextResponse } from 'next/server'
 import { FetchGetSeriesSearchParamsSchema } from './types'
 
