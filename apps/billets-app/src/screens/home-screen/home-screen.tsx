@@ -11,10 +11,10 @@ import {
 } from '@/ui'
 import { ConcertListItemType } from '@/ui/concert-list/concert-list.types'
 import { useScrollToTop } from '@react-navigation/native'
-import { PerformanceMeasureView, useStartProfiler } from '@shopify/react-native-performance'
+import { PerformanceMeasureView, RenderStateProps, useStartProfiler } from '@shopify/react-native-performance'
 import { useQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useRef, useState } from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, View } from 'react-native'
 import { useShallow } from 'zustand/shallow'
 import { useHomeScreenNavigation } from './home-screen.hooks'
 
@@ -119,8 +119,18 @@ const SuspenseHomeScreen = () => {
 }
 
 export const HomeScreen = () => {
+  const renderStateProps: RenderStateProps = {
+    interactive: false,
+    renderPassName: 'home_screen_render',
+  }
   return (
-    <PerformanceMeasureView interactive={false} screenName={zodScreen.HomeScreen.name}>
+    <PerformanceMeasureView
+      interactive={false}
+      screenName={zodScreen.HomeScreen.name}
+      {...renderStateProps}
+      optimizeForSlowRenderComponents
+      slowRenderPlaceholder={<View style={{ backgroundColor: 'red', flex: 1 }} />}
+    >
       <Suspense fallback={<ConcertListSkeleton />}>
         <SuspenseHomeScreen />
       </Suspense>
