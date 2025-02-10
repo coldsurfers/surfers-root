@@ -4,8 +4,9 @@ import { useColorSchemeStorage } from '@/lib/storage'
 import { CommonScreenLayout } from '@/ui'
 import { colors, ColorScheme } from '@coldsurfers/ocean-road'
 import { ColorSchemeProvider, Spinner, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
+import { PerformanceProfiler, RenderPassReport } from '@shopify/react-native-performance'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import React, { memo, PropsWithChildren, Suspense, useEffect, useMemo, useState } from 'react'
+import React, { memo, PropsWithChildren, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { Platform, useColorScheme as rnUseColorScheme, StatusBar, View } from 'react-native'
 import BootSplash from 'react-native-bootsplash'
 import codePush, { DownloadProgress, RemotePackage } from 'react-native-code-push'
@@ -139,25 +140,32 @@ const App = () => {
     return systemColorScheme ?? 'light'
   }, [storageColorSchemeValue, systemColorScheme])
 
+  const onReportPrepared = useCallback((report: RenderPassReport) => {
+    console.log('render report', report)
+    // monorail.produce(convertReportToMonorailObject(report));
+  }, [])
+
   return (
-    <SafeAreaProvider>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <ColorSchemeProvider initialColorScheme={initialColorScheme}>
-          <GlobalErrorBoundaryRegistry>
-            <AppSystemColorSwitcher />
-            <QueryClientProvider client={queryClient}>
-              <Suspense fallback={<GlobalSuspenseFallback />}>
-                <AuthContextProvider>
-                  <BootSplashAwaiter>
-                    <AppContainer />
-                  </BootSplashAwaiter>
-                </AuthContextProvider>
-              </Suspense>
-            </QueryClientProvider>
-          </GlobalErrorBoundaryRegistry>
-        </ColorSchemeProvider>
-      </GestureHandlerRootView>
-    </SafeAreaProvider>
+    <PerformanceProfiler onReportPrepared={onReportPrepared}>
+      <SafeAreaProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <ColorSchemeProvider initialColorScheme={initialColorScheme}>
+            <GlobalErrorBoundaryRegistry>
+              <AppSystemColorSwitcher />
+              <QueryClientProvider client={queryClient}>
+                <Suspense fallback={<GlobalSuspenseFallback />}>
+                  <AuthContextProvider>
+                    <BootSplashAwaiter>
+                      <AppContainer />
+                    </BootSplashAwaiter>
+                  </AuthContextProvider>
+                </Suspense>
+              </QueryClientProvider>
+            </GlobalErrorBoundaryRegistry>
+          </ColorSchemeProvider>
+        </GestureHandlerRootView>
+      </SafeAreaProvider>
+    </PerformanceProfiler>
   )
 }
 
