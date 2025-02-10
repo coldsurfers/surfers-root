@@ -1,5 +1,5 @@
 import { CurrentLocationTracker, useToggleSubscribeConcert, useUserCurrentLocationStore } from '@/features'
-import { useShowBottomTabBar } from '@/lib'
+import { useShowBottomTabBar, zodScreen } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
 import {
   AnimatePresence,
@@ -11,6 +11,7 @@ import {
 } from '@/ui'
 import { ConcertListItemType } from '@/ui/concert-list/concert-list.types'
 import { useScrollToTop } from '@react-navigation/native'
+import { PerformanceMeasureView } from '@shopify/react-native-performance'
 import { useQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useRef, useState } from 'react'
 import { FlatList } from 'react-native'
@@ -114,8 +115,10 @@ const SuspenseHomeScreen = () => {
 
 export const HomeScreen = () => {
   return (
-    <Suspense fallback={<ConcertListSkeleton />}>
-      <SuspenseHomeScreen />
-    </Suspense>
+    <PerformanceMeasureView interactive={false} screenName={zodScreen.HomeScreen.name}>
+      <Suspense fallback={<ConcertListSkeleton />}>
+        <SuspenseHomeScreen />
+      </Suspense>
+    </PerformanceMeasureView>
   )
 }
