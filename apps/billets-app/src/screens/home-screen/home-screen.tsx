@@ -11,7 +11,7 @@ import {
 } from '@/ui'
 import { ConcertListItemType } from '@/ui/concert-list/concert-list.types'
 import { useScrollToTop } from '@react-navigation/native'
-import { PerformanceMeasureView } from '@shopify/react-native-performance'
+import { PerformanceMeasureView, useStartProfiler } from '@shopify/react-native-performance'
 import { useQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useRef, useState } from 'react'
 import { FlatList } from 'react-native'
@@ -19,6 +19,7 @@ import { useShallow } from 'zustand/shallow'
 import { useHomeScreenNavigation } from './home-screen.hooks'
 
 const SuspenseHomeScreen = () => {
+  const startNavigationTTITimer = useStartProfiler()
   const navigation = useHomeScreenNavigation()
   const listRef = useRef<FlatList>(null)
   useScrollToTop(listRef)
@@ -48,12 +49,16 @@ const SuspenseHomeScreen = () => {
 
   const onPressConcertListItem = useCallback(
     (item: ConcertListItemType) => {
+      startNavigationTTITimer({
+        source: zodScreen.HomeScreen.name,
+        uiEvent: undefined,
+      })
       navigation.navigate('EventStackNavigation', {
         screen: 'EventDetailScreen',
         params: { eventId: item.id },
       })
     },
-    [navigation],
+    [navigation, startNavigationTTITimer],
   )
 
   const onPressSubscribeConcertListItem = useCallback(
