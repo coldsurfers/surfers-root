@@ -150,7 +150,12 @@ const App = () => {
   }, [])
 
   return (
-    <PerformanceProfiler onReportPrepared={onReportPrepared} errorHandler={errorHandler} logLevel={LogLevel.Debug}>
+    <PerformanceProfiler
+      onReportPrepared={onReportPrepared}
+      errorHandler={errorHandler}
+      logLevel={LogLevel.Debug}
+      enabled={__DEV__}
+    >
       <SafeAreaProvider>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <ColorSchemeProvider initialColorScheme={initialColorScheme}>
