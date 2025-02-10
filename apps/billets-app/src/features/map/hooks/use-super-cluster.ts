@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import Supercluster from 'supercluster'
 import { z } from 'zod'
 import { mapPointSchema } from '../map.types'
 import { getZoomLevel } from '../utils'
+import Supercluster from './supercluster'
 import { MapRegionWithZoomLevel } from './use-map-region-with-zoom-level.types'
 
 export const useSuperCluster = ({
