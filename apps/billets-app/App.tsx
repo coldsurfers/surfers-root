@@ -4,7 +4,7 @@ import { useColorSchemeStorage } from '@/lib/storage'
 import { CommonScreenLayout } from '@/ui'
 import { colors, ColorScheme } from '@coldsurfers/ocean-road'
 import { ColorSchemeProvider, Spinner, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
-import { PerformanceProfiler, RenderPassReport } from '@shopify/react-native-performance'
+import { LogLevel, PerformanceProfiler, RenderPassReport } from '@shopify/react-native-performance'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React, { memo, PropsWithChildren, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { Platform, useColorScheme as rnUseColorScheme, StatusBar, View } from 'react-native'
@@ -145,8 +145,12 @@ const App = () => {
     // monorail.produce(convertReportToMonorailObject(report));
   }, [])
 
+  const errorHandler = useCallback((error: Error) => {
+    console.error(error)
+  }, [])
+
   return (
-    <PerformanceProfiler onReportPrepared={onReportPrepared}>
+    <PerformanceProfiler onReportPrepared={onReportPrepared} errorHandler={errorHandler} logLevel={LogLevel.Debug}>
       <SafeAreaProvider>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <ColorSchemeProvider initialColorScheme={initialColorScheme}>
