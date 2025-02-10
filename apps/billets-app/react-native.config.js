@@ -4,4 +4,5 @@ module.exports = {
     android: {},
   },
   assets: ['./assets/fonts/'],
+  commands: require('@callstack/repack/commands/rspack'),
 }
