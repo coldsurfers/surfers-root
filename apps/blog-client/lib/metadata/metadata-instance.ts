@@ -1,9 +1,9 @@
-import { LogPlatform } from '@/features'
 import { NextMetadataGenerator } from '@coldsurfers/shared-utils'
-import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import { PageObjectResponse, UserObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import { routing } from 'i18n/routing'
 import { Metadata } from 'next/types'
 import { SITE_URL } from '../constants'
+import { SeriesCategory } from '../types/series'
 
 export const metadataInstance = new NextMetadataGenerator({
   baseData: {
@@ -38,33 +38,57 @@ export const generateLogDetailMetadata = (
   options: {
     locale: (typeof routing.locales)[number]
     slug: string
-    logType: LogPlatform
+    seriesCategory: SeriesCategory
   },
 ) => {
-  const pageTitle = page?.properties.Name.type === 'title' ? page.properties.Name.title.at(0)?.plain_text : ''
-
-  if (!page || !pageTitle) {
+  if (!page) {
     return {
       title: 'Blog, ColdSurf',
     }
   }
 
-  // @ts-ignore
-  const writers = page?.properties?.Writer?.people?.map((value) => value.name)
+  const pageTitle = (() => {
+    if (page?.properties.Name.type !== 'title') {
+      return ''
+    }
+    return page.properties.Name.title.at(0)?.plain_text ?? ''
+  })()
 
-  const publishDate =
-    page.properties?.['Publish date']?.type === 'date' && page.properties?.['Publish date']?.date?.start
-      ? new Date(page.properties?.['Publish date']?.date?.start)
-      : null
+  if (!pageTitle) {
+    return {
+      title: 'Blog, ColdSurf',
+    }
+  }
 
-  const tags =
-    page?.properties.tags.type === 'multi_select'
-      ? page?.properties.tags.multi_select.map((value) => ({
-          id: value.id,
-          name: value.name,
-          color: value.color,
-        }))
-      : []
+  const writers = (() => {
+    if (page.properties?.Writer.type !== 'people') {
+      return []
+    }
+    return page?.properties?.Writer.people
+      .map((value) => {
+        const _value = value as UserObjectResponse
+        return _value.name
+      })
+      .filter((value) => value !== null)
+  })()
+
+  const publishDate = (() => {
+    if (page.properties?.['Publish date']?.type !== 'date') {
+      return null
+    }
+    return page.properties?.['Publish date'].date?.start ? new Date(page.properties?.['Publish date'].date.start) : null
+  })()
+
+  const tags = (() => {
+    if (page.properties.tags.type !== 'multi_select') {
+      return []
+    }
+    return page.properties.tags.multi_select.map((value) => ({
+      id: value.id,
+      name: value.name,
+      color: value.color,
+    }))
+  })()
 
   const authors: Metadata['authors'] = writers.map((name: string) => {
     return {
@@ -72,7 +96,12 @@ export const generateLogDetailMetadata = (
     }
   })
 
-  const thumbnailUrl = page.properties?.['thumb'].type === 'url' ? page.properties?.['thumb'].url : ''
+  const thumbnailUrl = (() => {
+    if (page.properties?.['thumb'].type !== 'url') {
+      return ''
+    }
+    return page.properties?.['thumb'].url ?? ''
+  })()
 
   const metadata: Metadata = metadataInstance.generateMetadata<Metadata>({
     title: `${pageTitle} | Blog, ColdSurf`,
@@ -83,7 +112,7 @@ export const generateLogDetailMetadata = (
       siteName: 'COLDSURF Blog',
       publishedTime: publishDate?.toISOString(),
       authors: writers,
-      url: `${SITE_URL}/${options.locale}/${options.logType}/${options.slug}`,
+      url: `${SITE_URL}/${options.locale}/${options.seriesCategory}/${options.slug}`,
       title: pageTitle,
       description: `${pageTitle}`,
       images: [
@@ -94,9 +123,9 @@ export const generateLogDetailMetadata = (
     },
     keywords: tags.map((tag) => tag.name),
     alternates: {
-      canonical: `${SITE_URL}/${options.locale}/textlog/${options.slug}`,
+      canonical: `${SITE_URL}/${options.locale}/${options.seriesCategory}/${options.slug}`,
       languages: Object.fromEntries(
-        routing.locales.map((locale) => [locale, `${SITE_URL}/${locale}/${options.logType}/${options.slug}`]),
+        routing.locales.map((locale) => [locale, `${SITE_URL}/${locale}/${options.seriesCategory}/${options.slug}`]),
       ),
     },
   })
@@ -108,12 +137,12 @@ export const generateLogListMetadata = ({
   title,
   description,
   locale,
-  logType,
+  seriesCategory,
 }: {
   title: string
   description: string
   locale: (typeof routing.locales)[number]
-  logType: LogPlatform
+  seriesCategory: SeriesCategory
 }) => {
   const metaTitle = title
   const metaDescription = description
@@ -125,11 +154,13 @@ export const generateLogListMetadata = ({
       title: metaTitle,
       description: metaDescription,
       type: 'website',
-      url: `${SITE_URL}/${locale}/${logType}`,
+      url: `${SITE_URL}/${locale}/${seriesCategory}`,
     },
     alternates: {
-      canonical: `${SITE_URL}/${locale}/${logType}`,
-      languages: Object.fromEntries(routing.locales.map((locale) => [locale, `${SITE_URL}/${locale}/${logType}`])),
+      canonical: `${SITE_URL}/${locale}/${seriesCategory}`,
+      languages: Object.fromEntries(
+        routing.locales.map((locale) => [locale, `${SITE_URL}/${locale}/${seriesCategory}`]),
+      ),
     },
   })
 

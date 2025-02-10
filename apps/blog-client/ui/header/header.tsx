@@ -2,6 +2,7 @@
 
 import { usePathname } from 'i18n/routing'
 import { I18nPathWithParams } from 'i18n/types'
+import { useParams } from 'next/navigation'
 import { memo, useMemo } from 'react'
 import {
   StyledHeaderBigContainer,
@@ -13,8 +14,8 @@ import {
 const HeaderBadge = memo(
   ({ href, isActive, title }: { href: I18nPathWithParams; isActive: boolean; title: string }) => {
     return (
-      <StyledHeaderLinkBadge href={href} $isActive={isActive}>
-        <StyledHeaderHeading $isActive={isActive}>{title}</StyledHeaderHeading>
+      <StyledHeaderLinkBadge href={href} $isactive={isActive ? 'true' : undefined}>
+        <StyledHeaderHeading $isactive={isActive ? 'true' : undefined}>{title}</StyledHeaderHeading>
       </StyledHeaderLinkBadge>
     )
   },
@@ -22,6 +23,10 @@ const HeaderBadge = memo(
 
 export const Header = () => {
   const pathname = usePathname()
+  const params = useParams()
+  const seriesParam = useMemo(() => {
+    return params.series as string
+  }, [params.series])
 
   const data = useMemo<
     {
@@ -33,38 +38,43 @@ export const Header = () => {
     return [
       {
         href: {
-          pathname: '/techlog',
+          pathname: '/[series]',
+          params: {
+            series: 'tech',
+          },
         },
         title: 'TECH',
-        isActive: pathname.startsWith('/techlog'),
+        isActive: seriesParam === 'tech',
       },
       {
         href: {
-          pathname: '/soundlog',
+          pathname: '/[series]',
+          params: {
+            series: 'sound',
+          },
         },
         title: 'SOUND',
-        isActive: pathname.startsWith('/soundlog'),
+        isActive: seriesParam === 'sound',
       },
       {
         href: {
-          pathname: '/filmlog',
+          pathname: '/[series]',
+          params: {
+            series: 'video',
+          },
         },
         title: 'VIDEO',
-        isActive: pathname.startsWith('/filmlog'),
+        isActive: seriesParam === 'video',
       },
       {
         href: {
-          pathname: '/textlog',
+          pathname: '/[series]',
+          params: {
+            series: 'text',
+          },
         },
         title: 'TEXT',
-        isActive: pathname.startsWith('/textlog'),
-      },
-      {
-        href: {
-          pathname: '/squarelog',
-        },
-        title: 'PHOTO',
-        isActive: pathname.startsWith('/squarelog'),
+        isActive: seriesParam === 'text',
       },
       {
         href: {
@@ -74,7 +84,7 @@ export const Header = () => {
         isActive: pathname.startsWith('/about'),
       },
     ]
-  }, [pathname])
+  }, [pathname, seriesParam])
 
   return (
     <StyledHeaderBigContainer>
