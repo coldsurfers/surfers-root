@@ -93,6 +93,8 @@
     "@react-native/eslint-config": "0.75.3",
     "@react-native/metro-config": "0.75.3",
     "@react-native/typescript-config": "0.75.3",
+    "@rspack/core": "^1.2.2",
+    "@swc/helpers": "^0.5.15",
     "@tanstack/eslint-plugin-query": "^5.58.1",
     "@types/lodash.uniqby": "^4",
     "@types/ngeohash": "*",
