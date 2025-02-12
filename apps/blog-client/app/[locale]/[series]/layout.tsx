@@ -16,7 +16,10 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
-export function generateMetadata({ params }: { params: { series: SeriesCategory; locale: AppLocale } }): Metadata {
+export async function generateMetadata(props: {
+  params: Promise<{ series: SeriesCategory; locale: AppLocale }>
+}): Promise<Metadata> {
+  const params = await props.params
   const metaTitle = match(params.series)
     .with('sound', () => 'COLDSURF Blog: Article about music')
     .with('tech', () => 'COLDSURF Blog: Article about Software Development')
@@ -39,16 +42,17 @@ export function generateMetadata({ params }: { params: { series: SeriesCategory;
   })
 }
 
-export default async function SeriesPageLayout({
-  params,
-  children,
-}: {
+export default async function SeriesPageLayout(props: {
   children: ReactNode
-  params: {
+  params: Promise<{
     locale: AppLocale
     series: SeriesCategory
-  }
+  }>
 }) {
+  const params = await props.params
+
+  const { children } = props
+
   setRequestLocale(params.locale)
 
   const seriesValidation = SeriesCategorySchema.safeParse(params.series)
