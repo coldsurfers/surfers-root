@@ -1,18 +1,16 @@
 'use client'
+import { use } from 'react'
 
 import { PAGINATION_PER_PAGE } from '@/lib/pagination.constants'
+import { AppLocale } from '@/lib/types/i18n'
 import { SeriesCategory } from '@/lib/types/series'
 import { convertSeriesCategoryToTitle } from '@/lib/utils'
 import { PageLayout, Pagination, PostPaginationList } from '@/ui'
-import { PageProps } from 'i18n/types'
 import { useSearchParams } from 'next/navigation'
 import { SeriesListQuery } from './(component)'
 
-export default function SeriesPage({
-  params,
-}: PageProps<{
-  series: SeriesCategory
-}>) {
+export default function SeriesPage(props: { params: Promise<{ series: SeriesCategory; locale: AppLocale }> }) {
+  const params = use(props.params)
   const searchParams = useSearchParams()
   const pageParam = searchParams.get('page')
   const page = pageParam ? Number(pageParam) : 1

@@ -23,22 +23,22 @@ export async function generateStaticParams() {
   return result.map((value) => ({ slug: value.slug, locale: value.lang }))
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { series: SeriesCategory; slug: string; locale: AppLocale }
+export async function generateMetadata(props: {
+  params: Promise<{ series: SeriesCategory; slug: string; locale: AppLocale }>
 }) {
+  const params = await props.params
   const page = await querySeriesItem({ slug: params.slug, lang: params.locale, seriesCategory: params.series })
   return generateLogDetailMetadata(page, { locale: params.locale, slug: params.slug, seriesCategory: params.series })
 }
 
-export default async function SeriesSlugPageLayout({
-  params,
-  children,
-}: {
+export default async function SeriesSlugPageLayout(props: {
   children: ReactNode
-  params: { series: SeriesCategory; slug: string; locale: AppLocale }
+  params: Promise<{ series: SeriesCategory; slug: string; locale: AppLocale }>
 }) {
+  const params = await props.params
+
+  const { children } = props
+
   setRequestLocale(params.locale)
   const queryClient = getQueryClient()
   await queryClient.prefetchQuery(
