@@ -1,34 +1,41 @@
-import { LogPlatform, queryLogs } from '@/features'
+import { FetchGetSeriesItemSearchParams } from '@/app/api/series/[slug]/types'
+import { FetchGetSeriesSearchParams } from '@/app/api/series/types'
 import { PageObjectResponse, PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoints'
-import { AppLocale } from 'i18n/types'
 import { ExtendedRecordMap } from 'notion-types'
+import { AppLocale } from '../types/i18n'
+import { SeriesItemSchema } from '../types/series'
 
 const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://blog.coldsurf.io'
 
-export const fetchGetLogs = async ({
-  platform,
-  locale,
-  tag,
-}: {
-  platform: LogPlatform
-  locale: AppLocale
-  tag?: string
-}) => {
-  const searchParams = new URLSearchParams()
-  searchParams.append('platform', platform)
-  searchParams.append('locale', locale)
+export const fetchGetSeries = async (params: FetchGetSeriesSearchParams) => {
+  const { seriesCategory, appLocale, tag } = params
+  let url = `${BASE_URL}/api/series?seriesCategory=${seriesCategory}&appLocale=${appLocale}`
   if (tag) {
-    searchParams.append('tag', tag)
+    url += `&tag=${tag}`
   }
-  const qs = searchParams.toString()
-  const response = await fetch(`${BASE_URL}/api/logs?${qs}`, {
+  const response = await fetch(url, {
     method: 'GET',
   })
-  const json = (await response.json()) as {
-    logs: Awaited<ReturnType<typeof queryLogs>>
+  const json = await response.json()
+  const validation = SeriesItemSchema.array().safeParse(json)
+  if (!validation.success) {
+    console.error('fetch error, fetchGetSeries', params, validation.error)
+    return []
   }
-  const { logs } = json
-  return logs
+  return validation.data
+}
+
+export const fetchGetSeriesItem = async (slug: string, searchParams: FetchGetSeriesItemSearchParams) => {
+  const { seriesCategory, appLocale } = searchParams
+  const url = `${BASE_URL}/api/series/${slug}?seriesCategory=${seriesCategory}&appLocale=${appLocale}`
+  const response = await fetch(url, {
+    method: 'GET',
+  })
+  const json = await response.json()
+  return json as {
+    page: PageObjectResponse
+    recordMap: ExtendedRecordMap
+  }
 }
 
 export const fetchGetLogDetail = async (slug: string, filters: { platform: string; locale: AppLocale }) => {
