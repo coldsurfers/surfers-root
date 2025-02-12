@@ -1,6 +1,5 @@
 import { FetchGetSeriesItemSearchParams } from '@/app/api/series/[slug]/types'
 import { FetchGetSeriesSearchParams } from '@/app/api/series/types'
-import { LogPlatform, queryLogs } from '@/features'
 import { PageObjectResponse, PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import { ExtendedRecordMap } from 'notion-types'
 import { AppLocale } from '../types/i18n'
@@ -37,32 +36,6 @@ export const fetchGetSeriesItem = async (slug: string, searchParams: FetchGetSer
     page: PageObjectResponse
     recordMap: ExtendedRecordMap
   }
-}
-
-export const fetchGetLogs = async ({
-  platform,
-  locale,
-  tag,
-}: {
-  platform: LogPlatform
-  locale: AppLocale
-  tag?: string
-}) => {
-  const searchParams = new URLSearchParams()
-  searchParams.append('platform', platform)
-  searchParams.append('locale', locale)
-  if (tag) {
-    searchParams.append('tag', tag)
-  }
-  const qs = searchParams.toString()
-  const response = await fetch(`${BASE_URL}/api/logs?${qs}`, {
-    method: 'GET',
-  })
-  const json = (await response.json()) as {
-    logs: Awaited<ReturnType<typeof queryLogs>>
-  }
-  const { logs } = json
-  return logs
 }
 
 export const fetchGetLogDetail = async (slug: string, filters: { platform: string; locale: AppLocale }) => {

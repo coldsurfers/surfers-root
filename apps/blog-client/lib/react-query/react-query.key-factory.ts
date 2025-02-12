@@ -1,17 +1,8 @@
 import { FetchGetSeriesItemSearchParams } from '@/app/api/series/[slug]/types'
 import { FetchGetSeriesSearchParams } from '@/app/api/series/types'
-import { LogPlatform } from '@/features'
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory'
 import { ALL_SERIES_CATEGORIES } from '../constants'
-import {
-  fetchGetLogDetail,
-  fetchGetLogs,
-  fetchGetResume,
-  fetchGetSeries,
-  fetchGetSeriesItem,
-  fetchGetTags,
-  fetchGetUsers,
-} from '../fetchers'
+import { fetchGetResume, fetchGetSeries, fetchGetSeriesItem, fetchGetTags, fetchGetUsers } from '../fetchers'
 import { AppLocale } from '../types/i18n'
 
 const series = createQueryKeys('series', {
@@ -40,23 +31,6 @@ const series = createQueryKeys('series', {
   }),
 })
 
-const logs = createQueryKeys('logs', {
-  all: null,
-  list: (filters: { platform: LogPlatform; locale: AppLocale; tag?: string }) => ({
-    queryKey: [{ filters }],
-    queryFn: (ctx) => fetchGetLogs(filters),
-  }),
-  detail: (slug: string, filters: { platform: LogPlatform; locale: AppLocale }) => ({
-    queryKey: [
-      slug,
-      {
-        filters,
-      },
-    ],
-    queryFn: (ctx) => fetchGetLogDetail(slug, filters),
-  }),
-})
-
 const users = createQueryKeys('users', {
   all: null,
   list: {
@@ -81,4 +55,4 @@ const tags = createQueryKeys('tags', {
   },
 })
 
-export const queryKeyFactory = mergeQueryKeys(logs, users, resume, series, tags)
+export const queryKeyFactory = mergeQueryKeys(users, resume, series, tags)
