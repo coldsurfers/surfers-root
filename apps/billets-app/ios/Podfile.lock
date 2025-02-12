@@ -2034,7 +2034,7 @@ DEPENDENCIES:
   - RNGoogleMobileAds (from `../../../node_modules/react-native-google-mobile-ads`)
   - "RNGoogleSignin (from `../../../node_modules/@react-native-google-signin/google-signin`)"
   - RNPermissions (from `../../../node_modules/react-native-permissions`)
-  - RNReanimated (from `../../../node_modules/react-native-reanimated`)
+  - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../../../node_modules/react-native-screens`)
   - RNStoreReview (from `../../../node_modules/react-native-store-review`)
   - RNSVG (from `../../../node_modules/react-native-svg`)
@@ -2245,7 +2245,7 @@ EXTERNAL SOURCES:
   RNPermissions:
     :path: "../../../node_modules/react-native-permissions"
   RNReanimated:
-    :path: "../../../node_modules/react-native-reanimated"
+    :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../../../node_modules/react-native-screens"
   RNStoreReview:
@@ -2367,7 +2367,7 @@ SPEC CHECKSUMS:
   RNGoogleMobileAds: 4cd33f8f0bf7d38fc51647e863afc1a6eccc6216
   RNGoogleSignin: 81521697b2c8f97f9a586ac7257b1a1d9b51b115
   RNPermissions: a4c964f030841f35d918ab3248df9dec9db5f44d
-  RNReanimated: f2083d93a37ce46bfc46dba51498b5a40273e246
+  RNReanimated: b5c2f36b9c7ac8b8f67585fd16ef1398a1b8645f
   RNScreens: 16b782596e80e475b7f3ec769c9a97d789d9b0ed
   RNStoreReview: 31dbfd0dac2eea9675f0b84f1dd3261c2110c337
   RNSVG: 7ff26379b2d1871b8571e6f9bc9630de6baf9bdf
