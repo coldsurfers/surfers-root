@@ -1,5 +1,5 @@
+import { AppLocale } from '@/lib/types/i18n'
 import { redirect, routing } from 'i18n/routing'
-import { PageProps } from 'i18n/types'
 import { setRequestLocale } from 'next-intl/server'
 import { NotionAPI } from 'notion-client'
 import { PageRenderer } from './(ui)'
@@ -22,7 +22,8 @@ export async function generateMetadata() {
   }
 }
 
-const AboutDetailPage = async ({ params }: PageProps<{ user: string }>) => {
+const AboutDetailPage = async (props: { params: Promise<{ user: string; locale: AppLocale }> }) => {
+  const params = await props.params
   const { locale, user } = params
   if (user !== 'paul') {
     return redirect({ href: '/404', locale: locale })

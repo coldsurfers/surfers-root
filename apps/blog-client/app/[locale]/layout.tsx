@@ -57,7 +57,11 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
-export default async function RootLayout({ children, params }: { params: { locale: AppLocale }; children: ReactNode }) {
+export default async function RootLayout(props: { params: Promise<{ locale: AppLocale }>; children: ReactNode }) {
+  const params = await props.params
+
+  const { children } = props
+
   const { locale } = params
   // Ensure that the incoming `locale` is valid
   if (!routing.locales.includes(locale as never)) {

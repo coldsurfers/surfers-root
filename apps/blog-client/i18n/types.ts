@@ -1,12 +1,4 @@
-import { AppLocale } from '@/lib/types/i18n'
 import { SeriesCategory } from '@/lib/types/series'
-
-export type PageProps<T = unknown> = {
-  params: T & {
-    locale: AppLocale
-  }
-  searchParams: { [key: string]: string | string[] | undefined }
-}
 
 type PageQuery = { page?: number }
 
