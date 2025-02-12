@@ -97,8 +97,8 @@ android {
         applicationId "com.fstvllife.android"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 16
-        versionName "1.6.7"
+        versionCode 17
+        versionName "1.6.8"
         resValue "string", "CodePushDeploymentKey", project.env.get("ANDROID_CODE_PUSH_DEPLOYMENT_KEY") ?: ""
     }
 

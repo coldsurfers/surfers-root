@@ -34,7 +34,15 @@ ConcertDetailSectionListItem.DateItem = ({ date, isKOPIS }: ConcertDetailSection
         {format(new Date(date ?? ''), 'MMM dd, hh:mm a')}
       </Text>
       {isKOPIS ? (
-        <Text weight="medium" style={styles.kopis}>
+        <Text
+          weight="medium"
+          style={[
+            styles.kopis,
+            {
+              color: semantics.foreground['3'],
+            },
+          ]}
+        >
           {KOPIS_COPYRIGHT_TEXT}
         </Text>
       ) : null}
@@ -277,6 +285,5 @@ const styles = StyleSheet.create({
     fontSize: 12,
     paddingHorizontal: 12,
     marginVertical: 8,
-    color: colors.oc.gray[3].value,
   },
 })

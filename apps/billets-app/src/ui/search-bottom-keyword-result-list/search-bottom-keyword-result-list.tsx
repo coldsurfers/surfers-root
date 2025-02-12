@@ -1,9 +1,10 @@
 import { useKeyboard } from '@/lib'
-import { $api } from '@/lib/api/openapi-client'
+import { apiClient } from '@/lib/api/openapi-client'
 import { useSearchScreenNavigation } from '@/screens/search-screen/search-screen.hooks'
 import { ProfileThumbnail, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { BottomSheetFlatList } from '@gorhom/bottom-sheet'
 import { useFocusEffect } from '@react-navigation/native'
+import { useQuery } from '@tanstack/react-query'
 import format from 'date-fns/format'
 import { useCallback, useMemo } from 'react'
 import { ListRenderItem, StyleSheet } from 'react-native'
@@ -22,20 +23,11 @@ export const SearchBottomKeywordResultList = ({ keyword }: { keyword: string }) 
     data: searchData,
     isLoading: isLoadingSearch,
     isFetched: isFetchedSearch,
-  } = $api.useQuery(
-    'get',
-    '/v1/search/',
-    {
-      params: {
-        query: {
-          keyword,
-        },
-      },
-    },
-    {
-      enabled: !!keyword,
-    },
-  )
+  } = useQuery({
+    queryKey: apiClient.search.queryKeys.list(keyword),
+    queryFn: () => apiClient.search.getSearchResult(keyword),
+    enabled: !!keyword,
+  })
 
   const searchResultUIData = useMemo(() => {
     return searchData ?? []

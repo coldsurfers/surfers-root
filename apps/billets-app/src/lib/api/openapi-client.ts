@@ -418,4 +418,23 @@ export const apiClient = {
       return response.data
     },
   },
+  search: {
+    queryKeys: {
+      all: ['v1', 'search'],
+      list: (keyword: string) => ['v1', 'search', { keyword }],
+    },
+    getSearchResult: async (keyword: string) => {
+      const response = await fetchClient.GET('/v1/search/', {
+        params: {
+          query: {
+            keyword,
+          },
+        },
+      })
+      if (response.error) {
+        throw new OpenApiError(response.error)
+      }
+      return response.data
+    },
+  },
 }
