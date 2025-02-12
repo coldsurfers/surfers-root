@@ -3,10 +3,10 @@ import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import Image from 'next/image'
 
-export const StyledPostItemContainer = styled.li`
+export const StyledPostItemContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  width: 100%;
 `
 
 export const StyledPostSubContentContainer = styled.div`

@@ -1,22 +1,33 @@
-import { LogPlatform } from '@/features'
+import { FetchGetSeriesItemSearchParams } from '@/app/api/series/[slug]/types'
+import { FetchGetSeriesSearchParams } from '@/app/api/series/types'
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory'
-import { AppLocale } from 'i18n/types'
-import { fetchGetLogDetail, fetchGetLogs, fetchGetResume, fetchGetTags, fetchGetUsers } from '../fetchers'
+import { ALL_SERIES_CATEGORIES } from '../constants'
+import { fetchGetResume, fetchGetSeries, fetchGetSeriesItem, fetchGetTags, fetchGetUsers } from '../fetchers'
+import { AppLocale } from '../types/i18n'
 
-const logs = createQueryKeys('logs', {
-  all: null,
-  list: (filters: { platform: LogPlatform; locale: AppLocale; tag?: string }) => ({
-    queryKey: [{ filters }],
-    queryFn: (ctx) => fetchGetLogs(filters),
+const series = createQueryKeys('series', {
+  all: ['series'],
+  listAll: (appLocale: AppLocale, tag?: string) => ({
+    queryKey: ['series', 'listAll', { appLocale, tag }],
+    queryFn: async (ctx) => {
+      const promises = ALL_SERIES_CATEGORIES.map(async (seriesCategory) => {
+        return await fetchGetSeries({
+          seriesCategory,
+          appLocale,
+          tag,
+        })
+      })
+      const response = await Promise.all(promises)
+      return response
+    },
   }),
-  detail: (slug: string, filters: { platform: LogPlatform; locale: AppLocale }) => ({
-    queryKey: [
-      slug,
-      {
-        filters,
-      },
-    ],
-    queryFn: (ctx) => fetchGetLogDetail(slug, filters),
+  list: (params: FetchGetSeriesSearchParams) => ({
+    queryKey: ['series', 'list', params],
+    queryFn: (ctx) => fetchGetSeries(params),
+  }),
+  item: (slug: string, searchParams: FetchGetSeriesItemSearchParams) => ({
+    queryKey: ['series', 'detail', { slug, ...searchParams }],
+    queryFn: (ctx) => fetchGetSeriesItem(slug, searchParams),
   }),
 })
 
@@ -44,4 +55,4 @@ const tags = createQueryKeys('tags', {
   },
 })
 
-export const queryKeyFactory = mergeQueryKeys(logs, users, resume, tags)
+export const queryKeyFactory = mergeQueryKeys(users, resume, series, tags)
