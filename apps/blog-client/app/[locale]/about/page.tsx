@@ -3,12 +3,12 @@ import { getQueryClient } from '@/lib/react-query/react-query.utils'
 import { PageLayout } from '@/ui'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { routing } from 'i18n/routing'
-import { PageProps } from 'i18n/types'
 import { setRequestLocale } from 'next-intl/server'
 
 import { NotionRenderer } from '@/features/notion/notion-renderer'
 import { SITE_URL } from '@/lib/constants'
 import { metadataInstance } from '@/lib/metadata'
+import { AppLocale } from '@/lib/types/i18n'
 import { Metadata } from 'next/types'
 import { NotionAPI } from 'notion-client'
 import { StyledAboutPageInnerLayout, StyledWritersPageHeader } from './page.styled'
@@ -22,7 +22,8 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
-export function generateMetadata({ params }: PageProps) {
+export async function generateMetadata(props: { params: Promise<{ locale: AppLocale }> }) {
+  const params = await props.params
   const metaTitle = 'COLDSURF Blog: Writers & Members'
   const metaDescription = 'Introduce our writers and members'
 
@@ -44,7 +45,8 @@ export function generateMetadata({ params }: PageProps) {
   return meta
 }
 
-export default async function WritersPage({ params }: PageProps) {
+export default async function WritersPage(props: { params: Promise<{ locale: AppLocale }> }) {
+  const params = await props.params
   const { locale } = params
   const recordMap = await notion.getPage(
     locale === 'en' ? 'about-2025-En-18d2bbac578280bc9271f7d4ab58b33a' : 'about-2025-18d2bbac5782804d8c88dc076b26c359',

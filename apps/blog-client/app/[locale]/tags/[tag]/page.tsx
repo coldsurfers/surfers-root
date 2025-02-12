@@ -1,9 +1,9 @@
 import { queryTags } from '@/features'
 import { queryKeyFactory } from '@/lib/react-query/react-query.key-factory'
 import { getQueryClient } from '@/lib/react-query/react-query.utils'
+import { AppLocale } from '@/lib/types/i18n'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { routing } from 'i18n/routing'
-import { PageProps } from 'i18n/types'
 import { setRequestLocale } from 'next-intl/server'
 import { TagPostList } from './(ui)'
 
@@ -23,11 +23,13 @@ export async function generateStaticParams() {
   return params
 }
 
-export default async function TagDetailPage({
-  params,
-}: PageProps<{
-  tag: string
-}>) {
+export default async function TagDetailPage(props: {
+  params: Promise<{
+    tag: string
+    locale: AppLocale
+  }>
+}) {
+  const params = await props.params
   const { tag, locale } = params
   const decodedTag = decodeURIComponent(tag)
   setRequestLocale(locale)

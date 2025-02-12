@@ -2,7 +2,7 @@
 
 import { semantics } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
-import { CSSProperties, ElementType, PropsWithChildren } from 'react'
+import { CSSProperties, ElementType, PropsWithChildren, type JSX } from 'react'
 
 const ParagraphContainer = styled.p`
   color: ${semantics.color.foreground[1]};
