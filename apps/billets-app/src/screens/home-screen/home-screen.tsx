@@ -1,5 +1,5 @@
 import { CurrentLocationTracker, useToggleSubscribeConcert, useUserCurrentLocationStore } from '@/features'
-import { useShowBottomTabBar } from '@/lib'
+import { useShowBottomTabBar, zodScreen } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
 import {
   AnimatePresence,
@@ -11,13 +11,15 @@ import {
 } from '@/ui'
 import { ConcertListItemType } from '@/ui/concert-list/concert-list.types'
 import { useScrollToTop } from '@react-navigation/native'
+import { PerformanceMeasureView, RenderStateProps, useStartProfiler } from '@shopify/react-native-performance'
 import { useQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useRef, useState } from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, View } from 'react-native'
 import { useShallow } from 'zustand/shallow'
 import { useHomeScreenNavigation } from './home-screen.hooks'
 
 const SuspenseHomeScreen = () => {
+  const startNavigationTTITimer = useStartProfiler()
   const navigation = useHomeScreenNavigation()
   const listRef = useRef<FlatList>(null)
   useScrollToTop(listRef)
@@ -47,12 +49,16 @@ const SuspenseHomeScreen = () => {
 
   const onPressConcertListItem = useCallback(
     (item: ConcertListItemType) => {
+      startNavigationTTITimer({
+        source: zodScreen.HomeScreen.name,
+        uiEvent: undefined,
+      })
       navigation.navigate('EventStackNavigation', {
         screen: 'EventDetailScreen',
         params: { eventId: item.id },
       })
     },
-    [navigation],
+    [navigation, startNavigationTTITimer],
   )
 
   const onPressSubscribeConcertListItem = useCallback(
@@ -113,9 +119,21 @@ const SuspenseHomeScreen = () => {
 }
 
 export const HomeScreen = () => {
+  const renderStateProps: RenderStateProps = {
+    interactive: false,
+    renderPassName: 'home_screen_render',
+  }
   return (
-    <Suspense fallback={<ConcertListSkeleton />}>
-      <SuspenseHomeScreen />
-    </Suspense>
+    <PerformanceMeasureView
+      interactive={false}
+      screenName={zodScreen.HomeScreen.name}
+      {...renderStateProps}
+      optimizeForSlowRenderComponents
+      slowRenderPlaceholder={<View style={{ backgroundColor: 'red', flex: 1 }} />}
+    >
+      <Suspense fallback={<ConcertListSkeleton />}>
+        <SuspenseHomeScreen />
+      </Suspense>
+    </PerformanceMeasureView>
   )
 }
