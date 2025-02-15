@@ -2,25 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /* deno-fmt-ignore-file */
-import "sst"
+import 'sst'
 export {}
-declare module "sst" {
-  export interface Resource {
-    "APP_PLATFORM": {
-      "type": "sst.sst.Secret"
-      "value": string
-    }
-    "BILLETS_WEB_DOMAIN_CERT_ARN": {
-      "type": "sst.sst.Secret"
-      "value": string
-    }
-    "BILLETS_WEB_DOMAIN_NAME": {
-      "type": "sst.sst.Secret"
-      "value": string
-    }
-    "BilletsWebStaging": {
-      "type": "sst.aws.Nextjs"
-      "url": string
-    }
-  }
+declare module 'sst' {
+  export interface Resource {}
 }
