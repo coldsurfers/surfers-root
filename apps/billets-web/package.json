@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-web",
-  "version": "1.0.37",
+  "version": "1.0.38",
   "scripts": {
     "build": "yarn prisma:generate && next build",
     "build:vercel": "npx vercel build --prod",
