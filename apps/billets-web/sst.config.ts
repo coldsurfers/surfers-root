@@ -32,7 +32,7 @@ export default $config({
     })()
     new sst.aws.Nextjs(name, {
       domain: {
-        name: process.env.BILLETS_WEB_DOMAIN_NAME!,
+        name: 'name-testing',
         cert: process.env.BILLETS_WEB_DOMAIN_CERT_ARN!,
       },
     })
