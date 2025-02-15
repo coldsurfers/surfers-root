@@ -1,12 +1,14 @@
 'use client'
+import { use } from 'react'
 
 import { PAGINATION_PER_PAGE } from '@/lib/pagination.constants'
+import { AppLocale } from '@/lib/types/i18n'
 import { PageLayout, Pagination, PostPaginationList } from '@/ui'
-import { PageProps } from 'i18n/types'
 import { useSearchParams } from 'next/navigation'
 import { SeriesListAllQuery } from './(components)'
 
-export default function RootPage({ params }: PageProps) {
+export default function RootPage(props: { params: Promise<{ locale: AppLocale }> }) {
+  const params = use(props.params)
   const searchParams = useSearchParams()
   const pageParam = searchParams.get('page')
   const page = pageParam ? Number(pageParam) : 1
