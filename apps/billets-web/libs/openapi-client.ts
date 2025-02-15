@@ -3,6 +3,7 @@ import createClient from 'openapi-react-query'
 import { components, paths } from '../types/api'
 import { API_BASE_URL } from './constants'
 import { OpenApiError } from './errors'
+import { generateRevalidateOptions, REVALIDATE_TAGS } from './utils'
 
 const DEFAULT_HEADERS = {
   'Content-Type': 'application/json',
@@ -72,6 +73,10 @@ export const apiClient = {
             locationCityName,
           },
         },
+        next: generateRevalidateOptions({
+          revalidateFreq: 'medium',
+          tags: REVALIDATE_TAGS.eventList,
+        }),
       })
       if (response.error) {
         throw new OpenApiError(response.error)
@@ -85,6 +90,10 @@ export const apiClient = {
             eventId: id,
           },
         },
+        next: generateRevalidateOptions({
+          revalidateFreq: 'medium',
+          tags: REVALIDATE_TAGS.eventDetail,
+        }),
       })
       if (response.error) {
         throw new OpenApiError(response.error)
@@ -98,7 +107,12 @@ export const apiClient = {
       list: ['event-category', 'list'],
     },
     getEventCategories: async () => {
-      const response = await baseFetchClient.GET('/v1/event-category/')
+      const response = await baseFetchClient.GET('/v1/event-category/', {
+        next: generateRevalidateOptions({
+          revalidateFreq: 'low',
+          tags: REVALIDATE_TAGS.eventCategoryList,
+        }),
+      })
       if (response.error) {
         throw new OpenApiError(response.error)
       }
@@ -113,7 +127,12 @@ export const apiClient = {
       },
     },
     getCountries: async () => {
-      const response = await baseFetchClient.GET('/v1/location/country')
+      const response = await baseFetchClient.GET('/v1/location/country', {
+        next: generateRevalidateOptions({
+          revalidateFreq: 'low',
+          tags: REVALIDATE_TAGS.countryList,
+        }),
+      })
       if (response.error) {
         throw new OpenApiError(response.error)
       }
@@ -162,6 +181,10 @@ export const apiClient = {
             id: venueId,
           },
         },
+        next: generateRevalidateOptions({
+          revalidateFreq: 'low',
+          tags: REVALIDATE_TAGS.venueDetail,
+        }),
       })
       if (response.error) {
         throw new OpenApiError(response.error)
@@ -181,6 +204,10 @@ export const apiClient = {
             id: artistId,
           },
         },
+        next: generateRevalidateOptions({
+          revalidateFreq: 'low',
+          tags: REVALIDATE_TAGS.artistDetail,
+        }),
       })
       if (response.error) {
         throw new OpenApiError(response.error)

@@ -20,17 +20,15 @@ jobs:
       - name: Create .env file from template
         working-directory: ./apps/billets-web
         run: |
-          echo "BILLETS_WEB_DOMAIN_CERT_ARN=${{ secrets.BILLETS_WEB_STAGING_DOMAIN_CERT_ARN }}" >> .env.production
-          echo "BILLETS_WEB_DOMAIN_NAME=${{ secrets.BILLETS_WEB_STAGING_DOMAIN_NAME }}" >> .env.production
+          echo "NEXT_PUBLIC_FIREBASE_API_KEY=${{ secrets.BILLETS_WEB_FIREBASE_API_KEY }}" >> .env.local
+          echo "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ secrets.BILLETS_WEB_FIREBASE_AUTH_DOMAIN }}" >> .env.local
+          echo "NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ secrets.BILLETS_WEB_FIREBASE_PROJECT_ID }}" >> .env.local
+          echo "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=${{ secrets.BILLETS_WEB_FIREBASE_STORAGE_BUCKET }}" >> .env.local
+          echo "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.BILLETS_WEB_FIREBASE_MESSAGING_SENDER_ID }}" >> .env.local
+          echo "NEXT_PUBLIC_FIREBASE_APP_ID=${{ secrets.BILLETS_WEB_FIREBASE_APP_ID }}" >> .env.local
+          echo "NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ secrets.BILLETS_WEB_FIREBASE_MEASUREMENT_ID }}" >> .env.local
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env.local
           echo "APP_PLATFORM=staging" >> .env.production
-          echo "NEXT_PUBLIC_FIREBASE_API_KEY=${{ secrets.BILLETS_WEB_FIREBASE_API_KEY }}" >> .env
-          echo "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ secrets.BILLETS_WEB_FIREBASE_AUTH_DOMAIN }}" >> .env
-          echo "NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ secrets.BILLETS_WEB_FIREBASE_PROJECT_ID }}" >> .env
-          echo "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=${{ secrets.BILLETS_WEB_FIREBASE_STORAGE_BUCKET }}" >> .env
-          echo "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.BILLETS_WEB_FIREBASE_MESSAGING_SENDER_ID }}" >> .env
-          echo "NEXT_PUBLIC_FIREBASE_APP_ID=${{ secrets.BILLETS_WEB_FIREBASE_APP_ID }}" >> .env
-          echo "NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ secrets.BILLETS_WEB_FIREBASE_MEASUREMENT_ID }}" >> .env
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
 
       - name: setup node
         uses: actions/setup-node@v2
@@ -50,4 +48,4 @@ jobs:
 
       - name: sst deploy
         working-directory: ./apps/billets-web
-        run: APP_PLATFORM=staging npx sst deploy --stage staging
+        run: npx sst deploy --stage staging

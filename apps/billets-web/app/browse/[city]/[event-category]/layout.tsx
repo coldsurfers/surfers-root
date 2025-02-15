@@ -10,8 +10,6 @@ import { RouteLoading } from 'app/(ui)'
 import { Metadata } from 'next/types'
 import { ReactNode } from 'react'
 
-export const dynamic = 'force-dynamic'
-
 export async function generateMetadata({
   params,
 }: {
@@ -77,13 +75,14 @@ async function LayoutInner({
   return <HydrationBoundary state={dehydrate(queryClient)}>{children}</HydrationBoundary>
 }
 
-export default function BrowseByCityEventCategoryLayout({
-  children,
-  params,
-}: {
+export default async function BrowseByCityEventCategoryLayout(props: {
   children: ReactNode
-  params: { ['event-category']: string; city: string }
+  params: Promise<{ ['event-category']: string; city: string }>
 }) {
+  const params = await props.params
+
+  const { children } = props
+
   const eventCategory = params['event-category']
   const city = params['city']
   return (

@@ -10,5 +10,9 @@ declare module 'sst' {
       type: 'sst.aws.Nextjs'
       url: string
     }
+    BilletsWebStaging: {
+      type: 'sst.aws.Nextjs'
+      url: string
+    }
   }
 }

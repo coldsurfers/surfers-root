@@ -1,95 +1,15 @@
 import { GLOBAL_TIME_ZONE, SITE_URL } from '@/libs/constants'
 import { metadataInstance } from '@/libs/metadata'
-import { apiClient, initialPageQuery } from '@/libs/openapi-client'
+import { initialPageQuery } from '@/libs/openapi-client'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import { getQueryClient } from '@/libs/utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { RouteLoading } from 'app/(ui)'
 import { format } from 'date-fns'
 import { toZonedTime } from 'date-fns-tz'
-import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { DownloadApp, Lineup, PageLayout, PosterThumbnail, TicketCta, TopInfo, Venue } from './(ui)'
-
-async function getEventMetadata(eventId: string) {
-  if (!eventId) {
-    return null
-  }
-  try {
-    const eventDetailData = await apiClient.event.getEventDetail(eventId)
-    if (!eventDetailData) {
-      return null
-    }
-    if (eventDetailData.type !== 'concert') {
-      return null
-    }
-    return {
-      eventDetail: eventDetailData.data,
-    }
-  } catch (e) {
-    console.error(e)
-    return null
-  }
-}
-
-export const dynamic = 'force-dynamic'
-
-export async function generateMetadata({ params }: { params: Promise<{ ['event-id']: string }> }): Promise<Metadata> {
-  const pageParams = await params
-  const meta = await getEventMetadata(pageParams['event-id'])
-  if (!meta) {
-    return {
-      title: 'Billets | Discover shows around the world',
-      description:
-        'Billets is a platform to find live shows around the world. Download Billets to see live shows in your city.',
-    }
-  }
-  const { venues, artists, ticketPromotion, posters, title, date, tickets } = meta.eventDetail
-
-  const zonedDate = toZonedTime(new Date(date), GLOBAL_TIME_ZONE)
-  const formattedDate = format(zonedDate, 'EEE, MMM d')
-  const venueTitle = venues.at(0)?.name ?? ''
-  const artistNamesString = artists.map((artist) => artist.name).join('\n')
-
-  const metaTitle = `${title} Tickets | ${formattedDate} @ ${venueTitle} | Billets`
-  const metaDescription = `${venueTitle} presents\n\n${title} on ${formattedDate}.\n\n${artistNamesString}\n\nGet your tickets now!`
-
-  const metaOther = {
-    'product:brand': ticketPromotion?.sellerName ?? '',
-    'product:availability': 'in stock',
-    'product:condition': 'new',
-    'product:price:amount': ticketPromotion?.price?.price ?? 0,
-    'product:price:currency': ticketPromotion?.price?.currency ?? 'USD',
-  }
-  const metaKeywords = [
-    venueTitle,
-    ...artists.map((artist) => artist.name),
-    title,
-    ...tickets.map((ticket) => ticket.sellerName),
-  ]
-  const metaImages = posters.map((poster) => {
-    return {
-      alt: poster.url,
-      url: poster.url,
-    }
-  })
-
-  const openGraph: Metadata['openGraph'] = {
-    type: 'website',
-    title: metaTitle,
-    description: metaDescription,
-    images: metaImages,
-    url: `https://billets.coldsurf.io/event/${pageParams['event-id']}`,
-  }
-
-  return metadataInstance.generateMetadata<Metadata>({
-    title: metaTitle,
-    description: metaDescription,
-    other: metaOther,
-    keywords: metaKeywords,
-    openGraph,
-  })
-}
+import { getEventMetadata } from './(utils)'
 
 async function PageInner({ params }: { params: { ['event-id']: string } }) {
   const meta = await getEventMetadata(params['event-id'])
@@ -191,7 +111,8 @@ async function PageInner({ params }: { params: { ['event-id']: string } }) {
   )
 }
 
-export default async function EventDetailPage({ params }: { params: Promise<{ ['event-id']: string }> }) {
+export default async function EventDetailPage(props: { params: Promise<{ ['event-id']: string }> }) {
+  const params = await props.params
   return (
     <ApiErrorBoundaryRegistry>
       <RouteLoading>
