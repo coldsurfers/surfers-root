@@ -4017,6 +4017,7 @@ __metadata:
     "@react-navigation/native": "npm:^6.1.9"
     "@react-navigation/native-stack": "npm:^6.9.17"
     "@rspack/core": "npm:^1.2.2"
+    "@shopify/react-native-performance": "npm:^4.1.2"
     "@swc/helpers": "npm:^0.5.15"
     "@tanstack/eslint-plugin-query": "npm:^5.58.1"
     "@tanstack/react-query": "npm:*"
@@ -10901,6 +10902,17 @@ __metadata:
   version: 1.10.4
   resolution: "@rushstack/eslint-patch@npm:1.10.4"
   checksum: 10c0/de312bd7a3cb0f313c9720029eb719d8762fe54946cce2d33ac142b1cbb5817c4a5a92518dfa476c26311602d37f5a8f7caa90a0c73e3d6a56f9a05d2799c172
+  languageName: node
+  linkType: hard
+
+"@shopify/react-native-performance@npm:^4.1.2":
+  version: 4.1.2
+  resolution: "@shopify/react-native-performance@npm:4.1.2"
+  peerDependencies:
+    "@babel/runtime": "*"
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/b11fad3e735e13621bd94faf38fdef5ef8540df1e21f95dad834b70334f61549c667271dc654d846591f72f3bf57996e82b1875625c9576cac71c3acf32b4e3c
   languageName: node
   linkType: hard
 

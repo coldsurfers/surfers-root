@@ -50,6 +50,7 @@
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
+    "@shopify/react-native-performance": "^4.1.2",
     "@tanstack/react-query": "*",
     "@uidotdev/usehooks": "^2.4.1",
     "date-fns": "^2.29.3",
