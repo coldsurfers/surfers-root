@@ -2,13 +2,13 @@
 /* tslint:disable */
 /* eslint-disable */
 /* deno-fmt-ignore-file */
-import "sst"
+import 'sst'
 export {}
-declare module "sst" {
+declare module 'sst' {
   export interface Resource {
-    "BlogClient": {
-      "type": "sst.aws.Nextjs"
-      "url": string
+    BlogClient: {
+      type: 'sst.aws.Nextjs'
+      url: string
     }
   }
 }
