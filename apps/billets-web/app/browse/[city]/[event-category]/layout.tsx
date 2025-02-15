@@ -10,8 +10,6 @@ import { RouteLoading } from 'app/(ui)'
 import { Metadata } from 'next/types'
 import { ReactNode } from 'react'
 
-export const dynamic = 'force-dynamic'
-
 export async function generateMetadata({
   params,
 }: {
