@@ -1,8 +1,9 @@
 /// <reference path="./.sst/platform/config.d.ts" />
 import dotenv from 'dotenv'
+import path from 'path'
 
 dotenv.config({
-  path: './.env.production',
+  path: path.resolve(process.cwd(), '.env.production'),
 })
 
 export default $config({
