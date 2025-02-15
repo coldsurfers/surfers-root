@@ -5,6 +5,8 @@ export const REVALIDATE_TAGS = {
   eventDetail: ['event', 'detail'],
   eventCategoryList: ['event-category', 'list'],
   countryList: ['country', 'list'],
+  artistDetail: ['artist', 'detail'],
+  venueDetail: ['venue', 'detail'],
 }
 
 export const generateRevalidateOptions = ({
