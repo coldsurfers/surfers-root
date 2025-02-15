@@ -27,7 +27,7 @@ export default $config({
       domainCertArn: new sst.Secret('BILLETS_WEB_DOMAIN_CERT_ARN'),
     }
     const name = (() => {
-      switch (secrets.appPlatform.value.get()) {
+      switch (secrets.appPlatform.value.toString()) {
         case 'production':
           return 'BilletsWeb'
         case 'staging':
@@ -37,8 +37,8 @@ export default $config({
     })()
     new sst.aws.Nextjs(name, {
       domain: {
-        name: secrets.domainName.value.get()!,
-        cert: secrets.domainCertArn.value.get()!,
+        name: secrets.domainName.value.toString()!,
+        cert: secrets.domainCertArn.value.toString()!,
       },
     })
   },
