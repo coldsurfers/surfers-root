@@ -72,6 +72,9 @@ export const apiClient = {
             locationCityName,
           },
         },
+        next: {
+          revalidate: 60 * 60,
+        },
       })
       if (response.error) {
         throw new OpenApiError(response.error)
@@ -84,6 +87,9 @@ export const apiClient = {
           path: {
             eventId: id,
           },
+        },
+        next: {
+          revalidate: 60 * 60,
         },
       })
       if (response.error) {
@@ -98,7 +104,11 @@ export const apiClient = {
       list: ['event-category', 'list'],
     },
     getEventCategories: async () => {
-      const response = await baseFetchClient.GET('/v1/event-category/')
+      const response = await baseFetchClient.GET('/v1/event-category/', {
+        next: {
+          revalidate: 60 * 60,
+        },
+      })
       if (response.error) {
         throw new OpenApiError(response.error)
       }
@@ -113,7 +123,11 @@ export const apiClient = {
       },
     },
     getCountries: async () => {
-      const response = await baseFetchClient.GET('/v1/location/country')
+      const response = await baseFetchClient.GET('/v1/location/country', {
+        next: {
+          revalidate: 60 * 60,
+        },
+      })
       if (response.error) {
         throw new OpenApiError(response.error)
       }
