@@ -4,8 +4,6 @@ import { apiClient } from '@/libs/openapi-client'
 import { Metadata } from 'next/types'
 import { cache, ReactNode } from 'react'
 
-export const dynamic = 'force-dynamic'
-
 const getArtistDetail = cache(async (artistId: string) => {
   return await apiClient.artist.getArtistDetail(artistId)
 })
