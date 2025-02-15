@@ -181,6 +181,10 @@ export const apiClient = {
             id: venueId,
           },
         },
+        next: generateRevalidateOptions({
+          revalidateFreq: 'low',
+          tags: REVALIDATE_TAGS.venueDetail,
+        }),
       })
       if (response.error) {
         throw new OpenApiError(response.error)
@@ -200,6 +204,10 @@ export const apiClient = {
             id: artistId,
           },
         },
+        next: generateRevalidateOptions({
+          revalidateFreq: 'low',
+          tags: REVALIDATE_TAGS.artistDetail,
+        }),
       })
       if (response.error) {
         throw new OpenApiError(response.error)
