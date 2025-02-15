@@ -21,8 +21,13 @@ export default $config({
     }
   },
   async run() {
+    const secrets = {
+      appPlatform: new sst.Secret('APP_PLATFORM'),
+      domainName: new sst.Secret('BILLETS_WEB_DOMAIN_NAME'),
+      domainCertArn: new sst.Secret('BILLETS_WEB_DOMAIN_CERT_ARN'),
+    }
     const name = (() => {
-      switch (process.env.APP_PLATFORM) {
+      switch (secrets.appPlatform.value.get()) {
         case 'production':
           return 'BilletsWeb'
         case 'staging':
@@ -32,8 +37,8 @@ export default $config({
     })()
     new sst.aws.Nextjs(name, {
       domain: {
-        name: process.env.BILLETS_WEB_DOMAIN_NAME!,
-        cert: process.env.BILLETS_WEB_DOMAIN_CERT_ARN!,
+        name: secrets.domainName.value.get()!,
+        cert: secrets.domainCertArn.value.get()!,
       },
     })
   },
