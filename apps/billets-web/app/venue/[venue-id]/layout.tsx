@@ -5,6 +5,8 @@ import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { cache, ReactNode } from 'react'
 
+export const dynamic = 'force-dynamic'
+
 const getVenueDetail = cache(async (venueId: string) => {
   return await apiClient.venue.getVenueDetail(venueId)
 })

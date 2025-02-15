@@ -6,6 +6,8 @@ import { RecentConcertList } from 'app/(components)'
 import { PageLayout, PageTop } from './(ui)'
 import { RouteLoading } from './(ui)/route-loading/route-loading'
 
+export const dynamic = 'force-dynamic'
+
 async function PageInner() {
   const queryClient = getQueryClient()
 
