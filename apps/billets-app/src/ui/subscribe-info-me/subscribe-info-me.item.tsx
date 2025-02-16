@@ -1,5 +1,6 @@
+import { useMyScreenNavigation } from '@/screens/my-screen'
 import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { match } from 'ts-pattern'
 import { z } from 'zod'
 import {
@@ -27,12 +28,22 @@ export const SubscribeInfoMeItem = ({
 }) => {
   const { semantics } = useColorScheme()
   const refinedCount = useMemo(() => refineCount(count), [count])
-  //   navigation.navigate('SubscribedStackNavigation', {
-  //       screen: 'SubscribedConcertListScreen',
-  //       params: {},
-  //     })
+  const navigation = useMyScreenNavigation()
+
+  const onPress = useCallback(() => {
+    match(type)
+      .with('artists', () => {})
+      .with('events', () => {
+        navigation.navigate('SubscribedStackNavigation', {
+          screen: 'SubscribedConcertListScreen',
+          params: {},
+        })
+      })
+      .with('venues', () => {})
+      .exhaustive()
+  }, [navigation, type])
   return (
-    <StyledSubscribeInfoMeContainer>
+    <StyledSubscribeInfoMeContainer onPress={onPress}>
       <StyledSubscribeInfoMeItem
         style={{
           borderColor: semantics.border[1],
