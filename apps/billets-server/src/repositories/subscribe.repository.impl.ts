@@ -4,6 +4,28 @@ import { UsersOnSubscribedArtists, UsersOnSubscribedConcerts, UsersOnSubscribedV
 import { SubscribeRepository } from './subscribe.repository'
 
 export class SubscribeRepositoryImpl implements SubscribeRepository {
+  async count(params: { userId: string }): Promise<{ event: number; artist: number; venue: number }> {
+    const eventCount = await dbClient.usersOnSubscribedConcerts.count({
+      where: {
+        userId: params.userId,
+      },
+    })
+    const artistCount = await dbClient.usersOnSubscribedArtists.count({
+      where: {
+        userId: params.userId,
+      },
+    })
+    const venueCount = await dbClient.usersOnSubscribedVenues.count({
+      where: {
+        userId: params.userId,
+      },
+    })
+    return {
+      event: eventCount,
+      artist: artistCount,
+      venue: venueCount,
+    }
+  }
   async findManyEvents(params: { userId: string; take: number; skip: number }): Promise<EventSubscribeDTO[]> {
     const data = await dbClient.usersOnSubscribedConcerts.findMany({
       where: {
