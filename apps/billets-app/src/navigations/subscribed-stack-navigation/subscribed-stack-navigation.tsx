@@ -1,4 +1,5 @@
 import { SubscribedConcertListScreen } from '@/screens'
+import { SubscribedArtistListScreen } from '@/screens/subscribed-artist-list-screen'
 import { NavigationHeader } from '@/ui'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { SubscribedStackParamList } from './subscribed-stack-navigation.types'
@@ -26,6 +27,21 @@ export const SubscribedStackNavigation = () => {
         }}
         name="SubscribedConcertListScreen"
         component={SubscribedConcertListScreen}
+      />
+      <SubscribedStack.Screen
+        options={{
+          header: (props) => (
+            <NavigationHeader
+              {...props}
+              options={{
+                ...props.options,
+                title: '아티스트',
+              }}
+            />
+          ),
+        }}
+        name="SubscribedArtistListScreen"
+        component={SubscribedArtistListScreen}
       />
     </SubscribedStack.Navigator>
   )
