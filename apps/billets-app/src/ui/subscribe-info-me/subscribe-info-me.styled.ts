@@ -1,0 +1,23 @@
+import styled from '@emotion/native'
+import FastImage from 'react-native-fast-image'
+
+export const StyledSubscribeInfoMeContainer = styled.View`
+  flex-direction: column;
+  align-items: center;
+  margin-right: 8px;
+`
+
+export const StyledSubscribeInfoMeItem = styled.View`
+  border-width: 1px;
+  width: 92px;
+  height: 92px;
+  border-radius: 46px;
+  align-items: center;
+  justify-content: center;
+`
+
+export const StyledSubscribeInfoMeItemImage = styled(FastImage)`
+  width: 84px;
+  height: 84px;
+  border-radius: 42px;
+`

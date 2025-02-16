@@ -1,6 +1,6 @@
 import { useShowBottomTabBar } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
-import { CommonScreenLayout, MyScreenLandingLayout, SubscribedConcertListSkeleton } from '@/ui'
+import { CommonScreenLayout, MyScreenLandingLayout, SubscribedConcertListSkeleton, SubscribeInfoMe } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, ProfileThumbnail, Spinner, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { useQuery } from '@tanstack/react-query'
@@ -21,10 +21,7 @@ const SuspenseMyScreen = () => {
     queryKey: apiClient.user.queryKeys.me,
     queryFn: () => apiClient.user.getMe(),
   })
-  const { data: subscribeInfoMe } = useQuery({
-    queryKey: apiClient.subscribe.queryKeys.infoMe,
-    queryFn: () => apiClient.subscribe.getInfoMe(),
-  })
+
   const { semantics } = useColorScheme()
 
   useShowBottomTabBar()
@@ -35,15 +32,6 @@ const SuspenseMyScreen = () => {
       params: {},
     })
   }, [navigation])
-  const onPressSubscribedConcertListItem = useCallback(
-    (eventId: string) => {
-      navigation.navigate('EventStackNavigation', {
-        screen: 'EventDetailScreen',
-        params: { eventId },
-      })
-    },
-    [navigation],
-  )
 
   const renderSectionHeader = useCallback(
     (info: { section: MyScreenSettingSectionListSectionT }) => {
@@ -104,7 +92,7 @@ const SuspenseMyScreen = () => {
         .with('saved', () => {
           return (
             <Suspense fallback={<SubscribedConcertListSkeleton />}>
-              {/* <SubscribedConcertList onPressItem={onPressSubscribedConcertListItem} /> */}
+              <SubscribeInfoMe />
             </Suspense>
           )
         })
@@ -126,15 +114,6 @@ const SuspenseMyScreen = () => {
       {
         title: 'saved',
         uiTitle: 'Following',
-        // moreAddOn: {
-        //   uiText: '더 보기',
-        //   onPress: () => {
-        //     navigation.navigate('SubscribedStackNavigation', {
-        //       screen: 'SubscribedConcertListScreen',
-        //       params: {},
-        //     })
-        //   },
-        // },
         data: [{ title: user.email.split('@')[0], onPress: () => {} }],
       },
     ]
