@@ -101,6 +101,7 @@ export function SubscribedConcertList({
       ItemSeparatorComponent={ItemSeparator}
       contentContainerStyle={{
         paddingHorizontal: 16,
+        paddingBottom: 24,
         marginTop: 12,
         backgroundColor: semantics.background[3],
       }}

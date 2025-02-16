@@ -17,7 +17,7 @@ const ScreenContent = () => {
     [navigation],
   )
   return (
-    <CommonScreenLayout>
+    <CommonScreenLayout withBottomTab={false}>
       <SubscribedConcertList horizontal={false} onPressItem={onPressItem} />
     </CommonScreenLayout>
   )
