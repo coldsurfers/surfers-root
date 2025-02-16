@@ -10,13 +10,12 @@ import {
 } from 'src/__generated__/graphql'
 import { ConcertIdPageClient } from './page.client'
 
-export default async function ConcertIdPage({
-  params,
-}: {
-  params: {
+export default async function ConcertIdPage(props: {
+  params: Promise<{
     id: string
-  }
+  }>
 }) {
+  const params = await props.params
   const cookieStore = await cookies()
   const accessToken = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY)?.value
   const apolloClient = initializeApollo({ token: accessToken })
