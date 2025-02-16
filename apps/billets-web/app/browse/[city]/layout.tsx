@@ -21,15 +21,16 @@ async function LayoutInner({ city, children }: PropsWithChildren<{ city: string 
   )
 }
 
-export default async function BrowseByCityLayout({
-  children,
-  params,
-}: {
+export default async function BrowseByCityLayout(props: {
   children: ReactNode
-  params: {
+  params: Promise<{
     city: string
-  }
+  }>
 }) {
+  const params = await props.params
+
+  const { children } = props
+
   return (
     <ApiErrorBoundaryRegistry>
       <LayoutInner city={params.city}>{children}</LayoutInner>
