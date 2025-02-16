@@ -16,4 +16,9 @@ export interface SubscribeRepository {
     artist: number
     venue: number
   }>
+  findLatestSubscriptions(params: { userId: string }): Promise<{
+    event: EventSubscribeDTO | null
+    artist: ArtistSubscribeDTO | null
+    venue: VenueSubscribeDTO | null
+  }>
 }
