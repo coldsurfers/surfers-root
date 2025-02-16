@@ -44,7 +44,12 @@ export const SubscribeInfoMeItem = ({
           params: {},
         })
       })
-      .with('venues', () => {})
+      .with('venues', () => {
+        navigation.navigate('SubscribedStackNavigation', {
+          screen: 'SubscribedVenueListScreen',
+          params: {},
+        })
+      })
       .exhaustive()
   }, [navigation, type])
   return (

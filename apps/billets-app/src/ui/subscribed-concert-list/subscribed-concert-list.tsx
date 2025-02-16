@@ -1,4 +1,5 @@
 import { apiClient } from '@/lib/api/openapi-client'
+import { useColorScheme } from '@coldsurfers/ocean-road/native'
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useMemo, useState } from 'react'
 import { FlatList, ListRenderItem, View } from 'react-native'
@@ -19,6 +20,7 @@ export function SubscribedConcertList({
   horizontal?: boolean
   listHeaderComponent?: React.ComponentType<unknown>
 }) {
+  const { semantics } = useColorScheme()
   const [isRefreshing, setIsRefreshing] = useState(false)
   const {
     data: concertListData,
@@ -97,7 +99,11 @@ export function SubscribedConcertList({
       keyExtractor={(item) => `${item.eventId}`}
       renderItem={renderItem}
       ItemSeparatorComponent={ItemSeparator}
-      contentContainerStyle={subscribedConcertListStyles.contentContainer}
+      contentContainerStyle={{
+        paddingHorizontal: 16,
+        marginTop: 12,
+        backgroundColor: semantics.background[3],
+      }}
       ListHeaderComponent={listHeaderComponent}
       onEndReached={horizontal ? undefined : onEndReached}
       onRefresh={horizontal ? undefined : onRefresh}
@@ -105,6 +111,9 @@ export function SubscribedConcertList({
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
       bounces={!horizontal}
+      style={{
+        backgroundColor: semantics.background[3],
+      }}
     />
   )
 }
