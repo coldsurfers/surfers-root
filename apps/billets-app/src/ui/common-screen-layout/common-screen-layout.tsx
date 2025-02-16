@@ -9,9 +9,11 @@ export const CommonScreenLayout = ({
   children,
   style,
   edges = [],
+  withBottomTab = true,
 }: PropsWithChildren<{
   edges?: Edges
   style?: StyleProp<ViewStyle>
+  withBottomTab?: boolean
 }>) => {
   const { semantics } = useColorScheme()
   const { bottom: bottomInset } = useSafeAreaInsets()
@@ -29,7 +31,7 @@ export const CommonScreenLayout = ({
           /**
            * because we set bottom tab bar as position absolute, so we need to calculate individual bottom inset
            */
-          paddingBottom: tabBarHeight - bottomInset,
+          paddingBottom: withBottomTab ? tabBarHeight - bottomInset : 0,
         },
       ]}
     >
