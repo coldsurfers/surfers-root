@@ -2,6 +2,8 @@ import { ArtistSubscribeDTO, EventSubscribeDTO, VenueSubscribeDTO } from '@/dtos
 
 export interface SubscribeRepository {
   findManyEvents(params: { userId: string; take: number; skip: number }): Promise<EventSubscribeDTO[]>
+  findManyArtists(params: { userId: string; take: number; skip: number }): Promise<ArtistSubscribeDTO[]>
+  findManyVenues(params: { userId: string; take: number; skip: number }): Promise<VenueSubscribeDTO[]>
   findEvent(params: { eventId: string; userId: string }): Promise<EventSubscribeDTO | null>
   subscribeEvent(params: { userId: string; eventId: string }): Promise<EventSubscribeDTO>
   unsubscribeEvent(params: { userId: string; eventId: string }): Promise<EventSubscribeDTO>

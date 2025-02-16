@@ -8,11 +8,11 @@ export const EventSubscribeDTOSchema = z.object({
 })
 export type EventSubscribeDTO = z.infer<typeof EventSubscribeDTOSchema>
 
-export const GetSubscribedEventsQueryStringDTOSchema = z.object({
+export const GetSubscribedQueryStringDTOSchema = z.object({
   offset: z.coerce.number().int().min(0).default(0),
   size: z.coerce.number().int().min(0).max(100).default(20),
 })
-export type GetSubscribedEventsQueryStringDTO = z.infer<typeof GetSubscribedEventsQueryStringDTOSchema>
+export type GetSubscribedQueryStringDTO = z.infer<typeof GetSubscribedQueryStringDTOSchema>
 
 export const GetSubscribedEventByEventIdParamsDTOSchema = z.object({
   eventId: z.string().uuid(),
