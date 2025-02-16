@@ -4,6 +4,7 @@ export const EventSubscribeDTOSchema = z.object({
   userId: z.string().uuid(),
   eventId: z.string().uuid(),
   subscribedAt: z.string().datetime(),
+  thumbUrl: z.string().optional(),
 })
 export type EventSubscribeDTO = z.infer<typeof EventSubscribeDTOSchema>
 
@@ -27,6 +28,7 @@ export const ArtistSubscribeDTOSchema = z.object({
   userId: z.string().uuid(),
   artistId: z.string().uuid(),
   subscribedAt: z.string().datetime(),
+  thumbUrl: z.string().optional(),
 })
 export type ArtistSubscribeDTO = z.infer<typeof ArtistSubscribeDTOSchema>
 
@@ -54,6 +56,7 @@ export const VenueSubscribeDTOSchema = z.object({
   userId: z.string().uuid(),
   venueId: z.string().uuid(),
   subscribedAt: z.string().datetime(),
+  thumbUrl: z.string().optional(),
 })
 export type VenueSubscribeDTO = z.infer<typeof VenueSubscribeDTOSchema>
 
@@ -70,12 +73,15 @@ export type UnsubscribeVenueBodyDTO = z.infer<typeof UnsubscribeVenueBodyDTOSche
 export const SubscribeInfoMeDTOSchema = z.object({
   venues: z.object({
     count: z.number(),
+    thumbUrl: z.string().nullable(),
   }),
   artists: z.object({
     count: z.number(),
+    thumbUrl: z.string().nullable(),
   }),
   events: z.object({
     count: z.number(),
+    thumbUrl: z.string().nullable(),
   }),
 })
 export type SubscribeInfoMeDTO = z.infer<typeof SubscribeInfoMeDTOSchema>

@@ -5,16 +5,20 @@ export class SubscribeService {
   constructor(private readonly subscribeRepository: SubscribeRepository) {}
 
   async getSubscribeInfoMe(params: { userId: string }): Promise<SubscribeInfoMeDTO> {
-    const result = await this.subscribeRepository.count(params)
+    const countResult = await this.subscribeRepository.count(params)
+    const latestResult = await this.subscribeRepository.findLatestSubscriptions(params)
     return {
       artists: {
-        count: result.artist,
+        count: countResult.artist,
+        thumbUrl: latestResult.artist?.thumbUrl ?? null,
       },
       events: {
-        count: result.event,
+        count: countResult.event,
+        thumbUrl: latestResult.event?.thumbUrl ?? null,
       },
       venues: {
-        count: result.venue,
+        count: countResult.venue,
+        thumbUrl: latestResult.venue?.thumbUrl ?? null,
       },
     }
   }
