@@ -32,7 +32,12 @@ export const SubscribeInfoMeItem = ({
 
   const onPress = useCallback(() => {
     match(type)
-      .with('artists', () => {})
+      .with('artists', () => {
+        navigation.navigate('SubscribedStackNavigation', {
+          screen: 'SubscribedArtistListScreen',
+          params: {},
+        })
+      })
       .with('events', () => {
         navigation.navigate('SubscribedStackNavigation', {
           screen: 'SubscribedConcertListScreen',
