@@ -431,6 +431,50 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/event-category/': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['EventCategoryDTOSchema'][]
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/event/': {
     parameters: {
       query?: never
@@ -441,8 +485,10 @@ export interface paths {
     get: {
       parameters: {
         query?: {
+          eventCategoryName?: string
           latitude?: number
           locationCityId?: string
+          locationCityName?: string
           longitude?: number
           offset?: number
           size?: number
@@ -1471,6 +1517,59 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/subscribe/me': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['SubscribeInfoMeDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/subscribe/venue': {
     parameters: {
       query?: never
@@ -2064,6 +2163,10 @@ export interface components {
         | 'IMAGE_NOT_FOUND'
       message: string
     }
+    EventCategoryDTOSchema: {
+      id: string
+      name: string
+    }
     EventDetailDTOSchema: {
       data: {
         artists: components['schemas']['ArtistDTOSchema'][]
@@ -2149,6 +2252,17 @@ export interface components {
     }
     SendEmailResponseDTOSchema: {
       success: boolean
+    }
+    SubscribeInfoMeDTOSchema: {
+      artists: {
+        count: number
+      }
+      events: {
+        count: number
+      }
+      venues: {
+        count: number
+      }
     }
     TicketDTOSchema: {
       id: string
