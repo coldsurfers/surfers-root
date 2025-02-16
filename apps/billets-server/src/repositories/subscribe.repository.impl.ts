@@ -107,6 +107,34 @@ export class SubscribeRepositoryImpl implements SubscribeRepository {
     return data.map(this.toDTO)
   }
 
+  async findManyArtists(params: { userId: string; take: number; skip: number }): Promise<ArtistSubscribeDTO[]> {
+    const data = await dbClient.usersOnSubscribedArtists.findMany({
+      where: {
+        userId: params.userId,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: params.take,
+      skip: params.skip,
+    })
+    return data.map(this.toArtistSubscribeDTO)
+  }
+
+  async findManyVenues(params: { userId: string; take: number; skip: number }): Promise<VenueSubscribeDTO[]> {
+    const data = await dbClient.usersOnSubscribedVenues.findMany({
+      where: {
+        userId: params.userId,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: params.take,
+      skip: params.skip,
+    })
+    return data.map(this.toVenueSubscribeDTO)
+  }
+
   async findEvent(params: { eventId: string; userId: string }): Promise<EventSubscribeDTO | null> {
     const data = await dbClient.usersOnSubscribedConcerts.findUnique({
       where: {

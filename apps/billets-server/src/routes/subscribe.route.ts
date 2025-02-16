@@ -2,8 +2,10 @@ import {
   deleteUnsubscribeArtistHandler,
   deleteUnsubscribeVenueHandler,
   getSubscribedArtistHandler,
+  getSubscribedArtistsHandler,
   getSubscribedEventHandler,
   getSubscribedEventsHandler,
+  getSubscribedVenuesHandler,
   getSubscribeInfoMeHandler,
   getVenueSubscribeHandler,
   postSubscribeArtistHandler,
@@ -17,7 +19,7 @@ import {
   EventSubscribeDTOSchema,
   GetSubscribedArtistParamsDTOSchema,
   GetSubscribedEventByEventIdParamsDTOSchema,
-  GetSubscribedEventsQueryStringDTOSchema,
+  GetSubscribedQueryStringDTOSchema,
   GetSubscribedVenueParamsDTOSchema,
   SubscribeArtistBodyDTOSchema,
   SubscribeEventBodyDTOSchema,
@@ -56,7 +58,7 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
     {
       schema: {
         tags: ['v1', 'subscribe'],
-        querystring: GetSubscribedEventsQueryStringDTOSchema,
+        querystring: GetSubscribedQueryStringDTOSchema,
         response: {
           200: EventSubscribeDTOSchema.array(),
           401: ErrorResponseDTOSchema,
@@ -71,6 +73,49 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
       preHandler: [fastify.authenticate],
     },
     getSubscribedEventsHandler,
+  )
+
+  fastify.withTypeProvider<ZodTypeProvider>().get(
+    '/artist',
+    {
+      schema: {
+        tags: ['v1', 'subscribe'],
+        querystring: GetSubscribedQueryStringDTOSchema,
+        response: {
+          200: ArtistSubscribeDTOSchema.array(),
+          401: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
+        },
+        security: [
+          {
+            AccessTokenAuth: [],
+          },
+        ],
+      },
+      preHandler: [fastify.authenticate],
+    },
+    getSubscribedArtistsHandler,
+  )
+  fastify.withTypeProvider<ZodTypeProvider>().get(
+    '/venue',
+    {
+      schema: {
+        tags: ['v1', 'subscribe'],
+        querystring: GetSubscribedQueryStringDTOSchema,
+        response: {
+          200: VenueSubscribeDTOSchema.array(),
+          401: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
+        },
+        security: [
+          {
+            AccessTokenAuth: [],
+          },
+        ],
+      },
+      preHandler: [fastify.authenticate],
+    },
+    getSubscribedVenuesHandler,
   )
 
   fastify.withTypeProvider<ZodTypeProvider>().get(

@@ -25,6 +25,12 @@ export class SubscribeService {
   async getSubscribedEvents(params: { userId: string; take: number; skip: number }): Promise<EventSubscribeDTO[]> {
     return this.subscribeRepository.findManyEvents(params)
   }
+  async getSubscribedArtists(params: { userId: string; take: number; skip: number }): Promise<ArtistSubscribeDTO[]> {
+    return this.subscribeRepository.findManyArtists(params)
+  }
+  async getSubscribedVenues(params: { userId: string; take: number; skip: number }): Promise<VenueSubscribeDTO[]> {
+    return this.subscribeRepository.findManyVenues(params)
+  }
   async getSubscribedEvent(params: { eventId: string; userId: string }): Promise<EventSubscribeDTO | null> {
     return this.subscribeRepository.findEvent(params)
   }
