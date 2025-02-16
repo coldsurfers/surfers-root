@@ -1,7 +1,7 @@
 import styled from '@emotion/native'
 import FastImage from 'react-native-fast-image'
 
-export const StyledSubscribeInfoMeContainer = styled.View`
+export const StyledSubscribeInfoMeContainer = styled.TouchableOpacity`
   flex-direction: column;
   align-items: center;
   margin-right: 8px;

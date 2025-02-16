@@ -19,7 +19,7 @@ export const SubscribedStackNavigation = () => {
               {...props}
               options={{
                 ...props.options,
-                title: '찜한공연',
+                title: '공연',
               }}
             />
           ),
