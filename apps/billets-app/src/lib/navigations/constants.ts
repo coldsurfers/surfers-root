@@ -107,6 +107,10 @@ export const zodScreen = createZodScreen({
     name: 'SubscribedArtistListScreen',
     params: z.object({}),
   },
+  SubscribedVenueListScreen: {
+    name: 'SubscribedVenueListScreen',
+    params: z.object({}),
+  },
   VenueDetailScreen: {
     name: 'VenueDetailScreen',
     params: z.object({
