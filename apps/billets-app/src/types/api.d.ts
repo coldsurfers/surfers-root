@@ -2095,6 +2095,7 @@ export interface components {
       artistId: string
       /** Format: date-time */
       subscribedAt: string
+      thumbUrl?: string
       /** Format: uuid */
       userId: string
     }
@@ -2194,6 +2195,7 @@ export interface components {
       eventId: string
       /** Format: date-time */
       subscribedAt: string
+      thumbUrl?: string
       /** Format: uuid */
       userId: string
     }
@@ -2256,12 +2258,15 @@ export interface components {
     SubscribeInfoMeDTOSchema: {
       artists: {
         count: number
+        thumbUrl: string | null
       }
       events: {
         count: number
+        thumbUrl: string | null
       }
       venues: {
         count: number
+        thumbUrl: string | null
       }
     }
     TicketDTOSchema: {
@@ -2312,6 +2317,7 @@ export interface components {
     VenueSubscribeDTOSchema: {
       /** Format: date-time */
       subscribedAt: string
+      thumbUrl?: string
       /** Format: uuid */
       userId: string
       /** Format: uuid */
