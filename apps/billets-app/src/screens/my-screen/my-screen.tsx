@@ -1,9 +1,10 @@
 import { useShowBottomTabBar } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
-import { CommonScreenLayout, MyScreenLandingLayout, SubscribedConcertList, SubscribedConcertListSkeleton } from '@/ui'
+import { CommonScreenLayout, MyScreenLandingLayout, SubscribedConcertListSkeleton } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, ProfileThumbnail, Spinner, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { useQuery } from '@tanstack/react-query'
+import { CircleUserRound, Star } from 'lucide-react-native'
 import React, { Suspense, useCallback, useMemo } from 'react'
 import { Pressable, SectionList, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import { match } from 'ts-pattern'
@@ -19,6 +20,10 @@ const SuspenseMyScreen = () => {
   const { data: user } = useQuery({
     queryKey: apiClient.user.queryKeys.me,
     queryFn: () => apiClient.user.getMe(),
+  })
+  const { data: subscribeInfoMe } = useQuery({
+    queryKey: apiClient.subscribe.queryKeys.infoMe,
+    queryFn: () => apiClient.subscribe.getInfoMe(),
   })
   const { semantics } = useColorScheme()
 
@@ -44,6 +49,16 @@ const SuspenseMyScreen = () => {
     (info: { section: MyScreenSettingSectionListSectionT }) => {
       return (
         <View style={styles.sectionHeader}>
+          <View style={{ marginRight: 4 }}>
+            {match(info.section.title)
+              .with('profile', () => {
+                return <CircleUserRound color={semantics.foreground[1]} />
+              })
+              .with('saved', () => {
+                return <Star color={semantics.foreground[1]} />
+              })
+              .otherwise(() => null)}
+          </View>
           <Text style={[styles.sectionHeaderText, { color: semantics.foreground[1] }]}>{info.section.uiTitle}</Text>
           {info.section.moreAddOn && (
             <Pressable onPress={info.section.moreAddOn.onPress} style={styles.sectionHeaderMoreAddOnButton}>
@@ -89,13 +104,13 @@ const SuspenseMyScreen = () => {
         .with('saved', () => {
           return (
             <Suspense fallback={<SubscribedConcertListSkeleton />}>
-              <SubscribedConcertList onPressItem={onPressSubscribedConcertListItem} />
+              {/* <SubscribedConcertList onPressItem={onPressSubscribedConcertListItem} /> */}
             </Suspense>
           )
         })
         .exhaustive()
     },
-    [onPressSubscribedConcertListItem, semantics.foreground],
+    [semantics.foreground],
   )
 
   const sections = useMemo<MyScreenSettingSectionListData[]>(() => {
@@ -105,25 +120,25 @@ const SuspenseMyScreen = () => {
     return [
       {
         title: 'profile',
-        uiTitle: '🙂 마이 프로필',
+        uiTitle: '마이 프로필',
         data: [{ title: user.email.split('@')[0], onPress: () => {} }],
       },
       {
         title: 'saved',
-        uiTitle: '❣️ 찜한 공연',
-        moreAddOn: {
-          uiText: '더 보기',
-          onPress: () => {
-            navigation.navigate('SubscribedStackNavigation', {
-              screen: 'SubscribedConcertListScreen',
-              params: {},
-            })
-          },
-        },
+        uiTitle: 'Following',
+        // moreAddOn: {
+        //   uiText: '더 보기',
+        //   onPress: () => {
+        //     navigation.navigate('SubscribedStackNavigation', {
+        //       screen: 'SubscribedConcertListScreen',
+        //       params: {},
+        //     })
+        //   },
+        // },
         data: [{ title: user.email.split('@')[0], onPress: () => {} }],
       },
     ]
-  }, [navigation, user])
+  }, [user])
 
   return user ? (
     <CommonScreenLayout>
