@@ -1114,7 +1114,47 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    get?: never
+    get: {
+      parameters: {
+        query?: {
+          offset?: number
+          size?: number
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ArtistSubscribeDTOSchema'][]
+          }
+        }
+        /** @description Default Response */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
     put?: never
     post: {
       parameters: {
@@ -1577,7 +1617,47 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    get?: never
+    get: {
+      parameters: {
+        query?: {
+          offset?: number
+          size?: number
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['VenueSubscribeDTOSchema'][]
+          }
+        }
+        /** @description Default Response */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
     put?: never
     post: {
       parameters: {
