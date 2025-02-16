@@ -8,6 +8,7 @@ import {
   GetSubscribedVenueParamsDTO,
   SubscribeArtistBodyDTO,
   SubscribeEventBodyDTO,
+  SubscribeInfoMeDTO,
   SubscribeVenueBodyDTO,
   UnsubscribeArtistBodyDTO,
   UnsubscribeVenueBodyDTO,
@@ -51,6 +52,28 @@ const ticketRepository = new TicketRepositoryImpl()
 const ticketService = new TicketService(ticketRepository)
 
 const eventService = new EventService(concertService, concertDetailService, ticketService)
+
+interface GetSubscribeInfoMeRoute extends RouteGenericInterface {
+  Reply: {
+    200: SubscribeInfoMeDTO
+    401: ErrorResponseDTO
+    500: ErrorResponseDTO
+  }
+}
+export const getSubscribeInfoMeHandler = async (
+  req: FastifyRequest<GetSubscribeInfoMeRoute>,
+  rep: FastifyReply<GetSubscribeInfoMeRoute>,
+) => {
+  try {
+    const result = await subscribeService.getSubscribeInfoMe({
+      userId: req.user.id,
+    })
+    return rep.status(200).send(result)
+  } catch (e) {
+    console.error(e)
+    return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
+  }
+}
 
 interface GetSubscribedEventsRoute extends RouteGenericInterface {
   Querystring: GetSubscribedEventsQueryStringDTO

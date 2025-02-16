@@ -11,4 +11,9 @@ export interface SubscribeRepository {
   findVenue(params: { userId: string; venueId: string }): Promise<VenueSubscribeDTO | null>
   subscribeVenue(params: { userId: string; venueId: string }): Promise<VenueSubscribeDTO>
   unsubscribeVenue(params: { userId: string; venueId: string }): Promise<VenueSubscribeDTO>
+  count(params: { userId: string }): Promise<{
+    event: number
+    artist: number
+    venue: number
+  }>
 }

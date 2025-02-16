@@ -66,3 +66,16 @@ export const UnsubscribeVenueBodyDTOSchema = z.object({
   venueId: z.string().uuid(),
 })
 export type UnsubscribeVenueBodyDTO = z.infer<typeof UnsubscribeVenueBodyDTOSchema>
+
+export const SubscribeInfoMeDTOSchema = z.object({
+  venues: z.object({
+    count: z.number(),
+  }),
+  artists: z.object({
+    count: z.number(),
+  }),
+  events: z.object({
+    count: z.number(),
+  }),
+})
+export type SubscribeInfoMeDTO = z.infer<typeof SubscribeInfoMeDTOSchema>

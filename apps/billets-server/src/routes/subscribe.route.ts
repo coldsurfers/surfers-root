@@ -4,6 +4,7 @@ import {
   getSubscribedArtistHandler,
   getSubscribedEventHandler,
   getSubscribedEventsHandler,
+  getSubscribeInfoMeHandler,
   getVenueSubscribeHandler,
   postSubscribeArtistHandler,
   postSubscribeEventHandler,
@@ -20,6 +21,7 @@ import {
   GetSubscribedVenueParamsDTOSchema,
   SubscribeArtistBodyDTOSchema,
   SubscribeEventBodyDTOSchema,
+  SubscribeInfoMeDTOSchema,
   SubscribeVenueBodyDTOSchema,
   UnsubscribeArtistBodyDTOSchema,
   UnsubscribeVenueBodyDTOSchema,
@@ -29,6 +31,26 @@ import { FastifyPluginCallback } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 
 const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
+  fastify.withTypeProvider<ZodTypeProvider>().get(
+    '/me',
+    {
+      schema: {
+        tags: ['v1', 'subscribe'],
+        response: {
+          200: SubscribeInfoMeDTOSchema,
+          401: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
+        },
+        security: [
+          {
+            AccessTokenAuth: [],
+          },
+        ],
+      },
+      preHandler: [fastify.authenticate],
+    },
+    getSubscribeInfoMeHandler,
+  )
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/event',
     {

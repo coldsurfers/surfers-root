@@ -1,9 +1,23 @@
-import { ArtistSubscribeDTO, EventSubscribeDTO, VenueSubscribeDTO } from '@/dtos/subscribe.dto'
+import { ArtistSubscribeDTO, EventSubscribeDTO, SubscribeInfoMeDTO, VenueSubscribeDTO } from '@/dtos/subscribe.dto'
 import { SubscribeRepository } from '@/repositories/subscribe.repository'
 
 export class SubscribeService {
   constructor(private readonly subscribeRepository: SubscribeRepository) {}
 
+  async getSubscribeInfoMe(params: { userId: string }): Promise<SubscribeInfoMeDTO> {
+    const result = await this.subscribeRepository.count(params)
+    return {
+      artists: {
+        count: result.artist,
+      },
+      events: {
+        count: result.event,
+      },
+      venues: {
+        count: result.venue,
+      },
+    }
+  }
   async getSubscribedEvents(params: { userId: string; take: number; skip: number }): Promise<EventSubscribeDTO[]> {
     return this.subscribeRepository.findManyEvents(params)
   }
