@@ -1,10 +1,11 @@
 import FillConcertForm from './components/FillConcertForm'
 
 interface PageProps {
-  params: { id: string } // Define the type for params
+  params: Promise<{ id: string }> // Define the type for params
 }
 
-const UploadIdPage = ({ params }: PageProps) => {
+const UploadIdPage = async (props: PageProps) => {
+  const params = await props.params
   const { id: concertId } = params
 
   return <FillConcertForm concertId={concertId} />
