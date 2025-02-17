@@ -1,11 +1,35 @@
-import { ArtistSubscribeDTO, EventSubscribeDTO, VenueSubscribeDTO } from '@/dtos/subscribe.dto'
+import { ArtistSubscribeDTO, EventSubscribeDTO, SubscribeInfoMeDTO, VenueSubscribeDTO } from '@/dtos/subscribe.dto'
 import { SubscribeRepository } from '@/repositories/subscribe.repository'
 
 export class SubscribeService {
   constructor(private readonly subscribeRepository: SubscribeRepository) {}
 
+  async getSubscribeInfoMe(params: { userId: string }): Promise<SubscribeInfoMeDTO> {
+    const countResult = await this.subscribeRepository.count(params)
+    const latestResult = await this.subscribeRepository.findLatestSubscriptions(params)
+    return {
+      artists: {
+        count: countResult.artist,
+        thumbUrl: latestResult.artist?.thumbUrl ?? null,
+      },
+      events: {
+        count: countResult.event,
+        thumbUrl: latestResult.event?.thumbUrl ?? null,
+      },
+      venues: {
+        count: countResult.venue,
+        thumbUrl: latestResult.venue?.thumbUrl ?? null,
+      },
+    }
+  }
   async getSubscribedEvents(params: { userId: string; take: number; skip: number }): Promise<EventSubscribeDTO[]> {
     return this.subscribeRepository.findManyEvents(params)
+  }
+  async getSubscribedArtists(params: { userId: string; take: number; skip: number }): Promise<ArtistSubscribeDTO[]> {
+    return this.subscribeRepository.findManyArtists(params)
+  }
+  async getSubscribedVenues(params: { userId: string; take: number; skip: number }): Promise<VenueSubscribeDTO[]> {
+    return this.subscribeRepository.findManyVenues(params)
   }
   async getSubscribedEvent(params: { eventId: string; userId: string }): Promise<EventSubscribeDTO | null> {
     return this.subscribeRepository.findEvent(params)

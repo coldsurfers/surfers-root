@@ -4,10 +4,11 @@ import {
   EventSubscribeDTO,
   GetSubscribedArtistParamsDTO,
   GetSubscribedEventByEventIdParamsDTO,
-  GetSubscribedEventsQueryStringDTO,
+  GetSubscribedQueryStringDTO,
   GetSubscribedVenueParamsDTO,
   SubscribeArtistBodyDTO,
   SubscribeEventBodyDTO,
+  SubscribeInfoMeDTO,
   SubscribeVenueBodyDTO,
   UnsubscribeArtistBodyDTO,
   UnsubscribeVenueBodyDTO,
@@ -52,8 +53,30 @@ const ticketService = new TicketService(ticketRepository)
 
 const eventService = new EventService(concertService, concertDetailService, ticketService)
 
+interface GetSubscribeInfoMeRoute extends RouteGenericInterface {
+  Reply: {
+    200: SubscribeInfoMeDTO
+    401: ErrorResponseDTO
+    500: ErrorResponseDTO
+  }
+}
+export const getSubscribeInfoMeHandler = async (
+  req: FastifyRequest<GetSubscribeInfoMeRoute>,
+  rep: FastifyReply<GetSubscribeInfoMeRoute>,
+) => {
+  try {
+    const result = await subscribeService.getSubscribeInfoMe({
+      userId: req.user.id,
+    })
+    return rep.status(200).send(result)
+  } catch (e) {
+    console.error(e)
+    return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
+  }
+}
+
 interface GetSubscribedEventsRoute extends RouteGenericInterface {
-  Querystring: GetSubscribedEventsQueryStringDTO
+  Querystring: GetSubscribedQueryStringDTO
   Reply: {
     200: EventSubscribeDTO[]
     401: ErrorResponseDTO
@@ -66,16 +89,73 @@ export const getSubscribedEventsHandler = async (
   rep: FastifyReply<GetSubscribedEventsRoute>,
 ) => {
   try {
-    const user = await userService.getUserById(req.user.id)
-    if (!user) {
-      return rep.status(401).send({ code: 'INVALID_USER', message: 'Unauthorized' })
-    }
-
     const { offset, size } = req.query
 
-    const subscribedEvents = await subscribeService.getSubscribedEvents({ userId: user.id, take: +size, skip: +offset })
+    const subscribedEvents = await subscribeService.getSubscribedEvents({
+      userId: req.user.id,
+      take: +size,
+      skip: +offset,
+    })
 
     return rep.status(200).send(subscribedEvents)
+  } catch (e) {
+    console.error(e)
+    return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
+  }
+}
+
+interface GetSubscribedArtistsRoute extends RouteGenericInterface {
+  Querystring: GetSubscribedQueryStringDTO
+  Reply: {
+    200: ArtistSubscribeDTO[]
+    401: ErrorResponseDTO
+    500: ErrorResponseDTO
+  }
+}
+
+export const getSubscribedArtistsHandler = async (
+  req: FastifyRequest<GetSubscribedArtistsRoute>,
+  rep: FastifyReply<GetSubscribedArtistsRoute>,
+) => {
+  try {
+    const { offset, size } = req.query
+
+    const subscribedArtists = await subscribeService.getSubscribedArtists({
+      userId: req.user.id,
+      take: +size,
+      skip: +offset,
+    })
+
+    return rep.status(200).send(subscribedArtists)
+  } catch (e) {
+    console.error(e)
+    return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
+  }
+}
+
+interface GetSubscribedVenuesRoute extends RouteGenericInterface {
+  Querystring: GetSubscribedQueryStringDTO
+  Reply: {
+    200: VenueSubscribeDTO[]
+    401: ErrorResponseDTO
+    500: ErrorResponseDTO
+  }
+}
+
+export const getSubscribedVenuesHandler = async (
+  req: FastifyRequest<GetSubscribedVenuesRoute>,
+  rep: FastifyReply<GetSubscribedVenuesRoute>,
+) => {
+  try {
+    const { offset, size } = req.query
+
+    const subscribedVenues = await subscribeService.getSubscribedVenues({
+      userId: req.user.id,
+      take: +size,
+      skip: +offset,
+    })
+
+    return rep.status(200).send(subscribedVenues)
   } catch (e) {
     console.error(e)
     return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
