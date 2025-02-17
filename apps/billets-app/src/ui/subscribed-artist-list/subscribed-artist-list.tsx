@@ -1,9 +1,9 @@
 import { apiClient } from '@/lib/api/openapi-client'
 import { useSubscribedArtistListScreenNavigation } from '@/screens/subscribed-artist-list-screen/subscribed-artist-list-screen.hooks'
-import { useColorScheme } from '@coldsurfers/ocean-road/native'
+import { Spinner, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useMemo, useState } from 'react'
-import { FlatList, ListRenderItem, View } from 'react-native'
+import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
 import { SubscribedArtistListItem } from '../subscribed-artist-list-item'
 import { subscribedArtistListStyles } from './subscribed-artist-list.styles'
 
@@ -71,12 +71,14 @@ export function SubscribedArtistList({ listHeaderComponent }: { listHeaderCompon
       keyExtractor={(item) => `${item.artistId}`}
       renderItem={renderItem}
       ItemSeparatorComponent={ItemSeparator}
-      contentContainerStyle={{
-        paddingHorizontal: 16,
-        paddingBottom: 24,
-        marginTop: 12,
-        backgroundColor: semantics.background[3],
-      }}
+      contentContainerStyle={[
+        {
+          backgroundColor: semantics.background[3],
+        },
+        styles.contentContainer,
+      ]}
+      ListFooterComponent={isFetchingNextPage ? <Spinner size="medium" /> : null}
+      ListFooterComponentStyle={styles.listFooter}
       ListHeaderComponent={listHeaderComponent}
       onEndReached={onEndReached}
       onRefresh={onRefresh}
@@ -89,3 +91,14 @@ export function SubscribedArtistList({ listHeaderComponent }: { listHeaderCompon
     />
   )
 }
+
+const styles = StyleSheet.create({
+  contentContainer: {
+    paddingHorizontal: 16,
+    paddingBottom: 24,
+    marginTop: 12,
+  },
+  listFooter: {
+    paddingBottom: 24,
+  },
+})

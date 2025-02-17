@@ -1,9 +1,9 @@
 import { apiClient } from '@/lib/api/openapi-client'
 import { useSubscribedArtistListScreenNavigation } from '@/screens/subscribed-artist-list-screen/subscribed-artist-list-screen.hooks'
-import { useColorScheme } from '@coldsurfers/ocean-road/native'
+import { Spinner, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useMemo, useState } from 'react'
-import { FlatList, ListRenderItem, View } from 'react-native'
+import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
 import { SubscribedVenueListItem } from '../subscribed-venue-list-item'
 import { subscribedVenueListStyles } from './subscribed-venue-list.styles'
 
@@ -71,13 +71,15 @@ export function SubscribedVenueList({ listHeaderComponent }: { listHeaderCompone
       keyExtractor={(item) => `${item.venueId}`}
       renderItem={renderItem}
       ItemSeparatorComponent={ItemSeparator}
-      contentContainerStyle={{
-        paddingHorizontal: 16,
-        paddingBottom: 24,
-        marginTop: 12,
-        backgroundColor: semantics.background[3],
-      }}
+      contentContainerStyle={[
+        {
+          backgroundColor: semantics.background[3],
+        },
+        styles.contentContainer,
+      ]}
       ListHeaderComponent={listHeaderComponent}
+      ListFooterComponent={isFetchingNextPage ? <Spinner size="medium" /> : null}
+      ListFooterComponentStyle={styles.listFooter}
       onEndReached={onEndReached}
       onRefresh={onRefresh}
       refreshing={isRefreshing}
@@ -89,3 +91,14 @@ export function SubscribedVenueList({ listHeaderComponent }: { listHeaderCompone
     />
   )
 }
+
+const styles = StyleSheet.create({
+  contentContainer: {
+    paddingHorizontal: 16,
+    paddingBottom: 24,
+    marginTop: 12,
+  },
+  listFooter: {
+    paddingBottom: 24,
+  },
+})
