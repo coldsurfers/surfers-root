@@ -14,7 +14,12 @@ import { SendEmailResponseDTOSchema } from '@/dtos/mailer.dto'
 import { PosterDetailDTOSchema } from '@/dtos/poster-detail.dto'
 import { PosterDTOSchema } from '@/dtos/poster.dto'
 import { PriceDTOSchema } from '@/dtos/price.dto'
-import { ArtistSubscribeDTOSchema, EventSubscribeDTOSchema, VenueSubscribeDTOSchema } from '@/dtos/subscribe.dto'
+import {
+  ArtistSubscribeDTOSchema,
+  EventSubscribeDTOSchema,
+  SubscribeInfoMeDTOSchema,
+  VenueSubscribeDTOSchema,
+} from '@/dtos/subscribe.dto'
 import { TicketDTOSchema, TicketPromotionDTOSchema } from '@/dtos/ticket.dto'
 import { UserDTOSchema } from '@/dtos/user.dto'
 import { VenueDetailDTOSchema } from '@/dtos/venue-detail-dto'
@@ -174,6 +179,7 @@ app.register(fastifySwagger, {
       ArtistSubscribeDTOSchema,
       VenueSubscribeDTOSchema,
       EventCategoryDTOSchema,
+      SubscribeInfoMeDTOSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
