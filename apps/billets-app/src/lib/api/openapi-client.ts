@@ -183,12 +183,49 @@ export const apiClient = {
         'event',
         { offset, size },
       ],
+      artistList: ({ offset, size }: { offset?: number; size?: number }) => [
+        'v1',
+        'subscribe',
+        'list',
+        'artist',
+        { offset, size },
+      ],
+      venueList: ({ offset, size }: { offset?: number; size?: number }) => [
+        'v1',
+        'subscribe',
+        'list',
+        'venue',
+        { offset, size },
+      ],
       eventSubscribe: ({ eventId }: { eventId: string }) => ['v1', 'subscribe', 'event', { eventId }],
       artistSubscribe: ({ artistId }: { artistId: string }) => ['v1', 'subscribe', 'artist', { artistId }],
       venueSubscribe: ({ venueId }: { venueId: string }) => ['v1', 'subscribe', 'venue', { venueId }],
+      infoMe: ['v1', 'subscribe', 'me'],
     },
     getEventList: async (params: { offset: number; size: number }) => {
       const data = await fetchClient.GET('/v1/subscribe/event', {
+        params: {
+          query: params,
+        },
+      })
+      if (data.error) {
+        throw new OpenApiError(data.error)
+      }
+      return data.data
+    },
+    getArtistList: async (params: { offset: number; size: number }) => {
+      const data = await fetchClient.GET('/v1/subscribe/artist', {
+        params: {
+          query: params,
+        },
+      })
+      if (data.error) {
+        throw new OpenApiError(data.error)
+      }
+      return data.data
+    },
+    getVenueList: async (params: { offset: number; size: number }) => {
+      const data = await fetchClient.GET('/v1/subscribe/venue', {
         params: {
           query: params,
         },
@@ -298,6 +335,13 @@ export const apiClient = {
           venueId: params.venueId,
         },
       })
+      if (data.error) {
+        throw new OpenApiError(data.error)
+      }
+      return data.data
+    },
+    getInfoMe: async () => {
+      const data = await fetchClient.GET('/v1/subscribe/me')
       if (data.error) {
         throw new OpenApiError(data.error)
       }
