@@ -29,6 +29,9 @@ export interface ConcertListRoute extends RouteGenericInterface {
   }
 }
 
+/**
+ * @TODO: remove, deprecated
+ */
 export const concertListHandler = async (
   req: FastifyRequest<ConcertListRoute>,
   rep: FastifyReply<ConcertListRoute>,
@@ -44,6 +47,7 @@ export const concertListHandler = async (
         : null
     const geohash: string | null = latLng ? geohashUtils.generate(latLng.latitude, latLng.longitude, 3) : null
 
+    // @ts-ignore
     const concerts = await concertService.getMany({
       orderBy: 'latest',
       take: +size,
@@ -98,12 +102,16 @@ interface ConcertSearchRoute extends RouteGenericInterface {
   }
 }
 
+/**
+ * @TODO: remove, deprecated
+ */
 export const concertSearchHandler = async (
   req: FastifyRequest<ConcertSearchRoute>,
   rep: FastifyReply<ConcertSearchRoute>,
 ) => {
   const { keyword, offset, size } = req.query
   try {
+    // @ts-ignore
     const concerts = await concertService.getMany({
       titleContains: keyword,
       orderBy: 'latest',
