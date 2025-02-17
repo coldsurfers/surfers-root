@@ -99,12 +99,12 @@ export function SubscribedConcertList({
       keyExtractor={(item) => `${item.eventId}`}
       renderItem={renderItem}
       ItemSeparatorComponent={ItemSeparator}
-      contentContainerStyle={{
-        paddingHorizontal: 16,
-        paddingBottom: 24,
-        marginTop: 12,
-        backgroundColor: semantics.background[3],
-      }}
+      contentContainerStyle={[
+        {
+          backgroundColor: semantics.background[3],
+        },
+        styles.contentContainer,
+      ]}
       ListFooterComponent={isFetchingNextPage ? <Spinner size="medium" /> : null}
       ListFooterComponentStyle={styles.listFooter}
       ListHeaderComponent={listHeaderComponent}
@@ -122,6 +122,7 @@ export function SubscribedConcertList({
 }
 
 const styles = StyleSheet.create({
+  contentContainer: { paddingHorizontal: 16, paddingBottom: 24, marginTop: 12 },
   listFooter: {
     paddingBottom: 24,
   },
