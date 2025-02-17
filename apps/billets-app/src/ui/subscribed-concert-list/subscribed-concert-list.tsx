@@ -1,8 +1,8 @@
 import { apiClient } from '@/lib/api/openapi-client'
-import { useColorScheme } from '@coldsurfers/ocean-road/native'
+import { Spinner, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useMemo, useState } from 'react'
-import { FlatList, ListRenderItem, View } from 'react-native'
+import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
 import { ConcertListItem } from '../concert-list-item'
 import { SubscribedConcertListItem } from '../subscribed-concert-list-item'
 import { subscribedConcertListStyles } from './subscribed-concert-list.styles'
@@ -105,6 +105,8 @@ export function SubscribedConcertList({
         marginTop: 12,
         backgroundColor: semantics.background[3],
       }}
+      ListFooterComponent={isFetchingNextPage ? <Spinner size="medium" /> : null}
+      ListFooterComponentStyle={styles.listFooter}
       ListHeaderComponent={listHeaderComponent}
       onEndReached={horizontal ? undefined : onEndReached}
       onRefresh={horizontal ? undefined : onRefresh}
@@ -118,3 +120,9 @@ export function SubscribedConcertList({
     />
   )
 }
+
+const styles = StyleSheet.create({
+  listFooter: {
+    paddingBottom: 24,
+  },
+})
