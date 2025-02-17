@@ -1,7 +1,8 @@
 import { apiClient } from '@/lib/api/openapi-client'
+import { Spinner, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useMemo, useState } from 'react'
-import { FlatList, ListRenderItem, View } from 'react-native'
+import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
 import { ConcertListItem } from '../concert-list-item'
 import { SubscribedConcertListItem } from '../subscribed-concert-list-item'
 import { subscribedConcertListStyles } from './subscribed-concert-list.styles'
@@ -19,6 +20,7 @@ export function SubscribedConcertList({
   horizontal?: boolean
   listHeaderComponent?: React.ComponentType<unknown>
 }) {
+  const { semantics } = useColorScheme()
   const [isRefreshing, setIsRefreshing] = useState(false)
   const {
     data: concertListData,
@@ -97,7 +99,14 @@ export function SubscribedConcertList({
       keyExtractor={(item) => `${item.eventId}`}
       renderItem={renderItem}
       ItemSeparatorComponent={ItemSeparator}
-      contentContainerStyle={subscribedConcertListStyles.contentContainer}
+      contentContainerStyle={[
+        {
+          backgroundColor: semantics.background[3],
+        },
+        styles.contentContainer,
+      ]}
+      ListFooterComponent={isFetchingNextPage ? <Spinner size="medium" /> : null}
+      ListFooterComponentStyle={styles.listFooter}
       ListHeaderComponent={listHeaderComponent}
       onEndReached={horizontal ? undefined : onEndReached}
       onRefresh={horizontal ? undefined : onRefresh}
@@ -105,6 +114,16 @@ export function SubscribedConcertList({
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
       bounces={!horizontal}
+      style={{
+        backgroundColor: semantics.background[3],
+      }}
     />
   )
 }
+
+const styles = StyleSheet.create({
+  contentContainer: { paddingHorizontal: 16, paddingBottom: 24, marginTop: 12 },
+  listFooter: {
+    paddingBottom: 24,
+  },
+})

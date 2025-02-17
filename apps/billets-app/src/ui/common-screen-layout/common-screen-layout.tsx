@@ -9,34 +9,34 @@ export const CommonScreenLayout = ({
   children,
   style,
   edges = [],
+  withBottomTab = true,
 }: PropsWithChildren<{
   edges?: Edges
   style?: StyleProp<ViewStyle>
+  withBottomTab?: boolean
 }>) => {
   const { semantics } = useColorScheme()
   const { bottom: bottomInset } = useSafeAreaInsets()
   const { tabBarHeight } = useBottomTab()
   return (
-    <Suspense fallback={<Spinner positionCenter />}>
-      <SafeAreaView
-        edges={edges}
-        style={[
-          styles.layout,
-          {
-            backgroundColor: semantics.background[3],
-          },
-          style,
-          {
-            /**
-             * because we set bottom tab bar as position absolute, so we need to calculate individual bottom inset
-             */
-            paddingBottom: tabBarHeight - bottomInset,
-          },
-        ]}
-      >
-        {children}
-      </SafeAreaView>
-    </Suspense>
+    <SafeAreaView
+      edges={edges}
+      style={[
+        styles.layout,
+        {
+          backgroundColor: semantics.background[3],
+        },
+        style,
+        {
+          /**
+           * because we set bottom tab bar as position absolute, so we need to calculate individual bottom inset
+           */
+          paddingBottom: withBottomTab ? tabBarHeight - bottomInset : 0,
+        },
+      ]}
+    >
+      <Suspense fallback={<Spinner positionCenter />}>{children}</Suspense>
+    </SafeAreaView>
   )
 }
 
