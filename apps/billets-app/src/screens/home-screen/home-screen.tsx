@@ -10,13 +10,23 @@ import {
   LocationSelectorModal,
 } from '@/ui'
 import { ConcertListItemType } from '@/ui/concert-list/concert-list.types'
+import { EventCategoryList } from '@/ui/event-category-list'
 import { useScrollToTop } from '@react-navigation/native'
 import { PerformanceMeasureView, RenderStateProps, useStartProfiler } from '@shopify/react-native-performance'
 import { useQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useRef, useState } from 'react'
-import { FlatList, View } from 'react-native'
+import { FlatList, ListRenderItem, SectionList, StyleSheet, View } from 'react-native'
 import { useShallow } from 'zustand/shallow'
 import { useHomeScreenNavigation } from './home-screen.hooks'
+
+const sections = [
+  {
+    data: ['menu'],
+  },
+  {
+    data: ['list'],
+  },
+] as const
 
 const SuspenseHomeScreen = () => {
   const startNavigationTTITimer = useStartProfiler()
@@ -97,13 +107,32 @@ const SuspenseHomeScreen = () => {
     setLocationModalVisible(true)
   }, [])
 
+  const renderItem: ListRenderItem<(typeof sections)[number]['data'][number]> = useCallback(
+    (info) => {
+      if (info.item === 'menu') {
+        return <EventCategoryList />
+      }
+      if (info.item === 'list') {
+        return <ConcertList ref={listRef} onPressItem={onPressConcertListItem} onPressSubscribe={onPressSubscribe} />
+      }
+      return null
+    },
+    [onPressConcertListItem, onPressSubscribe],
+  )
+
   return (
     <CommonScreenLayout edges={['top', 'bottom']}>
       {latitude === null && longitude === null && <CurrentLocationTracker />}
       <LocationSelector type={userCurrentLocationType} cityName={cityName} onPress={showLocationModal} />
+
       {latitude !== null && longitude !== null && (
         <Suspense fallback={<ConcertListSkeleton />}>
-          <ConcertList ref={listRef} onPressItem={onPressConcertListItem} onPressSubscribe={onPressSubscribe} />
+          <SectionList
+            sections={sections}
+            renderItem={renderItem}
+            contentContainerStyle={styles.contentContainer}
+            style={styles.list}
+          />
         </Suspense>
       )}
       <AnimatePresence>
@@ -137,3 +166,12 @@ export const HomeScreen = () => {
     </PerformanceMeasureView>
   )
 }
+
+const styles = StyleSheet.create({
+  contentContainer: {
+    paddingHorizontal: 12,
+    paddingBottom: 64,
+    flexGrow: 1,
+  },
+  list: { flex: 1 },
+})
