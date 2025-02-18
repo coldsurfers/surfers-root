@@ -52,7 +52,7 @@ export const SubscribeInfoMeItem = memo(
             borderColor: semantics.border[1],
           }}
         >
-          <StyledSubscribeInfoMeItemImage source={{ uri: thumbUrl }} />
+          {thumbUrl ? <StyledSubscribeInfoMeItemImage source={{ uri: thumbUrl }} /> : null}
         </StyledSubscribeInfoMeItem>
         <Text weight="medium" style={{ color: semantics.foreground[1], fontSize: 14, marginTop: 8 }}>
           {match(type)
