@@ -1,7 +1,11 @@
+import { zodScreen } from '@/lib'
+import { getEventCategoryUIName } from '@/lib/utils.event-category'
 import { ConcertTicketListScreen, EventDetailScreen } from '@/screens'
+import { EventCategoryScreen } from '@/screens/event-category-screen'
 import { NavigationHeader } from '@/ui'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
+import { z } from 'zod'
 import { EventStackParamList } from './event-stack-navigation.types'
 
 const Stack = createNativeStackNavigator<EventStackParamList>()
@@ -42,6 +46,26 @@ export const EventStackNavigation = () => {
                 ...props.options,
                 presentation: 'fullScreenModal',
                 headerTransparent: true,
+              }}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="EventCategoryScreen"
+        component={EventCategoryScreen}
+        options={{
+          animation: 'fade',
+          presentation: 'card',
+          header: (props) => (
+            <NavigationHeader
+              {...props}
+              options={{
+                ...props.options,
+                presentation: 'card',
+                title: getEventCategoryUIName(
+                  (props.route.params as z.infer<typeof zodScreen.EventCategoryScreen.params>)['eventCategory'],
+                ),
               }}
             />
           ),

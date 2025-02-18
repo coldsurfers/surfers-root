@@ -1,6 +1,8 @@
+import { getEventCategoryUIName } from '@/lib/utils.event-category'
+import { useHomeScreenNavigation } from '@/screens'
 import { components } from '@/types/api'
 import { useColorScheme } from '@coldsurfers/ocean-road/native'
-import { memo } from 'react'
+import { memo, useCallback } from 'react'
 import {
   DanceIcon,
   MicVocalIcon,
@@ -8,20 +10,6 @@ import {
   StyledEventCategoryButtonText,
   TheatreIcon,
 } from './event-category-list.styled'
-
-// @TODO: same name with billets-web
-const getEventCategoryUIName = (originalName: string) => {
-  switch (originalName) {
-    case 'Gigs':
-      return '콘서트'
-    case 'Theatre':
-      return '연극 / 뮤지컬'
-    case 'Dance':
-      return '무용'
-    default:
-      return originalName
-  }
-}
 
 // @TODO: same name with billets-web
 const getUiIcon = (name: string) => {
@@ -41,8 +29,18 @@ const getUiIcon = (name: string) => {
 
 export const EventCategoryListItem = memo((props: components['schemas']['EventCategoryDTOSchema']) => {
   const { semantics } = useColorScheme()
+  const navigation = useHomeScreenNavigation()
+  const onPress = useCallback(() => {
+    navigation.navigate('EventStackNavigation', {
+      params: {
+        eventCategory: props.name,
+      },
+      screen: 'EventCategoryScreen',
+    })
+  }, [navigation, props.name])
   return (
     <StyledEventCategoryButton
+      onPress={onPress}
       style={{
         backgroundColor: semantics.background[4],
       }}

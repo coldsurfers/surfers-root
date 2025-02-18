@@ -1,5 +1,4 @@
 import { HomeScreen, LocationSelectionScreen } from '@/screens'
-import { EventCategoryScreen } from '@/screens/event-category-screen'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
 import { HomeStackParamList } from './home-stack-navigation.types'
@@ -22,14 +21,6 @@ export const HomeStackNavigation = () => {
         options={{
           header: () => null,
           presentation: 'modal',
-        }}
-      />
-      <HomeStack.Screen
-        name="EventCategoryScreen"
-        component={EventCategoryScreen}
-        options={{
-          header: () => null,
-          presentation: 'card',
         }}
       />
     </HomeStack.Navigator>
