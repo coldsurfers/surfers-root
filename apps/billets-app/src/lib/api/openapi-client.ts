@@ -395,13 +395,15 @@ export const apiClient = {
         offset,
         size,
         locationCityId,
+        eventCategoryName,
       }: {
         latitude?: number
         longitude?: number
         locationCityId?: string
         offset?: number
         size?: number
-      }) => ['v1', 'event', ' list', { latitude, longitude, offset, size, locationCityId }],
+        eventCategoryName?: string
+      }) => ['v1', 'event', ' list', { latitude, longitude, offset, size, locationCityId, eventCategoryName }],
       detail: ({ eventId }: { eventId: string }) => ['v1', 'event', 'detail', { eventId }],
     },
     getList: async ({
@@ -410,12 +412,14 @@ export const apiClient = {
       offset,
       size,
       locationCityId,
+      eventCategoryName,
     }: {
       latitude?: number
       longitude?: number
       offset: number
       size: number
       locationCityId?: string
+      eventCategoryName?: string
     }) => {
       const data = await fetchClient.GET('/v1/event/', {
         params: {
@@ -425,6 +429,7 @@ export const apiClient = {
             offset,
             size,
             locationCityId,
+            eventCategoryName,
           },
         },
       })
