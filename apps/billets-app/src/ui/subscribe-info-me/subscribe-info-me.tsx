@@ -12,12 +12,14 @@ export const SubscribeInfoMe = memo(() => {
   })
   const data = useMemo(
     () =>
-      Object.entries(subscribeInfoMe).map(([key, value]) => {
-        return {
-          type: key,
-          value,
-        }
-      }),
+      Object.entries(subscribeInfoMe)
+        .map(([key, value]) => {
+          return {
+            type: key,
+            value,
+          }
+        })
+        .sort((a, b) => a.type.localeCompare(b.type)),
     [subscribeInfoMe],
   )
   const renderItem = useCallback<ListRenderItem<(typeof data)[number]>>(({ item }) => {
