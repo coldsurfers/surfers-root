@@ -25,7 +25,11 @@ export const EventCategoryScreen = () => {
     <PerformanceMeasureView interactive={false} screenName={zodScreen.EventCategoryScreen.name}>
       <CommonScreenLayout withBottomTab={false}>
         <Suspense fallback={<Spinner positionCenter />}>
-          <ConcertList eventCategory={route.params.eventCategory} onPressItem={(item) => onPressItem(item.id)} />
+          <ConcertList
+            hideTopMenu
+            eventCategory={route.params.eventCategory}
+            onPressItem={(item) => onPressItem(item.id)}
+          />
         </Suspense>
       </CommonScreenLayout>
     </PerformanceMeasureView>
