@@ -4,7 +4,7 @@ import {
   ConcertDetailVenueMapBottomSheet,
 } from '@/features/concert-detail'
 import { useToggleSubscribeConcert } from '@/features/subscribe'
-import { useEffectOnce, useStoreReview } from '@/lib'
+import { useEffectOnce, useStoreReview, zodScreen } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
 import commonStyles from '@/lib/common-styles'
 import { concertDetailCountForStoreReviewStorage } from '@/lib/storage'
@@ -13,6 +13,7 @@ import { TicketListBottomSheet } from '@/ui/ticket-list-bottom-sheet/ticket-list
 import { colors } from '@coldsurfers/ocean-road'
 import { Spinner, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import { PerformanceMeasureView } from '@shopify/react-native-performance'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import React, { PropsWithChildren, Suspense, useCallback, useMemo, useRef } from 'react'
 import { Dimensions, Platform, StatusBar, StyleSheet, View } from 'react-native'
@@ -228,15 +229,17 @@ const ScreenInner = () => {
 
 export const EventDetailScreen = () => {
   return (
-    <Suspense
-      fallback={
-        <EventDetailScreenLayout>
-          <Spinner positionCenter />
-        </EventDetailScreenLayout>
-      }
-    >
-      <ScreenInner />
-    </Suspense>
+    <PerformanceMeasureView interactive={false} screenName={zodScreen.EventDetailScreen.name}>
+      <Suspense
+        fallback={
+          <EventDetailScreenLayout>
+            <Spinner positionCenter />
+          </EventDetailScreenLayout>
+        }
+      >
+        <ScreenInner />
+      </Suspense>
+    </PerformanceMeasureView>
   )
 }
 

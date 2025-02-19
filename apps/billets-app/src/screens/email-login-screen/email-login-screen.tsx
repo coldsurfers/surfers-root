@@ -1,13 +1,13 @@
 import { AuthContext, ToastVisibleContext, ToastVisibleContextProvider } from '@/lib'
 import { $api } from '@/lib/api/openapi-client'
-import { CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui'
-import { Button, Spinner, TextInput, useColorScheme } from '@coldsurfers/ocean-road/native'
+import { CommonScreenLayout } from '@/ui'
+import { NAVIGATION_HEADER_HEIGHT } from '@/ui/navigation-header/navigation-header.constants'
+import { Button, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, View } from 'react-native'
 import { useEmailLoginScreenNavigation } from './email-login-screen.hooks'
 
 const _EmailLoginScreen = () => {
-  const { semantics } = useColorScheme()
   const { show } = useContext(ToastVisibleContext)
   const { login } = useContext(AuthContext)
   const { navigate } = useEmailLoginScreenNavigation()

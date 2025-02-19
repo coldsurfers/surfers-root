@@ -1,6 +1,7 @@
 import { useInterstitialAd } from '@/features/google-ads/google-ads.hooks'
 import { concertTicketBtnPressCountForInterstitialAdStorage } from '@/lib/storage/concert-ticket-btn-press-count-for-interstitial-ad-storage'
 import { components } from '@/types/api'
+import { colors } from '@coldsurfers/ocean-road'
 import { Button, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { SquareArrowOutUpRight } from 'lucide-react-native'
 import { memo, useCallback } from 'react'
@@ -36,11 +37,11 @@ export const TicketItem = memo(({ sellerName, url }: TicketItemProps) => {
         {sellerName}
       </Text>
       <Button theme="pink" size="md" onPress={onPress} style={styles.ticketBtn}>
-        <Text weight="bold" style={{ fontSize: 12, color: semantics.foreground[1] }}>
+        <Text weight="bold" style={{ fontSize: 12, color: colors.oc.white.value }}>
           티켓 찾기
         </Text>
         <View>
-          <SquareArrowOutUpRight size={14} color={semantics.foreground[1]} strokeWidth={3} style={{ marginLeft: 4 }} />
+          <SquareArrowOutUpRight size={14} color={colors.oc.white.value} strokeWidth={3} style={{ marginLeft: 4 }} />
         </View>
       </Button>
     </View>

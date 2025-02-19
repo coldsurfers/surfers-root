@@ -5,7 +5,7 @@ import { getButtonBackgroundColor, getButtonForegroundColor } from '../../button
 import { colors } from '../../tokens'
 import { Text } from '../text'
 
-export const StyledButton = styled.Pressable<{
+export const StyledButton = styled.TouchableOpacity<{
   colorTheme: ButtonTheme
   size: 'lg' | 'md' | 'sm'
 }>`

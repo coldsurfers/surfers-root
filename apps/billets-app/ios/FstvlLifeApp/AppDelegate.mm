@@ -7,12 +7,13 @@
 
 #import <Firebase.h>
 #import "RNBootSplash.h"
-//#import "Orientation.h"
+#import <ReactNativePerformance/ReactNativePerformance.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [ReactNativePerformance onAppStarted];
   [FIRApp configure];
   self.moduleName = @"FstvlLifeApp";
   // You can add your custom initial props in the dictionary below.

@@ -37,7 +37,6 @@
     "@types/react-native": "0.70.8",
     "react-native": "0.75.3",
     "react-native-web": "0.19.13",
-    "fastify": "5.0.0",
     "zod": "3.23.8",
     "zustand": "5.0.1",
     "ts-pattern": "5.4.0",
