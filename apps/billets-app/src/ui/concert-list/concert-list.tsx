@@ -1,14 +1,14 @@
 import { useUserCurrentLocationStore } from '@/features'
 import { apiClient } from '@/lib/api/openapi-client'
-import { colors } from '@coldsurfers/ocean-road'
 import { Spinner } from '@coldsurfers/ocean-road/native'
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 import { forwardRef, useCallback, useMemo, useState } from 'react'
-import { FlatList, ListRenderItem, Platform, RefreshControl, View } from 'react-native'
+import { FlatList, ListRenderItem, View } from 'react-native'
 import { match } from 'ts-pattern'
 import { useShallow } from 'zustand/shallow'
 import { CommonListEmpty } from '../common-list-empty'
 import { ConcertListItem } from '../concert-list-item'
+import { EventCategoryList } from '../event-category-list'
 import { concertListStyles } from './concert-list.styles'
 import { ConcertListItemType } from './concert-list.types'
 
@@ -16,12 +16,13 @@ type ConcertListProps = {
   onPressItem?: (item: ConcertListItemType) => void
   onPressSubscribe?: (item: ConcertListItemType, options: { isSubscribed: boolean }) => void
   eventCategory?: string
+  hideTopMenu?: boolean
 }
 
 const PER_PAGE = 20
 
 export const ConcertList = forwardRef<FlatList, ConcertListProps>(
-  ({ onPressItem, onPressSubscribe, eventCategory }, ref) => {
+  ({ onPressItem, onPressSubscribe, eventCategory, hideTopMenu }, ref) => {
     const [isRefreshing, setIsRefreshing] = useState(false)
     const { latitude, longitude, type, cityId } = useUserCurrentLocationStore(
       useShallow((state) => ({
@@ -129,15 +130,10 @@ export const ConcertList = forwardRef<FlatList, ConcertListProps>(
             <CommonListEmpty emptyText={`🥺\n앗,\n해당하는\n위치에\n공연 정보가 없어요!`} />
           )
         }
+        ListHeaderComponent={hideTopMenu ? null : <EventCategoryList />}
+        refreshing={isRefreshing}
+        onRefresh={onRefresh}
         ListFooterComponent={isFetchingNextPage ? <Spinner size="medium" /> : null}
-        refreshControl={
-          <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={onRefresh}
-            tintColor={colors.oc.cyan[5].value}
-            size={Platform.select({ ios: 20, default: undefined })}
-          />
-        }
         scrollEnabled={!isRefreshing}
         onEndReached={onEndReached}
       />
