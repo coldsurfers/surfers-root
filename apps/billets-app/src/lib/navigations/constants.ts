@@ -133,4 +133,10 @@ export const zodScreen = createZodScreen({
     name: 'SettingsScreen',
     params: z.object({}),
   },
+  EventCategoryScreen: {
+    name: 'EventCategoryScreen',
+    params: z.object({
+      eventCategory: z.string(),
+    }),
+  },
 } as const)
