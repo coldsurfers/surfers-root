@@ -1,5 +1,5 @@
 {
-  "name": "react-native-apple-maps",
+  "name": "@coldsurfers/react-native-apple-maps",
   "version": "0.1.0",
   "description": "RN Apple Maps",
   "source": "./src/index.tsx",
@@ -92,10 +92,6 @@
     "react": "*",
     "react-native": "*"
   },
-  "workspaces": [
-    "example"
-  ],
-  "packageManager": "yarn@3.6.1",
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
