@@ -1,6 +1,6 @@
 import InputWithLabel from '@/ui/InputWithLabel'
 import { Button } from '@coldsurfers/ocean-road'
-import { Cinzel, Merriweather } from '@next/font/google'
+import { Cinzel, Merriweather } from 'next/font/google'
 import { ChangeEventHandler, DragEvent, useCallback, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { exportBanner } from '../../utils'

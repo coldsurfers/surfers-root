@@ -7,6 +7,29 @@ PODS:
     - AppAuth/Core
   - Base64 (1.1.2)
   - boost (1.84.0)
+  - callstack-repack (5.0.0-rc.10):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - JWTDecode (~> 3.0.0)
+    - RCT-Folly (= 2024.11.18.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - SwiftyRSA (~> 1.7)
+    - Yoga
   - CodePush (9.0.0):
     - Base64 (~> 1.1)
     - JWT (~> 3.0.0-beta.12)
@@ -170,6 +193,7 @@ PODS:
   - hermes-engine/Pre-built (0.77.0)
   - JWT (3.0.0-beta.14):
     - Base64 (~> 1.1.2)
+  - JWTDecode (3.0.1)
   - libwebp (1.5.0):
     - libwebp/demux (= 1.5.0)
     - libwebp/mux (= 1.5.0)
@@ -1800,6 +1824,8 @@ PODS:
     - React-logger (= 0.77.0)
     - React-perflogger (= 0.77.0)
     - React-utils (= 0.77.0)
+  - ReactNativePerformance (4.1.2):
+    - React-Core
   - RNAppleAuthentication (2.4.0):
     - React-Core
   - RNBootSplash (6.2.6):
@@ -2182,10 +2208,14 @@ PODS:
     - SDWebImage/Core (~> 5.10)
   - SocketRocket (0.7.1)
   - SSZipArchive (2.5.5)
+  - SwiftyRSA (1.7.0):
+    - SwiftyRSA/ObjC (= 1.7.0)
+  - SwiftyRSA/ObjC (1.7.0)
   - Yoga (0.0.0)
 
 DEPENDENCIES:
   - boost (from `../../../node_modules/react-native/third-party-podspecs/boost.podspec`)
+  - "callstack-repack (from `../../../node_modules/@callstack/repack`)"
   - CodePush (from `../../../node_modules/react-native-code-push`)
   - DoubleConversion (from `../../../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - fast_float (from `../../../node_modules/react-native/third-party-podspecs/fast_float.podspec`)
@@ -2264,11 +2294,12 @@ DEPENDENCIES:
   - ReactAppDependencyProvider (from `build/generated/ios`)
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../../../node_modules/react-native/ReactCommon`)
+  - "ReactNativePerformance (from `../../../node_modules/@shopify/react-native-performance`)"
   - "RNAppleAuthentication (from `../../../node_modules/@invertase/react-native-apple-authentication`)"
   - RNBootSplash (from `../../../node_modules/react-native-bootsplash`)
   - "RNCClipboard (from `../../../node_modules/@react-native-clipboard/clipboard`)"
   - "RNCPicker (from `../../../node_modules/@react-native-picker/picker`)"
-  - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
+  - "RNDateTimePicker (from `../../../node_modules/@react-native-community/datetimepicker`)"
   - RNDeviceInfo (from `../../../node_modules/react-native-device-info`)
   - RNFastImage (from `../../../node_modules/react-native-fast-image`)
   - "RNFBAnalytics (from `../../../node_modules/@react-native-firebase/analytics`)"
@@ -2279,7 +2310,7 @@ DEPENDENCIES:
   - RNGoogleMobileAds (from `../../../node_modules/react-native-google-mobile-ads`)
   - "RNGoogleSignin (from `../../../node_modules/@react-native-google-signin/google-signin`)"
   - RNPermissions (from `../../../node_modules/react-native-permissions`)
-  - RNReanimated (from `../node_modules/react-native-reanimated`)
+  - RNReanimated (from `../../../node_modules/react-native-reanimated`)
   - RNScreens (from `../../../node_modules/react-native-screens`)
   - RNStoreReview (from `../../../node_modules/react-native-store-review`)
   - RNSVG (from `../../../node_modules/react-native-svg`)
@@ -2308,6 +2339,7 @@ SPEC REPOS:
     - GTMAppAuth
     - GTMSessionFetcher
     - JWT
+    - JWTDecode
     - libwebp
     - nanopb
     - PromisesObjC
@@ -2316,10 +2348,13 @@ SPEC REPOS:
     - SDWebImageWebPCoder
     - SocketRocket
     - SSZipArchive
+    - SwiftyRSA
 
 EXTERNAL SOURCES:
   boost:
     :podspec: "../../../node_modules/react-native/third-party-podspecs/boost.podspec"
+  callstack-repack:
+    :path: "../../../node_modules/@callstack/repack"
   CodePush:
     :path: "../../../node_modules/react-native-code-push"
   DoubleConversion:
@@ -2465,6 +2500,8 @@ EXTERNAL SOURCES:
     :path: build/generated/ios
   ReactCommon:
     :path: "../../../node_modules/react-native/ReactCommon"
+  ReactNativePerformance:
+    :path: "../../../node_modules/@shopify/react-native-performance"
   RNAppleAuthentication:
     :path: "../../../node_modules/@invertase/react-native-apple-authentication"
   RNBootSplash:
@@ -2474,7 +2511,7 @@ EXTERNAL SOURCES:
   RNCPicker:
     :path: "../../../node_modules/@react-native-picker/picker"
   RNDateTimePicker:
-    :path: "../node_modules/@react-native-community/datetimepicker"
+    :path: "../../../node_modules/@react-native-community/datetimepicker"
   RNDeviceInfo:
     :path: "../../../node_modules/react-native-device-info"
   RNFastImage:
@@ -2496,7 +2533,7 @@ EXTERNAL SOURCES:
   RNPermissions:
     :path: "../../../node_modules/react-native-permissions"
   RNReanimated:
-    :path: "../node_modules/react-native-reanimated"
+    :path: "../../../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../../../node_modules/react-native-screens"
   RNStoreReview:
@@ -2510,6 +2547,7 @@ SPEC CHECKSUMS:
   AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
+  callstack-repack: 7f0e0adbb43e7ca1eec0588bcea1ce1427e5e9af
   CodePush: ea174f879b85dff65380bee54243bbe523ea16b2
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
@@ -2536,6 +2574,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
   hermes-engine: 1f783c3d53940aed0d2c84586f0b7a85ab7827ef
   JWT: ef71dfb03e1f842081e64dc42eef0e164f35d251
+  JWTDecode: 2eed97c2fa46ccaf3049a787004eedf0be474a87
   libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
@@ -2605,6 +2644,7 @@ SPEC CHECKSUMS:
   ReactAppDependencyProvider: 3d947e9d62f351c06c71497e1be897e6006dc303
   ReactCodegen: 074ad0b1ea4447487bad2ec421ef7e4b6099e03d
   ReactCommon: a02340b2a1a76f3703298a4680bb03277ca87440
+  ReactNativePerformance: ab7dee4c4862623d72c1530a9fc71b55458edf71
   RNAppleAuthentication: e00c76acb03351f5544373c78fa7f359bef6d5d3
   RNBootSplash: 297cc54bb5a09a71b146acf1bb95412728a2cb25
   RNCClipboard: e49bce333d562b966bc57196410de9eb4c95c554
@@ -2620,7 +2660,7 @@ SPEC CHECKSUMS:
   RNGoogleMobileAds: a6785e3f725fde1f94e24cabb855b3a1a632ac5c
   RNGoogleSignin: 81521697b2c8f97f9a586ac7257b1a1d9b51b115
   RNPermissions: d22f9141cbdc2f626ada384659da12f1395418a0
-  RNReanimated: 3c84ec3b9d5e5ed68736068c65471428663d12a2
+  RNReanimated: cd2b1dd421c51d10663a7b7c3018134ae4faf3c1
   RNScreens: 6a595af73186eb6b85dfd82ded47d67989ae14b5
   RNStoreReview: 7aa376002798f0047d49d79e291bb19a239347c0
   RNSVG: d667d9d3522aefd9ec331533e4ce6b734cb68aa7
@@ -2628,6 +2668,7 @@ SPEC CHECKSUMS:
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   SSZipArchive: c69881e8ac5521f0e622291387add5f60f30f3c4
+  SwiftyRSA: 8c6dd1ea7db1b8dc4fb517a202f88bb1354bc2c6
   Yoga: c34725819ab0a5962e85455b9e56679b306910ee
 
 PODFILE CHECKSUM: 1649dd4ba4866ab2a39e30e57403bfec5637f550

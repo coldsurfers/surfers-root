@@ -48,7 +48,8 @@ async function PageInner({ params }: { params: { ['venue-id']: string } }) {
   )
 }
 
-export default async function VenueDetailPage({ params }: { params: Promise<{ ['venue-id']: string }> }) {
+export default async function VenueDetailPage(props: { params: Promise<{ ['venue-id']: string }> }) {
+  const params = await props.params
   return (
     <ApiErrorBoundaryRegistry>
       <RouteLoading>

@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-web",
-  "version": "1.0.37",
+  "version": "1.1.0",
   "scripts": {
     "build": "yarn prisma:generate && next build",
     "build:vercel": "npx vercel build --prod",
@@ -32,13 +32,13 @@
     "firebase": "*",
     "framer-motion": "*",
     "lucide-react": "*",
-    "next": "14.1.0",
+    "next": "15.1.7",
     "notion-client": "*",
     "openapi-fetch": "^0.12.2",
     "openapi-react-query": "*",
     "prisma": "*",
-    "react": "*",
-    "react-dom": "*",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
     "react-error-boundary": "*",
     "react-hook-form": "*",
     "react-notion-x": "*",
@@ -50,8 +50,8 @@
   },
   "devDependencies": {
     "@types/node": "*",
-    "@types/react": "*",
-    "@types/react-dom": "*",
+    "@types/react": "19.0.8",
+    "@types/react-dom": "19.0.3",
     "eslint": "8.57.0",
     "notion-types": "*",
     "prettier": "*",
@@ -60,5 +60,9 @@
     "typescript": "*",
     "typescript-plugin-css-modules": "^5.0.2"
   },
-  "packageManager": "yarn@4.2.2"
+  "packageManager": "yarn@4.2.2",
+  "resolutions": {
+    "@types/react": "19.0.8",
+    "@types/react-dom": "19.0.3"
+  }
 }

@@ -23,7 +23,8 @@
     "dev:wamuseum-client": "yarn workspace @coldsurfers/wamuseum-client dev",
     "dev:billets-server": "yarn workspace @coldsurfers/billets-server debug",
     "prisma:generate": "yarn workspace @coldsurfers/prisma-schema generate",
-    "check:runtime": "node ./scripts/check-runtime-env.js"
+    "check:runtime": "node ./scripts/check-runtime-env.js",
+    "clean": "sh ./scripts/clean-modules.sh"
   },
   "resolutions": {
     "typescript": "5.6.3",
@@ -35,7 +36,6 @@
     "husky": "9.0.11",
     "lint-staged": "15.2.2",
     "react-native-web": "0.19.13",
-    "fastify": "5.0.0",
     "zod": "3.23.8",
     "zustand": "5.0.1",
     "ts-pattern": "5.4.0",

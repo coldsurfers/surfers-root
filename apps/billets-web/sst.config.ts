@@ -25,6 +25,7 @@ export default $config({
       switch (process.env.APP_PLATFORM) {
         case 'production':
           return 'BilletsWeb'
+        // @ts-ignore
         case 'staging':
         default:
           return 'BilletsWebStaging'
