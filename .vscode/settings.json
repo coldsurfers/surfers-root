@@ -25,6 +25,7 @@
     "prisma-schema",
     "surf-tree",
     "coldsurf-io",
-    "shared-utils"
+    "shared-utils",
+    "react-native-apple-maps"
   ]
 }
