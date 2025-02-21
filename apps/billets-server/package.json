@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-server",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "license": "MIT",
   "main": "index.js",
   "scripts": {
@@ -46,7 +46,7 @@
     "crypto-js": "4.2.0",
     "date-fns": "^4.1.0",
     "dotenv": "^16.0.3",
-    "fastify": "*",
+    "fastify": "5.0.0",
     "fastify-plugin": "^5.0.1",
     "fastify-type-provider-zod": "^3.0.0",
     "google-auth-library": "^9.14.1",

@@ -5,10 +5,5 @@
 import 'sst'
 export {}
 declare module 'sst' {
-  export interface Resource {
-    BilletsWeb: {
-      type: 'sst.aws.Nextjs'
-      url: string
-    }
-  }
+  export interface Resource {}
 }
