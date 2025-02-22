@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
+    "check:config": "npx react-native config",
     "detox:build:aos": "detox build --configuration android.emu.release",
     "detox:build:ios": "detox build --configuration ios.sim.release",
     "detox:start:aos": "detox test --configuration android.emu.release",
