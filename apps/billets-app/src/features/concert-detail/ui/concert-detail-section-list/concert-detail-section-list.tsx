@@ -49,7 +49,7 @@ export const ConcertDetailSectionList = ({
     if (!thumbnail) {
       return ''
     }
-    return `${thumbnail}&width=${Dimensions.get('window').width}&height=${CONCERT_DETAIL_LIST_HEADER_HEIGHT}`
+    return `${thumbnail}&width=${Math.floor(Dimensions.get('window').width)}&height=${CONCERT_DETAIL_LIST_HEADER_HEIGHT}`
   }, [thumbnails])
 
   const renderSectionHeader: (info: { section: ConcertDetailSectionListSection }) => ReactElement | null = useCallback(
