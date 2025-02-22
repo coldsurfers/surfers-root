@@ -4110,7 +4110,7 @@ __metadata:
     react-native-gesture-handler: "npm:2.23.1"
     react-native-google-mobile-ads: "npm:^14.6.0"
     react-native-maps: "npm:^1.20.1"
-    react-native-mmkv: "npm:3.2.0"
+    react-native-mmkv: "npm:2.12.2"
     react-native-monorepo-tools: "npm:^1.2.1"
     react-native-orientation-locker: "npm:^1.5.0"
     react-native-permissions: "npm:^4.1.5"
@@ -27195,13 +27195,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-mmkv@npm:3.2.0":
-  version: 3.2.0
-  resolution: "react-native-mmkv@npm:3.2.0"
+"react-native-mmkv@npm:2.12.2":
+  version: 2.12.2
+  resolution: "react-native-mmkv@npm:2.12.2"
   peerDependencies:
     react: "*"
-    react-native: "*"
-  checksum: 10c0/41abc5b46d61de7bf0f6af0ed66fab19a391d3fdc30b011cc49ba4dce65ab7c7b1c53eda768bc71f718543e89c7d46848dab2cd537b2af39afd624a8b4f0fec4
+    react-native: ">=0.71.0"
+  checksum: 10c0/751b92d60b3526c9bbeac652b840c048b7f1cc4f48179f4e24a45cf14bdcdd08bfc7f3c65fb50c686cae41356ac0d15a21e6da034e2f0907459036dacb67fcbd
   languageName: node
   linkType: hard
 
