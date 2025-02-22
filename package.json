@@ -2,7 +2,7 @@
   "name": "@coldsurfers/surfers-root",
   "private": true,
   "version": "1.0.0",
-  "packageManager": "yarn@4.2.2",
+  "packageManager": "pnpm@10.4.1",
   "workspaces": {
     "packages": [
       "apps/*",
@@ -103,5 +103,11 @@
     "@prisma/client": "*",
     "patch-package": "^8.0.0",
     "postinstall-postinstall": "^2.1.0"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "react-notion-x@7.2.5": "patches/react-notion-x@7.2.5.patch",
+      "@shopify/react-native-performance@4.1.2": "patches/@shopify__react-native-performance@4.1.2.patch"
+    }
   }
 }
