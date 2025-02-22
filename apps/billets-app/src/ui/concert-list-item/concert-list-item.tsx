@@ -33,7 +33,7 @@ export const ConcertListItem = ({ data, onPress, onPressSubscribe, size = 'large
     if (!url) {
       return ''
     }
-    const width = size === 'small' ? 140 : Dimensions.get('window').width / 2
+    const width = size === 'small' ? 140 : Math.floor(Dimensions.get('window').width / 2)
     return `${url}&width=${width}&height=${width}`
   }, [data.mainPoster?.url, size])
   const venue = useMemo(() => data.mainVenue, [data.mainVenue])

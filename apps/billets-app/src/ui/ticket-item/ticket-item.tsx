@@ -1,4 +1,5 @@
 import { useInterstitialAd } from '@/features/google-ads/google-ads.hooks'
+import { useFirebaseAnalytics } from '@/lib'
 import { concertTicketBtnPressCountForInterstitialAdStorage } from '@/lib/storage/concert-ticket-btn-press-count-for-interstitial-ad-storage'
 import { components } from '@/types/api'
 import { colors } from '@coldsurfers/ocean-road'
@@ -11,6 +12,7 @@ type TicketItemProps = components['schemas']['TicketDTOSchema']
 
 export const TicketItem = memo(({ sellerName, url }: TicketItemProps) => {
   const { semantics } = useColorScheme()
+  const { logEvent } = useFirebaseAnalytics()
 
   const link = useCallback(() => Linking.openURL(url), [url])
 
@@ -29,11 +31,18 @@ export const TicketItem = memo(({ sellerName, url }: TicketItemProps) => {
     } else {
       link()
     }
-  }, [link, loaded, show])
+    logEvent({
+      name: 'click_find_ticket',
+      params: {
+        seller_name: sellerName,
+        url,
+      },
+    })
+  }, [link, loaded, logEvent, sellerName, show, url])
 
   return (
     <View style={[styles.ticketWrapper, { backgroundColor: semantics.background[4] }]}>
-      <Text weight="bold" style={{ color: semantics.foreground[1] }}>
+      <Text weight="bold" style={{ color: semantics.foreground[1], fontSize: 14 }}>
         {sellerName}
       </Text>
       <Button theme="pink" size="md" onPress={onPress} style={styles.ticketBtn}>
