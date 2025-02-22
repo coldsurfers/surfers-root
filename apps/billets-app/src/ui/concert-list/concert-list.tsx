@@ -80,15 +80,19 @@ export const ConcertList = forwardRef<FlatList, ConcertListProps>(
 
     const renderItem: ListRenderItem<ConcertListItemType> = useCallback(
       ({ item, index }) => {
+        const handlePress = () => onPressItem?.(item)
+        const handlePressSubscribe = (params: { isSubscribed: boolean; concertId: string }) =>
+          onPressSubscribe?.(item, { isSubscribed: params.isSubscribed })
+        const listItemStyle = {
+          paddingLeft: index % 2 === 0 ? 0 : 6,
+          paddingRight: index % 2 === 0 ? 6 : 0,
+        }
         return (
           <ConcertListItem
             data={item}
-            onPress={() => onPressItem?.(item)}
-            onPressSubscribe={({ isSubscribed }) => onPressSubscribe?.(item, { isSubscribed })}
-            style={{
-              paddingLeft: index % 2 === 0 ? 0 : 6,
-              paddingRight: index % 2 === 0 ? 6 : 0,
-            }}
+            onPress={handlePress}
+            onPressSubscribe={handlePressSubscribe}
+            style={listItemStyle}
           />
         )
       },

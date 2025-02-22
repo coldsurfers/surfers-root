@@ -1,5 +1,5 @@
 import { CurrentLocationTracker, useToggleSubscribeConcert, useUserCurrentLocationStore } from '@/features'
-import { useShowBottomTabBar, zodScreen } from '@/lib'
+import { useFirebaseAnalytics, useShowBottomTabBar, zodScreen } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
 import {
   AnimatePresence,
@@ -14,13 +14,14 @@ import { useScrollToTop } from '@react-navigation/native'
 import { PerformanceMeasureView, RenderStateProps, useStartProfiler } from '@shopify/react-native-performance'
 import { useQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useRef, useState } from 'react'
-import { FlatList, StyleSheet, View } from 'react-native'
+import { FlatList, View } from 'react-native'
 import { useShallow } from 'zustand/shallow'
 import { useHomeScreenNavigation } from './home-screen.hooks'
 
 const SuspenseHomeScreen = () => {
   const startNavigationTTITimer = useStartProfiler()
   const navigation = useHomeScreenNavigation()
+  const { logEvent } = useFirebaseAnalytics()
   const listRef = useRef<FlatList>(null)
   useScrollToTop(listRef)
   useShowBottomTabBar()
@@ -57,8 +58,14 @@ const SuspenseHomeScreen = () => {
         screen: 'EventDetailScreen',
         params: { eventId: item.id },
       })
+      logEvent({
+        name: 'click_event',
+        params: {
+          event_id: item.id,
+        },
+      })
     },
-    [navigation, startNavigationTTITimer],
+    [logEvent, navigation, startNavigationTTITimer],
   )
 
   const onPressSubscribeConcertListItem = useCallback(
@@ -138,12 +145,3 @@ export const HomeScreen = () => {
     </PerformanceMeasureView>
   )
 }
-
-const styles = StyleSheet.create({
-  contentContainer: {
-    paddingHorizontal: 12,
-    paddingBottom: 64,
-    flexGrow: 1,
-  },
-  list: { flex: 1 },
-})

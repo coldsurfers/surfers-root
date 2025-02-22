@@ -4,7 +4,7 @@ import {
   ConcertDetailVenueMapBottomSheet,
 } from '@/features/concert-detail'
 import { useToggleSubscribeConcert } from '@/features/subscribe'
-import { useEffectOnce, useStoreReview, zodScreen } from '@/lib'
+import { useEffectOnce, useFirebaseAnalytics, useStoreReview, zodScreen } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
 import commonStyles from '@/lib/common-styles'
 import { concertDetailCountForStoreReviewStorage } from '@/lib/storage'
@@ -30,6 +30,7 @@ const EventDetailScreenLayout = ({ children }: PropsWithChildren) => {
 
 const ScreenInner = () => {
   const { semantics } = useColorScheme()
+  const { logEvent } = useFirebaseAnalytics()
   const navigation = useEventDetailScreenNavigation()
   const { params } = useEventDetailScreenRoute()
   const { requestReview } = useStoreReview()
@@ -177,6 +178,15 @@ const ScreenInner = () => {
         requestReview()
       }
     }
+  })
+
+  useEffectOnce(() => {
+    logEvent({
+      name: 'visit_event_detail',
+      params: {
+        event_id: params.eventId,
+      },
+    })
   })
 
   if (eventData.type !== 'concert') {
