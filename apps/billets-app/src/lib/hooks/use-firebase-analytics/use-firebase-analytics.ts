@@ -1,13 +1,14 @@
 import analytics from '@react-native-firebase/analytics'
 import { useCallback, useMemo } from 'react'
+import { FBLogEvent } from './use-firebase-analytics.types'
 
 export function useFirebaseAnalytics() {
   const enable = useCallback(async (enabled: boolean) => {
     await analytics().setAnalyticsCollectionEnabled(enabled)
   }, [])
 
-  const logEvent = useCallback((name: string, params?: { [key: string]: unknown }) => {
-    analytics().logEvent(name, params)
+  const logEvent = useCallback((event: FBLogEvent) => {
+    analytics().logEvent(event.name, event.params)
   }, [])
 
   const logScreenView = useCallback(
