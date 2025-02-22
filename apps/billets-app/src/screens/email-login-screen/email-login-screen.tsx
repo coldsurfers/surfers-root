@@ -40,10 +40,11 @@ const _EmailLoginScreen = () => {
       })
       return
     }
+    const provider = 'email'
     mutate(
       {
         body: {
-          provider: 'email',
+          provider,
           email,
           password,
         },
@@ -56,6 +57,9 @@ const _EmailLoginScreen = () => {
             await login({
               authToken,
               user,
+              analyticsOptions: {
+                provider,
+              },
             })
 
             navigate('MainTabNavigation', {
