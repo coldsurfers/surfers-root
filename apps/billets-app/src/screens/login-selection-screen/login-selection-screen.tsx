@@ -2,6 +2,7 @@ import { AuthContext, decodeJwt, GOOGLE_SIGNIN_OPTIONS, ToastVisibleContext, Toa
 import { apiClient } from '@/lib/api/openapi-client'
 import { OpenApiError } from '@/lib/errors'
 import { components } from '@/types/api'
+import { LoginProvider } from '@/types/auth'
 import { CommonScreenLayout } from '@/ui'
 import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import { colors } from '@coldsurfers/ocean-road'
@@ -42,17 +43,23 @@ export const _LoginSelectionScreen = () => {
       email: string
       password?: string
       platform?: 'android' | 'ios'
-      provider: 'google' | 'apple' | 'email'
+      provider: LoginProvider
       token?: string
     }
   >({
     mutationFn: apiClient.auth.signIn,
-    onSuccess: async (data) => {
+    onSuccess: async (data, variables) => {
       if (!data) {
         return
       }
       const { user, authToken } = data
-      await login({ user, authToken })
+      await login({
+        user,
+        authToken,
+        analyticsOptions: {
+          provider: variables.provider,
+        },
+      })
       navigate('MainTabNavigation', {
         screen: 'HomeStackNavigation',
         params: {
