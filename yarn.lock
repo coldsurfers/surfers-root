@@ -4053,10 +4053,10 @@ __metadata:
     "@react-native-community/cli-platform-ios": "npm:15.0.1"
     "@react-native-community/datetimepicker": "npm:^8.2.0"
     "@react-native-community/geolocation": "npm:^3.4.0"
-    "@react-native-firebase/analytics": "npm:21.6.0"
-    "@react-native-firebase/app": "npm:21.6.0"
-    "@react-native-firebase/crashlytics": "npm:21.6.0"
-    "@react-native-firebase/messaging": "npm:21.6.0"
+    "@react-native-firebase/analytics": "npm:21.11.0"
+    "@react-native-firebase/app": "npm:21.11.0"
+    "@react-native-firebase/crashlytics": "npm:21.11.0"
+    "@react-native-firebase/messaging": "npm:21.11.0"
     "@react-native-google-signin/google-signin": "npm:^8.0.0"
     "@react-native/babel-preset": "npm:0.77.0"
     "@react-native/eslint-config": "npm:0.77.0"
@@ -9593,22 +9593,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-firebase/analytics@npm:21.6.0":
-  version: 21.6.0
-  resolution: "@react-native-firebase/analytics@npm:21.6.0"
+"@react-native-firebase/analytics@npm:21.11.0":
+  version: 21.11.0
+  resolution: "@react-native-firebase/analytics@npm:21.11.0"
   dependencies:
     superstruct: "npm:^2.0.2"
   peerDependencies:
-    "@react-native-firebase/app": 21.6.0
-  checksum: 10c0/95968eb2859d12d804e6c3bc9c0f2cc4aef47d78b3dffb0eca853e9e9ed1dd73c117f6ed321a259cefb60bca3e622b1351a8c1423868dc05c007d34755c6474d
+    "@react-native-firebase/app": 21.11.0
+  checksum: 10c0/11b11c13c7fc8dc14ba79ca46949f3786b093a33af9496b3ee00065bbd55b1b0b29a18ea6f27d25876da055664dd707f5c2ddd891c432e734df5471ea1466741
   languageName: node
   linkType: hard
 
-"@react-native-firebase/app@npm:21.6.0":
-  version: 21.6.0
-  resolution: "@react-native-firebase/app@npm:21.6.0"
+"@react-native-firebase/app@npm:21.11.0":
+  version: 21.11.0
+  resolution: "@react-native-firebase/app@npm:21.11.0"
   dependencies:
-    firebase: "npm:10.13.2"
+    firebase: "npm:11.3.1"
   peerDependencies:
     expo: ">=47.0.0"
     react: "*"
@@ -9616,35 +9616,35 @@ __metadata:
   peerDependenciesMeta:
     expo:
       optional: true
-  checksum: 10c0/45fc5c065738d782e15cd6bbf2bb4e0bb17b7d1e046472bc72e3e5dddfbd43218dbc9b94b09773c938f0501fdbd1d3793fc2ac74fb327ff95685156e57a25082
+  checksum: 10c0/8cb1302da6881083fbdd308122ccc30c8a9637c490d525ef140f69385807ab2f1dbc1bbb12638355a8356d7e597de559be9a52245a97975e3b90ef6d6cc4a70f
   languageName: node
   linkType: hard
 
-"@react-native-firebase/crashlytics@npm:21.6.0":
-  version: 21.6.0
-  resolution: "@react-native-firebase/crashlytics@npm:21.6.0"
+"@react-native-firebase/crashlytics@npm:21.11.0":
+  version: 21.11.0
+  resolution: "@react-native-firebase/crashlytics@npm:21.11.0"
   dependencies:
     stacktrace-js: "npm:^2.0.2"
   peerDependencies:
-    "@react-native-firebase/app": 21.6.0
+    "@react-native-firebase/app": 21.11.0
     expo: ">=47.0.0"
   peerDependenciesMeta:
     expo:
       optional: true
-  checksum: 10c0/a46b726df0cefb8d834a02fe3638e37cbc9248b0c9abc443ccb403da3fc80073a639fe05806732044e5bd03ea32e0868d3a07651e79d3f9e8d51bfcb7a20e58c
+  checksum: 10c0/d117a7695fdefe24586597b5b216f949926566ce7e496628a280eb20172cc33a1e34546548bcbcbfb782ee51eb5cf58fa358525b6d6e9abdc9e2d08d337909e6
   languageName: node
   linkType: hard
 
-"@react-native-firebase/messaging@npm:21.6.0":
-  version: 21.6.0
-  resolution: "@react-native-firebase/messaging@npm:21.6.0"
+"@react-native-firebase/messaging@npm:21.11.0":
+  version: 21.11.0
+  resolution: "@react-native-firebase/messaging@npm:21.11.0"
   peerDependencies:
-    "@react-native-firebase/app": 21.6.0
+    "@react-native-firebase/app": 21.11.0
     expo: ">=47.0.0"
   peerDependenciesMeta:
     expo:
       optional: true
-  checksum: 10c0/d5d12a3e4b187534c2674af288d10ccb65f6c916e2d433d7a7a0ac84d4eac88967bfe39ed6cdff77df72d9810be42e1600400b6a339ecd3094bb82cba0fb5b6b
+  checksum: 10c0/00235283e152817c7c518cdc43498f511a88264a932da750c8bf1af80dc5d12c4a589b10e419d8ff6f3f27dee3763e686873af5054873de111fd1b21971b2033
   languageName: node
   linkType: hard
 
