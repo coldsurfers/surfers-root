@@ -1,5 +1,5 @@
 import { CurrentLocationTracker, useToggleSubscribeConcert, useUserCurrentLocationStore } from '@/features'
-import { useShowBottomTabBar, zodScreen } from '@/lib'
+import { useFirebaseAnalytics, useShowBottomTabBar, zodScreen } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
 import {
   AnimatePresence,
@@ -21,6 +21,7 @@ import { useHomeScreenNavigation } from './home-screen.hooks'
 const SuspenseHomeScreen = () => {
   const startNavigationTTITimer = useStartProfiler()
   const navigation = useHomeScreenNavigation()
+  const { logEvent } = useFirebaseAnalytics()
   const listRef = useRef<FlatList>(null)
   useScrollToTop(listRef)
   useShowBottomTabBar()
@@ -57,8 +58,14 @@ const SuspenseHomeScreen = () => {
         screen: 'EventDetailScreen',
         params: { eventId: item.id },
       })
+      logEvent({
+        name: 'click_event',
+        params: {
+          event_id: item.id,
+        },
+      })
     },
-    [navigation, startNavigationTTITimer],
+    [logEvent, navigation, startNavigationTTITimer],
   )
 
   const onPressSubscribeConcertListItem = useCallback(

@@ -66,7 +66,13 @@ const _EmailConfirmScreen = () => {
         message: '회원가입이 완료되었어요!🎉',
       })
       setTimeout(async () => {
-        await login({ user, authToken })
+        await login({
+          user,
+          authToken,
+          analyticsOptions: {
+            provider: 'email',
+          },
+        })
         navigation.navigate('MainTabNavigation', {
           screen: 'HomeStackNavigation',
           params: {
