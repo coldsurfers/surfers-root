@@ -62,6 +62,5 @@
     "ts-node-dev": "^2.0.0",
     "tsup": "*",
     "typescript": "*"
-  },
-  "packageManager": "yarn@4.2.2"
+  }
 }

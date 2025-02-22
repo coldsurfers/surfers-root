@@ -56,6 +56,5 @@
     "hooks": {
       "after:git:release": "git reset --hard HEAD"
     }
-  },
-  "packageManager": "yarn@4.2.2"
+  }
 }

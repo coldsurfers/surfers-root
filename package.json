@@ -24,7 +24,7 @@
     "dev:billets-server": "yarn workspace @coldsurfers/billets-server debug",
     "prisma:generate": "yarn workspace @coldsurfers/prisma-schema generate",
     "check:runtime": "node ./scripts/check-runtime-env.js",
-    "clean": "sh ./scripts/clean-modules.sh"
+    "clean": "turbo run clean --parallel && sh ./scripts/clean-modules.sh"
   },
   "resolutions": {
     "typescript": "5.6.3",
@@ -102,7 +102,8 @@
   "dependencies": {
     "@prisma/client": "*",
     "patch-package": "^8.0.0",
-    "postinstall-postinstall": "^2.1.0"
+    "postinstall-postinstall": "^2.1.0",
+    "turbo": "2.4.2"
   },
   "pnpm": {
     "patchedDependencies": {
