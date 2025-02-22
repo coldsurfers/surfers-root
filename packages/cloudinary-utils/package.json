@@ -63,6 +63,5 @@
   },
   "dependencies": {
     "@coldsurfers/shared-utils": "workspace:*"
-  },
-  "packageManager": "yarn@4.2.2"
+  }
 }
