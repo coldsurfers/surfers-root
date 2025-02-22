@@ -1471,7 +1471,7 @@ PODS:
     - Yoga
   - react-native-orientation-locker (1.7.0):
     - React-Core
-  - react-native-safe-area-context (4.12.0):
+  - react-native-safe-area-context (5.2.0):
     - React-Core
   - react-native-webview (11.26.1):
     - React-Core
@@ -1772,8 +1772,6 @@ PODS:
     - React-Core
   - RNCClipboard (1.15.0):
     - React-Core
-  - RNCPicker (2.9.0):
-    - React-Core
   - RNDateTimePicker (8.2.0):
     - React-Core
   - RNDeviceInfo (14.0.2):
@@ -1959,7 +1957,7 @@ PODS:
     - Yoga
   - RNStoreReview (0.4.3):
     - React-Core
-  - RNSVG (15.10.1):
+  - RNSVG (15.11.1):
     - React-Core
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
@@ -2059,7 +2057,6 @@ DEPENDENCIES:
   - "RNAppleAuthentication (from `../../../node_modules/@invertase/react-native-apple-authentication`)"
   - RNBootSplash (from `../../../node_modules/react-native-bootsplash`)
   - "RNCClipboard (from `../../../node_modules/@react-native-clipboard/clipboard`)"
-  - "RNCPicker (from `../../../node_modules/@react-native-picker/picker`)"
   - "RNDateTimePicker (from `../../../node_modules/@react-native-community/datetimepicker`)"
   - RNDeviceInfo (from `../../../node_modules/react-native-device-info`)
   - RNFastImage (from `../../../node_modules/react-native-fast-image`)
@@ -2271,8 +2268,6 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native-bootsplash"
   RNCClipboard:
     :path: "../../../node_modules/@react-native-clipboard/clipboard"
-  RNCPicker:
-    :path: "../../../node_modules/@react-native-picker/picker"
   RNDateTimePicker:
     :path: "../../../node_modules/@react-native-community/datetimepicker"
   RNDeviceInfo:
@@ -2378,7 +2373,7 @@ SPEC CHECKSUMS:
   react-native-maps: ee1e65647460c3d41e778071be5eda10e3da6225
   react-native-mmkv: 3c0891cce2d6a496b8cb4757c6399d2ea2548ad2
   react-native-orientation-locker: 5819fd23ca89cbac0d736fb4314745f62716d517
-  react-native-safe-area-context: 142fade490cbebbe428640b8cbdb09daf17e8191
+  react-native-safe-area-context: 849d7df29ecb2a7155c769c0b76849ba952c2aa3
   react-native-webview: 9f111dfbcfc826084d6c507f569e5e03342ee1c1
   React-nativeconfig: 334c9961d74ddd3bc203afb92ee574ed01c7c755
   React-NativeModulesApple: e55f72e014482edd711542815a98b865ee6de9a1
@@ -2413,7 +2408,6 @@ SPEC CHECKSUMS:
   RNAppleAuthentication: e00c76acb03351f5544373c78fa7f359bef6d5d3
   RNBootSplash: 107e51392c11c000af0fdcbd90336203068e5e5e
   RNCClipboard: 69ab8e51324d5b351f6ba72bbdb72478087a2c64
-  RNCPicker: f963e01f78e546a93b98aa201501713dbda14e94
   RNDateTimePicker: 40ffda97d071a98a10fdca4fa97e3977102ccd14
   RNDeviceInfo: 3f2e5fcca3637f75c6d30ba287293c2f97206781
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
@@ -2428,7 +2422,7 @@ SPEC CHECKSUMS:
   RNReanimated: 9f96886ec1e1772ed7462cc80da82b7bf1ba984d
   RNScreens: f94c1b22a5cc888a2f606a05dd571ca8d74bda66
   RNStoreReview: 31dbfd0dac2eea9675f0b84f1dd3261c2110c337
-  RNSVG: 7ff26379b2d1871b8571e6f9bc9630de6baf9bdf
+  RNSVG: 515a902fc18a375907eb4c3abec0b803fbfa37ef
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748

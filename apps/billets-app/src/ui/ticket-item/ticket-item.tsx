@@ -33,7 +33,7 @@ export const TicketItem = memo(({ sellerName, url }: TicketItemProps) => {
 
   return (
     <View style={[styles.ticketWrapper, { backgroundColor: semantics.background[4] }]}>
-      <Text weight="bold" style={{ color: semantics.foreground[1] }}>
+      <Text weight="bold" style={{ color: semantics.foreground[1], fontSize: 14 }}>
         {sellerName}
       </Text>
       <Button theme="pink" size="md" onPress={onPress} style={styles.ticketBtn}>
