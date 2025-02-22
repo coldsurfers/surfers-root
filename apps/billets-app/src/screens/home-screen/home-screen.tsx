@@ -14,7 +14,7 @@ import { useScrollToTop } from '@react-navigation/native'
 import { PerformanceMeasureView, RenderStateProps, useStartProfiler } from '@shopify/react-native-performance'
 import { useQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useRef, useState } from 'react'
-import { FlatList, StyleSheet, View } from 'react-native'
+import { FlatList, View } from 'react-native'
 import { useShallow } from 'zustand/shallow'
 import { useHomeScreenNavigation } from './home-screen.hooks'
 
@@ -138,12 +138,3 @@ export const HomeScreen = () => {
     </PerformanceMeasureView>
   )
 }
-
-const styles = StyleSheet.create({
-  contentContainer: {
-    paddingHorizontal: 12,
-    paddingBottom: 64,
-    flexGrow: 1,
-  },
-  list: { flex: 1 },
-})
