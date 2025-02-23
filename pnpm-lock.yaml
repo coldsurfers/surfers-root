@@ -89,6 +89,9 @@ importers:
 
   apps/billets-app:
     dependencies:
+      '@coldsurfers/design-tokens':
+        specifier: workspace:*
+        version: link:../../packages/ocean-road-design-tokens
       '@coldsurfers/ocean-road':
         specifier: workspace:*
         version: link:../../packages/ocean-road
@@ -99,8 +102,8 @@ importers:
         specifier: 11.10.6
         version: 11.10.6(@types/react@18.2.67)(react@18.3.1)
       '@gorhom/bottom-sheet':
-        specifier: ^5.0.6
-        version: 5.1.1(@types/react@18.2.67)(react-native-gesture-handler@2.23.1(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1))(react-native-reanimated@3.16.7(@babel/core@7.26.9)(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1))(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1)
+        specifier: 5.0.6
+        version: 5.0.6(@types/react@18.2.67)(react-native-gesture-handler@2.23.1(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1))(react-native-reanimated@3.16.7(@babel/core@7.26.9)(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1))(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1)
       '@invertase/react-native-apple-authentication':
         specifier: ^2.2.2
         version: 2.4.0
@@ -108,11 +111,11 @@ importers:
         specifier: 1.3.4
         version: 1.3.4(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.59.16(react@18.3.1))
       '@react-native-clipboard/clipboard':
-        specifier: ^1.15.0
-        version: 1.16.1(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1)
+        specifier: 1.15.0
+        version: 1.15.0(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1)
       '@react-native-community/datetimepicker':
-        specifier: ^8.2.0
-        version: 8.3.0(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1)
+        specifier: 8.2.0
+        version: 8.2.0(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1)
       '@react-native-community/geolocation':
         specifier: ^3.4.0
         version: 3.4.0(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1)
@@ -180,17 +183,17 @@ importers:
         specifier: 0.77.0
         version: 0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1)
       react-native-bootsplash:
-        specifier: ^6.1.3
-        version: 6.3.3(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1)
+        specifier: 6.2.6
+        version: 6.2.6(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1)
       react-native-calendars:
         specifier: ^1.1289.0
         version: 1.1309.1(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1)
       react-native-code-push:
-        specifier: ^9.0.0
-        version: 9.0.1
+        specifier: 9.0.0
+        version: 9.0.0
       react-native-config:
-        specifier: ^1.5.3
-        version: 1.5.5
+        specifier: 1.5.3
+        version: 1.5.3
       react-native-device-info:
         specifier: 14.0.2
         version: 14.0.2(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))
@@ -201,8 +204,8 @@ importers:
         specifier: 2.23.1
         version: 2.23.1(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1)
       react-native-google-mobile-ads:
-        specifier: ^14.6.0
-        version: 14.9.0(react@18.3.1)
+        specifier: 14.6.0
+        version: 14.6.0(react@18.3.1)
       react-native-maps:
         specifier: ^1.20.1
         version: 1.20.1(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1)
@@ -1189,10 +1192,6 @@ importers:
         version: 0.12.5
 
   packages/ocean-road:
-    dependencies:
-      '@coldsurfers/design-tokens':
-        specifier: workspace:*
-        version: link:../ocean-road-design-tokens
     devDependencies:
       '@babel/preset-react':
         specifier: ^7.18.6
@@ -1200,6 +1199,9 @@ importers:
       '@babel/preset-typescript':
         specifier: ^7.21.4
         version: 7.26.0(@babel/core@7.26.9)
+      '@coldsurfers/design-tokens':
+        specifier: workspace:*
+        version: link:../ocean-road-design-tokens
       '@emotion/css':
         specifier: 11.10.6
         version: 11.10.6
@@ -1255,7 +1257,7 @@ importers:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
       react-native-reanimated:
-        specifier: '*'
+        specifier: 3.16.7
         version: 3.16.7(@babel/core@7.26.9)(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.2.0))(react@18.2.0)
       react-native-svg:
         specifier: 15.11.1
@@ -3075,17 +3077,17 @@ packages:
     resolution: {integrity: sha512-JubJ5B2pJ4k4yGxaNLdbjrnk9d/iDz6/q8wOilpIowd6PJPgaxCuHBnBszq7Ce2TyMrywm5r4PnKm6V3iiZF+g==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@expo/config-plugins@9.0.15':
-    resolution: {integrity: sha512-elKY/zIpAJ40RH26iwfyp+hwgeyPgIXX0SrCSOcjeJLsMsCmMac9ewvb+AN8y4k+N7m5lD/dMZupsaateKTFwA==}
+  '@expo/config-plugins@8.0.11':
+    resolution: {integrity: sha512-oALE1HwnLFthrobAcC9ocnR9KXLzfWEjgIe4CPe+rDsfC6GDs8dGYCXfRFoCEzoLN4TGYs9RdZ8r0KoCcNrm2A==}
 
-  '@expo/config-types@52.0.4':
-    resolution: {integrity: sha512-oMGrb2o3niVCIfjnIHFrOoiDA9jGb0lc3G4RI1UiO//KjULBaQr3QTBoKDzZQwMqDV1AgYgSr9mgEcnX3LqhIg==}
+  '@expo/config-types@51.0.3':
+    resolution: {integrity: sha512-hMfuq++b8VySb+m9uNNrlpbvGxYc8OcFCUX9yTmi9tlx6A4k8SDabWFBgmnr4ao3wEArvWrtUQIfQCVtPRdpKA==}
 
-  '@expo/json-file@9.0.2':
-    resolution: {integrity: sha512-yAznIUrybOIWp3Uax7yRflB0xsEpvIwIEqIjao9SGi2Gaa+N0OamWfe0fnXBSWF+2zzF4VvqwT4W5zwelchfgw==}
+  '@expo/json-file@8.3.3':
+    resolution: {integrity: sha512-eZ5dld9AD0PrVRiIWpRkm5aIoWBw3kAyd8VkuWEy92sEthBKDDDHAnK2a0dw0Eil6j7rK7lS/Qaq/Zzngv2h5A==}
 
-  '@expo/plist@0.2.2':
-    resolution: {integrity: sha512-ZZGvTO6vEWq02UAPs3LIdja+HRO18+LRI5QuDl6Hs3Ps7KX7xU6Y6kjahWKY37Rx2YjNpX07dGpBFzzC+vKa2g==}
+  '@expo/plist@0.1.3':
+    resolution: {integrity: sha512-GW/7hVlAylYg1tUrEASclw1MMk9FP4ZwyFAY/SUTJIhPDQHtfOlXREyWV3hhrHdX/K+pS73GNgdfT6E/e+kBbg==}
 
   '@expo/sdk-runtime-versions@1.0.0':
     resolution: {integrity: sha512-Doz2bfiPndXYFPMRwPyGa1k5QaKDVpY806UJj570epIiMzWaYyCtobasyfC++qfIXVb5Ocy7r3tP9d62hAQ7IQ==}
@@ -3567,8 +3569,8 @@ packages:
     resolution: {integrity: sha512-+2k+mcQBb9zkaXMllf2wwR/rI07guAx+eZLWsGTDihW2lJRGfiqB7xu1r7/s4uvSP/T+nAumvzT5TTscwHKJ9A==}
     engines: {node: '>=14'}
 
-  '@gorhom/bottom-sheet@5.1.1':
-    resolution: {integrity: sha512-Y8FiuRmeZYaP+ZGQ0axDwWrrKqVp4ByYRs1D2fTJTxHMt081MHHRQsqmZ3SK7AFp3cSID+vTqnD8w/KAASpy+w==}
+  '@gorhom/bottom-sheet@5.0.6':
+    resolution: {integrity: sha512-SI/AhPvgRfnCWN6/+wbE6TXwRE4X8F2fLyE4L/0bRwgE34Zenq585qLT139uEcfCIyovC2swC3ICqQpkmWEcFA==}
     peerDependencies:
       '@types/react': '*'
       '@types/react-native': '*'
@@ -4751,8 +4753,8 @@ packages:
   '@protobufjs/utf8@1.1.0':
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
 
-  '@react-native-clipboard/clipboard@1.16.1':
-    resolution: {integrity: sha512-YdSwSS3P4IiJq5nW0iv3qpntDAzBf/xoew2zRPGJ6SJZr/Lhk4aWyR506EWl6BID+iQy7xQmzHXZYR5H4apM6g==}
+  '@react-native-clipboard/clipboard@1.15.0':
+    resolution: {integrity: sha512-YDMC3E956jn9zE11uKGcQDKS1SO9q72iNHxZyrKY5y9XYwZcA9vo3Xk74+zRnf7cM48drDO0s9lyAPUlOvyhrw==}
     peerDependencies:
       react: '>= 16.9.0'
       react-native: '>= 0.61.5'
@@ -4767,14 +4769,8 @@ packages:
   '@react-native-community/cli-clean@15.0.1':
     resolution: {integrity: sha512-flGTfT005UZvW2LAXVowZ/7ri22oiiZE4pPgMvc8klRxO5uofKIRuohgiHybHtiCo/HNqIz45JmZJvuFrhc4Ow==}
 
-  '@react-native-community/cli-config-android@15.1.3':
-    resolution: {integrity: sha512-v9okV/WQfMJEWRddI0S6no2v9Lvk54KgFkw1mvMYhJKVqloCNsIWzoqme0u7zIuYSzwsjXUQXVlGiDzbbwdkBw==}
-
   '@react-native-community/cli-config-apple@15.0.1':
     resolution: {integrity: sha512-GEHUx4NRp9W9or6vygn0TgNeFkcJdNjrtko0vQEJAS4gJdWqP/9LqqwJNlUfaW5jHBN7TKALAMlfRmI12Op3sg==}
-
-  '@react-native-community/cli-config-apple@15.1.3':
-    resolution: {integrity: sha512-Qv6jaEaycv+7s8wR9l9bdpIeSNFCeVANfGCX1x76SgOmGfZNIa7J3l1HaeF/5ktERMYsw/hm4u3rUn4Ks0YV1g==}
 
   '@react-native-community/cli-config@15.0.1':
     resolution: {integrity: sha512-SL3/9zIyzQQPKWei0+W1gNHxCPurrxqpODUWnVLoP38DNcvYCGtsRayw/4DsXgprZfBC+FsscNpd3IDJrG59XA==}
@@ -4800,9 +4796,6 @@ packages:
   '@react-native-community/cli-tools@15.0.1':
     resolution: {integrity: sha512-N79A+u/94roanfmNohVcNGu6Xg+0idh63JHZFLC9OJJuZwTifGMLDfSTHZATpR1J7rebozQ5ClcSUePavErnSg==}
 
-  '@react-native-community/cli-tools@15.1.3':
-    resolution: {integrity: sha512-2RzoUKR+Y03ijBeeSoCSQihyN6dxy3fbHjraO4MheZZUzt/Yd1VMEDd0R5aa6rtiRDoknbHt45RL2GMa8MSaEA==}
-
   '@react-native-community/cli-types@15.0.1':
     resolution: {integrity: sha512-sWiJ62kkGu2mgYni2dsPxOMBzpwTjNsDH1ubY4mqcNEI9Zmzs0vRwwDUEhYqwNGys9+KpBKoZRrT2PAlhO84xA==}
 
@@ -4811,8 +4804,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  '@react-native-community/datetimepicker@8.3.0':
-    resolution: {integrity: sha512-K/KgaJbLtjMpx4PaG4efrVIcSe6+DbLufeX1lwPB5YY8i3sq9dOh6WcAcMTLbaRTUpurebQTkl7puHPFm9GalA==}
+  '@react-native-community/datetimepicker@8.2.0':
+    resolution: {integrity: sha512-qrUPhiBvKGuG9Y+vOqsc56RPFcHa1SU2qbAMT0hfGkoFIj3FodE0VuPVrEa8fgy7kcD5NQmkZIKgHOBLV0+hWg==}
     peerDependencies:
       expo: '>=50.0.0'
       react: '*'
@@ -8517,6 +8510,10 @@ packages:
     resolution: {integrity: sha512-MKZeRNyYZAVVVG1oZeLaWie1uweH40m9AZwIwxyPbTSX4hHrVYSzLg0Ro5Z5R7XKkIX+Cc6oD1rqeDJnwsB8/A==}
     deprecated: Glob versions prior to v9 are no longer supported
 
+  glob@7.1.6:
+    resolution: {integrity: sha512-LwaxwyZ72Lk7vZINtNNrywX0ZuLyStrdDtabefZKAY5ZGJhVtgdznluResxNmPitE0SAO+O26sWTHeKSI2wMBA==}
+    deprecated: Glob versions prior to v9 are no longer supported
+
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
     deprecated: Glob versions prior to v9 are no longer supported
@@ -11298,9 +11295,8 @@ packages:
       react: ^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18 || ^19
       react-dom: ^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18 || ^19
 
-  react-native-bootsplash@6.3.3:
-    resolution: {integrity: sha512-2fyOAhy/tpX9blEGMs3t+K5KkqPPxWGVBBd0BjgDpzNxfaFwXPvWQeuhvXR5zxT1LBBAkRVzIM0NVI9jpFPfBQ==}
-    hasBin: true
+  react-native-bootsplash@6.2.6:
+    resolution: {integrity: sha512-TQrq7gzCwwMgbF3K3AhpBNS0zDRPeab045golGQUOyXKQ3MfvaUKE9BAt8UWZwGxzt94oQO+geMZA1iFUFHbrg==}
     peerDependencies:
       react: '>=18.1.0'
       react-native: '>=0.70.0'
@@ -11308,11 +11304,11 @@ packages:
   react-native-calendars@1.1309.1:
     resolution: {integrity: sha512-ZUvdKkagOVAI2B0/bVVKBaCMCCFsbxtgOLdBCKETz5K4FadL6C+69josMFoJv1OIeVFNyhRO9w1BW1qxglzYpw==}
 
-  react-native-code-push@9.0.1:
-    resolution: {integrity: sha512-+7BhJbsx0c9md2zCOPsEv44eKQsvDM7J5nVYFsDUHVzBx8cvojBSPfjfdqZq5op5YmawH7mpbIPMYUj9bF9SLw==}
+  react-native-code-push@9.0.0:
+    resolution: {integrity: sha512-9Tf5t1xixIRi23fsCI5EODB20TpOs9BONCm57yDEAWO9+TQuw5VoF0eJXYBFjyK2ZAxhTxxPvxzkrHcZKItKUQ==}
 
-  react-native-config@1.5.5:
-    resolution: {integrity: sha512-dGdLnBU0cd5xL5bF0ROTmHYbsstZnQKOEPfglvZi1vStvAjpld14X25K6mY3KGPTMWAzx6TbjKeq5dR+ILuMMA==}
+  react-native-config@1.5.3:
+    resolution: {integrity: sha512-3D05Abgk5DfDw9w258EzXvX5AkU7eqj3u9H0H0L4gUga4nYg/zuupcrpGbpF4QeXBcJ84jjs6g8JaEP6VBT7Pg==}
     peerDependencies:
       react-native-windows: '>=0.61'
     peerDependenciesMeta:
@@ -11336,8 +11332,8 @@ packages:
       react: '*'
       react-native: '*'
 
-  react-native-google-mobile-ads@14.9.0:
-    resolution: {integrity: sha512-jllIbT446rK6r/467XuJ40OeUlGc4FsYRa1PERMlJzeTkVyBcHA4Od9Cg5L874zm7di3aE3Pwt3J5AMx/IX9QA==}
+  react-native-google-mobile-ads@14.6.0:
+    resolution: {integrity: sha512-ZTs/w+b9kLTWAR5f9jJkWJSkiF4awa0TCoHNPC6llbeZ7ch2KFhKtQ7B7Eom8SqlZ7LRb2da5sKqgrV/dmhlrA==}
     peerDependencies:
       expo: '>=47.0.0'
     peerDependenciesMeta:
@@ -16159,16 +16155,17 @@ snapshots:
       '@eslint/core': 0.12.0
       levn: 0.4.1
 
-  '@expo/config-plugins@9.0.15':
+  '@expo/config-plugins@8.0.11':
     dependencies:
-      '@expo/config-types': 52.0.4
-      '@expo/json-file': 9.0.2
-      '@expo/plist': 0.2.2
+      '@expo/config-types': 51.0.3
+      '@expo/json-file': 8.3.3
+      '@expo/plist': 0.1.3
       '@expo/sdk-runtime-versions': 1.0.0
       chalk: 4.1.2
       debug: 4.4.0
+      find-up: 5.0.0
       getenv: 1.0.0
-      glob: 10.4.5
+      glob: 7.1.6
       resolve-from: 5.0.0
       semver: 7.7.1
       slash: 3.0.0
@@ -16178,15 +16175,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@expo/config-types@52.0.4': {}
+  '@expo/config-types@51.0.3': {}
 
-  '@expo/json-file@9.0.2':
+  '@expo/json-file@8.3.3':
     dependencies:
       '@babel/code-frame': 7.10.4
       json5: 2.2.3
       write-file-atomic: 2.4.3
 
-  '@expo/plist@0.2.2':
+  '@expo/plist@0.1.3':
     dependencies:
       '@xmldom/xmldom': 0.7.13
       base64-js: 1.5.1
@@ -16995,7 +16992,7 @@ snapshots:
       - supports-color
     optional: true
 
-  '@gorhom/bottom-sheet@5.1.1(@types/react@18.2.67)(react-native-gesture-handler@2.23.1(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1))(react-native-reanimated@3.16.7(@babel/core@7.26.9)(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1))(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1)':
+  '@gorhom/bottom-sheet@5.0.6(@types/react@18.2.67)(react-native-gesture-handler@2.23.1(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1))(react-native-reanimated@3.16.7(@babel/core@7.26.9)(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1))(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@gorhom/portal': 1.0.14(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1)
       invariant: 2.2.4
@@ -18592,7 +18589,7 @@ snapshots:
 
   '@protobufjs/utf8@1.1.0': {}
 
-  '@react-native-clipboard/clipboard@1.16.1(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1)':
+  '@react-native-clipboard/clipboard@1.15.0(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1)':
     dependencies:
       react: 18.3.1
       react-native: 0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1)
@@ -18604,23 +18601,9 @@ snapshots:
       execa: 5.1.1
       fast-glob: 3.3.3
 
-  '@react-native-community/cli-config-android@15.1.3':
-    dependencies:
-      '@react-native-community/cli-tools': 15.1.3
-      chalk: 4.1.2
-      fast-glob: 3.3.3
-      fast-xml-parser: 4.5.3
-
   '@react-native-community/cli-config-apple@15.0.1':
     dependencies:
       '@react-native-community/cli-tools': 15.0.1
-      chalk: 4.1.2
-      execa: 5.1.1
-      fast-glob: 3.3.3
-
-  '@react-native-community/cli-config-apple@15.1.3':
-    dependencies:
-      '@react-native-community/cli-tools': 15.1.3
       chalk: 4.1.2
       execa: 5.1.1
       fast-glob: 3.3.3
@@ -18714,20 +18697,6 @@ snapshots:
       shell-quote: 1.8.2
       sudo-prompt: 9.2.1
 
-  '@react-native-community/cli-tools@15.1.3':
-    dependencies:
-      appdirsjs: 1.2.7
-      chalk: 4.1.2
-      execa: 5.1.1
-      find-up: 5.0.0
-      mime: 2.6.0
-      open: 6.4.0
-      ora: 5.4.1
-      prompts: 2.4.2
-      semver: 7.7.1
-      shell-quote: 1.8.2
-      sudo-prompt: 9.2.1
-
   '@react-native-community/cli-types@15.0.1':
     dependencies:
       joi: 17.13.3
@@ -18756,7 +18725,7 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@react-native-community/datetimepicker@8.3.0(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1)':
+  '@react-native-community/datetimepicker@8.2.0(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1)':
     dependencies:
       invariant: 2.2.4
       react: 18.3.1
@@ -23643,6 +23612,15 @@ snapshots:
       path-is-absolute: 1.0.1
     optional: true
 
+  glob@7.1.6:
+    dependencies:
+      fs.realpath: 1.0.0
+      inflight: 1.0.6
+      inherits: 2.0.4
+      minimatch: 3.1.2
+      once: 1.4.0
+      path-is-absolute: 1.0.1
+
   glob@7.2.3:
     dependencies:
       fs.realpath: 1.0.0
@@ -27014,13 +26992,9 @@ snapshots:
       react-lifecycles-compat: 3.0.4
       warning: 4.0.3
 
-  react-native-bootsplash@6.3.3(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1):
+  react-native-bootsplash@6.2.6(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1))(react@18.3.1):
     dependencies:
-      '@expo/config-plugins': 9.0.15
-      '@react-native-community/cli-config-android': 15.1.3
-      '@react-native-community/cli-config-apple': 15.1.3
-      '@react-native-community/cli-tools': 15.1.3
-      commander: 12.1.0
+      '@expo/config-plugins': 8.0.11
       detect-indent: 6.1.0
       fs-extra: 11.3.0
       node-html-parser: 6.1.13
@@ -27051,7 +27025,7 @@ snapshots:
       - react
       - react-native
 
-  react-native-code-push@9.0.1:
+  react-native-code-push@9.0.0:
     dependencies:
       code-push: 4.2.3
       glob: 7.2.3
@@ -27063,7 +27037,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  react-native-config@1.5.5: {}
+  react-native-config@1.5.3: {}
 
   react-native-device-info@14.0.2(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1)):
     dependencies:
@@ -27082,7 +27056,7 @@ snapshots:
       react: 18.3.1
       react-native: 0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.3.1)
 
-  react-native-google-mobile-ads@14.9.0(react@18.3.1):
+  react-native-google-mobile-ads@14.6.0(react@18.3.1):
     dependencies:
       '@iabtcf/core': 1.5.6
       use-deep-compare-effect: 1.8.1(react@18.3.1)
