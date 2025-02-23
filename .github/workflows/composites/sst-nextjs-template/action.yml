@@ -28,7 +28,9 @@ runs:
 
     - name: corepack enable
       shell: bash
-      run: corepack enable
+      run: |
+        corepack enable
+        COREPACK_INTEGRITY_KEYS=0 corepack prepare --activate
 
     - name: setup yarnrc
       shell: bash
