@@ -54,4 +54,4 @@ jobs:
 
       - name: sst deploy
         working-directory: ./apps/billets-web
-        run: npx sst deploy --stage production
+        run: pnpm sst deploy --stage production
