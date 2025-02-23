@@ -84,7 +84,7 @@
     "tar": "^7.4.3",
     "ts-node-dev": "^2.0.0",
     "tsup": "*",
-    "typescript": "*",
+    "typescript": "5.6.3",
     "xml2js": "^0.6.2"
   }
 }
