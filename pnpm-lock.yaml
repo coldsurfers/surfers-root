@@ -1035,9 +1035,6 @@ importers:
       '@aws-sdk/s3-presigned-post':
         specifier: ^3.254.0
         version: 3.750.0
-      '@coldsurfers/prisma-schema':
-        specifier: workspace:*
-        version: link:../../packages/prisma-schema
       '@fastify/aws-lambda':
         specifier: 5.0.0
         version: 5.0.0
