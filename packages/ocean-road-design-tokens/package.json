@@ -10,7 +10,7 @@
   "devDependencies": {
     "eslint": "8.57.0",
     "prettier": "*",
-    "release-it": "*",
+    "release-it": "17.2.1",
     "style-dictionary": "^3.7.2",
     "ts-node": "^10.9.1",
     "typescript": "5.6.3"
