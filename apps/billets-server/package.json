@@ -75,6 +75,7 @@
     "eslint": "8.57.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.0",
+    "node-fetch": "^3.3.2",
     "pm2": "*",
     "prettier": "*",
     "prisma": "*",
