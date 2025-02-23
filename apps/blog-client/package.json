@@ -3,13 +3,13 @@
   "version": "2.0.1",
   "scripts": {
     "build": "next build",
-    "deploy": "yarn sitemap && pm2 start ecosystem.config.js",
+    "deploy": "pnpm sitemap && pm2 start ecosystem.config.js",
     "deploy:prebuilt": "npx vercel build --prod && npx vercel deploy --prod --prebuilt",
     "dev": "next dev",
     "lint:fix": "next lint --fix && prettier --write .",
-    "prisma:db-push": "yarn prisma db push --schema ../../packages/prisma-schema/prisma/schema.prisma",
-    "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma",
-    "prisma:migrate": "yarn prisma migrate dev --schema ../../packages/prisma-schema/prisma/schema.prisma",
+    "prisma:db-push": "pnpm prisma db push --schema ../../packages/prisma-schema/prisma/schema.prisma",
+    "prisma:generate": "pnpm prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma",
+    "prisma:migrate": "pnpm prisma migrate dev --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "start": "next start",
     "start:standalone": "cp -r public .next/standalone/apps/blog-client/public && cp -r .next/static .next/standalone/apps/blog-client/.next/static && node .next/standalone/apps/blog-client/server.js"
   },

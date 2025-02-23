@@ -27,7 +27,11 @@
     "clean": "turbo run clean --parallel && sh ./scripts/clean-modules.sh"
   },
   "resolutions": {
-    "@fastify/error": "4.0.0"
+    "@fastify/error": "4.0.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "@types/react": "18.2.67",
+    "@types/react-dom": "18.2.22"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.12.1",
