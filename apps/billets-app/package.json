@@ -29,9 +29,6 @@
     ],
     "preset": "react-native"
   },
-  "resolutions": {
-    "@types/react": "^18"
-  },
   "dependencies": {
     "@coldsurfers/ocean-road": "workspace:*",
     "@emotion/native": "*",

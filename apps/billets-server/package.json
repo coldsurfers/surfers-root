@@ -4,6 +4,7 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
+    "postinstall": "pnpm prisma:generate",
     "prebuild": "yarn clean",
     "build": "yarn tsup",
     "dev": "tsup --watch",
@@ -16,7 +17,7 @@
     "prisma:db-push": "yarn prisma db push --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "prisma:migrate-dev": "yarn prisma migrate dev --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "prisma:studio": "yarn prisma studio --schema ../../packages/prisma-schema/prisma/schema.prisma",
-    "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma",
+    "prisma:generate": "pnpm prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "serverless:offline": "npx serverless offline --httpPort 3001",
     "serverless:deploy:dev": "yarn install:sharp && yarn build && yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage dev",
     "serverless:deploy:prod": "yarn install:sharp && yarn build && yarn prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage prod",
