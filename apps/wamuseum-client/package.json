@@ -18,9 +18,9 @@
     "@apollo/client": "^3.10.4",
     "@coldsurfers/ocean-road": "workspace:*",
     "@coldsurfers/zod-schema": "workspace:*",
-    "@emotion/css": "*",
-    "@emotion/react": "*",
-    "@emotion/styled": "*",
+    "@emotion/css": "11.10.6",
+    "@emotion/react": "11.10.6",
+    "@emotion/styled": "11.10.6",
     "@next/font": "13.1.1",
     "@tanstack/react-table": "^8.7.6",
     "@types/node": "20.12.0",
@@ -28,17 +28,17 @@
     "date-fns": "^2.29.3",
     "eslint-config-next": "15.1.7",
     "file-saver": "^2.0.5",
-    "framer-motion": "*",
+    "framer-motion": "11.11.13",
     "graphql": "^16.6.0",
     "html-to-image": "^1.11.11",
     "next": "15.1.7",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "react-hook-form": "*",
-    "react-spinners": "*",
+    "react-hook-form": "7.48.2",
+    "react-spinners": "0.14.1",
     "string-width": "4.2.3",
     "typescript": "5.6.3",
-    "zod": "^3.23.8"
+    "zod": "3.23.8"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "2.16.1",
@@ -53,7 +53,7 @@
     "eslint": "8.57.0",
     "pm2": "*",
     "prettier": "*",
-    "sst": "*",
+    "sst": "3.4.28",
     "strip-ansi": "^7.1.0",
     "ts-node": "^10.9.2"
   }

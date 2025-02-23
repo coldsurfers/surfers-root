@@ -17,12 +17,12 @@
   "devDependencies": {
     "@coldsurfers/shared-utils": "workspace:*",
     "@types/sha1": "^1.1.5",
-    "axios": "*",
+    "axios": "1.6.3",
     "eslint": "8.57.0",
     "form-data": "^4.0.0",
     "fs": "^0.0.1-security",
     "prettier": "*",
-    "release-it": "*",
+    "release-it": "17.2.1",
     "sha1": "^1.1.1",
     "stream": "^0.0.2",
     "typescript": "5.6.3",
@@ -54,7 +54,7 @@
     }
   },
   "peerDependencies": {
-    "axios": "*",
+    "axios": ">= 1.6.3",
     "form-data": "^4.0.0",
     "fs": "^0.0.1-security",
     "sha1": "^1.1.1",
