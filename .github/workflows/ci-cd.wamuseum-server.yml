@@ -60,10 +60,11 @@ jobs:
           echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> $GITHUB_ENV
 
       - name: install dependencies
-        run: yarn install
+        run: pnpm install
 
       - name: build app
-        run: yarn workspace @coldsurfers/wamuseum-server build
+        working-directory: ./apps/wamuseum-server
+        run: pnpm build
 
       - name: serverless login
         run: |
@@ -72,4 +73,4 @@ jobs:
 
       - name: run serverless deploy
         working-directory: ./apps/wamuseum-server
-        run: yarn serverless:deploy:prod
+        run: pnpm serverless:deploy:prod
