@@ -48,7 +48,7 @@ jobs:
           echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> $GITHUB_ENV
 
       - name: install dependencies
-        run: yarn install
+        run: pnpm install
 
       - name: sst deploy
         working-directory: ./apps/blog-client
