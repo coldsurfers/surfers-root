@@ -2,20 +2,20 @@
   "name": "@coldsurfers/billets-web",
   "version": "1.1.0",
   "scripts": {
-    "build": "yarn prisma:generate && next build",
+    "build": "pnpm prisma:generate && next build",
     "build:vercel": "npx vercel build --prod",
     "swagger": "npx openapi-typescript https://api.billets.coldsurf.io/docs/json -o types/api.d.ts --alphabetize && prettier --write ./types/api.d.ts",
     "swagger:dev": "npx openapi-typescript https://dev.api.billets.coldsurf.io/docs/json -o types/api.d.ts --alphabetize && prettier --write ./types/api.d.ts",
-    "create:env:ci": "yarn ts-node ./libs/createDotEnv.ts",
+    "create:env:ci": "pnpm ts-node ./libs/createDotEnv.ts",
     "deploy": "pm2 start ecosystem.config.js",
     "deploy:vercel": "npx vercel deploy --prod --prebuilt",
     "dev": "next dev",
     "lint": "next lint --fix && prettier --write .",
     "start": "next start",
-    "prisma:db-push": "yarn prisma db push --schema ../../packages/prisma-schema/prisma/schema.prisma",
-    "prisma:migrate-dev": "yarn prisma migrate dev --schema ../../packages/prisma-schema/prisma/schema.prisma",
-    "prisma:studio": "yarn prisma studio --schema ../../packages/prisma-schema/prisma/schema.prisma",
-    "prisma:generate": "yarn prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma"
+    "prisma:db-push": "pnpm prisma db push --schema ../../packages/prisma-schema/prisma/schema.prisma",
+    "prisma:migrate-dev": "pnpm prisma migrate dev --schema ../../packages/prisma-schema/prisma/schema.prisma",
+    "prisma:studio": "pnpm prisma studio --schema ../../packages/prisma-schema/prisma/schema.prisma",
+    "prisma:generate": "pnpm prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma"
   },
   "dependencies": {
     "@coldsurfers/ocean-road": "workspace:*",
