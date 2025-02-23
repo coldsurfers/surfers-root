@@ -1,7 +1,7 @@
-diff --git a/node_modules/react-notion-x/src/styles.css b/node_modules/react-notion-x/src/styles.css
-index 965860c..2f34e3d 100644
---- a/node_modules/react-notion-x/src/styles.css
-+++ b/node_modules/react-notion-x/src/styles.css
+diff --git a/src/styles.css b/src/styles.css
+index 965860cf35c8afb2affc7f4f335f9f574d9e6be4..6000424abf5017823983abef9673f6fe2c1fb943 100644
+--- a/src/styles.css
++++ b/src/styles.css
 @@ -89,7 +89,7 @@
    --notion-header-height: 45px;
  }
@@ -11,12 +11,12 @@ index 965860c..2f34e3d 100644
    --fg-color: rgba(255, 255, 255, 0.9);
    --fg-color-0: var(--fg-color);
    --fg-color-1: var(--fg-color);
-@@ -139,13 +139,21 @@
+@@ -139,13 +139,20 @@
  }
  
  .notion {
 -  font-size: 16px;
-+  /* font-size: 20px; */
++  /* font-size: 16px; */
 +  font-size: 1rem;
    line-height: 1.5;
    color: var(--fg-color);
@@ -26,7 +26,6 @@ index 965860c..2f34e3d 100644
  
 +@media screen and (max-width: 576px) {
 +  .notion {
-+    /* font-size: 18px; */
 +    font-size: 1rem;
 +  }
 +}
@@ -34,7 +33,7 @@ index 965860c..2f34e3d 100644
  .notion > * {
    padding: 3px 0;
  }
-@@ -716,8 +724,8 @@ svg.notion-page-icon {
+@@ -716,8 +723,8 @@ svg.notion-page-icon {
  .notion-page {
    box-sizing: border-box;
    width: var(--notion-max-width);
@@ -45,7 +44,7 @@ index 965860c..2f34e3d 100644
  }
  
  .notion-full-width {
-@@ -739,7 +747,8 @@ svg.notion-page-icon {
+@@ -739,7 +746,8 @@ svg.notion-page-icon {
    border-left: 3px solid currentcolor;
    padding: 0.2em 0.9em;
    margin: 6px 0;
@@ -55,7 +54,7 @@ index 965860c..2f34e3d 100644
  }
  
  .notion-hr {
-@@ -886,11 +895,11 @@ svg.notion-page-icon {
+@@ -886,11 +894,12 @@ svg.notion-page-icon {
    width: 100%;
    height: 100%;
    max-height: 100%;
@@ -65,6 +64,7 @@ index 965860c..2f34e3d 100644
  .notion-asset-wrapper iframe {
    border: none;
 -  background: rgb(247, 246, 245);
++  /* background: rgb(247, 246, 245); */
  }
  
  .notion-text {
@@ -77,11 +77,12 @@ index 965860c..2f34e3d 100644
    border-color: var(--bg-color-0);
  }
  
-@@ -1163,11 +1172,17 @@ svg.notion-page-icon {
+@@ -1163,11 +1172,18 @@ svg.notion-page-icon {
    white-space: pre-wrap;
    word-break: break-word;
    caret-color: var(--fg-color);
 -  font-size: 14px;
++  /* font-size: 14px; */
 +  font-size: 18px;
    line-height: 1.4;
    color: var(--fg-color-3);
@@ -96,7 +97,7 @@ index 965860c..2f34e3d 100644
  .notion-callout {
    padding: 16px 16px 16px 12px;
    display: inline-flex;
-@@ -1180,7 +1195,7 @@ svg.notion-page-icon {
+@@ -1180,7 +1196,7 @@ svg.notion-page-icon {
    border: 1px solid var(--fg-color-0);
  }
  
