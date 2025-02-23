@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const fetch = require('node-fetch')
-const fs = require('fs')
-const path = require('path')
-const tar = require('tar')
-
-const sharpPkg = require('../../../../node_modules/sharp/package.json')
+import fs from 'fs'
+import fetch from 'node-fetch'
+import path from 'path'
+import * as tar from 'tar'
+import sharpPkg from '../../../../node_modules/.pnpm/sharp@0.33.5/node_modules/sharp/package.json' with { type: 'json' }
 
 const npmJsTarballHost = 'https://registry.npmjs.org'
+const __dirname = import.meta.dirname
 
 async function installSharpLinux() {
   const { optionalDependencies } = sharpPkg

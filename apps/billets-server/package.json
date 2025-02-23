@@ -22,7 +22,7 @@
     "serverless:deploy:dev": "pnpm install:sharp && pnpm build && pnpm prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage dev",
     "serverless:deploy:prod": "pnpm install:sharp && pnpm build && pnpm prisma:generate && cp -R ../../node_modules/.prisma ./node_modules/.prisma && npx serverless deploy --stage prod",
     "circular": "dpdm ./src/start-server.ts",
-    "install:sharp": "node ./src/scripts/install-sharp.js"
+    "install:sharp": "node ./src/scripts/install-sharp.mjs"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -75,6 +75,7 @@
     "eslint": "8.57.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.0",
+    "node-fetch": "^3.3.2",
     "pm2": "*",
     "prettier": "*",
     "prisma": "*",
