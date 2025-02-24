@@ -16,13 +16,6 @@
   "scripts": {
     "prepare": "husky install",
     "postinstall": "patch-package",
-    "deploy:blog": "yarn workspace @coldsurfers/blog-client deploy",
-    "start:billets-web": "yarn workspace @coldsurfers/billets-web start",
-    "dev:billets-web": "yarn workspace @coldsurfers/billets-web dev",
-    "dev:wamuseum-server": "yarn workspace @coldsurfers/wamuseum-server debug",
-    "dev:wamuseum-client": "yarn workspace @coldsurfers/wamuseum-client dev",
-    "dev:billets-server": "yarn workspace @coldsurfers/billets-server debug",
-    "prisma:generate": "yarn workspace @coldsurfers/prisma-schema generate",
     "check:runtime": "node ./scripts/check-runtime-env.js",
     "clean": "turbo run clean --parallel && sh ./scripts/clean-modules.sh"
   },
