@@ -27,7 +27,7 @@ target 'AppleMapsExample' do
 
 
   pre_install do |installer|
-    system("cd ../../ && npx bob build --target codegen")
+    system("cd ../../ && pnpm bob build --target codegen")
   end
 
   post_install do |installer|
