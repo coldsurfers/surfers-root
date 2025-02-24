@@ -1,8 +1,7 @@
 {
   "name": "@coldsurfers/surfers-root",
-  "private": true,
   "version": "1.0.0",
-  "packageManager": "pnpm@10.4.1",
+  "private": true,
   "workspaces": {
     "packages": [
       "apps/*",
@@ -14,17 +13,23 @@
     ]
   },
   "scripts": {
-    "prepare": "husky install",
-    "postinstall": "patch-package",
     "check:runtime": "node ./scripts/check-runtime-env.js",
-    "clean": "turbo run clean --parallel && sh ./scripts/clean-modules.sh"
+    "clean": "turbo run clean --parallel && sh ./scripts/clean-modules.sh",
+    "postinstall": "patch-package",
+    "prepare": "husky install"
   },
   "resolutions": {
     "@fastify/error": "4.0.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
     "@types/react": "18.2.67",
-    "@types/react-dom": "18.2.22"
+    "@types/react-dom": "18.2.22",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "dependencies": {
+    "@prisma/client": "5.21.1",
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0",
+    "turbo": "2.4.2"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.12.1",
@@ -46,16 +51,11 @@
     "prettier": "3.2.5",
     "prisma": "5.21.1"
   },
-  "dependencies": {
-    "@prisma/client": "5.21.1",
-    "patch-package": "^8.0.0",
-    "postinstall-postinstall": "^2.1.0",
-    "turbo": "2.4.2"
-  },
+  "packageManager": "pnpm@10.4.1",
   "pnpm": {
     "patchedDependencies": {
-      "react-notion-x@7.2.5": "patches/react-notion-x@7.2.5.patch",
-      "@shopify/react-native-performance@4.1.2": "patches/@shopify__react-native-performance@4.1.2.patch"
+      "@shopify/react-native-performance@4.1.2": "patches/@shopify__react-native-performance@4.1.2.patch",
+      "react-notion-x@7.2.5": "patches/react-notion-x@7.2.5.patch"
     }
   }
 }
