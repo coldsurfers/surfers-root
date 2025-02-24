@@ -533,9 +533,6 @@ importers:
       '@coldsurfers/ocean-road':
         specifier: workspace:*
         version: link:../../packages/ocean-road
-      '@coldsurfers/prisma-schema':
-        specifier: workspace:*
-        version: link:../../packages/prisma-schema
       '@coldsurfers/shared-utils':
         specifier: workspace:*
         version: link:../../packages/shared-utils
