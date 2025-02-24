@@ -915,9 +915,6 @@ importers:
       '@coldsurfers/ocean-road':
         specifier: workspace:*
         version: link:../../packages/ocean-road
-      '@coldsurfers/zod-schema':
-        specifier: workspace:*
-        version: link:../../packages/zod-schema
       '@emotion/css':
         specifier: 11.10.6
         version: 11.10.6
@@ -18859,7 +18856,9 @@ snapshots:
     transitivePeerDependencies:
       - '@babel/core'
       - '@babel/preset-env'
+      - bufferutil
       - supports-color
+      - utf-8-validate
 
   '@react-native/normalize-colors@0.77.0': {}
 
