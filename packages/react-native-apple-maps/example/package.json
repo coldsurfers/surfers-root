@@ -23,6 +23,8 @@
     "@react-native/babel-preset": "0.78.0",
     "@react-native/metro-config": "0.78.0",
     "@react-native/typescript-config": "0.78.0",
+    "@rnx-kit/metro-config": "^2.0.1",
+    "@rnx-kit/metro-resolver-symlinks": "^0.2.1",
     "react-native-builder-bob": "^0.37.0"
   },
   "engines": {
