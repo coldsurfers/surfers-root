@@ -1,10 +1,12 @@
-import { CredentialsProviderSchema } from '@coldsurfers/zod-schema'
 import { z } from 'zod'
 import { Resolvers } from '../../gql/resolvers-types'
 import UserDTO from '../dtos/UserDTO'
 import { authorizeUser } from '../utils/authHelpers'
 import encryptPassword from '../utils/encryptPassword'
 import { validateCreateUser } from '../utils/validate'
+
+// @TODO: 공통 타입
+const CredentialsProviderSchema = z.literal('google').or(z.literal('credentials'))
 
 const userResolvers: Resolvers = {
   Query: {
