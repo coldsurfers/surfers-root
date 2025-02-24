@@ -1370,18 +1370,6 @@ importers:
         specifier: 5.6.3
         version: 5.6.3
 
-  packages/zod-schema:
-    devDependencies:
-      release-it:
-        specifier: 17.2.1
-        version: 17.2.1(typescript@5.6.3)
-      typescript:
-        specifier: 5.6.3
-        version: 5.6.3
-      zod:
-        specifier: 3.23.8
-        version: 3.23.8
-
 packages:
 
   '@adobe/css-tools@4.3.3':
@@ -18856,9 +18844,7 @@ snapshots:
     transitivePeerDependencies:
       - '@babel/core'
       - '@babel/preset-env'
-      - bufferutil
       - supports-color
-      - utf-8-validate
 
   '@react-native/normalize-colors@0.77.0': {}
 
