@@ -2,16 +2,6 @@
   "name": "@coldsurfers/surfers-root",
   "version": "1.0.0",
   "private": true,
-  "workspaces": {
-    "packages": [
-      "apps/*",
-      "packages/*"
-    ],
-    "nohoist": [
-      "**/eslint",
-      "**/eslint/**"
-    ]
-  },
   "scripts": {
     "check:runtime": "node ./scripts/check-runtime-env.js",
     "clean": "turbo run clean --parallel && sh ./scripts/clean-modules.sh",
