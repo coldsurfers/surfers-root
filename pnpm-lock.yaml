@@ -1385,6 +1385,56 @@ importers:
         specifier: ^5.2.2
         version: 5.6.3
 
+  packages/react-native-apple-maps/example:
+    dependencies:
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-native:
+        specifier: 0.78.0
+        version: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.2.0)
+    devDependencies:
+      '@babel/core':
+        specifier: ^7.25.2
+        version: 7.26.9
+      '@babel/preset-env':
+        specifier: ^7.25.3
+        version: 7.26.9(@babel/core@7.26.9)
+      '@babel/runtime':
+        specifier: ^7.25.0
+        version: 7.26.9
+      '@react-native-community/cli':
+        specifier: 15.0.1
+        version: 15.0.1(typescript@5.6.3)
+      '@react-native-community/cli-platform-android':
+        specifier: 15.0.1
+        version: 15.0.1
+      '@react-native-community/cli-platform-ios':
+        specifier: 15.0.1
+        version: 15.0.1
+      '@react-native/babel-preset':
+        specifier: 0.78.0
+        version: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))
+      '@react-native/metro-config':
+        specifier: 0.78.0
+        version: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))
+      '@react-native/typescript-config':
+        specifier: 0.78.0
+        version: 0.78.0
+      '@rnx-kit/metro-config':
+        specifier: ^2.0.1
+        version: 2.0.1(@react-native/metro-config@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9)))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.2.0))(react@18.2.0)
+      '@rnx-kit/metro-resolver-symlinks':
+        specifier: ^0.2.1
+        version: 0.2.1
+      react-native-builder-bob:
+        specifier: ^0.37.0
+        version: 0.37.0(typescript@5.6.3)
+
+  packages/react-native-apple-maps/lib/typescript/commonjs: {}
+
+  packages/react-native-apple-maps/lib/typescript/module: {}
+
   packages/shared-utils:
     devDependencies:
       '@typescript-eslint/eslint-plugin':
@@ -5096,6 +5146,10 @@ packages:
     resolution: {integrity: sha512-IhcsIDdoIYkXf3FoZxayRGg2oMLBhpqWEH6IDJlJTQamOQ3PUm2uF1e7yzvnatZ18A6JCNhOlxnBK7m5ZWQPYQ==}
     engines: {node: '>=18'}
 
+  '@react-native/metro-config@0.78.0':
+    resolution: {integrity: sha512-fPdIPMXTIZfpA4zLuTdeEQYAtNj8pGXnXbil9bfoB5PPf7seacreSxqxqwihRSRafl29j6kXSBgS7TskPBhGow==}
+    engines: {node: '>=18'}
+
   '@react-native/normalize-colors@0.77.0':
     resolution: {integrity: sha512-qjmxW3xRZe4T0ZBEaXZNHtuUbRgyfybWijf1yUuQwjBt24tSapmIslwhCjpKidA0p93ssPcepquhY0ykH25mew==}
 
@@ -5104,6 +5158,9 @@ packages:
 
   '@react-native/typescript-config@0.77.0':
     resolution: {integrity: sha512-WunTrKSQtGKi7gVf24jinHkXXi3tSkChRfrUPFY1njNWwVNtJ/H0ElSlJKUIWaBcd6DKG4ZddKsftWBAWTV0Sg==}
+
+  '@react-native/typescript-config@0.78.0':
+    resolution: {integrity: sha512-G5+MbXvFN+R2GELDYK/kaOxEVMj+/DQRn1PxPps33V/wU/gG6zrlvDWxBaonrlGWpfmqGo87BMal1jQJ8ToSIA==}
 
   '@react-native/virtualized-lists@0.77.0':
     resolution: {integrity: sha512-ppPtEu9ISO9iuzpA2HBqrfmDpDAnGGduNDVaegadOzbMCPAB3tC9Blxdu9W68LyYlNQILIsP6/FYtLwf7kfNew==}
@@ -5178,6 +5235,37 @@ packages:
 
   '@repeaterjs/repeater@3.0.6':
     resolution: {integrity: sha512-Javneu5lsuhwNCryN+pXH93VPQ8g0dBX7wItHFgYiwQmzE1sVdg5tWHiOgHywzL2W21XQopa7IwIEnNbmeUJYA==}
+
+  '@rnx-kit/console@2.0.0':
+    resolution: {integrity: sha512-8kyM0TUWpawWlaypHKWLgJjPoF5HcsjIxx9LSnYM8VgwBW1gOl2cCDhPYaeS8IG9m0fi4rMtQD8OJqmwpJ2jEg==}
+    engines: {node: '>=16.17'}
+
+  '@rnx-kit/metro-config@2.0.1':
+    resolution: {integrity: sha512-BkhniefN5U5lQtlwu97rz+32reUyBCC22zBrCazV/3BvfOZ3b94z2oljUPtYIosoVKm4o6e2bGNlNklG1GWNbQ==}
+    engines: {node: '>=16.17'}
+    peerDependencies:
+      '@react-native/metro-config': '*'
+      react: 18.2.0
+      react-native: '*'
+    peerDependenciesMeta:
+      '@react-native/metro-config':
+        optional: true
+
+  '@rnx-kit/metro-resolver-symlinks@0.2.1':
+    resolution: {integrity: sha512-EHO4odFMyQ3vh03J9lqDnF7RbG1WfH1s8A02S01ZhqtHEeFHEuk/sP90PN1uMuaoJQrcoRr2fJovdd/CoxXpsg==}
+    engines: {node: '>=16.17'}
+
+  '@rnx-kit/tools-node@3.0.2':
+    resolution: {integrity: sha512-nz0kq7FxJ89Vh5NLHZjmexl3sdGeoPaPZMSWQhW6g9JzryGVdU+CyLQtQbajtwaDMQB2qH/IqpmOzAxNFr5pgg==}
+    engines: {node: '>=16.17'}
+
+  '@rnx-kit/tools-react-native@2.0.4':
+    resolution: {integrity: sha512-Lgld4NaYiLPPkYJ7+pH9JHvW5DGG6qtSfBcsRsIDalRS7P19jKxxIuqXsmFw3LE+eH+BzeKlBK7sdh6R8oTUZg==}
+    engines: {node: '>=16.17'}
+
+  '@rnx-kit/tools-workspaces@0.2.1':
+    resolution: {integrity: sha512-e8Tuw7yzUomR8yWEHB1AjCJ6pn9QlseXlKzRwYAeboHM8CakRF58cDsIAO8d9zQolIiwPeoNDvCQbsyUwwbpTw==}
+    engines: {node: '>=16.17'}
 
   '@rollup/plugin-babel@6.0.4':
     resolution: {integrity: sha512-YF7Y52kFdFT/xVSuVdjkV5ZdX/3YtmX0QulG+x0taQOtJdHYzVU61aSSkAgVJ7NOv6qPkIYiJSgSWWN/DM5sGw==}
@@ -12057,6 +12145,10 @@ packages:
   read-pkg@9.0.1:
     resolution: {integrity: sha512-9viLL4/n1BJUCT1NXVTdS1jtm80yDEgR5T4yCelII49Mbj0v1rZdKqj7zCiYdbB0CuCgdrvHcNogAKTFPBocFA==}
     engines: {node: '>=18'}
+
+  read-yaml-file@2.1.0:
+    resolution: {integrity: sha512-UkRNRIwnhG+y7hpqnycCL/xbTk7+ia9VuVTC0S+zVbwd65DI9eUpRMfsWIGrCWxTU/mi+JW8cHQCrv+zfCbEPQ==}
+    engines: {node: '>=10.13'}
 
   read@1.0.7:
     resolution: {integrity: sha512-rSOKNYUmaxy0om1BNjMN4ezNT6VKK+2xF4GBhc81mkH7L60i6dp8qPYrkndNLT3QPphoII3maL9PVC9XmhHwVQ==}
@@ -19750,11 +19842,24 @@ snapshots:
       - supports-color
       - utf-8-validate
 
+  '@react-native/metro-config@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))':
+    dependencies:
+      '@react-native/js-polyfills': 0.78.0
+      '@react-native/metro-babel-transformer': 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))
+      metro-config: 0.81.1
+      metro-runtime: 0.81.1
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@babel/preset-env'
+      - supports-color
+
   '@react-native/normalize-colors@0.77.0': {}
 
   '@react-native/normalize-colors@0.78.0': {}
 
   '@react-native/typescript-config@0.77.0': {}
+
+  '@react-native/typescript-config@0.78.0': {}
 
   '@react-native/virtualized-lists@0.77.0(@types/react@18.2.67)(react-native@0.77.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.2.0))(react@18.2.0)':
     dependencies:
@@ -19840,6 +19945,39 @@ snapshots:
   '@repeaterjs/repeater@3.0.4': {}
 
   '@repeaterjs/repeater@3.0.6': {}
+
+  '@rnx-kit/console@2.0.0': {}
+
+  '@rnx-kit/metro-config@2.0.1(@react-native/metro-config@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9)))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      '@rnx-kit/tools-node': 3.0.2
+      '@rnx-kit/tools-react-native': 2.0.4
+      '@rnx-kit/tools-workspaces': 0.2.1
+      react: 18.2.0
+      react-native: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@18.2.0)
+    optionalDependencies:
+      '@react-native/metro-config': 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))
+
+  '@rnx-kit/metro-resolver-symlinks@0.2.1':
+    dependencies:
+      '@rnx-kit/console': 2.0.0
+      '@rnx-kit/tools-node': 3.0.2
+      '@rnx-kit/tools-react-native': 2.0.4
+      enhanced-resolve: 5.18.1
+
+  '@rnx-kit/tools-node@3.0.2': {}
+
+  '@rnx-kit/tools-react-native@2.0.4':
+    dependencies:
+      '@rnx-kit/tools-node': 3.0.2
+
+  '@rnx-kit/tools-workspaces@0.2.1':
+    dependencies:
+      fast-glob: 3.3.3
+      find-up: 5.0.0
+      micromatch: 4.0.8
+      read-yaml-file: 2.1.0
+      strip-json-comments: 3.1.1
 
   '@rollup/plugin-babel@6.0.4(@babel/core@7.26.9)(@types/babel__core@7.20.5)(rollup@3.29.5)':
     dependencies:
@@ -28880,6 +29018,11 @@ snapshots:
       parse-json: 8.1.0
       type-fest: 4.35.0
       unicorn-magic: 0.1.0
+
+  read-yaml-file@2.1.0:
+    dependencies:
+      js-yaml: 4.1.0
+      strip-bom: 4.0.0
 
   read@1.0.7:
     dependencies:
