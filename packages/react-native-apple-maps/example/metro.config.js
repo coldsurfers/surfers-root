@@ -8,18 +8,19 @@ const { makeMetroConfig } = require('@rnx-kit/metro-config')
 const root = path.resolve(__dirname, '..')
 const monorepoRoot = path.resolve(root, '../../')
 
+const config = makeMetroConfig({
+  resolver: {
+    resolveRequest: MetroSymlinksResolver(),
+    nodeModulesPaths: [path.resolve(root, 'node_modules'), path.resolve(monorepoRoot, 'node_modules')],
+  },
+})
 /**
  * Metro configuration
  * https://facebook.github.io/metro/docs/configuration
  *
  * @type {import('metro-config').MetroConfig}
  */
-module.exports = makeMetroConfig({
-  resolver: {
-    resolveRequest: MetroSymlinksResolver(),
-    nodeModulesPaths: [path.resolve(root, 'node_modules'), path.resolve(monorepoRoot, 'node_modules')],
-  },
-})
+module.exports = config
 // module.exports = getConfig(defaultConfig, {
 //   root,
 //   pkg,
