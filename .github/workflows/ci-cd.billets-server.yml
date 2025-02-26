@@ -49,7 +49,9 @@ jobs:
           node-version: '20.16.0'
 
       - name: corepack enable
-        run: corepack enable
+        run: |
+          corepack enable
+          COREPACK_INTEGRITY_KEYS=0 corepack prepare --activate
 
       - name: setup yarnrc
         run: |
@@ -57,14 +59,15 @@ jobs:
           echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> $GITHUB_ENV
 
       - name: install dependencies
-        run: yarn install
+        run: pnpm install
 
       - name: Check runtime
         run: |
-          yarn check:runtime
+          pnpm check:runtime
 
       - name: build app
-        run: yarn workspace @coldsurfers/billets-server build
+        working-directory: ./apps/billets-server
+        run: pnpm build
 
       - name: serverless login
         run: |
@@ -73,4 +76,4 @@ jobs:
 
       - name: run serverless deploy
         working-directory: ./apps/billets-server
-        run: yarn serverless:deploy:prod
+        run: pnpm serverless:deploy:prod
