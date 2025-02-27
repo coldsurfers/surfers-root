@@ -1,0 +1,30 @@
+diff --git a/dist/index.cjs b/dist/index.cjs
+index bb2cd62b3dbcc4d857d3ff2cde5f9c54c8e47281..0c6d8fe42feb7c06d7e49d597fef578fba9e8628 100644
+--- a/dist/index.cjs
++++ b/dist/index.cjs
+@@ -6644,6 +6644,25 @@ Example:
+ {
+   plugins: ['hot-updater/babel-plugin']
+ }`);
++
++        async function tweakJsBundle() {
++            return new Promise(async (resolve, reject) => {
++                const filePath = bundleOutput
++                const oldUUID = '00000000-0000-0000-0000-000000000000'
++                const newUUID = bundleId
++
++                external_fs_default().readFile(filePath, 'utf8', (err, data) => {
++                    if (err) reject(err)
++                    const updatedData = data.replace(new RegExp(oldUUID, 'g'), newUUID)
++                    external_fs_default().writeFile(filePath, updatedData, 'utf8', (err) => {
++                        if (err) reject(err)
++                        resolve()
++                    })
++                })
++            })
++        }
++
++        await tweakJsBundle()
+         if (enableHermes) {
+             const { hermesVersion } = await compileHermes({
+                 cwd,
