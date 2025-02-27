@@ -4,13 +4,12 @@ import { useColorSchemeStorage } from '@/lib/storage'
 import { CommonScreenLayout } from '@/ui'
 import { colors, ColorScheme } from '@coldsurfers/ocean-road'
 import { ColorSchemeProvider, Spinner, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
+import { HotUpdater } from '@hot-updater/react-native'
 import { LogLevel, PerformanceProfiler, RenderPassReport } from '@shopify/react-native-performance'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import React, { memo, PropsWithChildren, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
-import { Platform, useColorScheme as rnUseColorScheme, StatusBar, View } from 'react-native'
+import React, { memo, PropsWithChildren, Suspense, useCallback, useEffect, useMemo } from 'react'
+import { useColorScheme as rnUseColorScheme, StatusBar, View } from 'react-native'
 import BootSplash from 'react-native-bootsplash'
-import codePush, { DownloadProgress, RemotePackage } from 'react-native-code-push'
-import Config from 'react-native-config'
 import FastImage from 'react-native-fast-image'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
@@ -42,90 +41,60 @@ const AppSystemColorSwitcher = memo(() => {
   return <StatusBar translucent barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'} />
 })
 
-const CodepushUpdateScreen = ({ progress }: { progress: DownloadProgress }) => {
-  const percentage = `${Math.floor((progress.receivedBytes / progress.totalBytes) * 100)}%`
+const HotUpdaterUpdateScreen = ({ progress }: { progress: number }) => {
+  const percentage = progress * 100
   return (
-    <CommonScreenLayout style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 12 }}>
-      <FastImage
-        source={require('assets/bootsplash/logo.png')}
-        style={{
-          width: 124,
-          height: 124,
-          borderRadius: 124 / 2,
-        }}
-      />
-      <View style={{ marginTop: 36, width: '100%', alignItems: 'center', justifyContent: 'center' }}>
-        <View style={{ width: '100%', backgroundColor: colors.oc.white.value, height: 24, borderRadius: 8 }}>
-          <View
-            style={{
-              width: `${(progress.receivedBytes / progress.totalBytes) * 100}%`,
-              backgroundColor: colors.oc.indigo[8].value,
-              height: '100%',
-              borderRadius: 8,
-            }}
-          />
+    <SafeAreaProvider>
+      <CommonScreenLayout style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 12 }}>
+        <FastImage
+          source={require('assets/bootsplash/logo.png')}
+          style={{
+            width: 124,
+            height: 124,
+            borderRadius: 124 / 2,
+          }}
+        />
+        <View style={{ marginTop: 36, width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ width: '100%', backgroundColor: colors.oc.white.value, height: 24, borderRadius: 8 }}>
+            <View
+              style={{
+                width: `${percentage}%`,
+                backgroundColor: colors.oc.indigo[8].value,
+                height: '100%',
+                borderRadius: 8,
+              }}
+            />
+          </View>
+          <View style={{ marginTop: 24 }}>
+            <Text weight="medium" style={{ fontSize: 18 }}>
+              {percentage}
+            </Text>
+          </View>
         </View>
-        <View style={{ marginTop: 24 }}>
-          <Text weight="medium" style={{ fontSize: 18 }}>
-            {percentage}
-          </Text>
-        </View>
-      </View>
-    </CommonScreenLayout>
+      </CommonScreenLayout>
+    </SafeAreaProvider>
   )
 }
 
 const BootSplashAwaiter = ({ children }: PropsWithChildren) => {
   const { enable: enableFirebaseAnalytics } = useFirebaseAnalytics()
   const { enable: enableFirebaseCrashlytics } = useFirebaseCrashlytics()
-  const [progress, setProgress] = useState<DownloadProgress | null>(null)
 
   useEffect(() => {
-    const init = async (): Promise<{
-      existingUpdate: RemotePackage | null
-    }> => {
+    const init = async () => {
       try {
         await enableFirebaseAnalytics(!__DEV__)
         await enableFirebaseCrashlytics(!__DEV__)
-        const existingUpdate = __DEV__
-          ? null
-          : await codePush.checkForUpdate(
-              Platform.select({
-                ios: Config.IOS_CODE_PUSH_DEPLOYMENT_KEY,
-                android: Config.ANDROID_CODE_PUSH_DEPLOYMENT_KEY,
-              }),
-            )
-        return {
-          existingUpdate,
-        }
       } catch (e) {
         console.error(e)
-        return {
-          existingUpdate: null,
-        }
+      } finally {
+        BootSplash.hide({ fade: true })
       }
     }
-
     init()
-      .then(async ({ existingUpdate }) => {
-        if (!existingUpdate) {
-          await BootSplash.hide({ fade: true })
-          return
-        }
-        BootSplash.hide({ fade: true })
-        const downloadedPackage = await existingUpdate.download((progress) => {
-          setProgress(progress)
-        })
-        await downloadedPackage?.install(codePush.InstallMode.IMMEDIATE)
-      })
-      .catch((e) => {
-        console.error(e)
-        BootSplash.hide({ fade: true })
-        setProgress(null)
-      })
   }, [enableFirebaseAnalytics, enableFirebaseCrashlytics])
 
-  return <>{progress ? <CodepushUpdateScreen progress={progress} /> : children}</>
+  return <>{children}</>
 }
 
 const App = () => {
@@ -188,4 +157,7 @@ const GlobalSuspenseFallback = () => {
   )
 }
 
-export default __DEV__ ? App : codePush(App)
+export default HotUpdater.wrap({
+  source: 'https://fvpzglrpfjyuugsybezs.supabase.co/functions/v1/update-server',
+  fallbackComponent: ({ status, progress }) => <HotUpdaterUpdateScreen progress={progress} />,
+})(App)
