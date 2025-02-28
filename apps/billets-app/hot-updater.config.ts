@@ -1,7 +1,11 @@
 import { metro } from '@hot-updater/metro'
 import { supabaseDatabase, supabaseStorage } from '@hot-updater/supabase'
-import 'dotenv/config'
+import dotenv from 'dotenv'
 import { defineConfig } from 'hot-updater'
+
+dotenv.config({
+  path: './.env.production',
+})
 
 export default defineConfig({
   build: metro({ enableHermes: true }),

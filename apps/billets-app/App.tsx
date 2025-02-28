@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React, { memo, PropsWithChildren, Suspense, useCallback, useEffect, useMemo } from 'react'
 import { useColorScheme as rnUseColorScheme, StatusBar, View } from 'react-native'
 import BootSplash from 'react-native-bootsplash'
+import Config from 'react-native-config'
 import FastImage from 'react-native-fast-image'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
@@ -158,6 +159,6 @@ const GlobalSuspenseFallback = () => {
 }
 
 export default HotUpdater.wrap({
-  source: 'https://fvpzglrpfjyuugsybezs.supabase.co/functions/v1/update-server',
+  source: Config.HOT_UPDATER_SUPABASE_URL ?? '',
   fallbackComponent: ({ status, progress }) => <HotUpdaterUpdateScreen progress={progress} />,
 })(App)
