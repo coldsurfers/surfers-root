@@ -8,6 +8,9 @@ declare module 'react-native-config' {
     GOOGLE_MOBILE_ADS_IOS_APP_ID?: string
     GOOGLE_MOBILE_ADS_IOS_INTERSTITIAL_ID?: string
     GOOGLE_MOBILE_ADS_ANDROID_INTERSTITIAL_ID?: string
+    HOT_UPDATER_SUPABASE_ANON_KEY?: string
+    HOT_UPDATER_SUPABASE_BUCKET_NAME?: string
+    HOT_UPDATER_SUPABASE_URL?: string
   }
 
   export const Config: NativeConfig
