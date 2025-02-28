@@ -98,7 +98,6 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 18
         versionName "1.7.0"
-        resValue "string", "CodePushDeploymentKey", project.env.get("ANDROID_CODE_PUSH_DEPLOYMENT_KEY") ?: ""
     }
 
     signingConfigs {
