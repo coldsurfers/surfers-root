@@ -1,0 +1,14 @@
+diff --git a/scripts/bundle.js b/scripts/bundle.js
+index bd2cb51c7574c6d9b33ca927ec7b6e81e012cef0..7f61bc9155a61230b24f7b90da3ecab0186bf3ea 100644
+--- a/scripts/bundle.js
++++ b/scripts/bundle.js
+@@ -10,7 +10,8 @@
+ 
+ 'use strict';
+ 
+-const {bundleCommand: bc} = require('@react-native/community-cli-plugin');
++const rspackCommand = require('@callstack/repack/commands/rspack');
++const bc = rspackCommand.find((command) => command.name === 'bundle')
+ const {execSync} = require('child_process');
+ const commander = require('commander');
+ const {readFileSync} = require('fs');
