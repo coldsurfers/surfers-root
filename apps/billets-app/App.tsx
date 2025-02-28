@@ -159,6 +159,6 @@ const GlobalSuspenseFallback = () => {
 }
 
 export default HotUpdater.wrap({
-  source: Config.HOT_UPDATER_SUPABASE_URL ?? '',
+  source: `${Config.HOT_UPDATER_SUPABASE_URL!}/functions/v1/update-server`,
   fallbackComponent: ({ status, progress }) => <HotUpdaterUpdateScreen progress={progress} />,
 })(App)
