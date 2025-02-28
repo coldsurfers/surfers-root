@@ -100,3 +100,5 @@ android/app/release/app-release.aab
 ios/AuthKey_*.p8
 ios/*.mobileprovision
 ios/GoogleService-Info.plist
+
+dist/
