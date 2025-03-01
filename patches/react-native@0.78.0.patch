@@ -1,14 +1,13 @@
-diff --git a/scripts/bundle.js b/scripts/bundle.js
-index bd2cb51c7574c6d9b33ca927ec7b6e81e012cef0..7f61bc9155a61230b24f7b90da3ecab0186bf3ea 100644
---- a/scripts/bundle.js
-+++ b/scripts/bundle.js
-@@ -10,7 +10,8 @@
+diff --git a/scripts/react-native-xcode.sh b/scripts/react-native-xcode.sh
+index b5d50ccb4bb4967edb575995ba727acce99dfd4a..7ad7e79f4e58ac388cb05f58535c1ed8f77a37da 100755
+--- a/scripts/react-native-xcode.sh
++++ b/scripts/react-native-xcode.sh
+@@ -90,7 +90,7 @@ fi
  
- 'use strict';
+ [ -z "$NODE_ARGS" ] && export NODE_ARGS=""
  
--const {bundleCommand: bc} = require('@react-native/community-cli-plugin');
-+const rspackCommand = require('@callstack/repack/commands/rspack');
-+const bc = rspackCommand.find((command) => command.name === 'bundle')
- const {execSync} = require('child_process');
- const commander = require('commander');
- const {readFileSync} = require('fs');
+-[ -z "$CLI_PATH" ] && CLI_PATH="$REACT_NATIVE_DIR/scripts/bundle.js"
++[ -z "$CLI_PATH" ] && CLI_PATH="$REACT_NATIVE_DIR/cli.js"
+ 
+ [ -z "$BUNDLE_COMMAND" ] && BUNDLE_COMMAND="bundle"
+ 
