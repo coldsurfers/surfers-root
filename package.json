@@ -11,9 +11,7 @@
   "resolutions": {
     "@fastify/error": "4.0.0",
     "@types/react": "18.2.67",
-    "@types/react-dom": "18.2.22",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "@types/react-dom": "18.2.22"
   },
   "dependencies": {
     "@prisma/client": "5.21.1",
@@ -45,7 +43,10 @@
   "pnpm": {
     "patchedDependencies": {
       "@shopify/react-native-performance@4.1.2": "patches/@shopify__react-native-performance@4.1.2.patch",
-      "react-notion-x@7.2.5": "patches/react-notion-x@7.2.5.patch"
+      "react-notion-x@7.2.5": "patches/react-notion-x@7.2.5.patch",
+      "@hot-updater/metro@0.12.3": "patches/@hot-updater__metro@0.12.3.patch",
+      "react-native@0.78.0": "patches/react-native@0.78.0.patch",
+      "@callstack/repack@5.0.0-rc.10": "patches/@callstack__repack@5.0.0-rc.10.patch"
     }
   }
 }
