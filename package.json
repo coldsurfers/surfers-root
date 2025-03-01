@@ -44,7 +44,6 @@
     "patchedDependencies": {
       "@shopify/react-native-performance@4.1.2": "patches/@shopify__react-native-performance@4.1.2.patch",
       "react-notion-x@7.2.5": "patches/react-notion-x@7.2.5.patch",
-      "@hot-updater/metro@0.12.3": "patches/@hot-updater__metro@0.12.3.patch",
       "react-native@0.78.0": "patches/react-native@0.78.0.patch"
     }
   }
