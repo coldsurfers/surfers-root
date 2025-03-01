@@ -100,6 +100,16 @@ export default (env) => {
             },
           },
         },
+        {
+          test: /\.(js|jsx)$/, // JavaScript 및 JSX 파일 처리
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader', // Babel을 Webpack에서 사용
+            options: {
+              configFile: './babel.config.js', // babel.config.js 사용
+            },
+          },
+        },
       ],
     },
     plugins: [

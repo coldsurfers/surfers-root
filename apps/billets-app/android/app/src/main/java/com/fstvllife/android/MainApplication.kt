@@ -11,7 +11,7 @@ import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.soloader.SoLoader
 import com.facebook.react.soloader.OpenSourceMergedSoMapping
-import com.microsoft.codepush.react.CodePush
+import com.hotupdater.HotUpdater
 import com.shopify.reactnativeperformance.ReactNativePerformance
 
 class MainApplication : Application(), ReactApplication {
@@ -26,9 +26,8 @@ class MainApplication : Application(), ReactApplication {
 
       override fun getJSMainModuleName(): String = "index"
 
-        override fun getJSBundleFile(): String? {
-            // https://github.com/microsoft/react-native-code-push/blob/master/docs/setup-android.md#plugin-installation-and-configuration-for-react-native-060-version-and-above-android
-            return CodePush.getJSBundleFile()
+        override fun getJSBundleFile(): String {
+            return HotUpdater.getJSBundleFile(applicationContext)
         }
 
       override fun getUseDeveloperSupport(): Boolean = BuildConfig.DEBUG
