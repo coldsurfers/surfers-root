@@ -3,8 +3,8 @@ import React
 import React_RCTAppDelegate
 import ReactAppDependencyProvider
 import FirebaseCore
-import CodePush
 import RNBootSplash
+import HotUpdater
 
 @main
 class AppDelegate: RCTAppDelegate {
@@ -29,7 +29,7 @@ class AppDelegate: RCTAppDelegate {
       RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index")
     #else
       //    Bundle.main.url(forResource: "main", withExtension: "jsbundle")
-      CodePush.bundleURL()
+      HotUpdater.bundleURL()
     #endif
   }
   

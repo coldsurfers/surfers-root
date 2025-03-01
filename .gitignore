@@ -60,3 +60,5 @@ terraform.rc
 
 # turbo repo
 .turbo/
+
+.tsbuildinfo
