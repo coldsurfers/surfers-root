@@ -38,6 +38,9 @@ jobs:
           echo "GOOGLE_MOBILE_ADS_IOS_APP_ID=${{ secrets.GOOGLE_MOBILE_ADS_IOS_APP_ID }}" >> ./apps/billets-app/.env.production
           echo "GOOGLE_MOBILE_ADS_IOS_INTERSTITIAL_ID=${{ secrets.GOOGLE_MOBILE_ADS_IOS_INTERSTITIAL_ID }}" >> ./apps/billets-app/.env.production
           echo "GOOGLE_MOBILE_ADS_ANDROID_INTERSTITIAL_ID=${{ secrets.GOOGLE_MOBILE_ADS_ANDROID_INTERSTITIAL_ID }}" >> ./apps/billets-app/.env.production
+          echo "HOT_UPDATER_SUPABASE_ANON_KEY=${{ secrets.HOT_UPDATER_SUPABASE_ANON_KEY }}" >> ./apps/billets-app/.env.production
+          echo "HOT_UPDATER_SUPABASE_BUCKET_NAME=${{ secrets.HOT_UPDATER_SUPABASE_BUCKET_NAME }}" >> ./apps/billets-app/.env.production
+          echo "HOT_UPDATER_SUPABASE_URL=${{ secrets.HOT_UPDATER_SUPABASE_URL }}" >> ./apps/billets-app/.env.production
 
       - name: Create fastlane .env file from template
         run: |
