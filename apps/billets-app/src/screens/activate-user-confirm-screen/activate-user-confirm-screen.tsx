@@ -1,8 +1,10 @@
 import { ToastVisibleContext, ToastVisibleContextProvider } from '@/lib'
-import { $api } from '@/lib/api/openapi-client'
+import { apiClient } from '@/lib/api/openapi-client'
 import { CommonScreenLayout } from '@/ui'
+import { components, OpenApiError, paths } from '@coldsurfers/api-sdk'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
+import { useMutation } from '@tanstack/react-query'
 import { useCallback, useContext, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -18,16 +20,20 @@ const Screen = () => {
   const route = useActivateUserConfirmScreenRoute()
   const [confirmText, setConfirmText] = useState('')
 
-  const { mutate: activateUser, isPending: isPendingActivateUser } = $api.useMutation('patch', '/v1/user/activate')
+  const { mutate: mutateActivateUser, isPending: isPendingActivateUser } = useMutation<
+    components['schemas']['UserDTOSchema'],
+    OpenApiError,
+    paths['/v1/user/activate']['patch']['requestBody']['content']['application/json']
+  >({
+    mutationFn: (body) => apiClient.user.activate(body),
+  })
 
   const onPressActivateUser = useCallback(() => {
-    activateUser(
+    mutateActivateUser(
       {
-        body: {
-          type: 'activate',
-          authCode: confirmText,
-          email: route.params.email,
-        },
+        type: 'activate',
+        authCode: confirmText,
+        email: route.params.email,
       },
       {
         onSuccess: () => {
@@ -58,7 +64,7 @@ const Screen = () => {
         },
       },
     )
-  }, [activateUser, confirmText, navigation, route.params.email, show])
+  }, [mutateActivateUser, confirmText, navigation, route.params.email, show])
   return (
     <CommonScreenLayout>
       <TextInput

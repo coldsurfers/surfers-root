@@ -91,6 +91,9 @@ importers:
 
   apps/billets-app:
     dependencies:
+      '@coldsurfers/api-sdk':
+        specifier: workspace:*
+        version: link:../../packages/api-sdk
       '@coldsurfers/design-tokens':
         specifier: workspace:*
         version: link:../../packages/ocean-road-design-tokens

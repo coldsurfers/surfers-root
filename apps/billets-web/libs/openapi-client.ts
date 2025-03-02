@@ -4,6 +4,7 @@ import { API_BASE_URL } from './constants'
 
 export const apiClient = new ApiSdk().createSdk({
   baseUrl: API_BASE_URL,
+  middlewares: [],
 })
 
 export const initialPageQuery = {
@@ -44,7 +45,7 @@ export const initialPageQuery = {
   },
   getCountries: () => {
     return {
-      queryKey: apiClient.location.queryKeys.country.list,
+      queryKey: apiClient.location.queryKeys.countries,
       queryFn: () => apiClient.location.getCountries(),
     }
   },

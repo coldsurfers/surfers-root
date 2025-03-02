@@ -1,4 +1,4 @@
-import createFetchClient from 'openapi-fetch'
+import createFetchClient, { Middleware } from 'openapi-fetch'
 import { paths } from '../types/api'
 import { OpenApiError } from './error'
 
@@ -8,12 +8,13 @@ const DEFAULT_HEADERS = {
 }
 
 export class ApiSdk {
-  public createSdk({ baseUrl }: { baseUrl: string }) {
+  public createSdk({ baseUrl, middlewares }: { baseUrl: string; middlewares: Middleware[] }) {
     const baseFetchClient = createFetchClient<paths>({
       baseUrl: baseUrl,
       headers: DEFAULT_HEADERS,
     })
-    return {
+    baseFetchClient.use(...middlewares)
+    const apiClient = {
       event: {
         queryKeys: {
           all: ['event'],
@@ -104,13 +105,35 @@ export class ApiSdk {
       },
       location: {
         queryKeys: {
-          country: {
-            all: ['country'],
-            list: ['country', 'list'],
-          },
+          all: ['location'],
+          countries: ['location', 'countries'],
+          concerts: (queryParams: {
+            latitude: number
+            latitudeDelta: number
+            longitude: number
+            longitudeDelta: number
+            zoomLevel: number
+          }) => ['location', 'concerts', queryParams],
         },
         getCountries: async () => {
           const response = await baseFetchClient.GET('/v1/location/country')
+          if (response.error) {
+            throw new OpenApiError(response.error)
+          }
+          return response.data
+        },
+        getConcerts: async (queryParams: {
+          latitude: number
+          latitudeDelta: number
+          longitude: number
+          longitudeDelta: number
+          zoomLevel: number
+        }) => {
+          const response = await baseFetchClient.GET('/v1/location/concert', {
+            params: {
+              query: queryParams,
+            },
+          })
           if (response.error) {
             throw new OpenApiError(response.error)
           }
@@ -185,6 +208,347 @@ export class ApiSdk {
           return response.data
         },
       },
+      fcm: {
+        saveFcmToken: async (fcmToken: string) => {
+          const response = await baseFetchClient.POST('/v1/fcm/token', {
+            body: {
+              fcmToken,
+            },
+          })
+          if (response.error) {
+            throw new OpenApiError(response.error)
+          }
+          return response.data
+        },
+      },
+      artistProfileImage: {
+        queryKeys: {
+          all: ['v1', 'artist-profile-image'],
+          list: ({ artistId }: { artistId: string }) => ['v1', 'artist-profile-image', 'list', { artistId }],
+          detail: ({ artistProfileImageId }: { artistProfileImageId: string }) => [
+            'v1',
+            'artist-profile-image',
+            'detail',
+            { artistProfileImageId },
+          ],
+        },
+        getList: async ({ artistId }: { artistId: string }) => {
+          const data = await baseFetchClient.GET('/v1/artist-profile-image/', {
+            params: {
+              query: {
+                artistId,
+              },
+            },
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+        getDetail: async ({ artistProfileImageId }: { artistProfileImageId: string }) => {
+          const data = await baseFetchClient.GET('/v1/artist-profile-image/{artistProfileImageId}', {
+            params: {
+              path: {
+                artistProfileImageId,
+              },
+            },
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+      },
+      subscribe: {
+        queryKeys: {
+          all: ['v1', 'subscribe'],
+          eventList: ({ offset, size }: { offset?: number; size?: number }) => [
+            'v1',
+            'subscribe',
+            'list',
+            'event',
+            { offset, size },
+          ],
+          artistList: ({ offset, size }: { offset?: number; size?: number }) => [
+            'v1',
+            'subscribe',
+            'list',
+            'artist',
+            { offset, size },
+          ],
+          venueList: ({ offset, size }: { offset?: number; size?: number }) => [
+            'v1',
+            'subscribe',
+            'list',
+            'venue',
+            { offset, size },
+          ],
+          eventSubscribe: ({ eventId }: { eventId: string }) => ['v1', 'subscribe', 'event', { eventId }],
+          artistSubscribe: ({ artistId }: { artistId: string }) => ['v1', 'subscribe', 'artist', { artistId }],
+          venueSubscribe: ({ venueId }: { venueId: string }) => ['v1', 'subscribe', 'venue', { venueId }],
+          infoMe: ['v1', 'subscribe', 'me'],
+        },
+        getEventList: async (params: { offset: number; size: number }) => {
+          const data = await baseFetchClient.GET('/v1/subscribe/event', {
+            params: {
+              query: params,
+            },
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+        getArtistList: async (params: { offset: number; size: number }) => {
+          const data = await baseFetchClient.GET('/v1/subscribe/artist', {
+            params: {
+              query: params,
+            },
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+        getVenueList: async (params: { offset: number; size: number }) => {
+          const data = await baseFetchClient.GET('/v1/subscribe/venue', {
+            params: {
+              query: params,
+            },
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+        getEvent: async ({ eventId }: { eventId: string }) => {
+          const data = await baseFetchClient.GET('/v1/subscribe/event/{eventId}', {
+            params: {
+              path: {
+                eventId,
+              },
+            },
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+        getVenue: async ({ venueId }: { venueId: string }) => {
+          const data = await baseFetchClient.GET('/v1/subscribe/venue/{venueId}', {
+            params: {
+              path: {
+                venueId,
+              },
+            },
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+        getArtist: async ({ artistId }: { artistId: string }) => {
+          const data = await baseFetchClient.GET('/v1/subscribe/artist/{artistId}', {
+            params: {
+              path: {
+                artistId,
+              },
+            },
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+        subscribeEvent: async (params: { eventId: string }) => {
+          const data = await baseFetchClient.POST('/v1/subscribe/event', {
+            body: {
+              eventId: params.eventId,
+            },
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+        unsubscribeEvent: async (params: { eventId: string }) => {
+          const data = await baseFetchClient.DELETE('/v1/subscribe/event', {
+            body: {
+              eventId: params.eventId,
+            },
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+        subscribeArtist: async (params: { artistId: string }) => {
+          const data = await baseFetchClient.POST('/v1/subscribe/artist', {
+            body: {
+              artistId: params.artistId,
+            },
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+        unsubscribeArtist: async (params: { artistId: string }) => {
+          const data = await baseFetchClient.DELETE('/v1/subscribe/artist', {
+            body: {
+              artistId: params.artistId,
+            },
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+        subscribeVenue: async (params: { venueId: string }) => {
+          const data = await baseFetchClient.POST('/v1/subscribe/venue', {
+            body: {
+              venueId: params.venueId,
+            },
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+        unsubscribeVenue: async (params: { venueId: string }) => {
+          const data = await baseFetchClient.DELETE('/v1/subscribe/venue', {
+            body: {
+              venueId: params.venueId,
+            },
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+        getInfoMe: async () => {
+          const data = await baseFetchClient.GET('/v1/subscribe/me')
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+      },
+      user: {
+        queryKeys: {
+          all: ['v1', 'user'],
+          me: ['v1', 'user', 'me'],
+        },
+        getMe: async () => {
+          const data = await baseFetchClient.GET('/v1/user/me')
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+        activate: async (body: paths['/v1/user/activate']['patch']['requestBody']['content']['application/json']) => {
+          const data = await baseFetchClient.PATCH('/v1/user/activate', {
+            body: body,
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+        deactivate: async () => {
+          const data = await baseFetchClient.DELETE('/v1/user/deactivate', {
+            body: {
+              type: 'deactivate',
+            },
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+      },
+      price: {
+        queryKeys: {
+          all: ['v1', 'price'],
+          list: ({ ticketId }: { ticketId: string }) => ['v1', 'price', 'list', { ticketId }],
+        },
+        getList: async ({ ticketId }: { ticketId: string }) => {
+          const data = await baseFetchClient.GET('/v1/price/', {
+            params: {
+              query: {
+                ticketId,
+              },
+            },
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+      },
+      auth: {
+        sendAuthCode: async (
+          body: paths['/v1/auth/email/send-auth-code']['post']['requestBody']['content']['application/json'],
+        ) => {
+          const data = await baseFetchClient.POST('/v1/auth/email/send-auth-code', {
+            body,
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+        confirmAuthCode: async (
+          body: paths['/v1/auth/email/confirm-auth-code']['post']['requestBody']['content']['application/json'],
+        ) => {
+          const data = await baseFetchClient.POST('/v1/auth/email/confirm-auth-code', {
+            body,
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+        signup: async (body: paths['/v1/auth/signup']['post']['requestBody']['content']['application/json']) => {
+          const data = await baseFetchClient.POST('/v1/auth/signup', {
+            body,
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+        signIn: async (body: paths['/v1/auth/signin']['post']['requestBody']['content']['application/json']) => {
+          const data = await baseFetchClient.POST('/v1/auth/signin', {
+            body,
+          })
+          if (data.error) {
+            throw new OpenApiError(data.error)
+          }
+          return data.data
+        },
+      },
+      search: {
+        queryKeys: {
+          all: ['v1', 'search'],
+          list: (keyword: string) => ['v1', 'search', { keyword }],
+        },
+        getSearchResult: async (keyword: string) => {
+          const response = await baseFetchClient.GET('/v1/search/', {
+            params: {
+              query: {
+                keyword,
+              },
+            },
+          })
+          if (response.error) {
+            throw new OpenApiError(response.error)
+          }
+          return response.data
+        },
+      },
     } as const
+
+    return apiClient
   }
 }
