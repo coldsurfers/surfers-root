@@ -61,7 +61,7 @@
     "lodash.uniqby": "^4.7.0",
     "lucide-react-native": "0.468.0",
     "ngeohash": "0.6.3",
-    "openapi-fetch": "^0.12.2",
+    "openapi-fetch": "0.12.5",
     "openapi-react-query": "0.2.9",
     "react": "19.0.0",
     "react-error-boundary": "5.0.0",
