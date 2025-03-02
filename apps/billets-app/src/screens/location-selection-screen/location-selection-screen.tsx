@@ -27,7 +27,7 @@ const LocationSelectionScreenContent = () => {
   const setUserCurrentLocation = useUserCurrentLocationStore((state) => state.setUserCurrentLocation)
   const [searchKeyword, setSearchKeyword] = useState('')
   const { data: locationCountries } = useSuspenseQuery({
-    queryKey: apiClient.location.queryKeys.country.all,
+    queryKey: apiClient.location.queryKeys.countries,
     queryFn: () => apiClient.location.getCountries(),
   })
   const sectionData = useMemo<LocationSelectionListSectionData>(() => {

@@ -10,8 +10,8 @@ import { SearchItemProps } from '../search-item/search-item.types'
 export const SearchFetchItem = ({ concertId }: { concertId: string }) => {
   const navigation = useSearchScreenNavigation()
   const { data } = useQuery({
-    queryKey: apiClient.event.queryKeys.detail({ eventId: concertId }),
-    queryFn: () => apiClient.event.getDetail({ eventId: concertId }),
+    queryKey: apiClient.event.queryKeys.detail(concertId),
+    queryFn: () => apiClient.event.getEventDetail(concertId),
   })
   const uiData = useMemo<SearchItemProps | null>(() => {
     if (!data || data.type !== 'concert') {

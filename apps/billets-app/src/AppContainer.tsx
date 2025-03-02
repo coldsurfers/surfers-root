@@ -1,15 +1,19 @@
 import { deepLinking, useAppleAuth, useFirebaseAnalytics, useFirebaseMessaging } from '@/lib'
 import { MainStackNavigation, MainStackNavigationParamList } from '@/navigations'
+import { components, OpenApiError } from '@coldsurfers/api-sdk'
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
+import { useMutation } from '@tanstack/react-query'
 import React, { useCallback, useEffect, useRef } from 'react'
 import { ActivityIndicator } from 'react-native'
 import { GlobalModal } from './features'
-import { $api } from './lib/api/openapi-client'
+import { apiClient } from './lib/api/openapi-client'
 
 const AppContainer = () => {
   const { logScreenView } = useFirebaseAnalytics()
   const { requestPermission, getFCMToken, subscribeTopic } = useFirebaseMessaging()
-  const { mutate: sendFCMToken } = $api.useMutation('post', '/v1/fcm/token')
+  const { mutate: mutateSaveFcmToken } = useMutation<components['schemas']['FCMTokenDTOSchema'], OpenApiError, string>({
+    mutationFn: (fcmToken) => apiClient.fcm.saveFcmToken(fcmToken),
+  })
 
   useAppleAuth()
 
@@ -21,18 +25,14 @@ const AppContainer = () => {
           subscribeTopic('new-concert')
           getFCMToken().then((token) => {
             // send fcm token to server
-            sendFCMToken({
-              body: {
-                fcmToken: token,
-              },
-            })
+            mutateSaveFcmToken(token)
           })
         }
       })
       .catch((e) => {
         console.error(e)
       })
-  }, [getFCMToken, requestPermission, sendFCMToken, subscribeTopic])
+  }, [getFCMToken, requestPermission, mutateSaveFcmToken, subscribeTopic])
 
   const routeNameRef = useRef<string>()
   const navigationRef = useRef<NavigationContainerRef<MainStackNavigationParamList>>(null)

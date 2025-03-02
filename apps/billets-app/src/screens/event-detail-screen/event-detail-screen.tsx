@@ -37,8 +37,8 @@ const ScreenInner = () => {
   const ticketSheetRef = useRef<BottomSheetModal>(null)
 
   const { data: eventData, isLoading: isLoadingConcertDetail } = useSuspenseQuery({
-    queryKey: apiClient.event.queryKeys.detail({ eventId: params.eventId }),
-    queryFn: () => apiClient.event.getDetail({ eventId: params.eventId }),
+    queryKey: apiClient.event.queryKeys.detail(params.eventId),
+    queryFn: () => apiClient.event.getEventDetail(params.eventId),
   })
   const { data: subscribedConcert } = useQuery({
     queryKey: apiClient.subscribe.queryKeys.eventSubscribe({ eventId: params.eventId }),

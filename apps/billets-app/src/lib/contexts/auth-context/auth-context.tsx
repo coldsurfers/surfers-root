@@ -1,9 +1,10 @@
-import { $api } from '@/lib/api/openapi-client'
+import { apiClient } from '@/lib/api/openapi-client'
 import { useFirebaseAnalytics, useFirebaseMessaging } from '@/lib/hooks'
 import { mmkvKeys } from '@/lib/storage/constants'
 import { mmkvInstance } from '@/lib/storage/mmkvInstance'
 import { LoginProvider } from '@/types/auth'
-import { useQueryClient } from '@tanstack/react-query'
+import { OpenApiError } from '@coldsurfers/api-sdk'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import React, { createContext, PropsWithChildren, useCallback } from 'react'
 import { components } from '../../../types/api'
 
@@ -28,7 +29,13 @@ export const AuthContext = createContext<{
 
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const queryClient = useQueryClient()
-  const { mutateAsync: sendFCMToken } = $api.useMutation('post', '/v1/fcm/token')
+  const { mutateAsync: mutateSaveFcmTokenAsync } = useMutation<
+    components['schemas']['FCMTokenDTOSchema'],
+    OpenApiError,
+    string
+  >({
+    mutationFn: (fcmToken) => apiClient.fcm.saveFcmToken(fcmToken),
+  })
   const { getFCMToken } = useFirebaseMessaging()
   const { logEvent } = useFirebaseAnalytics()
 
@@ -37,11 +44,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
       try {
         mmkvInstance.set(mmkvKeys.authToken, JSON.stringify(authToken))
         const fcmToken = await getFCMToken()
-        await sendFCMToken({
-          body: {
-            fcmToken,
-          },
-        })
+        await mutateSaveFcmTokenAsync(fcmToken)
         await queryClient.resetQueries()
         logEvent({
           name: 'login',
@@ -54,7 +57,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         console.error(e)
       }
     },
-    [getFCMToken, logEvent, queryClient, sendFCMToken],
+    [getFCMToken, logEvent, queryClient, mutateSaveFcmTokenAsync],
   )
   const logout = useCallback(async () => {
     try {

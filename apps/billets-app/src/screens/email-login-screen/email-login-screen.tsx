@@ -1,8 +1,10 @@
 import { AuthContext, ToastVisibleContext, ToastVisibleContextProvider } from '@/lib'
-import { $api } from '@/lib/api/openapi-client'
+import { apiClient } from '@/lib/api/openapi-client'
 import { CommonScreenLayout } from '@/ui'
 import { NAVIGATION_HEADER_HEIGHT } from '@/ui/navigation-header/navigation-header.constants'
+import { components, OpenApiError, paths } from '@coldsurfers/api-sdk'
 import { Button, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
+import { useMutation } from '@tanstack/react-query'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, View } from 'react-native'
 import { useEmailLoginScreenNavigation } from './email-login-screen.hooks'
@@ -11,7 +13,17 @@ const _EmailLoginScreen = () => {
   const { show } = useContext(ToastVisibleContext)
   const { login } = useContext(AuthContext)
   const { navigate } = useEmailLoginScreenNavigation()
-  const { mutate, isPending: isPendingSignIn, error } = $api.useMutation('post', '/v1/auth/signin')
+  const {
+    mutate,
+    isPending: isPendingSignIn,
+    error,
+  } = useMutation<
+    components['schemas']['UserWithAuthTokenDTOSchema'],
+    OpenApiError,
+    paths['/v1/auth/signin']['post']['requestBody']['content']['application/json']
+  >({
+    mutationFn: apiClient.auth.signIn,
+  })
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 
@@ -43,11 +55,9 @@ const _EmailLoginScreen = () => {
     const provider = 'email'
     mutate(
       {
-        body: {
-          provider,
-          email,
-          password,
-        },
+        provider,
+        email,
+        password,
       },
       {
         onSuccess: async (signInData) => {

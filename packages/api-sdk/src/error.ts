@@ -1,4 +1,4 @@
-import { components } from 'types/api'
+import { components } from '../types/api'
 
 export class OpenApiError extends Error {
   code: components['schemas']['ErrorResponseDTOSchema']['code']

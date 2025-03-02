@@ -15,8 +15,8 @@ export function SubscribedConcertListItem({
   index: number
 }) {
   const { data: eventDetailData } = useSuspenseQuery({
-    queryKey: apiClient.event.queryKeys.detail({ eventId: data.eventId }),
-    queryFn: () => apiClient.event.getDetail({ eventId: data.eventId }),
+    queryKey: apiClient.event.queryKeys.detail(data.eventId),
+    queryFn: () => apiClient.event.getEventDetail(data.eventId),
   })
   if (!eventDetailData || eventDetailData.type !== 'concert') {
     return null

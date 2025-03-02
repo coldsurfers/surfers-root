@@ -1,6 +1,8 @@
-import { $api } from '@/lib/api/openapi-client'
+import { apiClient } from '@/lib/api/openapi-client'
 import { CommonScreenLayout } from '@/ui'
-import { Button, Spinner, TextInput, useColorScheme } from '@coldsurfers/ocean-road/native'
+import { components, OpenApiError, paths } from '@coldsurfers/api-sdk'
+import { Button, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
+import { useMutation } from '@tanstack/react-query'
 import React, { useCallback, useContext, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { AuthContext } from '../../lib/contexts/auth-context/auth-context'
@@ -12,7 +14,6 @@ import palettes from '../../lib/palettes'
 import { useEmailConfirmScreenNavigation, useEmailConfirmScreenRoute } from './email-confirm-screen.hooks'
 
 const _EmailConfirmScreen = () => {
-  const { semantics } = useColorScheme()
   const navigation = useEmailConfirmScreenNavigation()
   const { params } = useEmailConfirmScreenRoute()
   const { show } = useContext(ToastVisibleContext)
@@ -21,39 +22,46 @@ const _EmailConfirmScreen = () => {
   const [passwordText, setPasswordText] = useState<string>('')
   const [passwordConfirmText, setPasswordConfirmText] = useState<string>('')
   const { login } = useContext(AuthContext)
-  const { mutate: mutateEmailConfirm, isPending: isLoadingEmailConfirm } = $api.useMutation(
-    'post',
-    '/v1/auth/email/confirm-auth-code',
-    {
-      onSuccess: (data) => {
-        if (!data) {
-          return
-        }
-        show({
-          autoHide: true,
-          duration: 2000,
-          message: '이메일 인증이 완료되었어요',
-        })
-        setConfirmed(true)
-      },
-      onError: (error) => {
-        let message = ''
-        if (error.code === 'EMAIL_AUTH_REQUEST_ALREADY_AUTHENTICATED') {
-          message = '이미 인증되었어요'
-        }
-        if (error.code === 'INVALID_EMAIL_AUTH_REQUEST' || error.code === 'EMAIL_AUTH_REQUEST_TIMEOUT') {
-          message = '인증번호가 일치하지 않거나, 인증 시간이 지났어요'
-        }
-        show({
-          autoHide: true,
-          duration: 2000,
-          message,
-          type: 'error',
-        })
-      },
+  const { mutate: mutateEmailConfirm, isPending: isLoadingEmailConfirm } = useMutation<
+    components['schemas']['ConfirmAuthCodeResponseDTOSchema'],
+    OpenApiError,
+    paths['/v1/auth/email/confirm-auth-code']['post']['requestBody']['content']['application/json']
+  >({
+    mutationFn: (body) => apiClient.auth.confirmAuthCode(body),
+    onSuccess: (data) => {
+      if (!data) {
+        return
+      }
+      show({
+        autoHide: true,
+        duration: 2000,
+        message: '이메일 인증이 완료되었어요',
+      })
+      setConfirmed(true)
     },
-  )
-  const { mutate: mutateSignupEmail, isPending: isLoadingSignupEmail } = $api.useMutation('post', '/v1/auth/signup', {
+    onError: (error) => {
+      let message = ''
+      if (error.code === 'EMAIL_AUTH_REQUEST_ALREADY_AUTHENTICATED') {
+        message = '이미 인증되었어요'
+      }
+      if (error.code === 'INVALID_EMAIL_AUTH_REQUEST' || error.code === 'EMAIL_AUTH_REQUEST_TIMEOUT') {
+        message = '인증번호가 일치하지 않거나, 인증 시간이 지났어요'
+      }
+      show({
+        autoHide: true,
+        duration: 2000,
+        message,
+        type: 'error',
+      })
+    },
+  })
+
+  const { mutate: mutateSignupEmail, isPending: isLoadingSignupEmail } = useMutation<
+    components['schemas']['UserWithAuthTokenDTOSchema'],
+    OpenApiError,
+    paths['/v1/auth/signup']['post']['requestBody']['content']['application/json']
+  >({
+    mutationFn: (body) => apiClient.auth.signup(body),
     onSuccess: async (data) => {
       if (!data) {
         return
@@ -109,10 +117,8 @@ const _EmailConfirmScreen = () => {
       return
     }
     mutateEmailConfirm({
-      body: {
-        email: params.email,
-        authCode: confirmText,
-      },
+      email: params.email,
+      authCode: confirmText,
     })
   }, [confirmText, isLoadingEmailConfirm, mutateEmailConfirm, params.email])
 
@@ -149,11 +155,9 @@ const _EmailConfirmScreen = () => {
       return
     }
     mutateSignupEmail({
-      body: {
-        email: params.email,
-        password: passwordText,
-        provider: 'email',
-      },
+      email: params.email,
+      password: passwordText,
+      provider: 'email',
     })
   }, [isLoadingSignupEmail, mutateSignupEmail, params.email, passwordConfirmText, passwordText, show])
 
