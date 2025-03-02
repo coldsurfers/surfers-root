@@ -11,6 +11,7 @@
     "detox:start:ios": "detox test --configuration ios.sim.release",
     "ios": "react-native run-ios",
     "lint": "eslint .",
+    "start": "react-native start",
     "start:ios": "PLATFORM=ios react-native start",
     "start:android": "PLATFORM=android react-native start",
     "hot-updater:deploy:ios": "PLATFORM=ios pnpm hot-updater deploy -i",
