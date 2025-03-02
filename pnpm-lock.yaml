@@ -537,6 +537,9 @@ importers:
 
   apps/billets-web:
     dependencies:
+      '@coldsurfers/api-sdk':
+        specifier: workspace:*
+        version: link:../../packages/api-sdk
       '@coldsurfers/ocean-road':
         specifier: workspace:*
         version: link:../../packages/ocean-road
