@@ -1,6 +1,6 @@
 'use client'
 
-import { OpenApiError } from '@/libs/errors'
+import { OpenApiError } from '@coldsurfers/api-sdk'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import { NetworkError } from 'app/(ui)'
 import { PropsWithChildren } from 'react'

@@ -60,7 +60,7 @@ export const ConcertList = forwardRef<FlatList, ConcertListProps>(
       initialPageParam: 0,
       queryKey: apiClient.event.queryKeys.list(queryParams),
       queryFn: ({ pageParam = 0 }) =>
-        apiClient.event.getList({
+        apiClient.event.getEvents({
           offset: pageParam,
           size: PER_PAGE,
           ...queryParams,
