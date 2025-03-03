@@ -4,8 +4,8 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "swagger": "npx openapi-typescript https://api.billets.coldsurf.io/docs/json -o types/api.d.ts --alphabetize && prettier --write ./types/api.d.ts",
-    "swagger:dev": "npx openapi-typescript https://dev.api.billets.coldsurf.io/docs/json -o types/api.d.ts --alphabetize && prettier --write ./types/api.d.ts",
+    "swagger": "npx openapi-typescript https://api.billets.coldsurf.io/docs/json -o types/api.ts --alphabetize && prettier --write ./types/api.ts",
+    "swagger:dev": "npx openapi-typescript https://dev.api.billets.coldsurf.io/docs/json -o types/api.ts --alphabetize && prettier --write ./types/api.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
