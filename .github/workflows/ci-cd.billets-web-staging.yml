@@ -44,7 +44,11 @@ jobs:
 
       - name: install dependencies
         run: pnpm install
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: sst deploy
         working-directory: ./apps/billets-web
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: pnpm sst deploy --stage staging
