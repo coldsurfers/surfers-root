@@ -57,7 +57,8 @@ async function linkPackage(name, fromPath, toPath, created, resolved) {
     await link(target, path.join(toPath, name), 'junction') // 심볼릭 링크 생성
   }
 
-  const { dependencies = {} } = pkg // 해당 패키지의 dependencies 가져오기
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { dependencies = {} } = require(pkg) // 해당 패키지의 dependencies 가져오기
   await Promise.all(
     Object.keys(dependencies).map((dep) =>
       linkPackage(dep, path.dirname(pkg), toPath, created, resolved.concat([name])),

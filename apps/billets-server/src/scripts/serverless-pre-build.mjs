@@ -20,12 +20,20 @@ runCommand('pnpm install:sharp')
 runCommand('pnpm build')
 runCommand('node ./src/scripts/serverless-monorepo.js')
 runCommand('pnpm prisma:generate')
-runCommand('rm -rf ./node_modules/prisma/libquery_engine-rhel-openssl-3.0.x.so.node')
-runCommand('rm -rf ./node_modules/prisma/libquery_engine-darwin-arm64.dylib.node')
-runCommand('rm -rf ./node_modules/.prisma')
-runCommand(`cp -R ${__dirname}/../../../../node_modules/.prisma ./node_modules/.prisma`)
-runCommand('rm -rf ./node_modules/.prisma/client/libquery_engine-rhel-openssl-3.0.x.so.node')
-runCommand('rm -rf ./node_modules/.prisma/client/libquery_engine-darwin-arm64.dylib.node')
-runCommand('rm -rf ./node_modules/prisma/libquery_engine-rhel-openssl-1.0.x.so.node')
-runCommand('rm -rf ./package')
-runCommand('zip -r build.zip ./build package.json serverless.yml node_modules')
+
+// prisma layer
+runCommand('mkdir -p .prisma-layer/nodejs/node_modules/.prisma')
+runCommand('mkdir -p .prisma-layer/nodejs/node_modules/@prisma')
+
+runCommand('cp -r ../../node_modules/.prisma .prisma-layer/nodejs/node_modules')
+runCommand('cp -r node_modules/@prisma .prisma-layer/nodejs/node_modules')
+
+// node modules layer
+runCommand('mkdir -p .node-modules-layer/nodejs/node_modules')
+
+runCommand('cp -r node_modules .node-modules-layer/nodejs')
+
+// @img module layer
+runCommand('mkdir -p .img-modules-layer/nodejs/node_modules')
+
+runCommand('cp -r node_modules/@img .img-modules-layer/nodejs/node_modules')
