@@ -18,6 +18,7 @@ const runCommand = (command) => {
 // Execute commands sequentially
 runCommand('pnpm install:sharp')
 runCommand('pnpm build')
+runCommand('node ./src/scripts/serverless-monorepo.js')
 runCommand('pnpm prisma:generate')
 runCommand('rm -rf ./node_modules/prisma/libquery_engine-rhel-openssl-3.0.x.so.node')
 runCommand('rm -rf ./node_modules/prisma/libquery_engine-darwin-arm64.dylib.node')
@@ -26,3 +27,5 @@ runCommand(`cp -R ${__dirname}/../../../../node_modules/.prisma ./node_modules/.
 runCommand('rm -rf ./node_modules/.prisma/client/libquery_engine-rhel-openssl-3.0.x.so.node')
 runCommand('rm -rf ./node_modules/.prisma/client/libquery_engine-darwin-arm64.dylib.node')
 runCommand('rm -rf ./node_modules/prisma/libquery_engine-rhel-openssl-1.0.x.so.node')
+runCommand('rm -rf ./package')
+runCommand('zip -r build.zip ./build package.json serverless.yml node_modules')
