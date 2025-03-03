@@ -49,27 +49,22 @@ jobs:
           corepack enable
           COREPACK_INTEGRITY_KEYS=0 corepack prepare --activate
 
-      - name: setup yarnrc
-        run: |
-          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-          echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> $GITHUB_ENV
-
       - name: install dependencies
         run: pnpm install
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check runtime
         run: |
           pnpm check:runtime
-
-      - name: build app
-        working-directory: ./apps/billets-server
-        run: pnpm build
 
       - name: serverless login
         run: |
           SERVERLESS_ACCESS_KEY=${{ secrets.SERVERLESS_ACCESS_KEY }}
           echo "SERVERLESS_ACCESS_KEY=$SERVERLESS_ACCESS_KEY" >> $GITHUB_ENV
 
-      - name: run serverless deploy
+      - name: run build and upload zip to aws lambda
         working-directory: ./apps/billets-server
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: pnpm serverless:deploy:dev
