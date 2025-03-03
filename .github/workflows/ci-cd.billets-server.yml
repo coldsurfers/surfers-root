@@ -62,6 +62,13 @@ jobs:
         run: |
           pnpm check:runtime
 
-      - name: run build and upload  zip to aws lambda
+      - name: serverless login
+        run: |
+          SERVERLESS_ACCESS_KEY=${{ secrets.SERVERLESS_ACCESS_KEY }}
+          echo "SERVERLESS_ACCESS_KEY=$SERVERLESS_ACCESS_KEY" >> $GITHUB_ENV
+
+      - name: run build and upload zip to aws lambda
         working-directory: ./apps/billets-server
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: pnpm serverless:deploy:prod
