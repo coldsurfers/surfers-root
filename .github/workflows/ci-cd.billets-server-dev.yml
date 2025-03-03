@@ -51,6 +51,8 @@ jobs:
 
       - name: install dependencies
         run: pnpm install
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check runtime
         run: |
