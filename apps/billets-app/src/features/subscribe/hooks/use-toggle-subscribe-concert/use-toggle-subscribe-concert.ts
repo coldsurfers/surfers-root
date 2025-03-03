@@ -1,6 +1,6 @@
 import { apiClient } from '@/lib/api/openapi-client'
-import { OpenApiError } from '@/lib/errors'
 import { components } from '@/types/api'
+import { OpenApiError } from '@coldsurfers/api-sdk'
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useCallback } from 'react'
 

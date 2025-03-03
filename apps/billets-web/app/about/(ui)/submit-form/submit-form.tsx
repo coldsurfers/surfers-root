@@ -1,7 +1,7 @@
 'use client'
 
-import { OpenApiError } from '@/libs/errors'
 import { apiClient } from '@/libs/openapi-client'
+import { OpenApiError } from '@coldsurfers/api-sdk'
 import { Checkbox, colors, Text } from '@coldsurfers/ocean-road'
 import { useMutation } from '@tanstack/react-query'
 import { memo, useCallback } from 'react'

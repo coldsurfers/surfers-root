@@ -26,6 +26,7 @@
     "surf-tree",
     "coldsurf-io",
     "shared-utils",
-    "react-native-apple-maps"
+    "react-native-apple-maps",
+    "api-sdk"
   ]
 }
