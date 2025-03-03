@@ -42,11 +42,6 @@ jobs:
           corepack enable
           COREPACK_INTEGRITY_KEYS=0 corepack prepare --activate
 
-      - name: setup yarnrc
-        run: |
-          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-          echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> $GITHUB_ENV
-
       - name: install dependencies
         run: pnpm install
 
