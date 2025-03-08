@@ -125,6 +125,137 @@ async function uploadPoster(posterUrl) {
 }
 
 async function findVenue(venue) {
+  let alreadyExistingVenueId = null
+  switch (venue) {
+    case '예스24 라이브홀 (구. 악스코리아)':
+      alreadyExistingVenueId = '941e5df0-e1e4-4b39-9ca0-6c0a134ac5c7'
+      break
+    case '강릉아트센터 (구. 강릉문화예술관)':
+      alreadyExistingVenueId = 'fd29a778-80d0-44d6-a90f-2f118192ec4c'
+      break
+    case '무신사 개러지 (구. 왓챠홀)':
+      alreadyExistingVenueId = 'c2e728e7-113f-43b1-9df0-7970f05594a4'
+      break
+    case '경기아트센터(구. 경기도문화의전당)':
+      alreadyExistingVenueId = '1a2205f7-1571-4a3a-8cd3-3abaecc330e6'
+      break
+    case '재즈인연구소':
+      alreadyExistingVenueId = '83f23de8-b900-438a-b586-a49b9fb28175'
+      break
+    case '플렉스라운지 (구. 스테이라운지, 구. 인디팍)':
+      alreadyExistingVenueId = '8b2dcd30-f60c-40a4-8576-c497844ac725'
+      break
+    case '노원어린이극장 (구.노원어울림극장)':
+      alreadyExistingVenueId = 'e8cb24cb-a406-4e75-9f84-bf8f00073e87'
+      break
+    case '관악아트홀 (구. 관악문화관)':
+      alreadyExistingVenueId = '4d9ea66d-c190-4aeb-8552-780f4dba593b'
+      break
+    case '지구인아트홀 (구. 해오름 예술극장)':
+      alreadyExistingVenueId = '6fbab0c7-a06e-4172-923e-2da0373bd639'
+      break
+    case '어울아트센터(구. 대구북구문예회관)':
+      alreadyExistingVenueId = 'dc5b2af6-87fc-4e43-bafa-0b301b68d656'
+      break
+    case '예스24 스테이지(구. DCF대명문화공장)':
+      alreadyExistingVenueId = '8eec9805-13a0-4b6e-bd8f-7c75bad40117'
+      break
+    case '비오케이아트센터(BOK아트센터)':
+      alreadyExistingVenueId = '1e24b7a6-12d4-4fc5-ab20-4ea70114b1e0'
+      break
+    case '예술의 전당 [광주] (구. 광주문화예술회관)':
+      alreadyExistingVenueId = '833f60d2-d030-4672-8638-29eb409d3ed8'
+      break
+    case '시흥ABC행복학습센터':
+      alreadyExistingVenueId = '452b05f3-f8dd-4bf9-8fe3-970c26f7a1fe'
+      break
+    case '광주시문화예술의전당 (구. 남한산성아트홀)':
+      alreadyExistingVenueId = '833f60d2-d030-4672-8638-29eb409d3ed8'
+      break
+    case '대원 팝콘D 스퀘어':
+      alreadyExistingVenueId = 'bad04487-3a9f-48fa-aaa6-6a5b430dc630'
+      break
+    case '꾸꾸플루트 (경복궁 클래식)':
+      alreadyExistingVenueId = '2fe4ae33-b45e-40c7-955e-48cf8fd82663'
+      break
+    case '서울숲 스튜디오301':
+      alreadyExistingVenueId = '889d78d8-aa02-42ac-9141-a2f1ffce5ebf'
+      break
+    case '신세계 문화홀 8층 [대구]':
+      alreadyExistingVenueId = 'db057eed-89bd-49f7-8f25-d658ecbc5c9c'
+      break
+    case '스테이지엠 (STAGE M) (구.프란츠홀)':
+      alreadyExistingVenueId = '84e27e49-0d01-4b28-a3f5-08f4e5ca27a3'
+      break
+    case '에이치아츠(H-Art)':
+      alreadyExistingVenueId = '8db30137-ec14-402d-baf7-0c99538b5b02'
+      break
+    case '청주아트홀 (구. 청주시민회관)':
+      alreadyExistingVenueId = 'c7e4ad20-1b9f-4b3a-89f9-650d2e9f7d6f'
+      break
+    case '달서아트센터 (구. 웃는얼굴아트센터)':
+      alreadyExistingVenueId = '8c177f5e-440a-4432-bf5c-36a9e8159aca'
+      break
+    case '성남아트리움 (구. 성남시민회관)':
+      alreadyExistingVenueId = 'bd1b23ba-21fe-4f25-9d96-1c74712c281e'
+      break
+    case '대학로 마로니에소극장(플레이더씨어터)':
+      alreadyExistingVenueId = '7ff3a78f-a60d-40be-82eb-5ecdcb09dac4'
+      break
+    case '올림아트센터 (구.스튜디오76)':
+      alreadyExistingVenueId = '7b4c20b2-f198-4bc2-876d-16eb374c35b8'
+      break
+    case '상상플레이스 여순광점(여수 웅천 트리마제벨마레 2305호)':
+      alreadyExistingVenueId = 'b04510a8-4917-4852-b44f-235fc9158e94'
+      break
+    case '씨어터조이 (구. 마당세실극장)':
+      alreadyExistingVenueId = 'd51df2d9-86aa-4cfe-8dc1-3dcd0f0c4887'
+      break
+    case '예스24아트원(구.대학로아트원씨어터)':
+      alreadyExistingVenueId = '26e1576c-448e-40f5-a074-4208c2f583cf'
+      break
+    case '소극장 혜화당 (구. 까망소극장)':
+      alreadyExistingVenueId = 'eb1007d9-2113-41bf-adb8-26714bc5ae45'
+      break
+    case '공간소극장 [대연역]':
+      alreadyExistingVenueId = '64bb85f4-4351-45d8-adb9-68097ae0e1af'
+      break
+    case '어댑터씨어터 1관 (구.어댑터플레이스)':
+      alreadyExistingVenueId = '830f5825-c00a-4c4d-ba80-03167e4cff4a'
+      break
+    case '한성아트홀(구. 인켈아트홀)':
+      alreadyExistingVenueId = '8cc77556-bf4e-4000-b5e9-6f1b1b307034'
+      break
+    case '기분좋은극장 [상무지구]':
+      alreadyExistingVenueId = 'e27586ec-f8b4-460c-a9b7-2fd31d83fa9a'
+      break
+    case '서울문화재단 대학로극장 쿼드(예술청)':
+      alreadyExistingVenueId = '87c691d1-f4f7-4c75-a944-9245855ac693'
+      break
+    case '대학로 이음센터(한국장애인문화예술원)':
+      alreadyExistingVenueId = 'cf441c32-1fb6-4eb1-afde-03c175118333'
+      break
+    case '국립정동극장 세실 (구.세실극장)':
+      alreadyExistingVenueId = '8d36d336-af4f-4e57-ac85-e30541d4d5a6'
+      break
+    case '경기아트센터 경기국악원':
+      alreadyExistingVenueId = 'abc7f0fa-3acc-4271-bc88-6a4e16c7cc1e'
+      break
+    default:
+      break
+  }
+
+  if (alreadyExistingVenueId !== null) {
+    const existing = await dbClient.venue.findUnique({
+      where: {
+        id: alreadyExistingVenueId,
+      },
+    })
+    return {
+      existingVenue: existing,
+      kakaoSearchFirstResult: null,
+    }
+  }
   const kakaoSearchResponse = await fetch(`https://dapi.kakao.com/v2/local/search/keyword.json?query=${venue}`, {
     headers: {
       Authorization: `KakaoAK ${process.env.KAKAO_REST_API_KEY}`,
@@ -464,7 +595,7 @@ const sleep = () => new Promise((resolve) => setTimeout(resolve, 1000))
 async function main() {
   try {
     await dbClient.$connect()
-    const { items } = await insertKOPISEvents(5, KOPISEVENT_CATEGORIES.뮤지컬)
+    const { items } = await insertKOPISEvents(3, KOPISEVENT_CATEGORIES['한국음악(국악)'])
     await dbClient.$disconnect()
     await Promise.all(
       items.map(async (item, index) => {
