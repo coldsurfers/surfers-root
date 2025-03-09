@@ -13,6 +13,8 @@ export const FloatingSearchBarWrapper = styled.div`
 export const FloatingSearchTextInput = styled(TextInput)`
   width: ${breakpoints.medium}px;
 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
   ${media.large(css`
     width: calc(${breakpoints.medium}px - 2rem);
   `)}
