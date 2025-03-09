@@ -2,10 +2,8 @@
 
 import { apiClient } from '@/libs/openapi-client'
 import { useCommonUIStore } from '@/libs/stores'
-import { Text } from '@coldsurfers/ocean-road'
 import { useQuery } from '@tanstack/react-query'
-import Link from 'next/link'
-import { match } from 'ts-pattern'
+import { SearchItem } from '../search-item'
 import { SearchResultWrapper } from './floating-search-result.styled'
 
 interface FloatingSearchResultProps {
@@ -26,40 +24,7 @@ export const FloatingSearchResult = ({ keyword }: FloatingSearchResultProps) => 
 
   return (
     <SearchResultWrapper>
-      {data?.map((item) => {
-        return match(item)
-          .when(
-            (value) => value.type === 'artist',
-            (value) => {
-              return (
-                <Link key={value.id} href={`/artist/${value.id}`} onClick={closeFloatingSearchBar}>
-                  <Text>{value.name}</Text>
-                </Link>
-              )
-            },
-          )
-          .when(
-            (value) => value.type === 'concert',
-            (value) => {
-              return (
-                <Link key={value.id} href={`/event/${value.id}`} onClick={closeFloatingSearchBar}>
-                  <Text>{value.title}</Text>
-                </Link>
-              )
-            },
-          )
-          .when(
-            (value) => value.type === 'venue',
-            (value) => {
-              return (
-                <Link key={value.id} href={`/venue/${value.id}`} onClick={closeFloatingSearchBar}>
-                  <Text>{value.name}</Text>
-                </Link>
-              )
-            },
-          )
-          .otherwise(() => null)
-      })}
+      {data?.map((item) => <SearchItem key={item.id} {...item} onClick={closeFloatingSearchBar} />)}
     </SearchResultWrapper>
   )
 }
