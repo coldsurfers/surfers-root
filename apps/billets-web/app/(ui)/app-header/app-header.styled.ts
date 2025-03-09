@@ -2,7 +2,7 @@ import { GLOBAL_Z_INDEX } from '@/libs/constants'
 import { media, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import { AlignRight } from 'lucide-react'
+import { AlignRight, Search as SearchIcon } from 'lucide-react'
 import Link from 'next/link'
 import { GlobalLink } from '../global-link'
 import { HEADER_HEIGHT } from './app-header.constants'
@@ -119,4 +119,24 @@ export const ModalContent = styled.div`
 
 export const MobileMenuIcon = styled(AlignRight)`
   color: ${semantics.color.foreground[3]};
+`
+
+export const SearchIconUI = styled(SearchIcon)`
+  width: 24px;
+  height: 24px;
+  color: ${semantics.color.foreground[1]};
+`
+
+export const SearchIconWrapper = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: ${semantics.color.background[3]};
+  border-radius: 50%;
+
+  border: none;
+
+  cursor: pointer;
 `
