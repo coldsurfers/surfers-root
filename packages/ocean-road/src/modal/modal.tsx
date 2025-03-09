@@ -47,6 +47,7 @@ export const Modal = ({
               top: 0,
               bottom: 0,
               border: 'none',
+              zIndex: zIndex ? zIndex + 1 : undefined,
             }}
           >
             {children}
