@@ -8,7 +8,6 @@ export const StyledHomeTop = styled.div`
   display: flex;
   flex-direction: row;
   gap: 24px;
-  padding: 16px;
 
   @media (max-width: 960px) {
     flex-direction: column-reverse;
