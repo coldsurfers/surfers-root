@@ -140,6 +140,7 @@ export function AppHeader() {
           </GlobalLink>
         </WebMenuContainer>
         <MobileMenuContainer>
+          <AppHeaderSearchUI />
           <IconButton onClick={() => setIsModalOpen(true)}>
             <MobileMenuIcon />
           </IconButton>

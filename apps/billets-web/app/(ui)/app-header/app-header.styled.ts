@@ -1,5 +1,5 @@
 import { GLOBAL_Z_INDEX } from '@/libs/constants'
-import { media, semantics, Text } from '@coldsurfers/ocean-road'
+import { IconButton, media, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { AlignRight, Search as SearchIcon } from 'lucide-react'
@@ -127,7 +127,7 @@ export const SearchIconUI = styled(SearchIcon)`
   color: ${semantics.color.foreground[1]};
 `
 
-export const SearchIconWrapper = styled.button`
+export const SearchIconWrapper = styled(IconButton)`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -139,4 +139,10 @@ export const SearchIconWrapper = styled.button`
   border: none;
 
   cursor: pointer;
+
+  ${media.large(css`
+    width: 32px;
+    height: 32px;
+    margin-right: 0.5rem;
+  `)}
 `
