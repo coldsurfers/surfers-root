@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const dateFns = require('date-fns')
-const dotenv = require('dotenv')
-const xml2js = require('xml2js')
-const { PrismaClient } = require('@prisma/client')
-const { S3Client: AWSS3Client } = require('@aws-sdk/client-s3')
-const { PutObjectCommand } = require('@aws-sdk/client-s3')
-const ngeohash = require('ngeohash')
+import { S3Client as AWSS3Client, PutObjectCommand } from '@aws-sdk/client-s3'
+import { PrismaClient } from '@prisma/client'
+import { format } from 'date-fns'
+import dotenv from 'dotenv'
+import ngeohash from 'ngeohash'
+import xml2js from 'xml2js'
+import { generateSlug } from './generateSlug.mjs'
 
 dotenv.config()
 
@@ -440,7 +440,7 @@ async function connectOrCreateVenue(venue, eventId) {
  * @returns
  */
 async function insertKOPISEvents(page, category) {
-  const currentDate = dateFns.format(new Date(), 'yyyyMMdd')
+  const currentDate = format(new Date(), 'yyyyMMdd')
   const endDate = '20261231'
   const response = await fetch(
     `http://www.kopis.or.kr/openApi/restful/pblprfr?service=${process.env.KOPIS_KEY}&stdate=${currentDate}&eddate=${endDate}&rows=100&cpage=${page}&shcate=${category}`,
@@ -486,9 +486,12 @@ async function insertKOPISEvents(page, category) {
       await connectOrCreateVenue(item.venue, existing.id)
     } else {
       const locationCityId = areaToLocationCityId(item.area)
+      const slug = generateSlug(item.title)
+      console.log('slug', slug)
       const event = await dbClient.concert.create({
         data: {
           title: item.title,
+          slug,
           date: new Date(item.date),
           isKOPIS: true,
           kopisEvent: {
@@ -595,7 +598,7 @@ const sleep = () => new Promise((resolve) => setTimeout(resolve, 1000))
 async function main() {
   try {
     await dbClient.$connect()
-    const { items } = await insertKOPISEvents(3, KOPISEVENT_CATEGORIES['한국음악(국악)'])
+    const { items } = await insertKOPISEvents(1, KOPISEVENT_CATEGORIES.연극)
     await dbClient.$disconnect()
     await Promise.all(
       items.map(async (item, index) => {
