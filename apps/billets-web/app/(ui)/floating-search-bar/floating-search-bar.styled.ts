@@ -12,6 +12,8 @@ export const FloatingSearchBarWrapper = styled.div`
 
 export const FloatingSearchTextInput = styled(TextInput)`
   width: ${breakpoints.medium}px;
+  /* prevent mobile zoom autofocus, must be larger than 16px */
+  font-size: 16px;
 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
