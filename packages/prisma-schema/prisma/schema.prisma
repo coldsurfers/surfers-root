@@ -4,7 +4,7 @@
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "darwin-arm64", "rhel-openssl-3.0.x", "rhel-openssl-1.0.x"]
-  output   = "../../../node_modules/.prisma/client"
+  output        = "../../../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -138,17 +138,18 @@ model Staff {
 }
 
 model EventCategory {
-  id String @id @default(uuid())
-  name String @unique
-  deletedAt DateTime?
+  id           String    @id @default(uuid())
+  name         String    @unique
+  deletedAt    DateTime?
   serialNumber Int
-  concerts Concert[]
+  concerts     Concert[]
 }
 
 model Concert {
   id              String                      @id @default(uuid())
   artists         ConcertsOnArtists[]
   title           String
+  slug            String                      @unique
   venues          ConcertsOnVenues[]
   date            DateTime                    @db.Timestamptz
   posters         ConcertsOnPosters[]
@@ -158,7 +159,7 @@ model Concert {
   kopisEvent      KOPISEvent?
   locationCity    LocationCity?               @relation(fields: [locationCityId], references: [id])
   locationCityId  String?
-  eventCategory   EventCategory?             @relation(fields: [eventCategoryId], references: [id])
+  eventCategory   EventCategory?              @relation(fields: [eventCategoryId], references: [id])
   eventCategoryId String?
   createdAt       DateTime                    @default(now())
   updatedAt       DateTime?
