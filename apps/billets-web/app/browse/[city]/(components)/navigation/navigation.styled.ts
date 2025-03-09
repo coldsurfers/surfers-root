@@ -1,5 +1,5 @@
 import { GLOBAL_Z_INDEX } from '@/libs/constants'
-import { Button, colors, media, semantics, Text } from '@coldsurfers/ocean-road'
+import { Button, colors, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { motion } from 'framer-motion'
@@ -11,16 +11,6 @@ export const NavContainer = styled.nav`
   & + & {
     margin-top: 0.75rem;
   }
-
-  ${media.large(css`
-    margin-left: 2rem;
-    margin-right: 2rem;
-  `)}
-
-  ${media.small(css`
-    margin-left: 1rem;
-    margin-right: 1rem;
-  `)}
 `
 
 export const NavButton = styled(Button)<{ $isActive: boolean }>`

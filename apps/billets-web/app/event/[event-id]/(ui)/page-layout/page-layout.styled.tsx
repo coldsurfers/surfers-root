@@ -8,16 +8,9 @@ export const StyledPageLayout = styled.div`
   display: flex;
   align-items: flex-start;
 
-  ${media.large(css`
-    margin-left: 1rem;
-    margin-right: 1rem;
-  `)}
-
   ${media.medium(css`
     flex-direction: column;
     align-items: center;
-    margin-left: 1rem;
-    margin-right: 1rem;
   `)}
 `
 
