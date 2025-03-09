@@ -2,14 +2,7 @@ import { media, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 
-export const StyledListContainer = styled.div`
-  ${media.large(css`
-    margin: 0 2rem;
-  `)}
-  ${media.small(css`
-    margin: 0 1rem;
-  `)}
-`
+export const StyledListContainer = styled.div``
 
 export const StyledListHeader = styled.div`
   width: 100%;

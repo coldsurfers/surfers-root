@@ -5,6 +5,7 @@ import { Button, IconButton, Text } from '@coldsurfers/ocean-road'
 import { useRouter } from 'next/navigation'
 import { MouseEventHandler, useEffect, useState } from 'react'
 import { GlobalLink } from '../global-link'
+import { AppHeaderSearchUI } from './app-header.search-ui'
 import {
   HeaderContainer,
   HeaderLogo,
@@ -133,11 +134,13 @@ export function AppHeader() {
               </Container>
             )
           })}
+          <AppHeaderSearchUI />
           <GlobalLink href={APP_STORE_URL} target="_blank">
             <Button theme="border">GET THE APP</Button>
           </GlobalLink>
         </WebMenuContainer>
         <MobileMenuContainer>
+          <AppHeaderSearchUI />
           <IconButton onClick={() => setIsModalOpen(true)}>
             <MobileMenuIcon />
           </IconButton>

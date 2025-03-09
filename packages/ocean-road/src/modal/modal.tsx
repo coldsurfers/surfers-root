@@ -6,9 +6,11 @@ export const Modal = ({
   children,
   visible,
   onClose,
+  zIndex,
 }: PropsWithChildren<{
   visible: boolean
   onClose: () => void
+  zIndex?: number
 }>) => {
   return (
     <AnimatePresence>
@@ -26,6 +28,7 @@ export const Modal = ({
               right: 0,
               top: 0,
               bottom: 0,
+              zIndex,
             }}
           />
 
@@ -44,6 +47,7 @@ export const Modal = ({
               top: 0,
               bottom: 0,
               border: 'none',
+              zIndex: zIndex ? zIndex + 1 : undefined,
             }}
           >
             {children}
