@@ -1,6 +1,7 @@
 export * from './app-footer'
 export * from './app-header'
 export * from './app-layout'
+export * from './floating-search-bar'
 export * from './global-link'
 export * from './image-modal'
 export * from './network-error'

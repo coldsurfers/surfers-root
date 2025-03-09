@@ -3,6 +3,7 @@
 import { PropsWithChildren } from 'react'
 import { AppFooter } from '../app-footer'
 import { AppHeader } from '../app-header'
+import { FloatingSearchBar } from '../floating-search-bar'
 import { ChildrenWrapper, Container } from './app-layout.styled'
 
 export function AppLayout({
@@ -16,6 +17,7 @@ export function AppLayout({
       <AppHeader />
       <ChildrenWrapper>{children}</ChildrenWrapper>
       <AppFooter />
+      <FloatingSearchBar />
     </Container>
   )
 }
