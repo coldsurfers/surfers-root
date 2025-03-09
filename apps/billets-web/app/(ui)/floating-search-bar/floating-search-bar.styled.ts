@@ -1,11 +1,11 @@
 import { breakpoints, media, TextInput } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import { HEADER_HEIGHT } from '../app-header'
+import { FLOATING_SEARCH_BAR_TOP } from './floating-search-bar.constants'
 
 export const FloatingSearchBarWrapper = styled.div`
   position: fixed;
-  top: calc(${HEADER_HEIGHT} + 20px);
+  top: ${FLOATING_SEARCH_BAR_TOP};
   left: 50%;
   transform: translate(-50%, -50%);
 `
