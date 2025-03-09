@@ -6,6 +6,9 @@ export const StyledPageLayout = styled.div`
   padding-top: 172px;
   padding-bottom: 80px;
 
+  padding-left: 40px;
+  padding-right: 40px;
+
   ${media.large(css`
     padding-right: 24px;
     padding-left: 24px;
