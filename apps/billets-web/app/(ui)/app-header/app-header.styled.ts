@@ -141,8 +141,6 @@ export const SearchIconWrapper = styled(IconButton)`
   cursor: pointer;
 
   ${media.large(css`
-    width: 32px;
-    height: 32px;
     margin-right: 0.5rem;
   `)}
 `
