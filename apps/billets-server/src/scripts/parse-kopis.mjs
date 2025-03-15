@@ -241,6 +241,57 @@ async function findVenue(venue) {
     case '경기아트센터 경기국악원':
       alreadyExistingVenueId = 'abc7f0fa-3acc-4271-bc88-6a4e16c7cc1e'
       break
+    case '신한카드 SOL페이 스퀘어(구.신한pLay 스퀘어)':
+      alreadyExistingVenueId = 'e6530971-b772-48bc-950d-af3a21e8a751'
+      break
+    case '성북미디어문화마루 꿈빛극장':
+      alreadyExistingVenueId = '56f9c155-a5f6-480e-bf4f-cd59999b67e2'
+      break
+    case '한국가곡예술마을 나음아트홀':
+      alreadyExistingVenueId = '12b33485-84c4-4649-b34c-483ada167920'
+      break
+    case '오아스페이스(구, 스페이스 홍)':
+      alreadyExistingVenueId = 'bf54bdb3-beba-465b-959e-5d1ec43b5890'
+      break
+    case '벨로주 [홍대] (구. 왓에버)':
+      alreadyExistingVenueId = '25b55825-cf91-47f0-8360-f1ebd1d7a1ce'
+      break
+    case '몽향라이브홀':
+      alreadyExistingVenueId = 'b722ae3c-bc81-4afc-ab65-2f9e3f514b4b'
+      break
+    case '프리즘홀 (프리즘플러스)':
+      alreadyExistingVenueId = '152cca7e-8618-42de-965d-92816f6c527'
+      break
+    case 'Baby Doll (베이비돌)':
+      alreadyExistingVenueId = '84666f0f-8d41-431c-a16c-98af65cb196c'
+      break
+    case '엠팟홀 (구. 삼익아트홀)':
+      alreadyExistingVenueId = 'e3b56076-7042-47cc-9899-80f93cbf3f5b'
+      break
+    case '한국방송회관 코바코홀 (구. 브로드홀)':
+      alreadyExistingVenueId = '8ced6eb9-0dea-41b5-9b04-cad781f1ec83'
+      break
+    case 'et theatre 1 (구. 눈빛극장)':
+      alreadyExistingVenueId = '12ace886-1dfc-474e-9c13-d4bd3b3ed749'
+      break
+    case '천안어린이꿈누리터(구. 천안시 어린이 회관)':
+      alreadyExistingVenueId = '5f21bc1d-9824-405c-bbf0-ad8b56d72449'
+      break
+    case '칸타빌레 클래식 아트홀':
+      alreadyExistingVenueId = '47e5d97f-bd08-48e0-ba6b-9777450577e9'
+      break
+    case '디라이트 아트 홀':
+      alreadyExistingVenueId = '0ee10aad-39d3-4a24-9567-1d6dd9ebe511'
+      break
+    case '제이원 씨어터 (구. 서완소극장, 구. 씨어터고리)':
+      alreadyExistingVenueId = '7dfec303-8226-4adc-8b53-555d328e5cf5'
+      break
+    case '극장 봄 (봄소극장)':
+      alreadyExistingVenueId = '0f885b2e-01f0-4697-bdbd-1d220552e747'
+      break
+    case '강릉단오제전수교육관 (구. 단오문화관)':
+      alreadyExistingVenueId = '0e1e77be-6973-41a0-8ebd-4e1908d95dcf'
+      break
     default:
       break
   }
@@ -486,8 +537,7 @@ async function insertKOPISEvents(page, category) {
       await connectOrCreateVenue(item.venue, existing.id)
     } else {
       const locationCityId = areaToLocationCityId(item.area)
-      const slug = generateSlug(item.title)
-      console.log('slug', slug)
+      const slug = await generateSlug(item.title)
       const event = await dbClient.concert.create({
         data: {
           title: item.title,
@@ -598,7 +648,7 @@ const sleep = () => new Promise((resolve) => setTimeout(resolve, 1000))
 async function main() {
   try {
     await dbClient.$connect()
-    const { items } = await insertKOPISEvents(1, KOPISEVENT_CATEGORIES.연극)
+    const { items } = await insertKOPISEvents(2, KOPISEVENT_CATEGORIES['한국음악(국악)'])
     await dbClient.$disconnect()
     await Promise.all(
       items.map(async (item, index) => {
