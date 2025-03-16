@@ -79,7 +79,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: metaTitle,
     description: metaDescription,
     images: metaImages,
-    url: `https://billets.coldsurf.io/event/${pageParams['event-id']}`,
+    url: `https://billets.coldsurf.io/event/${pageParams.slug}`,
   }
 
   return metadataInstance.generateMetadata<Metadata>({
@@ -161,7 +161,7 @@ async function PageInner({ params }: { params: { slug: string } }) {
               endDate: concertDate.toISOString(),
               startDate: concertDate.toISOString(),
               name: title,
-              url: `${SITE_URL}/event/${params['event-id']}`,
+              url: `${SITE_URL}/event/${params.slug}`,
               venue: {
                 address: mainVenue?.address ?? '',
                 latitude: mainVenue?.lat ?? 0,
@@ -191,7 +191,7 @@ async function PageInner({ params }: { params: { slug: string } }) {
   )
 }
 
-export default async function EventDetailPage(props: { params: Promise<{ ['event-id']: string }> }) {
+export default async function EventDetailPage(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params
   return (
     <ApiErrorBoundaryRegistry>
