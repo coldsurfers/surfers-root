@@ -1,5 +1,11 @@
 import { ErrorResponseDTO } from '@/dtos/error-response.dto'
-import { EventDetailDTO, EventDTO, GetEventDetailByIdParamsDTO, GetEventsQueryStringDTO } from '@/dtos/event.dto'
+import {
+  EventDetailDTO,
+  EventDTO,
+  GetEventDetailByIdParamsDTO,
+  GetEventDetailBySlugParamsDTO,
+  GetEventsQueryStringDTO,
+} from '@/dtos/event.dto'
 import geohashUtils from '@/lib/geohashUtils'
 import { LatLng } from '@/lib/types'
 import { ConcertDetailRepositoryImpl } from '@/repositories/concert-detail.repository.impl'
@@ -79,6 +85,43 @@ export const getEventDetailByIdHandler = async (
       type: 'concert',
       data: {
         id: eventId,
+      },
+    })
+    if (!event) {
+      return rep.status(404).send({
+        code: 'EVENT_NOT_FOUND',
+        message: 'event not found',
+      })
+    }
+    return rep.status(200).send(event)
+  } catch (e) {
+    console.error(e)
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    })
+  }
+}
+
+interface GetEventDetailBySlugRoute extends RouteGenericInterface {
+  Params: GetEventDetailBySlugParamsDTO
+  Reply: {
+    200: EventDetailDTO
+    404: ErrorResponseDTO
+    500: ErrorResponseDTO
+  }
+}
+
+export const getEventDetailBySlugHandler = async (
+  req: FastifyRequest<GetEventDetailBySlugRoute>,
+  rep: FastifyReply<GetEventDetailBySlugRoute>,
+) => {
+  try {
+    const { slug } = req.params
+    const event = await eventService.getEventDetailBySlug({
+      type: 'concert',
+      data: {
+        slug,
       },
     })
     if (!event) {

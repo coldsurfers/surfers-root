@@ -68,6 +68,62 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
     })
   }
 
+  async getConcertDetailBySlug(slug: string): Promise<ConcertDetailDTO | null> {
+    const data = await dbClient.concert.findUnique({
+      where: {
+        slug,
+      },
+      include: {
+        posters: {
+          include: {
+            poster: true,
+          },
+        },
+        venues: {
+          include: {
+            venue: true,
+          },
+        },
+        artists: {
+          include: {
+            artist: {
+              include: {
+                artistProfileImage: {
+                  include: {
+                    copyright: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        tickets: {
+          include: {
+            ticket: true,
+          },
+        },
+        kopisEvent: true,
+      },
+    })
+    if (!data) {
+      return null
+    }
+    const posters = data.posters.map((value) => value.poster)
+    const venues = data.venues.map((value) => value.venue)
+    const artists = data.artists.map((value) => ({
+      ...value.artist,
+      artistProfileImage: value.artist.artistProfileImage,
+    }))
+    const tickets = data.tickets.map((value) => value.ticket)
+    return this.toDTO({
+      ...data,
+      posters,
+      venues,
+      artists,
+      tickets,
+    })
+  }
+
   private toDTO(model: ConcertDetailModel): ConcertDetailDTO {
     return {
       id: model.id,

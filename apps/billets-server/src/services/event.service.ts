@@ -67,4 +67,48 @@ export class EventService {
     }
     return null
   }
+
+  async getEventDetailBySlug({
+    type,
+    data,
+  }: {
+    type: 'concert'
+    data: {
+      slug: string
+    }
+  }): Promise<EventDetailDTO | null> {
+    if (type === 'concert') {
+      const concertDetail = await this.concertDetailService.getConcertDetailById(data.slug)
+      if (!concertDetail) {
+        return null
+      }
+      const { id: concertId } = concertDetail
+      const tickets = await this.ticketService.getMany({ eventId: concertId })
+      const ticketPromotes = tickets.map((ticket) => {
+        const { prices } = ticket
+        const cheapestPrice = getCheapestPrice(prices)
+        return {
+          ticket: ticket,
+          price: cheapestPrice,
+        }
+      })
+      const mainTicketPromote = ticketPromotes.at(0)
+      return {
+        type: 'concert',
+        data: {
+          ...concertDetail,
+          ticketPromotion: mainTicketPromote
+            ? {
+                id: mainTicketPromote.ticket.id,
+                url: mainTicketPromote.ticket.url,
+                sellerName: mainTicketPromote.ticket.sellerName,
+                openDate: mainTicketPromote.ticket.openDate,
+                price: mainTicketPromote.price,
+              }
+            : null,
+        },
+      }
+    }
+    return null
+  }
 }
