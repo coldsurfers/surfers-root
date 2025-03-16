@@ -23,12 +23,6 @@
     "circular": "dpdm ./src/start-server.ts",
     "install:sharp": "node ./src/scripts/install-sharp.mjs"
   },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "yarn run lint:fix",
-      "bash -c 'yarn build --noEmit'"
-    ]
-  },
   "dependencies": {
     "@aws-sdk/client-s3": "3.726.1",
     "@fastify/aws-lambda": "5.0.0",
@@ -72,9 +66,7 @@
     "dpdm": "^3.14.0",
     "eslint": "8.57.0",
     "fs-extra": "^11.3.0",
-    "husky": "^8.0.3",
     "js-yaml": "^4.1.0",
-    "lint-staged": "^13.1.0",
     "node-fetch": "2.7.0",
     "pm2": "*",
     "prettier": "*",

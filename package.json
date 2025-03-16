@@ -5,8 +5,12 @@
   "scripts": {
     "check:runtime": "node ./scripts/check-runtime-env.js",
     "clean": "turbo run clean --parallel && sh ./scripts/clean-modules.sh",
-    "postinstall": "patch-package",
-    "prepare": "husky install"
+    "postinstall": "patch-package"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
   "resolutions": {
     "@fastify/error": "4.0.0",
@@ -20,11 +24,14 @@
     "turbo": "2.4.2"
   },
   "devDependencies": {
+    "@commitlint/config-conventional": "^17.0.2",
+    "@evilmartians/lefthook": "^1.5.0",
     "@tanstack/eslint-plugin-query": "^5.12.1",
     "@types/ngeohash": "0.6.8",
     "@typescript-eslint/eslint-plugin": "7.3.1",
     "@typescript-eslint/parser": "7.3.1",
     "@yarnpkg/sdks": "^3.2.0",
+    "commitlint": "^17.0.2",
     "del-cli": "^6.0.0",
     "detect-libc": "2.0.3",
     "eslint": "8.57.0",
@@ -33,8 +40,6 @@
     "eslint-plugin-prettier": "5.1.3",
     "eslint-plugin-react": "7.34.1",
     "eslint-plugin-react-hooks": "4.6.0",
-    "husky": "9.0.11",
-    "lint-staged": "15.2.2",
     "pm2": "5.4.2",
     "prettier": "3.2.5",
     "prisma": "5.21.1"
