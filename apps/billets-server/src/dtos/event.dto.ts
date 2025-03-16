@@ -38,3 +38,8 @@ export const GetEventDetailByIdParamsDTOSchema = z.object({
   eventId: z.string(),
 })
 export type GetEventDetailByIdParamsDTO = z.infer<typeof GetEventDetailByIdParamsDTOSchema>
+
+export const GetEventDetailBySlugParamsDTOSchema = z.object({
+  slug: z.string(),
+})
+export type GetEventDetailBySlugParamsDTO = z.infer<typeof GetEventDetailBySlugParamsDTOSchema>

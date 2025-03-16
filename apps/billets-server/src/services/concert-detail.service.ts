@@ -7,4 +7,8 @@ export class ConcertDetailService {
   async getConcertDetailById(id: string): Promise<ConcertDetailDTO | null> {
     return this.concertDetailRepository.getConcertDetailById(id)
   }
+
+  async getConcertDetailBySlug(slug: string): Promise<ConcertDetailDTO | null> {
+    return this.concertDetailRepository.getConcertDetailBySlug(slug)
+  }
 }

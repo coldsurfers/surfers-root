@@ -7,6 +7,7 @@
     "postinstall": "pnpm prisma:generate",
     "prebuild": "pnpm clean",
     "build": "tsup",
+    "check:type": "tsc --noEmit",
     "dev": "tsup --watch",
     "watch": "tsup --watch --onSuccess 'node ./build/start-server.js'",
     "clean": "rm -rf build",
