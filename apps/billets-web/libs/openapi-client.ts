@@ -37,6 +37,12 @@ export const initialPageQuery = {
       queryFn: () => apiClient.event.getEventDetail(eventId),
     }
   },
+  eventDetailBySlug: (slug: string) => {
+    return {
+      queryKey: apiClient.event.queryKeys.detailBySlug(slug),
+      queryFn: () => apiClient.event.getEventDetailBySlug(slug),
+    }
+  },
   artistDetail: (artistId: string) => {
     return {
       queryKey: apiClient.artist.queryKeys.detail(artistId),
