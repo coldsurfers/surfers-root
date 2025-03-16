@@ -78,7 +78,7 @@ export class EventService {
     }
   }): Promise<EventDetailDTO | null> {
     if (type === 'concert') {
-      const concertDetail = await this.concertDetailService.getConcertDetailById(data.slug)
+      const concertDetail = await this.concertDetailService.getConcertDetailBySlug(data.slug)
       if (!concertDetail) {
         return null
       }
