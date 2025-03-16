@@ -19,6 +19,7 @@ export const SearchDTOSchema = z.discriminatedUnion('type', [
     date: z.string().datetime(),
     venueTitle: z.string(),
     id: z.string(),
+    slug: z.string().nullable(),
   }),
 ])
 export type SearchDTO = z.infer<typeof SearchDTOSchema>

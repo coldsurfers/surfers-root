@@ -118,6 +118,7 @@ export class SearchRepositoryImpl implements SearchRepository {
         title: concert.title,
         venueTitle: concert.venues.at(0)?.venue.name ?? '',
         id: concert.id,
+        slug: concert.slug,
       }),
     )
 
