@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import idToSlugMapJson from './id-to-slug-map'
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -16,7 +15,9 @@ export function middleware(request: NextRequest) {
 
   if (match) {
     const eventId = match[1]
-    const slug = idToSlugMapJson[eventId]
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const idToSlugJson = require('./id-to-slug.json')
+    const slug = idToSlugJson[eventId]
     console.log('slug', slug)
 
     if (slug) {
