@@ -24,4 +24,4 @@ jobs:
         run: pnpm lint
 
       - name: Typecheck files
-        run: pnpm typecheck
+        run: pnpm turbo check:type
