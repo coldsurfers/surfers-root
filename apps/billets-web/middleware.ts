@@ -18,7 +18,6 @@ export function middleware(request: NextRequest) {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const idToSlugJson = require('./id-to-slug.json')
     const slug = idToSlugJson[eventId]
-    console.log('slug', slug)
 
     if (slug) {
       const newUrl = new URL(`/event/${slug}`, request.url)
