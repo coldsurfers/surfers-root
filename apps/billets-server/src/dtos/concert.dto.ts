@@ -20,6 +20,7 @@ export const ConcertDTOSchema = z.object({
       name: z.string(),
     })
     .nullable(),
+  slug: z.string().nullable(),
 })
 export type ConcertDTO = z.infer<typeof ConcertDTOSchema>
 
@@ -32,6 +33,7 @@ export const ConcertDetailDTOSchema = z.object({
   artists: ArtistDTOSchema.array(),
   tickets: TicketDTOSchema.array(),
   isKOPIS: z.boolean(),
+  slug: z.string().nullable(),
 })
 export type ConcertDetailDTO = z.infer<typeof ConcertDetailDTOSchema>
 
