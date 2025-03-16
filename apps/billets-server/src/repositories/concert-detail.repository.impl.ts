@@ -157,6 +157,7 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
         url: ticket.sellingURL,
       })),
       isKOPIS: !!model.kopisEvent,
+      slug: model.slug,
     }
   }
 }
