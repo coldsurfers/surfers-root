@@ -90,7 +90,7 @@ export const Header = () => {
     <StyledHeaderBigContainer>
       <StyledHeaderContainer>
         {data.map((item) => (
-          <HeaderBadge key={item.href.pathname} {...item} />
+          <HeaderBadge key={item.title} {...item} />
         ))}
       </StyledHeaderContainer>
     </StyledHeaderBigContainer>
