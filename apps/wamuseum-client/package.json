@@ -10,7 +10,6 @@
     "lint": "next lint",
     "lint:fix": "pnpm lint --fix && prettier --write .",
     "postcompile": "pnpm lint:fix",
-    "prepare": "husky install",
     "start": "next start",
     "watch": "graphql-codegen -w"
   },
