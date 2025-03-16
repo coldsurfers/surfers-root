@@ -98,19 +98,24 @@ export default async function sitemap() {
 
   const allEvents = await findAllEvents()
 
-  // "/event/[event-id]"
-  const eventSitemaps = allEvents.map((event) => {
-    const url = generateUrl(`/event/${event.id}`)
-    const lastModified = new Date()
-    const changeFrequency = 'weekly'
-    const priority = 0.8
-    return {
-      url,
-      lastModified,
-      changeFrequency,
-      priority,
-    }
-  })
+  // "/event/[slug]"
+  const eventSitemaps = allEvents
+    .map((event) => {
+      if (!event.slug) {
+        return null
+      }
+      const url = generateUrl(`/event/${encodeURIComponent(event.slug)}`)
+      const lastModified = new Date()
+      const changeFrequency = 'weekly'
+      const priority = 0.8
+      return {
+        url,
+        lastModified,
+        changeFrequency,
+        priority,
+      }
+    })
+    .filter((value) => value !== null)
 
   // "/venue/[venue-id]"
   const allVenues = await findAllVenues()

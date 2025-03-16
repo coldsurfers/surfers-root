@@ -2,7 +2,7 @@
 
 import { memo, useMemo } from 'react'
 
-import { components } from 'types/api'
+import { components } from '@coldsurfers/api-sdk'
 import {
   StyledLineupContainer,
   StyledLineupImage,

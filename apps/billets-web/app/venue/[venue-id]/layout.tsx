@@ -66,7 +66,7 @@ export default async function VenueDetailPageLayout({
               url: `${SITE_URL}/venue/${pageParams['venue-id']}`,
               events: venueDetail.upcomingEvents.map((event) => ({
                 type: 'MusicEvent',
-                url: `${SITE_URL}/event/${event.data.id}`,
+                url: `${SITE_URL}/event/${event.data.slug}`,
                 name: event.data.title,
                 startDate: event.data.date,
                 endDate: event.data.date,

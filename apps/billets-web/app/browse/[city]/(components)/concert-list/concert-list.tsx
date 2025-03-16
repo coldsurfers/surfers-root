@@ -1,9 +1,9 @@
 'use client'
 
 import { initialPageQuery } from '@/libs/openapi-client'
+import { components } from '@coldsurfers/api-sdk'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { memo, useCallback, useMemo } from 'react'
-import { components } from 'types/api'
 import { ConcertListItem } from './concert-list.item'
 import { ConcertListLoadMore } from './concert-list.load-more'
 import { StyledGridContainer, StyledListContainer, StyledListHeader, StyledListHeaderText } from './concert-list.styled'

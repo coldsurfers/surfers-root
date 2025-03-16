@@ -40,6 +40,7 @@ export class ApiSdk {
             { latitude, longitude, offset, size, locationCityId, eventCategoryName, locationCityName },
           ],
           detail: (id: string) => ['event', 'detail', id],
+          detailBySlug: (slug: string) => ['event', 'detail', 'slug', slug],
         },
         getEvents: async ({
           offset,
@@ -81,6 +82,19 @@ export class ApiSdk {
             params: {
               path: {
                 eventId: id,
+              },
+            },
+          })
+          if (response.error) {
+            throw new OpenApiError(response.error)
+          }
+          return response.data
+        },
+        getEventDetailBySlug: async (slug: string) => {
+          const response = await baseFetchClient.GET('/v1/event/slug/{slug}', {
+            params: {
+              path: {
+                slug,
               },
             },
           })

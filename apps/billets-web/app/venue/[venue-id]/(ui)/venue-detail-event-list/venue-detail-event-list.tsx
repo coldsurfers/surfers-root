@@ -32,7 +32,7 @@ export function VenueDetailEventList({ venueId }: { venueId: string }) {
           const posterUrl = mainPoster?.url ? `${mainPoster.url}&width=400&height=400&format=png` : ''
           const formattedDate = format(new Date(value.data.date), 'EEE, MMM dd')
           return (
-            <StyledVenueDetailEventListItem key={value.data.id} href={`/event/${value.data.id}`}>
+            <StyledVenueDetailEventListItem key={value.data.id} href={`/event/${value.data.slug}`}>
               {posterUrl ? (
                 <StyledVenueDetailEventListItemThumbnail src={posterUrl} />
               ) : (

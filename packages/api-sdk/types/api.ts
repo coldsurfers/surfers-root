@@ -582,6 +582,61 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/event/slug/{slug}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          slug: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['EventDetailDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/fcm/token': {
     parameters: {
       query?: never
@@ -1097,6 +1152,7 @@ export interface paths {
                   /** Format: date-time */
                   date: string
                   id: string
+                  slug: string | null
                   thumbnailImgUrl: string
                   title: string
                   /** @enum {string} */
@@ -2205,6 +2261,7 @@ export interface components {
       id: string
       isKOPIS: boolean
       posters: components['schemas']['ArtistProfileImageDTOSchema'][]
+      slug: string | null
       tickets: components['schemas']['TicketDTOSchema'][]
       title: string
       venues: components['schemas']['VenueDTOSchema'][]
@@ -2221,6 +2278,7 @@ export interface components {
       mainVenue: {
         name: string
       } | null
+      slug: string | null
       title: string
     }
     ConfirmAuthCodeResponseDTOSchema: {
@@ -2275,6 +2333,7 @@ export interface components {
         id: string
         isKOPIS: boolean
         posters: components['schemas']['ArtistProfileImageDTOSchema'][]
+        slug: string | null
         ticketPromotion: components['schemas']['TicketPromotionDTOSchema'] | null
         tickets: components['schemas']['TicketDTOSchema'][]
         title: string

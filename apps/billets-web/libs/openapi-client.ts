@@ -1,5 +1,4 @@
-import { ApiSdk } from '@coldsurfers/api-sdk'
-import { components } from '../types/api'
+import { ApiSdk, components } from '@coldsurfers/api-sdk'
 import { API_BASE_URL } from './constants'
 
 export const apiClient = new ApiSdk().createSdk({
@@ -35,6 +34,12 @@ export const initialPageQuery = {
     return {
       queryKey: apiClient.event.queryKeys.detail(eventId),
       queryFn: () => apiClient.event.getEventDetail(eventId),
+    }
+  },
+  eventDetailBySlug: (slug: string) => {
+    return {
+      queryKey: apiClient.event.queryKeys.detailBySlug(slug),
+      queryFn: () => apiClient.event.getEventDetailBySlug(slug),
     }
   },
   artistDetail: (artistId: string) => {

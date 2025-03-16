@@ -43,7 +43,7 @@ export const SearchItem = (item: SearchItemProps) => {
       (value) => value.type === 'concert',
       (value) => {
         return (
-          <StyledSearchItemLink key={value.id} href={`/event/${value.id}`} onClick={item.onClick}>
+          <StyledSearchItemLink key={value.id} href={`/event/${value.slug}`} onClick={item.onClick}>
             <SearchItemEventThumbnailSquare
               src={`${value.thumbnailImgUrl}&width=${SEARCH_ITEM_ARTIST_THUMBNAIL_SIZE}&height=${SEARCH_ITEM_ARTIST_THUMBNAIL_SIZE}`}
             />
