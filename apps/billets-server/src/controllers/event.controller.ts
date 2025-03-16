@@ -117,7 +117,7 @@ export const getEventDetailBySlugHandler = async (
   rep: FastifyReply<GetEventDetailBySlugRoute>,
 ) => {
   try {
-    const { slug } = req.params
+    const slug = decodeURIComponent(req.params.slug)
     const event = await eventService.getEventDetailBySlug({
       type: 'concert',
       data: {
