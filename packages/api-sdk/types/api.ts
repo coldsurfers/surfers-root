@@ -1152,6 +1152,7 @@ export interface paths {
                   /** Format: date-time */
                   date: string
                   id: string
+                  slug: string | null
                   thumbnailImgUrl: string
                   title: string
                   /** @enum {string} */
@@ -2260,6 +2261,7 @@ export interface components {
       id: string
       isKOPIS: boolean
       posters: components['schemas']['ArtistProfileImageDTOSchema'][]
+      slug: string | null
       tickets: components['schemas']['TicketDTOSchema'][]
       title: string
       venues: components['schemas']['VenueDTOSchema'][]
@@ -2276,6 +2278,7 @@ export interface components {
       mainVenue: {
         name: string
       } | null
+      slug: string | null
       title: string
     }
     ConfirmAuthCodeResponseDTOSchema: {
@@ -2330,6 +2333,7 @@ export interface components {
         id: string
         isKOPIS: boolean
         posters: components['schemas']['ArtistProfileImageDTOSchema'][]
+        slug: string | null
         ticketPromotion: components['schemas']['TicketPromotionDTOSchema'] | null
         tickets: components['schemas']['TicketDTOSchema'][]
         title: string

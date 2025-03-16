@@ -1,5 +1,4 @@
-import { ApiSdk } from '@coldsurfers/api-sdk'
-import { components } from '../types/api'
+import { ApiSdk, components } from '@coldsurfers/api-sdk'
 import { API_BASE_URL } from './constants'
 
 export const apiClient = new ApiSdk().createSdk({

@@ -1,8 +1,8 @@
 'use client'
 
+import { components } from '@coldsurfers/api-sdk'
 import { format, parseISO } from 'date-fns'
 import { useMemo } from 'react'
-import { components } from 'types/api'
 import { GlobalLink } from '../../(ui)'
 import {
   StyledRecentListBilletsConcertCard,

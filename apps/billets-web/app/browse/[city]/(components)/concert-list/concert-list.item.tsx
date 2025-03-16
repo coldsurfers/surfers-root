@@ -1,7 +1,7 @@
+import { components } from '@coldsurfers/api-sdk'
 import { GlobalLink } from 'app/(ui)/global-link/global-link'
 import { format } from 'date-fns'
 import { memo, useMemo } from 'react'
-import { components } from 'types/api'
 import {
   StyledGridDate,
   StyledGridImage,

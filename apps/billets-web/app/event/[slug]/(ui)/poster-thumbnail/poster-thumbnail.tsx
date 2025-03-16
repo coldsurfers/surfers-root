@@ -1,8 +1,8 @@
 'use client'
 
+import { components } from '@coldsurfers/api-sdk'
 import { ImageModal } from 'app/(ui)'
 import { useCallback, useMemo, useState } from 'react'
-import { components } from 'types/api'
 import {
   StyledContentWrapper,
   StyledInfoIcon,
