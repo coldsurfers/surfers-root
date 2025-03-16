@@ -5,13 +5,20 @@
   "scripts": {
     "check:runtime": "node ./scripts/check-runtime-env.js",
     "clean": "turbo run clean --parallel && sh ./scripts/clean-modules.sh",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "lint": "eslint \"**/*.{js,ts,tsx}\""
   },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
     ]
   },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/",
+    "build/",
+    "package/"
+  ],
   "resolutions": {
     "@fastify/error": "4.0.0",
     "@types/react": "18.2.67",

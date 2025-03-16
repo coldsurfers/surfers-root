@@ -5,6 +5,7 @@
   "scripts": {
     "build": "next build",
     "compile": "npx graphql-codegen-esm --config ./gql/codegen.yml",
+    "check:type": "tsc --noEmit",
     "deploy": "pm2 start ecosystem.config.js",
     "dev": "next dev",
     "lint": "next lint",
