@@ -34,6 +34,12 @@ importers:
         specifier: 2.4.2
         version: 2.4.2
     devDependencies:
+      '@commitlint/config-conventional':
+        specifier: ^17.0.2
+        version: 17.8.1
+      '@evilmartians/lefthook':
+        specifier: ^1.5.0
+        version: 1.11.3
       '@tanstack/eslint-plugin-query':
         specifier: ^5.12.1
         version: 5.66.1(eslint@8.57.0)(typescript@5.6.3)
@@ -49,6 +55,9 @@ importers:
       '@yarnpkg/sdks':
         specifier: ^3.2.0
         version: 3.2.0(typanion@3.14.0)
+      commitlint:
+        specifier: ^17.0.2
+        version: 17.8.1
       del-cli:
         specifier: ^6.0.0
         version: 6.0.0
@@ -3097,6 +3106,12 @@ packages:
   '@eslint/plugin-kit@0.2.7':
     resolution: {integrity: sha512-JubJ5B2pJ4k4yGxaNLdbjrnk9d/iDz6/q8wOilpIowd6PJPgaxCuHBnBszq7Ce2TyMrywm5r4PnKm6V3iiZF+g==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@evilmartians/lefthook@1.11.3':
+    resolution: {integrity: sha512-ic3gCgCnm7XQCxGLsnLXU+33J86iFuC5r4JYSWrMXo0rTjGT6EqKKpSDuA0r/1F14VZmdgmvRUTXTBOvXA2UXA==}
+    cpu: [x64, arm64, ia32]
+    os: [darwin, linux, win32]
+    hasBin: true
 
   '@expo/config-plugins@8.0.11':
     resolution: {integrity: sha512-oALE1HwnLFthrobAcC9ocnR9KXLzfWEjgIe4CPe+rDsfC6GDs8dGYCXfRFoCEzoLN4TGYs9RdZ8r0KoCcNrm2A==}
@@ -6982,6 +6997,11 @@ packages:
   comment-json@2.4.2:
     resolution: {integrity: sha512-T+iXox779qsqneMYx/x5BZyz4xjCeQRmuNVzz8tko7qZUs3MlzpA3RAs+O1XsgcKToNBMIvfVzafGOeiU7RggA==}
     engines: {node: '>= 6'}
+
+  commitlint@17.8.1:
+    resolution: {integrity: sha512-X+VPJwZsQDeGj/DG1NsxhZEl+oMHKNC+1myZ/zauNDoo+7OuLHfTOUU1C1a4CjKW4b6T7NuoFcYfK0kRCjCtbA==}
+    engines: {node: '>=v14'}
+    hasBin: true
 
   common-path-prefix@3.0.0:
     resolution: {integrity: sha512-QE33hToZseCH3jS0qN96O/bSh3kaw/h+Tq7ngyY9eWDUnTlTNUyqfqvCXioLe5Na5jFsL78ra/wuBU4iuEgd4w==}
@@ -16117,6 +16137,8 @@ snapshots:
       '@eslint/core': 0.12.0
       levn: 0.4.1
 
+  '@evilmartians/lefthook@1.11.3': {}
+
   '@expo/config-plugins@8.0.11':
     dependencies:
       '@expo/config-types': 51.0.3
@@ -21418,6 +21440,14 @@ snapshots:
       esprima: 4.0.1
       has-own-prop: 2.0.0
       repeat-string: 1.6.1
+
+  commitlint@17.8.1:
+    dependencies:
+      '@commitlint/cli': 17.8.1
+      '@commitlint/types': 17.8.1
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
 
   common-path-prefix@3.0.0: {}
 
