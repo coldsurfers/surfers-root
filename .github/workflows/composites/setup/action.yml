@@ -1,0 +1,40 @@
+name: Setup
+description: Setup Node.js and install dependencies
+
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/action-setup@v4
+      name: Install pnpm
+      with:
+        version: 10.4.1
+        run_install: false
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: .nvmrc
+
+    - name: Restore dependencies
+      id: pnpm-cache
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          **/node_modules
+        key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('**/package.json', '!node_modules/**') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          ${{ runner.os }}-pnpm-
+
+    - name: Install dependencies
+      if: steps.pnpm-cache.outputs.cache-hit != 'true'
+      run: pnpm install
+      shell: bash
+
+    - name: Cache dependencies
+      if: steps.pnpm-cache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: |
+          **/node_modules
+        key: ${{ steps.pnpm-cache.outputs.cache-primary-key }}
