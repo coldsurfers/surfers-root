@@ -36,7 +36,7 @@ export function ArtistDetailEventList({ artistId }: { artistId: string }) {
             ? `${event.data.mainPoster.url}&width=150&height=150&format=png`
             : ''
           return (
-            <StyledArtistDetailEventListItem key={event.data.id} href={`/event/${event.data.id}`}>
+            <StyledArtistDetailEventListItem key={event.data.id} href={`/event/${event.data.slug}`}>
               {thumbUrl ? (
                 <StyledArtistDetailEventListItemThumbnail src={thumbUrl} />
               ) : (
