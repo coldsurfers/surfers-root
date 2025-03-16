@@ -83,6 +83,7 @@ export class ArtistDetailRepositoryImpl implements ArtistDetailRepository {
             id: concert.id,
             title: concert.title,
             date: concert.date.toISOString(),
+            slug: concert.slug,
             mainPoster: mainPoster
               ? {
                   url: thumbUrl,

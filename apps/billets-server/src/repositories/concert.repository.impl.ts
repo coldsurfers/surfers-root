@@ -339,6 +339,7 @@ export class ConcertRepositoryImpl implements ConcertRepository {
     return {
       id: model.id,
       title: model.title,
+      slug: model.slug,
       date: model.date.toISOString(),
       mainPoster: this.generateMainPoster(model),
       mainVenue: mainVenue

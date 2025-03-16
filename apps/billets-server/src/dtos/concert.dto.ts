@@ -20,6 +20,7 @@ export const ConcertDTOSchema = z.object({
       name: z.string(),
     })
     .nullable(),
+  slug: z.string().nullable(),
 })
 export type ConcertDTO = z.infer<typeof ConcertDTOSchema>
 

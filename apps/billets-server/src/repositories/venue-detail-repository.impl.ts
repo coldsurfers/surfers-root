@@ -114,6 +114,7 @@ export class VenueDetailRepositoryImpl implements VenueDetailRepository {
             id: concert.id,
             title: concert.title,
             date: concert.date.toISOString(),
+            slug: concert.slug,
             mainPoster: this.generateMainPoster(concert),
             mainVenue: mainVenue
               ? {
