@@ -1,15 +1,7 @@
 import CryptoJS from 'crypto-js'
 
-const encryptPassword = ({
-  plain,
-  originalSalt,
-}: {
-  plain: string
-  originalSalt?: string
-}) => {
-  const salt =
-    originalSalt ||
-    CryptoJS.lib.WordArray.random(128 / 8).toString(CryptoJS.enc.Hex)
+const encryptPassword = ({ plain, originalSalt }: { plain: string; originalSalt?: string }) => {
+  const salt = originalSalt || CryptoJS.lib.WordArray.random(128 / 8).toString(CryptoJS.enc.Hex)
 
   const iterations = 10000
 
