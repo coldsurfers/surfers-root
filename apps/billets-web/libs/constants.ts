@@ -2,7 +2,6 @@ export const API_BASE_URL = (() => {
   switch (process.env.APP_PLATFORM) {
     case 'production':
     case 'staging':
-      return 'https://api.billets.coldsurf.io'
     case 'development':
     default:
       return 'https://dev.api.billets.coldsurf.io'
@@ -16,9 +15,8 @@ export const SITE_URL = (() => {
     case 'staging':
       return 'https://staging.billets.coldsurf.io'
     case 'development':
-      return 'http://localhost:3000'
     default:
-      return ''
+      return 'http://localhost:3000'
   }
 })()
 export const SITE_MAP_URL = 'https://billets.coldsurf.io/sitemap.xml'

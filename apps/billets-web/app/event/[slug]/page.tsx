@@ -11,12 +11,12 @@ import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { DownloadApp, Lineup, PageLayout, PosterThumbnail, TicketCta, TopInfo, Venue } from './(ui)'
 
-async function getEventMetadata(eventId: string) {
-  if (!eventId) {
+async function getEventMetadata(slug: string) {
+  if (!slug) {
     return null
   }
   try {
-    const eventDetailData = await apiClient.event.getEventDetail(eventId)
+    const eventDetailData = await apiClient.event.getEventDetailBySlug(slug)
     if (!eventDetailData) {
       return null
     }
@@ -34,9 +34,9 @@ async function getEventMetadata(eventId: string) {
 
 export const dynamic = 'force-dynamic'
 
-export async function generateMetadata({ params }: { params: Promise<{ ['event-id']: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const pageParams = await params
-  const meta = await getEventMetadata(pageParams['event-id'])
+  const meta = await getEventMetadata(pageParams.slug)
   if (!meta) {
     return {
       title: 'Billets | Discover shows around the world',
@@ -79,7 +79,7 @@ export async function generateMetadata({ params }: { params: Promise<{ ['event-i
     title: metaTitle,
     description: metaDescription,
     images: metaImages,
-    url: `https://billets.coldsurf.io/event/${pageParams['event-id']}`,
+    url: `https://billets.coldsurf.io/event/${pageParams.slug}`,
   }
 
   return metadataInstance.generateMetadata<Metadata>({
@@ -91,14 +91,14 @@ export async function generateMetadata({ params }: { params: Promise<{ ['event-i
   })
 }
 
-async function PageInner({ params }: { params: { ['event-id']: string } }) {
-  const meta = await getEventMetadata(params['event-id'])
+async function PageInner({ params }: { params: { slug: string } }) {
+  const meta = await getEventMetadata(params.slug)
   if (!meta) {
     return redirect('/404')
   }
   const queryClient = getQueryClient()
 
-  await queryClient.prefetchQuery(initialPageQuery.eventDetail(params['event-id']))
+  await queryClient.prefetchQuery(initialPageQuery.eventDetailBySlug(params.slug))
 
   const { posters, venues, artists, date, ticketPromotion, title, isKOPIS, tickets } = meta.eventDetail
   // eslint-disable-next-line prettier/prettier
@@ -161,7 +161,7 @@ async function PageInner({ params }: { params: { ['event-id']: string } }) {
               endDate: concertDate.toISOString(),
               startDate: concertDate.toISOString(),
               name: title,
-              url: `${SITE_URL}/event/${params['event-id']}`,
+              url: `${SITE_URL}/event/${params.slug}`,
               venue: {
                 address: mainVenue?.address ?? '',
                 latitude: mainVenue?.lat ?? 0,
@@ -191,7 +191,7 @@ async function PageInner({ params }: { params: { ['event-id']: string } }) {
   )
 }
 
-export default async function EventDetailPage(props: { params: Promise<{ ['event-id']: string }> }) {
+export default async function EventDetailPage(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params
   return (
     <ApiErrorBoundaryRegistry>

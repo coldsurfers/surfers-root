@@ -1,7 +1,7 @@
+import { components } from '@coldsurfers/api-sdk'
 import { GlobalLink } from 'app/(ui)/global-link/global-link'
 import { format } from 'date-fns'
 import { memo, useMemo } from 'react'
-import { components } from 'types/api'
 import {
   StyledGridDate,
   StyledGridImage,
@@ -27,7 +27,7 @@ export const ConcertListItem = memo(({ data }: { data: components['schemas']['Co
     return `${data.mainPoster.url}&width=400&height=400`
   }, [data.mainPoster])
   return (
-    <GlobalLink href={`/event/${data.id}`}>
+    <GlobalLink href={`/event/${data.slug}`}>
       <StyledGridItem>
         {thumbUrl ? (
           <StyledGridImage src={thumbUrl} alt={data.title} />

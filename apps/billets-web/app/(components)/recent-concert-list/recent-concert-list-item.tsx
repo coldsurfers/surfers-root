@@ -1,8 +1,8 @@
 'use client'
 
+import { components } from '@coldsurfers/api-sdk'
 import { format, parseISO } from 'date-fns'
 import { useMemo } from 'react'
-import { components } from 'types/api'
 import { GlobalLink } from '../../(ui)'
 import {
   StyledRecentListBilletsConcertCard,
@@ -27,7 +27,7 @@ export const RecentConcertListItem = ({ data }: { data: components['schemas']['C
     return `${data.mainPoster.url}&width=250&height=250`
   }, [data.mainPoster])
   return (
-    <GlobalLink href={`/event/${data.id}`}>
+    <GlobalLink href={`/event/${data.slug}`}>
       <StyledRecentListBilletsConcertCard $isLoading={false}>
         {thumbUrl ? (
           <StyledRecentListBilletsConcertCardImage src={thumbUrl} alt={data.title} />

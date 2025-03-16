@@ -1,7 +1,7 @@
 'use client'
 
+import { components } from '@coldsurfers/api-sdk'
 import { Modal } from '@coldsurfers/ocean-road'
-import { components } from 'types/api'
 import { StyledFigcaption, StyledFigcaptionText, StyledFigure, StyledImage } from './image-modal.styled'
 
 export const ImageModal = ({

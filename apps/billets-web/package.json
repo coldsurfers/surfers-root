@@ -5,6 +5,7 @@
     "build": "pnpm prisma:generate && next build",
     "build:vercel": "npx vercel build --prod",
     "create:env:ci": "pnpm ts-node ./libs/createDotEnv.ts",
+    "check:type": "tsc --noEmit",
     "deploy": "pm2 start ecosystem.config.js",
     "deploy:vercel": "npx vercel deploy --prod --prebuilt",
     "dev": "next dev",
@@ -13,9 +14,7 @@
     "prisma:generate": "pnpm prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "prisma:migrate-dev": "pnpm prisma migrate dev --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "prisma:studio": "pnpm prisma studio --schema ../../packages/prisma-schema/prisma/schema.prisma",
-    "start": "next start",
-    "swagger": "npx openapi-typescript https://api.billets.coldsurf.io/docs/json -o types/api.d.ts --alphabetize && prettier --write ./types/api.d.ts",
-    "swagger:dev": "npx openapi-typescript https://dev.api.billets.coldsurf.io/docs/json -o types/api.d.ts --alphabetize && prettier --write ./types/api.d.ts"
+    "start": "next start"
   },
   "dependencies": {
     "@coldsurfers/api-sdk": "workspace:*",

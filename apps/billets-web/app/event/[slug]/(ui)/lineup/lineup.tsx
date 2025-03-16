@@ -1,7 +1,7 @@
 'use client'
 
+import { components } from '@coldsurfers/api-sdk'
 import { memo } from 'react'
-import { components } from 'types/api'
 import { LineupItem } from './lineup-item'
 
 type LineupProps = {
