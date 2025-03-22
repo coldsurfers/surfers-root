@@ -69,7 +69,7 @@ const SuspenseHomeScreen = () => {
   )
 
   const onPressSubscribeConcertListItem = useCallback(
-    ({ isSubscribed, concertId }: { isSubscribed: boolean; concertId: string }) => {
+    ({ isSubscribed, eventId }: { isSubscribed: boolean; eventId: string }) => {
       if (!meData) {
         navigation.navigate('LoginStackNavigation', {
           screen: 'LoginSelectionScreen',
@@ -80,7 +80,7 @@ const SuspenseHomeScreen = () => {
 
       toggleSubscribeConcert({
         isSubscribed,
-        concertId,
+        eventId,
       })
     },
     [meData, navigation, toggleSubscribeConcert],
@@ -95,7 +95,7 @@ const SuspenseHomeScreen = () => {
     ) =>
       onPressSubscribeConcertListItem({
         isSubscribed: options.isSubscribed,
-        concertId: item.id,
+        eventId: item.id,
       }),
     [onPressSubscribeConcertListItem],
   )

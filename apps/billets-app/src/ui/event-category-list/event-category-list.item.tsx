@@ -5,29 +5,8 @@ import { components } from '@/types/api'
 import { useColorScheme } from '@coldsurfers/ocean-road/native'
 import { useStartProfiler } from '@shopify/react-native-performance'
 import { memo, useCallback } from 'react'
-import {
-  DanceIcon,
-  MicVocalIcon,
-  StyledEventCategoryButton,
-  StyledEventCategoryButtonText,
-  TheatreIcon,
-} from './event-category-list.styled'
-
-// @TODO: same name with billets-web
-const getUiIcon = (name: string) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { semantics } = useColorScheme()
-  switch (name) {
-    case 'Gigs':
-      return <MicVocalIcon size={14} color={semantics.foreground[1]} />
-    case 'Theatre':
-      return <TheatreIcon size={14} color={semantics.foreground[1]} />
-    case 'Dance':
-      return <DanceIcon size={14} color={semantics.foreground[1]} />
-    default:
-      return ''
-  }
-}
+import { StyledEventCategoryButton, StyledEventCategoryButtonText } from './event-category-list.styled'
+import { getUiIcon } from './event-category-list.utils'
 
 export const EventCategoryListItem = memo((props: components['schemas']['EventCategoryDTOSchema']) => {
   const startNavigationTTITimer = useStartProfiler()

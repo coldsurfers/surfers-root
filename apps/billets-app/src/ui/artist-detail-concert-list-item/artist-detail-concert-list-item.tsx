@@ -44,7 +44,10 @@ export const ArtistDetailConcertListItem = ({ item, onPress }: ArtistDetailConce
               })
               return
             }
-            toggleSubscribe({ concertId: item.id, isSubscribed: !!eventSubscribeData })
+            toggleSubscribe({
+              eventId: item.id,
+              isSubscribed: !!eventSubscribeData,
+            })
           }}
           isSubscribed={!!eventSubscribeData}
         />

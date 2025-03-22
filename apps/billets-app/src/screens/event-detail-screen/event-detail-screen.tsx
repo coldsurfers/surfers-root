@@ -63,7 +63,7 @@ const ScreenInner = () => {
     }
     toggleSubscribeConcert({
       isSubscribed: !!subscribedConcert,
-      concertId: params.eventId,
+      eventId: params.eventId,
     })
   }, [meData, navigation, params.eventId, subscribedConcert, toggleSubscribeConcert])
 

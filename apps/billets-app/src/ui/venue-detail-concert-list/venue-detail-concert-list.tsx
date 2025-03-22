@@ -49,7 +49,7 @@ export const VenueDetailConcertList = ({
               return
             }
             toggleSubscribeConcert({
-              concertId,
+              eventId: concertId,
               isSubscribed,
             })
           }}

@@ -1,11 +1,11 @@
 import { apiClient } from '@/lib/api/openapi-client'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { memo, useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { FlatList, ListRenderItem, StyleSheet } from 'react-native'
 import { SubscribeInfoMeItem } from './subscribe-info-me.item'
 import { InfoMeItemTypeSchema } from './subscribe-info-me.types'
 
-export const SubscribeInfoMe = memo(() => {
+export const SubscribeInfoMe = () => {
   const { data: subscribeInfoMe } = useSuspenseQuery({
     queryKey: apiClient.subscribe.queryKeys.infoMe,
     queryFn: () => apiClient.subscribe.getInfoMe(),
@@ -41,7 +41,7 @@ export const SubscribeInfoMe = memo(() => {
       contentContainerStyle={styles.contentList}
     />
   )
-})
+}
 
 const styles = StyleSheet.create({
   list: {
