@@ -126,24 +126,22 @@ const App = () => {
       logLevel={LogLevel.Debug}
       enabled={__DEV__}
     >
-      <SafeAreaProvider>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <ColorSchemeProvider initialColorScheme={initialColorScheme}>
-            <GlobalErrorBoundaryRegistry>
-              <AppSystemColorSwitcher />
-              <QueryClientProvider client={queryClient}>
-                <Suspense fallback={<GlobalSuspenseFallback />}>
-                  <AuthContextProvider>
-                    <BootSplashAwaiter>
-                      <AppContainer />
-                    </BootSplashAwaiter>
-                  </AuthContextProvider>
-                </Suspense>
-              </QueryClientProvider>
-            </GlobalErrorBoundaryRegistry>
-          </ColorSchemeProvider>
-        </GestureHandlerRootView>
-      </SafeAreaProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <ColorSchemeProvider initialColorScheme={initialColorScheme}>
+          <GlobalErrorBoundaryRegistry>
+            <AppSystemColorSwitcher />
+            <QueryClientProvider client={queryClient}>
+              <Suspense fallback={<GlobalSuspenseFallback />}>
+                <AuthContextProvider>
+                  <BootSplashAwaiter>
+                    <AppContainer />
+                  </BootSplashAwaiter>
+                </AuthContextProvider>
+              </Suspense>
+            </QueryClientProvider>
+          </GlobalErrorBoundaryRegistry>
+        </ColorSchemeProvider>
+      </GestureHandlerRootView>
     </PerformanceProfiler>
   )
 }
@@ -160,5 +158,5 @@ const GlobalSuspenseFallback = () => {
 
 export default HotUpdater.wrap({
   source: `${Config.HOT_UPDATER_SUPABASE_URL!}/functions/v1/update-server`,
-  fallbackComponent: ({ status, progress }) => <HotUpdaterUpdateScreen progress={progress} />,
+  fallbackComponent: ({ status, progress }) => status === 'UPDATING' && <HotUpdaterUpdateScreen progress={progress} />,
 })(App)
