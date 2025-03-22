@@ -50,6 +50,9 @@ export const VenueSubscribeButton = ({ venueId, onShouldLogin, style, size = 'md
       queryClient.invalidateQueries({
         queryKey: apiClient.subscribe.queryKeys.venueSubscribe({ venueId }),
       })
+      queryClient.invalidateQueries({
+        queryKey: apiClient.subscribe.queryKeys.infoMe,
+      })
     },
   })
   const { mutate: unsubscribeVenue } = useMutation<
@@ -81,6 +84,9 @@ export const VenueSubscribeButton = ({ venueId, onShouldLogin, style, size = 'md
       }
       queryClient.invalidateQueries({
         queryKey: apiClient.subscribe.queryKeys.venueSubscribe({ venueId: data.venueId }),
+      })
+      queryClient.invalidateQueries({
+        queryKey: apiClient.subscribe.queryKeys.infoMe,
       })
     },
   })
