@@ -19,6 +19,8 @@ jobs:
 
       - name: Setup
         uses: ./.github/workflows/composites/setup
+        with:
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Lint files
         run: pnpm lint

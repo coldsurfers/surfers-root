@@ -1,5 +1,9 @@
 name: Setup
 description: Setup Node.js and install dependencies
+inputs:
+  NPM_TOKEN:
+    description: 'NPM Token'
+    required: true
 
 runs:
   using: composite
@@ -32,6 +36,8 @@ runs:
       if: steps.pnpm-cache.outputs.cache-hit != 'true'
       run: pnpm install
       shell: bash
+      env:
+        NPM_TOKEN: ${{ inputs.NPM_TOKEN }}
 
     - name: Cache dependencies
       if: steps.pnpm-cache.outputs.cache-hit != 'true'
