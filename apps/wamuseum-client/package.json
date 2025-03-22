@@ -30,7 +30,7 @@
     "framer-motion": "11.11.13",
     "graphql": "^16.6.0",
     "html-to-image": "^1.11.11",
-    "next": "15.1.7",
+    "next": "15.2.3",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-hook-form": "7.48.2",
