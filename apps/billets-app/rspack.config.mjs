@@ -28,6 +28,9 @@ export default (env) => {
 
   return {
     mode,
+    output: {
+      path: path.resolve(__dirname, 'build/generated', platform),
+    },
     context: __dirname,
     entry: './index.js',
     resolve: {
