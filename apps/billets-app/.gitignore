@@ -102,3 +102,6 @@ ios/*.mobileprovision
 ios/GoogleService-Info.plist
 
 dist/
+
+.yalc/
+yalc.lock
