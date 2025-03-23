@@ -260,7 +260,7 @@ async function findVenue(venue) {
       alreadyExistingVenueId = 'b722ae3c-bc81-4afc-ab65-2f9e3f514b4b'
       break
     case '프리즘홀 (프리즘플러스)':
-      alreadyExistingVenueId = '152cca7e-8618-42de-965d-92816f6c527'
+      alreadyExistingVenueId = '152cca7e-8618-42de-965d-92816f6c5274'
       break
     case 'Baby Doll (베이비돌)':
       alreadyExistingVenueId = '84666f0f-8d41-431c-a16c-98af65cb196c'
@@ -291,6 +291,21 @@ async function findVenue(venue) {
       break
     case '강릉단오제전수교육관 (구. 단오문화관)':
       alreadyExistingVenueId = '0e1e77be-6973-41a0-8ebd-4e1908d95dcf'
+      break
+    case '창조소극장 (구. 민아트홀)':
+      alreadyExistingVenueId = 'd575a084-fa9d-41dc-8fcb-bdd5f774d135'
+      break
+    case '노원구민의전당(구. 노원구민회관)':
+      alreadyExistingVenueId = 'be26ade3-f942-44db-95c6-5be1748a7a4b'
+      break
+    case '서초문화예술회관(구. 서초구민회관)':
+      alreadyExistingVenueId = '8b7f588e-0426-4462-b5bc-eb3def704f58'
+      break
+    case '미아리고개예술극장(구. 미아리예술극장)':
+      alreadyExistingVenueId = '9aec18fd-c5c7-4be2-ad7d-1efc197a4ac8'
+      break
+    case '전통공연창작마루 광무대':
+      alreadyExistingVenueId = 'e892e1b5-bce8-4b18-91c4-4824575b697d'
       break
     default:
       break
@@ -671,38 +686,45 @@ async function main() {
 main()
 
 async function restore남부터미널() {
-  const data = []
+  try {
+    await dbClient.$connect()
+    const ids = []
 
-  await Promise.all(
-    data.map(async (item) => {
-      const existing = await dbClient.concertsOnVenues.findUnique({
-        where: {
-          concertId_venueId: {
-            concertId: item.data.id,
-            venueId: 'ab49e350-1f23-4c17-9d43-d4197dc230e2',
-          },
-        },
-      })
-
-      if (existing) {
-        await dbClient.concertsOnVenues.delete({
+    await Promise.all(
+      ids.map(async (concertId) => {
+        const existing = await dbClient.concertsOnVenues.findUnique({
           where: {
             concertId_venueId: {
-              concertId: item.data.id,
+              concertId,
               venueId: 'ab49e350-1f23-4c17-9d43-d4197dc230e2',
             },
           },
         })
-      }
 
-      await dbClient.concertsOnVenues.create({
-        data: {
-          concertId: item.data.id,
-          venueId: '0ab15b5d-73ac-4f29-ac15-53aa2a12d95d',
-        },
-      })
-    }),
-  )
+        if (existing) {
+          await dbClient.concertsOnVenues.delete({
+            where: {
+              concertId_venueId: {
+                concertId,
+                venueId: 'ab49e350-1f23-4c17-9d43-d4197dc230e2',
+              },
+            },
+          })
+        }
+
+        await dbClient.concertsOnVenues.create({
+          data: {
+            concertId,
+            venueId: '0ab15b5d-73ac-4f29-ac15-53aa2a12d95d',
+          },
+        })
+      }),
+    )
+  } catch (e) {
+    console.error(e)
+  } finally {
+    await dbClient.$disconnect()
+  }
 }
 
 // restore남부터미널()
