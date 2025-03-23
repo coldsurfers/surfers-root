@@ -8,7 +8,7 @@ export const EventCategoryListItemSkeleton = () => {
       style={{
         backgroundColor: semantics.background[4],
         width: 92,
-        height: 34,
+        height: 40,
       }}
     />
   )

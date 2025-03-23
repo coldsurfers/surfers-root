@@ -1,6 +1,7 @@
 import { memo } from 'react'
 import { FlatList, ListRenderItem } from 'react-native'
 import { ConcertListItem } from '../concert-list-item'
+import { EventCategoryListSkeleton } from '../event-category-list'
 import { concertListStyles } from './concert-list.styles'
 
 const renderItem: ListRenderItem<number> = ({ index }) => {
@@ -22,6 +23,7 @@ export const ConcertListSkeleton = memo(() => {
       data={data}
       numColumns={2}
       renderItem={renderItem}
+      ListHeaderComponent={<EventCategoryListSkeleton />}
       contentContainerStyle={concertListStyles.concertListContentContainer}
     />
   )
