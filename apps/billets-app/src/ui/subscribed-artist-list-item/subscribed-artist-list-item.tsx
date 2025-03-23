@@ -19,16 +19,10 @@ export function SubscribedArtistListItem({
     queryKey: apiClient.artist.queryKeys.detail(data.artistId),
     queryFn: () => apiClient.artist.getArtistDetail(data.artistId),
   })
-  if (!artistDetailData) {
-    return null
-  }
   const mainPoster = artistDetailData.thumbUrl
-  if (!mainPoster) {
-    return null
-  }
   return (
     <TouchableOpacity onPress={() => onPress(data.artistId)} style={styles.itemWrapper}>
-      <SearchItemThumbnail type="circle" emptyBgText={artistDetailData.name.at(0)} uri={mainPoster} />
+      <SearchItemThumbnail type="circle" emptyBgText={artistDetailData.name.at(0)} uri={mainPoster ?? ''} />
       <View style={styles.itemInnerRight}>
         <Text weight="bold" style={[styles.itemTitle, { color: semantics.foreground[1] }]}>
           {artistDetailData.name}

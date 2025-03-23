@@ -18,41 +18,49 @@ export const useToggleSubscribeConcert = () => {
     onMutate: async (variables) => {
       const { eventId } = variables
 
+      // subscribe/eventSubscribe
       await queryClient.cancelQueries({
         queryKey: apiClient.subscribe.queryKeys.eventSubscribe({ eventId }),
       })
       // @todo: fix this date and subscribe response schema type
-      const newSubscribedConcert = {
+      const newSubscribedEvent = {
         eventId,
         subscribedAt: new Date().toISOString(),
         userId: '',
       } satisfies components['schemas']['EventSubscribeDTOSchema']
-      await queryClient.setQueryData(apiClient.subscribe.queryKeys.eventSubscribe({ eventId }), newSubscribedConcert)
+      queryClient.setQueryData(apiClient.subscribe.queryKeys.eventSubscribe({ eventId }), newSubscribedEvent)
 
+      // subscribe/eventList
       await queryClient.cancelQueries({
         queryKey: apiClient.subscribe.queryKeys.eventList({}),
       })
       const previousSubscribedConcertList = queryClient.getQueryData<SubscribedConcertPaginatedData>(
         apiClient.subscribe.queryKeys.eventList({}),
       )
-      const newPaginatedData: SubscribedConcertPaginatedData = {
+      const newSubscribedEventList: SubscribedConcertPaginatedData = {
         pageParams: previousSubscribedConcertList?.pageParams ?? [0],
-        pages: [newSubscribedConcert, ...(previousSubscribedConcertList?.pages.flat() ?? [])],
+        pages: [newSubscribedEvent, ...(previousSubscribedConcertList?.pages.flat() ?? [])],
       }
-      await queryClient.setQueryData<SubscribedConcertPaginatedData>(
+      queryClient.setQueryData<SubscribedConcertPaginatedData>(
         apiClient.subscribe.queryKeys.eventList({}),
-        newPaginatedData,
+        newSubscribedEventList,
       )
 
-      return newSubscribedConcert
+      return {
+        newSubscribedEvent,
+        newSubscribedEventList,
+      }
     },
-    onSettled: (data) => {
+    onSettled: async (data) => {
       if (!data) {
         return
       }
       const { eventId } = data
       queryClient.invalidateQueries({
         queryKey: apiClient.subscribe.queryKeys.eventSubscribe({ eventId }),
+      })
+      queryClient.invalidateQueries({
+        queryKey: apiClient.subscribe.queryKeys.infoMe,
       })
       queryClient.invalidateQueries({
         queryKey: apiClient.subscribe.queryKeys.eventList({}),
@@ -70,27 +78,28 @@ export const useToggleSubscribeConcert = () => {
       await queryClient.cancelQueries({
         queryKey: apiClient.subscribe.queryKeys.eventSubscribe({ eventId }),
       })
-      await queryClient.setQueryData(apiClient.subscribe.queryKeys.eventSubscribe({ eventId }), null)
+      queryClient.setQueryData(apiClient.subscribe.queryKeys.eventSubscribe({ eventId }), null)
 
-      await queryClient.invalidateQueries({
+      await queryClient.cancelQueries({
         queryKey: apiClient.subscribe.queryKeys.eventList({}),
       })
       const prevPaginatedData = queryClient.getQueryData<SubscribedConcertPaginatedData>(
         apiClient.subscribe.queryKeys.eventList({}),
       )
-      const newPaginatedData: SubscribedConcertPaginatedData = {
+      const newSubscribedEventList: SubscribedConcertPaginatedData = {
         pageParams: prevPaginatedData?.pageParams ?? [0],
         pages: (prevPaginatedData?.pages.flat() ?? []).filter((v) => v?.eventId !== eventId),
       }
-      await queryClient.setQueryData(apiClient.subscribe.queryKeys.eventList({}), newPaginatedData)
-      await queryClient.setQueryData<SubscribedConcertPaginatedData>(
+      queryClient.setQueryData<SubscribedConcertPaginatedData>(
         apiClient.subscribe.queryKeys.eventList({}),
-        newPaginatedData,
+        newSubscribedEventList,
       )
 
-      return null
+      return {
+        newSubscribedEventList,
+      }
     },
-    onSettled: (data, variables, context) => {
+    onSettled: (data) => {
       if (!data) {
         return
       }
@@ -99,20 +108,23 @@ export const useToggleSubscribeConcert = () => {
         queryKey: apiClient.subscribe.queryKeys.eventSubscribe({ eventId }),
       })
       queryClient.invalidateQueries({
+        queryKey: apiClient.subscribe.queryKeys.infoMe,
+      })
+      queryClient.invalidateQueries({
         queryKey: apiClient.subscribe.queryKeys.eventList({}),
       })
     },
   })
 
   const subscribeConcert = useCallback(
-    ({ isSubscribed, concertId }: { isSubscribed: boolean; concertId: string }) => {
+    ({ isSubscribed, eventId }: { isSubscribed: boolean; eventId: string }) => {
       if (isSubscribed) {
         mutateUnsubscribeConcert({
-          eventId: concertId,
+          eventId,
         })
       } else {
         mutateSubscribeConcert({
-          eventId: concertId,
+          eventId,
         })
       }
     },

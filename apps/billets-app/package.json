@@ -33,7 +33,7 @@
     "@coldsurfers/api-sdk": "workspace:*",
     "@coldsurfers/design-tokens": "workspace:*",
     "@coldsurfers/ocean-road": "workspace:*",
-    "@coldsurfers/react-native-maps": "0.0.1",
+    "@coldsurfers/react-native-maps": "0.0.4",
     "@emotion/native": "11.11.0",
     "@emotion/react": "11.10.6",
     "@gorhom/bottom-sheet": "5.0.6",
