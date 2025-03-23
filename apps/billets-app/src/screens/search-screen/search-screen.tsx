@@ -9,13 +9,11 @@ import { getViewMode, SearchStoreLocationConcert, SearchStoreSnapIndex, useSearc
 import { FULLY_EXPANDED_SNAP_INDEX } from '@/features/search/store/search-store.constants'
 import { useBottomTab } from '@/lib'
 import { useUIStore } from '@/lib/stores'
-import {
-  CommonScreenLayout,
-  NAVIGATION_HEADER_HEIGHT,
-  SEARCH_DIM_HEIGHT_FLAG,
-  SearchBottomList,
-  SearchScreenNavigationHeader,
-} from '@/ui'
+import { CommonScreenLayout } from '@/ui/common-screen-layout'
+import { NAVIGATION_HEADER_HEIGHT } from '@/ui/navigation-header'
+import { SearchBottomList, SearchBottomListProps } from '@/ui/search-bottom-list'
+import { SearchScreenNavigationHeader } from '@/ui/search-screen-navigation-header'
+import { SEARCH_DIM_HEIGHT_FLAG } from '@/ui/search.ui.constants'
 import { Button, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import BottomSheet, { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { useDebounce } from '@uidotdev/usehooks'
@@ -126,9 +124,6 @@ export const SearchScreen = () => {
     })
   }, [bottomBtnOpacityValue, snapIndex])
 
-  // const handleComponent = useMemo(() => {
-  //   return snapIndex === FULLY_EXPANDED_SNAP_INDEX ? null : undefined
-  // }, [snapIndex])
   const onPressMapFloatingBtn = useCallback(() => {
     setSnapIndex(0)
     setSelectedLocationFilter('map-location')
@@ -235,6 +230,24 @@ export const SearchScreen = () => {
     [animatedBackdropStyle, topInset],
   )
 
+  const bottomListProps = useMemo<SearchBottomListProps>(() => {
+    if (debouncedSearchKeyword) {
+      return {
+        type: 'search',
+        keyword: debouncedSearchKeyword,
+      }
+    }
+    if (selectedLocationFilter === 'map-location') {
+      return {
+        type: 'map',
+        events: locationConcerts ?? [],
+      }
+    }
+    return {
+      type: 'default',
+    }
+  }, [debouncedSearchKeyword, locationConcerts, selectedLocationFilter])
+
   return (
     <BottomSheetModalProvider>
       <SearchScreenNavigationHeader animatedPosition={animatedPosition} />
@@ -263,13 +276,7 @@ export const SearchScreen = () => {
           backdropComponent={renderBackdrop}
         >
           {viewMode === 'list' ? (
-            <SearchBottomList
-              debouncedSearchKeyword={debouncedSearchKeyword}
-              latitude={latitude}
-              longitude={longitude}
-              locationConcerts={locationConcerts}
-              selectedLocationFilter={selectedLocationFilter}
-            />
+            <SearchBottomList {...bottomListProps} />
           ) : (
             <Pressable
               onPress={() => bottomSheetRef.current?.snapToIndex(FULLY_EXPANDED_SNAP_INDEX)}

@@ -104,8 +104,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ocean-road
       '@coldsurfers/react-native-maps':
-        specifier: 0.0.1
-        version: 0.0.1(react-native-web@0.19.13(encoding@0.1.13)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
+        specifier: 0.0.4
+        version: 0.0.4(react-native-web@0.19.13(encoding@0.1.13)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
       '@emotion/native':
         specifier: 11.11.0
         version: 11.11.0(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
@@ -2598,8 +2598,8 @@ packages:
   '@clack/prompts@0.9.1':
     resolution: {integrity: sha512-JIpyaboYZeWYlyP0H+OoPPxd6nqueG/CmN6ixBiNFsIDHREevjIf0n0Ohh5gr5C8pEDknzgvz+pIJ8dMhzWIeg==}
 
-  '@coldsurfers/react-native-maps@0.0.1':
-    resolution: {integrity: sha512-odMbf4iDN9belXsJnC1nx7Sk4N+kocdwTXn3aM3xU8iBkKN2wzCvpdhV1x1BadMXhnz8voMmVC+5rS6z7fzD7w==, tarball: https://npm.pkg.github.com/download/@coldsurfers/react-native-maps/0.0.1/cc74d83c79988cf822851039d72f318f88c9c590}
+  '@coldsurfers/react-native-maps@0.0.4':
+    resolution: {integrity: sha512-nsPO7fjwIrtFQ/hscWYP4YfGUYdgNzHgzNMLL8tc5EGMaaKmvcd/EzUza2NC1Qt2Tf0H5k8kXHkHkI1i7hXtww==, tarball: https://npm.pkg.github.com/download/@coldsurfers/react-native-maps/0.0.4/579cd0047220a01227a322801c2afa65a62c9db9}
     engines: {node: '>=18'}
     peerDependencies:
       react: '>= 18.3.1'
@@ -15556,7 +15556,7 @@ snapshots:
       picocolors: 1.1.1
       sisteransi: 1.0.5
 
-  '@coldsurfers/react-native-maps@0.0.1(react-native-web@0.19.13(encoding@0.1.13)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)':
+  '@coldsurfers/react-native-maps@0.0.4(react-native-web@0.19.13(encoding@0.1.13)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@types/geojson': 7946.0.16
       react: 19.0.0

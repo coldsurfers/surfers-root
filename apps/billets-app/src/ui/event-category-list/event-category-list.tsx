@@ -1,11 +1,11 @@
 import { apiClient } from '@/lib/api/openapi-client'
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { memo, useMemo } from 'react'
 import { FlatList } from 'react-native'
 import { EventCategoryListItem } from './event-category-list.item'
 
 export const EventCategoryList = memo(() => {
-  const { data: eventCategoriesData } = useQuery({
+  const { data: eventCategoriesData } = useSuspenseQuery({
     queryKey: apiClient.eventCategory.queryKeys.list,
     queryFn: () => apiClient.eventCategory.getEventCategories(),
   })

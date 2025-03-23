@@ -52,6 +52,12 @@ export const ArtistSubscribeButton = ({ artistId, onShouldLogin, style, size = '
       queryClient.invalidateQueries({
         queryKey: apiClient.subscribe.queryKeys.artistSubscribe({ artistId }),
       })
+      queryClient.invalidateQueries({
+        queryKey: apiClient.subscribe.queryKeys.artistList({}),
+      })
+      queryClient.invalidateQueries({
+        queryKey: apiClient.subscribe.queryKeys.infoMe,
+      })
     },
   })
   const { mutate: unsubscribeArtist } = useMutation<
@@ -81,6 +87,12 @@ export const ArtistSubscribeButton = ({ artistId, onShouldLogin, style, size = '
       }
       queryClient.invalidateQueries({
         queryKey: apiClient.subscribe.queryKeys.artistSubscribe({ artistId }),
+      })
+      queryClient.invalidateQueries({
+        queryKey: apiClient.subscribe.queryKeys.artistList({}),
+      })
+      queryClient.invalidateQueries({
+        queryKey: apiClient.subscribe.queryKeys.infoMe,
       })
     },
   })

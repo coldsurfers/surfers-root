@@ -1,32 +1,33 @@
 import { memo } from 'react'
-import { SearchStoreLocationConcert, SearchStoreLocationFilterType } from '../../features/search/store'
+import { match } from 'ts-pattern'
+import { SearchStoreLocationConcert } from '../../features/search/store'
 import { SearchBottomKeywordResultList } from '../search-bottom-keyword-result-list'
 import { SearchDefaultBottomResultList } from '../search-default-bottom-result-list'
 import { SearchLocationConcertList } from '../search-location-concert-list'
 
-export const SearchBottomList = memo(
-  ({
-    debouncedSearchKeyword,
-    latitude,
-    longitude,
-    locationConcerts,
-    selectedLocationFilter,
-  }: {
-    debouncedSearchKeyword: string
-    latitude: number | null
-    longitude: number | null
-    locationConcerts: SearchStoreLocationConcert[] | null
-    selectedLocationFilter: SearchStoreLocationFilterType | null
-  }) => {
-    if (debouncedSearchKeyword) {
-      return <SearchBottomKeywordResultList keyword={debouncedSearchKeyword} />
+export type SearchBottomListProps =
+  | {
+      type: 'search'
+      keyword: string
     }
-    if (selectedLocationFilter === 'map-location' && Array.isArray(locationConcerts)) {
-      return <SearchLocationConcertList locationConcerts={locationConcerts} />
+  | {
+      type: 'map'
+      events: SearchStoreLocationConcert[]
     }
-    if (latitude !== null && longitude !== null) {
-      return <SearchDefaultBottomResultList latitude={latitude} longitude={longitude} />
+  | {
+      type: 'default'
     }
-    return null
-  },
-)
+
+export const SearchBottomList = memo((props: SearchBottomListProps) => {
+  return match(props)
+    .with({ type: 'search' }, (value) => {
+      return <SearchBottomKeywordResultList keyword={value.keyword} />
+    })
+    .with({ type: 'map' }, (value) => {
+      return <SearchLocationConcertList locationConcerts={value.events} />
+    })
+    .with({ type: 'default' }, () => {
+      return <SearchDefaultBottomResultList />
+    })
+    .exhaustive()
+})
