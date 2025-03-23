@@ -51,6 +51,9 @@ export const VenueSubscribeButton = ({ venueId, onShouldLogin, style, size = 'md
         queryKey: apiClient.subscribe.queryKeys.venueSubscribe({ venueId }),
       })
       queryClient.invalidateQueries({
+        queryKey: apiClient.subscribe.queryKeys.venueList({}),
+      })
+      queryClient.invalidateQueries({
         queryKey: apiClient.subscribe.queryKeys.infoMe,
       })
     },
@@ -84,6 +87,9 @@ export const VenueSubscribeButton = ({ venueId, onShouldLogin, style, size = 'md
       }
       queryClient.invalidateQueries({
         queryKey: apiClient.subscribe.queryKeys.venueSubscribe({ venueId: data.venueId }),
+      })
+      queryClient.invalidateQueries({
+        queryKey: apiClient.subscribe.queryKeys.venueList({}),
       })
       queryClient.invalidateQueries({
         queryKey: apiClient.subscribe.queryKeys.infoMe,

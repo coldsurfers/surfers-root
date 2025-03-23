@@ -1,8 +1,10 @@
 import { apiClient } from '@/lib/api/openapi-client'
 import { components } from '@/types/api'
 import { OpenApiError } from '@coldsurfers/api-sdk'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useCallback } from 'react'
+
+type SubscribedConcertPaginatedData = InfiniteData<components['schemas']['EventSubscribeDTOSchema'], number>
 
 export const useToggleSubscribeConcert = () => {
   const queryClient = useQueryClient()
@@ -16,18 +18,38 @@ export const useToggleSubscribeConcert = () => {
     onMutate: async (variables) => {
       const { eventId } = variables
 
+      // subscribe/eventSubscribe
       await queryClient.cancelQueries({
         queryKey: apiClient.subscribe.queryKeys.eventSubscribe({ eventId }),
       })
       // @todo: fix this date and subscribe response schema type
-      const newSubscribedConcert = {
+      const newSubscribedEvent = {
         eventId,
         subscribedAt: new Date().toISOString(),
         userId: '',
       } satisfies components['schemas']['EventSubscribeDTOSchema']
-      queryClient.setQueryData(apiClient.subscribe.queryKeys.eventSubscribe({ eventId }), newSubscribedConcert)
+      queryClient.setQueryData(apiClient.subscribe.queryKeys.eventSubscribe({ eventId }), newSubscribedEvent)
 
-      return newSubscribedConcert
+      // subscribe/eventList
+      await queryClient.cancelQueries({
+        queryKey: apiClient.subscribe.queryKeys.eventList({}),
+      })
+      const previousSubscribedConcertList = queryClient.getQueryData<SubscribedConcertPaginatedData>(
+        apiClient.subscribe.queryKeys.eventList({}),
+      )
+      const newSubscribedEventList: SubscribedConcertPaginatedData = {
+        pageParams: previousSubscribedConcertList?.pageParams ?? [0],
+        pages: [newSubscribedEvent, ...(previousSubscribedConcertList?.pages.flat() ?? [])],
+      }
+      queryClient.setQueryData<SubscribedConcertPaginatedData>(
+        apiClient.subscribe.queryKeys.eventList({}),
+        newSubscribedEventList,
+      )
+
+      return {
+        newSubscribedEvent,
+        newSubscribedEventList,
+      }
     },
     onSettled: async (data) => {
       if (!data) {
@@ -39,6 +61,9 @@ export const useToggleSubscribeConcert = () => {
       })
       queryClient.invalidateQueries({
         queryKey: apiClient.subscribe.queryKeys.infoMe,
+      })
+      queryClient.invalidateQueries({
+        queryKey: apiClient.subscribe.queryKeys.eventList({}),
       })
     },
   })
@@ -55,7 +80,24 @@ export const useToggleSubscribeConcert = () => {
       })
       queryClient.setQueryData(apiClient.subscribe.queryKeys.eventSubscribe({ eventId }), null)
 
-      return null
+      await queryClient.cancelQueries({
+        queryKey: apiClient.subscribe.queryKeys.eventList({}),
+      })
+      const prevPaginatedData = queryClient.getQueryData<SubscribedConcertPaginatedData>(
+        apiClient.subscribe.queryKeys.eventList({}),
+      )
+      const newSubscribedEventList: SubscribedConcertPaginatedData = {
+        pageParams: prevPaginatedData?.pageParams ?? [0],
+        pages: (prevPaginatedData?.pages.flat() ?? []).filter((v) => v?.eventId !== eventId),
+      }
+      queryClient.setQueryData<SubscribedConcertPaginatedData>(
+        apiClient.subscribe.queryKeys.eventList({}),
+        newSubscribedEventList,
+      )
+
+      return {
+        newSubscribedEventList,
+      }
     },
     onSettled: (data) => {
       if (!data) {
@@ -67,6 +109,9 @@ export const useToggleSubscribeConcert = () => {
       })
       queryClient.invalidateQueries({
         queryKey: apiClient.subscribe.queryKeys.infoMe,
+      })
+      queryClient.invalidateQueries({
+        queryKey: apiClient.subscribe.queryKeys.eventList({}),
       })
     },
   })
