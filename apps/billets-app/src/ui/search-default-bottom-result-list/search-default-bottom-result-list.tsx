@@ -1,3 +1,4 @@
+import { useUserCurrentLocationStore } from '@/features/location/stores'
 import { useKeyboard } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
 import { useSearchScreenNavigation } from '@/screens/search-screen/search-screen.hooks'
@@ -31,14 +32,29 @@ const FetchSearchConcertItem = ({
   )
 }
 
-export const SearchDefaultBottomResultList = ({ latitude, longitude }: { latitude: number; longitude: number }) => {
+export const SearchDefaultBottomResultList = () => {
   const { semantics } = useColorScheme()
   const { bottomPadding } = useKeyboard()
+  const userCurrentLocation = useUserCurrentLocationStore()
   const navigation = useSearchScreenNavigation()
+  const queryParams = useMemo(() => {
+    if (userCurrentLocation.cityId !== null) {
+      return {
+        locationCityId: userCurrentLocation.cityId,
+        offset: 0,
+        size: 20,
+      }
+    }
+    return {
+      latitude: userCurrentLocation.latitude ?? undefined,
+      longitude: userCurrentLocation.longitude ?? undefined,
+      offset: 0,
+      size: 20,
+    }
+  }, [userCurrentLocation.cityId, userCurrentLocation.latitude, userCurrentLocation.longitude])
   const { data: concertList } = useQuery({
-    queryKey: apiClient.event.queryKeys.list({ latitude, longitude, offset: 0, size: 20 }),
-    queryFn: () => apiClient.event.getEvents({ latitude, longitude, offset: 0, size: 20 }),
-    refetchOnWindowFocus: false,
+    queryKey: apiClient.event.queryKeys.list(queryParams),
+    queryFn: () => apiClient.event.getEvents(queryParams),
   })
   const concertListUIData = useMemo(() => {
     return (
