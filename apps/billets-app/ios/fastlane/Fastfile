@@ -17,12 +17,12 @@ default_platform(:ios)
 
 platform :ios do
   desc "Description of what the lane does"
-  lane :code_sign_ios do
+  lane :code_sign_appstore do
     # 사이닝 인증서 및 프로파일 로드
     match(
       git_url: ENV['MATCH_APPLE_AUTH_GIT_REPO_URL'],
-      storage_mode: ENV['MATCH_STORAGE_MODE'],
-      type: ENV['MATCH_TYPE'],
+      storage_mode: 'git',
+      type: 'appstore',
       app_identifier: ENV['BILLETS_APP_APPLE_BUNDLE_ID'],
       readonly: true,
       # keychain_name: ENV['MATCH_KEYCHAIN_NAME'],
@@ -30,6 +30,7 @@ platform :ios do
       verbose: true
     )
   end
+
   lane :beta do
     # add actions here: https://docs.fastlane.tools/actions
     api_key = app_store_connect_api_key(
@@ -39,7 +40,6 @@ platform :ios do
       duration: 1200,
       in_house: false
     )
-    # sync_code_signing(type: "appstore")
     code_sign_ios()
     increment_build_number(
       build_number: latest_testflight_build_number(
@@ -48,8 +48,10 @@ platform :ios do
       ) + 1,
       xcodeproj: "FstvlLifeApp.xcodeproj"
     )
-    build_app(scheme: "FstvlLifeApp",
-              workspace: "FstvlLifeApp.xcworkspace")
+    build_app(
+      scheme: "FstvlLifeApp",
+      workspace: "FstvlLifeApp.xcworkspace"
+    )
     upload_to_testflight(
       skip_waiting_for_build_processing: true
     )
