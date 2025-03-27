@@ -44,7 +44,11 @@ jobs:
 
       - name: install dependencies
         run: pnpm install
+        env:
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: sst deploy
         working-directory: ./apps/wamuseum-client
+        env:
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx sst deploy --stage production
