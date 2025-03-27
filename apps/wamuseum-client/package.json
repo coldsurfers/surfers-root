@@ -25,12 +25,12 @@
     "@types/node": "20.12.0",
     "@uidotdev/usehooks": "^2.4.1",
     "date-fns": "^2.29.3",
-    "eslint-config-next": "15.1.7",
+    "eslint-config-next": "15.2.4",
     "file-saver": "^2.0.5",
     "framer-motion": "11.11.13",
     "graphql": "^16.6.0",
     "html-to-image": "^1.11.11",
-    "next": "15.1.7",
+    "next": "15.2.4",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-hook-form": "7.48.2",
@@ -47,13 +47,19 @@
     "@graphql-codegen/typescript-react-apollo": "^4.3.2",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@types/file-saver": "^2",
-    "@types/react": "19.0.8",
-    "@types/react-dom": "19.0.3",
+    "@types/react": "19.0.12",
+    "@types/react-dom": "19.0.4",
     "eslint": "8.57.0",
     "pm2": "*",
     "prettier": "*",
     "sst": "3.4.28",
     "strip-ansi": "^7.1.0",
     "ts-node": "^10.9.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "19.0.12",
+      "@types/react-dom": "19.0.4"
+    }
   }
 }
