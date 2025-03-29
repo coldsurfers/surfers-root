@@ -1,4 +1,4 @@
-import { ConcertSubscribeButton } from '@/features/subscribe/ui'
+import { ConcertSubscribeButton } from '@/features/subscribe/components'
 import { apiClient } from '@/lib/api/openapi-client'
 import { ProfileThumbnail } from '@coldsurfers/ocean-road/native'
 import { useQuery } from '@tanstack/react-query'
