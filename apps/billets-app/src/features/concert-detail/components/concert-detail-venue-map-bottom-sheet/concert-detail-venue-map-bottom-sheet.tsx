@@ -11,18 +11,37 @@ import {
 } from '@gorhom/bottom-sheet'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { Copy } from 'lucide-react-native'
-import React, { forwardRef, useCallback } from 'react'
+import React, { forwardRef, useCallback, useMemo } from 'react'
 import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useConcertDetail } from '../../hooks/useConcertDetail'
 import { ConcertDetailVenueMapBottomSheetProps } from './concert-detail-venue-map-bottom-sheet.types'
 
 export const ConcertDetailVenueMapBottomSheet = forwardRef<BottomSheetModal, ConcertDetailVenueMapBottomSheetProps>(
-  ({ address, region, markerCoordinate }, ref) => {
+  ({ eventId }, ref) => {
+    const { mainVenue } = useConcertDetail({
+      id: eventId,
+    })
+    const region = useMemo(
+      () => ({
+        latitude: mainVenue?.lat ?? 0.0,
+        longitude: mainVenue?.lng ?? 0.0,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      }),
+      [mainVenue],
+    )
+    const address = useMemo(() => mainVenue?.address ?? '', [mainVenue?.address])
     const { semantics } = useColorScheme()
     const { bottom: bottomInset } = useSafeAreaInsets()
     const renderBackdrop = useCallback((props: BottomSheetBackgroundProps) => {
       return <BottomSheetBackdrop {...props} appearsOnIndex={0} disappearsOnIndex={-1} />
     }, [])
+
+    if (!mainVenue) {
+      return null
+    }
+
     return (
       <BottomSheetModalProvider>
         <BottomSheetModal
@@ -46,13 +65,13 @@ export const ConcertDetailVenueMapBottomSheet = forwardRef<BottomSheetModal, Con
               backgroundColor: semantics.background[3],
             }}
           >
-            <ConcertVenueMapView region={region} markerCoordinate={markerCoordinate} size="large" />
+            <ConcertVenueMapView region={region} markerCoordinate={region} size="large" />
             <View style={styles.lineView}>
               <View>
                 <Text weight="bold" style={{ fontSize: 14 }}>
                   주소
                 </Text>
-                <Text style={{ fontSize: 14 }}>{address}</Text>
+                <Text style={{ fontSize: 14 }}>{mainVenue?.address ?? ''}</Text>
               </View>
               <TouchableOpacity onPress={() => Clipboard.setString(address)} style={{ marginLeft: 'auto' }}>
                 <Copy />
