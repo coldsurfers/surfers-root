@@ -1484,7 +1484,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-maps (0.0.4):
+  - react-native-maps (0.0.6):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2674,7 +2674,7 @@ SPEC CHECKSUMS:
   React-microtasksnativemodule: b31e56a980634f383221bfefd5111d04c14c110b
   react-native-config: 8f7283449bbb048902f4e764affbbf24504454af
   react-native-geolocation: 457c6cc4462cffdfc4e63a2b52ec95497eab79cc
-  react-native-maps: 04b6d91e45d284f90a37f86ab58e1e9cad8add28
+  react-native-maps: 051bc8c10bc3e99a048dd83245eaaa150fc47f3d
   react-native-mmkv: bca4733c90d21ce8b1629860213504cf40ff1dbf
   react-native-orientation-locker: 5819fd23ca89cbac0d736fb4314745f62716d517
   react-native-safe-area-context: d2bad4bfc00dcefabbdccefa9544933bd36756f8

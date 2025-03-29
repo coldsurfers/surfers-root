@@ -1,11 +1,11 @@
 import commonStyles from '@/lib/common-styles'
-import { components } from '@/types/api'
 import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet'
 import { forwardRef } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { TicketItem } from '../ticket-item'
+import { TicketItem } from '../../../../ui/ticket-item'
+import { useConcertDetail } from '../../hooks/useConcertDetail'
 
 const ESTIMATED_ITEM_HEIGHT = 522
 
@@ -13,9 +13,10 @@ export const TicketListBottomSheet = forwardRef<
   BottomSheetModal,
   {
     onPressBackdrop?: () => void
-    tickets: components['schemas']['TicketDTOSchema'][]
+    eventId: string
   }
->(({ onPressBackdrop, tickets }, ref) => {
+>(({ onPressBackdrop, eventId }, ref) => {
+  const { tickets } = useConcertDetail({ id: eventId })
   const { semantics } = useColorScheme()
   const { bottom: bottomInset } = useSafeAreaInsets()
   return (
