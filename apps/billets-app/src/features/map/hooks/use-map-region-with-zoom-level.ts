@@ -1,5 +1,5 @@
+import { LatLng } from '@coldsurfers/react-native-maps'
 import { useCallback, useState } from 'react'
-import { LatLng } from 'react-native-maps'
 import { getZoomLevel } from '../utils'
 import { MapRegionWithZoomLevel, UseMapRegionWithZoomLevelParams } from './use-map-region-with-zoom-level.types'
 

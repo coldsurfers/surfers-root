@@ -2,8 +2,9 @@ import { AuthContextProvider, useFirebaseAnalytics, useFirebaseCrashlytics } fro
 import { GlobalErrorBoundaryRegistry } from '@/lib/errors'
 import { useColorSchemeStorage } from '@/lib/storage'
 import { CommonScreenLayout } from '@/ui'
+import { GlobalSuspenseFallback } from '@/ui/global-suspense-fallback'
 import { colors, ColorScheme } from '@coldsurfers/ocean-road'
-import { ColorSchemeProvider, Spinner, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
+import { ColorSchemeProvider, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { HotUpdater } from '@hot-updater/react-native'
 import { LogLevel, PerformanceProfiler, RenderPassReport } from '@shopify/react-native-performance'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -143,16 +144,6 @@ const App = () => {
         </ColorSchemeProvider>
       </GestureHandlerRootView>
     </PerformanceProfiler>
-  )
-}
-
-const GlobalSuspenseFallback = () => {
-  const { semantics } = useColorScheme()
-
-  return (
-    <View style={{ flex: 1, backgroundColor: semantics.background[3], alignItems: 'center', justifyContent: 'center' }}>
-      <Spinner />
-    </View>
   )
 }
 

@@ -1,8 +1,8 @@
 import { colors } from '@coldsurfers/ocean-road'
 import { Text } from '@coldsurfers/ocean-road/native'
+import { Marker } from '@coldsurfers/react-native-maps'
 import { memo } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Marker } from 'react-native-maps'
 import { ConcertMapMarkerProps } from './concert-map-marker.types'
 
 export const ConcertMapMarker = memo(({ clusters }: ConcertMapMarkerProps) => {

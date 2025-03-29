@@ -40,7 +40,7 @@ platform :ios do
       duration: 1200,
       in_house: false
     )
-    code_sign_ios()
+    code_sign_appstore()
     increment_build_number(
       build_number: latest_testflight_build_number(
         api_key: api_key,
