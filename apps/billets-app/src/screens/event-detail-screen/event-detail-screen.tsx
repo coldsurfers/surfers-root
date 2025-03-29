@@ -1,6 +1,6 @@
 import { ConcertDetailSectionList, ConcertDetailVenueMapBottomSheet } from '@/features/concert-detail'
 import { TicketListBottomSheet } from '@/features/concert-detail/components/ticket-list-bottom-sheet/ticket-list-bottom-sheet'
-import { useToggleSubscribeConcert } from '@/features/subscribe'
+import { useToggleSubscribeConcert } from '@/features/subscribe/hooks/useToggleSubscribeConcert'
 import { useEffectOnce, useFirebaseAnalytics, useStoreReview, zodScreen } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
 import commonStyles from '@/lib/common-styles'

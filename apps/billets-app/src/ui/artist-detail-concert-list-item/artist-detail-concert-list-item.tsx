@@ -1,4 +1,4 @@
-import { useToggleSubscribeConcert } from '@/features/subscribe'
+import { useToggleSubscribeConcert } from '@/features/subscribe/hooks/useToggleSubscribeConcert'
 import { ConcertSubscribeButton } from '@/features/subscribe/ui'
 import { apiClient } from '@/lib/api/openapi-client'
 import { useVenueDetailScreenNavigation } from '@/screens/venue-detail-screen/venue-detail-screen.hooks'
