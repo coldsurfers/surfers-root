@@ -119,10 +119,10 @@ const ScreenInner = () => {
           />
         </Suspense>
       </View>
-      <Suspense fallback={<Spinner />}>
+      <Suspense>
         <ConcertDetailVenueMapBottomSheet ref={mapDetailBottomSheetModalRef} eventId={params.eventId} />
       </Suspense>
-      <Suspense fallback={<Spinner />}>
+      <Suspense>
         <TicketListBottomSheet ref={ticketSheetRef} eventId={params.eventId} onPressBackdrop={handlePressBackdrop} />
       </Suspense>
     </EventDetailScreenLayout>
