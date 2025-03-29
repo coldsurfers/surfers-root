@@ -1,4 +1,4 @@
-import { Region } from 'react-native-maps'
+import { Region } from '@coldsurfers/react-native-maps'
 
 export type MapRegionWithZoomLevel = Region & {
   zoomLevel: number

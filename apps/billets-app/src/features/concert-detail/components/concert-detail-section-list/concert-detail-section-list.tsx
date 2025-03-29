@@ -5,6 +5,7 @@ import { useColorScheme } from '@coldsurfers/ocean-road/native'
 import React, { ReactElement, ReactNode, useCallback, useMemo } from 'react'
 import { Animated, Dimensions, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
+import { useConcertDetail } from '../../hooks/useConcertDetail'
 import { ConcertDetailSectionListHeaderItem } from '../concert-detail-section-list-header-item'
 import {
   ConcertDetailSectionListDateItemProps,
@@ -21,17 +22,37 @@ import {
 } from '../concert-detail-section-list-item'
 import {
   ConcertDetailSectionListItemT,
-  ConcertDetailSectionListProps,
   ConcertDetailSectionListSection,
   ConcertDetailSectionListSectionT,
 } from './concert-detail-section-list.types'
 
+interface ConcertDetailSectionListProps {
+  id: string
+  onPressTicketCta?: () => void
+  onPressArtist?: (artistId: string) => void
+  onPressVenueMap?: () => void
+  onPressVenueProfile?: (venueId: string) => void
+  isSubscribed: boolean
+  onPressSubscribe: () => void
+}
+
 export const ConcertDetailSectionList = ({
-  sections,
-  thumbnails,
+  id,
+  onPressTicketCta,
+  onPressArtist,
+  onPressVenueMap,
+  onPressVenueProfile,
   isSubscribed,
   onPressSubscribe,
 }: ConcertDetailSectionListProps) => {
+  const { sections, thumbnails } = useConcertDetail({
+    id,
+    onPressTicketCta,
+    onPressArtist,
+    onPressVenueMap,
+    onPressVenueProfile,
+  })
+
   const { semantics } = useColorScheme()
   const [scrollY] = React.useState(new Animated.Value(0))
   const coverTranslateY = scrollY.interpolate({

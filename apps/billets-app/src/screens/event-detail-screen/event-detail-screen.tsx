@@ -1,21 +1,17 @@
-import {
-  ConcertDetailSectionList,
-  ConcertDetailSectionListSections,
-  ConcertDetailVenueMapBottomSheet,
-} from '@/features/concert-detail'
+import { ConcertDetailSectionList, ConcertDetailVenueMapBottomSheet } from '@/features/concert-detail'
+import { TicketListBottomSheet } from '@/features/concert-detail/components/ticket-list-bottom-sheet/ticket-list-bottom-sheet'
 import { useToggleSubscribeConcert } from '@/features/subscribe'
 import { useEffectOnce, useFirebaseAnalytics, useStoreReview, zodScreen } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
 import commonStyles from '@/lib/common-styles'
 import { concertDetailCountForStoreReviewStorage } from '@/lib/storage'
 import { NAVIGATION_HEADER_HEIGHT } from '@/ui'
-import { TicketListBottomSheet } from '@/ui/ticket-list-bottom-sheet/ticket-list-bottom-sheet'
 import { colors } from '@coldsurfers/ocean-road'
 import { Spinner, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { PerformanceMeasureView } from '@shopify/react-native-performance'
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
-import React, { PropsWithChildren, Suspense, useCallback, useMemo, useRef } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import React, { PropsWithChildren, Suspense, useCallback, useRef } from 'react'
 import { Dimensions, Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { useEventDetailScreenNavigation, useEventDetailScreenRoute } from './event-detail-screen.hooks'
 
@@ -36,10 +32,6 @@ const ScreenInner = () => {
   const { requestReview } = useStoreReview()
   const ticketSheetRef = useRef<BottomSheetModal>(null)
 
-  const { data: eventData, isLoading: isLoadingConcertDetail } = useSuspenseQuery({
-    queryKey: apiClient.event.queryKeys.detail(params.eventId),
-    queryFn: () => apiClient.event.getEventDetail(params.eventId),
-  })
   const { data: subscribedConcert } = useQuery({
     queryKey: apiClient.subscribe.queryKeys.eventSubscribe({ eventId: params.eventId }),
     queryFn: () => apiClient.subscribe.getEvent({ eventId: params.eventId }),
@@ -67,104 +59,6 @@ const ScreenInner = () => {
     })
   }, [meData, navigation, params.eventId, subscribedConcert, toggleSubscribeConcert])
 
-  const mainVenue = useMemo(() => {
-    if (eventData.type !== 'concert') {
-      return null
-    }
-    return eventData.data.venues.at(0)
-  }, [eventData.data.venues, eventData.type])
-
-  const sections: ConcertDetailSectionListSections = useMemo(() => {
-    if (!eventData || eventData.type !== 'concert') {
-      return []
-    }
-    const { data: concertDetail } = eventData
-    const innerSections: ConcertDetailSectionListSections = [
-      {
-        title: 'title',
-        data: [
-          {
-            title: concertDetail.title,
-          },
-        ],
-      },
-      {
-        title: 'venue',
-        sectionHeaderTitle: '공연 장소',
-        data: [
-          {
-            location: mainVenue?.name ?? '',
-          },
-        ],
-      },
-      {
-        title: 'date',
-        sectionHeaderTitle: '공연 날짜',
-        data: [
-          {
-            date: concertDetail.date ?? new Date().toISOString(),
-            isKOPIS: concertDetail.isKOPIS,
-          },
-        ],
-      },
-      {
-        title: 'tickets',
-        sectionHeaderTitle: '티켓',
-        data: [
-          {
-            tickets: concertDetail.tickets,
-            onPressCta: () => {
-              ticketSheetRef.current?.present()
-            },
-          },
-        ],
-      },
-      {
-        title: 'lineup',
-        sectionHeaderTitle: '라인업',
-        data: concertDetail.artists.map((artist) => ({
-          thumbUrl: artist.thumbUrl ?? '',
-          name: artist.name,
-          artistId: artist.id,
-          onPress: () => {
-            navigation.navigate('ArtistStackNavigation', {
-              screen: 'ArtistDetailScreen',
-              params: {
-                artistId: artist.id,
-              },
-            })
-          },
-        })),
-      },
-      {
-        title: 'venue-map',
-        sectionHeaderTitle: '공연 장소',
-        data: [
-          {
-            latitude: mainVenue?.lat ?? 0.0,
-            longitude: mainVenue?.lng ?? 0.0,
-            address: mainVenue?.address ?? '',
-            onPressMap: () => mapDetailBottomSheetModalRef.current?.present(),
-            venueId: mainVenue?.id ?? '',
-            venueTitle: mainVenue?.name ?? '',
-            onPressProfile: () => {
-              if (!mainVenue?.id) {
-                return
-              }
-              navigation.navigate('VenueStackNavigation', {
-                screen: 'VenueDetailScreen',
-                params: {
-                  id: mainVenue.id,
-                },
-              })
-            },
-          },
-        ],
-      },
-    ]
-    return innerSections
-  }, [eventData, mainVenue, navigation])
-
   useEffectOnce(() => {
     const existingCount = concertDetailCountForStoreReviewStorage.get() ?? 0
     concertDetailCountForStoreReviewStorage.set(existingCount + 1)
@@ -189,49 +83,41 @@ const ScreenInner = () => {
     })
   })
 
-  if (eventData.type !== 'concert') {
-    return null
-  }
-
-  const { data: concertDetail } = eventData
-
   return (
     <EventDetailScreenLayout>
       <StatusBar hidden={Platform.OS === 'ios'} />
       <View style={[styles.wrapper, { backgroundColor: semantics.background[3] }]}>
-        {isLoadingConcertDetail ? (
-          <Spinner />
-        ) : (
-          <>
-            <ConcertDetailSectionList
-              sections={sections}
-              thumbnails={concertDetail.posters.map((poster) => poster.url ?? '')}
-              isSubscribed={!!subscribedConcert}
-              onPressSubscribe={onPressSubscribe}
-            />
-          </>
-        )}
+        <Suspense fallback={<Spinner />}>
+          <ConcertDetailSectionList
+            id={params.eventId}
+            onPressTicketCta={() => ticketSheetRef.current?.present()}
+            onPressArtist={(artistId) =>
+              navigation.navigate('ArtistStackNavigation', {
+                screen: 'ArtistDetailScreen',
+                params: {
+                  artistId,
+                },
+              })
+            }
+            onPressVenueMap={() => mapDetailBottomSheetModalRef.current?.present()}
+            onPressVenueProfile={(venueId) => {
+              navigation.navigate('VenueStackNavigation', {
+                screen: 'VenueDetailScreen',
+                params: {
+                  id: venueId,
+                },
+              })
+            }}
+            isSubscribed={!!subscribedConcert}
+            onPressSubscribe={onPressSubscribe}
+          />
+        </Suspense>
       </View>
-      {mainVenue && (
-        <ConcertDetailVenueMapBottomSheet
-          ref={mapDetailBottomSheetModalRef}
-          address={mainVenue.address ?? ''}
-          region={{
-            latitude: mainVenue.lat,
-            longitude: mainVenue.lng,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-          markerCoordinate={{
-            latitude: mainVenue.lat,
-            longitude: mainVenue.lng,
-          }}
-        />
-      )}
+      <ConcertDetailVenueMapBottomSheet ref={mapDetailBottomSheetModalRef} eventId={params.eventId} />
       <TicketListBottomSheet
         ref={ticketSheetRef}
+        eventId={params.eventId}
         onPressBackdrop={() => ticketSheetRef.current?.close()}
-        tickets={eventData.data.tickets}
       />
     </EventDetailScreenLayout>
   )
