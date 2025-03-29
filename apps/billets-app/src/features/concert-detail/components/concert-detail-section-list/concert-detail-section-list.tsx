@@ -186,6 +186,7 @@ export const ConcertDetailSectionList = ({
       onPressSubscribe?.({
         isLoggedIn: false,
       })
+      return
     }
 
     onPressSubscribe?.({
