@@ -2,7 +2,6 @@ import { ConcertDetailSectionList, ConcertDetailVenueMapBottomSheet } from '@/fe
 import { TicketListBottomSheet } from '@/features/concert-detail/components/ticket-list-bottom-sheet/ticket-list-bottom-sheet'
 import { useToggleSubscribeConcert } from '@/features/subscribe/hooks/useToggleSubscribeConcert'
 import { useEffectOnce, useFirebaseAnalytics, useStoreReview, zodScreen } from '@/lib'
-import { apiClient } from '@/lib/api/openapi-client'
 import commonStyles from '@/lib/common-styles'
 import { concertDetailCountForStoreReviewStorage } from '@/lib/storage'
 import { NAVIGATION_HEADER_HEIGHT } from '@/ui'
@@ -10,7 +9,6 @@ import { colors } from '@coldsurfers/ocean-road'
 import { Spinner, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { PerformanceMeasureView } from '@shopify/react-native-performance'
-import { useQuery } from '@tanstack/react-query'
 import React, { PropsWithChildren, Suspense, useCallback, useRef } from 'react'
 import { Dimensions, Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { useEventDetailScreenNavigation, useEventDetailScreenRoute } from './event-detail-screen.hooks'
@@ -32,32 +30,28 @@ const ScreenInner = () => {
   const { requestReview } = useStoreReview()
   const ticketSheetRef = useRef<BottomSheetModal>(null)
 
-  const { data: subscribedConcert } = useQuery({
-    queryKey: apiClient.subscribe.queryKeys.eventSubscribe({ eventId: params.eventId }),
-    queryFn: () => apiClient.subscribe.getEvent({ eventId: params.eventId }),
-  })
-  const { data: meData } = useQuery({
-    queryKey: apiClient.user.queryKeys.me,
-    queryFn: () => apiClient.user.getMe(),
-  })
   const toggleSubscribeConcert = useToggleSubscribeConcert()
 
   const mapDetailBottomSheetModalRef = useRef<BottomSheetModal>(null)
 
-  const onPressSubscribe = useCallback(() => {
-    if (!meData) {
-      // show login modal
-      navigation.navigate('LoginStackNavigation', {
-        screen: 'LoginSelectionScreen',
-        params: {},
+  const onPressSubscribe = useCallback(
+    (params: { isLoggedIn: false } | { isLoggedIn: true; concertId: string; isSubscribed: boolean }) => {
+      if (!params.isLoggedIn) {
+        // show login modal
+        navigation.navigate('LoginStackNavigation', {
+          screen: 'LoginSelectionScreen',
+          params: {},
+        })
+        return
+      }
+      const { concertId, isSubscribed } = params
+      toggleSubscribeConcert({
+        isSubscribed,
+        eventId: concertId,
       })
-      return
-    }
-    toggleSubscribeConcert({
-      isSubscribed: !!subscribedConcert,
-      eventId: params.eventId,
-    })
-  }, [meData, navigation, params.eventId, subscribedConcert, toggleSubscribeConcert])
+    },
+    [navigation, toggleSubscribeConcert],
+  )
 
   useEffectOnce(() => {
     const existingCount = concertDetailCountForStoreReviewStorage.get() ?? 0
@@ -83,6 +77,33 @@ const ScreenInner = () => {
     })
   })
 
+  const handlePressTicketCta = () => ticketSheetRef.current?.present()
+  const handlePressArtist = useCallback(
+    (artistId: string) =>
+      navigation.navigate('ArtistStackNavigation', {
+        screen: 'ArtistDetailScreen',
+        params: {
+          artistId,
+        },
+      }),
+    [navigation],
+  )
+  const handlePressVenueMap = () => mapDetailBottomSheetModalRef.current?.present()
+
+  const handlePressVenueProfile = useCallback(
+    (venueId: string) => {
+      navigation.navigate('VenueStackNavigation', {
+        screen: 'VenueDetailScreen',
+        params: {
+          id: venueId,
+        },
+      })
+    },
+    [navigation],
+  )
+
+  const handlePressBackdrop = () => ticketSheetRef.current?.close()
+
   return (
     <EventDetailScreenLayout>
       <StatusBar hidden={Platform.OS === 'ios'} />
@@ -90,35 +111,20 @@ const ScreenInner = () => {
         <Suspense fallback={<Spinner />}>
           <ConcertDetailSectionList
             id={params.eventId}
-            onPressTicketCta={() => ticketSheetRef.current?.present()}
-            onPressArtist={(artistId) =>
-              navigation.navigate('ArtistStackNavigation', {
-                screen: 'ArtistDetailScreen',
-                params: {
-                  artistId,
-                },
-              })
-            }
-            onPressVenueMap={() => mapDetailBottomSheetModalRef.current?.present()}
-            onPressVenueProfile={(venueId) => {
-              navigation.navigate('VenueStackNavigation', {
-                screen: 'VenueDetailScreen',
-                params: {
-                  id: venueId,
-                },
-              })
-            }}
-            isSubscribed={!!subscribedConcert}
+            onPressTicketCta={handlePressTicketCta}
+            onPressArtist={handlePressArtist}
+            onPressVenueMap={handlePressVenueMap}
+            onPressVenueProfile={handlePressVenueProfile}
             onPressSubscribe={onPressSubscribe}
           />
         </Suspense>
       </View>
-      <ConcertDetailVenueMapBottomSheet ref={mapDetailBottomSheetModalRef} eventId={params.eventId} />
-      <TicketListBottomSheet
-        ref={ticketSheetRef}
-        eventId={params.eventId}
-        onPressBackdrop={() => ticketSheetRef.current?.close()}
-      />
+      <Suspense>
+        <ConcertDetailVenueMapBottomSheet ref={mapDetailBottomSheetModalRef} eventId={params.eventId} />
+      </Suspense>
+      <Suspense>
+        <TicketListBottomSheet ref={ticketSheetRef} eventId={params.eventId} onPressBackdrop={handlePressBackdrop} />
+      </Suspense>
     </EventDetailScreenLayout>
   )
 }
