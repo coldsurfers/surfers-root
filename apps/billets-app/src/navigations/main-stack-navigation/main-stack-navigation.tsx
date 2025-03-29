@@ -1,4 +1,4 @@
-import { useSuspenseMeQuery } from '@/features/auth/hooks/useMeQuery'
+import { useMeQuery } from '@/features/auth/hooks/useMeQuery'
 import { colors } from '@coldsurfers/ocean-road'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React, { useMemo } from 'react'
@@ -14,7 +14,7 @@ import { MainStackNavigationParamList } from './main-stack-navigation.types'
 const MainStack = createNativeStackNavigator<MainStackNavigationParamList>()
 
 export const MainStackNavigation = () => {
-  const { meData: user } = useSuspenseMeQuery()
+  const { meData: user } = useMeQuery()
   const isLoggedIn = useMemo(() => !!user, [user])
   return (
     <MainStack.Navigator
