@@ -1,4 +1,5 @@
-import { CurrentLocationTracker, useToggleSubscribeConcert, useUserCurrentLocationStore } from '@/features'
+import { CurrentLocationTracker, useUserCurrentLocationStore } from '@/features'
+import { useToggleSubscribeConcert } from '@/features/subscribe/hooks/useToggleSubscribeConcert'
 import { useFirebaseAnalytics, useShowBottomTabBar, zodScreen } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
 import {
