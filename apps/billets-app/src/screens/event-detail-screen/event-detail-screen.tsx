@@ -108,7 +108,7 @@ const ScreenInner = () => {
     <EventDetailScreenLayout>
       <StatusBar hidden={Platform.OS === 'ios'} />
       <View style={[styles.wrapper, { backgroundColor: semantics.background[3] }]}>
-        <Suspense fallback={<Spinner />}>
+        <Suspense fallback={<Spinner positionCenter />}>
           <ConcertDetailSectionList
             id={params.eventId}
             onPressTicketCta={handlePressTicketCta}
@@ -119,10 +119,10 @@ const ScreenInner = () => {
           />
         </Suspense>
       </View>
-      <Suspense>
+      <Suspense fallback={<Spinner />}>
         <ConcertDetailVenueMapBottomSheet ref={mapDetailBottomSheetModalRef} eventId={params.eventId} />
       </Suspense>
-      <Suspense>
+      <Suspense fallback={<Spinner />}>
         <TicketListBottomSheet ref={ticketSheetRef} eventId={params.eventId} onPressBackdrop={handlePressBackdrop} />
       </Suspense>
     </EventDetailScreenLayout>
