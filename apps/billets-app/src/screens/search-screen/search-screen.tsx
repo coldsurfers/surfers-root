@@ -15,11 +15,11 @@ import { SearchBottomList, SearchBottomListProps } from '@/ui/search-bottom-list
 import { SearchScreenNavigationHeader } from '@/ui/search-screen-navigation-header'
 import { SEARCH_DIM_HEIGHT_FLAG } from '@/ui/search.ui.constants'
 import { Button, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
+import MapView, { Region } from '@coldsurfers/react-native-maps'
 import BottomSheet, { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Keyboard, Pressable, StyleSheet } from 'react-native'
-import MapView, { Region } from 'react-native-maps'
 import Animated, {
   interpolateColor,
   runOnJS,
