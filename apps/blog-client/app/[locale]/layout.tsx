@@ -67,8 +67,6 @@ export default async function RootLayout(props: { params: Promise<{ locale: AppL
     notFound()
   }
 
-  setRequestLocale(locale)
-
   // Providing all messages to the client
   // side is the easiest way to get started
   const messages = await getMessages()

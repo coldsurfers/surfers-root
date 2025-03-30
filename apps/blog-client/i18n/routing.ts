@@ -19,10 +19,10 @@ export const i18nRoutingPathnames = {
 
 export const routing = defineRouting({
   // A list of all locales that are supported
-  locales: ['en', 'ko'],
+  locales: ['ko'],
 
   // Used when no locale matches
-  defaultLocale: 'en',
+  defaultLocale: 'ko',
   pathnames: i18nRoutingPathnames,
 })
 

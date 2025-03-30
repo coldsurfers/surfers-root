@@ -45,12 +45,15 @@ export async function generateMetadata(props: { params: Promise<{ locale: AppLoc
   return meta
 }
 
+const notionPageId = {
+  en: 'about-2025-En-18d2bbac578280bc9271f7d4ab58b33a',
+  ko: 'about-2025-18d2bbac5782804d8c88dc076b26c359',
+}
+
 export default async function WritersPage(props: { params: Promise<{ locale: AppLocale }> }) {
   const params = await props.params
   const { locale } = params
-  const recordMap = await notion.getPage(
-    locale === 'en' ? 'about-2025-En-18d2bbac578280bc9271f7d4ab58b33a' : 'about-2025-18d2bbac5782804d8c88dc076b26c359',
-  )
+  const recordMap = await notion.getPage(notionPageId[locale])
   setRequestLocale(locale)
   const queryClient = getQueryClient()
   await queryClient.prefetchQuery(queryKeyFactory.users.list)

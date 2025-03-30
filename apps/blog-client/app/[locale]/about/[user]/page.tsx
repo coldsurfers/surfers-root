@@ -1,6 +1,7 @@
 import { AppLocale } from '@/lib/types/i18n'
-import { redirect, routing } from 'i18n/routing'
+import { routing } from 'i18n/routing'
 import { setRequestLocale } from 'next-intl/server'
+import { notFound } from 'next/navigation'
 import { NotionAPI } from 'notion-client'
 import { PageRenderer } from './(ui)'
 
@@ -22,14 +23,18 @@ export async function generateMetadata() {
   }
 }
 
+const notionPageId = {
+  en: 'Resume-2025-1862bbac578280e39760f02a88e17941',
+  ko: 'Resume-2025-1862bbac5782802db432c9b8ee5016b4',
+}
+
 const AboutDetailPage = async (props: { params: Promise<{ user: string; locale: AppLocale }> }) => {
   const params = await props.params
   const { locale, user } = params
   if (user !== 'paul') {
-    return redirect({ href: '/404', locale: locale })
+    notFound()
   }
-  const careerPageId =
-    locale === 'en' ? 'Resume-2025-1862bbac578280e39760f02a88e17941' : 'Resume-2025-1862bbac5782802db432c9b8ee5016b4'
+  const careerPageId = notionPageId[locale]
   const careerRecordMap = await notion.getPage(careerPageId)
   setRequestLocale(locale)
 
