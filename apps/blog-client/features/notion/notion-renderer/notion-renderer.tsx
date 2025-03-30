@@ -27,6 +27,7 @@ const Code = dynamic(() =>
       import('prismjs/components/prism-csharp.js'),
       import('prismjs/components/prism-docker.js'),
       import('prismjs/components/prism-java.js'),
+      import('prismjs/components/prism-kotlin.js'),
       import('prismjs/components/prism-js-templates.js'),
       import('prismjs/components/prism-coffeescript.js'),
       import('prismjs/components/prism-diff.js'),

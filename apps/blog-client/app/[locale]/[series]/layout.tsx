@@ -4,8 +4,9 @@ import { getQueryClient } from '@/lib/react-query/react-query.utils'
 import { AppLocale } from '@/lib/types/i18n'
 import { SeriesCategory, SeriesCategorySchema } from '@/lib/types/series'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
-import { redirect, routing } from 'i18n/routing'
+import { routing } from 'i18n/routing'
 import { setRequestLocale } from 'next-intl/server'
+import { notFound } from 'next/navigation'
 import { Metadata } from 'next/types'
 import { ReactNode, Suspense } from 'react'
 import { match } from 'ts-pattern'
@@ -57,7 +58,7 @@ export default async function SeriesPageLayout(props: {
 
   const seriesValidation = SeriesCategorySchema.safeParse(params.series)
   if (!seriesValidation.success) {
-    return redirect({ href: '/404', locale: params.locale })
+    notFound()
   }
 
   const queryClient = getQueryClient()
