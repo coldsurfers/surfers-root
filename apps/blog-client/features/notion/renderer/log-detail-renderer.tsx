@@ -10,7 +10,7 @@ import { media, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoints'
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
 const WriterText = styled(Text)`
@@ -38,7 +38,7 @@ export const LogDetailRenderer = ({
   locale: AppLocale
   seriesCategory: SeriesCategory
 }) => {
-  const { data } = useQuery(
+  const { data } = useSuspenseQuery(
     queryKeyFactory.series.item(slug, {
       appLocale: locale,
       seriesCategory,
