@@ -1,9 +1,9 @@
+import { useMeQuery } from '@/features/auth/hooks/useMeQuery'
 import { useShowBottomTabBar } from '@/lib'
-import { apiClient } from '@/lib/api/openapi-client'
 import { CommonScreenLayout, MyScreenLandingLayout, SubscribedConcertListSkeleton, SubscribeInfoMe } from '@/ui'
+import { GlobalSuspenseFallback } from '@/ui/global-suspense-fallback'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, ProfileThumbnail, Spinner, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
-import { useQuery } from '@tanstack/react-query'
 import { CircleUserRound, Star } from 'lucide-react-native'
 import React, { Suspense, useCallback, useMemo } from 'react'
 import { Pressable, SectionList, SectionListRenderItem, StyleSheet, View } from 'react-native'
@@ -17,10 +17,7 @@ import {
 
 const SuspenseMyScreen = () => {
   const navigation = useMyScreenNavigation()
-  const { data: user } = useQuery({
-    queryKey: apiClient.user.queryKeys.me,
-    queryFn: () => apiClient.user.getMe(),
-  })
+  const { meData: user, isLoading } = useMeQuery()
 
   const { semantics } = useColorScheme()
 
@@ -118,6 +115,10 @@ const SuspenseMyScreen = () => {
       },
     ]
   }, [user])
+
+  if (isLoading) {
+    return <GlobalSuspenseFallback />
+  }
 
   return user ? (
     <CommonScreenLayout>

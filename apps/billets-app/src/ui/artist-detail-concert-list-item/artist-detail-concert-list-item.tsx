@@ -1,5 +1,5 @@
-import { useToggleSubscribeConcert } from '@/features/subscribe'
-import { ConcertSubscribeButton } from '@/features/subscribe/ui'
+import { ConcertSubscribeButton } from '@/features/subscribe/components'
+import { useToggleSubscribeConcert } from '@/features/subscribe/hooks/useToggleSubscribeConcert'
 import { apiClient } from '@/lib/api/openapi-client'
 import { useVenueDetailScreenNavigation } from '@/screens/venue-detail-screen/venue-detail-screen.hooks'
 import { ProfileThumbnail } from '@coldsurfers/ocean-road/native'

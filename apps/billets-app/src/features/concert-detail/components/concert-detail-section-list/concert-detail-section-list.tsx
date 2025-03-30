@@ -1,10 +1,13 @@
+import { useMeQuery } from '@/features/auth/hooks/useMeQuery'
 import { ConcertSubscribeButton } from '@/features/subscribe'
+import { useSubscribedConcert } from '@/features/subscribe/hooks/useSubscribedConcert'
 import { CONCERT_DETAIL_LIST_HEADER_HEIGHT } from '@/lib'
 import { colors } from '@coldsurfers/ocean-road'
 import { useColorScheme } from '@coldsurfers/ocean-road/native'
 import React, { ReactElement, ReactNode, useCallback, useMemo } from 'react'
 import { Animated, Dimensions, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
+import { useConcertDetail } from '../../hooks/useConcertDetail'
 import { ConcertDetailSectionListHeaderItem } from '../concert-detail-section-list-header-item'
 import {
   ConcertDetailSectionListDateItemProps,
@@ -21,19 +24,45 @@ import {
 } from '../concert-detail-section-list-item'
 import {
   ConcertDetailSectionListItemT,
-  ConcertDetailSectionListProps,
   ConcertDetailSectionListSection,
   ConcertDetailSectionListSectionT,
 } from './concert-detail-section-list.types'
 
+interface ConcertDetailSectionListProps {
+  id: string
+  onPressTicketCta?: () => void
+  onPressArtist?: (artistId: string) => void
+  onPressVenueMap?: () => void
+  onPressVenueProfile?: (venueId: string) => void
+  onPressSubscribe: (
+    params: { isLoggedIn: false } | { isLoggedIn: true; concertId: string; isSubscribed: boolean },
+  ) => void
+}
+
 export const ConcertDetailSectionList = ({
-  sections,
-  thumbnails,
-  isSubscribed,
+  id,
+  onPressTicketCta,
+  onPressArtist,
+  onPressVenueMap,
+  onPressVenueProfile,
   onPressSubscribe,
 }: ConcertDetailSectionListProps) => {
+  const { sections, thumbnails } = useConcertDetail({
+    id,
+    onPressTicketCta,
+    onPressArtist,
+    onPressVenueMap,
+    onPressVenueProfile,
+  })
   const { semantics } = useColorScheme()
+
   const [scrollY] = React.useState(new Animated.Value(0))
+
+  const { meData } = useMeQuery()
+  const { subscribedConcert } = useSubscribedConcert(id)
+
+  const isSubscribed = useMemo(() => !!subscribedConcert, [subscribedConcert])
+
   const coverTranslateY = scrollY.interpolate({
     inputRange: [-4, 0, 10],
     outputRange: [-2, 0, 3],
@@ -150,6 +179,23 @@ export const ConcertDetailSectionList = ({
       [semantics.background],
     )
 
+  const handlePressSubscribe = useCallback(() => {
+    const isLoggedIn = !!meData
+
+    if (!isLoggedIn) {
+      onPressSubscribe?.({
+        isLoggedIn: false,
+      })
+      return
+    }
+
+    onPressSubscribe?.({
+      isLoggedIn: true,
+      concertId: id,
+      isSubscribed,
+    })
+  }, [id, isSubscribed, meData, onPressSubscribe])
+
   return (
     <>
       <Animated.SectionList
@@ -194,7 +240,7 @@ export const ConcertDetailSectionList = ({
               style={styles.thumbnail}
             />
             <View style={styles.subscribeButtonPosition}>
-              <ConcertSubscribeButton onPress={onPressSubscribe} isSubscribed={!!isSubscribed} />
+              <ConcertSubscribeButton onPress={handlePressSubscribe} isSubscribed={!!isSubscribed} />
             </View>
           </Animated.View>
         }
