@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/blog-client",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "scripts": {
     "build": "next build",
     "deploy": "pnpm sitemap && pm2 start ecosystem.config.js",
