@@ -9,7 +9,7 @@ import { AppLocale } from '@/lib/types/i18n'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { routing } from 'i18n/routing'
 import { Metadata } from 'next'
-import { NextIntlClientProvider } from 'next-intl'
+import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getMessages, setRequestLocale } from 'next-intl/server'
 import { Noto_Sans_KR } from 'next/font/google'
 import { notFound } from 'next/navigation'
@@ -63,9 +63,7 @@ export default async function RootLayout(props: { params: Promise<{ locale: AppL
   const { children } = props
 
   const { locale } = params
-  // Ensure that the incoming `locale` is valid
-  if (!routing.locales.includes(locale as never)) {
-    // redirect({ href: '/', locale: 'en' })
+  if (!hasLocale(routing.locales, locale)) {
     notFound()
   }
 
