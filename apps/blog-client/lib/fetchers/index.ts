@@ -31,6 +31,9 @@ export const fetchGetSeriesItem = async (slug: string, searchParams: FetchGetSer
   const response = await fetch(url, {
     method: 'GET',
   })
+  if (!response.ok) {
+    throw Error('fetchGetSeriesItem error')
+  }
   const json = await response.json()
   return json as {
     page: PageObjectResponse

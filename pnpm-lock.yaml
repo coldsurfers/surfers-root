@@ -736,6 +736,9 @@ importers:
       react-dom:
         specifier: 19.0.0
         version: 19.0.0(react@19.0.0)
+      react-error-boundary:
+        specifier: 5.0.0
+        version: 5.0.0(react@19.0.0)
       react-notion-x:
         specifier: 7.2.5
         version: 7.2.5(patch_hash=0051ad14d44ba61b8075144196b07e97d22c334f27ea09be1be70fda6f687f1f)(@babel/runtime@7.26.9)(@types/react@18.2.67)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -18867,7 +18870,9 @@ snapshots:
     transitivePeerDependencies:
       - '@babel/core'
       - '@babel/preset-env'
+      - bufferutil
       - supports-color
+      - utf-8-validate
 
   '@react-native/normalize-colors@0.74.89': {}
 
