@@ -5,10 +5,12 @@ apply plugin: "com.google.gms.google-services"
 apply plugin: "com.google.firebase.crashlytics"
 
 project.ext.envConfigFiles = [
-    debug: ".env.development",
-    staging: ".env.stage",
-    release: ".env.production",
-    anothercustombuild: ".env.production",
+    developmentDebug: ".env.development",
+    developmentRelease: ".env.development",
+    stagingDebug: ".env.staging",
+    stagingRelease: ".env.staging",
+    productionDebug: ".env.production",
+    productionRelease: ".env.production",
 ]
 
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
@@ -100,6 +102,24 @@ android {
         versionName "1.7.0"
     }
 
+    flavorDimensions "env" // 플레이버 구분 기준 추가
+
+    productFlavors {
+        development {
+            dimension "env"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+        }
+        staging {
+            dimension "env"
+            applicationIdSuffix ".staging"
+            versionNameSuffix "-staging"
+        }
+        production {
+            dimension "env"
+        }
+    }
+
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
@@ -117,17 +137,6 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
-        }
-        staging {
-            signingConfig signingConfigs.release
-            minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            // Detox-specific additions to pro-guard
-            proguardFile "${rootProject.projectDir}/../node_modules/detox/android/detox/proguard-rules-app.pro"
-            firebaseCrashlytics {
-                nativeSymbolUploadEnabled true
-                unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/release/out/lib'
-            }
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
