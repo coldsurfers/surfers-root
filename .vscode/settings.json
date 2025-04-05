@@ -28,5 +28,7 @@
     "shared-utils",
     "react-native-apple-maps",
     "api-sdk"
-  ]
+  ],
+  "deno.enable": true,
+  "deno.config": "./apps/billets-cron/supabase/functions/sync-kopis/deno.json"
 }

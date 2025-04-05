@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2",
+    "@supabase/auth-helpers": "https://deno.land/x/supabase_auth_helpers@0.4.0/mod.ts"
+  }
+}
