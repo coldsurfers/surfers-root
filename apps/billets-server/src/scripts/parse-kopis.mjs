@@ -307,6 +307,18 @@ async function findVenue(venue) {
     case '전통공연창작마루 광무대':
       alreadyExistingVenueId = 'e892e1b5-bce8-4b18-91c4-4824575b697d'
       break
+    case '부산북구문화예술회관 (구.북구문화빙상센터)':
+      alreadyExistingVenueId = '077d591e-4731-4ec7-8e49-0dd6158f1971'
+      break
+    case 'CLUB bender(클럽 벤더)':
+      alreadyExistingVenueId = '086ef019-7cfa-48dd-b160-9812a9503f90'
+      break
+    case '얼라이브홀(구. 크랙홀)':
+      alreadyExistingVenueId = '91aa905a-7f48-4c71-b06a-e2561126678b'
+      break
+    case '문기타, 문씨어터 [진주]':
+      alreadyExistingVenueId = '56924276-fe6c-4298-82c7-e4d014fc12cd'
+      break
     default:
       break
   }
