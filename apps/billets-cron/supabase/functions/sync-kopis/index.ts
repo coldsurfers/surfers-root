@@ -338,6 +338,18 @@ async function findVenue(venue: string) {
     case '전통공연창작마루 광무대':
       alreadyExistingVenueId = 'e892e1b5-bce8-4b18-91c4-4824575b697d'
       break
+    case '부산북구문화예술회관 (구.북구문화빙상센터)':
+      alreadyExistingVenueId = '077d591e-4731-4ec7-8e49-0dd6158f1971'
+      break
+    case 'CLUB bender(클럽 벤더)':
+      alreadyExistingVenueId = '086ef019-7cfa-48dd-b160-9812a9503f90'
+      break
+    case '얼라이브홀(구. 크랙홀)':
+      alreadyExistingVenueId = '91aa905a-7f48-4c71-b06a-e2561126678b'
+      break
+    case '문기타, 문씨어터 [진주]':
+      alreadyExistingVenueId = '56924276-fe6c-4298-82c7-e4d014fc12cd'
+      break
     default:
       break
   }
@@ -525,8 +537,6 @@ async function insertKOPISEvents(
     // 먼저 KOPISEvent에서 해당 id로 조회해서 concertId를 알아낸다
     const { data: kopis } = await supabase.from('KOPISEvent').select('concertId').eq('id', item.id).single()
 
-    console.log(kopis?.concertId)
-
     const { data: existing } = await supabase.from('Concert').select('*').eq('id', kopis?.concertId).single()
 
     if (existing) {
@@ -599,10 +609,171 @@ async function insertKOPISEvents(
   }
 }
 
-serve(async () => {
-  const result = await insertKOPISEvents(1, KOPISEVENT_CATEGORIES['무용(서양/한국무용)'])
+function extractFirstTimes(input: string) {
+  const regex = /[가-힣A-Z]+[\w\s~]*(\([\d:,]+\))/g // Matches each day and its times
+  const matches = input.match(regex)
 
-  return new Response(JSON.stringify(result), {
+  if (!matches) return []
+
+  return matches
+    .map((match) => {
+      const timeMatch = match.match(/\d{2}:\d{2}/) // Extract the first time
+      return timeMatch ? timeMatch[0] : null
+    })
+    .filter(Boolean) // Filter out null values
+}
+
+/**
+ *
+ * @param {string} kopisEventId
+ * @param {string} timeString ex) 14:00
+ */
+async function updateTime(kopisEventId: string, eventDate: Date) {
+  const { data: kopisEventData, error: kopisError } = await supabase
+    .from('KOPISEvent')
+    .select('concertId')
+    .eq('id', kopisEventId)
+    .single()
+
+  if (kopisError || !kopisEventData?.concertId) return
+
+  const { error: updateError } = await supabase
+    .from('Concert')
+    .update({ date: eventDate })
+    .eq('id', kopisEventData.concertId)
+
+  if (updateError) {
+    throw updateError
+  }
+}
+
+async function connectOrCreateTicket(kopisEventId: string, ticketSeller: string, ticketURL: string) {
+  // 1. KOPISEvent에서 concertId 조회
+  const { data: kopisEventData, error: kopisError } = await supabase
+    .from('KOPISEvent')
+    .select('concertId')
+    .eq('id', kopisEventId)
+    .single()
+
+  if (kopisError || !kopisEventData?.concertId) {
+    console.error('KOPISEvent not found')
+    return
+  }
+
+  const concertId = kopisEventData.concertId
+
+  // 2. 연결된 concertsOnTickets 존재 여부 확인
+  const { data: ticketsOnConcert, error: ticketLinkError } = await supabase
+    .from('ConcertsOnTickets')
+    .select('concertId')
+    .eq('concertId', concertId)
+    .limit(1)
+
+  if (ticketLinkError) {
+    console.error('Error checking ticket connection:', ticketLinkError)
+    return
+  }
+
+  const alreadyConnected = ticketsOnConcert.length > 0
+
+  if (!alreadyConnected) {
+    // 3-1. Ticket 생성
+    const { data: createdTicket, error: ticketError } = await supabase
+      .from('Ticket')
+      .insert({
+        openDate: new Date().toISOString(),
+        seller: ticketSeller,
+        sellingURL: ticketURL,
+      })
+      .select()
+      .single()
+
+    if (ticketError) {
+      console.error('Error creating ticket:', ticketError)
+      return
+    }
+
+    // 3-2. ConcertsOnTickets 연결
+    const { error: connectError } = await supabase.from('ConcertsOnTickets').insert({
+      concertId,
+      ticketId: createdTicket.id,
+    })
+
+    if (connectError) {
+      console.error('Error connecting ticket to concert:', connectError)
+    }
+  }
+}
+
+async function insertKOPISEventDetail(kopisEventId: string) {
+  const response = await fetch(
+    `http://www.kopis.or.kr/openApi/restful/pblprfr/${kopisEventId}?service=${Deno.env.get('KOPIS_KEY') ?? ''}`,
+  )
+  const xmlText = await response.text()
+
+  const { dbs } = parser.parse(xmlText)
+
+  const { db } = dbs
+  if (!db.relates) {
+    return
+  }
+  const { relates, dtguidance, prfpdfrom } = db
+
+  if (dtguidance && prfpdfrom) {
+    const times = extractFirstTimes(dtguidance)
+    if (times[0]) {
+      /**
+       * prfpdfrom: ex) 2024.01.01
+       */
+      const eventDate = new Date(`${prfpdfrom} ${times[0]}`)
+      await updateTime(kopisEventId, eventDate)
+    }
+  }
+
+  if (!relates.relate) {
+    return
+  }
+  const { relate } = relates
+  if (Array.isArray(relate)) {
+    await Promise.all(
+      relate.map(async (relate) => {
+        if (relate.relatenm && relate.relateurl) {
+          const { relatenm: ticketSeller, relateurl: ticketSellingURL } = relate
+          await connectOrCreateTicket(kopisEventId, ticketSeller, ticketSellingURL)
+        }
+      }),
+    )
+  }
+  if (!relate.relatenm || !relate.relateurl) {
+    return
+  }
+  const { relatenm: ticketSeller, relateurl: ticketSellingURL } = relate
+
+  await connectOrCreateTicket(kopisEventId, ticketSeller, ticketSellingURL)
+}
+
+serve(async () => {
+  const { items } = await insertKOPISEvents(1, KOPISEVENT_CATEGORIES.연극)
+
+  const sleep = () => new Promise((resolve) => setTimeout(resolve, 1000))
+
+  // @ts-expect-error
+  const success = []
+
+  await Promise.all(
+    // @ts-expect-error
+    items.map(async (item, index) => {
+      await sleep()
+      await insertKOPISEventDetail(item.id)
+      console.log(item.id, index)
+      success.push(item.id)
+    }),
+  )
+
+  // @ts-expect-error
+  console.log(success)
+
+  return new Response(null, {
     headers: {
       'Content-Type': 'application/json',
     },
