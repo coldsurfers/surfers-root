@@ -1,0 +1,10 @@
+{
+  "importMap": "./import_map.json",
+  "tasks": {
+    "dev": "supabase functions serve"
+  },
+  "compilerOptions": {
+    "lib": ["dom", "deno.ns"],
+    "strict": true
+  }
+}
