@@ -1,20 +1,29 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.5'
+import { fromZonedTime } from 'https://esm.sh/date-fns-tz'
 import { format } from 'https://esm.sh/date-fns@3.6.0/format'
+import { parse } from 'https://esm.sh/date-fns@3.6.0/parse'
 import { S3Client as AWSS3Client, PutObjectCommand } from 'npm:@aws-sdk/client-s3'
 import { XMLParser } from 'npm:fast-xml-parser@4.3.5'
 import rawGeohash from 'npm:ngeohash'
 import slugify from 'npm:slugify'
+import { kopisKey, slackWebhookUrl } from './_shared/env.ts'
+import { supabase } from './_shared/supabase.ts'
+
+async function sendSlack(payload: { text: string }) {
+  await fetch(slackWebhookUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+}
 
 const ngeohash = rawGeohash as {
   encode: (lat: number, lon: number, precision?: number) => string
   decode: (geohash: string) => { latitude: number; longitude: number }
   // 필요한 다른 메서드가 있다면 여기에 추가
 }
-
-const supabase = createClient(Deno.env.get('DATA_API_URL') ?? '', Deno.env.get('DATA_API_KEY') ?? '', {
-  auth: { autoRefreshToken: false, persistSession: false },
-})
 
 const parser = new XMLParser()
 
@@ -31,10 +40,10 @@ async function uploadPoster(posterUrl: string) {
   const buffer = await fetchedPoster.arrayBuffer()
   const posterKey = `billets/poster-thumbnails/${new Date().toISOString()}`
   await S3Client.send(
-    // @ts-expect-error
     new PutObjectCommand({
       Bucket: Deno.env.get('COLDSURF_AWS_S3_BUCKET') ?? '',
       Key: posterKey,
+      // @ts-expect-error
       Body: buffer,
       ContentType: `image/png`,
       CacheControl: 'public, max-age=31536000, immutable',
@@ -139,9 +148,6 @@ async function connectEventCategory(
   if (!eventCategoryId) {
     return
   }
-  await supabase.from('Concert').update({
-    eventCategory: {},
-  })
 
   const { error } = await supabase
     .from('Concert')
@@ -399,6 +405,9 @@ async function connectOrCreateVenue(venue: string, eventId: string) {
 
     if (!connected) {
       console.log('not connected venue:', eventId, venue)
+      sendSlack({
+        text: `🛠️ not connected venue: ${eventId}m ${venue}`,
+      })
     }
   }
 
@@ -429,7 +438,7 @@ async function connectOrCreateVenue(venue: string, eventId: string) {
       // 2. ConcertsOnVenues 연결 정보 추가
       const { error: joinError } = await supabase.from('ConcertsOnVenues').insert({
         concertId: eventId,
-        venueId: createdVenue?.id,
+        venueId: createdVenue?.id ?? '',
       })
 
       if (joinError) {
@@ -487,7 +496,12 @@ export async function generateSlug(title: string) {
       let newSlug
       do {
         newSlug = `${slug}-${counter}`
-        existing = await supabase.from('Concert').select('*').eq('slug', newSlug).maybeSingle()
+        const { data: newData } = await supabase.from('Concert').select('*').eq('slug', newSlug).maybeSingle()
+
+        console.log({
+          text: `while: newData ${newData}`,
+        })
+        existing = newData
         counter++
       } while (existing)
       slug = newSlug
@@ -511,9 +525,8 @@ async function insertKOPISEvents(
 ) {
   const currentDate = format(new Date(), 'yyyyMMdd')
   const endDate = '20261231'
-  const kopisApiKey = Deno.env.get('KOPIS_KEY') ?? ''
   const response = await fetch(
-    `http://www.kopis.or.kr/openApi/restful/pblprfr?service=${kopisApiKey}&stdate=${currentDate}&eddate=${endDate}&rows=100&cpage=${page}&shcate=${category}`,
+    `http://www.kopis.or.kr/openApi/restful/pblprfr?service=${kopisKey}&stdate=${currentDate}&eddate=${endDate}&rows=100&cpage=${page}&shcate=${category}`,
   )
   const xmlText = await response.text()
 
@@ -537,15 +550,37 @@ async function insertKOPISEvents(
     // 먼저 KOPISEvent에서 해당 id로 조회해서 concertId를 알아낸다
     const { data: kopis } = await supabase.from('KOPISEvent').select('concertId').eq('id', item.id).single()
 
-    const { data: existing } = await supabase.from('Concert').select('*').eq('id', kopis?.concertId).single()
+    const { data: existing } = await supabase
+      .from('Concert')
+      .select('*')
+      .eq('id', kopis?.concertId ?? '')
+      .single()
 
     if (existing) {
+      console.log({
+        text: `already existing: ${existing.id}`,
+      })
       await connectEventCategory(existing.id, category)
+      console.log({
+        text: `connectEventCategory`,
+      })
       await connectLocationCity(existing.id, item.area)
+      console.log({
+        text: `connectLocationCity`,
+      })
       await connectOrCreateVenue(item.venue, existing.id)
+      console.log({
+        text: `connectOrCreateVenue`,
+      })
     } else {
+      console.log({
+        text: `not existing, ${item.title}`,
+      })
       const locationCityId = areaToLocationCityId(item.area)
       const slug = await generateSlug(item.title)
+      console.log({
+        text: `slug: ${slug}`,
+      })
       // 1. Concert 생성
       const { data: event, error: createConcertError } = await supabase
         .from('Concert')
@@ -559,9 +594,14 @@ async function insertKOPISEvents(
         })
         .select('*')
         .single() // 생성된 레코드 반환
-
+      console.log({
+        text: `createConcert`,
+      })
       if (createConcertError) {
         console.error('Concert 생성 실패:', createConcertError)
+        await sendSlack({
+          text: `Concert 생성 실패: ${JSON.stringify(createConcertError)}`,
+        })
         throw createConcertError
       }
 
@@ -571,11 +611,18 @@ async function insertKOPISEvents(
         concertId: event.id,
       })
 
+      console.log({
+        text: `createKopisEvent`,
+      })
+
       if (createKopisError) {
         console.error('KOPISEvent 생성 실패:', createKopisError)
       }
 
       const { posterKey } = await uploadPoster(item.poster)
+      console.log({
+        text: `uploadPoster`,
+      })
       // 1. Poster 생성
       const { data: poster, error: posterError } = await supabase
         .from('Poster')
@@ -584,6 +631,10 @@ async function insertKOPISEvents(
         })
         .select('*')
         .single()
+
+      console.log({
+        text: `createPoster`,
+      })
 
       if (posterError) {
         console.error('포스터 생성 실패:', posterError)
@@ -596,11 +647,21 @@ async function insertKOPISEvents(
         concertId: event.id,
       })
 
+      console.log({
+        text: `createConcertsOnPosters`,
+      })
+
       if (relationError) {
         console.error('ConcertsOnPosters 생성 실패:', relationError)
       }
       await connectOrCreateVenue(item.venue, event.id)
-      console.log('newly created event', event.id)
+      console.log({
+        text: `connectOrCreateVenue`,
+      })
+
+      await sendSlack({
+        text: `newly created event, ${event.id}`,
+      })
     }
   }
 
@@ -628,7 +689,7 @@ function extractFirstTimes(input: string) {
  * @param {string} kopisEventId
  * @param {string} timeString ex) 14:00
  */
-async function updateTime(kopisEventId: string, eventDate: Date) {
+async function updateTime(kopisEventId: string, eventDateString: Date) {
   const { data: kopisEventData, error: kopisError } = await supabase
     .from('KOPISEvent')
     .select('concertId')
@@ -639,7 +700,9 @@ async function updateTime(kopisEventId: string, eventDate: Date) {
 
   const { error: updateError } = await supabase
     .from('Concert')
-    .update({ date: eventDate })
+    .update({
+      date: eventDateString.toISOString(),
+    })
     .eq('id', kopisEventData.concertId)
 
   if (updateError) {
@@ -690,6 +753,9 @@ async function connectOrCreateTicket(kopisEventId: string, ticketSeller: string,
 
     if (ticketError) {
       console.error('Error creating ticket:', ticketError)
+      await sendSlack({
+        text: `Error creating ticket: ${ticketError}`,
+      })
       return
     }
 
@@ -725,8 +791,11 @@ async function insertKOPISEventDetail(kopisEventId: string) {
       /**
        * prfpdfrom: ex) 2024.01.01
        */
-      const eventDate = new Date(`${prfpdfrom} ${times[0]}`)
-      await updateTime(kopisEventId, eventDate)
+      // 문자열을 Date 객체로 파싱 (타임존 없음)
+      const localDate = parse(`${prfpdfrom} ${times[0]}`, 'yyyy.MM.dd HH:mm', new Date())
+      // 그걸 Asia/Seoul 기준으로 UTC로 변환
+      const utcDate = fromZonedTime(localDate, 'Asia/Seoul')
+      await updateTime(kopisEventId, utcDate)
     }
   }
 
@@ -752,26 +821,63 @@ async function insertKOPISEventDetail(kopisEventId: string) {
   await connectOrCreateTicket(kopisEventId, ticketSeller, ticketSellingURL)
 }
 
-serve(async () => {
-  const { items } = await insertKOPISEvents(1, KOPISEVENT_CATEGORIES.연극)
+async function sync(page: number, category: (typeof KOPISEVENT_CATEGORIES)[keyof typeof KOPISEVENT_CATEGORIES]) {
+  try {
+    const { items } = await insertKOPISEvents(page, category)
 
-  const sleep = () => new Promise((resolve) => setTimeout(resolve, 1000))
-
-  // @ts-expect-error
-  const success = []
-
-  await Promise.all(
     // @ts-expect-error
-    items.map(async (item, index) => {
-      await sleep()
-      await insertKOPISEventDetail(item.id)
-      console.log(item.id, index)
-      success.push(item.id)
-    }),
-  )
+    const success = []
 
-  // @ts-expect-error
-  console.log(success)
+    await Promise.all(
+      // @ts-expect-error
+      items.map(async (item, index) => {
+        await insertKOPISEventDetail(item.id)
+        console.log(item.id, index)
+        success.push(item.id)
+      }),
+    )
+
+    // @ts-expect-error
+    console.log(success)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+serve(async (req) => {
+  const { searchParams } = new URL(req.url)
+
+  const page = searchParams.get('page') // "123"
+  const category = searchParams.get('category') // "hello"
+
+  if (!page || !category) {
+    return new Response(null, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      status: 400,
+    })
+  }
+
+  const categoryValue = KOPISEVENT_CATEGORIES[category as keyof typeof KOPISEVENT_CATEGORIES]
+  if (!categoryValue) {
+    return new Response(null, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      status: 400,
+    })
+  }
+
+  await sendSlack({
+    text: `🔥 Sync in progress... ${page}, ${category}`,
+  })
+
+  await sync(+page, categoryValue)
+
+  await sendSlack({
+    text: `🔥 Sync done! ${page}, ${category}`,
+  })
 
   return new Response(null, {
     headers: {
