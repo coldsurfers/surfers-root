@@ -356,6 +356,15 @@ async function findVenue(venue: string) {
     case '문기타, 문씨어터 [진주]':
       alreadyExistingVenueId = '56924276-fe6c-4298-82c7-e4d014fc12cd'
       break
+    case '뜻밖의 극장(구. 해우소소극장)':
+      alreadyExistingVenueId = '06396c3d-65b3-4434-a121-85a078e6f2ee'
+      break
+    case '민송아트홀 (구. 브로드웨이아트홀)':
+      alreadyExistingVenueId = '73cc51b7-b8de-46d3-9005-bdb6c4daa707'
+      break
+    case '소극장 플랫폼74':
+      alreadyExistingVenueId = 'f25c2aec-3003-4400-91d7-a7005ac67acc'
+      break
     default:
       break
   }
