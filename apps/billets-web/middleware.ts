@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 export function middleware(request: NextRequest) {
+  // billets.coldsurf.io로 올 시, coldsurf.io로 리다이렉트
+  if (request.headers.get('host') === 'billets.coldsurf.io') {
+    const url = request.nextUrl.clone()
+    url.hostname = 'coldsurf.io'
+    return NextResponse.redirect(url)
+  }
+
   const { pathname } = request.nextUrl
   // /browse 로 올 시 자동으로 /browse/seoul로 리다이렉트
   if (pathname === '/browse') {
