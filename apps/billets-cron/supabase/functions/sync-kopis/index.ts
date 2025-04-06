@@ -399,14 +399,14 @@ async function connectOrCreateVenue(venue: string, eventId: string) {
   if (!existingVenue && !kakaoSearchFirstResult) {
     const { data: connected, error } = await supabase
       .from('ConcertsOnVenues')
-      .select('id') // 꼭 필요한 필드만
+      .select('concertId') // 꼭 필요한 필드만
       .eq('concertId', eventId)
       .maybeSingle()
 
     if (!connected) {
       console.log('not connected venue:', eventId, venue)
       sendSlack({
-        text: `🛠️ not connected venue: ${eventId}m ${venue}`,
+        text: `🛠️ not connected venue: ${eventId}, ${venue}`,
       })
     }
   }
