@@ -1,27 +1,50 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-import { S3Client as AWSS3Client, PutObjectCommand } from '@aws-sdk/client-s3'
-import { PrismaClient } from '@prisma/client'
-import { format } from 'date-fns'
-import dotenv from 'dotenv'
-import ngeohash from 'ngeohash'
-import xml2js from 'xml2js'
-import { generateSlug } from './generateSlug.mjs'
+import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.5'
+import { format } from 'https://esm.sh/date-fns@3.6.0/format'
+import { S3Client as AWSS3Client, PutObjectCommand } from 'npm:@aws-sdk/client-s3'
+import { XMLParser } from 'npm:fast-xml-parser@4.3.5'
+import rawGeohash from 'npm:ngeohash'
+import slugify from 'npm:slugify'
 
-dotenv.config()
+const ngeohash = rawGeohash as {
+  encode: (lat: number, lon: number, precision?: number) => string
+  decode: (geohash: string) => { latitude: number; longitude: number }
+  // 필요한 다른 메서드가 있다면 여기에 추가
+}
+
+const supabase = createClient(Deno.env.get('DATA_API_URL') ?? '', Deno.env.get('DATA_API_KEY') ?? '', {
+  auth: { autoRefreshToken: false, persistSession: false },
+})
+
+const parser = new XMLParser()
 
 const S3Client = new AWSS3Client({
-  region: process.env.COLDSURF_AWS_REGION,
+  region: Deno.env.get('COLDSURF_AWS_REGION') ?? '',
   credentials: {
-    accessKeyId: process.env.COLDSURF_AWS_ACCESS_KEY_ID ?? '',
-    secretAccessKey: process.env.COLDSURF_AWS_SECRET_ACCESS_KEY ?? '',
+    accessKeyId: Deno.env.get('COLDSURF_AWS_ACCESS_KEY_ID') ?? '',
+    secretAccessKey: Deno.env.get('COLDSURF_AWS_SECRET_ACCESS_KEY') ?? '',
   },
 })
 
-const dbClient = new PrismaClient({
-  log: ['warn', 'info', 'error'],
-})
+async function uploadPoster(posterUrl: string) {
+  const fetchedPoster = await fetch(posterUrl)
+  const buffer = await fetchedPoster.arrayBuffer()
+  const posterKey = `billets/poster-thumbnails/${new Date().toISOString()}`
+  await S3Client.send(
+    // @ts-expect-error
+    new PutObjectCommand({
+      Bucket: Deno.env.get('COLDSURF_AWS_S3_BUCKET') ?? '',
+      Key: posterKey,
+      Body: buffer,
+      ContentType: `image/png`,
+      CacheControl: 'public, max-age=31536000, immutable',
+    }),
+  )
 
-const parser = new xml2js.Parser({ explicitArray: false })
+  return {
+    posterKey,
+  }
+}
 
 const KOPISEVENT_CATEGORIES = {
   '대중음악': 'CCCD',
@@ -31,9 +54,9 @@ const KOPISEVENT_CATEGORIES = {
   '뮤지컬': 'GGGA',
   '무용(서양/한국무용)': 'BBBC',
   '대중무용': 'BBBE',
-}
+} as const
 
-function categoryToEventCategoryId(category) {
+function categoryToEventCategoryId(category: (typeof KOPISEVENT_CATEGORIES)[keyof typeof KOPISEVENT_CATEGORIES]) {
   switch (category) {
     case 'CCCD':
     case 'CCCA':
@@ -50,7 +73,7 @@ function categoryToEventCategoryId(category) {
   }
 }
 
-function areaToLocationCityId(area) {
+function areaToLocationCityId(area: string) {
   switch (area) {
     case '서울특별시':
       return 'a0cdb908-7cf9-4b3d-b750-e09f4f154ef5'
@@ -91,40 +114,48 @@ function areaToLocationCityId(area) {
   }
 }
 
-function extractFirstTimes(input) {
-  const regex = /[가-힣A-Z]+[\w\s~]*(\([\d:,]+\))/g // Matches each day and its times
-  const matches = input.match(regex)
-
-  if (!matches) return []
-
-  return matches
-    .map((match) => {
-      const timeMatch = match.match(/\d{2}:\d{2}/) // Extract the first time
-      return timeMatch ? timeMatch[0] : null
+async function connectLocationCity(eventId: string, area: string) {
+  const locationCityId = areaToLocationCityId(area)
+  if (!locationCityId) {
+    return
+  }
+  const { error } = await supabase
+    .from('Concert')
+    .update({
+      locationCityId: locationCityId, // 외래 키 컬럼 직접 업데이트
     })
-    .filter(Boolean) // Filter out null values
-}
+    .eq('id', eventId)
 
-async function uploadPoster(posterUrl) {
-  const fetchedPoster = await fetch(posterUrl)
-  const buffer = await fetchedPoster.arrayBuffer()
-  const posterKey = `billets/poster-thumbnails/${new Date().toISOString()}`
-  await S3Client.send(
-    new PutObjectCommand({
-      Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
-      Key: posterKey,
-      Body: buffer,
-      ContentType: `image/png`,
-      CacheControl: 'public, max-age=31536000, immutable',
-    }),
-  )
-
-  return {
-    posterKey,
+  if (error) {
+    console.log(error)
   }
 }
 
-async function findVenue(venue) {
+async function connectEventCategory(
+  eventId: string,
+  category: (typeof KOPISEVENT_CATEGORIES)[keyof typeof KOPISEVENT_CATEGORIES],
+) {
+  const eventCategoryId = categoryToEventCategoryId(category)
+  if (!eventCategoryId) {
+    return
+  }
+  await supabase.from('Concert').update({
+    eventCategory: {},
+  })
+
+  const { error } = await supabase
+    .from('Concert')
+    .update({
+      eventCategoryId: eventCategoryId, // 외래 키 직접 업데이트
+    })
+    .eq('id', eventId) // 해당 Concert 레코드 찾기
+
+  if (error) {
+    console.log(error)
+  }
+}
+
+async function findVenue(venue: string) {
   let alreadyExistingVenueId = null
   switch (venue) {
     case '예스24 라이브홀 (구. 악스코리아)':
@@ -324,11 +355,10 @@ async function findVenue(venue) {
   }
 
   if (alreadyExistingVenueId !== null) {
-    const existing = await dbClient.venue.findUnique({
-      where: {
-        id: alreadyExistingVenueId,
-      },
-    })
+    const { data: existing, error } = await supabase.from('Venue').select('*').eq('id', alreadyExistingVenueId).single() // 1개만 가져온다는 의도 명확히
+    if (error) {
+      console.log(error)
+    }
     return {
       existingVenue: existing,
       kakaoSearchFirstResult: null,
@@ -336,17 +366,20 @@ async function findVenue(venue) {
   }
   const kakaoSearchResponse = await fetch(`https://dapi.kakao.com/v2/local/search/keyword.json?query=${venue}`, {
     headers: {
-      Authorization: `KakaoAK ${process.env.KAKAO_REST_API_KEY}`,
+      Authorization: `KakaoAK ${Deno.env.get('KAKAO_REST_API_KEY')}`,
     },
   })
   const kakaoJson = await kakaoSearchResponse.json()
-  const existingVenue = (
-    await dbClient.venue.findMany({
-      where: {
-        name: kakaoJson?.['documents']?.[0]?.['place_name'] ?? '',
-      },
-    })
-  ).at(0)
+
+  const venueName = kakaoJson?.['documents']?.[0]?.['place_name'] ?? ''
+
+  const { data, error } = await supabase.from('Venue').select('*').eq('name', venueName).limit(1) // 하나만 조회
+
+  if (error) {
+    console.log(error)
+  }
+
+  const existingVenue = data?.[0]
 
   return {
     existingVenue,
@@ -354,117 +387,16 @@ async function findVenue(venue) {
   }
 }
 
-/**
- *
- * @param {string} kopisEventId
- * @param {string} timeString ex) 14:00
- */
-async function updateTime(kopisEventId, eventDate) {
-  const existingEvent = await dbClient.concert.findFirst({
-    where: {
-      kopisEvent: {
-        id: kopisEventId,
-      },
-    },
-  })
-  if (!existingEvent) {
-    return
-  }
-  await dbClient.concert.update({
-    where: {
-      id: existingEvent.id,
-    },
-    data: {
-      date: eventDate,
-    },
-  })
-}
-
-async function connectOrCreateTicket(kopisEventId, ticketSeller, ticketURL) {
-  const existingEvent = await dbClient.concert.findFirst({
-    where: {
-      kopisEvent: {
-        id: kopisEventId,
-      },
-    },
-  })
-  if (!existingEvent) {
-    return
-  }
-  const connectedTicket = (
-    await dbClient.concertsOnTickets.findMany({
-      where: {
-        concertId: existingEvent.id,
-      },
-    })
-  ).at(0)
-
-  if (!connectedTicket) {
-    const createdTicket = await dbClient.ticket.create({
-      data: {
-        openDate: new Date(),
-        seller: ticketSeller,
-        sellingURL: ticketURL,
-      },
-    })
-    await dbClient.concertsOnTickets.create({
-      data: {
-        concertId: existingEvent.id,
-        ticketId: createdTicket.id,
-      },
-    })
-  }
-}
-
-async function connectEventCategory(eventId, category) {
-  const eventCategoryId = categoryToEventCategoryId(category)
-  if (!eventCategoryId) {
-    return
-  }
-  await dbClient.concert.update({
-    where: {
-      id: eventId,
-    },
-    data: {
-      eventCategory: {
-        connect: {
-          id: eventCategoryId,
-        },
-      },
-    },
-  })
-}
-
-async function connectLocationCity(eventId, area) {
-  const locationCityId = areaToLocationCityId(area)
-  if (!locationCityId) {
-    return
-  }
-  await dbClient.concert.update({
-    where: {
-      id: eventId,
-    },
-    data: {
-      locationCity: {
-        connect: {
-          id: locationCityId,
-        },
-      },
-    },
-  })
-}
-
-async function connectOrCreateVenue(venue, eventId) {
+async function connectOrCreateVenue(venue: string, eventId: string) {
   const { existingVenue, kakaoSearchFirstResult } = await findVenue(venue)
 
   if (!existingVenue && !kakaoSearchFirstResult) {
-    const connected = (
-      await dbClient.concertsOnVenues.findMany({
-        where: {
-          concertId: eventId,
-        },
-      })
-    ).at(0)
+    const { data: connected, error } = await supabase
+      .from('ConcertsOnVenues')
+      .select('id') // 꼭 필요한 필드만
+      .eq('concertId', eventId)
+      .maybeSingle()
+
     if (!connected) {
       console.log('not connected venue:', eventId, venue)
     }
@@ -475,39 +407,95 @@ async function connectOrCreateVenue(venue, eventId) {
       const lat = +kakaoSearchFirstResult?.['y']
       const lng = +kakaoSearchFirstResult?.['x']
       const geohash = ngeohash.encode(lat, lng, 12)
-      const createdVenue = await dbClient.venue.create({
-        data: {
+
+      // 1. Venue 생성
+      const { data: createdVenue, error: venueError } = await supabase
+        .from('Venue')
+        .insert({
           lat,
           lng,
           name: kakaoSearchFirstResult?.['place_name'],
           address: kakaoSearchFirstResult?.['road_address_name'],
           geohash,
-        },
+        })
+        .select('id') // 생성된 id를 받아오기 위해 select 사용
+        .single() // 하나의 row만 반환
+
+      if (venueError || !createdVenue) {
+        console.error('Venue 생성 실패:', venueError)
+        // 필요하면 return 처리
+      }
+
+      // 2. ConcertsOnVenues 연결 정보 추가
+      const { error: joinError } = await supabase.from('ConcertsOnVenues').insert({
+        concertId: eventId,
+        venueId: createdVenue?.id,
       })
-      await dbClient.concertsOnVenues.create({
-        data: {
-          concertId: eventId,
-          venueId: createdVenue.id,
-        },
-      })
+
+      if (joinError) {
+        console.error('ConcertsOnVenues 연결 실패:', joinError)
+      }
     }
   } else {
-    const connected = await dbClient.concertsOnVenues.findUnique({
-      where: {
-        concertId_venueId: {
-          concertId: eventId,
-          venueId: existingVenue.id,
-        },
-      },
-    })
-    if (!connected) {
-      await dbClient.concertsOnVenues.create({
-        data: {
-          concertId: eventId,
-          venueId: existingVenue.id,
-        },
-      })
+    // 1. 기존 연결 확인
+    const { data: connected, error: checkError } = await supabase
+      .from('ConcertsOnVenues')
+      .select('*')
+      .eq('concertId', eventId)
+      .eq('venueId', existingVenue.id)
+      .maybeSingle() // 혹시 없을 수도 있으므로 maybeSingle
+
+    if (checkError) {
+      console.error('연결 여부 확인 중 오류:', checkError)
     }
+
+    // 2. 연결이 없다면 추가
+    if (!connected) {
+      const { error: insertError } = await supabase.from('ConcertsOnVenues').insert({
+        concertId: eventId,
+        venueId: existingVenue.id,
+      })
+
+      if (insertError) {
+        console.error('ConcertsOnVenues 생성 오류:', insertError)
+      }
+    }
+  }
+}
+
+export async function generateSlug(title: string) {
+  try {
+    let slug = slugify.default(title, {
+      replacement: '-', // 공백을 "-"로 변환
+      lower: true, // 소문자로 변환
+      strict: false, // 특수 문자 제거
+      remove: /[[\]*+~.()'"?!:@,&<>〈〉]/g, // 특정 특수문자 제거
+    })
+
+    // Check for existing slugs in the database
+    const res = await supabase.from('Concert').select('*').eq('slug', slug).maybeSingle() // 해당 slug가 없을 수도 있으므로 maybeSingle 사용
+
+    if (res.error) {
+      console.error('Concert 조회 중 오류:', res.error)
+    }
+
+    let { data: existing } = res
+
+    // If slug already exists, append a number
+    if (existing) {
+      let counter = 1
+      let newSlug
+      do {
+        newSlug = `${slug}-${counter}`
+        existing = await supabase.from('Concert').select('*').eq('slug', newSlug).maybeSingle()
+        counter++
+      } while (existing)
+      slug = newSlug
+    }
+    return slug
+  } catch (e) {
+    console.error(e)
+    return undefined
   }
 }
 
@@ -517,26 +505,23 @@ async function connectOrCreateVenue(venue, eventId) {
  * @param {string} category
  * @returns
  */
-async function insertKOPISEvents(page, category) {
+async function insertKOPISEvents(
+  page: number,
+  category: (typeof KOPISEVENT_CATEGORIES)[keyof typeof KOPISEVENT_CATEGORIES],
+) {
   const currentDate = format(new Date(), 'yyyyMMdd')
   const endDate = '20261231'
+  const kopisApiKey = Deno.env.get('KOPIS_KEY') ?? ''
   const response = await fetch(
-    `http://www.kopis.or.kr/openApi/restful/pblprfr?service=${process.env.KOPIS_KEY}&stdate=${currentDate}&eddate=${endDate}&rows=100&cpage=${page}&shcate=${category}`,
+    `http://www.kopis.or.kr/openApi/restful/pblprfr?service=${kopisApiKey}&stdate=${currentDate}&eddate=${endDate}&rows=100&cpage=${page}&shcate=${category}`,
   )
   const xmlText = await response.text()
 
-  const parsePromise = () =>
-    new Promise((resolve, reject) => {
-      parser.parseString(xmlText, (err, result) => {
-        if (err) {
-          reject(err)
-        }
-        resolve(result.dbs)
-      })
-    })
+  const { dbs } = parser.parse(xmlText)
 
-  const dbs = await parsePromise()
   const { db } = dbs
+
+  // @ts-expect-error: dbItem is any
   const items = db.map((dbItem) => {
     return {
       id: dbItem.mt20id,
@@ -549,15 +534,11 @@ async function insertKOPISEvents(page, category) {
   })
 
   for (const item of items) {
-    const existing = (
-      await dbClient.concert.findMany({
-        where: {
-          kopisEvent: {
-            id: item.id,
-          },
-        },
-      })
-    ).at(0)
+    // 먼저 KOPISEvent에서 해당 id로 조회해서 concertId를 알아낸다
+    const { data: kopis } = await supabase.from('KOPISEvent').select('concertId').eq('id', item.id).single()
+
+    const { data: existing } = await supabase.from('Concert').select('*').eq('id', kopis?.concertId).single()
+
     if (existing) {
       await connectEventCategory(existing.id, category)
       await connectLocationCity(existing.id, item.area)
@@ -565,43 +546,59 @@ async function insertKOPISEvents(page, category) {
     } else {
       const locationCityId = areaToLocationCityId(item.area)
       const slug = await generateSlug(item.title)
-      const event = await dbClient.concert.create({
-        data: {
+      // 1. Concert 생성
+      const { data: event, error: createConcertError } = await supabase
+        .from('Concert')
+        .insert({
           title: item.title,
           slug,
-          date: new Date(item.date),
+          date: new Date(item.date).toISOString(),
           isKOPIS: true,
-          kopisEvent: {
-            create: {
-              id: item.id,
-            },
-          },
-          ...(locationCityId && {
-            locationCity: {
-              connect: {
-                id: locationCityId,
-              },
-            },
-          }),
-          eventCategory: {
-            connect: {
-              id: categoryToEventCategoryId(category),
-            },
-          },
-        },
+          locationCityId: locationCityId ?? null, // connect 대신 FK 직접 삽입
+          eventCategoryId: categoryToEventCategoryId(category),
+        })
+        .select('*')
+        .single() // 생성된 레코드 반환
+
+      if (createConcertError) {
+        console.error('Concert 생성 실패:', createConcertError)
+        throw createConcertError
+      }
+
+      // 2. kopisEvent 생성 (Concert FK 사용)
+      const { error: createKopisError } = await supabase.from('KOPISEvent').insert({
+        id: item.id,
+        concertId: event.id,
       })
+
+      if (createKopisError) {
+        console.error('KOPISEvent 생성 실패:', createKopisError)
+      }
+
       const { posterKey } = await uploadPoster(item.poster)
-      const poster = await dbClient.poster.create({
-        data: {
+      // 1. Poster 생성
+      const { data: poster, error: posterError } = await supabase
+        .from('Poster')
+        .insert({
           imageURL: `https://api.billets.coldsurf.io/v1/image?key=${posterKey}`,
-        },
+        })
+        .select('*')
+        .single()
+
+      if (posterError) {
+        console.error('포스터 생성 실패:', posterError)
+        throw posterError
+      }
+
+      // 2. ConcertsOnPosters 연결 생성
+      const { error: relationError } = await supabase.from('ConcertsOnPosters').insert({
+        posterId: poster.id,
+        concertId: event.id,
       })
-      await dbClient.concertsOnPosters.create({
-        data: {
-          posterId: poster.id,
-          concertId: event.id,
-        },
-      })
+
+      if (relationError) {
+        console.error('ConcertsOnPosters 생성 실패:', relationError)
+      }
       await connectOrCreateVenue(item.venue, event.id)
       console.log('newly created event', event.id)
     }
@@ -612,23 +609,110 @@ async function insertKOPISEvents(page, category) {
   }
 }
 
-async function insertKOPISEventDetail(kopisEventId) {
+function extractFirstTimes(input: string) {
+  const regex = /[가-힣A-Z]+[\w\s~]*(\([\d:,]+\))/g // Matches each day and its times
+  const matches = input.match(regex)
+
+  if (!matches) return []
+
+  return matches
+    .map((match) => {
+      const timeMatch = match.match(/\d{2}:\d{2}/) // Extract the first time
+      return timeMatch ? timeMatch[0] : null
+    })
+    .filter(Boolean) // Filter out null values
+}
+
+/**
+ *
+ * @param {string} kopisEventId
+ * @param {string} timeString ex) 14:00
+ */
+async function updateTime(kopisEventId: string, eventDate: Date) {
+  const { data: kopisEventData, error: kopisError } = await supabase
+    .from('KOPISEvent')
+    .select('concertId')
+    .eq('id', kopisEventId)
+    .single()
+
+  if (kopisError || !kopisEventData?.concertId) return
+
+  const { error: updateError } = await supabase
+    .from('Concert')
+    .update({ date: eventDate })
+    .eq('id', kopisEventData.concertId)
+
+  if (updateError) {
+    throw updateError
+  }
+}
+
+async function connectOrCreateTicket(kopisEventId: string, ticketSeller: string, ticketURL: string) {
+  // 1. KOPISEvent에서 concertId 조회
+  const { data: kopisEventData, error: kopisError } = await supabase
+    .from('KOPISEvent')
+    .select('concertId')
+    .eq('id', kopisEventId)
+    .single()
+
+  if (kopisError || !kopisEventData?.concertId) {
+    console.error('KOPISEvent not found')
+    return
+  }
+
+  const concertId = kopisEventData.concertId
+
+  // 2. 연결된 concertsOnTickets 존재 여부 확인
+  const { data: ticketsOnConcert, error: ticketLinkError } = await supabase
+    .from('ConcertsOnTickets')
+    .select('concertId')
+    .eq('concertId', concertId)
+    .limit(1)
+
+  if (ticketLinkError) {
+    console.error('Error checking ticket connection:', ticketLinkError)
+    return
+  }
+
+  const alreadyConnected = ticketsOnConcert.length > 0
+
+  if (!alreadyConnected) {
+    // 3-1. Ticket 생성
+    const { data: createdTicket, error: ticketError } = await supabase
+      .from('Ticket')
+      .insert({
+        openDate: new Date().toISOString(),
+        seller: ticketSeller,
+        sellingURL: ticketURL,
+      })
+      .select()
+      .single()
+
+    if (ticketError) {
+      console.error('Error creating ticket:', ticketError)
+      return
+    }
+
+    // 3-2. ConcertsOnTickets 연결
+    const { error: connectError } = await supabase.from('ConcertsOnTickets').insert({
+      concertId,
+      ticketId: createdTicket.id,
+    })
+
+    if (connectError) {
+      console.error('Error connecting ticket to concert:', connectError)
+    }
+  }
+}
+
+async function insertKOPISEventDetail(kopisEventId: string) {
   const response = await fetch(
-    `http://www.kopis.or.kr/openApi/restful/pblprfr/${kopisEventId}?service=${process.env.KOPIS_KEY}`,
+    `http://www.kopis.or.kr/openApi/restful/pblprfr/${kopisEventId}?service=${Deno.env.get('KOPIS_KEY') ?? ''}`,
   )
   const xmlText = await response.text()
 
-  const parsePromise = () =>
-    new Promise((resolve, reject) => {
-      parser.parseString(xmlText, (err, result) => {
-        if (err) {
-          reject(err)
-        }
-        resolve(result.dbs)
-      })
-    })
+  const { dbs } = parser.parse(xmlText)
 
-  const dbs = await parsePromise()
   const { db } = dbs
   if (!db.relates) {
     return
@@ -668,75 +752,31 @@ async function insertKOPISEventDetail(kopisEventId) {
   await connectOrCreateTicket(kopisEventId, ticketSeller, ticketSellingURL)
 }
 
-let success = []
+serve(async () => {
+  const { items } = await insertKOPISEvents(1, KOPISEVENT_CATEGORIES.연극)
 
-const sleep = () => new Promise((resolve) => setTimeout(resolve, 1000))
+  const sleep = () => new Promise((resolve) => setTimeout(resolve, 1000))
 
-async function main() {
-  try {
-    await dbClient.$connect()
-    const { items } = await insertKOPISEvents(2, KOPISEVENT_CATEGORIES['한국음악(국악)'])
-    await dbClient.$disconnect()
-    await Promise.all(
-      items.map(async (item, index) => {
-        await sleep()
-        await dbClient.$connect()
-        await insertKOPISEventDetail(item.id)
-        console.log(item.id, index)
-        success.push(item.id)
-        await dbClient.$disconnect()
-      }),
-    )
-  } catch (e) {
-    console.error(e)
-  } finally {
-    console.log(success)
-    await dbClient.$disconnect()
-  }
-}
+  // @ts-expect-error
+  const success = []
 
-main()
+  await Promise.all(
+    // @ts-expect-error
+    items.map(async (item, index) => {
+      await sleep()
+      await insertKOPISEventDetail(item.id)
+      console.log(item.id, index)
+      success.push(item.id)
+    }),
+  )
 
-async function restore남부터미널() {
-  try {
-    await dbClient.$connect()
-    const ids = []
+  // @ts-expect-error
+  console.log(success)
 
-    await Promise.all(
-      ids.map(async (concertId) => {
-        const existing = await dbClient.concertsOnVenues.findUnique({
-          where: {
-            concertId_venueId: {
-              concertId,
-              venueId: 'ab49e350-1f23-4c17-9d43-d4197dc230e2',
-            },
-          },
-        })
-
-        if (existing) {
-          await dbClient.concertsOnVenues.delete({
-            where: {
-              concertId_venueId: {
-                concertId,
-                venueId: 'ab49e350-1f23-4c17-9d43-d4197dc230e2',
-              },
-            },
-          })
-        }
-
-        await dbClient.concertsOnVenues.create({
-          data: {
-            concertId,
-            venueId: '0ab15b5d-73ac-4f29-ac15-53aa2a12d95d',
-          },
-        })
-      }),
-    )
-  } catch (e) {
-    console.error(e)
-  } finally {
-    await dbClient.$disconnect()
-  }
-}
-
-// restore남부터미널()
+  return new Response(null, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    status: 200,
+  })
+})
