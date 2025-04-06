@@ -825,20 +825,18 @@ async function sync(page: number, category: (typeof KOPISEVENT_CATEGORIES)[keyof
   try {
     const { items } = await insertKOPISEvents(page, category)
 
-    // @ts-expect-error
     const success = []
 
     await Promise.all(
       // @ts-expect-error
-      items.map(async (item, index) => {
+      items.map(async (item) => {
         await insertKOPISEventDetail(item.id)
-        console.log(item.id, index)
+        // console.log(item.id, index)
         success.push(item.id)
       }),
     )
 
-    // @ts-expect-error
-    console.log(success)
+    // console.log(success)
   } catch (e) {
     console.error(e)
   }
