@@ -5,7 +5,7 @@ dotenv.config()
 
 export default $config({
   app(input) {
-    const name = input?.stage === 'production' ? 'billets-web' : 'billets-web-staging'
+    const name = input?.stage === 'production' ? 'coldsurf-io' : 'coldsurf-io-staging'
     const removal = input?.stage === 'production' || input?.stage === 'staging' ? 'retain' : 'remove'
     const protect = ['production', 'staging'].includes(input?.stage)
     return {
@@ -24,17 +24,17 @@ export default $config({
     const name = (() => {
       switch (process.env.APP_PLATFORM) {
         case 'production':
-          return 'BilletsWeb'
+          return 'ColdsurfIOWeb'
         // @ts-ignore
         case 'staging':
         default:
-          return 'BilletsWebStaging'
+          return 'ColdsurfIOWebStaging'
       }
     })()
     new sst.aws.Nextjs(name, {
       domain: {
-        name: process.env.BILLETS_WEB_DOMAIN_NAME!,
-        cert: process.env.BILLETS_WEB_DOMAIN_CERT_ARN!,
+        name: process.env.COLDSURF_IO_DOMAIN_NAME!,
+        cert: process.env.COLDSURF_IO_DOMAIN_CERT_ARN!,
       },
     })
   },
