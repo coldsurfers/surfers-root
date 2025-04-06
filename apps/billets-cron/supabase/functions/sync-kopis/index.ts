@@ -556,7 +556,7 @@ async function insertKOPISEvents(
   const currentDate = format(new Date(), 'yyyyMMdd')
   const endDate = '20261231'
   const response = await fetch(
-    `http://www.kopis.or.kr/openApi/restful/pblprfr?service=${kopisKey}&stdate=${currentDate}&eddate=${endDate}&rows=100&cpage=${page}&shcate=${category}`,
+    `http://www.kopis.or.kr/openApi/restful/pblprfr?service=${kopisKey}&stdate=${currentDate}&eddate=${endDate}&rows=50&cpage=${page}&shcate=${category}`,
   )
   const xmlText = await response.text()
 
