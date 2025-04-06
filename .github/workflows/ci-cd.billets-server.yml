@@ -56,7 +56,7 @@ jobs:
       - name: install dependencies
         run: pnpm install
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check runtime
         run: |
@@ -70,5 +70,5 @@ jobs:
       - name: run build and upload zip to aws lambda
         working-directory: ./apps/billets-server
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: pnpm serverless:deploy:prod

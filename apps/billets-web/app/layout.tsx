@@ -52,7 +52,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                 image: `${SITE_URL}/favicon.ico`,
                 logo: `${SITE_URL}/favicon.ico`,
                 url: SITE_URL,
-                name: 'Billets',
+                name: SITE_NAME,
                 sameAs: [APP_STORE_URL, 'https://coldsurf.io', 'https://blog.coldsurf.io'],
               }),
             ),

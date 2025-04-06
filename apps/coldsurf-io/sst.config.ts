@@ -8,8 +8,8 @@ export default $config({
   app(input) {
     return {
       name: 'coldsurf-io',
-      removal: input?.stage === 'production' ? 'retain' : 'remove',
-      protect: ['production'].includes(input?.stage),
+      // removal: input?.stage === 'production' ? 'retain' : 'remove',
+      // protect: ['production'].includes(input?.stage),
       home: 'aws',
     }
   },

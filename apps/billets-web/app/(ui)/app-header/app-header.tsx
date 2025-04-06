@@ -1,6 +1,6 @@
 'use client'
 
-import { APP_STORE_URL } from '@/libs/constants'
+import { APP_STORE_URL, SITE_NAME } from '@/libs/constants'
 import { Button, IconButton, Text } from '@coldsurfers/ocean-road'
 import { useRouter } from 'next/navigation'
 import { MouseEventHandler, useEffect, useState } from 'react'
@@ -116,7 +116,7 @@ export function AppHeader() {
             <HeaderLogo src="/logo.png" alt="header_logo" />
           </GlobalLink>
           <GlobalLink href="/">
-            <HeaderTitle as="h1">Billets</HeaderTitle>
+            <HeaderTitle as="h1">{SITE_NAME}</HeaderTitle>
           </GlobalLink>
         </div>
         <WebMenuContainer>

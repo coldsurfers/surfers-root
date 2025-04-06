@@ -63,10 +63,27 @@ export const app = Fastify({
 })
 
 app.register(cors, {
-  allowedHeaders: ['Authorization', 'Content-Type'],
+  origin: (origin, cb) => {
+    if (!origin) {
+      // 서버 간 요청 등 Origin이 없는 경우 허용
+      cb(null, true)
+      return
+    }
+
+    const allowedBase = 'coldsurf.io'
+    const url = new URL(origin)
+
+    const isLocalHost = url.hostname === 'localhost' && url.port === '3000'
+
+    if (url.hostname === allowedBase || url.hostname.endsWith(`.${allowedBase}`) || isLocalHost) {
+      cb(null, true)
+    } else {
+      cb(new Error('Not allowed by CORS'), false)
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  origin: ['http://localhost:3000', 'https://billets.coldsurf.io', 'https://staging.billets.coldsurf.io'],
+  allowedHeaders: ['Authorization', 'Content-Type'],
 })
 
 app.register(jwtPlugin)

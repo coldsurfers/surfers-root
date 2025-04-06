@@ -1,5 +1,6 @@
 'use client'
 
+import { SITE_NAME } from '@/libs/constants'
 import { apiClient } from '@/libs/openapi-client'
 import { OpenApiError } from '@coldsurfers/api-sdk'
 import { Checkbox, colors, Text } from '@coldsurfers/ocean-road'
@@ -76,7 +77,7 @@ export const SubmitForm = memo(() => {
       <StyledSubmitFormContainer>
         <StyledFormLeft>
           <Text as="h3">
-            We want to hear all your voices about Billets. Anything is okay, even if you are user, venue owner,
+            We want to hear all your voices about {SITE_NAME}. Anything is okay, even if you are user, venue owner,
             promoters, artists.
           </Text>
         </StyledFormLeft>
@@ -123,7 +124,7 @@ export const SubmitForm = memo(() => {
           )}
           <Checkbox
             id="updateAgreement"
-            labelText="I want to receive updates from Billets"
+            labelText={`I want to receive updates from ${SITE_NAME}`}
             {...register('updateAgreement')}
             style={{ marginTop: '1rem' }}
           />
