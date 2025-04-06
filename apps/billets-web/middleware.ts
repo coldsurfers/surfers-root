@@ -37,4 +37,6 @@ export function middleware(request: NextRequest) {
 // 특정 경로에만 미들웨어 적용
 export const config = {
   matcher: ['/browse', '/event/:path*'],
+  // billets.coldsurf.io 레거시 처리용
+  // matcher: ['/:path*'],
 }
