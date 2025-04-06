@@ -1,6 +1,7 @@
 export const API_BASE_URL = (() => {
   switch (process.env.APP_PLATFORM) {
     case 'production':
+      return 'https://api.billets.coldsurf.io'
     case 'staging':
     case 'development':
     default:
