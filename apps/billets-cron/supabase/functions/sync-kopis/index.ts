@@ -365,6 +365,27 @@ async function findVenue(venue: string) {
     case '소극장 플랫폼74':
       alreadyExistingVenueId = 'f25c2aec-3003-4400-91d7-a7005ac67acc'
       break
+    case '예술의전당 [서울]':
+      alreadyExistingVenueId = '0ab15b5d-73ac-4f29-ac15-53aa2a12d95d'
+      break
+    case 'JCC 아트센터':
+      alreadyExistingVenueId = '2f6c8b48-ddc6-49a7-a217-83b2c0cc3df6'
+      break
+    case '평택시남부문예회관':
+      alreadyExistingVenueId = '296183d7-3bc8-4ccd-9e6b-aed4b7a37173'
+      break
+    case '평택시북부문예회관':
+      alreadyExistingVenueId = 'ccc6ccde-888d-4a63-ab6d-412ae68fecac'
+      break
+    case '성남아트센터':
+      alreadyExistingVenueId = 'c90aa6e9-cb7c-4b3b-8181-0821e6692082'
+      break
+    case '마포아트센터':
+      alreadyExistingVenueId = 'ef3d2100-41ac-4255-b232-12bec63e2d3a'
+      break
+    case '대전예술의전당':
+      alreadyExistingVenueId = '5aba1787-b5f4-43b9-b8e5-f8ab5a685bf8'
+      break
     default:
       break
   }
@@ -669,7 +690,7 @@ async function insertKOPISEvents(
       })
 
       await sendSlack({
-        text: `newly created event, ${event.id}`,
+        text: `🎉 newly created event, ${event.id}`,
       })
     }
   }
