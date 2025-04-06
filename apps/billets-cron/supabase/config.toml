@@ -310,7 +310,7 @@ s3_secret_key = "env(S3_SECRET_KEY)"
 [functions.sync-kopis]
 enabled = true
 verify_jwt = true
-import_map = "./functions/sync-kopis/deno.json"
+import_map = "./functions/sync-kopis/import_map.json"
 # Uncomment to specify a custom file path to the entrypoint.
 # Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
 entrypoint = "./functions/sync-kopis/index.ts"
