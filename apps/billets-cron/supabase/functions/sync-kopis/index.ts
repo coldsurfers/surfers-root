@@ -386,6 +386,12 @@ async function findVenue(venue: string) {
     case '대전예술의전당':
       alreadyExistingVenueId = '5aba1787-b5f4-43b9-b8e5-f8ab5a685bf8'
       break
+    case '한국콘텐츠진흥원 CKL스테이지':
+      alreadyExistingVenueId = 'f5c8c360-571e-4422-add5-b3dbd7f0f52f'
+      break
+    case '음악공간 벙커 [일산]':
+      alreadyExistingVenueId = '4317ef1f-d5d3-4389-8f0f-c7d58672cc43'
+      break
     default:
       break
   }
