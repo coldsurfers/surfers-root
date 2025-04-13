@@ -392,6 +392,9 @@ async function findVenue(venue: string) {
     case '음악공간 벙커 [일산]':
       alreadyExistingVenueId = '4317ef1f-d5d3-4389-8f0f-c7d58672cc43'
       break
+    case 'G스페이스홀 (지스페이스홀)':
+      alreadyExistingVenueId = '463a540c-f177-4be3-9d28-cee65c4f16b7'
+      break
     default:
       break
   }
