@@ -4,6 +4,7 @@ import { APP_STORE_ID, APP_STORE_URL, SITE_NAME, SITE_URL } from '../constants'
 export const metadataInstance = new NextMetadataGenerator({
   baseData: {
     keywords: [
+      'COLDSURF',
       'Billets',
       'Tickets',
       '공연',
