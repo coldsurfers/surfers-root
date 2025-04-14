@@ -1,8 +1,19 @@
 diff --git a/src/styles.css b/src/styles.css
-index 965860cf35c8afb2affc7f4f335f9f574d9e6be4..69d65a350d218324ba061a1ae4e2f1db1b8ea912 100644
+index 965860cf35c8afb2affc7f4f335f9f574d9e6be4..c4850a3312db621e78171ae2b3cf31f6f3fe8e85 100644
 --- a/src/styles.css
 +++ b/src/styles.css
-@@ -85,11 +85,11 @@
+@@ -1,7 +1,8 @@
+ :root {
+-  --notion-font: ui-sans-serif, system-ui, apple-system, BlinkMacSystemFont,
++  /* --notion-font: ui-sans-serif, system-ui, apple-system, BlinkMacSystemFont,
+     'Segoe UI', Helvetica, 'Apple Color Emoji', Arial, sans-serif,
+-    'Segoe UI Emoji', 'Segoe UI Symbol';
++    'Segoe UI Emoji', 'Segoe UI Symbol'; */
++  --notion-font: 'pretendard', 'pretendard Fallback';
+   --fg-color: rgb(55, 53, 47);
+   --fg-color-0: rgba(55, 53, 47, 0.09);
+   --fg-color-1: rgba(55, 53, 47, 0.16);
+@@ -85,11 +86,11 @@
    --notion-item-bullet-purple: rgb(167, 130, 195);
    --notion-item-bullet-gray: rgb(145, 145, 142);
  
@@ -16,7 +27,7 @@ index 965860cf35c8afb2affc7f4f335f9f574d9e6be4..69d65a350d218324ba061a1ae4e2f1db
    --fg-color: rgba(255, 255, 255, 0.9);
    --fg-color-0: var(--fg-color);
    --fg-color-1: var(--fg-color);
-@@ -139,13 +139,26 @@
+@@ -139,13 +140,26 @@
  }
  
  .notion {
@@ -44,7 +55,7 @@ index 965860cf35c8afb2affc7f4f335f9f574d9e6be4..69d65a350d218324ba061a1ae4e2f1db
  .notion > * {
    padding: 3px 0;
  }
-@@ -716,8 +729,8 @@ svg.notion-page-icon {
+@@ -716,8 +730,8 @@ svg.notion-page-icon {
  .notion-page {
    box-sizing: border-box;
    width: var(--notion-max-width);
@@ -55,7 +66,7 @@ index 965860cf35c8afb2affc7f4f335f9f574d9e6be4..69d65a350d218324ba061a1ae4e2f1db
  }
  
  .notion-full-width {
-@@ -739,7 +752,8 @@ svg.notion-page-icon {
+@@ -739,7 +753,8 @@ svg.notion-page-icon {
    border-left: 3px solid currentcolor;
    padding: 0.2em 0.9em;
    margin: 6px 0;
@@ -65,7 +76,7 @@ index 965860cf35c8afb2affc7f4f335f9f574d9e6be4..69d65a350d218324ba061a1ae4e2f1db
  }
  
  .notion-hr {
-@@ -886,11 +900,12 @@ svg.notion-page-icon {
+@@ -886,11 +901,12 @@ svg.notion-page-icon {
    width: 100%;
    height: 100%;
    max-height: 100%;
@@ -79,7 +90,7 @@ index 965860cf35c8afb2affc7f4f335f9f574d9e6be4..69d65a350d218324ba061a1ae4e2f1db
  }
  
  .notion-text {
-@@ -1056,7 +1071,7 @@ svg.notion-page-icon {
+@@ -1056,7 +1072,7 @@ svg.notion-page-icon {
    user-select: none;
  }
  
@@ -88,7 +99,7 @@ index 965860cf35c8afb2affc7f4f335f9f574d9e6be4..69d65a350d218324ba061a1ae4e2f1db
    border-color: var(--bg-color-0);
  }
  
-@@ -1163,11 +1178,18 @@ svg.notion-page-icon {
+@@ -1163,11 +1179,18 @@ svg.notion-page-icon {
    white-space: pre-wrap;
    word-break: break-word;
    caret-color: var(--fg-color);
@@ -108,7 +119,7 @@ index 965860cf35c8afb2affc7f4f335f9f574d9e6be4..69d65a350d218324ba061a1ae4e2f1db
  .notion-callout {
    padding: 16px 16px 16px 12px;
    display: inline-flex;
-@@ -1180,7 +1202,7 @@ svg.notion-page-icon {
+@@ -1180,7 +1203,7 @@ svg.notion-page-icon {
    border: 1px solid var(--fg-color-0);
  }
  
