@@ -11,11 +11,9 @@ import { routing } from 'i18n/routing'
 import { Metadata } from 'next'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getMessages, setRequestLocale } from 'next-intl/server'
-import { Noto_Sans_KR } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { ReactNode, Suspense } from 'react'
-
-const notoSansKR = Noto_Sans_KR({ subsets: ['latin'] })
+import { pretendard } from '../../lib/font'
 
 const metaTitle = 'COLDSURF Blog: Latest News and Blogs'
 const metaDescription = 'Updates from COLDSURF'
@@ -99,7 +97,7 @@ export default async function RootLayout(props: { params: Promise<{ locale: AppL
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/favicon.ico" type="image/png" />
       </head>
-      <body className={notoSansKR.className}>
+      <body className={pretendard.className}>
         {/* {colorScheme === 'userPreference' && (
           <script
             dangerouslySetInnerHTML={{
