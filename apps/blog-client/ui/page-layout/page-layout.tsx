@@ -19,7 +19,7 @@ export const PageLayout = ({
         <ColorSchemeToggle />
       </div>
       <BigTitleWrapper>
-        <Link href="/" style={{ width: 'auto' }}>
+        <Link href="/" style={{ width: 1024 }}>
           <BigTitle as="h1">{title ?? 'The COLDSURF Blog'}</BigTitle>
         </Link>
       </BigTitleWrapper>

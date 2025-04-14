@@ -29,7 +29,7 @@ export const BigTitleWrapper = styled.div`
 `
 
 export const BigTitle = styled(Text)`
-  font-size: 88px;
+  font-size: 72px;
   font-weight: 820;
   line-height: 1.05;
   text-align: center;
