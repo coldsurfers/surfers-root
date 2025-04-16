@@ -3,9 +3,10 @@ export const API_BASE_URL = (() => {
     case 'production':
       return 'https://api.billets.coldsurf.io'
     case 'staging':
+      return 'https://dev.api.billets.coldsurf.io'
     case 'development':
     default:
-      return 'https://dev.api.billets.coldsurf.io'
+      return 'http://localhost:3001'
   }
 })()
 
