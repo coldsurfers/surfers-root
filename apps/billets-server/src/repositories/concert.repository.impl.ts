@@ -97,6 +97,7 @@ export class ConcertRepositoryImpl implements ConcertRepository {
       },
       take: params.take,
       skip: params.skip,
+      distinct: ['id'],
       include: {
         kopisEvent: true,
         posters: {
