@@ -75,7 +75,9 @@ app.register(cors, {
 
     const isLocalHost = url.hostname === 'localhost' && url.port === '3000'
 
-    if (url.hostname === allowedBase || url.hostname.endsWith(`.${allowedBase}`) || isLocalHost) {
+    if (isLocalHost) {
+      cb(null, true)
+    } else if (url.hostname === allowedBase || url.hostname.endsWith(`.${allowedBase}`)) {
       cb(null, true)
     } else {
       cb(new Error('Not allowed by CORS'), false)
