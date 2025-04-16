@@ -8,11 +8,9 @@ import {
   RegistryProvider,
 } from '@/libs/registries'
 import type { Metadata } from 'next'
-import { Noto_Sans as notoSans } from 'next/font/google'
 import { ReactNode } from 'react'
+import { pretendard } from '../libs/font'
 import { AppLayout } from './(ui)'
-
-const notoSansFont = notoSans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   ...metadataInstance.generateMetadata<Metadata>({
@@ -33,7 +31,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" type="image/png" />
       </head>
-      <body className={notoSansFont.className}>
+      <body className={pretendard.className}>
         <script
           dangerouslySetInnerHTML={{
             __html: `
