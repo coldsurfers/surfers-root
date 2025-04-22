@@ -9,7 +9,7 @@ export default async function middleware(request: NextRequest) {
     const url = request.nextUrl.clone()
     url.hostname = 'coldsurf.io'
     const refinedPathname = request.nextUrl.pathname.split('/en').join('').split('/ko').join('')
-    url.pathname = `/blog/${refinedPathname}`
+    url.pathname = `/blog${refinedPathname}`
     return NextResponse.redirect(url)
   }
 
