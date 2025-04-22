@@ -1,6 +1,8 @@
 import { SITE_URL } from '@/libs/constants'
 import { connectDbClient, dbClient, disconnectDbClient } from '@/libs/db/db.client'
 import { cache } from 'react'
+import { ALL_SERIES_CATEGORIES } from './blog/(constants)'
+import { queryAllSeries, queryTags } from './blog/(notion)/query'
 
 const generateUrl = (subPath: string) => {
   return `${SITE_URL}${subPath}`
@@ -24,6 +26,71 @@ const findAllEvents = cache(async () => {
 const findAllEventCategories = cache(async () => {
   const eventCategories = await dbClient.eventCategory.findMany()
   return eventCategories
+})
+
+const generateBlogSitemaps = cache(async () => {
+  const allSeries = await queryAllSeries({
+    lang: 'ko',
+  })
+  const allSeriesItemsValues = allSeries.map((value) => ({
+    slug: value.slug,
+    seriesCategory: value.seriesCategory,
+    lastModified: value.lastEditedTime,
+  }))
+  const allTags = await queryTags()
+  const allTagsByLocales = allTags
+    .map((tag) => {
+      return {
+        tag: tag.name,
+        locale: 'ko',
+      }
+    })
+    .flat()
+
+  const allSeriesEntry = ALL_SERIES_CATEGORIES.map((series) => {
+    return {
+      url: generateUrl(`/blog/${series}`),
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    }
+  })
+
+  const allSeriesItemsEntry = allSeriesItemsValues.map(({ slug, seriesCategory, lastModified }) => {
+    return {
+      url: generateUrl(`/blog/${seriesCategory ?? ''}/${slug}`),
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    }
+  })
+
+  const allTagsEntry = allTagsByLocales.map(({ tag }) => {
+    return {
+      url: generateUrl(`/blog/tags/${tag}`),
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    }
+  })
+
+  return [
+    {
+      url: generateUrl('/blog'),
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    ...allSeriesEntry,
+    ...allSeriesItemsEntry,
+    {
+      url: generateUrl('/blog/tags'),
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    ...allTagsEntry,
+  ]
 })
 
 export default async function sitemap() {
@@ -145,7 +212,10 @@ export default async function sitemap() {
     }
   })
 
+  const blogSitemaps = await generateBlogSitemaps()
+
   await disconnectDbClient()
+
   return [
     ...staticSitemaps,
     ...browseByCitySitemaps,
@@ -153,5 +223,6 @@ export default async function sitemap() {
     ...eventSitemaps,
     ...venueSitemaps,
     ...artistSitemaps,
+    ...blogSitemaps,
   ]
 }
