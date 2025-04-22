@@ -1,9 +1,16 @@
 import type { ColorScheme } from '@coldsurfers/ocean-road'
 import createMiddleware from 'next-intl/middleware'
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { routing } from './i18n/routing'
 
 export default async function middleware(request: NextRequest) {
+  // billets.coldsurf.io로 올 시, coldsurf.io로 리다이렉트
+  if (request.headers.get('host') === 'blog.coldsurf.io') {
+    const url = request.nextUrl.clone()
+    url.hostname = 'coldsurf.io'
+    return NextResponse.redirect(url)
+  }
+
   // Step 1: Use the incoming request (example)
   // const defaultLocale = request.headers.get('x-your-custom-locale') || 'en'
 
@@ -28,5 +35,5 @@ export default async function middleware(request: NextRequest) {
 
 export const config = {
   // Match only internationalized pathnames
-  matcher: ['/', '/(en|ko)/:path*'],
+  matcher: ['/:path*'],
 }
