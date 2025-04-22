@@ -14,7 +14,7 @@ export const TagList = ({
   return (
     <StyledSectionTagList>
       {tags.map((tag) => (
-        <Link key={tag.name} href={`/tags/${tag.name}`}>
+        <Link key={tag.name} href={`/blog/tags/${tag.name}`}>
           <TagItem {...tag} />
         </Link>
       ))}
