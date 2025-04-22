@@ -65,7 +65,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                     setTheme(newTheme);
                     try {
                       localStorage.setItem('theme', newTheme);
-                    } catch (err) { }
+                    } catch (err) {
+                      console.error(err);
+                    }
                   };
 
                   var initialTheme = preferredTheme;
