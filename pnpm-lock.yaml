@@ -551,6 +551,9 @@ importers:
       '@coldsurfers/cloudinary-utils':
         specifier: workspace:*
         version: link:../../packages/cloudinary-utils
+      '@coldsurfers/design-tokens':
+        specifier: workspace:*
+        version: link:../../packages/ocean-road-design-tokens
       '@coldsurfers/ocean-road':
         specifier: workspace:*
         version: link:../../packages/ocean-road
@@ -593,6 +596,9 @@ importers:
       framer-motion:
         specifier: 11.11.13
         version: 11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      html2pdf.js:
+        specifier: ^0.10.2
+        version: 0.10.2
       ky:
         specifier: ^1.7.2
         version: 1.7.5
