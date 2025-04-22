@@ -1,5 +1,5 @@
 import { PageLayout } from './(components)/page-layout'
-import { SeriesListAllQuery } from './(components)/series-list-all-query'
+import { SeriesListAll } from './(components)/series-list-all'
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 
@@ -10,7 +10,7 @@ export default async function RootPage(props: { searchParams: SearchParams }) {
 
   return (
     <PageLayout>
-      <SeriesListAllQuery page={page} />
+      <SeriesListAll page={page} />
     </PageLayout>
   )
 }
