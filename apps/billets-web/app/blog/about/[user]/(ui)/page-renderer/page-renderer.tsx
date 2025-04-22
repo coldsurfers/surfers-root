@@ -1,15 +1,15 @@
 'use client'
 
-import { NotionRenderer } from '@/features/notion'
 import variables from '@coldsurfers/design-tokens/dist/js/color/variables'
 import styled from '@emotion/styled'
 import { PageLayout } from 'app/blog/(components)/page-layout/page-layout'
+import { NotionRenderer } from 'app/blog/(notion-render)/notion-renderer'
 import { generatePDF } from 'app/blog/(pdf)/pdf.utils'
 import { AppLocale } from 'app/blog/(types)/i18n'
 import Link from 'next/link'
 import { ExtendedRecordMap } from 'notion-types'
 import { useEffect } from 'react'
-import postStyles from '../../../../../../styles/post.module.css'
+import postStyles from '../../../../(notion-render)/post.module.css'
 const Wrapper = styled.div`
   a {
     color: ${variables.oc.blue[5].value};

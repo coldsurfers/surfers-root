@@ -24,7 +24,7 @@ export const PageLayout = ({
           <BigTitle as="h1">{title ?? 'The COLDSURF Blog'}</BigTitle>
         </Link>
       </BigTitleWrapper>
-      {process.env.NODE_ENV === 'development' && pathname === '/about/[user]' ? null : <Header />}
+      {process.env.NODE_ENV === 'development' && pathname === '/blog/about/paul' ? null : <Header />}
       {children}
     </StyledPageLayoutContainer>
   )
