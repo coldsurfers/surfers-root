@@ -1,6 +1,7 @@
 export * from './app-footer'
 export * from './app-header'
 export * from './app-layout'
+export * from './color-scheme-toggle'
 export * from './floating-search-bar'
 export * from './floating-search-result'
 export * from './global-link'
