@@ -33,9 +33,9 @@ const menuItems = [
     target: undefined,
   },
   {
-    link: 'https://blog.coldsurf.io',
-    target: '_blank',
+    link: '/blog',
     title: 'Blog',
+    target: undefined,
   },
 ] as const
 
