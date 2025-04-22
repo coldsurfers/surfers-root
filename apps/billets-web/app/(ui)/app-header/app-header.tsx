@@ -4,6 +4,7 @@ import { APP_STORE_URL, SITE_NAME } from '@/libs/constants'
 import { Button, IconButton, Text } from '@coldsurfers/ocean-road'
 import { useRouter } from 'next/navigation'
 import { MouseEventHandler, useEffect, useState } from 'react'
+import { ColorSchemeToggle } from '../color-scheme-toggle'
 import { GlobalLink } from '../global-link'
 import { AppHeaderSearchUI } from './app-header.search-ui'
 import {
@@ -138,6 +139,7 @@ export function AppHeader() {
           <GlobalLink href={APP_STORE_URL} target="_blank">
             <Button theme="border">GET THE APP</Button>
           </GlobalLink>
+          <ColorSchemeToggle />
         </WebMenuContainer>
         <MobileMenuContainer>
           <AppHeaderSearchUI />

@@ -1,6 +1,5 @@
 'use client'
 
-import { ColorSchemeToggle } from 'app/blog/(color-scheme)'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { PropsWithChildren } from 'react'
@@ -16,9 +15,6 @@ export const PageLayout = ({
   const pathname = usePathname()
   return (
     <StyledPageLayoutContainer>
-      <div style={{ marginTop: '2rem' }}>
-        <ColorSchemeToggle />
-      </div>
       <BigTitleWrapper>
         <Link href="/blog" style={{ width: 'auto' }}>
           <BigTitle as="h1">{title ?? 'The COLDSURF Blog'}</BigTitle>
