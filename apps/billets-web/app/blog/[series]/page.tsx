@@ -1,7 +1,7 @@
 import { PageLayout } from '../(components)/page-layout'
 import { SeriesCategory } from '../(types)/series'
 import { convertSeriesCategoryToTitle } from '../(utils)'
-import { SeriesListQuery } from './(component)/series-list-query'
+import { SeriesListItems } from './(component)/series-list-items'
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 
@@ -16,7 +16,7 @@ export default async function SeriesPage(props: {
 
   return (
     <PageLayout title={convertSeriesCategoryToTitle(params.series)}>
-      <SeriesListQuery seriesCategory={params.series} page={page} />
+      <SeriesListItems seriesCategory={params.series} page={page} />
     </PageLayout>
   )
 }
