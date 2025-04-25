@@ -688,130 +688,6 @@ importers:
         specifier: ^5.0.2
         version: 5.1.0(ts-node@10.9.2(@types/node@20.12.0)(typescript@5.6.3))(typescript@5.6.3)
 
-  apps/blog-client:
-    dependencies:
-      '@coldsurfers/cloudinary-utils':
-        specifier: workspace:*
-        version: link:../../packages/cloudinary-utils
-      '@coldsurfers/design-tokens':
-        specifier: workspace:*
-        version: link:../../packages/ocean-road-design-tokens
-      '@coldsurfers/ocean-road':
-        specifier: workspace:*
-        version: link:../../packages/ocean-road
-      '@coldsurfers/shared-utils':
-        specifier: workspace:*
-        version: link:../../packages/shared-utils
-      '@emotion/css':
-        specifier: 11.10.6
-        version: 11.10.6
-      '@emotion/react':
-        specifier: 11.10.6
-        version: 11.10.6(@types/react@18.2.67)(react@19.0.0)
-      '@emotion/styled':
-        specifier: 11.10.6
-        version: 11.10.6(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(@types/react@18.2.67)(react@19.0.0)
-      '@lukemorales/query-key-factory':
-        specifier: 1.3.4
-        version: 1.3.4(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.59.16(react@19.0.0))
-      '@notionhq/client':
-        specifier: 2.2.14
-        version: 2.2.14(encoding@0.1.13)
-      '@prisma/client':
-        specifier: ^5.19.0
-        version: 5.21.1(prisma@5.21.1)
-      '@tanstack/react-query':
-        specifier: 5.59.16
-        version: 5.59.16(react@19.0.0)
-      date-fns:
-        specifier: ^3.6.0
-        version: 3.6.0
-      framer-motion:
-        specifier: 11.11.13
-        version: 11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      html2pdf.js:
-        specifier: ^0.10.2
-        version: 0.10.2
-      ky:
-        specifier: ^1.7.2
-        version: 1.7.5
-      lucide-react:
-        specifier: 0.469.0
-        version: 0.469.0(react@19.0.0)
-      next:
-        specifier: 15.2.4
-        version: 15.2.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0)
-      next-intl:
-        specifier: 4.0.2
-        version: 4.0.2(next@15.2.4(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0))(react@19.0.0)(typescript@5.6.3)
-      notion-client:
-        specifier: 7.1.5
-        version: 7.1.5
-      prisma:
-        specifier: ^5.19.0
-        version: 5.21.1
-      prismjs:
-        specifier: 1.29.0
-        version: 1.29.0
-      react:
-        specifier: 19.0.0
-        version: 19.0.0
-      react-dom:
-        specifier: 19.0.0
-        version: 19.0.0(react@19.0.0)
-      react-error-boundary:
-        specifier: 5.0.0
-        version: 5.0.0(react@19.0.0)
-      react-notion-x:
-        specifier: 7.2.5
-        version: 7.2.5(patch_hash=5a29173407637b1b42befe2b773dab6d5a1aa7305ffcdaadf2a1751b611a6d5e)(@babel/runtime@7.26.9)(@types/react@18.2.67)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      react-spinners:
-        specifier: 0.14.1
-        version: 0.14.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      react-tweet:
-        specifier: ^3.2.0
-        version: 3.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      ts-pattern:
-        specifier: 5.4.0
-        version: 5.4.0
-      zod:
-        specifier: 3.23.8
-        version: 3.23.8
-      zustand:
-        specifier: 5.0.1
-        version: 5.0.1(@types/react@18.2.67)(react@19.0.0)(use-sync-external-store@1.4.0(react@19.0.0))
-    devDependencies:
-      '@next/eslint-plugin-next':
-        specifier: 15.2.4
-        version: 15.2.4
-      '@types/prismjs':
-        specifier: ^1.26.5
-        version: 1.26.5
-      '@types/react':
-        specifier: 18.2.67
-        version: 18.2.67
-      '@types/react-dom':
-        specifier: 18.2.22
-        version: 18.2.22
-      encoding:
-        specifier: ^0.1.13
-        version: 0.1.13
-      eslint:
-        specifier: 8.57.0
-        version: 8.57.0
-      notion-types:
-        specifier: 7.1.5
-        version: 7.1.5
-      prettier:
-        specifier: '*'
-        version: 3.3.3
-      sst:
-        specifier: 3.4.28
-        version: 3.4.28
-      typescript:
-        specifier: 5.6.3
-        version: 5.6.3
-
   apps/coldsurf-io:
     dependencies:
       '@coldsurfers/ocean-road':
@@ -3589,24 +3465,6 @@ packages:
   '@fisch0920/medium-zoom@1.0.7':
     resolution: {integrity: sha512-hPUrgVM/QvsZdZzDTPyL1C1mOtEw03RqTLmK7ZlJ8S/64u4O4O5BvPvjB/9kyLtE6iVaS9UDRAMSwmM9uh2JIw==}
 
-  '@formatjs/ecma402-abstract@2.3.3':
-    resolution: {integrity: sha512-pJT1OkhplSmvvr6i3CWTPvC/FGC06MbN5TNBfRO6Ox62AEz90eMq+dVvtX9Bl3jxCEkS0tATzDarRZuOLw7oFg==}
-
-  '@formatjs/fast-memoize@2.2.6':
-    resolution: {integrity: sha512-luIXeE2LJbQnnzotY1f2U2m7xuQNj2DA8Vq4ce1BY9ebRZaoPB1+8eZ6nXpLzsxuW5spQxr7LdCg+CApZwkqkw==}
-
-  '@formatjs/icu-messageformat-parser@2.11.1':
-    resolution: {integrity: sha512-o0AhSNaOfKoic0Sn1GkFCK4MxdRsw7mPJ5/rBpIqdvcC7MIuyUSW8WChUEvrK78HhNpYOgqCQbINxCTumJLzZA==}
-
-  '@formatjs/icu-skeleton-parser@1.8.13':
-    resolution: {integrity: sha512-N/LIdTvVc1TpJmMt2jVg0Fr1F7Q1qJPdZSCs19unMskCmVQ/sa0H9L8PWt13vq+gLdLg1+pPsvBLydL1Apahjg==}
-
-  '@formatjs/intl-localematcher@0.5.10':
-    resolution: {integrity: sha512-af3qATX+m4Rnd9+wHcjJ4w2ijq+rAVP3CCinJQvFv1kgSu1W6jypUmvleJxcewdxmutM8dmIRZFxO/IQBZmP2Q==}
-
-  '@formatjs/intl-localematcher@0.6.0':
-    resolution: {integrity: sha512-4rB4g+3hESy1bHSBG3tDFaMY2CH67iT7yne1e+0CLTsGLDcmoEWWpJjjpWVaYgYfYuohIRuo0E+N536gd2ZHZA==}
-
   '@google-cloud/firestore@7.11.0':
     resolution: {integrity: sha512-88uZ+jLsp1aVMj7gh3EKYH1aulTAMFAp8sH/v5a9w8q8iqSG27RiWLoxSAFr/XocZ9hGiWH1kEnBw+zl3xAgNA==}
     engines: {node: '>=14.0.0'}
@@ -5300,9 +5158,6 @@ packages:
 
   '@rushstack/eslint-patch@1.10.5':
     resolution: {integrity: sha512-kkKUDVlII2DQiKy7UstOR1ErJP8kUKAQ4oa+SQtM0K+lPdmmjj0YnnxBgtTVYH7mUKtbsxeFC9y0AmK7Yb78/A==}
-
-  '@schummar/icu-type-parser@1.21.5':
-    resolution: {integrity: sha512-bXHSaW5jRTmke9Vd0h5P7BtWZG9Znqb8gSDxZnxaGSJnGwPLDPfS+3g0BKzeWqzgZPsIVZkM7m2tbo18cm5HBw==}
 
   '@shopify/react-native-performance@4.1.2':
     resolution: {integrity: sha512-1Xu2xo+hAxg75iuX5akVqAgc3h/J1ohfi7JKXlGsprP4ylpW7kHMfq/7AstL7FoUC8xcHsTUvUFhoZ94ot8g6Q==}
@@ -7282,9 +7137,6 @@ packages:
     resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
     engines: {node: '>=0.11'}
 
-  date-fns@3.6.0:
-    resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==}
-
   date-fns@4.1.0:
     resolution: {integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==}
 
@@ -7342,9 +7194,6 @@ packages:
   decamelize@4.0.0:
     resolution: {integrity: sha512-9iE1PgSik9HeIIw2JO94IidnE3eBoQrFJ3w7sFuzSX4DpmZ3v5sZpUiV5Swcf6mQEF+Y0ru8Neo+p+nyh2J+hQ==}
     engines: {node: '>=10'}
-
-  decimal.js@10.5.0:
-    resolution: {integrity: sha512-8vDa8Qxvr/+d94hSh5P3IJwI5t8/c0KsMp+g8bNw9cY2icONa5aPfvKeieW1WlG0WQYwwhJ7mjui2xtiePQSXw==}
 
   decode-uri-component@0.2.2:
     resolution: {integrity: sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==}
@@ -8971,9 +8820,6 @@ packages:
     resolution: {integrity: sha512-agE4QfB2Lkp9uICn7BAqoscw4SZP9kTE2hxiFI3jBPmXJfdqiahTbUuKGsMoN2GtqL9AxhYioAcVvgsb1HvRbA==}
     engines: {node: '>= 0.10'}
 
-  intl-messageformat@10.7.15:
-    resolution: {integrity: sha512-LRyExsEsefQSBjU2p47oAheoKz+EOJxSLDdjOaEjdriajfHsMXOmV/EhMvYSg9bAgCUHasuAC+mcUBe/95PfIg==}
-
   invariant@2.2.4:
     resolution: {integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==}
 
@@ -10289,10 +10135,6 @@ packages:
     resolution: {integrity: sha512-myRT3DiWPHqho5PrJaIRyaMv2kgYf0mUVgBNOYMuCH5Ki1yEiQaf/ZJuQ62nvpc44wL5WDbTX7yGJi1Neevw8w==}
     engines: {node: '>= 0.6'}
 
-  negotiator@1.0.0:
-    resolution: {integrity: sha512-8Ofs/AUQh8MaEcrlq5xOX0CQ9ypTF5dl78mjlMNfOK08fzpgTHQRQPBxcPlEtIw0yRpws+Zo/3r+5WRby7u3Gg==}
-    engines: {node: '>= 0.6'}
-
   neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
 
@@ -10303,16 +10145,6 @@ packages:
   new-github-release-url@2.0.0:
     resolution: {integrity: sha512-NHDDGYudnvRutt/VhKFlX26IotXe1w0cmkDm6JGquh5bz/bDTw0LufSmH/GxTjEdpHEO+bVKFTwdrcGa/9XlKQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-
-  next-intl@4.0.2:
-    resolution: {integrity: sha512-3cKVflwdrqxCOvAL+DtGN68qR802i0PEj0dttkAD5IK5XxOjugQs4yU8aSakvPMbkOrhEJ+89z5lG2EAqi7Gkw==}
-    peerDependencies:
-      next: ^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || >=19.0.0-rc <19.0.0 || ^19.0.0
-      typescript: ^5.0.0
-    peerDependenciesMeta:
-      typescript:
-        optional: true
 
   next@15.1.0:
     resolution: {integrity: sha512-QKhzt6Y8rgLNlj30izdMbxAwjHMFANnLwDwZ+WQh5sMhyt4lEBqDK9QpvWHtIM4rINKPoJ8aiRZKg5ULSybVHw==}
@@ -11473,12 +11305,6 @@ packages:
     peerDependencies:
       react: ^19.0.0
 
-  react-tweet@3.2.1:
-    resolution: {integrity: sha512-dktP3RMuwRB4pnSDocKpSsW5Hq1IXRW6fONkHhxT5EBIXsKZzdQuI70qtub1XN2dtZdkJWWxfBm/Q+kN+vRYFA==}
-    peerDependencies:
-      react: '>= 18.0.0'
-      react-dom: '>= 18.0.0'
-
   react@19.0.0:
     resolution: {integrity: sha512-V8AVnmPIICiWpGfm6GLzCR/W5FXLchHop40W4nXBmdlEceh16rCN8O8LNWm5bh5XUX91fh7KpA+W0TgMKmgTpQ==}
     engines: {node: '>=0.10.0'}
@@ -12422,11 +12248,6 @@ packages:
   swap-case@2.0.2:
     resolution: {integrity: sha512-kc6S2YS/2yXbtkSMunBtKdah4VFETZ8Oh6ONSmSd9bRxhqTrtARUCBUiWXH3xVPpvR7tz2CSnkuXVE42EcGnMw==}
 
-  swr@2.3.2:
-    resolution: {integrity: sha512-RosxFpiabojs75IwQ316DGoDRmOqtiAj0tg8wCcbEu4CiLZBs/a9QNtHV7TUfDXmmlgqij/NqzKq/eLelyv9xA==}
-    peerDependencies:
-      react: ^16.11.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-
   symbol-observable@4.0.0:
     resolution: {integrity: sha512-b19dMThMV4HVFynSAM1++gBHAbk2Tc/osgLIBZMKsyqh34jb2e8Os7T6ZW/Bt3pJFdBTd2JwAnAAEQV7rSNvcQ==}
     engines: {node: '>=0.10'}
@@ -12978,11 +12799,6 @@ packages:
     engines: {node: '>=10', npm: '>=6'}
     peerDependencies:
       react: '>=16.13'
-
-  use-intl@4.0.2:
-    resolution: {integrity: sha512-6RAP/5KJMRzLMLS25/BVh2u09cRK8S6HRGc1RnZvqR547qAKZCpjYylOqMPU9eNIirAiKoGmsoUPa7JrlaA/yg==}
-    peerDependencies:
-      react: ^17.0.0 || ^18.0.0 || >=19.0.0-rc <19.0.0 || ^19.0.0
 
   use-latest-callback@0.2.3:
     resolution: {integrity: sha512-7vI3fBuyRcP91pazVboc4qu+6ZqM8izPWX9k7cRnT8hbD5svslcknsh3S9BUhaK11OmgTV4oWZZVSeQAiV53SQ==}
@@ -16820,36 +16636,6 @@ snapshots:
 
   '@fisch0920/medium-zoom@1.0.7': {}
 
-  '@formatjs/ecma402-abstract@2.3.3':
-    dependencies:
-      '@formatjs/fast-memoize': 2.2.6
-      '@formatjs/intl-localematcher': 0.6.0
-      decimal.js: 10.5.0
-      tslib: 2.8.1
-
-  '@formatjs/fast-memoize@2.2.6':
-    dependencies:
-      tslib: 2.8.1
-
-  '@formatjs/icu-messageformat-parser@2.11.1':
-    dependencies:
-      '@formatjs/ecma402-abstract': 2.3.3
-      '@formatjs/icu-skeleton-parser': 1.8.13
-      tslib: 2.8.1
-
-  '@formatjs/icu-skeleton-parser@1.8.13':
-    dependencies:
-      '@formatjs/ecma402-abstract': 2.3.3
-      tslib: 2.8.1
-
-  '@formatjs/intl-localematcher@0.5.10':
-    dependencies:
-      tslib: 2.8.1
-
-  '@formatjs/intl-localematcher@0.6.0':
-    dependencies:
-      tslib: 2.8.1
-
   '@google-cloud/firestore@7.11.0(encoding@0.1.13)':
     dependencies:
       '@opentelemetry/api': 1.9.0
@@ -19118,8 +18904,6 @@ snapshots:
 
   '@rushstack/eslint-patch@1.10.5': {}
 
-  '@schummar/icu-type-parser@1.21.5': {}
-
   '@shopify/react-native-performance@4.1.2(patch_hash=9a6b728618d92d73a3d417441c284dfa5f3318574f5880bb4baf70d68d2f83d0)(@babel/runtime@7.26.9)(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@babel/runtime': 7.26.9
@@ -21283,7 +21067,8 @@ snapshots:
 
   clone@1.0.4: {}
 
-  clsx@2.1.1: {}
+  clsx@2.1.1:
+    optional: true
 
   co@4.6.0: {}
 
@@ -21662,8 +21447,6 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.26.9
 
-  date-fns@3.6.0: {}
-
   date-fns@4.1.0: {}
 
   dayjs@1.11.13: {}
@@ -21696,8 +21479,6 @@ snapshots:
   decamelize@1.2.0: {}
 
   decamelize@4.0.0: {}
-
-  decimal.js@10.5.0: {}
 
   decode-uri-component@0.2.2: {}
 
@@ -21946,6 +21727,7 @@ snapshots:
   encoding@0.1.13:
     dependencies:
       iconv-lite: 0.6.3
+    optional: true
 
   end-of-stream@1.4.4:
     dependencies:
@@ -24044,13 +23826,6 @@ snapshots:
 
   interpret@1.4.0: {}
 
-  intl-messageformat@10.7.15:
-    dependencies:
-      '@formatjs/ecma402-abstract': 2.3.3
-      '@formatjs/fast-memoize': 2.2.6
-      '@formatjs/icu-messageformat-parser': 2.11.1
-      tslib: 2.8.1
-
   invariant@2.2.4:
     dependencies:
       loose-envify: 1.4.0
@@ -25657,8 +25432,6 @@ snapshots:
 
   negotiator@0.6.4: {}
 
-  negotiator@1.0.0: {}
-
   neo-async@2.6.2: {}
 
   netmask@2.0.2: {}
@@ -25666,16 +25439,6 @@ snapshots:
   new-github-release-url@2.0.0:
     dependencies:
       type-fest: 2.19.0
-
-  next-intl@4.0.2(next@15.2.4(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0))(react@19.0.0)(typescript@5.6.3):
-    dependencies:
-      '@formatjs/intl-localematcher': 0.5.10
-      negotiator: 1.0.0
-      next: 15.2.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0)
-      react: 19.0.0
-      use-intl: 4.0.2(react@19.0.0)
-    optionalDependencies:
-      typescript: 5.6.3
 
   next@15.1.0(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0):
     dependencies:
@@ -27060,14 +26823,6 @@ snapshots:
       react-is: 19.0.0
       scheduler: 0.25.0
 
-  react-tweet@3.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
-    dependencies:
-      '@swc/helpers': 0.5.15
-      clsx: 2.1.1
-      react: 19.0.0
-      react-dom: 19.0.0(react@19.0.0)
-      swr: 2.3.2(react@19.0.0)
-
   react@19.0.0: {}
 
   reactotron-core-client@2.9.7:
@@ -28167,12 +27922,6 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  swr@2.3.2(react@19.0.0):
-    dependencies:
-      dequal: 2.0.3
-      react: 19.0.0
-      use-sync-external-store: 1.4.0(react@19.0.0)
-
   symbol-observable@4.0.0: {}
 
   synckit@0.8.8:
@@ -28795,13 +28544,6 @@ snapshots:
       dequal: 2.0.3
       react: 19.0.0
 
-  use-intl@4.0.2(react@19.0.0):
-    dependencies:
-      '@formatjs/fast-memoize': 2.2.6
-      '@schummar/icu-type-parser': 1.21.5
-      intl-messageformat: 10.7.15
-      react: 19.0.0
-
   use-latest-callback@0.2.3(react@19.0.0):
     dependencies:
       react: 19.0.0
@@ -28809,6 +28551,7 @@ snapshots:
   use-sync-external-store@1.4.0(react@19.0.0):
     dependencies:
       react: 19.0.0
+    optional: true
 
   utf8-byte-length@1.0.5: {}
 
