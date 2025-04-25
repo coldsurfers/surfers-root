@@ -564,8 +564,9 @@ async function insertKOPISEvents(
 ) {
   const currentDate = format(new Date(), 'yyyyMMdd')
   const endDate = '20261231'
+  const rows = 10
   const response = await fetch(
-    `http://www.kopis.or.kr/openApi/restful/pblprfr?service=${kopisKey}&stdate=${currentDate}&eddate=${endDate}&rows=50&cpage=${page}&shcate=${category}`,
+    `http://www.kopis.or.kr/openApi/restful/pblprfr?service=${kopisKey}&stdate=${currentDate}&eddate=${endDate}&rows=${rows}&cpage=${page}&shcate=${category}`,
   )
   const xmlText = await response.text()
 
@@ -882,10 +883,10 @@ async function sync(page: number, category: (typeof KOPISEVENT_CATEGORIES)[keyof
 }
 
 serve(async (req) => {
-  const { searchParams } = new URL(req.url)
+  const body = await req.json()
 
-  const page = searchParams.get('page') // "123"
-  const category = searchParams.get('category') // "hello"
+  const page = body.page
+  const category = body.category
 
   if (!page || !category) {
     return new Response(null, {
