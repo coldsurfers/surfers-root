@@ -576,6 +576,7 @@ async function insertKOPISEvents(
 
   // @ts-expect-error: dbItem is any
   const items = db.map((dbItem) => {
+    console.log(dbItem.styurls)
     return {
       id: dbItem.mt20id,
       title: dbItem.prfnm,

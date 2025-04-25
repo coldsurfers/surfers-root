@@ -49,6 +49,7 @@
     "react-hook-form": "7.48.2",
     "react-notion-x": "7.2.5",
     "react-spinners": "0.14.1",
+    "react-tweet": "^3.2.2",
     "schema-dts": "1.1.2",
     "ts-pattern": "5.4.0",
     "zod": "3.23.8",
