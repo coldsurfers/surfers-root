@@ -773,7 +773,7 @@ async function updateTime(kopisEventId: string, eventDateString: Date) {
   }
 }
 
-async function connectOrCreateDetailImage(kopisEventId: string, detailImageUrl: string) {
+async function connectOrCreateDetailImage(kopisEventId: string, detailImageUrls: string[]) {
   const { data: kopisEventData, error: kopisError } = await supabase
     .from('KOPISEvent')
     .select('concertId')
@@ -802,43 +802,47 @@ async function connectOrCreateDetailImage(kopisEventId: string, detailImageUrl: 
   const alreadyConnected = detailImagesOnConcert.length > 0
 
   if (!alreadyConnected) {
-    // 3-0. upload detail image
-    const { detailImageKey } = await uploadDetailImage(detailImageUrl)
-    console.log({
-      text: `uploadDetailImage`,
-    })
+    await Promise.all(
+      detailImageUrls.map(async (detailImageUrl) => {
+        // 3-0. upload detail image
+        const { detailImageKey } = await uploadDetailImage(detailImageUrl)
+        console.log({
+          text: `uploadDetailImage`,
+        })
 
-    // 3-1. DetailImage 생성
-    const { data: createdDetailImage, error: detailImageError } = await supabase
-      .from('DetailImage')
-      // @ts-expect-error: id is not required
-      .insert({
-        imageURL: `https://api.billets.coldsurf.io/v1/image?key=${detailImageKey}`,
-      })
-      .select('*')
-      .single()
+        // 3-1. DetailImage 생성
+        const { data: createdDetailImage, error: detailImageError } = await supabase
+          .from('DetailImage')
+          // @ts-expect-error: id is not required
+          .insert({
+            imageURL: `https://api.billets.coldsurf.io/v1/image?key=${detailImageKey}`,
+          })
+          .select('*')
+          .single()
 
-    console.log({
-      text: `createDetailImage`,
-    })
+        console.log({
+          text: `createDetailImage`,
+        })
 
-    if (detailImageError) {
-      console.error('Error creating detail image:', detailImageError)
-      await sendSlack({
-        text: `Error creating detail image: ${detailImageError}`,
-      })
-      return
-    }
+        if (detailImageError) {
+          console.error('Error creating detail image:', detailImageError)
+          await sendSlack({
+            text: `Error creating detail image: ${detailImageError}`,
+          })
+          return
+        }
 
-    // 3-2. ConcertsOnDetailImages 연결
-    const { error: connectError } = await supabase.from('ConcertsOnDetailImages').insert({
-      concertId,
-      detailImageId: createdDetailImage.id,
-    })
+        // 3-2. ConcertsOnDetailImages 연결
+        const { error: connectError } = await supabase.from('ConcertsOnDetailImages').insert({
+          concertId,
+          detailImageId: createdDetailImage.id,
+        })
 
-    if (connectError) {
-      console.error('Error connecting detail image to concert:', connectError)
-    }
+        if (connectError) {
+          console.error('Error connecting detail image to concert:', connectError)
+        }
+      }),
+    )
   }
 }
 
@@ -920,9 +924,9 @@ async function insertKOPISEventDetail(kopisEventId: string) {
 
   const parseDetailImage = (styurls: { styurl: string | string[] }) => {
     if (Array.isArray(styurls.styurl)) {
-      return styurls.styurl.at(styurls.styurl.length - 1)
+      return styurls.styurl
     }
-    return styurls.styurl
+    return [styurls.styurl]
   }
 
   const detailImageUrl = parseDetailImage(styurls)
