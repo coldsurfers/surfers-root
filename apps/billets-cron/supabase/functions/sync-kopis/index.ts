@@ -55,6 +55,26 @@ async function uploadPoster(posterUrl: string) {
   }
 }
 
+async function uploadDetailImage(detailImageUrl: string) {
+  const fetchedDetailImage = await fetch(detailImageUrl)
+  const buffer = await fetchedDetailImage.arrayBuffer()
+  const detailImageKey = `billets/detail-images/${new Date().toISOString()}`
+  await S3Client.send(
+    new PutObjectCommand({
+      Bucket: Deno.env.get('COLDSURF_AWS_S3_BUCKET') ?? '',
+      Key: detailImageKey,
+      // @ts-expect-error
+      Body: buffer,
+      ContentType: `image/png`,
+      CacheControl: 'public, max-age=31536000, immutable',
+    }),
+  )
+
+  return {
+    detailImageKey,
+  }
+}
+
 const KOPISEVENT_CATEGORIES = {
   '대중음악': 'CCCD',
   '연극': 'AAAA',
@@ -459,6 +479,7 @@ async function connectOrCreateVenue(venue: string, eventId: string) {
       // 1. Venue 생성
       const { data: createdVenue, error: venueError } = await supabase
         .from('Venue')
+        // @ts-expect-error: id is not required
         .insert({
           lat,
           lng,
@@ -624,6 +645,7 @@ async function insertKOPISEvents(
       // 1. Concert 생성
       const { data: event, error: createConcertError } = await supabase
         .from('Concert')
+        // @ts-expect-error: id is not required
         .insert({
           title: item.title,
           slug,
@@ -666,6 +688,7 @@ async function insertKOPISEvents(
       // 1. Poster 생성
       const { data: poster, error: posterError } = await supabase
         .from('Poster')
+        // @ts-expect-error: id is not required
         .insert({
           imageURL: `https://api.billets.coldsurf.io/v1/image?key=${posterKey}`,
         })
@@ -761,6 +784,62 @@ async function connectOrCreateDetailImage(kopisEventId: string, detailImageUrl: 
     console.error('KOPISEvent not found')
     return
   }
+
+  const concertId = kopisEventData.concertId
+
+  // 2. 연결된 concertsOnDetailImages 존재 여부 확인
+  const { data: detailImagesOnConcert, error: detailImagesLinkError } = await supabase
+    .from('ConcertsOnDetailImages')
+    .select('concertId')
+    .eq('concertId', concertId)
+    .limit(1)
+
+  if (detailImagesLinkError) {
+    console.error('Error checking detailImages connection:', detailImagesLinkError)
+    return
+  }
+
+  const alreadyConnected = detailImagesOnConcert.length > 0
+
+  if (!alreadyConnected) {
+    // 3-0. upload detail image
+    const { detailImageKey } = await uploadDetailImage(detailImageUrl)
+    console.log({
+      text: `uploadDetailImage`,
+    })
+
+    // 3-1. DetailImage 생성
+    const { data: createdDetailImage, error: detailImageError } = await supabase
+      .from('DetailImage')
+      // @ts-expect-error: id is not required
+      .insert({
+        imageURL: `https://api.billets.coldsurf.io/v1/image?key=${detailImageKey}`,
+      })
+      .select('*')
+      .single()
+
+    console.log({
+      text: `createDetailImage`,
+    })
+
+    if (detailImageError) {
+      console.error('Error creating detail image:', detailImageError)
+      await sendSlack({
+        text: `Error creating detail image: ${detailImageError}`,
+      })
+      return
+    }
+
+    // 3-2. ConcertsOnDetailImages 연결
+    const { error: connectError } = await supabase.from('ConcertsOnDetailImages').insert({
+      concertId,
+      detailImageId: createdDetailImage.id,
+    })
+
+    if (connectError) {
+      console.error('Error connecting detail image to concert:', connectError)
+    }
+  }
 }
 
 async function connectOrCreateTicket(kopisEventId: string, ticketSeller: string, ticketURL: string) {
@@ -796,6 +875,7 @@ async function connectOrCreateTicket(kopisEventId: string, ticketSeller: string,
     // 3-1. Ticket 생성
     const { data: createdTicket, error: ticketError } = await supabase
       .from('Ticket')
+      // @ts-expect-error: id is not required
       .insert({
         openDate: new Date().toISOString(),
         seller: ticketSeller,
