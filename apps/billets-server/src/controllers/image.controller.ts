@@ -20,6 +20,68 @@ interface GetImageResizeRoute extends RouteGenericInterface {
 
 const DEFAULT_FORMAT = 'png'
 
+function generateCacheKey({
+  originalKey,
+  targetWidth,
+  targetHeight,
+  targetFormat,
+}: {
+  originalKey: string
+  targetWidth: number
+  targetHeight: number
+  targetFormat: string
+}) {
+  return `${originalKey}-${targetWidth}x${targetHeight}.${targetFormat}`
+}
+
+async function getCachedImage({
+  originalKey,
+  targetWidth,
+  targetHeight,
+  targetFormat,
+}: {
+  originalKey: string
+  targetWidth: number
+  targetHeight: number
+  targetFormat: string
+}) {
+  const cacheKey = generateCacheKey({
+    originalKey,
+    targetWidth,
+    targetHeight,
+    targetFormat,
+  })
+  try {
+    const cachedImage = await new S3Client()
+      .setGetObjectCommand(
+        new GetObjectCommand({
+          Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
+          Key: cacheKey,
+        }),
+      )
+      .get()
+
+    const { Body: cachedImageBody } = cachedImage
+
+    if (!cachedImageBody) {
+      console.log('CachedImageBody Not Found')
+      throw Error('Cached image not found')
+    }
+
+    return {
+      cacheKey,
+      cachedImageBody,
+    }
+  } catch (e) {
+    console.error(e)
+    console.log('Cache miss, resizing image...')
+    return {
+      cacheKey: null,
+      cachedImageBody: null,
+    }
+  }
+}
+
 export const getImageResizeHandler = async (
   req: FastifyRequest<GetImageResizeRoute>,
   rep: FastifyReply<GetImageResizeRoute>,
@@ -30,51 +92,40 @@ export const getImageResizeHandler = async (
       return rep.status(400).send({ code: 'INVALID_QUERY_STRING', message: 'Invalid query string' })
     }
 
-    const { key, width, height, format } = queryValidation.data
+    const { key: originalKey, width, height, format } = queryValidation.data
 
-    if (!key) return rep.status(400).send({ code: 'IMAGE_KEY_NOT_FOUND', message: 'Image key is required' })
+    if (!originalKey) return rep.status(400).send({ code: 'IMAGE_KEY_NOT_FOUND', message: 'Image key is required' })
 
     const targetWidth = width
     const targetHeight = height
     const targetFormat = format || DEFAULT_FORMAT
 
-    const cacheKey = `${key}-${targetWidth}x${targetHeight}.${targetFormat}`
+    const isCacheAvailable = typeof targetWidth === 'number' && typeof targetHeight === 'number'
 
-    try {
-      const cachedImage = await new S3Client()
-        .setGetObjectCommand(
-          new GetObjectCommand({
-            Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
-            Key: cacheKey,
-          }),
-        )
-        .get()
-
-      const { Body: cachedImageBody } = cachedImage
-
-      if (!cachedImageBody) {
-        console.log('CachedImageBody Not Found')
-        throw Error('Cached image not found')
+    if (isCacheAvailable) {
+      const { cacheKey: oldCacheKey, cachedImageBody } = await getCachedImage({
+        originalKey,
+        targetWidth,
+        targetHeight,
+        targetFormat,
+      })
+      if (cachedImageBody) {
+        return rep
+          .headers({
+            'Content-Type': `image/${targetFormat}`,
+            'Cache-Control': 'public, max-age=31536000, immutable',
+            'ETag': `"${oldCacheKey}"`,
+          })
+          .status(200)
+          .send(Buffer.from(await cachedImageBody.transformToByteArray()))
       }
-
-      return rep
-        .headers({
-          'Content-Type': `image/${targetFormat}`,
-          'Cache-Control': 'public, max-age=31536000, immutable',
-          'ETag': `"${cacheKey}"`,
-        })
-        .status(200)
-        .send(Buffer.from(await cachedImageBody.transformToByteArray()))
-    } catch (e) {
-      console.error(e)
-      console.log('Cache miss, resizing image...')
     }
 
     const originalImage = await new S3Client()
       .setGetObjectCommand(
         new GetObjectCommand({
           Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
-          Key: key,
+          Key: originalKey,
         }),
       )
       .get()
@@ -87,26 +138,38 @@ export const getImageResizeHandler = async (
 
     const processedImage = await sharp(originalImageBuffer)
       .resize(targetWidth, targetHeight, { fit: 'contain' })
-      .toFormat(targetFormat as keyof FormatEnum)
+      .toFormat(targetFormat as keyof FormatEnum, { quality: 70 })
       .toBuffer()
 
-    await new S3Client()
-      .setPutObjectCommand(
-        new PutObjectCommand({
-          Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
-          Key: cacheKey,
-          Body: processedImage,
-          ContentType: `image/${targetFormat}`,
-          CacheControl: 'public, max-age=31536000, immutable',
-        }),
-      )
-      .put()
+    const key = isCacheAvailable
+      ? generateCacheKey({
+          originalKey,
+          targetWidth,
+          targetHeight,
+          targetFormat,
+        })
+      : originalKey
+
+    if (isCacheAvailable) {
+      // store cache imaged based on cacheKey
+      await new S3Client()
+        .setPutObjectCommand(
+          new PutObjectCommand({
+            Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
+            Key: key,
+            Body: processedImage,
+            ContentType: `image/${targetFormat}`,
+            CacheControl: 'public, max-age=31536000, immutable',
+          }),
+        )
+        .put()
+    }
 
     return rep
       .headers({
         'Content-Type': `image/${targetFormat}`,
         'Cache-Control': 'public, max-age=31536000, immutable',
-        'ETag': `"${cacheKey}"`,
+        'ETag': `"${key}"`,
       })
       .status(200)
       .send(processedImage)
