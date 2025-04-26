@@ -576,7 +576,6 @@ async function insertKOPISEvents(
 
   // @ts-expect-error: dbItem is any
   const items = db.map((dbItem) => {
-    console.log(dbItem.styurls)
     return {
       id: dbItem.mt20id,
       title: dbItem.prfnm,
@@ -751,6 +750,19 @@ async function updateTime(kopisEventId: string, eventDateString: Date) {
   }
 }
 
+async function connectOrCreateDetailImage(kopisEventId: string, detailImageUrl: string) {
+  const { data: kopisEventData, error: kopisError } = await supabase
+    .from('KOPISEvent')
+    .select('concertId')
+    .eq('id', kopisEventId)
+    .single()
+
+  if (kopisError || !kopisEventData?.concertId) {
+    console.error('KOPISEvent not found')
+    return
+  }
+}
+
 async function connectOrCreateTicket(kopisEventId: string, ticketSeller: string, ticketURL: string) {
   // 1. KOPISEvent에서 concertId 조회
   const { data: kopisEventData, error: kopisError } = await supabase
@@ -824,7 +836,16 @@ async function insertKOPISEventDetail(kopisEventId: string) {
   if (!db.relates) {
     return
   }
-  const { relates, dtguidance, prfpdfrom } = db
+  const { relates, dtguidance, prfpdfrom, styurls } = db
+
+  const parseDetailImage = (styurls: { styurl: string | string[] }) => {
+    if (Array.isArray(styurls.styurl)) {
+      return styurls.styurl.at(styurls.styurl.length - 1)
+    }
+    return styurls.styurl
+  }
+
+  const detailImageUrl = parseDetailImage(styurls)
 
   if (dtguidance && prfpdfrom) {
     const times = extractFirstTimes(dtguidance)
