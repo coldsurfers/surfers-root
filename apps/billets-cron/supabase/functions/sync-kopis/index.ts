@@ -926,6 +926,12 @@ async function insertKOPISEventDetail(kopisEventId: string) {
   }
 
   const detailImageUrl = parseDetailImage(styurls)
+  console.log({
+    text: `detailImageUrl: ${detailImageUrl}`,
+  })
+  if (detailImageUrl) {
+    await connectOrCreateDetailImage(kopisEventId, detailImageUrl)
+  }
 
   if (dtguidance && prfpdfrom) {
     const times = extractFirstTimes(dtguidance)
