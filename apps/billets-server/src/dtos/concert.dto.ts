@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { ArtistDTOSchema } from './artist.dto'
 import { CopyrightDTOSchema } from './copyright.dto'
+import { DetailImageDTOSchema } from './detail-image.dto'
 import { PosterDTOSchema } from './poster.dto'
 import { TicketDTOSchema } from './ticket.dto'
 import { VenueDTOSchema } from './venue.dto'
@@ -34,6 +35,7 @@ export const ConcertDetailDTOSchema = z.object({
   tickets: TicketDTOSchema.array(),
   isKOPIS: z.boolean(),
   slug: z.string().nullable(),
+  detailImages: DetailImageDTOSchema.array(),
 })
 export type ConcertDetailDTO = z.infer<typeof ConcertDetailDTOSchema>
 

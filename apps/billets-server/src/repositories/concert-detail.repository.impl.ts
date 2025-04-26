@@ -1,6 +1,16 @@
 import { ConcertDetailDTO } from '@/dtos/concert.dto'
 import { dbClient } from '@/lib/db'
-import { Artist, ArtistProfileImage, Concert, Copyright, KOPISEvent, Poster, Ticket, Venue } from '@prisma/client'
+import {
+  Artist,
+  ArtistProfileImage,
+  Concert,
+  Copyright,
+  DetailImage,
+  KOPISEvent,
+  Poster,
+  Ticket,
+  Venue,
+} from '@prisma/client'
 import { ConcertDetailRepository } from './concert-detail.repository'
 
 interface ConcertDetailModel extends Concert {
@@ -9,6 +19,7 @@ interface ConcertDetailModel extends Concert {
   artists: (Artist & { artistProfileImage: (ArtistProfileImage & { copyright: Copyright | null })[] })[]
   kopisEvent: KOPISEvent | null
   tickets: Ticket[]
+  detailImages: DetailImage[]
 }
 
 export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
@@ -23,6 +34,11 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
             poster: true,
           },
         },
+        detailImages: {
+          include: {
+            detailImage: true,
+          },
+        },
         venues: {
           include: {
             venue: true,
@@ -59,12 +75,14 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
       artistProfileImage: value.artist.artistProfileImage,
     }))
     const tickets = data.tickets.map((value) => value.ticket)
+    const detailImages = data.detailImages.map((value) => value.detailImage)
     return this.toDTO({
       ...data,
       posters,
       venues,
       artists,
       tickets,
+      detailImages,
     })
   }
 
@@ -79,6 +97,11 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
             poster: true,
           },
         },
+        detailImages: {
+          include: {
+            detailImage: true,
+          },
+        },
         venues: {
           include: {
             venue: true,
@@ -115,12 +138,14 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
       artistProfileImage: value.artist.artistProfileImage,
     }))
     const tickets = data.tickets.map((value) => value.ticket)
+    const detailImages = data.detailImages.map((value) => value.detailImage)
     return this.toDTO({
       ...data,
       posters,
       venues,
       artists,
       tickets,
+      detailImages,
     })
   }
 
@@ -158,6 +183,10 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
       })),
       isKOPIS: !!model.kopisEvent,
       slug: model.slug,
+      detailImages: model.detailImages.map((detailImage) => ({
+        id: detailImage.id,
+        url: detailImage.imageURL,
+      })),
     }
   }
 }

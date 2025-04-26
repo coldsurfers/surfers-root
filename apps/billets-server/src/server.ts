@@ -54,6 +54,7 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
+import { DetailImageDTOSchema } from './dtos/detail-image.dto'
 import { EventCategoryDTOSchema } from './dtos/event-category.dto'
 
 dotenv.config()
@@ -199,6 +200,7 @@ app.register(fastifySwagger, {
       VenueSubscribeDTOSchema,
       EventCategoryDTOSchema,
       SubscribeInfoMeDTOSchema,
+      DetailImageDTOSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
