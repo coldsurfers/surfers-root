@@ -588,7 +588,7 @@ async function insertKOPISEvents(
 ) {
   const currentDate = format(new Date(), 'yyyyMMdd')
   const endDate = '20261231'
-  const rows = 10
+  const rows = 50
   const response = await fetch(
     `http://www.kopis.or.kr/openApi/restful/pblprfr?service=${kopisKey}&stdate=${currentDate}&eddate=${endDate}&rows=${rows}&cpage=${page}&shcate=${category}`,
   )
