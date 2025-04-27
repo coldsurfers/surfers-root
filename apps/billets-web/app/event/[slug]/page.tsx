@@ -10,6 +10,7 @@ import { toZonedTime } from 'date-fns-tz'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { DownloadApp, Lineup, PageLayout, PosterThumbnail, TicketCta, TopInfo, Venue } from './(ui)'
+import { About } from './(ui)/about'
 
 async function getEventMetadata(slug: string) {
   if (!slug) {
@@ -100,7 +101,7 @@ async function PageInner({ params }: { params: { slug: string } }) {
 
   await queryClient.prefetchQuery(initialPageQuery.eventDetailBySlug(params.slug))
 
-  const { posters, venues, artists, date, ticketPromotion, title, isKOPIS, tickets } = meta.eventDetail
+  const { posters, venues, artists, date, ticketPromotion, title, isKOPIS, tickets, detailImages } = meta.eventDetail
   // eslint-disable-next-line prettier/prettier
   const posterUrl = isKOPIS ? (posters.at(0)?.url ?? '') : (artists.at(0)?.thumbUrl ?? '')
   // eslint-disable-next-line prettier/prettier
@@ -147,6 +148,7 @@ async function PageInner({ params }: { params: { slug: string } }) {
             />
           )
         }
+        about={Array.isArray(detailImages) && detailImages.length > 0 ? <About detailImages={detailImages} /> : null}
         lineup={artists.length > 0 && <Lineup artists={artists} />}
         venue={<Venue {...venueInfo} />}
         downloadApp={<DownloadApp />}
