@@ -415,6 +415,9 @@ async function findVenue(venue: string) {
     case 'G스페이스홀 (지스페이스홀)':
       alreadyExistingVenueId = '463a540c-f177-4be3-9d28-cee65c4f16b7'
       break
+    case 'GS아트센터 (GS아트센터)':
+      alreadyExistingVenueId = '97a14419-dfe0-450c-8e63-47cadca6e214'
+      break
     default:
       break
   }
