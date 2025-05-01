@@ -8,7 +8,7 @@
     "prebuild": "pnpm clean",
     "build": "tsup",
     "check:type": "tsc --noEmit",
-    "dev": "tsup --watch",
+    "dev": "NODE_ENV=development pnpm watch",
     "watch": "tsup --watch --onSuccess 'node ./build/start-server.js'",
     "clean": "rm -rf build",
     "lint": "eslint --cache \"src/**/*.{js,jsx,ts,tsx}\"",

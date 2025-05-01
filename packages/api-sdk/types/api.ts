@@ -2257,6 +2257,7 @@ export interface components {
       artists: components['schemas']['ArtistDTOSchema'][]
       /** Format: date-time */
       date: string
+      detailImages: components['schemas']['DetailImageDTOSchema'][]
       /** Format: uuid */
       id: string
       isKOPIS: boolean
@@ -2290,6 +2291,10 @@ export interface components {
       license: string
       licenseURL: string
       owner: string
+    }
+    DetailImageDTOSchema: {
+      id: string
+      url: string
     }
     ErrorResponseDTOSchema: {
       code:
@@ -2329,6 +2334,7 @@ export interface components {
         artists: components['schemas']['ArtistDTOSchema'][]
         /** Format: date-time */
         date: string
+        detailImages: components['schemas']['DetailImageDTOSchema'][]
         /** Format: uuid */
         id: string
         isKOPIS: boolean

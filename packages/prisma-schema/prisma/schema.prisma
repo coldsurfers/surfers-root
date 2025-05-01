@@ -147,6 +147,7 @@ model Concert {
   posters         ConcertsOnPosters[]
   tickets         ConcertsOnTickets[]
   venues          ConcertsOnVenues[]
+  detailImages    ConcertsOnDetailImages[]
   kopisEvent      KOPISEvent?
   subscribedUsers UsersOnSubscribedConcerts[]
 
@@ -167,6 +168,13 @@ model Poster {
   copyrightId String?
   concerts    ConcertsOnPosters[]
   copyright   Copyright?          @relation(fields: [copyrightId], references: [id])
+}
+
+model DetailImage {
+  id        String                   @id @default(uuid())
+  imageURL  String
+  createdAt DateTime                 @default(now())
+  concerts  ConcertsOnDetailImages[]
 }
 
 model TicketsOnPrices {
@@ -236,6 +244,16 @@ model ConcertsOnTickets {
   ticket    Ticket   @relation(fields: [ticketId], references: [id])
 
   @@id([concertId, ticketId])
+}
+
+model ConcertsOnDetailImages {
+  concertId     String
+  detailImageId String
+  createdAt     DateTime    @default(now())
+  concert       Concert     @relation(fields: [concertId], references: [id])
+  detailImage   DetailImage @relation(fields: [detailImageId], references: [id])
+
+  @@id([concertId, detailImageId])
 }
 
 model UsersOnSubscribedConcerts {

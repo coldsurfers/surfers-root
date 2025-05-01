@@ -2,9 +2,10 @@ import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { fromZonedTime } from 'https://esm.sh/date-fns-tz'
 import { format } from 'https://esm.sh/date-fns@3.6.0/format'
 import { parse } from 'https://esm.sh/date-fns@3.6.0/parse'
-import { S3Client as AWSS3Client, PutObjectCommand } from 'npm:@aws-sdk/client-s3'
+import { randomUUID } from 'node:crypto'
 import { XMLParser } from 'npm:fast-xml-parser@4.3.5'
 import rawGeohash from 'npm:ngeohash'
+import pLimit from 'npm:p-limit'
 import slugify from 'npm:slugify'
 import { kopisKey, slackWebhookUrl } from './_shared/env.ts'
 import { supabase } from './_shared/supabase.ts'
@@ -27,31 +28,40 @@ const ngeohash = rawGeohash as {
 
 const parser = new XMLParser()
 
-const S3Client = new AWSS3Client({
-  region: Deno.env.get('COLDSURF_AWS_REGION') ?? '',
-  credentials: {
-    accessKeyId: Deno.env.get('COLDSURF_AWS_ACCESS_KEY_ID') ?? '',
-    secretAccessKey: Deno.env.get('COLDSURF_AWS_SECRET_ACCESS_KEY') ?? '',
-  },
-})
-
-async function uploadPoster(posterUrl: string) {
-  const fetchedPoster = await fetch(posterUrl)
-  const buffer = await fetchedPoster.arrayBuffer()
-  const posterKey = `billets/poster-thumbnails/${new Date().toISOString()}`
-  await S3Client.send(
-    new PutObjectCommand({
-      Bucket: Deno.env.get('COLDSURF_AWS_S3_BUCKET') ?? '',
-      Key: posterKey,
-      // @ts-expect-error
-      Body: buffer,
-      ContentType: `image/png`,
-      CacheControl: 'public, max-age=31536000, immutable',
-    }),
-  )
+async function uploadImageByResolutions({
+  originalImageUrl,
+  concertId,
+  index,
+  type,
+}: {
+  originalImageUrl: string
+  concertId: string
+  index: number
+  type: 'poster' | 'detail-image'
+}) {
+  const resolutions = ['low', 'medium', 'high']
+  const keys = []
+  for await (const resolution of resolutions) {
+    const response = await fetch(`${Deno.env.get('BILLETS_SERVER_URL')}/v1/image`, {
+      method: 'POST',
+      body: JSON.stringify({
+        imageUrl: originalImageUrl,
+        resolution,
+        concertId,
+        index,
+        type,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const { key } = await response.json()
+    console.log(key)
+    keys.push(key)
+  }
 
   return {
-    posterKey,
+    keys,
   }
 }
 
@@ -395,6 +405,9 @@ async function findVenue(venue: string) {
     case 'G스페이스홀 (지스페이스홀)':
       alreadyExistingVenueId = '463a540c-f177-4be3-9d28-cee65c4f16b7'
       break
+    case 'GS아트센터 (GS아트센터)':
+      alreadyExistingVenueId = '97a14419-dfe0-450c-8e63-47cadca6e214'
+      break
     default:
       break
   }
@@ -457,9 +470,12 @@ async function connectOrCreateVenue(venue: string, eventId: string) {
       const geohash = ngeohash.encode(lat, lng, 12)
 
       // 1. Venue 생성
+      const venueId = randomUUID()
+      console.log('venueId', venueId)
       const { data: createdVenue, error: venueError } = await supabase
         .from('Venue')
         .insert({
+          id: venueId,
           lat,
           lng,
           name: kakaoSearchFirstResult?.['place_name'],
@@ -552,6 +568,9 @@ export async function generateSlug(title: string) {
   }
 }
 
+// limit(동시 실행 개수)는 예를 들어 3개로 설정
+const limit = pLimit(25)
+
 /**
  *
  * @param {number} page
@@ -564,146 +583,139 @@ async function insertKOPISEvents(
 ) {
   const currentDate = format(new Date(), 'yyyyMMdd')
   const endDate = '20261231'
-  const rows = 10
+  const rows = 50
+
   const response = await fetch(
     `http://www.kopis.or.kr/openApi/restful/pblprfr?service=${kopisKey}&stdate=${currentDate}&eddate=${endDate}&rows=${rows}&cpage=${page}&shcate=${category}`,
   )
   const xmlText = await response.text()
 
   const { dbs } = parser.parse(xmlText)
-
   const { db } = dbs
 
   // @ts-expect-error: dbItem is any
-  const items = db.map((dbItem) => {
-    return {
-      id: dbItem.mt20id,
-      title: dbItem.prfnm,
-      poster: dbItem.poster,
-      date: dbItem.prfpdfrom,
-      venue: dbItem.fcltynm,
-      area: dbItem.area,
-    }
-  })
+  const items = db.map((dbItem) => ({
+    id: dbItem.mt20id,
+    title: dbItem.prfnm,
+    poster: dbItem.poster,
+    date: dbItem.prfpdfrom,
+    venue: dbItem.fcltynm,
+    area: dbItem.area,
+  }))
 
-  for (const item of items) {
-    // 먼저 KOPISEvent에서 해당 id로 조회해서 concertId를 알아낸다
-    const { data: kopis } = await supabase.from('KOPISEvent').select('concertId').eq('id', item.id).single()
+  // 병렬 처리 시작
+  await Promise.all(
+    // @ts-expect-error: dbItem is any
+    items.map((item) =>
+      limit(async () => {
+        const { data: kopis } = await supabase.from('KOPISEvent').select('concertId').eq('id', item.id).single()
+        const { data: existing } = await supabase
+          .from('Concert')
+          .select('*')
+          .eq('id', kopis?.concertId ?? '')
+          .single()
 
-    const { data: existing } = await supabase
-      .from('Concert')
-      .select('*')
-      .eq('id', kopis?.concertId ?? '')
-      .single()
+        if (existing) {
+          console.log(`already existing: ${existing.id}`)
+          await connectEventCategory(existing.id, category)
+          await connectLocationCity(existing.id, item.area)
+          await connectOrCreateVenue(item.venue, existing.id)
+        } else {
+          console.log(`not existing, ${item.title}`)
+          const locationCityId = areaToLocationCityId(item.area)
+          const slug = await generateSlug(item.title)
 
-    if (existing) {
-      console.log({
-        text: `already existing: ${existing.id}`,
-      })
-      await connectEventCategory(existing.id, category)
-      console.log({
-        text: `connectEventCategory`,
-      })
-      await connectLocationCity(existing.id, item.area)
-      console.log({
-        text: `connectLocationCity`,
-      })
-      await connectOrCreateVenue(item.venue, existing.id)
-      console.log({
-        text: `connectOrCreateVenue`,
-      })
-    } else {
-      console.log({
-        text: `not existing, ${item.title}`,
-      })
-      const locationCityId = areaToLocationCityId(item.area)
-      const slug = await generateSlug(item.title)
-      console.log({
-        text: `slug: ${slug}`,
-      })
-      // 1. Concert 생성
-      const { data: event, error: createConcertError } = await supabase
-        .from('Concert')
-        .insert({
-          title: item.title,
-          slug,
-          date: new Date(item.date).toISOString(),
-          isKOPIS: true,
-          locationCityId: locationCityId ?? null, // connect 대신 FK 직접 삽입
-          eventCategoryId: categoryToEventCategoryId(category),
-        })
-        .select('*')
-        .single() // 생성된 레코드 반환
-      console.log({
-        text: `createConcert`,
-      })
-      if (createConcertError) {
-        console.error('Concert 생성 실패:', createConcertError)
-        await sendSlack({
-          text: `Concert 생성 실패: ${JSON.stringify(createConcertError)}`,
-        })
-        throw createConcertError
-      }
+          const concertId = randomUUID()
+          console.log('concertId', concertId)
+          const { data: event, error: createConcertError } = await supabase
+            .from('Concert')
+            .insert({
+              id: concertId,
+              title: item.title,
+              slug,
+              date: new Date(item.date).toISOString(),
+              isKOPIS: true,
+              locationCityId: locationCityId ?? null,
+              eventCategoryId: categoryToEventCategoryId(category),
+            })
+            .select('*')
+            .single()
 
-      // 2. kopisEvent 생성 (Concert FK 사용)
-      const { error: createKopisError } = await supabase.from('KOPISEvent').insert({
-        id: item.id,
-        concertId: event.id,
-      })
+          if (createConcertError) {
+            console.error('Concert 생성 실패:', createConcertError)
+            await sendSlack({
+              text: `Concert 생성 실패: ${JSON.stringify(createConcertError)}`,
+            })
+            throw createConcertError
+          }
 
-      console.log({
-        text: `createKopisEvent`,
-      })
+          const { error: createKopisError } = await supabase.from('KOPISEvent').insert({
+            id: item.id,
+            concertId: event.id,
+          })
 
-      if (createKopisError) {
-        console.error('KOPISEvent 생성 실패:', createKopisError)
-      }
+          if (createKopisError) {
+            console.error('KOPISEvent 생성 실패:', createKopisError)
+          }
 
-      const { posterKey } = await uploadPoster(item.poster)
-      console.log({
-        text: `uploadPoster`,
-      })
-      // 1. Poster 생성
-      const { data: poster, error: posterError } = await supabase
-        .from('Poster')
-        .insert({
-          imageURL: `https://api.billets.coldsurf.io/v1/image?key=${posterKey}`,
-        })
-        .select('*')
-        .single()
+          // 2. 연결된 concertsOnDetailImages 존재 여부 확인
+          const { data: postersOnConcert, error: postersLinkError } = await supabase
+            .from('ConcertsOnPosters')
+            .select('concertId')
+            .eq('concertId', event.id)
+            .limit(1)
 
-      console.log({
-        text: `createPoster`,
-      })
+          const alreadyConnectedPoster = !postersLinkError && postersOnConcert.length > 0
 
-      if (posterError) {
-        console.error('포스터 생성 실패:', posterError)
-        throw posterError
-      }
+          if (!alreadyConnectedPoster) {
+            const { keys } = await uploadImageByResolutions({
+              originalImageUrl: item.poster,
+              concertId: event.id,
+              index: 0,
+              type: 'poster',
+            })
 
-      // 2. ConcertsOnPosters 연결 생성
-      const { error: relationError } = await supabase.from('ConcertsOnPosters').insert({
-        posterId: poster.id,
-        concertId: event.id,
-      })
+            await Promise.all(
+              keys
+                .filter((key) => !!key)
+                .map(async (key) => {
+                  const posterId = randomUUID()
+                  console.log('posterId', posterId)
+                  const { data: poster, error: posterError } = await supabase
+                    .from('Poster')
+                    .insert({
+                      id: posterId,
+                      imageURL: `https://api.billets.coldsurf.io/v1/image?key=${key}`,
+                    })
+                    .select('*')
+                    .single()
 
-      console.log({
-        text: `createConcertsOnPosters`,
-      })
+                  if (posterError) {
+                    console.error('포스터 생성 실패:', posterError)
+                    throw posterError
+                  }
 
-      if (relationError) {
-        console.error('ConcertsOnPosters 생성 실패:', relationError)
-      }
-      await connectOrCreateVenue(item.venue, event.id)
-      console.log({
-        text: `connectOrCreateVenue`,
-      })
+                  const { error: relationError } = await supabase.from('ConcertsOnPosters').insert({
+                    posterId: poster.id,
+                    concertId: event.id,
+                  })
 
-      await sendSlack({
-        text: `🎉 newly created event, ${event.id}`,
-      })
-    }
-  }
+                  if (relationError) {
+                    console.error('ConcertsOnPosters 생성 실패:', relationError)
+                  }
+                }),
+            )
+          }
+
+          await connectOrCreateVenue(item.venue, event.id)
+
+          await sendSlack({
+            text: `🎉 newly created event, ${event.id}`,
+          })
+        }
+      }),
+    ),
+  )
 
   return {
     items,
@@ -750,6 +762,94 @@ async function updateTime(kopisEventId: string, eventDateString: Date) {
   }
 }
 
+async function connectOrCreateDetailImage(kopisEventId: string, detailImageUrls: string[]) {
+  const { data: kopisEventData, error: kopisError } = await supabase
+    .from('KOPISEvent')
+    .select('concertId')
+    .eq('id', kopisEventId)
+    .single()
+
+  if (kopisError || !kopisEventData?.concertId) {
+    console.error('KOPISEvent not found')
+    return
+  }
+
+  const concertId = kopisEventData.concertId
+
+  // 2. 연결된 concertsOnDetailImages 존재 여부 확인
+  const { data: detailImagesOnConcert, error: detailImagesLinkError } = await supabase
+    .from('ConcertsOnDetailImages')
+    .select('concertId')
+    .eq('concertId', concertId)
+    .limit(1)
+
+  if (detailImagesLinkError) {
+    console.error('Error checking detailImages connection:', detailImagesLinkError)
+    return
+  }
+
+  const alreadyConnected = detailImagesOnConcert.length > 0
+
+  console.log(detailImageUrls)
+
+  if (!alreadyConnected) {
+    await Promise.all(
+      detailImageUrls.map(async (detailImageUrl, index) => {
+        // 3-0. upload detail image
+        const { keys } = await uploadImageByResolutions({
+          originalImageUrl: detailImageUrl,
+          concertId,
+          index,
+          type: 'detail-image',
+        })
+        console.log({
+          text: `uploadDetailImage`,
+        })
+
+        await Promise.all(
+          keys
+            .filter((key) => !!key)
+            .map(async (key) => {
+              // 3-1. DetailImage 생성
+              const detailImageId = randomUUID()
+              console.log('detailImageId', detailImageId)
+              const { data: createdDetailImage, error: detailImageError } = await supabase
+                .from('DetailImage')
+                .insert({
+                  id: detailImageId,
+                  imageURL: `https://api.billets.coldsurf.io/v1/image?key=${key}`,
+                })
+                .select('*')
+                .single()
+
+              console.log({
+                text: `createDetailImage`,
+              })
+
+              if (detailImageError) {
+                console.error('Error creating detail image:', detailImageError)
+                await sendSlack({
+                  text: `Error creating detail image: ${detailImageError}`,
+                })
+                return
+              }
+
+              // 3-2. ConcertsOnDetailImages 연결
+              const { error: connectError } = await supabase.from('ConcertsOnDetailImages').insert({
+                concertId,
+                detailImageId: createdDetailImage.id,
+              })
+
+              if (connectError) {
+                console.error('Error connecting detail image to concert:', connectError)
+              }
+            }),
+        )
+      }),
+    )
+  }
+}
+
 async function connectOrCreateTicket(kopisEventId: string, ticketSeller: string, ticketURL: string) {
   // 1. KOPISEvent에서 concertId 조회
   const { data: kopisEventData, error: kopisError } = await supabase
@@ -781,9 +881,12 @@ async function connectOrCreateTicket(kopisEventId: string, ticketSeller: string,
 
   if (!alreadyConnected) {
     // 3-1. Ticket 생성
+    const ticketId = randomUUID()
+    console.log('ticketId', ticketId)
     const { data: createdTicket, error: ticketError } = await supabase
       .from('Ticket')
       .insert({
+        id: ticketId,
         openDate: new Date().toISOString(),
         seller: ticketSeller,
         sellingURL: ticketURL,
@@ -823,7 +926,22 @@ async function insertKOPISEventDetail(kopisEventId: string) {
   if (!db.relates) {
     return
   }
-  const { relates, dtguidance, prfpdfrom } = db
+  const { relates, dtguidance, prfpdfrom, styurls } = db
+
+  const parseDetailImage = (styurls: { styurl: string | string[] }) => {
+    if (Array.isArray(styurls.styurl)) {
+      return styurls.styurl
+    }
+    return [styurls.styurl]
+  }
+
+  const detailImageUrl = parseDetailImage(styurls)
+  console.log({
+    text: `detailImageUrl: ${detailImageUrl}`,
+  })
+  if (detailImageUrl) {
+    await connectOrCreateDetailImage(kopisEventId, detailImageUrl)
+  }
 
   if (dtguidance && prfpdfrom) {
     const times = extractFirstTimes(dtguidance)
@@ -865,18 +983,19 @@ async function sync(page: number, category: (typeof KOPISEVENT_CATEGORIES)[keyof
   try {
     const { items } = await insertKOPISEvents(page, category)
 
-    const success = []
+    const success: string[] = []
 
     await Promise.all(
-      // @ts-expect-error
-      items.map(async (item) => {
-        await insertKOPISEventDetail(item.id)
-        // console.log(item.id, index)
-        success.push(item.id)
-      }),
+      // @ts-expect-error: items is any
+      items.map((item) =>
+        limit(async () => {
+          await insertKOPISEventDetail(item.id)
+          success.push(item.id)
+        }),
+      ),
     )
 
-    // console.log(success)
+    console.log(success)
   } catch (e) {
     console.error(e)
   }

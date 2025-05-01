@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup'
 
 export default defineConfig({
-  entry: ['src/lambda.ts'],
+  entry: process.env.NODE_ENV === 'development' ? ['src/start-server.ts'] : ['src/lambda.ts'],
   outDir: 'build',
   target: 'node18',
   platform: 'node',
