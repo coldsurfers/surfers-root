@@ -183,10 +183,12 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
       })),
       isKOPIS: !!model.kopisEvent,
       slug: model.slug,
-      detailImages: model.detailImages.map((detailImage) => ({
-        id: detailImage.id,
-        url: detailImage.imageURL,
-      })),
+      detailImages: model.detailImages
+        .filter((detailImage) => detailImage.imageURL.includes('high'))
+        .map((detailImage) => ({
+          id: detailImage.id,
+          url: detailImage.imageURL,
+        })),
     }
   }
 }
