@@ -79,20 +79,22 @@ export const uploadImageHandler = async (
   rep: FastifyReply<UploadImageRoute>,
 ) => {
   try {
-    const { imageUrl, resolution, concertId, index } = req.body
+    const { imageUrl, resolution, concertId, index, type } = req.body
     const quality = resolution === 'low' ? 50 : resolution === 'medium' ? 70 : 90
     const fetchedDetailImage = await fetch(imageUrl)
     const buffer = await fetchedDetailImage.arrayBuffer()
 
-    const imageBuffer = await sharp(buffer).toFormat('webp', { quality }).toBuffer()
-    const key = `coldsurf/event/${concertId}/detail-image-${index}-${resolution}.webp`
+    const filename = type === 'poster' ? `poster-${index}-${resolution}.png` : `detail-image-${index}-${resolution}.png`
+
+    const imageBuffer = await sharp(buffer).toFormat('png', { quality }).toBuffer()
+    const key = `coldsurf/event/${concertId}/${filename}`
     await new S3Client()
       .setPutObjectCommand(
         new PutObjectCommand({
           Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
           Key: key,
           Body: imageBuffer,
-          ContentType: `image/webp`,
+          ContentType: `image/png`,
           CacheControl: 'public, max-age=31536000, immutable',
         }),
       )

@@ -19,6 +19,7 @@ export const UploadImageBodyDTOSchema = z.object({
   resolution: z.enum(['low', 'medium', 'high']),
   concertId: z.string(),
   index: z.number(),
+  type: z.enum(['poster', 'detail-image']),
 })
 
 export type UploadImageBodyDTO = z.infer<typeof UploadImageBodyDTOSchema>
