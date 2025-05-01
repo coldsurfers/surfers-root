@@ -15,6 +15,7 @@ export function PageLayout({
   poster,
   topInfo,
   ticketCTA,
+  about,
   lineup,
   venue,
   downloadApp,
@@ -22,6 +23,7 @@ export function PageLayout({
   poster: ReactNode
   topInfo: ReactNode
   ticketCTA: ReactNode
+  about: ReactNode | null
   lineup: ReactNode | null
   venue: ReactNode
   downloadApp: ReactNode
@@ -32,6 +34,12 @@ export function PageLayout({
       <StyledRightSideContainer>
         <StyledTopInfoContainer>{topInfo}</StyledTopInfoContainer>
         <StyledTicketCTAContainer>{ticketCTA}</StyledTicketCTAContainer>
+        {about && (
+          <StyledSectionContainer>
+            <StyledSectionHeaderText as="h3">About</StyledSectionHeaderText>
+            {about}
+          </StyledSectionContainer>
+        )}
         {lineup && (
           <StyledSectionContainer>
             <StyledSectionHeaderText as="h3">Lineup</StyledSectionHeaderText>

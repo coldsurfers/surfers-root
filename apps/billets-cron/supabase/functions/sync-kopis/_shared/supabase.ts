@@ -3,5 +3,5 @@ import { Database } from '../schema/supabase.ts'
 import { dataApiKey, dataApiUrl } from './env.ts'
 
 export const supabase = createClient<Database>(dataApiUrl, dataApiKey, {
-  auth: { autoRefreshToken: false, persistSession: false },
+  auth: { autoRefreshToken: true, persistSession: false },
 })

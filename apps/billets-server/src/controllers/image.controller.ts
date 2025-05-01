@@ -1,11 +1,16 @@
 import { ErrorResponseDTO } from '@/dtos/error-response.dto'
-import { GetImageResizeQueryStringDTO, GetImageResizeQueryStringDTOSchema } from '@/dtos/image.dto'
+import {
+  GetImageResizeQueryStringDTO,
+  GetImageResizeQueryStringDTOSchema,
+  UploadImageBodyDTO,
+  UploadImageResponseDTO,
+} from '@/dtos/image.dto'
 import { S3Client } from '@/lib/s3-client'
 import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3'
 import { RouteGenericInterface } from 'fastify'
 import { FastifyReply } from 'fastify/types/reply'
 import { FastifyRequest } from 'fastify/types/request'
-import sharp, { FormatEnum } from 'sharp'
+import sharp from 'sharp'
 
 interface GetImageResizeRoute extends RouteGenericInterface {
   Querystring: GetImageResizeQueryStringDTO
@@ -18,8 +23,6 @@ interface GetImageResizeRoute extends RouteGenericInterface {
   }
 }
 
-const DEFAULT_FORMAT = 'png'
-
 export const getImageResizeHandler = async (
   req: FastifyRequest<GetImageResizeRoute>,
   rep: FastifyReply<GetImageResizeRoute>,
@@ -30,51 +33,15 @@ export const getImageResizeHandler = async (
       return rep.status(400).send({ code: 'INVALID_QUERY_STRING', message: 'Invalid query string' })
     }
 
-    const { key, width, height, format } = queryValidation.data
+    const { key: originalKey, format } = queryValidation.data
 
-    if (!key) return rep.status(400).send({ code: 'IMAGE_KEY_NOT_FOUND', message: 'Image key is required' })
-
-    const targetWidth = width
-    const targetHeight = height
-    const targetFormat = format || DEFAULT_FORMAT
-
-    const cacheKey = `${key}-${targetWidth}x${targetHeight}.${targetFormat}`
-
-    try {
-      const cachedImage = await new S3Client()
-        .setGetObjectCommand(
-          new GetObjectCommand({
-            Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
-            Key: cacheKey,
-          }),
-        )
-        .get()
-
-      const { Body: cachedImageBody } = cachedImage
-
-      if (!cachedImageBody) {
-        console.log('CachedImageBody Not Found')
-        throw Error('Cached image not found')
-      }
-
-      return rep
-        .headers({
-          'Content-Type': `image/${targetFormat}`,
-          'Cache-Control': 'public, max-age=31536000, immutable',
-          'ETag': `"${cacheKey}"`,
-        })
-        .status(200)
-        .send(Buffer.from(await cachedImageBody.transformToByteArray()))
-    } catch (e) {
-      console.error(e)
-      console.log('Cache miss, resizing image...')
-    }
+    if (!originalKey) return rep.status(400).send({ code: 'IMAGE_KEY_NOT_FOUND', message: 'Image key is required' })
 
     const originalImage = await new S3Client()
       .setGetObjectCommand(
         new GetObjectCommand({
           Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
-          Key: key,
+          Key: originalKey,
         }),
       )
       .get()
@@ -85,33 +52,57 @@ export const getImageResizeHandler = async (
 
     const originalImageBuffer = await originalImage.Body.transformToByteArray()
 
-    const processedImage = await sharp(originalImageBuffer)
-      .resize(targetWidth, targetHeight, { fit: 'contain' })
-      .toFormat(targetFormat as keyof FormatEnum)
-      .toBuffer()
+    return rep
+      .headers({
+        'Content-Type': `image/${format}`,
+        'Cache-Control': 'public, max-age=31536000, immutable',
+        'ETag': `"${originalKey}"`,
+      })
+      .status(200)
+      .send(Buffer.from(originalImageBuffer))
+  } catch (err) {
+    console.error(err)
+    return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
+  }
+}
 
+type UploadImageRoute = RouteGenericInterface & {
+  Body: UploadImageBodyDTO
+  Reply: {
+    200: UploadImageResponseDTO
+    500: ErrorResponseDTO
+  }
+}
+
+export const uploadImageHandler = async (
+  req: FastifyRequest<UploadImageRoute>,
+  rep: FastifyReply<UploadImageRoute>,
+) => {
+  try {
+    const { imageUrl, resolution, concertId, index, type } = req.body
+    const quality = resolution === 'low' ? 50 : resolution === 'medium' ? 70 : 90
+    const fetchedDetailImage = await fetch(imageUrl)
+    const buffer = await fetchedDetailImage.arrayBuffer()
+
+    const filename = type === 'poster' ? `poster-${index}-${resolution}.png` : `detail-image-${index}-${resolution}.png`
+
+    const imageBuffer = await sharp(buffer).toFormat('png', { quality }).toBuffer()
+    const key = `coldsurf/event/${concertId}/${filename}`
     await new S3Client()
       .setPutObjectCommand(
         new PutObjectCommand({
           Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
-          Key: cacheKey,
-          Body: processedImage,
-          ContentType: `image/${targetFormat}`,
+          Key: key,
+          Body: imageBuffer,
+          ContentType: `image/png`,
           CacheControl: 'public, max-age=31536000, immutable',
         }),
       )
       .put()
 
-    return rep
-      .headers({
-        'Content-Type': `image/${targetFormat}`,
-        'Cache-Control': 'public, max-age=31536000, immutable',
-        'ETag': `"${cacheKey}"`,
-      })
-      .status(200)
-      .send(processedImage)
-  } catch (err) {
-    console.error(err)
+    return rep.status(200).send({ key })
+  } catch (error) {
+    console.error(error)
     return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
   }
 }

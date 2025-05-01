@@ -23,7 +23,7 @@ export function AppFooter() {
   return (
     <Container>
       <Text as="p" style={{ fontWeight: 'bold', margin: 'unset' }}>
-        &copy; 2024 COLDSURF, Inc.
+        &copy; 2025 COLDSURF, Inc.
       </Text>
       <GlobalLink href="/privacy-policy">
         <Text as="p" style={{ margin: 'unset' }}>

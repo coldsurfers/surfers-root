@@ -4,12 +4,13 @@ import { Info } from 'lucide-react'
 
 export const StyledPosterThumbnail = styled.img`
   border-radius: 12px;
-  object-fit: cover;
+  object-fit: contain;
   object-position: 50%;
   width: 100%;
   aspect-ratio: 1 / 1;
   cursor: pointer;
   user-select: none;
+  background: ${semantics.color.background[3]};
 `
 
 export const StyledPosterThumbnailEmpty = styled.div`

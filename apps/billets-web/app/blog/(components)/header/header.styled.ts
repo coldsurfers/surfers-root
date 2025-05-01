@@ -51,7 +51,7 @@ export const StyledHeaderContainer = styled.div`
     display: none;
   }
 
-  ${media.large(css`
+  ${media.small(css`
     justify-content: flex-start;
     gap: 10px;
   `)}
