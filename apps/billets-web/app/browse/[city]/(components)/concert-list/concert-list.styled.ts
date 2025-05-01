@@ -37,7 +37,7 @@ export const StyledGridImage = styled.img`
   object-fit: cover;
   object-position: 50%;
   border-radius: 12px;
-  background-color: ${semantics.color.background[4]};
+  background-color: ${semantics.color.background[3]};
 `
 
 export const StyledGridImageEmptyContainer = styled.div`
