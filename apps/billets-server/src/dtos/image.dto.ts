@@ -8,7 +8,7 @@ export const GetImageResizeQueryStringDTOSchema = z.object({
     /**
      * see lib/constants.ts -> SUPPORTED_MIME_TYPES
      */
-    .union([z.literal('jpg'), z.literal('jpeg'), z.literal('png')])
+    .union([z.literal('jpg'), z.literal('jpeg'), z.literal('png'), z.literal('webp')])
     .optional()
     .default('png'),
 })
