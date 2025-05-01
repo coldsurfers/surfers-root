@@ -1,5 +1,10 @@
 import { ErrorResponseDTO } from '@/dtos/error-response.dto'
-import { GetImageResizeQueryStringDTO, GetImageResizeQueryStringDTOSchema } from '@/dtos/image.dto'
+import {
+  GetImageResizeQueryStringDTO,
+  GetImageResizeQueryStringDTOSchema,
+  UploadImageBodyDTO,
+  UploadImageResponseDTO,
+} from '@/dtos/image.dto'
 import { S3Client } from '@/lib/s3-client'
 import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3'
 import { RouteGenericInterface } from 'fastify'
@@ -175,6 +180,45 @@ export const getImageResizeHandler = async (
       .send(processedImage)
   } catch (err) {
     console.error(err)
+    return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
+  }
+}
+
+type UploadImageRoute = RouteGenericInterface & {
+  Body: UploadImageBodyDTO
+  Reply: {
+    200: UploadImageResponseDTO
+    500: ErrorResponseDTO
+  }
+}
+
+export const uploadImageHandler = async (
+  req: FastifyRequest<UploadImageRoute>,
+  rep: FastifyReply<UploadImageRoute>,
+) => {
+  try {
+    const { imageUrl, resolution, concertId, index } = req.body
+    const quality = resolution === 'low' ? 50 : resolution === 'medium' ? 70 : 90
+    const fetchedDetailImage = await fetch(imageUrl)
+    const buffer = await fetchedDetailImage.arrayBuffer()
+
+    const imageBuffer = await sharp(buffer).toFormat('webp', { quality }).toBuffer()
+    const key = `coldsurf/event/${concertId}/detail-image-${index}-${resolution}.webp`
+    await new S3Client()
+      .setPutObjectCommand(
+        new PutObjectCommand({
+          Bucket: process.env.COLDSURF_AWS_S3_BUCKET ?? '',
+          Key: key,
+          Body: imageBuffer,
+          ContentType: `image/webp`,
+          CacheControl: 'public, max-age=31536000, immutable',
+        }),
+      )
+      .put()
+
+    return rep.status(200).send({ key })
+  } catch (error) {
+    console.error(error)
     return rep.status(500).send({ code: 'UNKNOWN', message: 'internal server error' })
   }
 }

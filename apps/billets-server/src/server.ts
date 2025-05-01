@@ -56,6 +56,7 @@ import {
 } from 'fastify-type-provider-zod'
 import { DetailImageDTOSchema } from './dtos/detail-image.dto'
 import { EventCategoryDTOSchema } from './dtos/event-category.dto'
+import { UploadImageBodyDTOSchema, UploadImageResponseDTOSchema } from './dtos/image.dto'
 
 dotenv.config()
 
@@ -201,6 +202,8 @@ app.register(fastifySwagger, {
       EventCategoryDTOSchema,
       SubscribeInfoMeDTOSchema,
       DetailImageDTOSchema,
+      UploadImageBodyDTOSchema,
+      UploadImageResponseDTOSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
