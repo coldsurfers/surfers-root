@@ -3,7 +3,6 @@ import { fromZonedTime } from 'https://esm.sh/date-fns-tz'
 import { format } from 'https://esm.sh/date-fns@3.6.0/format'
 import { parse } from 'https://esm.sh/date-fns@3.6.0/parse'
 import { randomUUID } from 'node:crypto'
-import { S3Client as AWSS3Client, PutObjectCommand } from 'npm:@aws-sdk/client-s3'
 import { XMLParser } from 'npm:fast-xml-parser@4.3.5'
 import rawGeohash from 'npm:ngeohash'
 import pLimit from 'npm:p-limit'
@@ -29,51 +28,40 @@ const ngeohash = rawGeohash as {
 
 const parser = new XMLParser()
 
-const S3Client = new AWSS3Client({
-  region: Deno.env.get('COLDSURF_AWS_REGION') ?? '',
-  credentials: {
-    accessKeyId: Deno.env.get('COLDSURF_AWS_ACCESS_KEY_ID') ?? '',
-    secretAccessKey: Deno.env.get('COLDSURF_AWS_SECRET_ACCESS_KEY') ?? '',
-  },
-})
-
-async function uploadPoster(posterUrl: string) {
-  const fetchedPoster = await fetch(posterUrl)
-  const buffer = await fetchedPoster.arrayBuffer()
-  const posterKey = `billets/poster-thumbnails/${new Date().toISOString()}`
-  await S3Client.send(
-    new PutObjectCommand({
-      Bucket: Deno.env.get('COLDSURF_AWS_S3_BUCKET') ?? '',
-      Key: posterKey,
-      // @ts-expect-error
-      Body: buffer,
-      ContentType: `image/png`,
-      CacheControl: 'public, max-age=31536000, immutable',
-    }),
-  )
-
-  return {
-    posterKey,
+async function uploadImageByResolutions({
+  originalImageUrl,
+  concertId,
+  index,
+  type,
+}: {
+  originalImageUrl: string
+  concertId: string
+  index: number
+  type: 'poster' | 'detail-image'
+}) {
+  const resolutions = ['low', 'medium', 'high']
+  const keys = []
+  for await (const resolution of resolutions) {
+    const response = await fetch(`${Deno.env.get('BILLETS_SERVER_URL')}/v1/image`, {
+      method: 'POST',
+      body: JSON.stringify({
+        imageUrl: originalImageUrl,
+        resolution,
+        concertId,
+        index,
+        type,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const { key } = await response.json()
+    console.log(key)
+    keys.push(key)
   }
-}
-
-async function uploadDetailImage(detailImageUrl: string) {
-  const fetchedDetailImage = await fetch(detailImageUrl)
-  const buffer = await fetchedDetailImage.arrayBuffer()
-  const detailImageKey = `billets/detail-images/${new Date().toISOString()}`
-  await S3Client.send(
-    new PutObjectCommand({
-      Bucket: Deno.env.get('COLDSURF_AWS_S3_BUCKET') ?? '',
-      Key: detailImageKey,
-      // @ts-expect-error
-      Body: buffer,
-      ContentType: `image/png`,
-      CacheControl: 'public, max-age=31536000, immutable',
-    }),
-  )
 
   return {
-    detailImageKey,
+    keys,
   }
 }
 
@@ -670,31 +658,53 @@ async function insertKOPISEvents(
             console.error('KOPISEvent 생성 실패:', createKopisError)
           }
 
-          const { posterKey } = await uploadPoster(item.poster)
+          // 2. 연결된 concertsOnDetailImages 존재 여부 확인
+          const { data: postersOnConcert, error: postersLinkError } = await supabase
+            .from('ConcertsOnPosters')
+            .select('concertId')
+            .eq('concertId', event.id)
+            .limit(1)
 
-          const posterId = randomUUID()
-          console.log('posterId', posterId)
-          const { data: poster, error: posterError } = await supabase
-            .from('Poster')
-            .insert({
-              id: posterId,
-              imageURL: `https://api.billets.coldsurf.io/v1/image?key=${posterKey}`,
+          const alreadyConnectedPoster = !postersLinkError && postersOnConcert.length > 0
+
+          if (!alreadyConnectedPoster) {
+            const { keys } = await uploadImageByResolutions({
+              originalImageUrl: item.poster,
+              concertId: event.id,
+              index: 0,
+              type: 'poster',
             })
-            .select('*')
-            .single()
 
-          if (posterError) {
-            console.error('포스터 생성 실패:', posterError)
-            throw posterError
-          }
+            await Promise.all(
+              keys
+                .filter((key) => !!key)
+                .map(async (key) => {
+                  const posterId = randomUUID()
+                  console.log('posterId', posterId)
+                  const { data: poster, error: posterError } = await supabase
+                    .from('Poster')
+                    .insert({
+                      id: posterId,
+                      imageURL: `https://api.billets.coldsurf.io/v1/image?key=${key}`,
+                    })
+                    .select('*')
+                    .single()
 
-          const { error: relationError } = await supabase.from('ConcertsOnPosters').insert({
-            posterId: poster.id,
-            concertId: event.id,
-          })
+                  if (posterError) {
+                    console.error('포스터 생성 실패:', posterError)
+                    throw posterError
+                  }
 
-          if (relationError) {
-            console.error('ConcertsOnPosters 생성 실패:', relationError)
+                  const { error: relationError } = await supabase.from('ConcertsOnPosters').insert({
+                    posterId: poster.id,
+                    concertId: event.id,
+                  })
+
+                  if (relationError) {
+                    console.error('ConcertsOnPosters 생성 실패:', relationError)
+                  }
+                }),
+            )
           }
 
           await connectOrCreateVenue(item.venue, event.id)
@@ -780,48 +790,61 @@ async function connectOrCreateDetailImage(kopisEventId: string, detailImageUrls:
 
   const alreadyConnected = detailImagesOnConcert.length > 0
 
+  console.log(detailImageUrls)
+
   if (!alreadyConnected) {
     await Promise.all(
-      detailImageUrls.map(async (detailImageUrl) => {
+      detailImageUrls.map(async (detailImageUrl, index) => {
         // 3-0. upload detail image
-        const { detailImageKey } = await uploadDetailImage(detailImageUrl)
+        const { keys } = await uploadImageByResolutions({
+          originalImageUrl: detailImageUrl,
+          concertId,
+          index,
+          type: 'detail-image',
+        })
         console.log({
           text: `uploadDetailImage`,
         })
 
-        // 3-1. DetailImage 생성
-        const detailImageId = randomUUID()
-        console.log('detailImageId', detailImageId)
-        const { data: createdDetailImage, error: detailImageError } = await supabase
-          .from('DetailImage')
-          .insert({
-            id: detailImageId,
-            imageURL: `https://api.billets.coldsurf.io/v1/image?key=${detailImageKey}`,
-          })
-          .select('*')
-          .single()
+        await Promise.all(
+          keys
+            .filter((key) => !!key)
+            .map(async (key) => {
+              // 3-1. DetailImage 생성
+              const detailImageId = randomUUID()
+              console.log('detailImageId', detailImageId)
+              const { data: createdDetailImage, error: detailImageError } = await supabase
+                .from('DetailImage')
+                .insert({
+                  id: detailImageId,
+                  imageURL: `https://api.billets.coldsurf.io/v1/image?key=${key}`,
+                })
+                .select('*')
+                .single()
 
-        console.log({
-          text: `createDetailImage`,
-        })
+              console.log({
+                text: `createDetailImage`,
+              })
 
-        if (detailImageError) {
-          console.error('Error creating detail image:', detailImageError)
-          await sendSlack({
-            text: `Error creating detail image: ${detailImageError}`,
-          })
-          return
-        }
+              if (detailImageError) {
+                console.error('Error creating detail image:', detailImageError)
+                await sendSlack({
+                  text: `Error creating detail image: ${detailImageError}`,
+                })
+                return
+              }
 
-        // 3-2. ConcertsOnDetailImages 연결
-        const { error: connectError } = await supabase.from('ConcertsOnDetailImages').insert({
-          concertId,
-          detailImageId: createdDetailImage.id,
-        })
+              // 3-2. ConcertsOnDetailImages 연결
+              const { error: connectError } = await supabase.from('ConcertsOnDetailImages').insert({
+                concertId,
+                detailImageId: createdDetailImage.id,
+              })
 
-        if (connectError) {
-          console.error('Error connecting detail image to concert:', connectError)
-        }
+              if (connectError) {
+                console.error('Error connecting detail image to concert:', connectError)
+              }
+            }),
+        )
       }),
     )
   }
