@@ -3,11 +3,9 @@
   "version": "1.1.2",
   "scripts": {
     "build": "pnpm prisma:generate && next build",
-    "build:vercel": "npx vercel build --prod",
     "create:env:ci": "pnpm ts-node ./libs/createDotEnv.ts",
     "check:type": "tsc --noEmit",
-    "deploy": "pm2 start ecosystem.config.js",
-    "deploy:vercel": "npx vercel deploy --prod --prebuilt",
+    "deploy:prod": "APP_PLATFORM=production pnpm sst deploy --stage production",
     "dev": "next dev",
     "lint": "next lint --fix && prettier --write .",
     "prisma:db-push": "pnpm prisma db push --schema ../../packages/prisma-schema/prisma/schema.prisma",
