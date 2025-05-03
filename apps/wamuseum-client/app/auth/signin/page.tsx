@@ -5,9 +5,9 @@ import { authUtils } from '@/utils/utils.auth'
 import { Spinner, Toast } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { AnimatePresence } from 'framer-motion'
-import { redirect, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useLoginMutation, useMeQuery } from 'src/__generated__/graphql'
+import { useLoginMutation } from 'src/__generated__/graphql'
 
 const FormLayout = styled.section`
   position: absolute;
@@ -31,7 +31,6 @@ const FormLayout = styled.section`
 const SignInPage = () => {
   const router = useRouter()
   const formRef = useRef<LoginFormRefHandle>(null)
-  const { data: meData } = useMeQuery()
   const [mutate, { loading }] = useLoginMutation({
     onError: () => {
       setToastVisible(true)
@@ -42,7 +41,7 @@ const SignInPage = () => {
       switch (login.__typename) {
         case 'UserWithAuthToken':
           authUtils
-            .login(login.authToken)
+            .localLogin(login.authToken)
             .then(() => {
               router.push('/')
             })
@@ -66,12 +65,6 @@ const SignInPage = () => {
       }),
     [mutate],
   )
-
-  useEffect(() => {
-    if (meData?.me?.__typename === 'User') {
-      redirect('/')
-    }
-  }, [meData])
 
   useEffect(() => {
     const onKeypress = (e: KeyboardEvent) => {
