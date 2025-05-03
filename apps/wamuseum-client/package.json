@@ -6,7 +6,7 @@
     "build": "next build",
     "compile": "npx graphql-codegen-esm --config ./gql/codegen.yml",
     "check:type": "tsc --noEmit",
-    "deploy": "pm2 start ecosystem.config.js",
+    "deploy:prod": "APP_PLATFORM=production pnpm sst deploy --stage production",
     "dev": "next dev",
     "lint": "next lint",
     "lint:fix": "pnpm lint --fix && prettier --write .",
