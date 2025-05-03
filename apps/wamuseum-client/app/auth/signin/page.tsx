@@ -41,7 +41,7 @@ const SignInPage = () => {
       switch (login.__typename) {
         case 'UserWithAuthToken':
           authUtils
-            .login(login.authToken)
+            .localLogin(login.authToken)
             .then(() => {
               router.push('/')
             })

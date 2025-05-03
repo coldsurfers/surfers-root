@@ -21,7 +21,7 @@ export const Header = () => {
     setShowLoader(true)
     mutateLogout({
       onCompleted: () => {
-        authUtils.logout().then(() => {
+        authUtils.localLogout().then(() => {
           apollo.cache.reset().then(() => {
             router.push('/auth/signin')
           })

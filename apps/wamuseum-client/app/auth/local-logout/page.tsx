@@ -9,7 +9,7 @@ export default function LocalLogoutPage() {
   const router = useRouter()
 
   useLayoutEffect(() => {
-    authUtils.logout().then(() => {
+    authUtils.localLogout().then(() => {
       router.replace('/auth/signin')
     })
   }, [router])
