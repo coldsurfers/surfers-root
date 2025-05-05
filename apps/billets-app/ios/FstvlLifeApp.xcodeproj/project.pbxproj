@@ -520,7 +520,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 578PDZSTMS;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = FstvlLifeApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Billets;
+				INFOPLIST_KEY_CFBundleDisplayName = COLDSURF;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -557,7 +557,7 @@
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 578PDZSTMS;
 				INFOPLIST_FILE = FstvlLifeApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Billets;
+				INFOPLIST_KEY_CFBundleDisplayName = COLDSURF;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -853,7 +853,7 @@
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 578PDZSTMS;
 				INFOPLIST_FILE = FstvlLifeApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Billets;
+				INFOPLIST_KEY_CFBundleDisplayName = COLDSURF;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
