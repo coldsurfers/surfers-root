@@ -138,7 +138,16 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
       artistProfileImage: value.artist.artistProfileImage,
     }))
     const tickets = data.tickets.map((value) => value.ticket)
-    const detailImages = data.detailImages.map((value) => value.detailImage)
+    const extractDetailImageNumber = (filename: string): number => {
+      const match = filename.match(/detail-image-(\d+)-(?:low|medium|high)\.[^/]+$/)
+      return match ? parseInt(match[1], 10) : 0
+    }
+    const detailImages = data.detailImages
+      .map((value) => value.detailImage)
+      .filter((detailImage) => detailImage.imageURL.includes('high'))
+      .sort((a, b) => {
+        return extractDetailImageNumber(a.imageURL) - extractDetailImageNumber(b.imageURL)
+      })
     return this.toDTO({
       ...data,
       posters,
@@ -183,12 +192,10 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
       })),
       isKOPIS: !!model.kopisEvent,
       slug: model.slug,
-      detailImages: model.detailImages
-        .filter((detailImage) => detailImage.imageURL.includes('high'))
-        .map((detailImage) => ({
-          id: detailImage.id,
-          url: detailImage.imageURL,
-        })),
+      detailImages: model.detailImages.map((detailImage) => ({
+        id: detailImage.id,
+        url: detailImage.imageURL,
+      })),
     }
   }
 }
