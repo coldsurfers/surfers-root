@@ -13,10 +13,19 @@ import React, { PropsWithChildren, Suspense, useCallback, useRef } from 'react'
 import { Dimensions, Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { useEventDetailScreenNavigation, useEventDetailScreenRoute } from './event-detail-screen.hooks'
 
+const TOP_SPACE = 110
+
 const EventDetailScreenLayout = ({ children }: PropsWithChildren) => {
   const { semantics } = useColorScheme()
   return (
-    <View style={{ flex: 1, marginTop: -NAVIGATION_HEADER_HEIGHT, backgroundColor: semantics.background[3] }}>
+    <View
+      style={{
+        flex: 1,
+        marginTop: -NAVIGATION_HEADER_HEIGHT,
+        backgroundColor: semantics.background[3],
+        paddingTop: TOP_SPACE,
+      }}
+    >
       {children}
     </View>
   )

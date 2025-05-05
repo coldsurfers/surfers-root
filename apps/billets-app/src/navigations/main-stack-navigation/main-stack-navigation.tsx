@@ -31,6 +31,7 @@ export const MainStackNavigation = () => {
         component={EventStackNavigation}
         options={{
           presentation: 'card',
+          header: () => null,
         }}
       />
       <MainStack.Screen

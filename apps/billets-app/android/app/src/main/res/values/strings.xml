@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Billets</string>
+    <string name="app_name">COLDSURF</string>
     <string moduleConfig="true" name="CodePushDeploymentKey">${ANDROID_CODE_PUSH_DEPLOYMENT_KEY}</string>
 </resources>
