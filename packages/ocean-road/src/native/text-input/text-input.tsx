@@ -30,7 +30,6 @@ const _TextInput = forwardRef<RNTextInput, TextInputProps>(({ style, ...otherPro
         {
           color: semantics.foreground[1],
           backgroundColor: semantics.background[4],
-          fontSize: DEFAULT_FONT_SIZE,
           borderColor: colorScheme === 'light' ? semantics.border[2] : semantics.border[1],
         },
         focused && {
@@ -55,22 +54,15 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     paddingLeft: 16,
     paddingRight: 16,
-    paddingTop: Platform.select({
-      android: 10,
-      ios: 16,
-      default: 10,
-    }),
-    paddingBottom: Platform.select({
-      android: 10,
-      ios: 16,
-      default: 10,
-    }),
+    paddingTop: 16,
+    paddingBottom: 16,
     backgroundColor: color.oc.white.value,
     fontFamily: Platform.select({
       ios: 'NotoSansKR-Regular',
       android: 'NotoSansKR-Regular',
       default: 'inherit',
     }),
+    includeFontPadding: false,
   },
   focused: {
     borderColor: colors.oc.gray[4].value,

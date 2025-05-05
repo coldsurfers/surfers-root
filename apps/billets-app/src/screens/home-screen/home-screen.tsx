@@ -2,14 +2,7 @@ import { CurrentLocationTracker, useUserCurrentLocationStore } from '@/features'
 import { useToggleSubscribeConcert } from '@/features/subscribe/hooks/useToggleSubscribeConcert'
 import { useFirebaseAnalytics, useShowBottomTabBar, zodScreen } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
-import {
-  AnimatePresence,
-  CommonScreenLayout,
-  ConcertList,
-  ConcertListSkeleton,
-  LocationSelector,
-  LocationSelectorModal,
-} from '@/ui'
+import { CommonScreenLayout, ConcertList, ConcertListSkeleton, LocationSelector, LocationSelectorModal } from '@/ui'
 import { ConcertListItemType } from '@/ui/concert-list/concert-list.types'
 import { useScrollToTop } from '@react-navigation/native'
 import { PerformanceMeasureView, RenderStateProps, useStartProfiler } from '@shopify/react-native-performance'
@@ -115,14 +108,12 @@ const SuspenseHomeScreen = () => {
           <ConcertList ref={listRef} onPressItem={onPressConcertListItem} onPressSubscribe={onPressSubscribe} />
         </Suspense>
       )}
-      <AnimatePresence>
-        {locationModalVisible && (
-          <LocationSelectorModal
-            visible={locationModalVisible}
-            onPressBackground={() => setLocationModalVisible(false)}
-          />
-        )}
-      </AnimatePresence>
+      {locationModalVisible && (
+        <LocationSelectorModal
+          visible={locationModalVisible}
+          onPressBackground={() => setLocationModalVisible(false)}
+        />
+      )}
     </CommonScreenLayout>
   )
 }

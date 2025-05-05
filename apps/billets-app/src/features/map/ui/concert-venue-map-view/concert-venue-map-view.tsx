@@ -1,6 +1,6 @@
 import { Text } from '@coldsurfers/ocean-road/native'
-import MapView, { LatLng, MapPressEvent, Marker, Region } from '@coldsurfers/react-native-maps'
 import { Dimensions, StyleSheet } from 'react-native'
+import MapView, { LatLng, MapPressEvent, Marker, Region } from 'react-native-maps'
 import { CONCERT_VENUE_MAP_HEIGHT_LARGE, CONCERT_VENUE_MAP_HEIGHT_MEDIUM } from './concert-venue-map.constants'
 
 export const ConcertVenueMapView = ({
