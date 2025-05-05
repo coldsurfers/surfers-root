@@ -1,6 +1,6 @@
-import MapView, { Region } from '@coldsurfers/react-native-maps'
 import { forwardRef, memo, useEffect } from 'react'
 import { StyleSheet } from 'react-native'
+import MapView, { Region } from 'react-native-maps'
 import { z } from 'zod'
 import { MapRegionWithZoomLevel, useMapPoints, useSuperCluster } from '../../hooks'
 import { mapPointSchema } from '../../map.types'
