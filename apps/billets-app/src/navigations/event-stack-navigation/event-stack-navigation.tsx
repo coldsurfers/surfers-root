@@ -29,6 +29,7 @@ export const EventStackNavigation = () => {
                 presentation: 'card',
                 headerTransparent: true,
               }}
+              absolutePosition
             />
           ),
         }}
