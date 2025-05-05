@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import { useMeQuery } from '@/features/auth/hooks/useMeQuery'
 import { ConcertSubscribeButton } from '@/features/subscribe'
 import { useSubscribedConcert } from '@/features/subscribe/hooks/useSubscribedConcert'
@@ -10,6 +11,7 @@ import FastImage from 'react-native-fast-image'
 import { useConcertDetail } from '../../hooks/useConcertDetail'
 import { ConcertDetailSectionListHeaderItem } from '../concert-detail-section-list-header-item'
 import {
+  ConcertDetailSectionListAboutItemProps,
   ConcertDetailSectionListDateItemProps,
   ConcertDetailSectionListItem,
   ConcertDetailSectionListLineupItemProps,
@@ -91,6 +93,7 @@ export const ConcertDetailSectionList = ({
       switch (title) {
         case 'lineup':
         case 'venue-map':
+        case 'about':
           children = sectionHeaderTitle ? <ConcertDetailSectionListHeaderItem title={sectionHeaderTitle} /> : null
           break
         default:
@@ -126,6 +129,11 @@ export const ConcertDetailSectionList = ({
           case 'tickets':
             children = (
               <ConcertDetailSectionListItem.TicketsItem {...(info.item as ConcertDetailSectionListTicketsItemProps)} />
+            )
+            break
+          case 'about':
+            children = (
+              <ConcertDetailSectionListItem.AboutItem {...(info.item as ConcertDetailSectionListAboutItemProps)} />
             )
             break
           case 'venue':
@@ -199,6 +207,7 @@ export const ConcertDetailSectionList = ({
   return (
     <>
       <Animated.SectionList
+        style={{ flex: 1 }}
         contentContainerStyle={{
           backgroundColor: semantics.background[3],
           flexGrow: 1,

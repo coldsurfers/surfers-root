@@ -4,15 +4,18 @@ import { ArtistSubscribeButton, VenueSubscribeButton } from '@/features/subscrib
 import { KOPIS_COPYRIGHT_TEXT } from '@/lib'
 import { useEventDetailScreenNavigation } from '@/screens/event-detail-screen/event-detail-screen.hooks'
 import { TicketItem } from '@/ui'
+import { components } from '@coldsurfers/api-sdk'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, ProfileThumbnail, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { format } from 'date-fns'
 import { Copy, MapPin } from 'lucide-react-native'
-import { memo } from 'react'
-import { Dimensions, Linking, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { memo, useCallback, useLayoutEffect, useState } from 'react'
+import { Dimensions, FlatList, Image, Linking, ListRenderItem, StyleSheet, TouchableOpacity, View } from 'react-native'
+import FastImage from 'react-native-fast-image'
 import { VENUE_MAP_HEIGHT } from './concert-detail-section-list-item.constants'
 import {
+  ConcertDetailSectionListAboutItemProps,
   ConcertDetailSectionListDateItemProps,
   ConcertDetailSectionListLineupItemProps,
   ConcertDetailSectionListLocationItemProps,
@@ -188,6 +191,88 @@ ConcertDetailSectionListItem.TicketsItem = ({ tickets, onPressCta }: ConcertDeta
     <Button theme="pink" onPress={onPressCta} style={styles.bigTicketBtn}>
       티켓 찾기
     </Button>
+  )
+}
+
+const DetailImageItem = memo(
+  ({
+    url,
+    isFirst,
+    isLast,
+  }: components['schemas']['DetailImageDTOSchema'] & {
+    isFirst: boolean
+    isLast: boolean
+  }) => {
+    const [aspectRatio, setAspectRatio] = useState<string>('')
+
+    useLayoutEffect(() => {
+      if (aspectRatio) {
+        return
+      }
+      Image.getSize(url, (width, height) => {
+        setAspectRatio(`${width} / ${height}`)
+      })
+    }, [aspectRatio, url])
+
+    if (!aspectRatio) {
+      return null
+    }
+
+    return (
+      <View
+        style={{
+          width: '100%',
+          aspectRatio: aspectRatio,
+          borderTopLeftRadius: 12,
+          borderTopRightRadius: 12,
+          paddingHorizontal: 12,
+        }}
+      >
+        <FastImage
+          source={{ uri: url }}
+          style={{
+            width: '100%',
+            height: '100%',
+            borderTopLeftRadius: isFirst ? 12 : 0,
+            borderTopRightRadius: isFirst ? 12 : 0,
+            borderBottomLeftRadius: isLast ? 12 : 0,
+            borderBottomRightRadius: isLast ? 12 : 0,
+          }}
+          resizeMode="stretch"
+        />
+      </View>
+    )
+  },
+)
+
+ConcertDetailSectionListItem.AboutItem = ({ detailImages }: ConcertDetailSectionListAboutItemProps) => {
+  const [isMore, setIsMore] = useState(false)
+  const renderItem = useCallback<ListRenderItem<components['schemas']['DetailImageDTOSchema']>>(
+    ({ item, index }) => <DetailImageItem {...item} isFirst={index === 0} isLast={index === detailImages.length - 1} />,
+    [detailImages.length],
+  )
+  return (
+    <View style={{ marginTop: 12 }}>
+      <FlatList
+        data={detailImages}
+        renderItem={renderItem}
+        contentContainerStyle={{
+          marginTop: 12,
+        }}
+        keyExtractor={(item) => item.id}
+        style={[
+          {
+            flex: 1,
+            marginBottom: 12,
+            maxHeight: isMore ? undefined : 428,
+            overflow: isMore ? undefined : 'hidden',
+          },
+        ]}
+      />
+      <View style={{ paddingHorizontal: 12 }}>
+        <Button onPress={() => setIsMore((prev) => !prev)}>{isMore ? '접기' : '더보기'}</Button>
+      </View>
+    </View>
   )
 }
 
