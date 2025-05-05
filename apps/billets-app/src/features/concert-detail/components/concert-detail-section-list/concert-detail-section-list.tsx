@@ -3,11 +3,13 @@ import { useMeQuery } from '@/features/auth/hooks/useMeQuery'
 import { ConcertSubscribeButton } from '@/features/subscribe'
 import { useSubscribedConcert } from '@/features/subscribe/hooks/useSubscribedConcert'
 import { CONCERT_DETAIL_LIST_HEADER_HEIGHT } from '@/lib'
+import commonStyles from '@/lib/common-styles'
 import { colors } from '@coldsurfers/ocean-road'
 import { useColorScheme } from '@coldsurfers/ocean-road/native'
 import React, { ReactElement, ReactNode, useCallback, useMemo } from 'react'
 import { Animated, Dimensions, SectionListRenderItem, StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useConcertDetail } from '../../hooks/useConcertDetail'
 import { ConcertDetailSectionListHeaderItem } from '../concert-detail-section-list-header-item'
 import {
@@ -57,6 +59,7 @@ export const ConcertDetailSectionList = ({
     onPressVenueProfile,
   })
   const { semantics } = useColorScheme()
+  const { top: topInset } = useSafeAreaInsets()
 
   const [scrollY] = React.useState(new Animated.Value(0))
 
@@ -71,7 +74,7 @@ export const ConcertDetailSectionList = ({
   })
   const coverScale = scrollY.interpolate({
     inputRange: [-200, 0],
-    outputRange: [2, 1],
+    outputRange: [1.4, 1],
     extrapolateRight: 'clamp',
   })
 
@@ -229,29 +232,34 @@ export const ConcertDetailSectionList = ({
           },
         )}
         ListHeaderComponent={
-          <Animated.View
-            style={{
-              height: CONCERT_DETAIL_LIST_HEADER_HEIGHT,
-              transform: [
-                {
-                  translateY: coverTranslateY,
-                },
-                {
-                  scale: coverScale,
-                },
-              ],
-            }}
-          >
-            <FastImage
-              source={{
-                uri: thumbnailUrl,
+          <>
+            <Animated.View
+              style={{
+                height: CONCERT_DETAIL_LIST_HEADER_HEIGHT,
+                transform: [
+                  {
+                    translateY: coverTranslateY,
+                  },
+                  {
+                    scale: coverScale,
+                  },
+                ],
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
-              style={styles.thumbnail}
-            />
+            >
+              <FastImage
+                source={{
+                  uri: thumbnailUrl,
+                }}
+                style={[styles.thumbnail, { backgroundColor: semantics.background[2], marginTop: topInset }]}
+                resizeMode="contain"
+              />
+            </Animated.View>
             <View style={styles.subscribeButtonPosition}>
               <ConcertSubscribeButton onPress={handlePressSubscribe} isSubscribed={!!isSubscribed} />
             </View>
-          </Animated.View>
+          </>
         }
         sections={sections}
         renderSectionHeader={renderSectionHeader}
@@ -271,8 +279,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.oc.gray[1].value,
   },
   thumbnail: {
-    width: '100%',
-    height: '100%',
+    width: Dimensions.get('window').width * 0.74,
+    height: Dimensions.get('window').width * 0.74,
+    borderRadius: 12,
+    ...commonStyles.shadowBox,
   },
   subscribeButtonPosition: { position: 'absolute', right: 12, bottom: 12 },
 })
