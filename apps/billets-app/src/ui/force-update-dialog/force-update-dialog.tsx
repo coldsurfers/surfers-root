@@ -1,22 +1,43 @@
 import { Button, Modal, Text } from '@coldsurfers/ocean-road/native'
+import { APP_STORE_URL } from '@coldsurfers/shared-utils'
+import { HotUpdater, useHotUpdaterStore } from '@hot-updater/react-native'
 import { useLayoutEffect } from 'react'
-import { View } from 'react-native'
+import { Linking, View } from 'react-native'
 import BootSplash from 'react-native-bootsplash'
+import Config from 'react-native-config'
 import { match } from 'ts-pattern'
+import { OtaUpdateView } from '../ota-update-view'
 
-const NativeUpdateView = () => {
+const NativeUpdate = () => {
   return (
     <Modal visible>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text style={{ fontSize: 14, fontWeight: 'bold' }}>업데이트가 필요합니다.</Text>
-        <Button onPress={() => {}}>업데이트 하기</Button>
+        <Button onPress={() => Linking.openURL(APP_STORE_URL)}>업데이트 하기</Button>
       </View>
     </Modal>
   )
 }
 
-const OtaUpdateView = () => {
-  return <View>{/* @TODO: implement ota update view */}</View>
+const OtaUpdate = () => {
+  const { progress: updateProgress } = useHotUpdaterStore()
+  const updateProgressPercentage = updateProgress * 100
+
+  useLayoutEffect(() => {
+    HotUpdater.checkForUpdate({
+      source: `${Config.HOT_UPDATER_SUPABASE_URL!}/functions/v1/update-server`,
+    }).then((result) => {
+      if (!result || !result.shouldForceUpdate) {
+        return
+      }
+      HotUpdater.runUpdateProcess({
+        reloadOnForceUpdate: true,
+        source: `${Config.HOT_UPDATER_SUPABASE_URL!}/functions/v1/update-server`,
+      })
+    })
+  }, [])
+
+  return <OtaUpdateView updateProgressPercentage={updateProgressPercentage} />
 }
 
 export const ForceUpdateDialog = ({ updateType }: { updateType: 'native' | 'ota' }) => {
@@ -26,10 +47,10 @@ export const ForceUpdateDialog = ({ updateType }: { updateType: 'native' | 'ota'
 
   return match(updateType)
     .with('native', () => {
-      return <NativeUpdateView />
+      return <NativeUpdate />
     })
     .with('ota', () => {
-      return <OtaUpdateView />
+      return <OtaUpdate />
     })
     .exhaustive()
 }
