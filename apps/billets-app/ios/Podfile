@@ -56,6 +56,7 @@ target 'FstvlLifeApp' do
 
   ENVFILES = {
     'Debug' => '$(PODS_ROOT)/../../.env.development',
+    'Staging' => '$(PODS_ROOT)/../../.env.staging',
     'Release' => '$(PODS_ROOT)/../../.env.production',
   }
 
@@ -97,6 +98,8 @@ target 'FstvlLifeApp' do
 
   # RN Maps patch start
   # https://github.com/react-native-maps/react-native-maps/issues/5467
+  # sudo chown -R $(whoami) ios
+  # sudo chmod -R u+rw ios
   # Replace @import GoogleMaps; with #import <GoogleMaps/GoogleMaps.h> in specific files
   specific_files = [
     "#{Pod::Config.instance.installation_root}/Pods/Google-Maps-iOS-Utils/Sources/GoogleMapsUtilsObjC/include/GMSMarker+GMUClusteritem.h",

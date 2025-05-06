@@ -3,11 +3,11 @@ import { MainStackNavigation, MainStackNavigationParamList } from '@/navigations
 import { components, OpenApiError } from '@coldsurfers/api-sdk'
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
 import { useMutation } from '@tanstack/react-query'
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useRef } from 'react'
 import { ActivityIndicator } from 'react-native'
+import BootSplash from 'react-native-bootsplash'
 import { GlobalModal } from './features'
 import { apiClient } from './lib/api/openapi-client'
-
 const AppContainer = () => {
   const { logScreenView } = useFirebaseAnalytics()
   const { requestPermission, getFCMToken, subscribeTopic } = useFirebaseMessaging()
@@ -16,6 +16,10 @@ const AppContainer = () => {
   })
 
   useAppleAuth()
+
+  useLayoutEffect(() => {
+    BootSplash.hide({ fade: true })
+  }, [])
 
   useEffect(() => {
     // 앱 초기 진입 시 푸시 알림 권한 설정 및 fcm token 설정
