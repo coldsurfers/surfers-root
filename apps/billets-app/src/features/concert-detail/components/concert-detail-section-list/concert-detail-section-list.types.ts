@@ -1,5 +1,6 @@
 import { SectionListData } from 'react-native'
 import {
+  ConcertDetailSectionListAboutItemProps,
   ConcertDetailSectionListDateItemProps,
   ConcertDetailSectionListLineupItemProps,
   ConcertDetailSectionListLocationItemProps,
@@ -21,6 +22,7 @@ export type ConcertDetailSectionListItemT =
   | ConcertDetailSectionListTicketSellerItemProps
   | ConcertDetailSectionListVenueMapItemProps
   | ConcertDetailSectionListTicketsItemProps
+  | ConcertDetailSectionListAboutItemProps
 
 export type ConcertDetailSectionListSectionT = {
   title:
@@ -33,6 +35,7 @@ export type ConcertDetailSectionListSectionT = {
     | 'price-info'
     | 'ticket-open-date'
     | 'tickets'
+    | 'about'
   sectionHeaderTitle?:
     | '라인업'
     | '티켓 판매처'
@@ -42,6 +45,7 @@ export type ConcertDetailSectionListSectionT = {
     | '티켓 오픈 날짜'
     | '종합 정보'
     | '티켓'
+    | '소개'
 }
 
 export type ConcertDetailSectionListSection = SectionListData<

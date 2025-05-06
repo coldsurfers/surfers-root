@@ -1,4 +1,4 @@
-import { components } from '@/types/api'
+import { components } from '@coldsurfers/api-sdk'
 
 export interface ConcertDetailSectionListDateItemProps {
   date: string
@@ -43,4 +43,8 @@ export type ConcertDetailSectionListVenueMapItemProps = {
 export type ConcertDetailSectionListTicketsItemProps = {
   tickets: components['schemas']['TicketDTOSchema'][]
   onPressCta?: () => void
+}
+
+export type ConcertDetailSectionListAboutItemProps = {
+  detailImages: components['schemas']['DetailImageDTOSchema'][]
 }
