@@ -3,20 +3,17 @@ import { apiClient } from '@/lib/api/openapi-client'
 import { GlobalErrorBoundaryRegistry } from '@/lib/errors'
 import { useColorSchemeStorage } from '@/lib/storage'
 import { compareVersion } from '@/lib/utils.semver'
-import { CommonScreenLayout } from '@/ui'
 import { BackgroundOtaUpdater } from '@/ui/background-ota-updater'
 import { ForceUpdateDialog } from '@/ui/force-update-dialog'
 import { GlobalSuspenseFallback } from '@/ui/global-suspense-fallback'
-import { colors, ColorScheme } from '@coldsurfers/ocean-road'
-import { ColorSchemeProvider, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
+import { ColorScheme } from '@coldsurfers/ocean-road'
+import { ColorSchemeProvider, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { LogLevel, PerformanceProfiler, RenderPassReport } from '@shopify/react-native-performance'
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
-import React, { memo, PropsWithChildren, Suspense, useCallback, useEffect, useMemo } from 'react'
-import { Platform, useColorScheme as rnUseColorScheme, StatusBar, View } from 'react-native'
+import React, { memo, PropsWithChildren, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
+import { Platform, useColorScheme as rnUseColorScheme, StatusBar } from 'react-native'
 import { getVersion } from 'react-native-device-info'
-import FastImage from 'react-native-fast-image'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { match } from 'ts-pattern'
 import pkg from './package.json'
 import AppContainer from './src/AppContainer'
@@ -47,41 +44,6 @@ const AppSystemColorSwitcher = memo(() => {
   return <StatusBar translucent barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'} />
 })
 
-const HotUpdaterUpdateScreen = ({ progress }: { progress: number }) => {
-  const percentage = progress * 100
-  return (
-    <SafeAreaProvider>
-      <CommonScreenLayout style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 12 }}>
-        <FastImage
-          source={require('assets/bootsplash/logo.png')}
-          style={{
-            width: 124,
-            height: 124,
-            borderRadius: 124 / 2,
-          }}
-        />
-        <View style={{ marginTop: 36, width: '100%', alignItems: 'center', justifyContent: 'center' }}>
-          <View style={{ width: '100%', backgroundColor: colors.oc.white.value, height: 24, borderRadius: 8 }}>
-            <View
-              style={{
-                width: `${percentage}%`,
-                backgroundColor: colors.oc.indigo[8].value,
-                height: '100%',
-                borderRadius: 8,
-              }}
-            />
-          </View>
-          <View style={{ marginTop: 24 }}>
-            <Text weight="medium" style={{ fontSize: 18 }}>
-              {percentage}
-            </Text>
-          </View>
-        </View>
-      </CommonScreenLayout>
-    </SafeAreaProvider>
-  )
-}
-
 const BootSplashAwaiter = ({ children }: PropsWithChildren) => {
   const { enable: enableFirebaseAnalytics } = useFirebaseAnalytics()
   const { enable: enableFirebaseCrashlytics } = useFirebaseCrashlytics()
@@ -89,6 +51,8 @@ const BootSplashAwaiter = ({ children }: PropsWithChildren) => {
     queryKey: apiClient.app.queryKeys.updateInfo,
     queryFn: () => apiClient.app.getAppUpdateInfo(),
   })
+
+  const [notSyncedWithServer, setNotSyncedWithServer] = useState(false)
 
   const updateInfo = useMemo<
     | {
@@ -153,10 +117,19 @@ const BootSplashAwaiter = ({ children }: PropsWithChildren) => {
     return <GlobalSuspenseFallback />
   }
 
+  if (notSyncedWithServer) {
+    return (
+      <>
+        {children}
+        <BackgroundOtaUpdater />
+      </>
+    )
+  }
+
   return (
     <>
       {updateInfo.shouldForceUpdate ? (
-        <ForceUpdateDialog updateType={updateInfo.updateType} />
+        <ForceUpdateDialog updateType={updateInfo.updateType} onNothing={() => setNotSyncedWithServer(true)} />
       ) : (
         <>
           {children}
