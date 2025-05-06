@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-app",
-  "version": "1.7.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -33,6 +33,7 @@
     "@coldsurfers/api-sdk": "workspace:*",
     "@coldsurfers/design-tokens": "workspace:*",
     "@coldsurfers/ocean-road": "workspace:*",
+    "@coldsurfers/shared-utils": "workspace:*",
     "@emotion/native": "11.11.0",
     "@emotion/react": "11.10.6",
     "@gorhom/bottom-sheet": "5.0.6",
@@ -80,6 +81,7 @@
     "react-native-store-review": "^0.4.3",
     "react-native-svg": "15.11.2",
     "react-native-webview": "^11.26.1",
+    "semver": "^7.7.1",
     "supercluster": "^8.0.1",
     "ts-pattern": "5.4.0",
     "zustand": "5.0.1"

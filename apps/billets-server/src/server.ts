@@ -1,3 +1,4 @@
+import { AppUpdateInfoDTOSchema } from '@/dtos/app-update-info.dto'
 import { ArtistDetailDTOSchema } from '@/dtos/artist-detail.dto'
 import { ArtistProfileImageDetailDTOSchema } from '@/dtos/artist-profile-image-detail.dto'
 import { ArtistProfileImageDTOSchema } from '@/dtos/artist-profile-image.dto'
@@ -5,10 +6,13 @@ import { ArtistDTOSchema } from '@/dtos/artist.dto'
 import { UserWithAuthTokenDTOSchema } from '@/dtos/auth.dto'
 import { ConcertDetailDTOSchema, ConcertDTOSchema } from '@/dtos/concert.dto'
 import { CopyrightDTOSchema } from '@/dtos/copyright.dto'
+import { DetailImageDTOSchema } from '@/dtos/detail-image.dto'
 import { ConfirmAuthCodeResponseDTOSchema, SendAuthCodeResponseDTOSchema } from '@/dtos/email-auth-request.dto'
 import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
+import { EventCategoryDTOSchema } from '@/dtos/event-category.dto'
 import { EventDetailDTOSchema, EventDTOSchema } from '@/dtos/event.dto'
 import { FCMTokenDTOSchema } from '@/dtos/fcm-token.dto'
+import { UploadImageBodyDTOSchema, UploadImageResponseDTOSchema } from '@/dtos/image.dto'
 import { LocationCityDTOSchema, LocationConcertDTOSchema, LocationCountryDTOSchema } from '@/dtos/location.dto'
 import { SendEmailResponseDTOSchema } from '@/dtos/mailer.dto'
 import { PosterDetailDTOSchema } from '@/dtos/poster-detail.dto'
@@ -26,6 +30,7 @@ import { VenueDetailDTOSchema } from '@/dtos/venue-detail-dto'
 import { VenueDTOSchema } from '@/dtos/venue.dto'
 import { SWAGGER_HOST } from '@/lib/constants'
 import { jwtPlugin } from '@/plugins'
+import appRoute from '@/routes/app.route'
 import artistProfileImageRoute from '@/routes/artist-profile-image.route'
 import artistRoute from '@/routes/artist.route'
 import authRoute from '@/routes/auth.route'
@@ -54,9 +59,6 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
-import { DetailImageDTOSchema } from './dtos/detail-image.dto'
-import { EventCategoryDTOSchema } from './dtos/event-category.dto'
-import { UploadImageBodyDTOSchema, UploadImageResponseDTOSchema } from './dtos/image.dto'
 
 dotenv.config()
 
@@ -204,6 +206,7 @@ app.register(fastifySwagger, {
       DetailImageDTOSchema,
       UploadImageBodyDTOSchema,
       UploadImageResponseDTOSchema,
+      AppUpdateInfoDTOSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
@@ -241,3 +244,4 @@ app.register(priceRoute, { prefix: '/v1/price' })
 app.register(eventRoute, { prefix: '/v1/event' })
 app.register(imageRoute, { prefix: '/v1/image' })
 app.register(eventCategoryRoute, { prefix: '/v1/event-category' })
+app.register(appRoute, { prefix: '/v1/app' })

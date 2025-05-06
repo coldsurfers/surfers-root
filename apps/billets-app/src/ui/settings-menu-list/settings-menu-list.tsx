@@ -6,6 +6,7 @@ import { LogOut, UserRoundX } from 'lucide-react-native'
 import { useCallback, useContext, useMemo } from 'react'
 import { Alert, FlatList, ListRenderItem, View } from 'react-native'
 import { getBuildNumber, getVersion } from 'react-native-device-info'
+import pkg from '../../../package.json'
 import { StyledMenuItem, StyledText, StyledVersionText } from './settings-menu-list.styled'
 
 export const SettingsMenuList = ({ onLogoutSuccess }: { onLogoutSuccess: () => void }) => {
@@ -13,7 +14,7 @@ export const SettingsMenuList = ({ onLogoutSuccess }: { onLogoutSuccess: () => v
   const { logout } = useContext(AuthContext)
   const queryClient = useQueryClient()
 
-  const versionInfoText = `${getVersion()} (${getBuildNumber()})`
+  const versionInfoText = `native: ${getVersion()} (${getBuildNumber()}) ota: ${pkg.version}`
 
   const { mutate: deactivateUser } = useMutation({
     mutationFn: apiClient.user.deactivate,

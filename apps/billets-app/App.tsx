@@ -1,20 +1,21 @@
 import { AuthContextProvider, useFirebaseAnalytics, useFirebaseCrashlytics } from '@/lib'
+import { apiClient } from '@/lib/api/openapi-client'
 import { GlobalErrorBoundaryRegistry } from '@/lib/errors'
 import { useColorSchemeStorage } from '@/lib/storage'
-import { CommonScreenLayout } from '@/ui'
+import { compareVersion } from '@/lib/utils.semver'
+import { BackgroundOtaUpdater } from '@/ui/background-ota-updater'
+import { ForceUpdateDialog } from '@/ui/force-update-dialog'
 import { GlobalSuspenseFallback } from '@/ui/global-suspense-fallback'
-import { colors, ColorScheme } from '@coldsurfers/ocean-road'
-import { ColorSchemeProvider, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
-import { HotUpdater } from '@hot-updater/react-native'
+import { ColorScheme } from '@coldsurfers/ocean-road'
+import { ColorSchemeProvider, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { LogLevel, PerformanceProfiler, RenderPassReport } from '@shopify/react-native-performance'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import React, { memo, PropsWithChildren, Suspense, useCallback, useEffect, useMemo } from 'react'
-import { useColorScheme as rnUseColorScheme, StatusBar, View } from 'react-native'
-import BootSplash from 'react-native-bootsplash'
-import Config from 'react-native-config'
-import FastImage from 'react-native-fast-image'
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
+import React, { memo, PropsWithChildren, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
+import { Platform, useColorScheme as rnUseColorScheme, StatusBar } from 'react-native'
+import { getVersion } from 'react-native-device-info'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { match } from 'ts-pattern'
+import pkg from './package.json'
 import AppContainer from './src/AppContainer'
 
 const queryClient = new QueryClient({
@@ -43,60 +44,100 @@ const AppSystemColorSwitcher = memo(() => {
   return <StatusBar translucent barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'} />
 })
 
-const HotUpdaterUpdateScreen = ({ progress }: { progress: number }) => {
-  const percentage = progress * 100
-  return (
-    <SafeAreaProvider>
-      <CommonScreenLayout style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 12 }}>
-        <FastImage
-          source={require('assets/bootsplash/logo.png')}
-          style={{
-            width: 124,
-            height: 124,
-            borderRadius: 124 / 2,
-          }}
-        />
-        <View style={{ marginTop: 36, width: '100%', alignItems: 'center', justifyContent: 'center' }}>
-          <View style={{ width: '100%', backgroundColor: colors.oc.white.value, height: 24, borderRadius: 8 }}>
-            <View
-              style={{
-                width: `${percentage}%`,
-                backgroundColor: colors.oc.indigo[8].value,
-                height: '100%',
-                borderRadius: 8,
-              }}
-            />
-          </View>
-          <View style={{ marginTop: 24 }}>
-            <Text weight="medium" style={{ fontSize: 18 }}>
-              {percentage}
-            </Text>
-          </View>
-        </View>
-      </CommonScreenLayout>
-    </SafeAreaProvider>
-  )
-}
-
 const BootSplashAwaiter = ({ children }: PropsWithChildren) => {
   const { enable: enableFirebaseAnalytics } = useFirebaseAnalytics()
   const { enable: enableFirebaseCrashlytics } = useFirebaseCrashlytics()
+  const { data: appUpdateInfoData, isLoading: isAppUpdateInfoLoading } = useQuery({
+    queryKey: apiClient.app.queryKeys.updateInfo,
+    queryFn: () => apiClient.app.getAppUpdateInfo(),
+  })
 
-  useEffect(() => {
-    const init = async () => {
-      try {
-        await enableFirebaseAnalytics(!__DEV__)
-        await enableFirebaseCrashlytics(!__DEV__)
-      } catch (e) {
-        console.error(e)
-      } finally {
-        BootSplash.hide({ fade: true })
+  const [notSyncedWithServer, setNotSyncedWithServer] = useState(false)
+
+  const updateInfo = useMemo<
+    | {
+        shouldForceUpdate: true
+        updateType: 'native' | 'ota'
+      }
+    | {
+        shouldForceUpdate: false
+      }
+  >(() => {
+    if (!appUpdateInfoData) {
+      return {
+        shouldForceUpdate: false,
       }
     }
-    init()
+    const platform = Platform.select({
+      ios: 'ios',
+      android: 'android',
+      default: 'android',
+    }) as 'ios' | 'android'
+
+    const targetUpdateInfo = appUpdateInfoData[platform]
+    if (!targetUpdateInfo) {
+      return {
+        shouldForceUpdate: false,
+      }
+    }
+
+    const { forceUpdate, latestVersion, updateType } = targetUpdateInfo
+    // check pkg version
+    const nativeVersion = getVersion()
+    const shouldForceUpdate = match(updateType)
+      .with('native', () => {
+        return forceUpdate && compareVersion(nativeVersion, latestVersion) < 0
+      })
+      .with('ota', () => {
+        return forceUpdate && compareVersion(pkg.version, latestVersion) < 0
+      })
+      .exhaustive()
+    if (shouldForceUpdate) {
+      return {
+        shouldForceUpdate: true,
+        updateType,
+      }
+    }
+    return {
+      shouldForceUpdate: false,
+    }
+  }, [appUpdateInfoData])
+
+  useEffect(() => {
+    const enableFirebase = async () => {
+      await Promise.all([enableFirebaseAnalytics(!__DEV__), enableFirebaseCrashlytics(!__DEV__)])
+    }
+
+    enableFirebase()
   }, [enableFirebaseAnalytics, enableFirebaseCrashlytics])
 
-  return <>{children}</>
+  const isLoading = isAppUpdateInfoLoading
+
+  if (isLoading) {
+    return <GlobalSuspenseFallback />
+  }
+
+  if (notSyncedWithServer) {
+    return (
+      <>
+        {children}
+        <BackgroundOtaUpdater />
+      </>
+    )
+  }
+
+  return (
+    <>
+      {updateInfo.shouldForceUpdate ? (
+        <ForceUpdateDialog updateType={updateInfo.updateType} onNothing={() => setNotSyncedWithServer(true)} />
+      ) : (
+        <>
+          {children}
+          <BackgroundOtaUpdater />
+        </>
+      )}
+    </>
+  )
 }
 
 const App = () => {
@@ -147,7 +188,4 @@ const App = () => {
   )
 }
 
-export default HotUpdater.wrap({
-  source: `${Config.HOT_UPDATER_SUPABASE_URL!}/functions/v1/update-server`,
-  fallbackComponent: ({ status, progress }) => status === 'UPDATING' && <HotUpdaterUpdateScreen progress={progress} />,
-})(App)
+export default App
