@@ -9,12 +9,10 @@ import { ForceUpdateDialog } from '@/ui/force-update-dialog'
 import { GlobalSuspenseFallback } from '@/ui/global-suspense-fallback'
 import { colors, ColorScheme } from '@coldsurfers/ocean-road'
 import { ColorSchemeProvider, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
-import { HotUpdater } from '@hot-updater/react-native'
 import { LogLevel, PerformanceProfiler, RenderPassReport } from '@shopify/react-native-performance'
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
 import React, { memo, PropsWithChildren, Suspense, useCallback, useEffect, useMemo } from 'react'
 import { Platform, useColorScheme as rnUseColorScheme, StatusBar, View } from 'react-native'
-import Config from 'react-native-config'
 import { getVersion } from 'react-native-device-info'
 import FastImage from 'react-native-fast-image'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -217,7 +215,4 @@ const App = () => {
   )
 }
 
-export default HotUpdater.wrap({
-  source: `${Config.HOT_UPDATER_SUPABASE_URL!}/functions/v1/update-server`,
-  fallbackComponent: ({ status, progress }) => status === 'UPDATING' && <HotUpdaterUpdateScreen progress={progress} />,
-})(App)
+export default App
