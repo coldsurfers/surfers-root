@@ -143,8 +143,7 @@ const BootSplashAwaiter = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const enableFirebase = async () => {
-      await enableFirebaseAnalytics(!__DEV__)
-      await enableFirebaseCrashlytics(!__DEV__)
+      await Promise.all([enableFirebaseAnalytics(!__DEV__), enableFirebaseCrashlytics(!__DEV__)])
     }
 
     enableFirebase()
