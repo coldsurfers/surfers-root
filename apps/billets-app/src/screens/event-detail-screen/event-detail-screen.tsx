@@ -10,7 +10,7 @@ import { Spinner, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { PerformanceMeasureView } from '@shopify/react-native-performance'
 import React, { PropsWithChildren, Suspense, useCallback, useRef } from 'react'
-import { Dimensions, Platform, StatusBar, StyleSheet, View } from 'react-native'
+import { Dimensions, StyleSheet, View } from 'react-native'
 import { useEventDetailScreenNavigation, useEventDetailScreenRoute } from './event-detail-screen.hooks'
 
 const TOP_SPACE = 110
@@ -115,7 +115,6 @@ const ScreenInner = () => {
 
   return (
     <EventDetailScreenLayout>
-      <StatusBar hidden={Platform.OS === 'ios'} />
       <View style={[styles.wrapper, { backgroundColor: semantics.background[3] }]}>
         <Suspense fallback={<Spinner positionCenter />}>
           <ConcertDetailSectionList
