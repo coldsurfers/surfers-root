@@ -80,6 +80,7 @@
     "react-native-store-review": "^0.4.3",
     "react-native-svg": "15.11.2",
     "react-native-webview": "^11.26.1",
+    "semver": "^7.7.1",
     "supercluster": "^8.0.1",
     "ts-pattern": "5.4.0",
     "zustand": "5.0.1"
