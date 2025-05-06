@@ -22,6 +22,10 @@
     },
     "check:type": {
       "cache": true
+    },
+    "sync-server": {
+      "cache": false,
+      "dependsOn": ["^sync-server"]
     }
   }
 }

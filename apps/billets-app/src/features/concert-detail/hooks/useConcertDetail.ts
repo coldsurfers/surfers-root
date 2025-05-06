@@ -68,6 +68,18 @@ export const useConcertDetail = ({
         ],
       },
       {
+        title: 'about',
+        sectionHeaderTitle: '소개',
+        data:
+          concertDetail.detailImages.length > 0
+            ? [
+                {
+                  detailImages: concertDetail.detailImages,
+                },
+              ]
+            : [],
+      },
+      {
         title: 'lineup',
         sectionHeaderTitle: '라인업',
         data: concertDetail.artists.map((artist) => ({
