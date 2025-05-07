@@ -10,9 +10,9 @@ import { Button, ProfileThumbnail, Text, useColorScheme } from '@coldsurfers/oce
 import Clipboard from '@react-native-clipboard/clipboard'
 import { format } from 'date-fns'
 import { Copy, MapPin } from 'lucide-react-native'
-import { memo, useCallback, useLayoutEffect, useState } from 'react'
-import { Dimensions, FlatList, Image, Linking, ListRenderItem, StyleSheet, TouchableOpacity, View } from 'react-native'
-import FastImage from 'react-native-fast-image'
+import { memo, useCallback, useState } from 'react'
+import { Dimensions, FlatList, Linking, ListRenderItem, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { DetailImageItem } from '../detail-image-item/detail-image-item'
 import { VENUE_MAP_HEIGHT } from './concert-detail-section-list-item.constants'
 import {
   ConcertDetailSectionListAboutItemProps,
@@ -193,57 +193,6 @@ ConcertDetailSectionListItem.TicketsItem = ({ tickets, onPressCta }: ConcertDeta
     </Button>
   )
 }
-
-const DetailImageItem = memo(
-  ({
-    url,
-    isFirst,
-    isLast,
-  }: components['schemas']['DetailImageDTOSchema'] & {
-    isFirst: boolean
-    isLast: boolean
-  }) => {
-    const [aspectRatio, setAspectRatio] = useState<string>('')
-
-    useLayoutEffect(() => {
-      if (aspectRatio) {
-        return
-      }
-      Image.getSize(url, (width, height) => {
-        setAspectRatio(`${width} / ${height}`)
-      })
-    }, [aspectRatio, url])
-
-    if (!aspectRatio) {
-      return null
-    }
-
-    return (
-      <View
-        style={{
-          width: '100%',
-          aspectRatio: aspectRatio,
-          borderTopLeftRadius: 12,
-          borderTopRightRadius: 12,
-          paddingHorizontal: 12,
-        }}
-      >
-        <FastImage
-          source={{ uri: url }}
-          style={{
-            width: '100%',
-            height: '100%',
-            borderTopLeftRadius: isFirst ? 12 : 0,
-            borderTopRightRadius: isFirst ? 12 : 0,
-            borderBottomLeftRadius: isLast ? 12 : 0,
-            borderBottomRightRadius: isLast ? 12 : 0,
-          }}
-          resizeMode="stretch"
-        />
-      </View>
-    )
-  },
-)
 
 ConcertDetailSectionListItem.AboutItem = ({ detailImages }: ConcertDetailSectionListAboutItemProps) => {
   const [isMore, setIsMore] = useState(false)
