@@ -11,8 +11,9 @@ export const generateSeriesHref = ({
   let url = ''
   if (!seriesCategory) {
     url = `/blog`
+  } else {
+    url = `/blog/${seriesCategory}`
   }
-  url = `/blog/${seriesCategory}`
 
   if (query && query.page) {
     return `${url}?page=${query.page}`

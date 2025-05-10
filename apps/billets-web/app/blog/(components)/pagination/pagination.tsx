@@ -32,7 +32,7 @@ export function Pagination({ currentPage, seriesCategory, totalPage }: Paginatio
       generateSeriesHref({
         seriesCategory: seriesCategory ?? undefined,
         query: {
-          page: currentPage + 1 > totalPage ? totalPage : currentPage + 1,
+          page: currentPage + 1 >= totalPage ? totalPage : currentPage + 1,
         },
       }),
     [currentPage, seriesCategory, totalPage],
