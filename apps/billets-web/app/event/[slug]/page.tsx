@@ -101,7 +101,18 @@ async function PageInner({ params }: { params: { slug: string } }) {
 
   await queryClient.prefetchQuery(initialPageQuery.eventDetailBySlug(params.slug))
 
-  const { posters, venues, artists, date, ticketPromotion, title, isKOPIS, tickets, detailImages } = meta.eventDetail
+  const {
+    posters,
+    venues,
+    artists,
+    date,
+    ticketPromotion,
+    title,
+    isKOPIS,
+    tickets,
+    detailImages,
+    id: eventId,
+  } = meta.eventDetail
   // eslint-disable-next-line prettier/prettier
   const posterUrl = isKOPIS ? (posters.at(0)?.url ?? '') : (artists.at(0)?.thumbUrl ?? '')
   // eslint-disable-next-line prettier/prettier
@@ -128,6 +139,7 @@ async function PageInner({ params }: { params: { slug: string } }) {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <PageLayout
+        eventId={eventId}
         poster={<PosterThumbnail src={posterUrl} alt={title} copyright={posterCopyright} />}
         topInfo={
           <TopInfo

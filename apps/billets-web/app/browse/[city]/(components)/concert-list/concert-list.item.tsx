@@ -1,7 +1,8 @@
+import { logEvent } from '@/features/firebase/firebase'
 import { components } from '@coldsurfers/api-sdk'
 import { GlobalLink } from 'app/(ui)/global-link/global-link'
 import { format } from 'date-fns'
-import { memo, useMemo } from 'react'
+import { memo, useCallback, useMemo } from 'react'
 import {
   StyledGridDate,
   StyledGridImage,
@@ -26,8 +27,16 @@ export const ConcertListItem = memo(({ data }: { data: components['schemas']['Co
     }
     return `${data.mainPoster.url}&width=400&height=400`
   }, [data.mainPoster])
+
+  const onClick = useCallback(() => {
+    logEvent({
+      name: 'click_event',
+      params: { event_id: data.id },
+    })
+  }, [data.id])
+
   return (
-    <GlobalLink href={`/event/${data.slug}`}>
+    <GlobalLink href={`/event/${data.slug}`} onClick={onClick}>
       <StyledGridItem>
         {thumbUrl ? (
           <StyledGridImage src={thumbUrl} alt={data.title} />
