@@ -1,25 +1,38 @@
-import { Analytics, getAnalytics } from 'firebase/analytics'
-import { FirebaseApp, initializeApp as fbInitializeApp } from 'firebase/app'
-import { firebaseConfig } from './firebase.constants'
+import { firebaseConfig } from '@/features/firebase/firebase.constants'
+import { FBLogEvent } from '@coldsurfers/shared-utils'
+import { getAnalytics, isSupported, logEvent as logEventAnalytics } from 'firebase/analytics'
+import { getApps, initializeApp } from 'firebase/app'
 
-/**
- * only for client side
- */
-export class Firebase {
-  private analytics: Analytics
-  private app: FirebaseApp
+let analytics: ReturnType<typeof getAnalytics> | null = null
 
-  constructor() {
-    // Initialize Firebase
-    this.app = fbInitializeApp(firebaseConfig)
-    this.analytics = getAnalytics(this.app)
-  }
+export function initializeFirebase() {
+  if (process.env.NODE_ENV === 'production') {
+    // 중복 초기화 방지
+    const app = !getApps().length
+      ? initializeApp({
+          ...firebaseConfig,
+        })
+      : getApps()[0]
 
-  static initializeApp() {
-    if (process.env.APP_PLATFORM !== 'production') {
-      return
+    // 브라우저 환경에서만 Analytics 초기화
+    if (typeof window !== 'undefined') {
+      isSupported()
+        .then((supported) => {
+          if (supported) {
+            analytics = getAnalytics(app)
+            console.log('Firebase Initialized', app, analytics)
+          }
+        })
+        .catch((e) => {
+          console.error(e)
+        })
     }
-    const app = fbInitializeApp(firebaseConfig)
-    return getAnalytics(app)
   }
+}
+
+export function logEvent(event: FBLogEvent) {
+  if (!analytics) {
+    return
+  }
+  logEventAnalytics(analytics, event.name as string, event.params)
 }

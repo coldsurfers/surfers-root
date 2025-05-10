@@ -1,15 +1,11 @@
 'use client'
 
-import { Firebase } from '@/features/firebase'
-import { PropsWithChildren, useEffect } from 'react'
+import { initializeFirebase } from '@/features/firebase/firebase'
+import { PropsWithChildren, useLayoutEffect } from 'react'
 
 export function FirebaseRegistry({ children }: PropsWithChildren) {
-  useEffect(() => {
-    function initFirebase() {
-      Firebase.initializeApp()
-    }
-    initFirebase()
+  useLayoutEffect(() => {
+    initializeFirebase()
   }, [])
-
   return <>{children}</>
 }
