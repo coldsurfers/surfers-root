@@ -20,7 +20,7 @@ export function initializeFirebase() {
         .then((supported) => {
           if (supported) {
             analytics = getAnalytics(app)
-            console.log('Firebase Initialized', app, analytics)
+            console.log('Firebase Initialized')
           }
         })
         .catch((e) => {

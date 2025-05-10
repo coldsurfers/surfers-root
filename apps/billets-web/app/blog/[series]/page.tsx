@@ -1,22 +1,20 @@
+'use client'
+
+import { useParams, useSearchParams } from 'next/navigation'
 import { PageLayout } from '../(components)/page-layout'
 import { SeriesCategory } from '../(types)/series'
 import { convertSeriesCategoryToTitle } from '../(utils)'
 import { SeriesListItems } from './(component)/series-list-items'
 
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
-
-export default async function SeriesPage(props: {
-  params: Promise<{ series: SeriesCategory }>
-  searchParams: SearchParams
-}) {
-  const params = await props.params
-  const searchParams = await props.searchParams
-  const pageParam = searchParams.page
-  const page = pageParam ? Number(pageParam) : 1
+export default function SeriesPage() {
+  const params = useParams()
+  const searchParams = useSearchParams()
+  const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1
+  const series = params.series as SeriesCategory
 
   return (
-    <PageLayout title={convertSeriesCategoryToTitle(params.series)}>
-      <SeriesListItems seriesCategory={params.series} page={page} />
+    <PageLayout title={convertSeriesCategoryToTitle(series)}>
+      <SeriesListItems seriesCategory={series} page={page} />
     </PageLayout>
   )
 }
