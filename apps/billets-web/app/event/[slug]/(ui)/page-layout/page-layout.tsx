@@ -1,6 +1,7 @@
 'use client'
 
-import { ReactNode } from 'react'
+import { logEvent } from '@/features/firebase/firebase'
+import { ReactNode, useEffect } from 'react'
 import {
   StyledPageLayout,
   StyledPosterContainer,
@@ -19,6 +20,7 @@ export function PageLayout({
   lineup,
   venue,
   downloadApp,
+  eventId,
 }: {
   poster: ReactNode
   topInfo: ReactNode
@@ -27,7 +29,17 @@ export function PageLayout({
   lineup: ReactNode | null
   venue: ReactNode
   downloadApp: ReactNode
+  eventId: string
 }) {
+  useEffect(() => {
+    logEvent({
+      name: 'visit_event_detail',
+      params: {
+        event_id: eventId,
+      },
+    })
+  }, [eventId])
+
   return (
     <StyledPageLayout>
       <StyledPosterContainer>{poster}</StyledPosterContainer>

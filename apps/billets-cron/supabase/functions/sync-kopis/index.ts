@@ -408,6 +408,48 @@ async function findVenue(venue: string) {
     case 'GS아트센터 (GS아트센터)':
       alreadyExistingVenueId = '97a14419-dfe0-450c-8e63-47cadca6e214'
       break
+    case '스케치홀 (구.소극장 선물 1관)':
+      alreadyExistingVenueId = '6dad0dc3-333d-4b7a-aa15-5832309545bb'
+      break
+    case 'K-POP STAGE (구. 윤형빈소극장 [홍대] )':
+      alreadyExistingVenueId = '3dd727ea-d661-4a15-b99f-adf1118a5270'
+      break
+    case '에이치아츠 (H-Art)':
+      alreadyExistingVenueId = '8db30137-ec14-402d-baf7-0c99538b5b02'
+      break
+    case '문래재즈IN':
+      alreadyExistingVenueId = 'ef01b94d-f9d3-4039-8045-789263135fc4'
+      break
+    case '서울문화재단 대학로극장 쿼드 (예술청)':
+      alreadyExistingVenueId = '87c691d1-f4f7-4c75-a944-9245855ac693'
+      break
+    case '논산아트센터(구. 논산문화예술회관)':
+      alreadyExistingVenueId = '32cf20df-c9a9-4854-b1bf-066d2bb11989'
+      break
+    case '청라복합문화센터 블루노바홀':
+      alreadyExistingVenueId = '42d4466b-6145-4a1e-b977-f6b3d0c1e51a'
+      break
+    case '가정생활문화센터 (구.가정청소년문화의집)':
+      alreadyExistingVenueId = 'a3dd472e-e6af-4e78-b63b-aa30afb3bf81'
+      break
+    case '티오엠씨어터(구. 문화공간필링)':
+      alreadyExistingVenueId = '32c2acba-1a74-468e-9d18-6dad7f65f75b'
+      break
+    case 'IPAC홀 (인터내셔널퍼포밍아트센터)':
+      alreadyExistingVenueId = 'b96d1fdd-5d1b-4d37-9570-2e8e3ba61b44'
+      break
+    case '아트센터소극장 (시네라마 아트센터)':
+      alreadyExistingVenueId = '0b556844-c75a-4525-9c9a-eb27d476d11e'
+      break
+    case '경북고령대가야문화누리 (구. 대가야국악당)':
+      alreadyExistingVenueId = '476eedfd-ea34-469e-b6b9-0b6db103fc13'
+      break
+    case '광주북구문화센터 (양산도서관)':
+      alreadyExistingVenueId = 'd04158fd-f763-415e-bed0-c430ceee862a'
+      break
+    case '안동시청 대동관(구. 안동시민회관)':
+      alreadyExistingVenueId = 'c953a304-37c2-40ad-af07-df2417270fdf'
+      break
     default:
       break
   }
