@@ -450,6 +450,12 @@ async function findVenue(venue: string) {
     case '안동시청 대동관(구. 안동시민회관)':
       alreadyExistingVenueId = 'c953a304-37c2-40ad-af07-df2417270fdf'
       break
+    case '쇼킹 케이팝 센터 (ShowKing K-POP Center)':
+      alreadyExistingVenueId = 'dcbac8c6-7645-4f5e-b13a-5126655605d9'
+      break
+    case '소명아트홀 (구.메가폴리스아트홀)':
+      alreadyExistingVenueId = 'dfbf5eb7-a97b-4a3f-ba9a-75bece56602c'
+      break
     default:
       break
   }
