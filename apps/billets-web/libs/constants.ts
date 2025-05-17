@@ -12,8 +12,6 @@ export const API_BASE_URL = (() => {
   }
 })()
 
-console.log('API_BASE_URL', API_BASE_URL)
-
 export const SITE_URL = (() => {
   switch (process.env.APP_PLATFORM) {
     case 'production':
