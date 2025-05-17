@@ -1,7 +1,7 @@
 import { ErrorResponseDTO } from '@/dtos/error-response.dto'
 import { SendUserVoiceBodyDTO } from '@/dtos/mailer.dto'
 import { sendEmail } from '@/lib/mailer'
-import { format } from 'date-fns'
+import { SERVICE_NAME } from '@coldsurfers/shared-utils'
 import { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify'
 
 interface SendUserVoiceRoute extends RouteGenericInterface {
@@ -27,7 +27,7 @@ export const sendUserVoiceHandler = async (
         },
       },
       to: process.env.BILLETS_SERVER_MAILER_EMAIL_ADDRESS,
-      subject: 'Billets User Voice ' + format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
+      subject: `${SERVICE_NAME} User Voice ' + format(new Date(), 'yyyy-MM-dd HH:mm:ss')`,
       html: `
         <h1>사용자 Voice</h1>
         <p>이메일: ${email}</p>

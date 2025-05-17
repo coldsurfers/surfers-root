@@ -20,7 +20,7 @@
     "declaration": true,
     "declarationMap": true,
     "target": "ES6",
-    "incremental": true,
+    "incremental": false,
     "tsBuildInfoFile": ".tsbuildinfo",
     "jsx": "preserve",
     "plugins": [
