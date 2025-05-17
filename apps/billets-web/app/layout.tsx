@@ -30,6 +30,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" type="image/png" />
+        <meta name="naver-site-verification" content="9d79fd58f37f9330e72dddbb8ad64f08cbd6e11e" />
       </head>
       <body className={pretendard.className}>
         {/* do not use this theme control */}
