@@ -54,7 +54,7 @@ export default async function ArtistDetailPageLayout({
           __html: JSON.stringify(
             metadataInstance.generateLdJson({
               type: 'PerformingGroup',
-              image: artistDetail.thumbUrl ? `${artistDetail.thumbUrl}&width=500&height=500&format=png` : '',
+              image: artistDetail.thumbUrl ? `${artistDetail.thumbUrl}` : '',
               name: artistDetail.name,
               url: `${SITE_URL}/artist/${pageParams['artist-id']}`,
               events: artistDetail.upcomingEvents.map((event) => ({
@@ -63,9 +63,7 @@ export default async function ArtistDetailPageLayout({
                 name: event.data.title,
                 startDate: event.data.date,
                 endDate: event.data.date,
-                images: event.data.mainPoster?.url
-                  ? [`${event.data.mainPoster.url}&width=500&height=500&format=png`]
-                  : [],
+                images: event.data.mainPoster?.url ? [`${event.data.mainPoster.url}`] : [],
                 description: '',
                 venue: {
                   // @todo: expand api properties from backend side

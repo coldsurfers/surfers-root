@@ -1,5 +1,6 @@
 'use client'
 
+import { isEmptySource } from '@/libs/utils/utils.image'
 import { components } from '@coldsurfers/api-sdk'
 import { format, parseISO } from 'date-fns'
 import { useMemo } from 'react'
@@ -21,10 +22,10 @@ export const RecentConcertListItem = ({ data }: { data: components['schemas']['C
     return format(parseISO(data.date), 'yyyy.MM.dd')
   }, [data.date])
   const thumbUrl = useMemo(() => {
-    if (!data.mainPoster || !data.mainPoster.url) {
+    if (isEmptySource(data.mainPoster?.url ?? '')) {
       return ''
     }
-    return `${data.mainPoster.url}&width=250&height=250`
+    return `${data.mainPoster!.url}`
   }, [data.mainPoster])
   return (
     <GlobalLink href={`/event/${data.slug}`}>

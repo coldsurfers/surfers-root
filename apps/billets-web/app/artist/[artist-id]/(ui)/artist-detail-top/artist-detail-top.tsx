@@ -27,13 +27,13 @@ export function ArtistDetailTop({ artistId }: { artistId: string }) {
     if (!artistDetail?.thumbUrl) {
       return ''
     }
-    return `${artistDetail.thumbUrl}&width=640&height=640&format=png`
+    return `${artistDetail.thumbUrl}`
   }, [artistDetail?.thumbUrl])
   const imageModalThumbUrl = useMemo(() => {
     if (!artistDetail?.thumbUrl) {
       return ''
     }
-    return `${artistDetail.thumbUrl}&width=1300&height=1300`
+    return `${artistDetail.thumbUrl}`
   }, [artistDetail?.thumbUrl])
 
   const thumbCopyright = useMemo(() => {

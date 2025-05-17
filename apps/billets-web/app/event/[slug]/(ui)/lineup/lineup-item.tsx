@@ -16,7 +16,7 @@ export const LineupItem = memo(({ artist }: { artist: components['schemas']['Art
     if (!artist.thumbUrl) {
       return ''
     }
-    return `${artist.thumbUrl}&width=80&height=80`
+    return `${artist.thumbUrl}`
   }, [artist.thumbUrl])
   const name = artist.name
   return (

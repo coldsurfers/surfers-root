@@ -3,7 +3,6 @@
 import { paths } from '@coldsurfers/api-sdk'
 import { format } from 'date-fns'
 import { match } from 'ts-pattern'
-import { SEARCH_ITEM_ARTIST_THUMBNAIL_SIZE } from './search-item.constants'
 import {
   SearchItemEventThumbnailSquare,
   SearchItemThumbnailCircle,
@@ -24,9 +23,7 @@ export const SearchItem = (item: SearchItemProps) => {
       (value) => {
         return (
           <StyledSearchItemLink key={value.id} href={`/artist/${value.id}`} onClick={item.onClick}>
-            <SearchItemThumbnailCircle
-              src={`${value.profileImgUrl}&width=${SEARCH_ITEM_ARTIST_THUMBNAIL_SIZE}&height=${SEARCH_ITEM_ARTIST_THUMBNAIL_SIZE}`}
-            />
+            <SearchItemThumbnailCircle src={`${value.profileImgUrl}`} />
             <StyledSearchItemRightInfoWrapper>
               <StyledSearchItemMainText as="p" numberOfLines={1}>
                 {value.name}
@@ -44,9 +41,7 @@ export const SearchItem = (item: SearchItemProps) => {
       (value) => {
         return (
           <StyledSearchItemLink key={value.id} href={`/event/${value.slug}`} onClick={item.onClick}>
-            <SearchItemEventThumbnailSquare
-              src={`${value.thumbnailImgUrl}&width=${SEARCH_ITEM_ARTIST_THUMBNAIL_SIZE}&height=${SEARCH_ITEM_ARTIST_THUMBNAIL_SIZE}`}
-            />
+            <SearchItemEventThumbnailSquare src={`${value.thumbnailImgUrl}`} />
             <StyledSearchItemRightInfoWrapper>
               <StyledSearchItemMainText as="p" numberOfLines={1}>
                 {value.title}
