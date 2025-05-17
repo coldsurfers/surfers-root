@@ -11,7 +11,12 @@ import {
   Ticket,
   Venue,
 } from '@prisma/client'
+import dotenv from 'dotenv'
 import { ConcertDetailRepository } from './concert-detail.repository'
+
+dotenv.config()
+
+const { STATIC_SERVER_HOST: staticServerHost } = process.env
 
 interface ConcertDetailModel extends Concert {
   posters: Poster[]
@@ -174,7 +179,7 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
       date: model.date.toISOString(),
       posters: model.posters.map((poster) => ({
         id: poster.id,
-        url: poster.imageURL,
+        url: `${staticServerHost}/${poster.keyId}`,
       })),
       venues: model.venues.map((venue) => ({
         id: venue.id,
@@ -203,7 +208,7 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
       slug: model.slug,
       detailImages: model.detailImages.map((detailImage) => ({
         id: detailImage.id,
-        url: detailImage.imageURL,
+        url: `${staticServerHost}/${detailImage.keyId}`,
       })),
     }
   }

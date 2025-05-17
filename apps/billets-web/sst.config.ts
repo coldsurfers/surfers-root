@@ -1,7 +1,9 @@
 /// <reference path="./.sst/platform/config.d.ts" />
 import dotenv from 'dotenv'
 
-dotenv.config()
+dotenv.config({
+  path: '.env.production',
+})
 
 export default $config({
   app(input) {

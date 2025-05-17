@@ -32,9 +32,7 @@ export function ArtistDetailEventList({ artistId }: { artistId: string }) {
       <StyledArtistDetailEventListTitleText as="h3">Upcoming Events</StyledArtistDetailEventListTitleText>
       <StyledArtistDetailEventListContainer>
         {upcomingEvents.map((event) => {
-          const thumbUrl = event.data.mainPoster?.url
-            ? `${event.data.mainPoster.url}&width=150&height=150&format=png`
-            : ''
+          const thumbUrl = event.data.mainPoster?.url ? `${event.data.mainPoster.url}` : ''
           return (
             <StyledArtistDetailEventListItem key={event.data.id} href={`/event/${event.data.slug}`}>
               {thumbUrl ? (

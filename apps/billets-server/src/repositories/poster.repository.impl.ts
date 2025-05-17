@@ -2,7 +2,12 @@ import { PosterDetailDTO } from '@/dtos/poster-detail.dto'
 import { PosterDTO } from '@/dtos/poster.dto'
 import { dbClient } from '@/lib/db'
 import { Copyright, Poster } from '@prisma/client'
+import dotenv from 'dotenv'
 import { PosterRepository } from './poster.repository'
+
+dotenv.config()
+
+const { STATIC_SERVER_HOST: staticServerHost } = process.env
 
 export class PosterRepositoryImpl implements PosterRepository {
   async findOne(params: { posterId: string }): Promise<PosterDetailDTO | null> {
@@ -38,7 +43,7 @@ export class PosterRepositoryImpl implements PosterRepository {
   private toDTO(model: Poster): PosterDTO {
     return {
       id: model.id,
-      url: model.imageURL,
+      url: `${staticServerHost}/${model.keyId}`,
     }
   }
 
@@ -49,7 +54,7 @@ export class PosterRepositoryImpl implements PosterRepository {
   ): PosterDetailDTO {
     return {
       id: model.id,
-      url: model.imageURL,
+      url: `${staticServerHost}/${model.keyId}`,
       copyright: model.copyright,
     }
   }
