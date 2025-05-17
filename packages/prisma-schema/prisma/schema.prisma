@@ -163,11 +163,12 @@ model KOPISEvent {
 
 model Poster {
   id          String              @id @default(uuid())
-  imageURL    String
+  imageURL    String?             @default("")
   createdAt   DateTime            @default(now())
   copyrightId String?
   concerts    ConcertsOnPosters[]
   copyright   Copyright?          @relation(fields: [copyrightId], references: [id])
+  keyId       String?             @default("")
 }
 
 model DetailImage {
@@ -175,6 +176,7 @@ model DetailImage {
   imageURL  String
   createdAt DateTime                 @default(now())
   concerts  ConcertsOnDetailImages[]
+  keyId     String?                  @default("")
 }
 
 model TicketsOnPrices {

@@ -1,7 +1,12 @@
 import { ArtistSubscribeDTO, EventSubscribeDTO, VenueSubscribeDTO } from '@/dtos/subscribe.dto'
 import { dbClient } from '@/lib/db'
 import { UsersOnSubscribedArtists, UsersOnSubscribedConcerts, UsersOnSubscribedVenues } from '@prisma/client'
+import dotenv from 'dotenv'
 import { SubscribeRepository } from './subscribe.repository'
+
+dotenv.config()
+
+const { STATIC_SERVER_HOST: staticServerHost } = process.env
 
 export class SubscribeRepositoryImpl implements SubscribeRepository {
   async count(params: { userId: string }): Promise<{ event: number; artist: number; venue: number }> {
@@ -71,11 +76,12 @@ export class SubscribeRepositoryImpl implements SubscribeRepository {
         createdAt: 'desc',
       },
     })
+    const posterKeyId = eventData?.concert.posters.at(0)?.poster.keyId
     return {
       event: eventData
         ? this.toDTO({
             ...eventData,
-            thumbUrl: eventData?.concert.posters.at(0)?.poster.imageURL,
+            thumbUrl: `${staticServerHost}/${posterKeyId}`,
           })
         : null,
       artist: artistData
