@@ -6,6 +6,15 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
+    "deploy:coldsurf-server:prod": {
+      "dependsOn": ["build"]
+    },
+    "deploy:coldsurf-server:dev": {
+      "dependsOn": ["build"]
+    },
+    "deploy:coldsurf-io:prod": {
+      "dependsOn": ["build"]
+    },
     "dev": {
       "cache": false,
       "persistent": true
