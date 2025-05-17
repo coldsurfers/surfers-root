@@ -1,7 +1,6 @@
 import { media, semantics, Text } from '@coldsurfers/ocean-road'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import Image from 'next/image'
 
 export const StyledPostItemContainer = styled.div`
   display: flex;
@@ -80,7 +79,7 @@ export const StyledPostItemWriterAvatar = styled.img`
   margin-right: 8px;
 `
 
-export const StyledPostThumbnail = styled(Image)`
+export const StyledPostThumbnail = styled.img`
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
