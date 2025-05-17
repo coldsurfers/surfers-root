@@ -1,5 +1,3 @@
-'use client'
-
 import { CSSProperties, ElementType, PropsWithChildren } from 'react'
 import { StyledTextContainer } from './text.styled'
 

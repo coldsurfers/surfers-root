@@ -1,16 +1,20 @@
 {
   "name": "@coldsurfers/cloudinary-utils",
   "version": "1.0.1-rc.1",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "source": "src/",
   "files": [
     "src",
-    "dist"
+    "dist",
+    "package.json"
   ],
   "exports": {
     ".": {
-      "import": "./src/index.ts",
-      "require": "./src/index.ts"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "license": "MIT",
@@ -25,12 +29,12 @@
     "release-it": "17.2.1",
     "sha1": "^1.1.1",
     "stream": "^0.0.2",
+    "tsdown": "^0.11.9",
     "typescript": "5.6.3",
     "util": "^0.12.5"
   },
   "scripts": {
-    "prebuild": "yarn workspace @coldsurfers/shared-utils build",
-    "build": "rm -rf dist && tsc",
+    "build": "rm -rf dist && tsdown",
     "prerelease": "yarn build",
     "prerelease:rc": "yarn build",
     "release": "release-it minor --ci",
