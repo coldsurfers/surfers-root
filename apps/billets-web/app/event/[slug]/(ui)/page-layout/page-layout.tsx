@@ -1,6 +1,7 @@
 'use client'
 
 import { logEvent } from '@/features/firebase/firebase'
+import { SERVICE_NAME } from '@coldsurfers/shared-utils'
 import { ReactNode, useEffect } from 'react'
 import {
   StyledPageLayout,
@@ -63,7 +64,7 @@ export function PageLayout({
           {venue}
         </StyledSectionContainer>
         <StyledSectionContainer>
-          <StyledSectionHeaderText as="h3">Download the Billets app</StyledSectionHeaderText>
+          <StyledSectionHeaderText as="h3">Download the {SERVICE_NAME} app</StyledSectionHeaderText>
           {downloadApp}
         </StyledSectionContainer>
       </StyledRightSideContainer>

@@ -3,6 +3,7 @@ import { metadataInstance } from '@/libs/metadata'
 import { initialPageQuery } from '@/libs/openapi-client'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import { getQueryClient, validateCityParam } from '@/libs/utils'
+import { SERVICE_NAME } from '@coldsurfers/shared-utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { RouteLoading } from 'app/(ui)'
 import { Metadata } from 'next'
@@ -25,11 +26,11 @@ export async function generateMetadata({ params }: { params: Promise<{ city: str
     })
   }
   const openGraph: Metadata['openGraph'] = {
-    title: `Popular shows in ${validation.data.uiName} | Billets`,
+    title: `${validation.data.uiName}의 라이브 공연, 전시, 사운드 - ${SERVICE_NAME}`,
     description: COMMON_META_DESCRIPTION,
   }
   return metadataInstance.generateMetadata<Metadata>({
-    title: `Popular shows in ${validation.data.uiName} | Billets`,
+    title: `${validation.data.uiName}의 라이브 공연, 전시, 사운드 - ${SERVICE_NAME}`,
     description: COMMON_META_DESCRIPTION,
     openGraph,
   })

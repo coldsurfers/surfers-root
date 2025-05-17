@@ -1,11 +1,10 @@
-import { NextMetadataGenerator } from '@coldsurfers/shared-utils'
-import { APP_STORE_ID, APP_STORE_URL, SITE_NAME, SITE_URL } from '../constants'
+import { NextMetadataGenerator, SERVICE_NAME } from '@coldsurfers/shared-utils'
+import { APP_STORE_ID, APP_STORE_URL, SITE_URL } from '../constants'
 
 export const metadataInstance = new NextMetadataGenerator({
   baseData: {
     keywords: [
-      'COLDSURF',
-      'Billets',
+      SERVICE_NAME,
       'Tickets',
       '공연',
       '티켓',
@@ -37,13 +36,13 @@ export const metadataInstance = new NextMetadataGenerator({
     metadataBase: new URL(SITE_URL),
     appLinks: {
       ios: {
-        app_name: 'Billets',
+        app_name: SERVICE_NAME,
         app_store_id: APP_STORE_ID,
         url: APP_STORE_URL,
       },
     },
     openGraph: {
-      siteName: SITE_NAME,
+      siteName: SERVICE_NAME,
     },
   },
 })
