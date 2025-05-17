@@ -29,7 +29,7 @@ export function VenueDetailEventList({ venueId }: { venueId: string }) {
       <StyledVenueDetailEventListLayout>
         {upcomingEvents.map((value) => {
           const { mainPoster } = value.data
-          const posterUrl = mainPoster?.url ? `${mainPoster.url}&width=400&height=400&format=png` : ''
+          const posterUrl = mainPoster?.url ? `${mainPoster.url}` : ''
           const formattedDate = format(new Date(value.data.date), 'EEE, MMM dd')
           return (
             <StyledVenueDetailEventListItem key={value.data.id} href={`/event/${value.data.slug}`}>

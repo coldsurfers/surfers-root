@@ -7,7 +7,12 @@ import {
 } from '@/dtos/concert.dto'
 import { dbClient } from '@/lib/db/db.client'
 import { Artist, ArtistProfileImage, Concert, Copyright, KOPISEvent, Poster, Venue } from '@prisma/client'
+import dotenv from 'dotenv'
 import { ConcertRepository } from './concert.repository'
+
+dotenv.config()
+
+const { STATIC_SERVER_HOST: staticServerHost } = process.env
 
 interface ConcertModel extends Concert {
   posters: Poster[]
@@ -320,9 +325,9 @@ export class ConcertRepositoryImpl implements ConcertRepository {
 
   private generateMainPoster(model: ConcertModel) {
     if (model.kopisEvent) {
-      const posterUrl = model.posters.at(0)?.imageURL ?? ''
+      const keyId = model.posters.at(0)?.keyId ?? ''
       return {
-        url: posterUrl,
+        url: `${staticServerHost}/${keyId}`,
         copyright: null,
       }
     }

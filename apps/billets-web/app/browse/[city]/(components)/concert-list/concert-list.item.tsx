@@ -1,4 +1,5 @@
 import { logEvent } from '@/features/firebase/firebase'
+import { isEmptySource } from '@/libs/utils/utils.image'
 import { components } from '@coldsurfers/api-sdk'
 import { GlobalLink } from 'app/(ui)/global-link/global-link'
 import { format } from 'date-fns'
@@ -22,10 +23,10 @@ export const ConcertListItem = memo(({ data }: { data: components['schemas']['Co
     return format(new Date(data.date), 'EEE, MMM dd')
   }, [data.date])
   const thumbUrl = useMemo(() => {
-    if (!data.mainPoster || !data.mainPoster.url) {
+    if (isEmptySource(data.mainPoster?.url ?? '')) {
       return ''
     }
-    return `${data.mainPoster.url}&width=400&height=400`
+    return `${data.mainPoster!.url}`
   }, [data.mainPoster])
 
   const onClick = useCallback(() => {
