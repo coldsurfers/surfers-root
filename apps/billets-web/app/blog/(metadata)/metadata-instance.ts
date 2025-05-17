@@ -1,5 +1,5 @@
 import { SITE_URL } from '@/libs/constants'
-import { NextMetadataGenerator } from '@coldsurfers/shared-utils'
+import { NextMetadataGenerator, SERVICE_NAME } from '@coldsurfers/shared-utils'
 import { PageObjectResponse, UserObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import { Metadata } from 'next/types'
 import { SeriesCategory } from '../(types)/series'
@@ -7,10 +7,9 @@ import { SeriesCategory } from '../(types)/series'
 export const metadataInstance = new NextMetadataGenerator({
   baseData: {
     keywords: [
-      'COLDSURF',
+      `${SERVICE_NAME}`,
       'ColdSurf',
       'coldsurf',
-      'Billets',
       'Blog',
       'Articles',
       'Corporate Blog',

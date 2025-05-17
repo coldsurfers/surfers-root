@@ -1,6 +1,6 @@
 'use client'
 
-import { SITE_NAME } from '@/libs/constants'
+import { SERVICE_NAME } from '@coldsurfers/shared-utils'
 import Link from 'next/link'
 import { memo } from 'react'
 import { PageTopFadeInMotion, PageTopSlideUpMotion } from './page-top.motion'
@@ -22,7 +22,7 @@ const sectionContents = [
     },
     {
       type: 'paragraph',
-      text: `I created ${SITE_NAME} because I felt sad that lots of bands are disappearing.\nBands always healed my soul in my youth.\n${SITE_NAME} support local venues, so bands can be grown up from their locals. (essentially)`,
+      text: `I created ${SERVICE_NAME} because I felt sad that lots of bands are disappearing.\nBands always healed my soul in my youth.\n${SERVICE_NAME} support local venues, so bands can be grown up from their locals. (essentially)`,
     },
   ],
   [
@@ -64,7 +64,7 @@ const sectionContents = [
     },
     {
       type: 'paragraph',
-      text: `I created ${SITE_NAME} to solve this problem.\nAnd hopefully I want to make good eco system\nfor artists and venues starting from South Korea.`,
+      text: `I created ${SERVICE_NAME} to solve this problem.\nAnd hopefully I want to make good eco system\nfor artists and venues starting from South Korea.`,
     },
   ],
   [
@@ -75,7 +75,7 @@ const sectionContents = [
     },
     {
       type: 'paragraph',
-      text: `${SITE_NAME} is one of the products by `,
+      text: `${SERVICE_NAME} is one of the products by `,
     },
     {
       type: 'link',
@@ -135,7 +135,7 @@ export const PageTop = memo(() => {
     <>
       <SectionDivider $topSpace={false}>
         <PageTopSlideUpMotion>
-          <StyledTopTitleText as="h1">Introduce {SITE_NAME}</StyledTopTitleText>
+          <StyledTopTitleText as="h1">Introduce {SERVICE_NAME}</StyledTopTitleText>
         </PageTopSlideUpMotion>
       </SectionDivider>
       {renderSectionContents(sectionContents)}

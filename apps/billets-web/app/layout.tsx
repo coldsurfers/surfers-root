@@ -1,4 +1,4 @@
-import { APP_STORE_URL, COMMON_META_DESCRIPTION, COMMON_META_TITLE, SITE_NAME, SITE_URL } from '@/libs/constants'
+import { APP_STORE_URL, COMMON_META_DESCRIPTION, COMMON_META_TITLE, SITE_URL } from '@/libs/constants'
 import { metadataInstance } from '@/libs/metadata'
 import {
   FirebaseRegistry,
@@ -7,6 +7,7 @@ import {
   QueryClientRegistry,
   RegistryProvider,
 } from '@/libs/registries'
+import { SERVICE_NAME } from '@coldsurfers/shared-utils'
 import type { Metadata } from 'next'
 import { ReactNode } from 'react'
 import { pretendard } from '../libs/font'
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
     title: COMMON_META_TITLE,
     description: COMMON_META_DESCRIPTION,
     openGraph: {
-      siteName: SITE_NAME,
+      siteName: SERVICE_NAME,
       title: COMMON_META_TITLE,
       description: COMMON_META_DESCRIPTION,
     },
@@ -105,7 +106,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                 image: `${SITE_URL}/favicon.ico`,
                 logo: `${SITE_URL}/favicon.ico`,
                 url: SITE_URL,
-                name: SITE_NAME,
+                name: SERVICE_NAME,
                 sameAs: [APP_STORE_URL, 'https://coldsurf.io', 'https://blog.coldsurf.io'],
               }),
             ),
@@ -118,7 +119,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
               metadataInstance.generateLdJson({
                 type: 'WebSite',
                 url: SITE_URL,
-                name: SITE_NAME,
+                name: SERVICE_NAME,
               }),
             ),
           }}

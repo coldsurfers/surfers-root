@@ -1,10 +1,11 @@
-import { COMMON_META_DESCRIPTION, COMMON_META_TITLE, SITE_NAME, SITE_URL } from '@/libs/constants'
+import { COMMON_META_DESCRIPTION, COMMON_META_TITLE, SITE_URL } from '@/libs/constants'
 import { metadataInstance } from '@/libs/metadata/metadata-instance'
 import { initialPageQuery } from '@/libs/openapi-client'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import { validateCityParam } from '@/libs/utils/utils.city'
 import { getEventCategoryUIName, validateEventCategoryParam } from '@/libs/utils/utils.event-category'
 import { getQueryClient } from '@/libs/utils/utils.query-client'
+import { SERVICE_NAME } from '@coldsurfers/shared-utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { RouteLoading } from 'app/(ui)'
 import { Metadata } from 'next/types'
@@ -42,7 +43,7 @@ export async function generateMetadata({
     })
   }
   const eventCategoryUIName = getEventCategoryUIName(eventCategoryValidation.data.name)
-  const title = `${eventCategoryUIName} in ${cityValidation.data.uiName} | ${SITE_NAME}`
+  const title = `${cityValidation.data.uiName} 근처의 ${eventCategoryUIName} 공연 | ${SERVICE_NAME}`
   const openGraph: Metadata['openGraph'] = {
     title,
     description: COMMON_META_DESCRIPTION,

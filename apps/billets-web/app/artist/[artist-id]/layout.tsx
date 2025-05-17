@@ -1,6 +1,7 @@
-import { SITE_NAME, SITE_URL } from '@/libs/constants'
+import { SITE_URL } from '@/libs/constants'
 import { metadataInstance } from '@/libs/metadata'
 import { apiClient } from '@/libs/openapi-client'
+import { SERVICE_NAME } from '@coldsurfers/shared-utils'
 import { Metadata } from 'next/types'
 import { cache, ReactNode } from 'react'
 
@@ -16,13 +17,13 @@ export const generateMetadata = async ({ params }: { params: Promise<{ ['artist-
   if (!artistDetail) {
     return undefined
   }
-  const title = `${artistDetail.name} tickets and upcoming events | ${SITE_NAME}`
-  const description = `Find tickets for ${artistDetail.name} on ${SITE_NAME}. Download the ${SITE_NAME} app and discover recommendations for events you'll like.`
+  const title = `${artistDetail.name} 공연 정보 및 일정 | ${SERVICE_NAME}`
+  const description = `${SERVICE_NAME}에서 ${artistDetail.name}의 공연 일정과 정보를 확인하세요.\n지금 이 순간, 당신 근처에서 열리는 공연을 탐색해보세요.`
   const meta = metadataInstance.generateMetadata<Metadata>({
     title,
     description,
     openGraph: {
-      siteName: SITE_NAME,
+      siteName: SERVICE_NAME,
       title,
       description,
     },

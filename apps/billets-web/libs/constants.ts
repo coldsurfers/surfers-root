@@ -1,3 +1,5 @@
+import { SERVICE_NAME } from '@coldsurfers/shared-utils'
+
 export const API_BASE_URL = (() => {
   switch (process.env.APP_PLATFORM) {
     case 'production':
@@ -22,9 +24,8 @@ export const SITE_URL = (() => {
   }
 })()
 export const SITE_MAP_URL = 'https://coldsurf.io/sitemap.xml'
-export const SITE_NAME = 'COLDSURF'
-export const COMMON_META_TITLE = `Discover live events and tickets | Browse tickets on ${SITE_NAME}`
-export const COMMON_META_DESCRIPTION = `${SITE_NAME} is on a mission to support local artists grow up. Download ${SITE_NAME} to support your local artists.`
+export const COMMON_META_TITLE = `${SERVICE_NAME} - 당신 근처의 공연, 예술, 사운드`
+export const COMMON_META_DESCRIPTION = `지금 이 순간, 당신 근처에서 벌어지는 공연들`
 
 export const APP_STORE_ID = '1632802589'
 export const APP_STORE_URL = `https://itunes.apple.com/app/id${APP_STORE_ID}`
