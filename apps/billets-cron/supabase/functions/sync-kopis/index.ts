@@ -456,6 +456,15 @@ async function findVenue(venue: string) {
     case '소명아트홀 (구.메가폴리스아트홀)':
       alreadyExistingVenueId = 'dfbf5eb7-a97b-4a3f-ba9a-75bece56602c'
       break
+    case '음악공간 중력장':
+      alreadyExistingVenueId = 'efa1b50e-c69e-4ce7-91ab-5815d2b72d14'
+      break
+    case '스튜디오 바이탈 바이브':
+      alreadyExistingVenueId = '382002d1-8e3f-4220-92b9-d544edcc9f5c'
+      break
+    case '파랑새극장(구. 샘터파랑새극장)':
+      alreadyExistingVenueId = 'c1b03b48-5047-4c55-b7bc-f7eb6fcf5968'
+      break
     default:
       break
   }
