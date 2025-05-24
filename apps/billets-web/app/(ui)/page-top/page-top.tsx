@@ -1,8 +1,7 @@
 'use client'
 
-import { APP_STORE_URL } from '@/libs/constants'
+import { APP_STORE_URL, COMMON_META_DESCRIPTION, COMMON_META_TITLE } from '@/libs/constants'
 import { Button } from '@coldsurfers/ocean-road'
-import { SERVICE_NAME } from '@coldsurfers/shared-utils'
 import Link from 'next/link'
 import { StyledHomeMainTitle, StyledHomeTopImage, StyledWrapper } from './page-top.styled'
 
@@ -10,9 +9,9 @@ export function PageTop() {
   return (
     <>
       <StyledWrapper>
-        <StyledHomeMainTitle as="h1">{'SURF YOUR TICKETS\nLIKE A PRO'}</StyledHomeMainTitle>
-        <StyledHomeMainTitle as="h2" style={{ fontSize: '32px' }}>
-          {SERVICE_NAME}
+        <StyledHomeMainTitle as="h1">{COMMON_META_DESCRIPTION.split(', ').join(',\n')}</StyledHomeMainTitle>
+        <StyledHomeMainTitle as="p" style={{ fontSize: '24px' }}>
+          {COMMON_META_TITLE}
         </StyledHomeMainTitle>
         <Link href={APP_STORE_URL} style={{ display: 'inline-block' }}>
           <Button theme="border">GET THE APP</Button>
