@@ -1,4 +1,10 @@
-import { APP_STORE_URL, COMMON_META_DESCRIPTION, COMMON_META_TITLE, SITE_URL } from '@/libs/constants'
+import {
+  APP_STORE_URL,
+  COMMON_META_DESCRIPTION,
+  COMMON_META_TITLE,
+  COOKIE_ACCESS_TOKEN_KEY,
+  SITE_URL,
+} from '@/libs/constants'
 import { metadataInstance } from '@/libs/metadata'
 import {
   FirebaseRegistry,
@@ -9,6 +15,7 @@ import {
 } from '@/libs/registries'
 import { SERVICE_NAME } from '@coldsurfers/shared-utils'
 import type { Metadata } from 'next'
+import { cookies } from 'next/headers'
 import { ReactNode } from 'react'
 import { pretendard } from '../libs/font'
 import { AppLayout } from './(ui)'
@@ -26,6 +33,9 @@ export const metadata: Metadata = {
 }
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
+  const cookieStore = await cookies()
+  const accessToken = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY)
+  const isLoggedIn = !!accessToken
   return (
     <html lang="en">
       <head>
@@ -127,7 +137,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <RegistryProvider registries={[OceanRoadThemeRegistry, FirebaseRegistry]}>
           <GlobalErrorBoundaryRegistry>
             <QueryClientRegistry>
-              <AppLayout>{children}</AppLayout>
+              <AppLayout isLoggedIn={isLoggedIn}>{children}</AppLayout>
             </QueryClientRegistry>
           </GlobalErrorBoundaryRegistry>
         </RegistryProvider>

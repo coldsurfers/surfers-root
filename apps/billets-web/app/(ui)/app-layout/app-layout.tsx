@@ -9,13 +9,13 @@ import { ChildrenWrapper, Container } from './app-layout.styled'
 
 export function AppLayout({
   children,
+  isLoggedIn,
 }: PropsWithChildren<{
-  accessToken?: string
-  refreshToken?: string
+  isLoggedIn: boolean
 }>) {
   return (
     <Container>
-      <AppHeader />
+      <AppHeader isLoggedIn={isLoggedIn} />
       <ChildrenWrapper>
         <PageLayoutUI>{children}</PageLayoutUI>
       </ChildrenWrapper>
