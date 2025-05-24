@@ -45,6 +45,11 @@ const menuItems = [
     title: '블로그',
     target: undefined,
   },
+  {
+    link: '/login',
+    title: 'Login',
+    target: undefined,
+  },
 ] as const
 
 function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
