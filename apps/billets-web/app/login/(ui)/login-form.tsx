@@ -22,21 +22,46 @@ const SubTitle = styled(Text)`
 `
 
 const Form = styled.form`
+  margin-top: 2rem;
+
   min-width: 430px;
 
-  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 `
 
 const EmailLoginTextInput = styled(TextInput)`
   width: 100%;
-
-  & + & {
-    margin-top: 1rem;
-  }
 `
 
 const EmailLoginButton = styled(Button)`
   width: 100%;
+`
+
+const SocialLoginButton = styled(Button)`
+  width: 100%;
+  margin-top: 0.5rem;
+  background-color: ${semantics.color.background[1]};
+
+  span {
+    color: ${semantics.color.foreground[1]} !important;
+  }
+`
+
+const DividerText = styled(Text)`
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 0.5rem;
+`
+
+const SocialLoginLayout = styled.div`
+  min-width: 430px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   margin-top: 1rem;
 `
 
@@ -48,8 +73,13 @@ export const LoginForm = () => {
       <Form>
         <EmailLoginTextInput placeholder="Email"></EmailLoginTextInput>
         <EmailLoginTextInput placeholder="Password"></EmailLoginTextInput>
-        <EmailLoginButton>Login</EmailLoginButton>
+        <EmailLoginButton type="submit">Login</EmailLoginButton>
       </Form>
+      <SocialLoginLayout>
+        <DividerText>OR</DividerText>
+        <SocialLoginButton type="button">Continue with Google</SocialLoginButton>
+        <SocialLoginButton type="button">Continue with Apple</SocialLoginButton>
+      </SocialLoginLayout>
     </FormLayout>
   )
 }
