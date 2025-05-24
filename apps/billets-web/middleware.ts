@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { COOKIE_ACCESS_TOKEN_KEY } from './libs/constants'
 
 export function middleware(request: NextRequest) {
   // billets.coldsurf.io로 올 시, coldsurf.io로 리다이렉트
@@ -33,8 +34,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/404', request.url))
   }
 
-  // @TODO: temp key
-  const COOKIE_ACCESS_TOKEN_KEY = 'access-token'
   // 로그인 페이지에 접근 했지만, 이미 로그인 된 경우 '/' 로 리다이렉트
   if (request.nextUrl.pathname.startsWith('/login')) {
     const isLoggedIn = request.cookies.get(COOKIE_ACCESS_TOKEN_KEY)
