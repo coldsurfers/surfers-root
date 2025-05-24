@@ -2,11 +2,13 @@
 
 import { COMMON_META_TITLE } from '@/libs/constants'
 import { apiClient } from '@/libs/openapi-client'
+import { authUtils } from '@/libs/utils/utils.auth'
 import { OpenApiError } from '@coldsurfers/api-sdk'
 import { Button, colors, semantics, Spinner, Text, TextInput } from '@coldsurfers/ocean-road'
 import styled from '@emotion/styled'
 import { useMutation } from '@tanstack/react-query'
 import { InfoIcon } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -93,6 +95,7 @@ const ErrorMessage = styled(Text)`
 `
 
 export const LoginForm = () => {
+  const router = useRouter()
   const { register, watch } = useForm<{
     email: string
     password: string
@@ -121,8 +124,14 @@ export const LoginForm = () => {
       })
       return response
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       setEmailLoginServerError(null)
+      try {
+        await authUtils.localLogin(data.authToken)
+        router.replace('/')
+      } catch (e) {
+        console.error(e)
+      }
     },
     onError: (error) => {
       setEmailLoginServerError(error)

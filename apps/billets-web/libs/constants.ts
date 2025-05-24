@@ -38,3 +38,4 @@ export const GLOBAL_Z_INDEX = {
 }
 
 export const APP_DOWNLOAD_WORDING = '앱 다운로드'
+export const COOKIE_ACCESS_TOKEN_KEY = '@coldsurf-io/cookie-access-token'
