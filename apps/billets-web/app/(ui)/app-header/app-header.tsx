@@ -1,6 +1,7 @@
 'use client'
 
 import { APP_STORE_URL } from '@/libs/constants'
+import { authUtils } from '@/libs/utils/utils.auth'
 import { Button, IconButton, Text } from '@coldsurfers/ocean-road'
 import { SERVICE_NAME } from '@coldsurfers/shared-utils'
 import { useRouter } from 'next/navigation'
@@ -23,7 +24,7 @@ import {
   WebMenuContainer,
 } from './app-header.styled'
 
-const menuItems = [
+const commonMenuItems = [
   {
     link: '/browse',
     title: 'Browse events',
@@ -37,11 +38,6 @@ const menuItems = [
   {
     link: '/blog',
     title: 'Blog',
-    target: undefined,
-  },
-  {
-    link: '/login',
-    title: 'Login',
     target: undefined,
   },
 ] as const
@@ -65,7 +61,7 @@ function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
       {isOpen && (
         <ModalPaper onClick={(e) => e.stopPropagation()}>
           <ModalContent>
-            {menuItems.map((item) => {
+            {commonMenuItems.map((item) => {
               const onClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
                 onClose()
                 if (item.link === '/browse') {
@@ -95,7 +91,7 @@ function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
   )
 }
 
-export function AppHeader() {
+export function AppHeader({ isLoggedIn }: { isLoggedIn: boolean }) {
   const router = useRouter()
   const [animation, setAnimation] = useState<'show' | 'hide'>('show')
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -127,7 +123,7 @@ export function AppHeader() {
           </GlobalLink>
         </div>
         <WebMenuContainer>
-          {menuItems.map((item) => {
+          {commonMenuItems.map((item) => {
             const onClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
               if (item.link === '/browse') {
                 e.preventDefault()
@@ -141,6 +137,22 @@ export function AppHeader() {
               </Container>
             )
           })}
+          {isLoggedIn ? (
+            <HeaderMenuContainerLink
+              href={'/logout'}
+              onClick={() => {
+                authUtils.localLogout().then(() => {
+                  router.push('/auth/signin')
+                })
+              }}
+            >
+              <HeaderMenuText as="p">Logout</HeaderMenuText>
+            </HeaderMenuContainerLink>
+          ) : (
+            <HeaderMenuContainerLink href={'/login'} onClick={() => {}}>
+              <HeaderMenuText as="p">Login</HeaderMenuText>
+            </HeaderMenuContainerLink>
+          )}
           <AppHeaderSearchUI />
           <GlobalLink href={APP_STORE_URL} target="_blank">
             <Button theme="border">GET THE APP</Button>
