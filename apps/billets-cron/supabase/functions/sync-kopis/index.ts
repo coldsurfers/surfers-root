@@ -465,6 +465,15 @@ async function findVenue(venue: string) {
     case '파랑새극장(구. 샘터파랑새극장)':
       alreadyExistingVenueId = 'c1b03b48-5047-4c55-b7bc-f7eb6fcf5968'
       break
+    case '자양스테이션(파리뮤직포럼)':
+      alreadyExistingVenueId = '28938749-b8cc-451a-a98e-0fea8991de9e'
+      break
+    case '하하아트홀 (구. 성원아트홀)':
+      alreadyExistingVenueId = 'a0150031-da37-48e3-b8d0-6b44dd5cc0ac'
+      break
+    case '서울호서예술실용전문학교':
+      alreadyExistingVenueId = '85fd415f-970a-4788-b97a-a113444c2988'
+      break
     default:
       break
   }
