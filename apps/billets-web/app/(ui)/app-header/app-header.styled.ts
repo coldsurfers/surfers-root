@@ -67,6 +67,14 @@ export const HeaderMenuContainerLink = styled(Link)`
   padding: 10px;
 `
 
+export const HeaderMenuContainerButton = styled.div`
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  padding: 10px;
+`
+
 export const HeaderMenuText = styled(Text)``
 
 export const WebMenuContainer = styled.div`
