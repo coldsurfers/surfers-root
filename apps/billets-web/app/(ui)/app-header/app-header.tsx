@@ -1,18 +1,21 @@
 'use client'
 
 import { APP_DOWNLOAD_WORDING, APP_STORE_URL } from '@/libs/constants'
+import { useAuthStore } from '@/libs/stores'
 import { authUtils } from '@/libs/utils/utils.auth'
-import { Button, IconButton, Text } from '@coldsurfers/ocean-road'
+import { Button, IconButton, Spinner, Text } from '@coldsurfers/ocean-road'
 import { SERVICE_NAME } from '@coldsurfers/shared-utils'
+import { useMutation } from '@tanstack/react-query'
 import { Kaushan_Script } from 'next/font/google'
 import { useRouter } from 'next/navigation'
-import { MouseEventHandler, useEffect, useState } from 'react'
+import { MouseEventHandler, useEffect, useLayoutEffect, useState } from 'react'
 import { ColorSchemeToggle } from '../color-scheme-toggle'
 import { GlobalLink } from '../global-link'
 import { AppHeaderSearchUI } from './app-header.search-ui'
 import {
   HeaderContainer,
   HeaderLogo,
+  HeaderMenuContainerButton,
   HeaderMenuContainerGlobalLink,
   HeaderMenuContainerLink,
   HeaderMenuText,
@@ -97,10 +100,25 @@ function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
   )
 }
 
-export function AppHeader({ isLoggedIn }: { isLoggedIn: boolean }) {
+export function AppHeader({ isLoggedIn: initialIsLoggedIn }: { isLoggedIn: boolean }) {
   const router = useRouter()
   const [animation, setAnimation] = useState<'show' | 'hide'>('show')
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const { isLoggedIn, setIsLoggedIn } = useAuthStore()
+
+  const { mutate: logout, isPending: isLogoutPending } = useMutation({
+    mutationFn: async () => {
+      await authUtils.localLogout()
+    },
+    onSuccess: () => {
+      setIsLoggedIn(false)
+      router.refresh()
+    },
+    onError: (error) => {
+      console.error(error)
+    },
+  })
+
   useEffect(() => {
     let lastScrollTop = 0
     const onScroll = () => {
@@ -116,6 +134,12 @@ export function AppHeader({ isLoggedIn }: { isLoggedIn: boolean }) {
 
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  useLayoutEffect(() => {
+    if (initialIsLoggedIn) {
+      setIsLoggedIn(true)
+    }
+  }, [initialIsLoggedIn, setIsLoggedIn])
 
   return (
     <>
@@ -148,19 +172,12 @@ export function AppHeader({ isLoggedIn }: { isLoggedIn: boolean }) {
               </Container>
             )
           })}
-          {isLoggedIn ? (
-            <HeaderMenuContainerLink
-              href={'/logout'}
-              onClick={() => {
-                authUtils.localLogout().then(() => {
-                  router.push('/auth/signin')
-                })
-              }}
-            >
+          {initialIsLoggedIn || isLoggedIn ? (
+            <HeaderMenuContainerButton role="button" onClick={() => logout()}>
               <HeaderMenuText as="p">Logout</HeaderMenuText>
-            </HeaderMenuContainerLink>
+            </HeaderMenuContainerButton>
           ) : (
-            <HeaderMenuContainerLink href={'/login'} onClick={() => {}}>
+            <HeaderMenuContainerLink href={'/login'}>
               <HeaderMenuText as="p">Login</HeaderMenuText>
             </HeaderMenuContainerLink>
           )}
@@ -178,6 +195,7 @@ export function AppHeader({ isLoggedIn }: { isLoggedIn: boolean }) {
         </MobileMenuContainer>
       </HeaderContainer>
       <ModalMenu isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      {isLogoutPending && <Spinner variant="page-overlay" />}
     </>
   )
 }

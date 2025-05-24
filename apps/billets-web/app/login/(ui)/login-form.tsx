@@ -2,6 +2,7 @@
 
 import { COMMON_META_TITLE } from '@/libs/constants'
 import { apiClient } from '@/libs/openapi-client'
+import { useAuthStore } from '@/libs/stores'
 import { authUtils } from '@/libs/utils/utils.auth'
 import { OpenApiError } from '@coldsurfers/api-sdk'
 import { Button, colors, semantics, Spinner, Text, TextInput } from '@coldsurfers/ocean-road'
@@ -96,6 +97,7 @@ const ErrorMessage = styled(Text)`
 
 export const LoginForm = () => {
   const router = useRouter()
+  const { setIsLoggedIn } = useAuthStore()
   const { register, watch } = useForm<{
     email: string
     password: string
@@ -128,6 +130,7 @@ export const LoginForm = () => {
       setEmailLoginServerError(null)
       try {
         await authUtils.localLogin(data.authToken)
+        setIsLoggedIn(true)
         router.replace('/')
       } catch (e) {
         console.error(e)
