@@ -174,6 +174,9 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null
   switch (venue) {
+    case 'TINC This is Not a Church(구. 명성교회)':
+      alreadyExistingVenueId = '4a33ac9d-afed-4b04-98ba-23e9d58855cc'
+      break
     case '예스24 라이브홀 (구. 악스코리아)':
       alreadyExistingVenueId = '941e5df0-e1e4-4b39-9ca0-6c0a134ac5c7'
       break
@@ -473,6 +476,12 @@ async function findVenue(venue: string) {
       break
     case '서울호서예술실용전문학교':
       alreadyExistingVenueId = '85fd415f-970a-4788-b97a-a113444c2988'
+      break
+    case '아르코 꿈밭극장 (구.학전)':
+      alreadyExistingVenueId = '763d73cf-bb05-4434-86ba-1467a19fdebd'
+      break
+    case '스페이스 아텔 (space Artel)':
+      alreadyExistingVenueId = '0c47afcd-1975-44e7-94cb-757dbbe6cf23'
       break
     default:
       break
