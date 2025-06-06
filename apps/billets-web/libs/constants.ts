@@ -36,3 +36,5 @@ export const GLOBAL_Z_INDEX = {
   APP_HEADER: 99,
   MOBILE_MENU_MODAL: 1000,
 }
+
+export const APP_DOWNLOAD_WORDING = '앱 다운로드'
