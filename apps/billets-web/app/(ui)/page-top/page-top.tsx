@@ -2,6 +2,7 @@
 
 import { Button } from '@coldsurfers/ocean-road'
 import { AnimatePresence, motion } from 'framer-motion'
+import { Nanum_Pen_Script } from 'next/font/google'
 import Link from 'next/link'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import {
@@ -15,6 +16,11 @@ import {
 
 const words = ['라이브 공연', '재즈 공연', '뮤지컬', '페스티벌', '연극', '콘서트', '클래식 공연']
 const duration = 2500
+
+const nanumPenScriptFont = Nanum_Pen_Script({
+  subsets: ['latin'],
+  weight: ['400'],
+})
 
 export function PageTop() {
   const [index, setIndex] = useState(0)
@@ -57,7 +63,8 @@ export function PageTop() {
                   duration: 0.3,
                   ease: 'easeInOut',
                 }}
-                style={{ whiteSpace: 'nowrap', display: 'inline-flex', marginRight: 12 }}
+                className={nanumPenScriptFont.className}
+                style={{ whiteSpace: 'nowrap', display: 'inline-flex', marginRight: 12, fontSize: 44 }}
               >
                 {words[index]}
               </motion.span>

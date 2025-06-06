@@ -3,6 +3,7 @@
 import { APP_DOWNLOAD_WORDING, APP_STORE_URL } from '@/libs/constants'
 import { Button, IconButton, Text } from '@coldsurfers/ocean-road'
 import { SERVICE_NAME } from '@coldsurfers/shared-utils'
+import { Kaushan_Script } from 'next/font/google'
 import { useRouter } from 'next/navigation'
 import { MouseEventHandler, useEffect, useState } from 'react'
 import { ColorSchemeToggle } from '../color-scheme-toggle'
@@ -22,6 +23,11 @@ import {
   ModalPaper,
   WebMenuContainer,
 } from './app-header.styled'
+
+const kaushanScriptFont = Kaushan_Script({
+  subsets: ['latin'],
+  weight: ['400'],
+})
 
 const menuItems = [
   {
@@ -118,7 +124,12 @@ export function AppHeader() {
             <HeaderLogo src="/logo.png" alt="header_logo" />
           </GlobalLink>
           <GlobalLink href="/">
-            <HeaderTitle as="h1">{SERVICE_NAME}</HeaderTitle>
+            <HeaderTitle as="h1">
+              {SERVICE_NAME}{' '}
+              <span style={{ fontSize: 12 }} className={kaushanScriptFont.className}>
+                BETA
+              </span>
+            </HeaderTitle>
           </GlobalLink>
         </div>
         <WebMenuContainer>
