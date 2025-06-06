@@ -1,6 +1,6 @@
 'use client'
 
-import { APP_STORE_URL } from '@/libs/constants'
+import { APP_DOWNLOAD_WORDING, APP_STORE_URL } from '@/libs/constants'
 import { Button, IconButton, Text } from '@coldsurfers/ocean-road'
 import { SERVICE_NAME } from '@coldsurfers/shared-utils'
 import { useRouter } from 'next/navigation'
@@ -81,7 +81,7 @@ function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
               )
             })}
             <GlobalLink href={APP_STORE_URL} onClick={onClose} style={{ margin: '0 auto' }}>
-              <Button theme="border">GET THE APP</Button>
+              <Button theme="border">{APP_DOWNLOAD_WORDING}</Button>
             </GlobalLink>
           </ModalContent>
         </ModalPaper>
@@ -138,7 +138,7 @@ export function AppHeader() {
           })}
           <AppHeaderSearchUI />
           <GlobalLink href={APP_STORE_URL} target="_blank">
-            <Button theme="border">GET THE APP</Button>
+            <Button theme="border">{APP_DOWNLOAD_WORDING}</Button>
           </GlobalLink>
           <ColorSchemeToggle />
         </WebMenuContainer>
