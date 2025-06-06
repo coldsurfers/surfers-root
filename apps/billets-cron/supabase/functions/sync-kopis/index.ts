@@ -174,6 +174,12 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null
   switch (venue) {
+    case '노크 클럽(KNOCK CLUB)':
+      alreadyExistingVenueId = 'ea94153f-af6f-4e3a-9d67-47df7cea95fc'
+      break
+    case '선릉문화공간 제이드409':
+      alreadyExistingVenueId = '482a6cd4-0352-4c3c-9959-46bcf5bc0890'
+      break
     case '여수엑스포컨벤션센터 (여수세계박람회장)':
       alreadyExistingVenueId = '9253d214-2fb7-4104-8666-d72bbbe2e567'
       break
