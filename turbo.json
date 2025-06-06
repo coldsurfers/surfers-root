@@ -18,6 +18,12 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
+    "@coldsurfers/billets-cron#dev": {
+      "dependsOn": ["^build"]
+    },
+    "@coldsurfers/billets-server#dev": {
+      "dependsOn": ["^build"]
+    },
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
@@ -47,8 +53,8 @@
       "cache": true
     },
     "sync-server": {
-      "cache": false,
-      "dependsOn": ["^sync-server"]
+      "dependsOn": ["@coldsurfers/billets-cron#dev", "@coldsurfers/billets-server#dev"],
+      "cache": false
     }
   }
 }
