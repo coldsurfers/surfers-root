@@ -41,3 +41,55 @@ async function migrateArtistProfileImages() {
 }
 
 // migrateArtistProfileImages()
+
+async function migratePostersKeyId() {
+  const allPosters = await dbClient.poster.findMany()
+
+  const concurrency = 10
+  let index = 0
+  async function processBatch() {
+    const batch = allPosters.slice(index, index + concurrency)
+    index += concurrency
+    await Promise.all(
+      batch.map(async (poster) => {
+        const { imageURL } = poster
+        const [_, key] = imageURL.split('https://api.billets.coldsurf.io/v1/image?key=')
+        await dbClient.poster.update({
+          where: { id: poster.id },
+          data: { keyId: key },
+        })
+      }),
+    )
+  }
+  while (index < allPosters.length) {
+    await processBatch()
+  }
+}
+
+// migratePostersKeyId()
+
+async function migrateDetailImages() {
+  const allDetailImages = await dbClient.detailImage.findMany()
+
+  const concurrency = 10
+  let index = 0
+  async function processBatch() {
+    const batch = allDetailImages.slice(index, index + concurrency)
+    index += concurrency
+    await Promise.all(
+      batch.map(async (detailImage) => {
+        const { imageURL } = detailImage
+        const [_, key] = imageURL.split('https://api.billets.coldsurf.io/v1/image?key=')
+        await dbClient.detailImage.update({
+          where: { id: detailImage.id },
+          data: { keyId: key },
+        })
+      }),
+    )
+  }
+  while (index < allDetailImages.length) {
+    await processBatch()
+  }
+}
+
+// migrateDetailImages()
