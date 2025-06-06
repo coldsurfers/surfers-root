@@ -1,4 +1,4 @@
-import { useBottomTab, zodNavigation } from '@/lib'
+import { useBottomTab, withHapticPress, zodNavigation } from '@/lib'
 import { useUIStore } from '@/lib/stores/ui-store'
 import { colors } from '@coldsurfers/ocean-road'
 import { useColorScheme } from '@coldsurfers/ocean-road/native'
@@ -111,7 +111,7 @@ export const TabBar = memo((props: Props) => {
         return (
           <TouchableOpacity
             key={route.name}
-            onPress={handlePress}
+            onPress={withHapticPress(handlePress)}
             onLongPress={onLongPress}
             style={styles.tabBarButton}
           >
