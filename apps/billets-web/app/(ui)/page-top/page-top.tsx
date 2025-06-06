@@ -1,17 +1,22 @@
 'use client'
 
+import { Button } from '@coldsurfers/ocean-road'
 import { AnimatePresence, motion } from 'framer-motion'
+import Link from 'next/link'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { StyledHomeMainTitle, StyledWrapper, TicketIcon, TopWrapper } from './page-top.styled'
+import { StyledHomeMainTitle, StyledHomeSubTitle, StyledWrapper, TicketIcon, TopWrapper } from './page-top.styled'
 
 const words = ['라이브 공연', '재즈 공연', '뮤지컬', '페스티벌', '연극', '콘서트', '클래식']
-const duration = 3000
+const duration = 2500
 
 export function PageTop() {
   const [index, setIndex] = useState(0)
   const [width, setWidth] = useState(0)
   const wordRef = useRef<HTMLSpanElement>(null)
 
+  /**
+   * words가 셔플되면서, 레이아웃 자체가 변할때에만 동작합니다.
+   */
   useLayoutEffect(() => {
     if (wordRef.current) {
       setWidth(wordRef.current.offsetWidth)
@@ -20,6 +25,9 @@ export function PageTop() {
 
   useEffect(() => {
     const interval = setInterval(() => {
+      /**
+       * index의 순서대로 셔플
+       */
       setIndex((prev) => (prev + 1) % words.length)
     }, duration)
     return () => clearInterval(interval)
@@ -49,7 +57,12 @@ export function PageTop() {
           <span style={{ marginLeft: 8 }}>{'티켓, 찾고 계신가요?'}</span>
         </StyledHomeMainTitle>
       </TopWrapper>
-      <StyledHomeMainTitle as="h2">{'공연 티켓을 찾기 어려운 당신을 위해 준비했어요'}</StyledHomeMainTitle>
+      <StyledHomeSubTitle as="h3">{'공연 티켓을 찾기 어려운 당신을 위해 준비했어요'}</StyledHomeSubTitle>
+      <Link href="/browse">
+        <Button theme="border" size="lg">
+          티켓 찾기
+        </Button>
+      </Link>
     </StyledWrapper>
   )
 }

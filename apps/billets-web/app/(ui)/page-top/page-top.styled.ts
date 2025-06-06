@@ -18,13 +18,14 @@ export const TopWrapper = styled.div`
 `
 
 export const TicketIcon = styled(Ticket)`
-  width: 32px;
-  height: 32px;
+  width: 2.5rem;
+  height: 2.5rem;
   margin-right: 0.5rem;
 `
 
 export const StyledHomeMainTitle = styled(Text)`
   font-weight: 800;
+  font-size: 2.5rem;
   white-space: pre-line; /* This allows newline support */
 
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -41,7 +42,6 @@ export const StyledHomeMainTitle = styled(Text)`
 `
 
 export const StyledHomeSubTitle = styled(StyledHomeMainTitle)`
-  font-size: 32px;
-  font-weight: 800;
-  letter-spacing: -2px;
+  font-weight: 500;
+  font-size: 1.5rem;
 `
