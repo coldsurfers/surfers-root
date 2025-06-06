@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "dev": "npx supabase functions serve --env-file ./supabase/.env.local",
-    "sync-server": "pnpm dev",
     "gen": "npx supabase gen types typescript --project-id PROJECT_ID > supabase/functions/sync-kopis/schema/supabase.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
