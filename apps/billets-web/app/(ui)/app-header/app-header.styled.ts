@@ -31,7 +31,7 @@ export const HeaderContainer = styled.header<{ $animation: 'show' | 'hide' }>`
 
 export const HeaderTitle = styled(Text)`
   font-size: 32px;
-  font-weight: 900;
+  font-weight: 800;
 
   @media (max-width: 960px) {
     font-size: 24px;
@@ -40,14 +40,14 @@ export const HeaderTitle = styled(Text)`
 
 export const HeaderLogo = styled.img`
   border-radius: 50%;
-  margin-right: 10px;
+  margin-right: 12px;
 
-  width: 62px;
-  height: 62px;
+  width: 42px;
+  height: 42px;
 
   ${media.large(css`
-    width: 48px;
-    height: 48px;
+    width: 36px;
+    height: 36px;
   `)}
 `
 

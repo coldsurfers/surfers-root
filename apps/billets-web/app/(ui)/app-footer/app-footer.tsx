@@ -17,6 +17,10 @@ const Container = styled.div`
     padding-left: 1rem;
     padding-right: 1rem;
   `)}
+
+  ${media.medium(css`
+    margin-top: unset;
+  `)}
 `
 
 export function AppFooter() {
