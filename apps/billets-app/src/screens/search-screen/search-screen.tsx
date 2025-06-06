@@ -205,7 +205,7 @@ export const SearchScreen = () => {
   // Listen to position changes in real time
   useAnimatedReaction(
     () => animatedPosition.value,
-    (position) => {
+    () => {
       // console.log('Current position (Y-axis):', position)
       // runOnJS(setShouldShowMapView)(position > 0)
     },

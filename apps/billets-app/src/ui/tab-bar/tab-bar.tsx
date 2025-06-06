@@ -17,7 +17,7 @@ interface Props extends BottomTabBarProps {
 
 export const TabBar = memo((props: Props) => {
   const { semantics, colorScheme } = useColorScheme()
-  const { navigation, state, descriptors } = props
+  const { navigation, state } = props
   const { tabBarHeight } = useBottomTab()
   const bottomTabBarTranslateY = useSharedValue(0)
   const { bottom: bottomInset } = useSafeAreaInsets()
