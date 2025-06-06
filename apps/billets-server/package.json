@@ -22,7 +22,6 @@
     "deploy:coldsurf-server:prod": "node ./src/scripts/serverless-pre-build.mjs && npx serverless deploy --stage prod",
     "serverless:offline": "npx serverless offline --httpPort 3001",
     "serverless:package": "node ./src/scripts/serverless-pre-build.mjs && npx serverless package",
-    "sync-server": "pnpm dev",
     "watch": "tsup --watch --onSuccess 'node ./build/start-server.js'"
   },
   "dependencies": {
