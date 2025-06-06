@@ -2,28 +2,40 @@
   "migIndex": 1,
   "data": [
     {
-      "path": "assets/fonts/NotoSansKR-Black.otf",
-      "sha1": "0115cc2afb97b3cf47f59c6f6f50e580b9758bc9"
+      "path": "assets/fonts/Pretendard-Black.otf",
+      "sha1": "b9162985d25a21b393185c6139d283fba46fd739"
     },
     {
-      "path": "assets/fonts/NotoSansKR-Bold.otf",
-      "sha1": "49e50de244558c4c21f43d85b7404cabb970b30b"
+      "path": "assets/fonts/Pretendard-Bold.otf",
+      "sha1": "bd4ac82cc26cf93c89cfbfbbba8825c5198b5b99"
     },
     {
-      "path": "assets/fonts/NotoSansKR-Light.otf",
-      "sha1": "03bd5bfbc27f2d2b9bdc8854e4174a300e89a007"
+      "path": "assets/fonts/Pretendard-ExtraBold.otf",
+      "sha1": "ea07e7375c62c8386f77431f0f62a2cbdea34618"
     },
     {
-      "path": "assets/fonts/NotoSansKR-Medium.otf",
-      "sha1": "a4cdc5c494d118e231a32dda98373e7835ac9dd8"
+      "path": "assets/fonts/Pretendard-ExtraLight.otf",
+      "sha1": "4cc979a7edca4de7b9c392529493cdd0409d9dd1"
     },
     {
-      "path": "assets/fonts/NotoSansKR-Regular.otf",
-      "sha1": "5f533d0d5caf3847afa2d78301e7b87b3485ecbc"
+      "path": "assets/fonts/Pretendard-Light.otf",
+      "sha1": "207a94ca77a34bba0b6cec41286bde3cbeecb7f1"
     },
     {
-      "path": "assets/fonts/NotoSansKR-Thin.otf",
-      "sha1": "274bbbdfa070cc0ec1ea404f110641ef57a6c623"
+      "path": "assets/fonts/Pretendard-Medium.otf",
+      "sha1": "eba1a37734a9c4fe3d84f540ce8d812d366b2b22"
+    },
+    {
+      "path": "assets/fonts/Pretendard-Regular.otf",
+      "sha1": "e205ef0a314d9da4e1a9382e0e65a25900a9ac7b"
+    },
+    {
+      "path": "assets/fonts/Pretendard-SemiBold.otf",
+      "sha1": "916a62152b7fd08ff43d239de04303a465521fe6"
+    },
+    {
+      "path": "assets/fonts/Pretendard-Thin.otf",
+      "sha1": "72cf55b4d2ea4adc75123f33ca839c10cabfaab4"
     }
   ]
 }

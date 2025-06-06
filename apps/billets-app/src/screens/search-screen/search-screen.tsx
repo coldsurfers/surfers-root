@@ -7,7 +7,7 @@ import {
 } from '@/features'
 import { getViewMode, SearchStoreLocationConcert, SearchStoreSnapIndex, useSearchStore } from '@/features/search/store'
 import { FULLY_EXPANDED_SNAP_INDEX } from '@/features/search/store/search-store.constants'
-import { useBottomTab } from '@/lib'
+import { useBottomTab, withHapticPress } from '@/lib'
 import { useUIStore } from '@/lib/stores'
 import { CommonScreenLayout } from '@/ui/common-screen-layout'
 import { NAVIGATION_HEADER_HEIGHT } from '@/ui/navigation-header'
@@ -205,7 +205,7 @@ export const SearchScreen = () => {
   // Listen to position changes in real time
   useAnimatedReaction(
     () => animatedPosition.value,
-    (position) => {
+    () => {
       // console.log('Current position (Y-axis):', position)
       // runOnJS(setShouldShowMapView)(position > 0)
     },
@@ -317,7 +317,7 @@ export const SearchScreen = () => {
               backgroundColor: semantics.background['5'],
             },
           ]}
-          onPress={onPressMapFloatingBtn}
+          onPress={withHapticPress(onPressMapFloatingBtn)}
         >
           <Text weight="bold" style={{ color: semantics.foreground[3], fontSize: 14 }}>
             맵으로 보기

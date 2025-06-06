@@ -88,12 +88,15 @@
 	<string>공연 정보를 올리기 위해 사진 권한을 획득합니다.</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>NotoSansKR-Black.otf</string>
-		<string>NotoSansKR-Bold.otf</string>
-		<string>NotoSansKR-Light.otf</string>
-		<string>NotoSansKR-Medium.otf</string>
-		<string>NotoSansKR-Regular.otf</string>
-		<string>NotoSansKR-Thin.otf</string>
+		<string>Pretendard-Black.otf</string>
+		<string>Pretendard-Bold.otf</string>
+		<string>Pretendard-ExtraBold.otf</string>
+		<string>Pretendard-ExtraLight.otf</string>
+		<string>Pretendard-Light.otf</string>
+		<string>Pretendard-Medium.otf</string>
+		<string>Pretendard-Regular.otf</string>
+		<string>Pretendard-SemiBold.otf</string>
+		<string>Pretendard-Thin.otf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

@@ -1,6 +1,6 @@
 import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import { forwardRef, memo, useCallback, useState } from 'react'
-import { Platform, TextInput as RNTextInput, StyleSheet } from 'react-native'
+import { TextInput as RNTextInput, StyleSheet } from 'react-native'
 import { colors } from '../../tokens'
 import { useColorScheme } from '../contexts'
 import { TextInputProps } from './text-input.types'
@@ -57,11 +57,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 16,
     backgroundColor: color.oc.white.value,
-    fontFamily: Platform.select({
-      ios: 'NotoSansKR-Regular',
-      android: 'NotoSansKR-Regular',
-      default: 'inherit',
-    }),
+    fontFamily: 'Pretendard',
     includeFontPadding: false,
   },
   focused: {
