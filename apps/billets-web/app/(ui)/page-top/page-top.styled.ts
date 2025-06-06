@@ -8,6 +8,10 @@ export const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  ${media.small(css`
+    align-items: flex-start;
+  `)}
 `
 
 export const TopWrapper = styled.div`
@@ -21,6 +25,20 @@ export const TicketIcon = styled(Ticket)`
   width: 2.5rem;
   height: 2.5rem;
   margin-right: 0.5rem;
+
+  ${media.small(css`
+    display: none;
+  `)}
+`
+
+export const StyledHomeMainTitleWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  ${media.small(css`
+    flex-direction: column;
+    margin-bottom: 1.25rem;
+  `)}
 `
 
 export const StyledHomeMainTitle = styled(Text)`
@@ -38,10 +56,31 @@ export const StyledHomeMainTitle = styled(Text)`
   ${media.medium(css`
     font-size: 32px;
     white-space: normal;
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+  `)}
+
+  ${media.small(css`
+    margin: unset;
   `)}
 `
 
 export const StyledHomeSubTitle = styled(StyledHomeMainTitle)`
   font-weight: 500;
+
   font-size: 1.5rem;
+
+  ${media.large(css`
+    font-size: 24px;
+    white-space: normal;
+  `)}
+
+  ${media.medium(css`
+    font-size: 20px;
+    white-space: normal;
+  `)}
+
+  ${media.small(css`
+    margin-bottom: 1.25rem;
+  `)}
 `

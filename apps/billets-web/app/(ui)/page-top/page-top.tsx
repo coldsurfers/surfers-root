@@ -4,9 +4,16 @@ import { Button } from '@coldsurfers/ocean-road'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { StyledHomeMainTitle, StyledHomeSubTitle, StyledWrapper, TicketIcon, TopWrapper } from './page-top.styled'
+import {
+  StyledHomeMainTitle,
+  StyledHomeMainTitleWrapper,
+  StyledHomeSubTitle,
+  StyledWrapper,
+  TicketIcon,
+  TopWrapper,
+} from './page-top.styled'
 
-const words = ['라이브 공연', '재즈 공연', '뮤지컬', '페스티벌', '연극', '콘서트', '클래식']
+const words = ['라이브 공연', '재즈 공연', '뮤지컬', '페스티벌', '연극', '콘서트', '클래식 공연']
 const duration = 2500
 
 export function PageTop() {
@@ -37,31 +44,31 @@ export function PageTop() {
     <StyledWrapper>
       <TopWrapper>
         <TicketIcon strokeWidth={2} />
-        <StyledHomeMainTitle as="h1" style={{ display: 'flex', alignItems: 'center', height: 48, overflow: 'hidden' }}>
-          <AnimatePresence initial={false} mode="wait">
-            <motion.span
-              key={words[index]}
-              ref={wordRef}
-              initial={{ y: -40, opacity: 0, width: width }}
-              animate={{ y: 0, opacity: 1, width: 'auto' }}
-              exit={{ y: 40, opacity: 0 }}
-              transition={{
-                duration: 0.3,
-                ease: 'easeInOut',
-              }}
-              style={{ whiteSpace: 'nowrap', display: 'inline-flex' }}
-            >
-              {words[index]}
-            </motion.span>
-          </AnimatePresence>
-          <span style={{ marginLeft: 8 }}>{'티켓, 찾고 계신가요?'}</span>
-        </StyledHomeMainTitle>
+        <StyledHomeMainTitleWrapper>
+          <StyledHomeMainTitle as="h1">
+            <AnimatePresence initial={false} mode="wait">
+              <motion.span
+                key={words[index]}
+                ref={wordRef}
+                initial={{ y: -40, opacity: 0, width: width }}
+                animate={{ y: 0, opacity: 1, width: 'auto' }}
+                exit={{ y: 40, opacity: 0 }}
+                transition={{
+                  duration: 0.3,
+                  ease: 'easeInOut',
+                }}
+                style={{ whiteSpace: 'nowrap', display: 'inline-flex', marginRight: 12 }}
+              >
+                {words[index]}
+              </motion.span>
+            </AnimatePresence>
+          </StyledHomeMainTitle>
+          <StyledHomeMainTitle as="h1">{'찾고 계신가요?'}</StyledHomeMainTitle>
+        </StyledHomeMainTitleWrapper>
       </TopWrapper>
-      <StyledHomeSubTitle as="h3">{'공연 티켓을 찾기 어려운 당신을 위해 준비했어요'}</StyledHomeSubTitle>
+      <StyledHomeSubTitle as="h3">{'내 근처의 티켓들, 당신을 위해 준비했어요'}</StyledHomeSubTitle>
       <Link href="/browse">
-        <Button theme="border" size="lg">
-          티켓 찾기
-        </Button>
+        <Button theme="border">티켓 찾기</Button>
       </Link>
     </StyledWrapper>
   )
