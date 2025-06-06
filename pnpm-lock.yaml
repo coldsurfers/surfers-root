@@ -273,11 +273,11 @@ importers:
         specifier: ^7.25.0
         version: 7.26.9
       '@callstack/repack':
-        specifier: ~5.0.0
-        version: 5.0.0(@babel/core@7.26.9)(@react-native-community/cli-server-api@15.0.1)(@react-native-community/cli-tools@15.0.1)(@react-native-community/cli-types@15.0.1)(@react-native-community/cli@15.0.1(typescript@5.6.3))(@rspack/core@1.2.5(@swc/helpers@0.5.15))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(webpack@5.98.0)
+        specifier: 5.1.1
+        version: 5.1.1(@babel/core@7.26.9)(@rspack/core@1.2.5(@swc/helpers@0.5.15))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(webpack@5.98.0)
       '@callstack/repack-plugin-reanimated':
-        specifier: ~5.0.0
-        version: 5.0.0(@babel/core@7.26.9)(@callstack/repack@5.0.0(@babel/core@7.26.9)(@react-native-community/cli-server-api@15.0.1)(@react-native-community/cli-tools@15.0.1)(@react-native-community/cli-types@15.0.1)(@react-native-community/cli@15.0.1(typescript@5.6.3))(@rspack/core@1.2.5(@swc/helpers@0.5.15))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(webpack@5.98.0))
+        specifier: 5.1.1
+        version: 5.1.1(@babel/core@7.26.9)(@callstack/repack@5.1.1(@babel/core@7.26.9)(@rspack/core@1.2.5(@swc/helpers@0.5.15))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(webpack@5.98.0))
       '@hot-updater/metro':
         specifier: ^0.12.3
         version: 0.12.3(@types/node@20.12.0)(typescript@5.6.3)
@@ -544,7 +544,7 @@ importers:
         version: 7.4.3
       ts-node-dev:
         specifier: ^2.0.0
-        version: 2.0.0(@types/node@22.13.5)(typescript@5.6.3)
+        version: 2.0.0(@types/node@20.5.1)(typescript@5.6.3)
       tsup:
         specifier: 8.3.5
         version: 8.3.5(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.6.3)(yaml@2.7.0)
@@ -2504,30 +2504,22 @@ packages:
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
 
-  '@callstack/repack-dev-server@5.0.0':
-    resolution: {integrity: sha512-zMasSPyLLLYeps7J8ein1Fc7KrgS9s1goFSVPfuDbbnOrmAo+DRykaItOBeGWfyZienGXTEktgwXyo6kbsE5nA==}
+  '@callstack/repack-dev-server@5.1.1':
+    resolution: {integrity: sha512-0E5/N7yHvRX+Q8Yf5oXZYM2PG+ZgpQqErcLDDOSUdlrSwVJ1MbdaI//90+D5X11fy84st5XCL9mbO4B3sS4DfQ==}
     engines: {node: '>=18'}
-    peerDependencies:
-      '@react-native-community/cli-server-api': '>=13.6.4'
-    peerDependenciesMeta:
-      '@react-native-community/cli-server-api':
-        optional: true
 
-  '@callstack/repack-plugin-reanimated@5.0.0':
-    resolution: {integrity: sha512-5BkKk6C+Sq4VGObceuWx4C41NYWYYT+HvCXIt14nyQs0D3+uWToYT8u3iK3aiirvL77hQXC9YnpG1wImYlUY+w==}
+  '@callstack/repack-plugin-reanimated@5.1.1':
+    resolution: {integrity: sha512-9yehOxflu24PkJK0x618PJO6W/Nr3gdo0BE9H/Cb+8rsmd/9Cj2FnL4gHaoTHuz0Awlkt+VqzHPFcX1Azvhm+Q==}
     engines: {node: '>=18'}
     peerDependencies:
       '@babel/core': ^7.20
-      '@callstack/repack': ^5.0.0
+      '@callstack/repack': 5.1.1
 
-  '@callstack/repack@5.0.0':
-    resolution: {integrity: sha512-SwuYXQm5mF0JxqsY1BtiNcf5i0wIXtJinWioaIILhso6TZzoHiUR93TUuT0ivuj01TzZsj8+mZONtVpFoi2B5A==}
+  '@callstack/repack@5.1.1':
+    resolution: {integrity: sha512-GuJcDi4gr5gru3z8lVFNNBUicgg8ibi9FTwJ+XEwyPRKMPWPYwsh7mTEaYzCefzBTIRmxExQN+KTbFQzzL4qsQ==}
     engines: {node: '>=18'}
     peerDependencies:
       '@module-federation/enhanced': '>=0.6.10'
-      '@react-native-community/cli': '*'
-      '@react-native-community/cli-tools': '*'
-      '@react-native-community/cli-types': '*'
       '@rspack/core': '>=1'
       react-native: '>=0.74'
       webpack: '>=5.90'
@@ -4891,16 +4883,8 @@ packages:
       '@react-native-community/cli-server-api':
         optional: true
 
-  '@react-native/debugger-frontend@0.76.7':
-    resolution: {integrity: sha512-89ZtZXt7ZxE94i7T94qzZMhp4Gfcpr/QVpGqEaejAxZD+gvDCH21cYSF+/Rz2ttBazm0rk5MZ0mFqb0Iqp1jmw==}
-    engines: {node: '>=18'}
-
   '@react-native/debugger-frontend@0.78.0':
     resolution: {integrity: sha512-KQYD9QlxES/VdmXh9EEvtZCJK1KAemLlszQq4dpLU1stnue5N8dnCY6A7PpStMf5UtAMk7tiniQhaicw0uVHgQ==}
-    engines: {node: '>=18'}
-
-  '@react-native/dev-middleware@0.76.7':
-    resolution: {integrity: sha512-Jsw8g9DyLPnR9yHEGuT09yHZ7M88/GL9CtU9WmyChlBwdXSeE3AmRqLegsV3XcgULQ1fqdemokaOZ/MwLYkjdA==}
     engines: {node: '>=18'}
 
   '@react-native/dev-middleware@0.78.0':
@@ -5677,6 +5661,9 @@ packages:
 
   '@types/http-errors@2.0.4':
     resolution: {integrity: sha512-D0CFMMtydbJAegzOyHjtiKPLlvnm3iTZyZRSZoLq2mRhDdmLfIWOCYPfQJ4cu2erKghU++QvjcUjp/5h7hESpA==}
+
+  '@types/http-proxy@1.17.16':
+    resolution: {integrity: sha512-sdWoUajOB1cd0A8cRRQ1cfyWNbmFKLAqBB89Y8x5iYyG/mkJHc0YUH8pdWBy2omi9qtCpiIgGjuwO0dQST2l5w==}
 
   '@types/istanbul-lib-coverage@2.0.6':
     resolution: {integrity: sha512-2QF/t/auWm0lsy8XtKVPG19v3sSOQlJe/YHZgfjb/KBBHOGSV+J2q/S671rcq9uTBrLAXmZpqJiaQbMT+zNU1w==}
@@ -8045,6 +8032,9 @@ packages:
   eventemitter2@6.4.9:
     resolution: {integrity: sha512-JEPTiaOt9f04oa6NOkc4aH+nVp5I3wEjpHbIPqfgCdD5v5bUzy7xQqwcVO2aDQgOWhI28da57HksMrzK9HlRxg==}
 
+  eventemitter3@4.0.7:
+    resolution: {integrity: sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==}
+
   eventemitter3@5.0.1:
     resolution: {integrity: sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==}
 
@@ -8066,6 +8056,10 @@ packages:
 
   exenv@1.2.2:
     resolution: {integrity: sha512-Z+ktTxTwv9ILfgKCk32OX3n/doe+OcLTRtqK9pcL+JsP3J1/VW8Uvl4ZjLlKqeW4rzK4oesDOGMEMRIZqtP4Iw==}
+
+  exit-hook@4.0.0:
+    resolution: {integrity: sha512-Fqs7ChZm72y40wKjOFXBKg7nJZvQJmewP5/7LtePDdnah/+FH9Hp5sgMujSCMPXlxOAW2//1jrW9pnsY7o20vQ==}
+    engines: {node: '>=18'}
 
   exit@0.1.2:
     resolution: {integrity: sha512-Zk/eNKV2zbjpKzrsQ+n1G6poVbErQxJ0LBOJXaKZ1EViLzH+hrLu9cdXI4zw9dBQJslwBEpbQ2P1oS7nDxs6jQ==}
@@ -8351,8 +8345,8 @@ packages:
     resolution: {integrity: sha512-RtunoakA3YjtpAxPSOBVW6lmP5NYmETwkpAfNkdr8Ovf86ENkbD3mtPWnswFTIUtRvjwv0i8ZSkHK+AzsUg1JA==}
     engines: {node: '>=0.4.0'}
 
-  flow-remove-types@2.261.2:
-    resolution: {integrity: sha512-F5brDz0r2PBt7HrS6mxoZ0FiCgkIIURRbp6eoHJET6Ftk6NOLAx8DNMo/n6kPr+p26jjApqVNNNEUDhmcPzvrQ==}
+  flow-remove-types@2.272.2:
+    resolution: {integrity: sha512-5DxGLkreJb3G8AxJNeNkrbG9b+feytas6POtRozGKKFsPF+qFNrQKXv2zgw8U4omKm4BF4m3ZOvpp2RiY4D68w==}
     engines: {node: '>=4'}
     hasBin: true
 
@@ -8762,11 +8756,17 @@ packages:
   hermes-estree@0.26.0:
     resolution: {integrity: sha512-If1T7lhfXnGlVLbnsmwerNB5cyJm2oIE8TN1UKEq6/OUX1nOGUhjXMpqAwZ1wkkn9Brda0VRyJEWOGT2GgVcAQ==}
 
+  hermes-estree@0.28.0:
+    resolution: {integrity: sha512-M5IFfnP4RCA2/Hv7VTIlZ1FV4qW33gresbv0SDaSBS/6lax23oV2sg4iE0fhYnpMeQL7Inob+jAeO+mV2T3bKA==}
+
   hermes-parser@0.25.1:
     resolution: {integrity: sha512-6pEjquH3rqaI6cYAXYPcz9MS4rY6R4ngRgrgfDshRptUZIc3lw0MCIJIGDj9++mfySOuPTHB4nrSW99BCvOPIA==}
 
   hermes-parser@0.26.0:
     resolution: {integrity: sha512-fWT40jJ/BtlzuyiiQS7lzNIlB5h6flVZoN8Jn8v5l987HL5dK9s+/4+py0FaBmeIEROC2zxt5qMLwXFTPLQ7BA==}
+
+  hermes-parser@0.28.0:
+    resolution: {integrity: sha512-PPtmoqyz4vv5SqVCYuvJLPKZt+SqCMviICVEygi6jHyfAvDd0cQTV2MfikDd8YXPOszR/9QvauWcGyluxej+rg==}
 
   hoist-non-react-statics@3.3.2:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
@@ -8836,6 +8836,14 @@ packages:
   http-proxy-agent@7.0.2:
     resolution: {integrity: sha512-T1gkAiYYDWYx3V5Bmyu7HcfcvL7mUrTWiM6yOfa3PIphViJ/gFPbvidQ+veqSOHci/PxBcDabeUNCzpOODJZig==}
     engines: {node: '>= 14'}
+
+  http-proxy-middleware@3.0.5:
+    resolution: {integrity: sha512-GLZZm1X38BPY4lkXA01jhwxvDoOkkXqjgVyUzVxiEK4iuRu03PZoYHhHRwxnfhQMDuaxi3vVri0YgSro/1oWqg==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+
+  http-proxy@1.18.1:
+    resolution: {integrity: sha512-7mz/721AbnJwIVbnaSv1Cz3Am0ZLT/UBwkC92VlxhXv/k/BBQfM2fXElQNC27BVGr0uwUpplYPQM9LnaBMR5NQ==}
+    engines: {node: '>=8.0.0'}
 
   http2-wrapper@1.0.3:
     resolution: {integrity: sha512-V+23sDMr12Wnz7iTcDeJr3O6AIxlnvT/bmaAAAP/Xda35C90p9599p0F1eHR/N1KILWSoWVAiOMFjBBXaXSMxg==}
@@ -9170,6 +9178,10 @@ packages:
 
   is-plain-object@2.0.4:
     resolution: {integrity: sha512-h5PpgXkWitc38BBMYawTYMWJHFZJVnBquFE57xFpjB8pJFiF6gZ+bU+WyI/yqXiFR5mdLsgYNaPe8uao6Uv9Og==}
+    engines: {node: '>=0.10.0'}
+
+  is-plain-object@5.0.0:
+    resolution: {integrity: sha512-VRSzKkbMm5jMDoKLbltAkFQ5Qr7VDiTFGXxYFXXowVj387GeGNOCsOH6Msy00SGZ3Fp84b1Naa1psqgcCIEP5Q==}
     engines: {node: '>=0.10.0'}
 
   is-regex@1.2.1:
@@ -9702,6 +9714,9 @@ packages:
   latest-version@7.0.0:
     resolution: {integrity: sha512-KvNT4XqAMzdcL6ka6Tl3i2lYeFDgXNCuIX+xNx6ZMVR1dFq+idXd9FLKNMOIx0t9mJ9/HudyX4oZWXZQ0UJHeg==}
     engines: {node: '>=14.16'}
+
+  launch-editor@2.10.0:
+    resolution: {integrity: sha512-D7dBRJo/qcGX9xlvt/6wUYzQxjh5G1RvZPgPv8vi4KRU99DVQL/oW7tnVOCCTm2HGeo3C5HvGE5Yrh6UBoZ0vA==}
 
   lazy@1.0.11:
     resolution: {integrity: sha512-Y+CjUfLmIpoUCCRl0ub4smrYtGGr5AOa2AKOaWelGHOGz33X/Y/KizefGqbkwfz44+cnq/+9habclf8vOmu2LA==}
@@ -11664,6 +11679,9 @@ packages:
 
   require-main-filename@2.0.0:
     resolution: {integrity: sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==}
+
+  requires-port@1.0.0:
+    resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
 
   reselect@4.1.8:
     resolution: {integrity: sha512-ab9EmR80F/zQTMNeneUr4cv+jSwPJgIlvEmVwLerwrWVbpLlBuls9XHzIeTFy4cegU2NHBp3va0LKOzU5qFEYQ==}
@@ -15626,37 +15644,35 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
-  '@callstack/repack-dev-server@5.0.0(@react-native-community/cli-server-api@15.0.1)':
+  '@callstack/repack-dev-server@5.1.1':
     dependencies:
       '@babel/code-frame': 7.26.2
       '@fastify/middie': 8.3.3
       '@fastify/sensible': 5.6.0
-      '@react-native/dev-middleware': 0.76.7
+      '@react-native/dev-middleware': 0.78.0
       fastify: 4.29.0
       fastify-favicon: 4.3.0
       fastify-plugin: 4.5.1
+      http-proxy-middleware: 3.0.5
+      launch-editor: 2.10.0
+      open: 10.1.0
       pretty-format: 28.1.3
       source-map: 0.7.4
       ws: 8.18.1
-    optionalDependencies:
-      '@react-native-community/cli-server-api': 15.0.1
     transitivePeerDependencies:
       - bufferutil
       - supports-color
       - utf-8-validate
 
-  '@callstack/repack-plugin-reanimated@5.0.0(@babel/core@7.26.9)(@callstack/repack@5.0.0(@babel/core@7.26.9)(@react-native-community/cli-server-api@15.0.1)(@react-native-community/cli-tools@15.0.1)(@react-native-community/cli-types@15.0.1)(@react-native-community/cli@15.0.1(typescript@5.6.3))(@rspack/core@1.2.5(@swc/helpers@0.5.15))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(webpack@5.98.0))':
+  '@callstack/repack-plugin-reanimated@5.1.1(@babel/core@7.26.9)(@callstack/repack@5.1.1(@babel/core@7.26.9)(@rspack/core@1.2.5(@swc/helpers@0.5.15))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(webpack@5.98.0))':
     dependencies:
       '@babel/core': 7.26.9
-      '@callstack/repack': 5.0.0(@babel/core@7.26.9)(@react-native-community/cli-server-api@15.0.1)(@react-native-community/cli-tools@15.0.1)(@react-native-community/cli-types@15.0.1)(@react-native-community/cli@15.0.1(typescript@5.6.3))(@rspack/core@1.2.5(@swc/helpers@0.5.15))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(webpack@5.98.0)
+      '@callstack/repack': 5.1.1(@babel/core@7.26.9)(@rspack/core@1.2.5(@swc/helpers@0.5.15))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(webpack@5.98.0)
 
-  '@callstack/repack@5.0.0(@babel/core@7.26.9)(@react-native-community/cli-server-api@15.0.1)(@react-native-community/cli-tools@15.0.1)(@react-native-community/cli-types@15.0.1)(@react-native-community/cli@15.0.1(typescript@5.6.3))(@rspack/core@1.2.5(@swc/helpers@0.5.15))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(webpack@5.98.0)':
+  '@callstack/repack@5.1.1(@babel/core@7.26.9)(@rspack/core@1.2.5(@swc/helpers@0.5.15))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(webpack@5.98.0)':
     dependencies:
-      '@callstack/repack-dev-server': 5.0.0(@react-native-community/cli-server-api@15.0.1)
+      '@callstack/repack-dev-server': 5.1.1
       '@discoveryjs/json-ext': 0.5.7
-      '@react-native-community/cli': 15.0.1(typescript@5.6.3)
-      '@react-native-community/cli-tools': 15.0.1
-      '@react-native-community/cli-types': 15.0.1
       '@rspack/plugin-react-refresh': 1.0.0(react-refresh@0.14.2)
       babel-loader: 9.2.1(@babel/core@7.26.9)(webpack@5.98.0)
       colorette: 2.0.20
@@ -15664,7 +15680,8 @@ snapshots:
       estree-util-is-identifier-name: 1.1.0
       events: 3.3.0
       execa: 5.1.1
-      flow-remove-types: 2.261.2
+      exit-hook: 4.0.0
+      flow-remove-types: 2.272.2
       gradient-string: 2.0.2
       image-size: 1.2.0
       jsonwebtoken: 9.0.2
@@ -15675,6 +15692,7 @@ snapshots:
       react-refresh: 0.14.2
       schema-utils: 4.3.0
       shallowequal: 1.1.0
+      tapable: 2.2.1
       throttleit: 2.1.0
       webpack-merge: 6.0.1
     optionalDependencies:
@@ -15682,7 +15700,6 @@ snapshots:
       webpack: 5.98.0
     transitivePeerDependencies:
       - '@babel/core'
-      - '@react-native-community/cli-server-api'
       - bufferutil
       - supports-color
       - utf-8-validate
@@ -18898,28 +18915,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@react-native/debugger-frontend@0.76.7': {}
-
   '@react-native/debugger-frontend@0.78.0': {}
-
-  '@react-native/dev-middleware@0.76.7':
-    dependencies:
-      '@isaacs/ttlcache': 1.4.1
-      '@react-native/debugger-frontend': 0.76.7
-      chrome-launcher: 0.15.2
-      chromium-edge-launcher: 0.2.0
-      connect: 3.7.0
-      debug: 2.6.9
-      invariant: 2.2.4
-      nullthrows: 1.1.1
-      open: 7.4.2
-      selfsigned: 2.4.1
-      serve-static: 1.16.2
-      ws: 6.2.3
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
 
   '@react-native/dev-middleware@0.78.0':
     dependencies:
@@ -19799,6 +19795,10 @@ snapshots:
   '@types/http-cache-semantics@4.0.4': {}
 
   '@types/http-errors@2.0.4': {}
+
+  '@types/http-proxy@1.17.16':
+    dependencies:
+      '@types/node': 20.12.0
 
   '@types/istanbul-lib-coverage@2.0.6': {}
 
@@ -22927,6 +22927,8 @@ snapshots:
 
   eventemitter2@6.4.9: {}
 
+  eventemitter3@4.0.7: {}
+
   eventemitter3@5.0.1: {}
 
   events@3.3.0: {}
@@ -22960,6 +22962,8 @@ snapshots:
       strip-final-newline: 3.0.0
 
   exenv@1.2.2: {}
+
+  exit-hook@4.0.0: {}
 
   exit@0.1.2: {}
 
@@ -23420,15 +23424,19 @@ snapshots:
 
   flow-parser@0.261.2: {}
 
-  flow-remove-types@2.261.2:
+  flow-remove-types@2.272.2:
     dependencies:
-      hermes-parser: 0.25.1
+      hermes-parser: 0.28.0
       pirates: 3.0.2
       vlq: 0.2.3
 
   follow-redirects@1.15.9(debug@4.3.7):
     optionalDependencies:
       debug: 4.3.7
+
+  follow-redirects@1.15.9(debug@4.4.1):
+    optionalDependencies:
+      debug: 4.4.1
 
   for-each@0.3.5:
     dependencies:
@@ -23948,6 +23956,8 @@ snapshots:
 
   hermes-estree@0.26.0: {}
 
+  hermes-estree@0.28.0: {}
+
   hermes-parser@0.25.1:
     dependencies:
       hermes-estree: 0.25.1
@@ -23955,6 +23965,10 @@ snapshots:
   hermes-parser@0.26.0:
     dependencies:
       hermes-estree: 0.26.0
+
+  hermes-parser@0.28.0:
+    dependencies:
+      hermes-estree: 0.28.0
 
   hoist-non-react-statics@3.3.2:
     dependencies:
@@ -24041,6 +24055,25 @@ snapshots:
       debug: 4.4.1
     transitivePeerDependencies:
       - supports-color
+
+  http-proxy-middleware@3.0.5:
+    dependencies:
+      '@types/http-proxy': 1.17.16
+      debug: 4.4.1
+      http-proxy: 1.18.1(debug@4.4.1)
+      is-glob: 4.0.3
+      is-plain-object: 5.0.0
+      micromatch: 4.0.8
+    transitivePeerDependencies:
+      - supports-color
+
+  http-proxy@1.18.1(debug@4.4.1):
+    dependencies:
+      eventemitter3: 4.0.7
+      follow-redirects: 1.15.9(debug@4.4.1)
+      requires-port: 1.0.0
+    transitivePeerDependencies:
+      - debug
 
   http2-wrapper@1.0.3:
     dependencies:
@@ -24360,6 +24393,8 @@ snapshots:
   is-plain-object@2.0.4:
     dependencies:
       isobject: 3.0.1
+
+  is-plain-object@5.0.0: {}
 
   is-regex@1.2.1:
     dependencies:
@@ -25124,6 +25159,11 @@ snapshots:
   latest-version@7.0.0:
     dependencies:
       package-json: 8.1.1
+
+  launch-editor@2.10.0:
+    dependencies:
+      picocolors: 1.1.1
+      shell-quote: 1.8.2
 
   lazy@1.0.11: {}
 
@@ -27439,6 +27479,8 @@ snapshots:
 
   require-main-filename@2.0.0: {}
 
+  requires-port@1.0.0: {}
+
   reselect@4.1.8: {}
 
   reserved-words@0.1.2: {}
@@ -28627,7 +28669,7 @@ snapshots:
       - '@swc/wasm'
       - '@types/node'
 
-  ts-node-dev@2.0.0(@types/node@22.13.5)(typescript@5.6.3):
+  ts-node-dev@2.0.0(@types/node@20.5.1)(typescript@5.6.3):
     dependencies:
       chokidar: 3.6.0
       dynamic-dedupe: 0.3.0
@@ -28637,7 +28679,7 @@ snapshots:
       rimraf: 2.7.1
       source-map-support: 0.5.21
       tree-kill: 1.2.2
-      ts-node: 10.9.2(@types/node@22.13.5)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@20.5.1)(typescript@5.6.3)
       tsconfig: 7.0.0
       typescript: 5.6.3
     transitivePeerDependencies:
