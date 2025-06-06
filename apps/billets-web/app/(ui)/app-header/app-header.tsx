@@ -26,17 +26,17 @@ import {
 const menuItems = [
   {
     link: '/browse',
-    title: 'Browse events',
+    title: '티켓 찾기',
     target: undefined,
   },
   {
     link: '/about',
-    title: 'About',
+    title: '소개',
     target: undefined,
   },
   {
     link: '/blog',
-    title: 'Blog',
+    title: '블로그',
     target: undefined,
   },
 ] as const
