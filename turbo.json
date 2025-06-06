@@ -24,6 +24,9 @@
     "@coldsurfers/billets-server#dev": {
       "dependsOn": ["^build"]
     },
+    "@coldsurfers/billets-web#deploy:coldsurf-io:prod": {
+      "dependsOn": ["^build"]
+    },
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
@@ -43,7 +46,7 @@
       "dependsOn": ["build"]
     },
     "deploy:coldsurf-io:prod": {
-      "dependsOn": ["build:packages", "build:ui"]
+      "dependsOn": ["build:packages", "build:ui", "@coldsurfers/billets-web#deploy:coldsurf-io:prod"]
     },
     "lint": {
       "outputs": []
