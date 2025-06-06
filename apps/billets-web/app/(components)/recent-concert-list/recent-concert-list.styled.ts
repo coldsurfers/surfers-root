@@ -3,11 +3,27 @@ import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { motion } from 'framer-motion'
 
+export const StyledRecentListTitle = styled(Text)`
+  font-weight: bold;
+  overflow-wrap: break-word;
+  white-space: normal;
+  margin-top: 125px;
+
+  ${media.medium(css`
+    margin-top: 88px;
+    font-size: 24px;
+  `)}
+
+  ${media.small(css`
+    margin-top: 44px;
+    font-size: 20px;
+  `)}
+`
+
 export const StyledRecentListScrollContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 16px;
-  margin-top: 125px;
   overflow-x: auto; // Enable horizontal scrolling
   scrollbar-width: none; // Hide scrollbar for Firefox
   -ms-overflow-style: none; // Hide scrollbar for Internet Explorer and Edge

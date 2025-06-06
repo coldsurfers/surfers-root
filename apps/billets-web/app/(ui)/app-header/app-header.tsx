@@ -1,6 +1,6 @@
 'use client'
 
-import { APP_STORE_URL } from '@/libs/constants'
+import { APP_DOWNLOAD_WORDING, APP_STORE_URL } from '@/libs/constants'
 import { Button, IconButton, Text } from '@coldsurfers/ocean-road'
 import { SERVICE_NAME } from '@coldsurfers/shared-utils'
 import { useRouter } from 'next/navigation'
@@ -26,17 +26,17 @@ import {
 const menuItems = [
   {
     link: '/browse',
-    title: 'Browse events',
+    title: '티켓 찾기',
     target: undefined,
   },
   {
     link: '/about',
-    title: 'About',
+    title: '소개',
     target: undefined,
   },
   {
     link: '/blog',
-    title: 'Blog',
+    title: '블로그',
     target: undefined,
   },
 ] as const
@@ -81,7 +81,7 @@ function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
               )
             })}
             <GlobalLink href={APP_STORE_URL} onClick={onClose} style={{ margin: '0 auto' }}>
-              <Button theme="border">GET THE APP</Button>
+              <Button theme="border">{APP_DOWNLOAD_WORDING}</Button>
             </GlobalLink>
           </ModalContent>
         </ModalPaper>
@@ -138,7 +138,7 @@ export function AppHeader() {
           })}
           <AppHeaderSearchUI />
           <GlobalLink href={APP_STORE_URL} target="_blank">
-            <Button theme="border">GET THE APP</Button>
+            <Button theme="border">{APP_DOWNLOAD_WORDING}</Button>
           </GlobalLink>
           <ColorSchemeToggle />
         </WebMenuContainer>
