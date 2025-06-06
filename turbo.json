@@ -10,16 +10,20 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
+    "@coldsurfers/shared-utils#build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
-    "build:ocean-road": {
+    "build:ui": {
       "dependsOn": ["@coldsurfers/design-tokens#build", "@coldsurfers/ocean-road#build"],
       "outputs": ["dist/**"]
     },
     "build:packages": {
-      "dependsOn": ["^build:packages"],
+      "dependsOn": ["@coldsurfers/shared-utils#build"],
       "outputs": ["dist/**"]
     },
     "deploy:coldsurf-server:prod": {
@@ -29,24 +33,13 @@
       "dependsOn": ["build"]
     },
     "deploy:coldsurf-io:prod": {
-      "dependsOn": ["build"]
-    },
-    "dev": {
-      "cache": false,
-      "persistent": true
+      "dependsOn": ["build:packages", "build:ui"]
     },
     "lint": {
       "outputs": []
     },
-    "test": {
-      "dependsOn": ["build"],
-      "outputs": []
-    },
-    "clean": {
-      "cache": false
-    },
     "check:type": {
-      "dependsOn": ["build:ocean-road"],
+      "dependsOn": ["build:ui", "build:packages"],
       "cache": true
     },
     "sync-server": {
