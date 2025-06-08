@@ -1,6 +1,6 @@
 import { CurrentLocationTracker, useUserCurrentLocationStore } from '@/features'
 import { useToggleSubscribeConcert } from '@/features/subscribe/hooks/useToggleSubscribeConcert'
-import { useFirebaseAnalytics, useShowBottomTabBar, zodScreen } from '@/lib'
+import { useFirebaseAnalytics, useShowBottomTabBar, withHapticPress, zodScreen } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
 import { CommonScreenLayout, ConcertList, ConcertListSkeleton, LocationSelector, LocationSelectorModal } from '@/ui'
 import { ConcertListItemType } from '@/ui/concert-list/concert-list.types'
@@ -105,7 +105,11 @@ const SuspenseHomeScreen = () => {
 
       {latitude !== null && longitude !== null && (
         <Suspense fallback={<ConcertListSkeleton />}>
-          <ConcertList ref={listRef} onPressItem={onPressConcertListItem} onPressSubscribe={onPressSubscribe} />
+          <ConcertList
+            ref={listRef}
+            onPressItem={withHapticPress(onPressConcertListItem, 'impactMedium')}
+            onPressSubscribe={onPressSubscribe}
+          />
         </Suspense>
       )}
       {locationModalVisible && (

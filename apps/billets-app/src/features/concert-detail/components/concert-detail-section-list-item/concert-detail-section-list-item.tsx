@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/concert-venue-map-view'
 import { ArtistSubscribeButton, VenueSubscribeButton } from '@/features/subscribe'
-import { KOPIS_COPYRIGHT_TEXT } from '@/lib'
+import { KOPIS_COPYRIGHT_TEXT, withHapticPress } from '@/lib'
 import { useEventDetailScreenNavigation } from '@/screens/event-detail-screen/event-detail-screen.hooks'
 import { TicketItem } from '@/ui'
 import { components } from '@coldsurfers/api-sdk'
@@ -187,8 +187,12 @@ ConcertDetailSectionListItem.TicketsItem = ({ tickets, onPressCta }: ConcertDeta
   if (tickets.length === 0) return null
   if (tickets.length === 1) return <TicketItem {...tickets[0]} />
 
+  const onPress = useCallback(() => {
+    onPressCta?.()
+  }, [onPressCta])
+
   return (
-    <Button theme="pink" onPress={onPressCta} style={styles.bigTicketBtn}>
+    <Button theme="pink" onPress={withHapticPress(onPress)} style={styles.bigTicketBtn}>
       티켓 찾기
     </Button>
   )

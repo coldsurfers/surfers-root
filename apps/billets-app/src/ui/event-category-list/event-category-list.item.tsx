@@ -1,3 +1,4 @@
+import { withHapticPress } from '@/lib'
 import { zodScreen } from '@/lib/navigations'
 import { getEventCategoryUIName } from '@/lib/utils.event-category'
 import { useHomeScreenNavigation } from '@/screens'
@@ -26,7 +27,7 @@ export const EventCategoryListItem = memo((props: components['schemas']['EventCa
   }, [navigation, props.name, startNavigationTTITimer])
   return (
     <StyledEventCategoryButton
-      onPress={onPress}
+      onPress={withHapticPress(onPress)}
       style={{
         backgroundColor: semantics.background[4],
       }}

@@ -1,5 +1,5 @@
 import { useInterstitialAd } from '@/features/google-ads/google-ads.hooks'
-import { useFirebaseAnalytics } from '@/lib'
+import { useFirebaseAnalytics, withHapticPress } from '@/lib'
 import { concertTicketBtnPressCountForInterstitialAdStorage } from '@/lib/storage/concert-ticket-btn-press-count-for-interstitial-ad-storage'
 import { components } from '@/types/api'
 import { colors } from '@coldsurfers/ocean-road'
@@ -45,7 +45,7 @@ export const TicketItem = memo(({ sellerName, url }: TicketItemProps) => {
       <Text weight="bold" style={{ color: semantics.foreground[1], fontSize: 14 }}>
         {sellerName}
       </Text>
-      <Button theme="pink" size="md" onPress={onPress} style={styles.ticketBtn}>
+      <Button theme="pink" size="md" onPress={withHapticPress(onPress)} style={styles.ticketBtn}>
         <Text weight="bold" style={{ fontSize: 12, color: colors.oc.white.value }}>
           티켓 찾기
         </Text>

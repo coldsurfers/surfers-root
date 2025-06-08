@@ -5,6 +5,8 @@ const defaultOptions = {
   ignoreAndroidSystemSettings: false,
 }
 
+type HapticTypeKey = keyof typeof HapticFeedbackTypes
+
 /**
  * withHapticPress - 공통 Haptic + onPress 핸들러
  *
@@ -12,11 +14,11 @@ const defaultOptions = {
  * @param type Haptic 타입 (기본값: 'impactLight')
  */
 export function withHapticPress(
-  callback: () => void | Promise<void>,
-  type: HapticFeedbackTypes = HapticFeedbackTypes.impactLight,
+  callback: (...args: any[]) => void | Promise<void>,
+  type: HapticTypeKey = 'impactLight',
 ) {
-  return () => {
+  return (...args: any[]) => {
     ReactNativeHapticFeedback.trigger(type, defaultOptions)
-    callback?.()
+    callback?.(...args)
   }
 }
