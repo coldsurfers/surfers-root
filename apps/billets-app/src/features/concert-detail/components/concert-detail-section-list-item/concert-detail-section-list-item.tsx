@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { ConcertVenueMapView } from '@/features/map/ui/concert-venue-map-view/concert-venue-map-view'
 import { ArtistSubscribeButton, VenueSubscribeButton } from '@/features/subscribe'
-import { KOPIS_COPYRIGHT_TEXT } from '@/lib'
+import { KOPIS_COPYRIGHT_TEXT, withHapticPress } from '@/lib'
 import { useEventDetailScreenNavigation } from '@/screens/event-detail-screen/event-detail-screen.hooks'
 import { TicketItem } from '@/ui'
 import { components } from '@coldsurfers/api-sdk'
@@ -139,9 +139,13 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
   }: ConcertDetailSectionListVenueMapItemProps) => {
     const navigation = useEventDetailScreenNavigation()
     const { semantics } = useColorScheme()
+    const handlePressProfile = useCallback(() => {
+      onPressProfile?.()
+    }, [onPressProfile])
+    const onPress = withHapticPress(handlePressProfile)
     return (
       <View>
-        <TouchableOpacity onPress={onPressProfile} style={styles.rowItem}>
+        <TouchableOpacity onPress={onPress} style={styles.rowItem}>
           <View style={styles.profileLine}>
             <ProfileThumbnail type="circle" size="sm" emptyBgText={venueTitle.at(0) ?? ''} />
             <Text style={[styles.name, { color: semantics.foreground[1] }]}>{venueTitle}</Text>
@@ -160,7 +164,10 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
         <View style={styles.venueMapAddressWrapper}>
           <MapPin color={semantics.foreground[1]} />
           <Text style={[styles.venueMapAddressText, { color: semantics.foreground[1] }]}>{address}</Text>
-          <TouchableOpacity onPress={() => Clipboard.setString(address)} style={styles.venueMapAddressCopyBtn}>
+          <TouchableOpacity
+            onPress={withHapticPress(() => Clipboard.setString(address))}
+            style={styles.venueMapAddressCopyBtn}
+          >
             <Copy color={semantics.foreground[1]} />
           </TouchableOpacity>
         </View>
@@ -187,8 +194,12 @@ ConcertDetailSectionListItem.TicketsItem = ({ tickets, onPressCta }: ConcertDeta
   if (tickets.length === 0) return null
   if (tickets.length === 1) return <TicketItem {...tickets[0]} />
 
+  const onPress = useCallback(() => {
+    onPressCta?.()
+  }, [onPressCta])
+
   return (
-    <Button theme="pink" onPress={onPressCta} style={styles.bigTicketBtn}>
+    <Button theme="pink" onPress={withHapticPress(onPress)} style={styles.bigTicketBtn}>
       티켓 찾기
     </Button>
   )
@@ -219,7 +230,7 @@ ConcertDetailSectionListItem.AboutItem = ({ detailImages }: ConcertDetailSection
         ]}
       />
       <View style={{ paddingHorizontal: 12 }}>
-        <Button onPress={() => setIsMore((prev) => !prev)}>{isMore ? '접기' : '더보기'}</Button>
+        <Button onPress={withHapticPress(() => setIsMore((prev) => !prev))}>{isMore ? '접기' : '더보기'}</Button>
       </View>
     </View>
   )

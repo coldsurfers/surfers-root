@@ -1,5 +1,5 @@
 import { useUserCurrentLocationStore } from '@/features/location/stores'
-import { useKeyboard } from '@/lib'
+import { useKeyboard, withHapticPress } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
 import { useSearchScreenNavigation } from '@/screens/search-screen/search-screen.hooks'
 import { components } from '@/types/api'
@@ -74,7 +74,7 @@ export const SearchDefaultBottomResultList = () => {
           params: { eventId: value.id },
         })
       }
-      return <FetchSearchConcertItem item={value} onPress={onPress} />
+      return <FetchSearchConcertItem item={value} onPress={withHapticPress(onPress, 'impactMedium')} />
     },
     [navigation],
   )

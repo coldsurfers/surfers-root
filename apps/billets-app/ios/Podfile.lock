@@ -6,7 +6,7 @@ PODS:
   - AppAuth/ExternalUserAgent (1.7.6):
     - AppAuth/Core
   - boost (1.84.0)
-  - callstack-repack (5.0.0):
+  - callstack-repack (5.1.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1935,8 +1935,6 @@ PODS:
     - React-logger (= 0.78.0)
     - React-perflogger (= 0.78.0)
     - React-utils (= 0.78.0)
-  - ReactNativePerformance (4.1.2):
-    - React-Core
   - RNAppleAuthentication (2.4.0):
     - React-Core
   - RNBootSplash (6.2.6):
@@ -2073,7 +2071,30 @@ PODS:
   - RNGoogleSignin (8.2.2):
     - GoogleSignIn (~> 6.2)
     - React-Core
+  - RNInAppBrowser (3.7.0):
+    - React-Core
   - RNPermissions (4.1.5):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.11.18.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
+  - RNReactNativeHapticFeedback (2.3.3):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2418,7 +2439,6 @@ DEPENDENCIES:
   - ReactAppDependencyProvider (from `build/generated/ios`)
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../../../node_modules/react-native/ReactCommon`)
-  - "ReactNativePerformance (from `../../../node_modules/@shopify/react-native-performance`)"
   - "RNAppleAuthentication (from `../../../node_modules/@invertase/react-native-apple-authentication`)"
   - RNBootSplash (from `../../../node_modules/react-native-bootsplash`)
   - "RNCClipboard (from `../../../node_modules/@react-native-clipboard/clipboard`)"
@@ -2432,7 +2452,9 @@ DEPENDENCIES:
   - RNGestureHandler (from `../../../node_modules/react-native-gesture-handler`)
   - RNGoogleMobileAds (from `../../../node_modules/react-native-google-mobile-ads`)
   - "RNGoogleSignin (from `../../../node_modules/@react-native-google-signin/google-signin`)"
+  - RNInAppBrowser (from `../../../node_modules/react-native-inappbrowser-reborn`)
   - RNPermissions (from `../../../node_modules/react-native-permissions`)
+  - RNReactNativeHapticFeedback (from `../../../node_modules/react-native-haptic-feedback`)
   - RNReanimated (from `../../../node_modules/react-native-reanimated`)
   - RNScreens (from `../../../node_modules/react-native-screens`)
   - RNStoreReview (from `../../../node_modules/react-native-store-review`)
@@ -2627,8 +2649,6 @@ EXTERNAL SOURCES:
     :path: build/generated/ios
   ReactCommon:
     :path: "../../../node_modules/react-native/ReactCommon"
-  ReactNativePerformance:
-    :path: "../../../node_modules/@shopify/react-native-performance"
   RNAppleAuthentication:
     :path: "../../../node_modules/@invertase/react-native-apple-authentication"
   RNBootSplash:
@@ -2655,8 +2675,12 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native-google-mobile-ads"
   RNGoogleSignin:
     :path: "../../../node_modules/@react-native-google-signin/google-signin"
+  RNInAppBrowser:
+    :path: "../../../node_modules/react-native-inappbrowser-reborn"
   RNPermissions:
     :path: "../../../node_modules/react-native-permissions"
+  RNReactNativeHapticFeedback:
+    :path: "../../../node_modules/react-native-haptic-feedback"
   RNReanimated:
     :path: "../../../node_modules/react-native-reanimated"
   RNScreens:
@@ -2671,7 +2695,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
-  callstack-repack: c79045b99ce953e4b6bdbdb6d387a26f36e5df89
+  callstack-repack: 6730a36dbf8d49d715470716ca66a6983b7828e8
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
   FBLazyVector: 6fe148afcef2e3213e484758e3459609d40d57f5
@@ -2771,7 +2795,6 @@ SPEC CHECKSUMS:
   ReactAppDependencyProvider: f2e81d80afd71a8058589e19d8a134243fa53f17
   ReactCodegen: fadf8d948c732123e1e50a68291fd610f4c4ba18
   ReactCommon: c8fdbc582b98a07daf201cd95c1da75dd029f3ee
-  ReactNativePerformance: ab7dee4c4862623d72c1530a9fc71b55458edf71
   RNAppleAuthentication: e00c76acb03351f5544373c78fa7f359bef6d5d3
   RNBootSplash: 297cc54bb5a09a71b146acf1bb95412728a2cb25
   RNCClipboard: e49bce333d562b966bc57196410de9eb4c95c554
@@ -2785,7 +2808,9 @@ SPEC CHECKSUMS:
   RNGestureHandler: a5c5e76f0056a7115b839686934740b6639c7cec
   RNGoogleMobileAds: a6785e3f725fde1f94e24cabb855b3a1a632ac5c
   RNGoogleSignin: 81521697b2c8f97f9a586ac7257b1a1d9b51b115
+  RNInAppBrowser: e36d6935517101ccba0e875bac8ad7b0cb655364
   RNPermissions: d22f9141cbdc2f626ada384659da12f1395418a0
+  RNReactNativeHapticFeedback: a49e613d48d721c99cad9689a490554104c22154
   RNReanimated: e6c72b88d2d637081c9f4f5a056b619fd1acdc44
   RNScreens: 77f93ec55b749c49549b447527ebf78e990125f3
   RNStoreReview: 7aa376002798f0047d49d79e291bb19a239347c0

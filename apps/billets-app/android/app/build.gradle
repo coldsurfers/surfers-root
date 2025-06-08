@@ -144,8 +144,6 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            // Detox-specific additions to pro-guard
-            proguardFile "${rootProject.projectDir}/../node_modules/detox/android/detox/proguard-rules-app.pro"
 
             firebaseCrashlytics {
                 nativeSymbolUploadEnabled true
@@ -165,6 +163,5 @@ dependencies {
         implementation jscFlavor
     }
 
-    androidTestImplementation 'com.wix:detox:+'
     implementation 'androidx.appcompat:appcompat:1.4.2'
 }

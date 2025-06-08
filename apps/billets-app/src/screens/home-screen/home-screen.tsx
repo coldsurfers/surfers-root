@@ -1,19 +1,18 @@
 import { CurrentLocationTracker, useUserCurrentLocationStore } from '@/features'
 import { useToggleSubscribeConcert } from '@/features/subscribe/hooks/useToggleSubscribeConcert'
-import { useFirebaseAnalytics, useShowBottomTabBar, zodScreen } from '@/lib'
+import { useFirebaseAnalytics, useShowBottomTabBar, withHapticPress } from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
 import { CommonScreenLayout, ConcertList, ConcertListSkeleton, LocationSelector, LocationSelectorModal } from '@/ui'
 import { ConcertListItemType } from '@/ui/concert-list/concert-list.types'
+import { Spinner } from '@coldsurfers/ocean-road/native'
 import { useScrollToTop } from '@react-navigation/native'
-import { PerformanceMeasureView, RenderStateProps, useStartProfiler } from '@shopify/react-native-performance'
 import { useQuery } from '@tanstack/react-query'
 import { Suspense, useCallback, useRef, useState } from 'react'
-import { FlatList, View } from 'react-native'
+import { FlatList } from 'react-native'
 import { useShallow } from 'zustand/shallow'
 import { useHomeScreenNavigation } from './home-screen.hooks'
 
 const SuspenseHomeScreen = () => {
-  const startNavigationTTITimer = useStartProfiler()
   const navigation = useHomeScreenNavigation()
   const { logEvent } = useFirebaseAnalytics()
   const listRef = useRef<FlatList>(null)
@@ -44,10 +43,6 @@ const SuspenseHomeScreen = () => {
 
   const onPressConcertListItem = useCallback(
     (item: ConcertListItemType) => {
-      startNavigationTTITimer({
-        source: zodScreen.HomeScreen.name,
-        uiEvent: undefined,
-      })
       navigation.navigate('EventStackNavigation', {
         screen: 'EventDetailScreen',
         params: { eventId: item.id },
@@ -59,7 +54,7 @@ const SuspenseHomeScreen = () => {
         },
       })
     },
-    [logEvent, navigation, startNavigationTTITimer],
+    [logEvent, navigation],
   )
 
   const onPressSubscribeConcertListItem = useCallback(
@@ -105,7 +100,11 @@ const SuspenseHomeScreen = () => {
 
       {latitude !== null && longitude !== null && (
         <Suspense fallback={<ConcertListSkeleton />}>
-          <ConcertList ref={listRef} onPressItem={onPressConcertListItem} onPressSubscribe={onPressSubscribe} />
+          <ConcertList
+            ref={listRef}
+            onPressItem={withHapticPress(onPressConcertListItem, 'impactMedium')}
+            onPressSubscribe={onPressSubscribe}
+          />
         </Suspense>
       )}
       {locationModalVisible && (
@@ -119,21 +118,17 @@ const SuspenseHomeScreen = () => {
 }
 
 export const HomeScreen = () => {
-  const renderStateProps: RenderStateProps = {
-    interactive: false,
-    renderPassName: 'home_screen_render',
-  }
   return (
-    <PerformanceMeasureView
-      interactive={false}
-      screenName={zodScreen.HomeScreen.name}
-      {...renderStateProps}
-      optimizeForSlowRenderComponents
-      slowRenderPlaceholder={<View style={{ backgroundColor: 'red', flex: 1 }} />}
+    <Suspense
+      fallback={
+        <CommonScreenLayout edges={['top', 'bottom']}>
+          <Spinner positionCenter />
+        </CommonScreenLayout>
+      }
     >
       <Suspense fallback={<ConcertListSkeleton />}>
         <SuspenseHomeScreen />
       </Suspense>
-    </PerformanceMeasureView>
+    </Suspense>
   )
 }

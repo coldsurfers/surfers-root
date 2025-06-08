@@ -68,5 +68,8 @@ export default (env) => {
       ],
     },
     plugins: [new Repack.RepackPlugin(), new ReanimatedPlugin()],
+    devServer: {
+      host: platform === 'ios' ? '0.0.0.0' : 'localhost',
+    },
   }
 }

@@ -1,22 +1,27 @@
 import { apiClient } from '@/lib/api/openapi-client'
+import { components } from '@coldsurfers/api-sdk'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { memo, useMemo } from 'react'
-import { FlatList } from 'react-native'
+import { useMemo } from 'react'
+import { FlatList, ListRenderItem, StyleSheet } from 'react-native'
 import { EventCategoryListItem } from './event-category-list.item'
 
-export const EventCategoryList = memo(() => {
+const renderItem: ListRenderItem<components['schemas']['EventCategoryDTOSchema']> = ({ item }) => (
+  <EventCategoryListItem {...item} />
+)
+
+const styles = StyleSheet.create({
+  list: {
+    marginBottom: 12,
+  },
+})
+
+export const EventCategoryList = () => {
   const { data: eventCategoriesData } = useSuspenseQuery({
     queryKey: apiClient.eventCategory.queryKeys.list,
     queryFn: () => apiClient.eventCategory.getEventCategories(),
   })
   const data = useMemo(() => eventCategoriesData ?? [], [eventCategoriesData])
   return (
-    <FlatList
-      horizontal
-      data={data}
-      renderItem={({ item }) => <EventCategoryListItem {...item} />}
-      keyExtractor={(item) => `${item.id}`}
-      style={{ marginBottom: 12 }}
-    />
+    <FlatList horizontal data={data} renderItem={renderItem} keyExtractor={(item) => item.id} style={styles.list} />
   )
-})
+}
