@@ -10,9 +10,6 @@ overrides:
   '@types/react-dom': 18.2.22
 
 patchedDependencies:
-  '@shopify/react-native-performance@4.1.2':
-    hash: 9a6b728618d92d73a3d417441c284dfa5f3318574f5880bb4baf70d68d2f83d0
-    path: patches/@shopify__react-native-performance@4.1.2.patch
   react-notion-x@7.2.5:
     hash: af7d793aaedad4d78cb7574bc4f651db80559a66e137945fd4e1a9b5f3bbda16
     path: patches/react-notion-x@7.2.5.patch
@@ -157,9 +154,6 @@ importers:
       '@react-navigation/native-stack':
         specifier: ^6.9.17
         version: 6.11.0(@react-navigation/native@6.1.18(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0))(react-native-safe-area-context@5.3.0(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0))(react-native-screens@4.9.1(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
-      '@shopify/react-native-performance':
-        specifier: ^4.1.2
-        version: 4.1.2(patch_hash=9a6b728618d92d73a3d417441c284dfa5f3318574f5880bb4baf70d68d2f83d0)(@babel/runtime@7.26.9)(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
       '@tanstack/react-query':
         specifier: 5.59.16
         version: 5.59.16(react@19.0.0)
@@ -5258,13 +5252,6 @@ packages:
 
   '@rushstack/eslint-patch@1.10.5':
     resolution: {integrity: sha512-kkKUDVlII2DQiKy7UstOR1ErJP8kUKAQ4oa+SQtM0K+lPdmmjj0YnnxBgtTVYH7mUKtbsxeFC9y0AmK7Yb78/A==}
-
-  '@shopify/react-native-performance@4.1.2':
-    resolution: {integrity: sha512-1Xu2xo+hAxg75iuX5akVqAgc3h/J1ohfi7JKXlGsprP4ylpW7kHMfq/7AstL7FoUC8xcHsTUvUFhoZ94ot8g6Q==}
-    peerDependencies:
-      '@babel/runtime': '*'
-      react: '*'
-      react-native: '*'
 
   '@sideway/address@4.1.5':
     resolution: {integrity: sha512-IqO/DUQHUkPeixNQ8n0JA6102hT9CmaljNTPmQ1u8MEhBo/R4Q8eKLN/vGZxuebwOroDB4cbpjheD4+/sKFK4Q==}
@@ -19085,12 +19072,6 @@ snapshots:
   '@rtsao/scc@1.1.0': {}
 
   '@rushstack/eslint-patch@1.10.5': {}
-
-  '@shopify/react-native-performance@4.1.2(patch_hash=9a6b728618d92d73a3d417441c284dfa5f3318574f5880bb4baf70d68d2f83d0)(@babel/runtime@7.26.9)(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)':
-    dependencies:
-      '@babel/runtime': 7.26.9
-      react: 19.0.0
-      react-native: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0)
 
   '@sideway/address@4.1.5':
     dependencies:

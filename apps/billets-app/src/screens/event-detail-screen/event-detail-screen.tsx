@@ -1,14 +1,13 @@
 import { ConcertDetailSectionList, ConcertDetailVenueMapBottomSheet } from '@/features/concert-detail'
 import { TicketListBottomSheet } from '@/features/concert-detail/components/ticket-list-bottom-sheet/ticket-list-bottom-sheet'
 import { useToggleSubscribeConcert } from '@/features/subscribe/hooks/useToggleSubscribeConcert'
-import { useEffectOnce, useFirebaseAnalytics, useStoreReview, zodScreen } from '@/lib'
+import { useEffectOnce, useFirebaseAnalytics, useStoreReview } from '@/lib'
 import commonStyles from '@/lib/common-styles'
 import { concertDetailCountForStoreReviewStorage } from '@/lib/storage'
 import { NAVIGATION_HEADER_HEIGHT } from '@/ui'
 import { colors } from '@coldsurfers/ocean-road'
 import { Spinner, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
-import { PerformanceMeasureView } from '@shopify/react-native-performance'
 import React, { PropsWithChildren, Suspense, useCallback, useRef } from 'react'
 import { Dimensions, StyleSheet, View } from 'react-native'
 import { useEventDetailScreenNavigation, useEventDetailScreenRoute } from './event-detail-screen.hooks'
@@ -139,17 +138,15 @@ const ScreenInner = () => {
 
 export const EventDetailScreen = () => {
   return (
-    <PerformanceMeasureView interactive={false} screenName={zodScreen.EventDetailScreen.name}>
-      <Suspense
-        fallback={
-          <EventDetailScreenLayout>
-            <Spinner positionCenter />
-          </EventDetailScreenLayout>
-        }
-      >
-        <ScreenInner />
-      </Suspense>
-    </PerformanceMeasureView>
+    <Suspense
+      fallback={
+        <EventDetailScreenLayout>
+          <Spinner positionCenter />
+        </EventDetailScreenLayout>
+      }
+    >
+      <ScreenInner />
+    </Suspense>
   )
 }
 
