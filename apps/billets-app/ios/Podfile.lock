@@ -2071,6 +2071,8 @@ PODS:
   - RNGoogleSignin (8.2.2):
     - GoogleSignIn (~> 6.2)
     - React-Core
+  - RNInAppBrowser (3.7.0):
+    - React-Core
   - RNPermissions (4.1.5):
     - DoubleConversion
     - glog
@@ -2450,6 +2452,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../../../node_modules/react-native-gesture-handler`)
   - RNGoogleMobileAds (from `../../../node_modules/react-native-google-mobile-ads`)
   - "RNGoogleSignin (from `../../../node_modules/@react-native-google-signin/google-signin`)"
+  - RNInAppBrowser (from `../../../node_modules/react-native-inappbrowser-reborn`)
   - RNPermissions (from `../../../node_modules/react-native-permissions`)
   - RNReactNativeHapticFeedback (from `../../../node_modules/react-native-haptic-feedback`)
   - RNReanimated (from `../../../node_modules/react-native-reanimated`)
@@ -2672,6 +2675,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native-google-mobile-ads"
   RNGoogleSignin:
     :path: "../../../node_modules/@react-native-google-signin/google-signin"
+  RNInAppBrowser:
+    :path: "../../../node_modules/react-native-inappbrowser-reborn"
   RNPermissions:
     :path: "../../../node_modules/react-native-permissions"
   RNReactNativeHapticFeedback:
@@ -2803,6 +2808,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: a5c5e76f0056a7115b839686934740b6639c7cec
   RNGoogleMobileAds: a6785e3f725fde1f94e24cabb855b3a1a632ac5c
   RNGoogleSignin: 81521697b2c8f97f9a586ac7257b1a1d9b51b115
+  RNInAppBrowser: e36d6935517101ccba0e875bac8ad7b0cb655364
   RNPermissions: d22f9141cbdc2f626ada384659da12f1395418a0
   RNReactNativeHapticFeedback: a49e613d48d721c99cad9689a490554104c22154
   RNReanimated: e6c72b88d2d637081c9f4f5a056b619fd1acdc44
