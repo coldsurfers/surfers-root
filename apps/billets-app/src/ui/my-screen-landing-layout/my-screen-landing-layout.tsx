@@ -1,3 +1,4 @@
+import { withHapticPress } from '@/lib'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { memo } from 'react'
@@ -12,7 +13,7 @@ export const MyScreenLandingLayout = memo(({ onPressLoginButton }: { onPressLogi
         {`🎉\n예정된 많은\n공연을\n놓치지 마세요`}
       </Text>
       <Text style={[styles.loginSubText, { color: semantics.foreground[3] }]}>{`로그인 후 찜하기를 사용해보세요`}</Text>
-      <Button style={styles.loginButton} onPress={onPressLoginButton}>
+      <Button style={styles.loginButton} onPress={withHapticPress(onPressLoginButton)}>
         로그인 / 회원가입
       </Button>
     </CommonScreenLayout>

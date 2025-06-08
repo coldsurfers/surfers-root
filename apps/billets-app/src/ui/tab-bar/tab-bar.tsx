@@ -1,4 +1,4 @@
-import { useBottomTab, zodNavigation } from '@/lib'
+import { useBottomTab, withHapticPress, zodNavigation } from '@/lib'
 import { useUIStore } from '@/lib/stores/ui-store'
 import { colors } from '@coldsurfers/ocean-road'
 import { useColorScheme } from '@coldsurfers/ocean-road/native'
@@ -17,7 +17,7 @@ interface Props extends BottomTabBarProps {
 
 export const TabBar = memo((props: Props) => {
   const { semantics, colorScheme } = useColorScheme()
-  const { navigation, state, descriptors } = props
+  const { navigation, state } = props
   const { tabBarHeight } = useBottomTab()
   const bottomTabBarTranslateY = useSharedValue(0)
   const { bottom: bottomInset } = useSafeAreaInsets()
@@ -111,7 +111,7 @@ export const TabBar = memo((props: Props) => {
         return (
           <TouchableOpacity
             key={route.name}
-            onPress={handlePress}
+            onPress={withHapticPress(handlePress)}
             onLongPress={onLongPress}
             style={styles.tabBarButton}
           >

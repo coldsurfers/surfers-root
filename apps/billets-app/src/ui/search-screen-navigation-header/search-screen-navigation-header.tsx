@@ -1,3 +1,4 @@
+import { withHapticPress } from '@/lib'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Text, TextInput, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { X as XIcon } from 'lucide-react-native'
@@ -113,7 +114,7 @@ export const SearchScreenNavigationHeader = memo(({ animatedPosition }: { animat
                   right: 8,
                   bottom: 8,
                 }}
-                onPress={onPressFilterXIcon}
+                onPress={withHapticPress(onPressFilterXIcon)}
                 style={styles.filterXIconBtn}
               >
                 <XIcon size={14} color={colors.oc.black.value} strokeWidth={3} />

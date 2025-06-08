@@ -1,4 +1,5 @@
 import { UserCurrentLocationType } from '@/features/location/stores'
+import { withHapticPress } from '@/lib'
 import commonStyles from '@/lib/common-styles'
 import { colors } from '@coldsurfers/ocean-road'
 import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
@@ -17,7 +18,7 @@ export const LocationSelector = ({ onPress, cityName, type }: LocationSelectorPr
   return (
     <View style={styles.wrapper}>
       <TouchableOpacity
-        onPress={onPress}
+        onPress={withHapticPress(onPress)}
         hitSlop={{
           top: 12,
           left: 12,

@@ -1,4 +1,4 @@
-import { Platform, Text as RNText, StyleSheet } from 'react-native'
+import { Text as RNText, StyleSheet } from 'react-native'
 import { colors } from '../../tokens'
 import { TextProps } from './text.types'
 
@@ -15,7 +15,12 @@ export const Text = ({ children, weight = 'regular', style, ...others }: TextPro
   return (
     <RNText
       {...others}
-      style={[fontFamilySet[weight], styles.defaultColor, { lineHeight: lineHeight, letterSpacing: 0.24 }, style]}
+      style={[
+        fontFamilySet[weight],
+        styles.defaultColor,
+        { lineHeight: lineHeight, letterSpacing: 0.24, includeFontPadding: false },
+        style,
+      ]}
     >
       {children}
     </RNText>
@@ -24,39 +29,24 @@ export const Text = ({ children, weight = 'regular', style, ...others }: TextPro
 
 const styles = StyleSheet.create({
   thin: {
-    fontFamily: Platform.select({
-      ios: 'NotoSansKR-Thin',
-      android: 'NotoSansKR-Thin',
-      default: 'inherit',
-    }),
+    fontFamily: 'Pretendard',
+    fontWeight: '100',
   },
   light: {
-    fontFamily: Platform.select({
-      ios: 'NotoSansKR-Light',
-      android: 'NotoSansKR-Light',
-      default: 'inherit',
-    }),
+    fontFamily: 'Pretendard',
+    fontWeight: '300',
   },
   regular: {
-    fontFamily: Platform.select({
-      ios: 'NotoSansKR-Regular',
-      android: 'NotoSansKR-Regular',
-      default: 'inherit',
-    }),
+    fontFamily: 'Pretendard',
+    fontWeight: '400',
   },
   medium: {
-    fontFamily: Platform.select({
-      ios: 'NotoSansKR-Medium',
-      android: 'NotoSansKR-Medium',
-      default: 'inherit',
-    }),
+    fontFamily: 'Pretendard',
+    fontWeight: '500',
   },
   bold: {
-    fontFamily: Platform.select({
-      ios: 'NotoSansKR-Bold',
-      android: 'NotoSansKR-Bold',
-      default: 'inherit',
-    }),
+    fontFamily: 'Pretendard',
+    fontWeight: '700',
   },
   defaultColor: { color: colors.oc.black.value },
 })

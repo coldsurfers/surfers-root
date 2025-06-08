@@ -1,4 +1,11 @@
-import { AuthContext, decodeJwt, GOOGLE_SIGNIN_OPTIONS, ToastVisibleContext, ToastVisibleContextProvider } from '@/lib'
+import {
+  AuthContext,
+  decodeJwt,
+  GOOGLE_SIGNIN_OPTIONS,
+  ToastVisibleContext,
+  ToastVisibleContextProvider,
+  withHapticPress,
+} from '@/lib'
 import { apiClient } from '@/lib/api/openapi-client'
 import { components } from '@/types/api'
 import { LoginProvider } from '@/types/auth'
@@ -210,7 +217,7 @@ export const _LoginSelectionScreen = () => {
               backgroundColor: color.oc.cyan[8].value,
             },
           ]}
-          onPress={onPressEmailLogin}
+          onPress={withHapticPress(onPressEmailLogin)}
         >
           이메일로 계속하기
         </Button>
@@ -222,7 +229,7 @@ export const _LoginSelectionScreen = () => {
                 backgroundColor: colors.oc.black.value,
               },
             ]}
-            onPress={onPressAppleLogin}
+            onPress={withHapticPress(onPressAppleLogin)}
           >
              Apple로 계속하기
           </Button>
@@ -234,7 +241,7 @@ export const _LoginSelectionScreen = () => {
               backgroundColor: GOOGLE_COLOR,
             },
           ]}
-          onPress={onPressGoogleLogin}
+          onPress={withHapticPress(onPressGoogleLogin)}
         >
           Google로 계속하기
         </Button>
