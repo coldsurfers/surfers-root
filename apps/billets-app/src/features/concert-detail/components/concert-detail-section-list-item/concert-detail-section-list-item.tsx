@@ -139,9 +139,13 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
   }: ConcertDetailSectionListVenueMapItemProps) => {
     const navigation = useEventDetailScreenNavigation()
     const { semantics } = useColorScheme()
+    const handlePressProfile = useCallback(() => {
+      onPressProfile?.()
+    }, [onPressProfile])
+    const onPress = withHapticPress(handlePressProfile)
     return (
       <View>
-        <TouchableOpacity onPress={onPressProfile} style={styles.rowItem}>
+        <TouchableOpacity onPress={onPress} style={styles.rowItem}>
           <View style={styles.profileLine}>
             <ProfileThumbnail type="circle" size="sm" emptyBgText={venueTitle.at(0) ?? ''} />
             <Text style={[styles.name, { color: semantics.foreground[1] }]}>{venueTitle}</Text>
@@ -160,7 +164,10 @@ ConcertDetailSectionListItem.VenueMapItem = memo(
         <View style={styles.venueMapAddressWrapper}>
           <MapPin color={semantics.foreground[1]} />
           <Text style={[styles.venueMapAddressText, { color: semantics.foreground[1] }]}>{address}</Text>
-          <TouchableOpacity onPress={() => Clipboard.setString(address)} style={styles.venueMapAddressCopyBtn}>
+          <TouchableOpacity
+            onPress={withHapticPress(() => Clipboard.setString(address))}
+            style={styles.venueMapAddressCopyBtn}
+          >
             <Copy color={semantics.foreground[1]} />
           </TouchableOpacity>
         </View>
@@ -223,7 +230,7 @@ ConcertDetailSectionListItem.AboutItem = ({ detailImages }: ConcertDetailSection
         ]}
       />
       <View style={{ paddingHorizontal: 12 }}>
-        <Button onPress={() => setIsMore((prev) => !prev)}>{isMore ? '접기' : '더보기'}</Button>
+        <Button onPress={withHapticPress(() => setIsMore((prev) => !prev))}>{isMore ? '접기' : '더보기'}</Button>
       </View>
     </View>
   )
