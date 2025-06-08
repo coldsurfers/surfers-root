@@ -1,3 +1,4 @@
+import { withHapticPress } from '@/lib'
 import { zodScreen } from '@/lib/navigations'
 import { CommonScreenLayout, ConcertList } from '@/ui'
 import { Spinner } from '@coldsurfers/ocean-road/native'
@@ -28,7 +29,7 @@ export const EventCategoryScreen = () => {
           <ConcertList
             hideTopMenu
             eventCategory={route.params.eventCategory}
-            onPressItem={(item) => onPressItem(item.id)}
+            onPressItem={withHapticPress((item) => onPressItem(item.id), 'impactMedium')}
           />
         </Suspense>
       </CommonScreenLayout>
