@@ -9,7 +9,7 @@ import { GlobalSuspenseFallback } from '@/ui/global-suspense-fallback'
 import { ColorScheme } from '@coldsurfers/ocean-road'
 import { ColorSchemeProvider, useColorScheme } from '@coldsurfers/ocean-road/native'
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
-import React, { memo, PropsWithChildren, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { memo, PropsWithChildren, Suspense, useEffect, useMemo, useState } from 'react'
 import { Platform, useColorScheme as rnUseColorScheme, StatusBar } from 'react-native'
 import { getVersion } from 'react-native-device-info'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -150,10 +150,6 @@ const App = () => {
     console.log('systemColorScheme', systemColorScheme)
     return systemColorScheme ?? 'light'
   }, [storageColorSchemeValue, systemColorScheme])
-
-  const errorHandler = useCallback((error: Error) => {
-    console.error(error)
-  }, [])
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

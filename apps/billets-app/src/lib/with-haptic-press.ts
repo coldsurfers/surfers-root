@@ -14,9 +14,11 @@ type HapticTypeKey = keyof typeof HapticFeedbackTypes
  * @param type Haptic 타입 (기본값: 'impactLight')
  */
 export function withHapticPress(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   callback: (...args: any[]) => void | Promise<void>,
   type: HapticTypeKey = 'impactLight',
 ) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (...args: any[]) => {
     ReactNativeHapticFeedback.trigger(type, defaultOptions)
     callback?.(...args)
