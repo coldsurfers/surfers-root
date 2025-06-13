@@ -174,6 +174,27 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null
   switch (venue) {
+    case '제주호은아트센터(구.섬아이뮤직아트센터)':
+      alreadyExistingVenueId = '75e5bbb2-fcee-42f1-8c23-96f630379937'
+      break
+    case '천안어린이꿈누리터 (구. 천안시 어린이 회관)':
+      alreadyExistingVenueId = '5f21bc1d-9824-405c-bbf0-ad8b56d72449'
+      break
+    case '휘게홀':
+      alreadyExistingVenueId = 'ce4df961-0ad9-4132-bac4-31c1ffccf285'
+      break
+    case '공간울림연주홀':
+      alreadyExistingVenueId = '0e0ef235-7b56-4d4c-a9f6-cd8a1cf3e7c0'
+      break
+    case '북극곰소극장(구.아뮤스소극장)':
+      alreadyExistingVenueId = 'c6a399b5-51a3-4c29-833e-0dab83ac0d3f'
+      break
+    case '나인진홀 (구.청년극장)':
+      alreadyExistingVenueId = '81554270-abd4-490b-ba58-9ed8044da588'
+      break
+    case '옵신 스페이스(구. 서촌공간 서로)':
+      alreadyExistingVenueId = '5266080e-3d13-44b8-9259-68f1a3bad075'
+      break
     case '노크 클럽(KNOCK CLUB)':
       alreadyExistingVenueId = 'ea94153f-af6f-4e3a-9d67-47df7cea95fc'
       break
