@@ -2,10 +2,10 @@ import { COOKIE_ACCESS_TOKEN_KEY } from '@/libs/constants'
 import { apiClient } from '@/libs/openapi-client'
 import { generateAppleClientSecret } from '@/libs/utils/utils.jwt'
 import { decodeJwt } from '@coldsurfers/shared-utils'
-import { cookies } from 'next/headers'
-import { NextRequest, NextResponse } from 'next/server'
+import { serialize } from 'cookie'
+import { NextRequest } from 'next/server'
 
-export const dynamic = 'force-dynamic' // 선택적으로 캐시 무효화
+export const dynamic = 'force-dynamic'
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,7 +13,10 @@ export async function POST(req: NextRequest) {
     const code = formData.get('code') as string
 
     if (!code) {
-      return NextResponse.json({ error: 'Missing code' }, { status: 400 })
+      return new Response(JSON.stringify({ error: 'Missing code' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      })
     }
 
     const clientSecret = generateAppleClientSecret()
@@ -30,11 +33,15 @@ export async function POST(req: NextRequest) {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     })
 
-    const { id_token: idToken } = await tokenRes.json()
+    const tokenJson = await tokenRes.json()
+    const idToken = tokenJson.id_token
     const decoded = decodeJwt(idToken)
 
     if (!decoded?.email) {
-      return NextResponse.json({ error: 'Apple login failed' }, { status: 500 })
+      return new Response(JSON.stringify({ error: 'Apple login failed' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      })
     }
 
     const { authToken } = await apiClient.auth.signIn({
@@ -44,29 +51,27 @@ export async function POST(req: NextRequest) {
       platform: 'web',
     })
 
-    const cookieStore = await cookies()
+    const cookieString = serialize(COOKIE_ACCESS_TOKEN_KEY, authToken.accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7,
+      domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
+    })
 
-    const responseCookie = cookieStore
-      .set(COOKIE_ACCESS_TOKEN_KEY, authToken.accessToken, {
-        httpOnly: true,
-        secure: true,
-        maxAge: 60 * 60 * 24 * 7, // 1 week
-        sameSite: 'none',
-        path: '/',
-        domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
-      })
-      .toString()
-
-    return NextResponse.redirect(
-      process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : `https://coldsurf.io`,
-      {
-        headers: {
-          'Set-Cookie': responseCookie,
-        },
+    return new Response(null, {
+      status: 302,
+      headers: {
+        'Location': process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://coldsurf.io',
+        'Set-Cookie': cookieString,
       },
-    )
+    })
   } catch (err) {
     console.error('Apple token error:', err)
-    return NextResponse.json({ error: 'Apple login failed' }, { status: 500 })
+    return new Response(JSON.stringify({ error: 'Apple login failed' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    })
   }
 }
