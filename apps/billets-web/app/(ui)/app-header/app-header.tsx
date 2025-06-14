@@ -1,8 +1,11 @@
 'use client'
 
 import { APP_DOWNLOAD_WORDING, APP_STORE_URL } from '@/libs/constants'
-import { Button, IconButton, Text } from '@coldsurfers/ocean-road'
+import { useAuthStore } from '@/libs/stores'
+import { authUtils } from '@/libs/utils/utils.auth'
+import { breakpoints, Button, IconButton, Spinner, Text } from '@coldsurfers/ocean-road'
 import { SERVICE_NAME } from '@coldsurfers/shared-utils'
+import { useMutation } from '@tanstack/react-query'
 import { Kaushan_Script } from 'next/font/google'
 import { useRouter } from 'next/navigation'
 import { MouseEventHandler, useEffect, useState } from 'react'
@@ -12,6 +15,7 @@ import { AppHeaderSearchUI } from './app-header.search-ui'
 import {
   HeaderContainer,
   HeaderLogo,
+  HeaderMenuContainerButton,
   HeaderMenuContainerGlobalLink,
   HeaderMenuContainerLink,
   HeaderMenuText,
@@ -29,7 +33,7 @@ const kaushanScriptFont = Kaushan_Script({
   weight: ['400'],
 })
 
-const menuItems = [
+const commonMenuItems = [
   {
     link: '/browse',
     title: '티켓 찾기',
@@ -47,7 +51,17 @@ const menuItems = [
   },
 ] as const
 
-function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+function ModalMenu({
+  isOpen,
+  onClose,
+  isLoggedIn,
+  logout,
+}: {
+  isOpen: boolean
+  onClose: () => void
+  isLoggedIn: boolean
+  logout: () => void
+}) {
   const router = useRouter()
   useEffect(() => {
     const { body } = document
@@ -66,7 +80,7 @@ function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
       {isOpen && (
         <ModalPaper onClick={(e) => e.stopPropagation()}>
           <ModalContent>
-            {menuItems.map((item) => {
+            {commonMenuItems.map((item) => {
               const onClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
                 onClose()
                 if (item.link === '/browse') {
@@ -86,6 +100,15 @@ function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
                 </GlobalLink>
               )
             })}
+            {isLoggedIn ? (
+              <HeaderMenuContainerButton role="button" onClick={logout}>
+                <HeaderMenuText as="p">로그아웃</HeaderMenuText>
+              </HeaderMenuContainerButton>
+            ) : (
+              <HeaderMenuContainerLink href={'/login'}>
+                <HeaderMenuText as="p">로그인</HeaderMenuText>
+              </HeaderMenuContainerLink>
+            )}
             <GlobalLink href={APP_STORE_URL} onClick={onClose} style={{ margin: '0 auto' }}>
               <Button theme="border">{APP_DOWNLOAD_WORDING}</Button>
             </GlobalLink>
@@ -96,10 +119,23 @@ function ModalMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
   )
 }
 
-export function AppHeader() {
+export function AppHeader({ isLoggedIn }: { isLoggedIn: boolean }) {
   const router = useRouter()
   const [animation, setAnimation] = useState<'show' | 'hide'>('show')
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const { setIsLoggedIn } = useAuthStore()
+
+  const { mutate: logout, isPending: isLogoutPending } = useMutation({
+    mutationFn: () => authUtils.localLogout(),
+    onSuccess: () => {
+      setIsLoggedIn(false)
+      router.refresh()
+    },
+    onError: (error) => {
+      console.error(error)
+    },
+  })
+
   useEffect(() => {
     let lastScrollTop = 0
     const onScroll = () => {
@@ -111,9 +147,18 @@ export function AppHeader() {
       }
       lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // For Mobile or negative scrolling
     }
+    const onResize = () => {
+      if (window.innerWidth > breakpoints.large) {
+        setIsModalOpen(false)
+      }
+    }
     window.addEventListener('scroll', onScroll)
+    window.addEventListener('resize', onResize)
 
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onResize)
+    }
   }, [])
 
   return (
@@ -133,7 +178,7 @@ export function AppHeader() {
           </GlobalLink>
         </div>
         <WebMenuContainer>
-          {menuItems.map((item) => {
+          {commonMenuItems.map((item) => {
             const onClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
               if (item.link === '/browse') {
                 e.preventDefault()
@@ -147,6 +192,15 @@ export function AppHeader() {
               </Container>
             )
           })}
+          {isLoggedIn ? (
+            <HeaderMenuContainerButton role="button" onClick={() => logout()}>
+              <HeaderMenuText as="p">로그아웃</HeaderMenuText>
+            </HeaderMenuContainerButton>
+          ) : (
+            <HeaderMenuContainerLink href={'/login'}>
+              <HeaderMenuText as="p">로그인</HeaderMenuText>
+            </HeaderMenuContainerLink>
+          )}
           <AppHeaderSearchUI />
           <GlobalLink href={APP_STORE_URL} target="_blank">
             <Button theme="border">{APP_DOWNLOAD_WORDING}</Button>
@@ -160,7 +214,8 @@ export function AppHeader() {
           </IconButton>
         </MobileMenuContainer>
       </HeaderContainer>
-      <ModalMenu isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <ModalMenu isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} isLoggedIn={isLoggedIn} logout={logout} />
+      {isLogoutPending && <Spinner variant="page-overlay" />}
     </>
   )
 }

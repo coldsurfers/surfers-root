@@ -1,6 +1,5 @@
 import {
   AuthContext,
-  decodeJwt,
   GOOGLE_SIGNIN_OPTIONS,
   ToastVisibleContext,
   ToastVisibleContextProvider,
@@ -14,6 +13,7 @@ import { OpenApiError } from '@coldsurfers/api-sdk'
 import color from '@coldsurfers/design-tokens/dist/js/color/variables'
 import { colors } from '@coldsurfers/ocean-road'
 import { Button, Spinner } from '@coldsurfers/ocean-road/native'
+import { decodeJwt } from '@coldsurfers/shared-utils'
 import appleAuth from '@invertase/react-native-apple-authentication'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import { useMutation } from '@tanstack/react-query'
