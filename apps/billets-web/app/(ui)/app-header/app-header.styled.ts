@@ -33,9 +33,9 @@ export const HeaderTitle = styled(Text)`
   font-size: 32px;
   font-weight: 800;
 
-  @media (max-width: 960px) {
+  ${media.large(css`
     font-size: 24px;
-  }
+  `)}
 `
 
 export const HeaderLogo = styled.img`
@@ -65,6 +65,10 @@ export const HeaderMenuContainerLink = styled(Link)`
   cursor: pointer;
 
   padding: 10px;
+
+  ${media.large(css`
+    padding: 0;
+  `)}
 `
 
 export const HeaderMenuContainerButton = styled.div`
@@ -83,17 +87,17 @@ export const WebMenuContainer = styled.div`
   align-items: center;
   gap: 10px;
 
-  @media (max-width: 960px) {
+  ${media.large(css`
     display: none;
-  }
+  `)}
 `
 
 export const MobileMenuContainer = styled.div`
   display: none;
 
-  @media (max-width: 960px) {
+  ${media.large(css`
     display: flex;
-  }
+  `)}
 `
 
 export const ModalContainer = styled.div<{ $isOpen: boolean }>`
