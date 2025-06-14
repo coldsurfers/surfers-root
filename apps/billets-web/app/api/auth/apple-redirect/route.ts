@@ -2,41 +2,35 @@ import { COOKIE_ACCESS_TOKEN_KEY } from '@/libs/constants'
 import { apiClient } from '@/libs/openapi-client'
 import { generateAppleClientSecret } from '@/libs/utils/utils.jwt'
 import { decodeJwt } from '@coldsurfers/shared-utils'
-import axios from 'axios'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
-import * as qs from 'querystring'
-import getRawBody from 'raw-body'
 
 export const dynamic = 'force-dynamic' // 선택적으로 캐시 무효화
 
 export async function POST(req: NextRequest) {
-  const rawBody = await getRawBody(req.body as any)
-  const parsed = qs.parse(rawBody.toString())
-
-  const code = parsed.code as string
-  if (!code) {
-    return NextResponse.json({ error: 'Missing code' }, { status: 400 })
-  }
-
-  const clientSecret = generateAppleClientSecret()
-
   try {
-    const tokenRes = await axios.post(
-      'https://appleid.apple.com/auth/token',
-      new URLSearchParams({
+    const formData = await req.formData()
+    const code = formData.get('code') as string
+
+    if (!code) {
+      return NextResponse.json({ error: 'Missing code' }, { status: 400 })
+    }
+
+    const clientSecret = generateAppleClientSecret()
+
+    const tokenRes = await fetch('https://appleid.apple.com/auth/token', {
+      method: 'POST',
+      body: new URLSearchParams({
         grant_type: 'authorization_code',
         code,
         redirect_uri: process.env.APPLE_REDIRECT_URI!,
         client_id: process.env.APPLE_CLIENT_ID!,
         client_secret: clientSecret,
       }),
-      {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      },
-    )
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    })
 
-    const { id_token: idToken } = tokenRes.data
+    const { id_token: idToken } = await tokenRes.json()
     const decoded = decodeJwt(idToken)
 
     if (!decoded?.email) {

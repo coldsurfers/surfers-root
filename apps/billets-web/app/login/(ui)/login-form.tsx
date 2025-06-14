@@ -15,7 +15,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 const USE_EMAIL_LOGIN = false
-const USE_APPLE_LOGIN = false
+const USE_APPLE_LOGIN = true
 
 const FormLayout = styled.div`
   display: flex;

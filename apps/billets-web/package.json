@@ -43,8 +43,6 @@
     "openapi-react-query": "0.2.9",
     "prisma": "5.21.1",
     "prismjs": "1.29.0",
-    "querystring": "^0.2.1",
-    "raw-body": "^3.0.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-error-boundary": "5.0.0",
