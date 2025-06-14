@@ -176,10 +176,10 @@ export const LoginForm = () => {
         </Form>
         <SocialLoginLayout>
           <DividerText>OR</DividerText>
-          <Link href={`/api/auth/google`}>
+          <Link href={`/api/auth/google`} style={{ width: '100%' }}>
             <SocialLoginButton type="button">구글로 계속하기</SocialLoginButton>
           </Link>
-          <Link href={`/api/auth/apple`}>
+          <Link href={`/api/auth/apple`} style={{ width: '100%' }}>
             <SocialLoginButton type="button">애플로 계속하기</SocialLoginButton>
           </Link>
         </SocialLoginLayout>

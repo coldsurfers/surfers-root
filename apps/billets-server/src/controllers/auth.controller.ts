@@ -128,7 +128,10 @@ export const signinHandler = async (req: FastifyRequest<PostSignInRoute>, rep: F
         if (value === 'google') {
           const audience = match(platform)
             .with('ios', () => process.env.GOOGLE_OAUTH_WEB_IOS_CLIENT_ID)
-            .otherwise(() => process.env.GOOGLE_OAUTH_WEB_CLIENT_ID)
+            .with('android', () => process.env.GOOGLE_OAUTH_CLIENT_ID)
+            .with('web', () => process.env.GOOGLE_OAUTH_WEB_CLIENT_ID)
+            .exhaustive()
+
           await googleOAuth2Client.verifyIdToken({
             idToken: token,
             audience,
@@ -199,7 +202,12 @@ export const signinPreHandler = async (
     }
     if (provider !== 'email') {
       if (!existing) {
-        return rep.redirect('/v1/auth/signup', 307)
+        const res = await app.inject({
+          method: 'POST',
+          url: '/v1/auth/signup',
+          payload: req.body,
+        })
+        return rep.status(res.statusCode as 200 | 401 | 500).send(res.json())
       }
     }
   } catch (e) {
@@ -299,7 +307,9 @@ export const signupHandler = async (req: FastifyRequest<PostSignUpRoute>, rep: F
         if (value === 'google') {
           const audience = match(platform)
             .with('ios', () => process.env.GOOGLE_OAUTH_WEB_IOS_CLIENT_ID)
-            .otherwise(() => process.env.GOOGLE_OAUTH_CLIENT_ID)
+            .with('android', () => process.env.GOOGLE_OAUTH_CLIENT_ID)
+            .with('web', () => process.env.GOOGLE_OAUTH_WEB_CLIENT_ID)
+            .exhaustive()
 
           await googleOAuth2Client.verifyIdToken({
             idToken: token,
@@ -351,7 +361,10 @@ export const signupHandler = async (req: FastifyRequest<PostSignUpRoute>, rep: F
       })
   } catch (e) {
     console.error(e)
-    return rep.status(500).send()
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    })
   }
 }
 
@@ -378,7 +391,10 @@ export const signupPreHandler = async (
     }
   } catch (e) {
     console.error(e)
-    return rep.status(500).send()
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    })
   }
 }
 
