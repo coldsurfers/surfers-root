@@ -7,7 +7,7 @@ export const SignInBodyDTOSchema = z.object({
   email: z.string(),
   password: z.string().optional(),
   token: z.string().optional(),
-  platform: z.union([z.literal('android'), z.literal('ios')]).optional(),
+  platform: z.union([z.literal('android'), z.literal('ios'), z.literal('web')]).optional(),
 })
 export type SignInBodyDTO = z.infer<typeof SignInBodyDTOSchema>
 
