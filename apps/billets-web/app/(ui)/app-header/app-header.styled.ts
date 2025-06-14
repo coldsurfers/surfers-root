@@ -77,6 +77,10 @@ export const HeaderMenuContainerButton = styled.div`
   cursor: pointer;
 
   padding: 10px;
+
+  ${media.large(css`
+    padding: 0;
+  `)}
 `
 
 export const HeaderMenuText = styled(Text)``
