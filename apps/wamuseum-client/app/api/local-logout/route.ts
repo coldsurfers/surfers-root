@@ -8,7 +8,7 @@ export async function POST() {
       httpOnly: true,
       secure: true,
       maxAge: 0,
-      sameSite: 'none',
+      sameSite: 'strict',
       path: '/',
       domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
     })
