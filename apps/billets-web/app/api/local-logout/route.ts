@@ -10,7 +10,7 @@ export async function POST() {
       maxAge: 0,
       sameSite: 'none',
       path: '/',
-      domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
+      domain: process.env.NODE_ENV === 'development' ? undefined : 'coldsurf.io',
     })
     .toString()
   return new Response('local logout', {

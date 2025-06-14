@@ -15,6 +15,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 const USE_EMAIL_LOGIN = false
+const USE_APPLE_LOGIN = false
 
 const FormLayout = styled.div`
   display: flex;
@@ -183,9 +184,11 @@ export const LoginForm = () => {
           <Link href={`/api/auth/google`} style={{ width: '100%' }}>
             <SocialLoginButton type="button">구글로 계속하기</SocialLoginButton>
           </Link>
-          <Link href={`/api/auth/apple`} style={{ width: '100%' }}>
-            <SocialLoginButton type="button">애플로 계속하기</SocialLoginButton>
-          </Link>
+          {USE_APPLE_LOGIN && (
+            <Link href={`/api/auth/apple`} style={{ width: '100%' }}>
+              <SocialLoginButton type="button">애플로 계속하기</SocialLoginButton>
+            </Link>
+          )}
         </SocialLoginLayout>
       </FormLayout>
       {isEmailLoginPending && <Spinner variant="page-overlay" />}
