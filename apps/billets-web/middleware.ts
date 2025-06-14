@@ -36,7 +36,7 @@ export function middleware(request: NextRequest) {
 
   // 로그인 페이지에 접근 했지만, 이미 로그인 된 경우 '/' 로 리다이렉트
   if (request.nextUrl.pathname.startsWith('/login')) {
-    const isLoggedIn = request.cookies.get(COOKIE_ACCESS_TOKEN_KEY)
+    const isLoggedIn = !!request.cookies.get(COOKIE_ACCESS_TOKEN_KEY)?.value
     if (isLoggedIn) {
       return NextResponse.redirect(new URL('/', request.url))
     }
