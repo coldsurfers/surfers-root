@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const cookieStore = await cookies()
   const accessToken = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY)
-  const isLoggedIn = !!accessToken
+  const isLoggedIn = !!accessToken?.value
   return (
     <html lang="en">
       <head>
