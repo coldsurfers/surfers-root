@@ -137,7 +137,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <RegistryProvider registries={[OceanRoadThemeRegistry, FirebaseRegistry]}>
           <GlobalErrorBoundaryRegistry>
             <QueryClientRegistry>
-              <AppLayout isLoggedIn={isLoggedIn}>{children}</AppLayout>
+              <AppLayout isServerSideLoggedIn={isLoggedIn}>{children}</AppLayout>
             </QueryClientRegistry>
           </GlobalErrorBoundaryRegistry>
         </RegistryProvider>

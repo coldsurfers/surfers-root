@@ -119,16 +119,14 @@ function ModalMenu({
   )
 }
 
-export function AppHeader({ isLoggedIn: initialIsLoggedIn }: { isLoggedIn: boolean }) {
+export function AppHeader({ isLoggedIn }: { isLoggedIn: boolean }) {
   const router = useRouter()
   const [animation, setAnimation] = useState<'show' | 'hide'>('show')
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { isLoggedIn, setIsLoggedIn } = useAuthStore()
+  const { setIsLoggedIn } = useAuthStore()
 
   const { mutate: logout, isPending: isLogoutPending } = useMutation({
-    mutationFn: async () => {
-      await authUtils.localLogout()
-    },
+    mutationFn: () => authUtils.localLogout(),
     onSuccess: () => {
       setIsLoggedIn(false)
       router.refresh()
@@ -163,12 +161,6 @@ export function AppHeader({ isLoggedIn: initialIsLoggedIn }: { isLoggedIn: boole
     }
   }, [])
 
-  useEffect(() => {
-    if (initialIsLoggedIn) {
-      setIsLoggedIn(true)
-    }
-  }, [initialIsLoggedIn, setIsLoggedIn])
-
   return (
     <>
       <HeaderContainer $animation={animation}>
@@ -200,7 +192,7 @@ export function AppHeader({ isLoggedIn: initialIsLoggedIn }: { isLoggedIn: boole
               </Container>
             )
           })}
-          {initialIsLoggedIn || isLoggedIn ? (
+          {isLoggedIn ? (
             <HeaderMenuContainerButton role="button" onClick={() => logout()}>
               <HeaderMenuText as="p">로그아웃</HeaderMenuText>
             </HeaderMenuContainerButton>
@@ -222,12 +214,7 @@ export function AppHeader({ isLoggedIn: initialIsLoggedIn }: { isLoggedIn: boole
           </IconButton>
         </MobileMenuContainer>
       </HeaderContainer>
-      <ModalMenu
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        isLoggedIn={initialIsLoggedIn || isLoggedIn}
-        logout={logout}
-      />
+      <ModalMenu isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} isLoggedIn={isLoggedIn} logout={logout} />
       {isLogoutPending && <Spinner variant="page-overlay" />}
     </>
   )
