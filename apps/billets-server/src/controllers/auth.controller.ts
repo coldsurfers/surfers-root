@@ -5,7 +5,6 @@ import { match } from 'ts-pattern'
 import createEmailAuthCode from '@/lib/createEmailAuthCode'
 import { googleOAuth2Client } from '@/lib/google-oauth2-client'
 import { sendEmail } from '@/lib/mailer'
-import verifyAppleToken from '@/lib/verifyAppleToken'
 import { app } from '@/server'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
@@ -18,6 +17,7 @@ import {
 } from '@/dtos/email-auth-request.dto'
 import { ErrorResponseDTO } from '@/dtos/error-response.dto'
 import log from '@/lib/log'
+import { verifyAppleIdToken } from '@/lib/verifyAppleToken'
 import { AuthTokenRepositoryImpl } from '@/repositories/auth-token.repository.impl'
 import { EmailAuthRequestRepositoryImpl } from '@/repositories/email-auth-request.repository.impl'
 import { UserRepositoryImpl } from '@/repositories/user.repository.impl'
@@ -138,7 +138,9 @@ export const signinHandler = async (req: FastifyRequest<PostSignInRoute>, rep: F
           })
         }
         if (value === 'apple') {
-          await verifyAppleToken(token, process.env.BILLETS_APP_APPLE_BUNDLE_ID ?? '')
+          const clientId =
+            platform === 'web' ? process.env.COLDSURF_IO_APPLE_BUNDLE_ID : process.env.BILLETS_APP_APPLE_BUNDLE_ID
+          await verifyAppleIdToken(token, clientId ?? '')
         }
 
         const authToken = {
@@ -317,7 +319,7 @@ export const signupHandler = async (req: FastifyRequest<PostSignUpRoute>, rep: F
           })
         }
         if (value === 'apple') {
-          await verifyAppleToken(token, process.env.BILLETS_APP_APPLE_BUNDLE_ID ?? '')
+          await verifyAppleIdToken(token, process.env.BILLETS_APP_APPLE_BUNDLE_ID ?? '')
         }
         //
         // const userDTO = new UserDTO({
