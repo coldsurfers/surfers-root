@@ -361,7 +361,7 @@ export interface paths {
           'application/json': {
             email: string
             password?: string
-            platform?: 'android' | 'ios'
+            platform?: 'android' | 'ios' | 'web'
             provider: 'google' | 'apple' | 'email'
             token?: string
           }
