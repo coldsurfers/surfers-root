@@ -350,6 +350,7 @@ export const signupHandler = async (req: FastifyRequest<PostSignUpRoute>, rep: F
         })
       })
   } catch (e) {
+    console.error(e)
     return rep.status(500).send()
   }
 }
