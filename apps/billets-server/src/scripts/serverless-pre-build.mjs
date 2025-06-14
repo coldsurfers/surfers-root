@@ -11,7 +11,10 @@ const runCommand = (command) => {
     execSync(command, { stdio: 'inherit' })
   } catch (error) {
     console.error(`Error executing: ${command}\n`, error)
-    process.exit(1)
+    /**
+     * skip process exit
+     */
+    // process.exit(1)
   }
 }
 
