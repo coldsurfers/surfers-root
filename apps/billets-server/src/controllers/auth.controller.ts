@@ -299,8 +299,8 @@ export const signupHandler = async (req: FastifyRequest<PostSignUpRoute>, rep: F
         if (value === 'google') {
           const audience = match(platform)
             .with('ios', () => process.env.GOOGLE_OAUTH_WEB_IOS_CLIENT_ID)
-            .with('android', () => process.env.GOOGLE_OAUTH_CLIENT_ID)
-            .exhaustive()
+            .otherwise(() => process.env.GOOGLE_OAUTH_CLIENT_ID)
+
           await googleOAuth2Client.verifyIdToken({
             idToken: token,
             audience,
