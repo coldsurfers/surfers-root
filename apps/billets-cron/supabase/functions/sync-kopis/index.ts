@@ -174,6 +174,9 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null
   switch (venue) {
+    case 'KT&amp;G 상상마당 라이브홀 [마포] (KT&amp;G 상상마당 라이브홀 [마포] )':
+      alreadyExistingVenueId = '3149ac24-9b5d-4130-8bf2-6cbe8cd561f4'
+      break
     case '제주호은아트센터(구.섬아이뮤직아트센터)':
       alreadyExistingVenueId = '75e5bbb2-fcee-42f1-8c23-96f630379937'
       break
