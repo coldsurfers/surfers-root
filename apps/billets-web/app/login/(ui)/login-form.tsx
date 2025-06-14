@@ -167,16 +167,16 @@ export const LoginForm = () => {
           </ErrorCard>
         )}
         <Form>
-          <EmailLoginTextInput placeholder="Email" {...register('email')} />
-          <EmailLoginTextInput type="password" placeholder="Password" {...register('password')} />
+          <EmailLoginTextInput placeholder="이메일" {...register('email')} />
+          <EmailLoginTextInput type="password" placeholder="패스워드" {...register('password')} />
           <EmailLoginButton type="button" onClick={login}>
-            Login
+            로그인
           </EmailLoginButton>
         </Form>
         <SocialLoginLayout>
           <DividerText>OR</DividerText>
-          <SocialLoginButton type="button">Continue with Google</SocialLoginButton>
-          <SocialLoginButton type="button">Continue with Apple</SocialLoginButton>
+          <SocialLoginButton type="button">구글로 계속하기</SocialLoginButton>
+          <SocialLoginButton type="button">애플로 계속하기</SocialLoginButton>
         </SocialLoginLayout>
       </FormLayout>
       {isEmailLoginPending && <Spinner variant="page-overlay" />}
