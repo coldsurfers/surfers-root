@@ -10,7 +10,7 @@ import styled from '@emotion/styled'
 import { useMutation } from '@tanstack/react-query'
 import { InfoIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 const FormLayout = styled.div`
@@ -141,6 +141,20 @@ export const LoginForm = () => {
     },
   })
 
+  const login = useCallback(() => emailLogin(formValues), [emailLogin, formValues])
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        login()
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+    }
+  }, [login])
+
   return (
     <>
       <FormLayout>
@@ -155,7 +169,7 @@ export const LoginForm = () => {
         <Form>
           <EmailLoginTextInput placeholder="Email" {...register('email')} />
           <EmailLoginTextInput type="password" placeholder="Password" {...register('password')} />
-          <EmailLoginButton type="button" onClick={() => emailLogin(formValues)}>
+          <EmailLoginButton type="button" onClick={login}>
             Login
           </EmailLoginButton>
         </Form>
