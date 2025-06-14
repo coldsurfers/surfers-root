@@ -5,7 +5,8 @@ import { apiClient } from '@/libs/openapi-client'
 import { useAuthStore } from '@/libs/stores'
 import { authUtils } from '@/libs/utils/utils.auth'
 import { OpenApiError } from '@coldsurfers/api-sdk'
-import { Button, colors, semantics, Spinner, Text, TextInput } from '@coldsurfers/ocean-road'
+import { Button, colors, media, semantics, Spinner, Text, TextInput } from '@coldsurfers/ocean-road'
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { useMutation } from '@tanstack/react-query'
 import { InfoIcon } from 'lucide-react'
@@ -42,6 +43,11 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+
+  ${media.medium(css`
+    min-width: unset;
+    width: 100%;
+  `)}
 `
 
 const EmailLoginTextInput = styled(TextInput)`
@@ -76,6 +82,11 @@ const SocialLoginLayout = styled.div`
   align-items: center;
 
   margin-top: 1rem;
+
+  ${media.medium(css`
+    min-width: unset;
+    width: 100%;
+  `)}
 `
 
 const ErrorCard = styled.div`
