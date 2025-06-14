@@ -10,6 +10,12 @@ export async function GET(req: NextRequest) {
   const client_id = process.env.GOOGLE_CLIENT_ID!
   const client_secret = process.env.GOOGLE_CLIENT_SECRET!
 
+  if (!code) {
+    return NextResponse.redirect(
+      process.env.NODE_ENV === 'development' ? 'http://localhost:3000/login' : `https://coldsurf.io/login`,
+    )
+  }
+
   try {
     // 1. 토큰 교환
     const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
