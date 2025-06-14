@@ -14,6 +14,8 @@ import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
+const USE_EMAIL_LOGIN = false
+
 const FormLayout = styled.div`
   display: flex;
   flex-direction: column;
@@ -161,21 +163,23 @@ export const LoginForm = () => {
       <FormLayout>
         <Title as="h1">Welcome back</Title>
         <SubTitle as="p">{COMMON_META_TITLE}</SubTitle>
-        {emailLoginServerError && (
+        {USE_EMAIL_LOGIN && emailLoginServerError && (
           <ErrorCard>
             <InfoIconUI />
             <ErrorMessage as="p">{`로그인에 실패했어요.\n정확한 정보로 다시 시도해주세요.`}</ErrorMessage>
           </ErrorCard>
         )}
-        <Form>
-          <EmailLoginTextInput placeholder="이메일" {...register('email')} />
-          <EmailLoginTextInput type="password" placeholder="패스워드" {...register('password')} />
-          <EmailLoginButton type="button" onClick={login}>
-            로그인
-          </EmailLoginButton>
-        </Form>
+        {USE_EMAIL_LOGIN && (
+          <Form>
+            <EmailLoginTextInput placeholder="이메일" {...register('email')} />
+            <EmailLoginTextInput type="password" placeholder="패스워드" {...register('password')} />
+            <EmailLoginButton type="button" onClick={login}>
+              로그인
+            </EmailLoginButton>
+          </Form>
+        )}
         <SocialLoginLayout>
-          <DividerText>OR</DividerText>
+          {USE_EMAIL_LOGIN && <DividerText>OR</DividerText>}
           <Link href={`/api/auth/google`} style={{ width: '100%' }}>
             <SocialLoginButton type="button">구글로 계속하기</SocialLoginButton>
           </Link>
