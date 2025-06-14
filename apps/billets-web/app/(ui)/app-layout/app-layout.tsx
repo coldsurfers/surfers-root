@@ -1,6 +1,7 @@
 'use client'
 
-import { PropsWithChildren } from 'react'
+import { useAuthStore } from '@/libs/stores'
+import { PropsWithChildren, useEffect } from 'react'
 import { AppFooter } from '../app-footer'
 import { AppHeader } from '../app-header'
 import { FloatingSearchBar } from '../floating-search-bar'
@@ -9,13 +10,22 @@ import { ChildrenWrapper, Container } from './app-layout.styled'
 
 export function AppLayout({
   children,
+  isServerSideLoggedIn,
 }: PropsWithChildren<{
-  accessToken?: string
-  refreshToken?: string
+  isServerSideLoggedIn: boolean
 }>) {
+  const { isLoggedIn: isClientSideLoggedIn, setIsLoggedIn: setIsClientSideLoggedIn } = useAuthStore()
+  const isLoggedIn = isServerSideLoggedIn || isClientSideLoggedIn
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setIsClientSideLoggedIn(true)
+    }
+  }, [isLoggedIn, setIsClientSideLoggedIn])
+
   return (
     <Container>
-      <AppHeader />
+      <AppHeader isLoggedIn={isLoggedIn} />
       <ChildrenWrapper>
         <PageLayoutUI>{children}</PageLayoutUI>
       </ChildrenWrapper>
