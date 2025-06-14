@@ -3,16 +3,7 @@ import { cookies } from 'next/headers'
 
 export async function POST() {
   const cookieStore = await cookies()
-  const responseCookie = cookieStore
-    .set(COOKIE_ACCESS_TOKEN_KEY, '', {
-      httpOnly: true,
-      secure: true,
-      maxAge: 0,
-      sameSite: 'none',
-      path: '/',
-      domain: process.env.NODE_ENV === 'development' ? undefined : 'coldsurf.io',
-    })
-    .toString()
+  const responseCookie = cookieStore.delete(COOKIE_ACCESS_TOKEN_KEY).toString()
   return new Response('local logout', {
     status: 200,
     headers: {
