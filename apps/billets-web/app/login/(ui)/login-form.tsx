@@ -179,7 +179,9 @@ export const LoginForm = () => {
           <Link href={`/api/auth/google`}>
             <SocialLoginButton type="button">구글로 계속하기</SocialLoginButton>
           </Link>
-          <SocialLoginButton type="button">애플로 계속하기</SocialLoginButton>
+          <Link href={`/api/auth/apple`}>
+            <SocialLoginButton type="button">애플로 계속하기</SocialLoginButton>
+          </Link>
         </SocialLoginLayout>
       </FormLayout>
       {isEmailLoginPending && <Spinner variant="page-overlay" />}
