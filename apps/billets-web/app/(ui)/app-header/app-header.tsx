@@ -8,7 +8,7 @@ import { SERVICE_NAME } from '@coldsurfers/shared-utils'
 import { useMutation } from '@tanstack/react-query'
 import { Kaushan_Script } from 'next/font/google'
 import { useRouter } from 'next/navigation'
-import { MouseEventHandler, useEffect, useState } from 'react'
+import { MouseEventHandler, useCallback, useEffect, useState } from 'react'
 import { ColorSchemeToggle } from '../color-scheme-toggle'
 import { GlobalLink } from '../global-link'
 import { AppHeaderSearchUI } from './app-header.search-ui'
@@ -75,6 +75,11 @@ function ModalMenu({
     }
   }, [isOpen])
 
+  const onClickLogout = useCallback(() => {
+    logout()
+    onClose()
+  }, [logout, onClose])
+
   return (
     <ModalContainer onClick={onClose} $isOpen={isOpen} style={{ overflowY: 'auto' }}>
       {isOpen && (
@@ -101,13 +106,13 @@ function ModalMenu({
               )
             })}
             {isLoggedIn ? (
-              <HeaderMenuContainerButton role="button" onClick={logout}>
+              <HeaderMenuContainerButton role="button" onClick={onClickLogout}>
                 <HeaderMenuText as="p">로그아웃</HeaderMenuText>
               </HeaderMenuContainerButton>
             ) : (
-              <HeaderMenuContainerLink href={'/login'}>
+              <GlobalLink href={'/login'} onClick={onClose}>
                 <HeaderMenuText as="p">로그인</HeaderMenuText>
-              </HeaderMenuContainerLink>
+              </GlobalLink>
             )}
             <GlobalLink href={APP_STORE_URL} onClick={onClose} style={{ margin: '0 auto' }}>
               <Button theme="border">{APP_DOWNLOAD_WORDING}</Button>
@@ -197,9 +202,9 @@ export function AppHeader({ isLoggedIn }: { isLoggedIn: boolean }) {
               <HeaderMenuText as="p">로그아웃</HeaderMenuText>
             </HeaderMenuContainerButton>
           ) : (
-            <HeaderMenuContainerLink href={'/login'}>
+            <GlobalLink href={'/login'} style={{ paddingRight: 10 }}>
               <HeaderMenuText as="p">로그인</HeaderMenuText>
-            </HeaderMenuContainerLink>
+            </GlobalLink>
           )}
           <AppHeaderSearchUI />
           <GlobalLink href={APP_STORE_URL} target="_blank">
