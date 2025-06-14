@@ -9,6 +9,7 @@ import { Button, colors, semantics, Spinner, Text, TextInput } from '@coldsurfer
 import styled from '@emotion/styled'
 import { useMutation } from '@tanstack/react-query'
 import { InfoIcon } from 'lucide-react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -175,7 +176,9 @@ export const LoginForm = () => {
         </Form>
         <SocialLoginLayout>
           <DividerText>OR</DividerText>
-          <SocialLoginButton type="button">구글로 계속하기</SocialLoginButton>
+          <Link href={`/api/auth/google`}>
+            <SocialLoginButton type="button">구글로 계속하기</SocialLoginButton>
+          </Link>
           <SocialLoginButton type="button">애플로 계속하기</SocialLoginButton>
         </SocialLoginLayout>
       </FormLayout>
