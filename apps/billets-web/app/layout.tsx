@@ -13,7 +13,7 @@ import {
   QueryClientRegistry,
   RegistryProvider,
 } from '@/libs/registries'
-import { SERVICE_NAME } from '@coldsurfers/shared-utils'
+import { decodeJwt, SERVICE_NAME } from '@coldsurfers/shared-utils'
 import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
 import { ReactNode } from 'react'
@@ -34,8 +34,16 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const cookieStore = await cookies()
-  const accessToken = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY)
-  const isLoggedIn = !!accessToken?.value
+  const accessToken = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY)?.value
+  let isLoggedIn: boolean = false
+  if (accessToken) {
+    try {
+      const decodedToken = decodeJwt(accessToken)
+      isLoggedIn = !!decodedToken
+    } catch (e) {
+      console.error(e)
+    }
+  }
   return (
     <html lang="en">
       <head>
