@@ -174,6 +174,9 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null
   switch (venue) {
+    case '소극장 울림터 (극단 메카네)':
+      alreadyExistingVenueId = '43dbc50d-6489-46eb-b87b-86fa9e796014'
+      break
     case 'KT&amp;G 상상마당 라이브홀 [마포] (KT&amp;G 상상마당 라이브홀 [마포] )':
       alreadyExistingVenueId = '3149ac24-9b5d-4130-8bf2-6cbe8cd561f4'
       break
