@@ -39,8 +39,9 @@ export const SearchItem = (item: SearchItemProps) => {
     .when(
       (value) => value.type === 'concert',
       (value) => {
+        const href = value.slug ? `/event/${encodeURIComponent(value.slug)}` : '#'
         return (
-          <StyledSearchItemLink key={value.id} href={`/event/${value.slug}`} onClick={item.onClick}>
+          <StyledSearchItemLink key={value.id} href={href} onClick={item.onClick}>
             <SearchItemEventThumbnailSquare src={`${value.thumbnailImgUrl}`} />
             <StyledSearchItemRightInfoWrapper>
               <StyledSearchItemMainText as="p" numberOfLines={1}>

@@ -27,8 +27,9 @@ export const RecentConcertListItem = ({ data }: { data: components['schemas']['C
     }
     return `${data.mainPoster!.url}`
   }, [data.mainPoster])
+  const href = data.slug ? `/event/${encodeURIComponent(data.slug)}` : '#'
   return (
-    <GlobalLink href={`/event/${data.slug}`}>
+    <GlobalLink href={href}>
       <StyledRecentListBilletsConcertCard $isLoading={false}>
         {thumbUrl ? (
           <StyledRecentListBilletsConcertCardImage src={thumbUrl} alt={data.title} />

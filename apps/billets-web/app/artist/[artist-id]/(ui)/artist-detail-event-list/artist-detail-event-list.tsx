@@ -33,8 +33,9 @@ export function ArtistDetailEventList({ artistId }: { artistId: string }) {
       <StyledArtistDetailEventListContainer>
         {upcomingEvents.map((event) => {
           const thumbUrl = event.data.mainPoster?.url ? `${event.data.mainPoster.url}` : ''
+          const href = event.data.slug ? `/event/${encodeURIComponent(event.data.slug)}` : '#'
           return (
-            <StyledArtistDetailEventListItem key={event.data.id} href={`/event/${event.data.slug}`}>
+            <StyledArtistDetailEventListItem key={event.data.id} href={href}>
               {thumbUrl ? (
                 <StyledArtistDetailEventListItemThumbnail src={thumbUrl} />
               ) : (

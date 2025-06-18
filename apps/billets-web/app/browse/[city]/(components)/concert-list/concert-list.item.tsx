@@ -36,8 +36,10 @@ export const ConcertListItem = memo(({ data }: { data: components['schemas']['Co
     })
   }, [data.id])
 
+  const href = data.slug ? `/event/${encodeURIComponent(data.slug)}` : '#'
+
   return (
-    <GlobalLink href={`/event/${data.slug}`} onClick={onClick}>
+    <GlobalLink href={href} onClick={onClick}>
       <StyledGridItem>
         {thumbUrl ? (
           <StyledGridImage src={thumbUrl} alt={data.title} />
