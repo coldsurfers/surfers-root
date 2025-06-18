@@ -94,7 +94,7 @@ export class ApiSdk {
           const response = await baseFetchClient.GET('/v1/event/slug/{slug}', {
             params: {
               path: {
-                slug: decodeURIComponent(slug),
+                slug,
               },
             },
           })
