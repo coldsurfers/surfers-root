@@ -1,5 +1,6 @@
 'use client'
 
+import { generateSlugHref } from '@/libs/utils/utils.slug'
 import { paths } from '@coldsurfers/api-sdk'
 import { format } from 'date-fns'
 import { match } from 'ts-pattern'
@@ -39,7 +40,7 @@ export const SearchItem = (item: SearchItemProps) => {
     .when(
       (value) => value.type === 'concert',
       (value) => {
-        const href = value.slug ? `/event/${encodeURIComponent(value.slug)}` : '#'
+        const href = generateSlugHref(value.slug)
         return (
           <StyledSearchItemLink key={value.id} href={href} onClick={item.onClick}>
             <SearchItemEventThumbnailSquare src={`${value.thumbnailImgUrl}`} />

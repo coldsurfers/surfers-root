@@ -1,5 +1,6 @@
 import { logEvent } from '@/features/firebase/firebase'
 import { isEmptySource } from '@/libs/utils/utils.image'
+import { generateSlugHref } from '@/libs/utils/utils.slug'
 import { components } from '@coldsurfers/api-sdk'
 import { GlobalLink } from 'app/(ui)/global-link/global-link'
 import { format } from 'date-fns'
@@ -36,7 +37,7 @@ export const ConcertListItem = memo(({ data }: { data: components['schemas']['Co
     })
   }, [data.id])
 
-  const href = data.slug ? `/event/${encodeURIComponent(data.slug)}` : '#'
+  const href = generateSlugHref(data.slug)
 
   return (
     <GlobalLink href={href} onClick={onClick}>

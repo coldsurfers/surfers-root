@@ -1,6 +1,7 @@
 'use client'
 
 import { isEmptySource } from '@/libs/utils/utils.image'
+import { generateSlugHref } from '@/libs/utils/utils.slug'
 import { components } from '@coldsurfers/api-sdk'
 import { format, parseISO } from 'date-fns'
 import { useMemo } from 'react'
@@ -27,7 +28,7 @@ export const RecentConcertListItem = ({ data }: { data: components['schemas']['C
     }
     return `${data.mainPoster!.url}`
   }, [data.mainPoster])
-  const href = data.slug ? `/event/${encodeURIComponent(data.slug)}` : '#'
+  const href = generateSlugHref(data.slug)
   return (
     <GlobalLink href={href}>
       <StyledRecentListBilletsConcertCard $isLoading={false}>

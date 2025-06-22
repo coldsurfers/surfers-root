@@ -3,6 +3,7 @@ import { metadataInstance } from '@/libs/metadata'
 import { apiClient, initialPageQuery } from '@/libs/openapi-client'
 import { ApiErrorBoundaryRegistry } from '@/libs/registries'
 import { getQueryClient } from '@/libs/utils'
+import { generateSlugHref } from '@/libs/utils/utils.slug'
 import { SERVICE_NAME } from '@coldsurfers/shared-utils'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { RouteLoading } from 'app/(ui)'
@@ -80,7 +81,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: metaTitle,
     description: metaDescription,
     images: metaImages,
-    url: `https://billets.coldsurf.io/event/${pageParams.slug}`,
+    url: `https://billets.coldsurf.io${generateSlugHref(pageParams.slug)}`,
   }
 
   return metadataInstance.generateMetadata<Metadata>({
@@ -175,7 +176,7 @@ async function PageInner({ params }: { params: { slug: string } }) {
               endDate: concertDate.toISOString(),
               startDate: concertDate.toISOString(),
               name: title,
-              url: `${SITE_URL}/event/${params.slug}`,
+              url: `${SITE_URL}${generateSlugHref(params.slug)}`,
               venue: {
                 address: mainVenue?.address ?? '',
                 latitude: mainVenue?.lat ?? 0,
