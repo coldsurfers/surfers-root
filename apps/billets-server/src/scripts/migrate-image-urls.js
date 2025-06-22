@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { PrismaClient } = require('@prisma/client')
-const fetch = require('node-fetch')
 
 const dbClient = new PrismaClient({
   log: ['warn', 'info', 'error'],
@@ -22,8 +21,6 @@ async function migratePosters() {
   }
 }
 
-// migratePosters()
-
 async function migrateArtistProfileImages() {
   const allArtistProfileImages = await dbClient.artistProfileImage.findMany()
 
@@ -41,86 +38,46 @@ async function migrateArtistProfileImages() {
   }
 }
 
-// migrateArtistProfileImages()
+async function restore남부터미널() {
+  try {
+    // await dbClient.$connect()
+    const ids = ['392378e1-1375-4ff2-aeb4-37164c402e6b']
 
-async function migratePostersKeyId() {
-  const allPosters = await dbClient.poster.findMany()
-
-  const concurrency = 10
-  let index = 0
-  async function processBatch() {
-    const batch = allPosters.slice(index, index + concurrency)
-    index += concurrency
     await Promise.all(
-      batch.map(async (poster) => {
-        const { imageURL } = poster
-        const [_, key] = imageURL.split('https://api.billets.coldsurf.io/v1/image?key=')
-        await dbClient.poster.update({
-          where: { id: poster.id },
-          data: { keyId: key },
+      ids.map(async (concertId) => {
+        const existing = await dbClient.concertsOnVenues.findUnique({
+          where: {
+            concertId_venueId: {
+              concertId,
+              venueId: '36939b92-af12-462f-a50d-8061dae5ad26',
+            },
+          },
+        })
+
+        if (existing) {
+          await dbClient.concertsOnVenues.delete({
+            where: {
+              concertId_venueId: {
+                concertId,
+                venueId: '36939b92-af12-462f-a50d-8061dae5ad26',
+              },
+            },
+          })
+        }
+
+        await dbClient.concertsOnVenues.create({
+          data: {
+            concertId,
+            venueId: '3149ac24-9b5d-4130-8bf2-6cbe8cd561f4',
+          },
         })
       }),
     )
-  }
-  while (index < allPosters.length) {
-    await processBatch()
-  }
-}
-
-// migratePostersKeyId()
-
-async function migrateDetailImages() {
-  const allDetailImages = await dbClient.detailImage.findMany()
-
-  const concurrency = 10
-  let index = 0
-  async function processBatch() {
-    const batch = allDetailImages.slice(index, index + concurrency)
-    index += concurrency
-    await Promise.all(
-      batch.map(async (detailImage) => {
-        const { imageURL } = detailImage
-        const [_, key] = imageURL.split('https://api.billets.coldsurf.io/v1/image?key=')
-        await dbClient.detailImage.update({
-          where: { id: detailImage.id },
-          data: { keyId: key },
-        })
-      }),
-    )
-  }
-  while (index < allDetailImages.length) {
-    await processBatch()
+  } catch (e) {
+    console.error(e)
+  } finally {
+    // await dbClient.$disconnect()
   }
 }
 
-// migrateDetailImages()
-
-async function syncUp() {
-  const KOPISEVENT_CATEGORIES = [
-    '대중음악',
-    '연극',
-    '서양음악(클래식)',
-    '한국음악(국악)',
-    '뮤지컬',
-    '무용(서양/한국무용)',
-    '대중무용',
-  ]
-
-  const pages = [1, 2, 3]
-
-  for (const category of KOPISEVENT_CATEGORIES) {
-    for (const page of pages) {
-      console.log(`FETCHING ${category} ${page}`)
-      await fetch(`http://127.0.0.1:54321/functions/v1/sync-kopis`, {
-        method: 'POST',
-        body: JSON.stringify({
-          category,
-          page,
-        }),
-      })
-      console.log(`FETCHED ${category} ${page}`)
-    }
-  }
-}
-
-// syncUp()
+// restore남부터미널()

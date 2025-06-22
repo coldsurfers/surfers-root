@@ -174,6 +174,15 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null
   switch (venue) {
+    case '꼬레오 그라운드':
+      alreadyExistingVenueId = '79952443-898a-4e90-b6d4-22d53cb24fca'
+      break
+    case '플러스씨어터(구. 컬처스페이스 엔유 구. 쁘티첼 씨어터)':
+      alreadyExistingVenueId = 'c663fe2d-05b0-4204-acde-2d1092b1f077'
+      break
+    case '창조문화활력센터 소극장 624':
+      alreadyExistingVenueId = '6eae4bd0-634a-48b8-84d4-0eb4a55c57cc'
+      break
     case '소극장 울림터 (극단 메카네)':
       alreadyExistingVenueId = '43dbc50d-6489-46eb-b87b-86fa9e796014'
       break
