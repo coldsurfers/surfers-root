@@ -1,3 +1,4 @@
+import { decodeJwt } from '@coldsurfers/shared-utils'
 import { NextRequest, NextResponse } from 'next/server'
 import { COOKIE_ACCESS_TOKEN_KEY } from './libs/constants'
 
@@ -36,7 +37,16 @@ export function middleware(request: NextRequest) {
 
   // 로그인 페이지에 접근 했지만, 이미 로그인 된 경우 '/' 로 리다이렉트
   if (request.nextUrl.pathname.startsWith('/login')) {
-    const isLoggedIn = !!request.cookies.get(COOKIE_ACCESS_TOKEN_KEY)?.value
+    const accessToken = request.cookies.get(COOKIE_ACCESS_TOKEN_KEY)?.value
+    let isLoggedIn: boolean = false
+    if (accessToken) {
+      try {
+        const decodedToken = decodeJwt(accessToken)
+        isLoggedIn = !!decodedToken
+      } catch (e) {
+        console.error(e)
+      }
+    }
     if (isLoggedIn) {
       return NextResponse.redirect(new URL('/', request.url))
     }
