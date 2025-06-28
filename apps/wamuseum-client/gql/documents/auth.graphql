@@ -1,0 +1,20 @@
+mutation TokenRefresh($input: TokenRefreshInput!) {
+  tokenRefresh(input: $input) {
+    ... on UserWithAuthToken {
+      authToken {
+        accessToken
+        refreshToken
+      }
+      user {
+        createdAt
+        email
+        id
+        isAdmin
+      }
+    }
+    ... on HttpError {
+      code
+      message
+    }
+  }
+}
