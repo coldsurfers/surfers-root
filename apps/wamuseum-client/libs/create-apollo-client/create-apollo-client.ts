@@ -1,27 +1,28 @@
-import storage from '@/utils/storage/storage'
-import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
-import { setContext } from '@apollo/client/link/context'
-import { onError } from '@apollo/client/link/error'
-import { urls } from 'libs/constants'
+import storage from '@/utils/storage/storage';
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { onError } from '@apollo/client/link/error';
+import { urls } from 'libs/constants';
 
 export const createApolloClient = ({ token }: { token?: string }) => {
   const httpLink = new HttpLink({
     uri: urls.apolloServer,
     credentials: 'include',
-  })
+  });
 
   const authLink = setContext(async (_, { headers }) => {
-    const accessToken = typeof window === 'undefined' ? token : storage?.get<string>('@wamuseum-client/access-token')
+    const accessToken =
+      typeof window === 'undefined' ? token : storage?.get<string>('@wamuseum-client/access-token');
     return {
       headers: {
         ...headers,
         authorization: accessToken,
       },
-    }
-  })
+    };
+  });
 
   // eslint-disable-next-line consistent-return
-  const errorLink = onError(({ graphQLErrors, forward, operation }) => {
+  const errorLink = onError(() => {
     // if (graphQLErrors) {
     //   for (const err of graphQLErrors) {
     //     switch (err.extensions?.code) {
@@ -51,14 +52,14 @@ export const createApolloClient = ({ token }: { token?: string }) => {
     //     }
     //   }
     // }
-  })
+  });
 
   const client = new ApolloClient({
     ssrMode: typeof window !== 'undefined',
     link: authLink.concat(errorLink).concat(httpLink),
     cache: new InMemoryCache(),
     connectToDevTools: process.env.NODE_ENV === 'development',
-  })
+  });
 
-  return client
-}
+  return client;
+};

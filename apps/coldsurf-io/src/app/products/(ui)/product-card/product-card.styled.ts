@@ -1,8 +1,11 @@
-import { media, semantics, Text } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
+import { Text, media, semantics } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
-export const StyledProductCardContainer = styled.div<{ $afterContent: string; $backgroundImgSrc: string }>`
+export const StyledProductCardContainer = styled.div<{
+  $afterContent: string;
+  $backgroundImgSrc: string;
+}>`
   position: relative;
   aspect-ratio: 1 / 2;
   border-radius: 32px;
@@ -58,7 +61,7 @@ export const StyledProductCardContainer = styled.div<{ $afterContent: string; $b
   &:hover::after {
     opacity: 1;
   }
-`
+`;
 
 export const StyledProductImage = styled.img`
   object-fit: cover;
@@ -71,11 +74,11 @@ export const StyledProductImage = styled.img`
     height: 100px;
   `)}
 
-  ${media['medium'](css`
+  ${media.medium(css`
     width: 80px;
     height: 80px;
   `)}
-`
+`;
 
 export const StyledProductCardTitle = styled(Text)`
   font-size: 36px;
@@ -93,7 +96,7 @@ export const StyledProductCardTitle = styled(Text)`
   ${media.small(css`
     font-size: 20px;
   `)}
-`
+`;
 
 export const StyledProductCardDescription = styled(Text)`
   font-size: 18px;
@@ -109,4 +112,4 @@ export const StyledProductCardDescription = styled(Text)`
   ${media.small(css`
     font-size: 15px;
   `)}
-`
+`;

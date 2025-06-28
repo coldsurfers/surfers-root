@@ -19,7 +19,10 @@
       "*.bundle.js",
       ".yalc/**",
       "**/__generated__/**",
-      "**/gql/resolvers-types.ts"
+      "**/gql/resolvers-types.ts",
+      "**/.next/**",
+      "**/.open-next/**",
+      "**/.sst/**"
     ]
   },
   "formatter": {

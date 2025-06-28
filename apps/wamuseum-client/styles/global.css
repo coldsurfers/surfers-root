@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
 
 /* http://meyerweb.com/eric/tools/css/reset/
 v2.0 | 20110126
@@ -89,16 +89,16 @@ video {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 100%;
   font: inherit;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 100%;
+  font-family: "Noto Sans KR", sans-serif;
   vertical-align: baseline;
 }
 input,
 select,
 textarea,
 button {
-  font-family: 'Noto Sans KR', sans-serif !important;
+  font-family: "Noto Sans KR", sans-serif !important;
 }
 /* HTML5 display-role reset for older browsers */
 article,
@@ -129,7 +129,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: '';
+  content: "";
   content: none;
 }
 table {

@@ -1,8 +1,8 @@
-import type { Metadata } from 'next'
-import { Noto_Sans_KR } from 'next/font/google'
-import { FirebaseContext } from '../contexts/firebase-context/firebase-context'
-import { OceanRoadThemeContext } from '../contexts/ocean-road-theme-context/ocean-road-theme-context'
-import { PageLayout } from './(ui)/page-layout/page-layout'
+import type { Metadata } from 'next';
+import { Noto_Sans_KR } from 'next/font/google';
+import { FirebaseContext } from '../contexts/firebase-context/firebase-context';
+import { OceanRoadThemeContext } from '../contexts/ocean-road-theme-context/ocean-road-theme-context';
+import { PageLayout } from './(ui)/page-layout/page-layout';
 
 export const metadata: Metadata = {
   title: 'We Support Artists | COLDSURF',
@@ -12,20 +12,21 @@ export const metadata: Metadata = {
     shortcut: '/icons/favicon.ico',
     apple: '/icons/favicon.ico',
   },
-}
+};
 
-const notoSansKR = Noto_Sans_KR({ subsets: ['latin'] })
+const notoSansKR = Noto_Sans_KR({ subsets: ['latin'] });
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
       <body className={notoSansKR.className}>
         <script
           // https://github.com/reactjs/react.dev/blob/4bae717f59787b4c741f600ee2d2decb07fba226/src/pages/_document.tsx#L103
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
           dangerouslySetInnerHTML={{
             __html: `
                 (function () {
@@ -83,5 +84,5 @@ export default function RootLayout({
         </FirebaseContext>
       </body>
     </html>
-  )
+  );
 }
