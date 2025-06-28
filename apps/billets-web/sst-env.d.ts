@@ -2,8 +2,12 @@
 /* tslint:disable */
 /* eslint-disable */
 /* deno-fmt-ignore-file */
-import 'sst'
-export {}
+import 'sst';
 declare module 'sst' {
-  export interface Resource {}
+  export interface Resource {
+    ColdsurfIOClient: {
+      type: 'sst.aws.Nextjs';
+      url: string;
+    };
+  }
 }
