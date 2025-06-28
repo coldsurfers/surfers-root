@@ -2,12 +2,12 @@
 /* tslint:disable */
 /* eslint-disable */
 /* deno-fmt-ignore-file */
-import "sst"
-declare module "sst" {
+import 'sst';
+declare module 'sst' {
   export interface Resource {
-    "WamuseumClient": {
-      "type": "sst.aws.Nextjs"
-      "url": string
-    }
+    WamuseumClient: {
+      type: 'sst.aws.Nextjs';
+      url: string;
+    };
   }
 }
