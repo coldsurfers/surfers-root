@@ -2,21 +2,21 @@
 // Compose.tsx
 
 interface Props {
-  registries: Array<React.JSXElementConstructor<React.PropsWithChildren<unknown>>>
-  children: React.ReactNode
+  registries: Array<React.JSXElementConstructor<React.PropsWithChildren<unknown>>>;
+  children: React.ReactNode;
 }
 
 export function RegistryProvider(props: Props) {
-  const { registries = [], children } = props
+  const { registries = [], children } = props;
 
   return (
     <>
       {registries.reduceRight(
-        (acc, Comp) => (
-          <Comp>{acc}</Comp>
+        (acc, Comp, index) => (
+          <Comp key={index.toString()}>{acc}</Comp>
         ),
-        children,
+        children
       )}
     </>
-  )
+  );
 }

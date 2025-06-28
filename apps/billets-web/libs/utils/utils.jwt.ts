@@ -1,7 +1,7 @@
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 
 export const generateAppleClientSecret = () => {
-  const privateKey = process.env.APPLE_PRIVATE_KEY!.replace(/\\n/g, '\n')
+  const privateKey = process.env.APPLE_PRIVATE_KEY?.replace(/\\n/g, '\n') ?? '';
 
   const token = jwt.sign({}, privateKey, {
     algorithm: 'ES256',
@@ -10,7 +10,7 @@ export const generateAppleClientSecret = () => {
     audience: 'https://appleid.apple.com',
     expiresIn: '1h',
     keyid: process.env.APPLE_KEY_ID,
-  })
+  });
 
-  return token
-}
+  return token;
+};

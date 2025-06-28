@@ -1,7 +1,7 @@
 /// <reference path="./.sst/platform/config.d.ts" />
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
 export default $config({
   app(input) {
@@ -15,14 +15,14 @@ export default $config({
           region: 'ap-northeast-2',
         },
       },
-    }
+    };
   },
   async run() {
     new sst.aws.Nextjs('WamuseumClient', {
       domain: {
-        name: process.env.WAMUSEUM_CLIENT_DOMAIN_NAME!,
-        cert: process.env.WAMUSEUM_CLIENT_DOMAIN_CERT_ARN!,
+        name: process.env.WAMUSEUM_CLIENT_DOMAIN_NAME ?? '',
+        cert: process.env.WAMUSEUM_CLIENT_DOMAIN_CERT_ARN ?? '',
       },
-    })
+    });
   },
-})
+});

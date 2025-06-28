@@ -1,7 +1,7 @@
-import { Button, colors, IconButton, media, semantics, Text } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
-import { motion } from 'framer-motion'
+import { Button, IconButton, Text, colors, media, semantics } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { motion } from 'framer-motion';
 
 // Styled container for the bottom sheet
 export const SheetContainer = styled(motion.div)`
@@ -26,7 +26,7 @@ export const SheetContainer = styled(motion.div)`
     padding: 0px;
     padding-top: 24px;
   `)}
-`
+`;
 
 export const SheetInner = styled.div`
   min-width: 0px;
@@ -38,7 +38,7 @@ export const SheetInner = styled.div`
   ${media.large(css`
     padding: 24px;
   `)}
-`
+`;
 
 export const Overlay = styled(motion.div)`
   position: fixed;
@@ -49,7 +49,7 @@ export const Overlay = styled(motion.div)`
   background: rgba(0, 0, 0, 0.5);
   z-index: 100;
   backdrop-filter: blur(5px);
-`
+`;
 
 export const CloseButton = styled(IconButton)`
   padding: 8px;
@@ -67,7 +67,7 @@ export const CloseButton = styled(IconButton)`
   align-items: center;
   -webkit-box-pack: center;
   justify-content: center;
-`
+`;
 
 export const StyledTitle = styled(Text)`
   font-size: clamp(28px, 8vmin, 56px);
@@ -75,7 +75,7 @@ export const StyledTitle = styled(Text)`
   letter-spacing: -0.02em;
   line-height: 1.05;
   text-align: left;
-`
+`;
 
 export const StyledDescription = styled(Text)`
   font-weight: 418;
@@ -87,7 +87,7 @@ export const StyledDescription = styled(Text)`
   ${media.small(css`
     font-size: 14px;
   `)}
-`
+`;
 
 export const StyledProductImageContainer = styled.div`
   width: 390px;
@@ -96,7 +96,7 @@ export const StyledProductImageContainer = styled.div`
     margin: 0 auto;
     width: 100%;
   `)}
-`
+`;
 
 export const StyledProductImage = styled.img`
   aspect-ratio: 0.5625 / 1;
@@ -105,7 +105,7 @@ export const StyledProductImage = styled.img`
   border-radius: 20px;
   object-fit: cover;
   object-position: 50%;
-`
+`;
 
 export const StyledContentGrid = styled.div`
   display: grid;
@@ -120,7 +120,7 @@ export const StyledContentGrid = styled.div`
   max-width: 1200px;
   margin: 0 auto;
 
-  ${media['large'](css`
+  ${media.large(css`
     grid-template-columns: 1fr;
     grid-template-areas:
       'breadcrumbs'
@@ -128,7 +128,7 @@ export const StyledContentGrid = styled.div`
       'image'
       'ctaButton';
   `)}
-`
+`;
 
 export const StyledCtaText = styled(Text)`
   font-size: 16px;
@@ -136,7 +136,7 @@ export const StyledCtaText = styled(Text)`
   letter-spacing: 0.01em;
   line-height: 1.5;
   color: ${colors.oc.white.value};
-`
+`;
 
 export const StyledCta = styled.div`
   ${media.large(css`
@@ -148,6 +148,6 @@ export const StyledCta = styled.div`
     align-items: center;
     justify-content: center;
   `)}
-`
+`;
 
-export const StyledCtaButton = styled(Button)``
+export const StyledCtaButton = styled(Button)``;
