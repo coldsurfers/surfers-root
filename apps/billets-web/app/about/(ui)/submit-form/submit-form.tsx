@@ -1,13 +1,13 @@
-'use client'
+'use client';
 
-import { apiClient } from '@/libs/openapi-client'
-import { OpenApiError } from '@coldsurfers/api-sdk'
-import { Checkbox, colors, Text } from '@coldsurfers/ocean-road'
-import { SERVICE_NAME } from '@coldsurfers/shared-utils'
-import { useMutation } from '@tanstack/react-query'
-import { memo, useCallback } from 'react'
-import { useFormStatus } from 'react-dom'
-import { useForm } from 'react-hook-form'
+import { apiClient } from '@/libs/openapi-client';
+import type { OpenApiError } from '@coldsurfers/api-sdk';
+import { Checkbox, Text, colors } from '@coldsurfers/ocean-road';
+import { SERVICE_NAME } from '@coldsurfers/shared-utils';
+import { useMutation } from '@tanstack/react-query';
+import { memo, useCallback } from 'react';
+import { useFormStatus } from 'react-dom';
+import { useForm } from 'react-hook-form';
 import {
   StyledFormLeft,
   StyledFormOuterContainer,
@@ -16,24 +16,24 @@ import {
   StyledSubmitFormContainer,
   StyledTextArea,
   StyledTextInput,
-} from './submit-form.styled'
+} from './submit-form.styled';
 
 const SubmitButton = ({ isPending }: { isPending?: boolean }) => {
-  const { pending } = useFormStatus()
-  const pendingState = pending || isPending
+  const { pending } = useFormStatus();
+  const pendingState = pending || isPending;
   return (
     <StyledSubmitButton type="submit" disabled={pendingState}>
       {pendingState ? 'Submitting...' : 'Submit'}
     </StyledSubmitButton>
-  )
-}
+  );
+};
 
 type FormValues = {
-  name: string
-  email: string
-  message: string
-  updateAgreement: boolean
-}
+  name: string;
+  email: string;
+  message: string;
+  updateAgreement: boolean;
+};
 
 export const SubmitForm = memo(() => {
   const {
@@ -49,14 +49,14 @@ export const SubmitForm = memo(() => {
       message: '',
       updateAgreement: false,
     },
-  })
+  });
   const { isPending, mutateAsync } = useMutation<
     Awaited<ReturnType<typeof apiClient.mailer.sendUserVoice>>,
     OpenApiError,
     Parameters<typeof apiClient.mailer.sendUserVoice>[0]
   >({
     mutationFn: apiClient.mailer.sendUserVoice,
-  })
+  });
   const action = useCallback(
     async ({ email, name, message, updateAgreement }: FormValues) => {
       await mutateAsync({
@@ -64,12 +64,12 @@ export const SubmitForm = memo(() => {
         name,
         message,
         updateAgreement,
-      })
-      reset()
-      clearErrors()
+      });
+      reset();
+      clearErrors();
     },
-    [clearErrors, mutateAsync, reset],
-  )
+    [clearErrors, mutateAsync, reset]
+  );
 
   return (
     <StyledFormOuterContainer>
@@ -77,8 +77,8 @@ export const SubmitForm = memo(() => {
       <StyledSubmitFormContainer>
         <StyledFormLeft>
           <Text as="h3">
-            We want to hear all your voices about {SERVICE_NAME}. Anything is okay, even if you are user, venue owner,
-            promoters, artists.
+            We want to hear all your voices about {SERVICE_NAME}. Anything is okay, even if you are
+            user, venue owner, promoters, artists.
           </Text>
         </StyledFormLeft>
         <StyledFormRight onSubmit={handleSubmit(action)}>
@@ -132,5 +132,5 @@ export const SubmitForm = memo(() => {
         </StyledFormRight>
       </StyledSubmitFormContainer>
     </StyledFormOuterContainer>
-  )
-})
+  );
+});

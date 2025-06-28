@@ -1,6 +1,6 @@
-import { Text as RNText, StyleSheet } from 'react-native'
-import { colors } from '../../tokens'
-import { TextProps } from './text.types'
+import { Text as RNText, StyleSheet } from 'react-native';
+import { colors } from '../../tokens';
+import type { TextProps } from './text.types';
 
 export const Text = ({ children, weight = 'regular', style, ...others }: TextProps) => {
   const fontFamilySet = {
@@ -9,9 +9,9 @@ export const Text = ({ children, weight = 'regular', style, ...others }: TextPro
     regular: styles.regular,
     medium: styles.medium,
     bold: styles.bold,
-  }
-  const flattenedStyle = StyleSheet.flatten(style)
-  const lineHeight = (flattenedStyle?.fontSize ?? 0) * 1.275
+  };
+  const flattenedStyle = StyleSheet.flatten(style);
+  const lineHeight = (flattenedStyle?.fontSize ?? 0) * 1.275;
   return (
     <RNText
       {...others}
@@ -24,8 +24,8 @@ export const Text = ({ children, weight = 'regular', style, ...others }: TextPro
     >
       {children}
     </RNText>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   thin: {
@@ -49,4 +49,4 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   defaultColor: { color: colors.oc.black.value },
-})
+});

@@ -1,27 +1,27 @@
-import { apiClient } from '@/lib/api/openapi-client'
-import { Spinner, useColorScheme } from '@coldsurfers/ocean-road/native'
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
-import { Suspense, useCallback, useMemo, useState } from 'react'
-import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
-import { ConcertListItem } from '../concert-list-item'
-import { SubscribedConcertListItem } from '../subscribed-concert-list-item'
-import { subscribedConcertListStyles } from './subscribed-concert-list.styles'
+import { apiClient } from '@/lib/api/openapi-client';
+import { Spinner, useColorScheme } from '@coldsurfers/ocean-road/native';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import { Suspense, useCallback, useMemo, useState } from 'react';
+import { FlatList, type ListRenderItem, StyleSheet, View } from 'react-native';
+import { ConcertListItem } from '../concert-list-item';
+import { SubscribedConcertListItem } from '../subscribed-concert-list-item';
+import { subscribedConcertListStyles } from './subscribed-concert-list.styles';
 
-const ItemSeparator = () => <View style={subscribedConcertListStyles.itemSeparator} />
+const ItemSeparator = () => <View style={subscribedConcertListStyles.itemSeparator} />;
 
-const PER_PAGE = 20
+const PER_PAGE = 20;
 
 export function SubscribedConcertList({
   onPressItem,
   horizontal = true,
   listHeaderComponent,
 }: {
-  onPressItem: (concertId: string) => void
-  horizontal?: boolean
-  listHeaderComponent?: React.ComponentType<unknown>
+  onPressItem: (concertId: string) => void;
+  horizontal?: boolean;
+  listHeaderComponent?: React.ComponentType<unknown>;
 }) {
-  const { semantics } = useColorScheme()
-  const [isRefreshing, setIsRefreshing] = useState(false)
+  const { semantics } = useColorScheme();
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const {
     data: concertListData,
     fetchNextPage,
@@ -33,20 +33,21 @@ export function SubscribedConcertList({
   } = useSuspenseInfiniteQuery({
     initialPageParam: 0,
     queryKey: apiClient.subscribe.queryKeys.eventList({}),
-    queryFn: ({ pageParam = 0 }) => apiClient.subscribe.getEventList({ offset: pageParam, size: PER_PAGE }),
+    queryFn: ({ pageParam = 0 }) =>
+      apiClient.subscribe.getEventList({ offset: pageParam, size: PER_PAGE }),
     getNextPageParam: (lastPage, allPages) => {
       if (!lastPage) {
-        return undefined
+        return undefined;
       }
       if (lastPage.length < PER_PAGE) {
-        return undefined
+        return undefined;
       }
-      return allPages.length * PER_PAGE
+      return allPages.length * PER_PAGE;
     },
-  })
+  });
   const listData = useMemo(() => {
-    return concertListData?.pages.flat() ?? []
-  }, [concertListData])
+    return concertListData?.pages.flat() ?? [];
+  }, [concertListData]);
   const renderItem = useCallback<ListRenderItem<(typeof listData)[number]>>(
     ({ item, index }) => {
       return (
@@ -70,26 +71,26 @@ export function SubscribedConcertList({
             size={horizontal ? 'small' : 'large'}
           />
         </Suspense>
-      )
+      );
     },
-    [horizontal, onPressItem],
-  )
+    [horizontal, onPressItem]
+  );
 
   const onEndReached = useCallback(async () => {
     if (horizontal) {
-      return
+      return;
     }
     if (isFetchingNextPage || isLoading || !hasNextPage || isPending) {
-      return
+      return;
     }
-    await fetchNextPage()
-  }, [fetchNextPage, hasNextPage, horizontal, isFetchingNextPage, isLoading, isPending])
+    await fetchNextPage();
+  }, [fetchNextPage, hasNextPage, horizontal, isFetchingNextPage, isLoading, isPending]);
 
   const onRefresh = useCallback(async () => {
-    setIsRefreshing(true)
-    await refetch()
-    setIsRefreshing(false)
-  }, [refetch])
+    setIsRefreshing(true);
+    await refetch();
+    setIsRefreshing(false);
+  }, [refetch]);
 
   return (
     <FlatList
@@ -118,7 +119,7 @@ export function SubscribedConcertList({
         backgroundColor: semantics.background[3],
       }}
     />
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -126,4 +127,4 @@ const styles = StyleSheet.create({
   listFooter: {
     paddingBottom: 24,
   },
-})
+});

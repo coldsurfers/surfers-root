@@ -1,11 +1,11 @@
-import ReactNativeHapticFeedback, { HapticFeedbackTypes } from 'react-native-haptic-feedback'
+import ReactNativeHapticFeedback, { type HapticFeedbackTypes } from 'react-native-haptic-feedback';
 
 const defaultOptions = {
   enableVibrateFallback: true,
   ignoreAndroidSystemSettings: false,
-}
+};
 
-type HapticTypeKey = keyof typeof HapticFeedbackTypes
+type HapticTypeKey = keyof typeof HapticFeedbackTypes;
 
 /**
  * withHapticPress - 공통 Haptic + onPress 핸들러
@@ -14,13 +14,13 @@ type HapticTypeKey = keyof typeof HapticFeedbackTypes
  * @param type Haptic 타입 (기본값: 'impactLight')
  */
 export function withHapticPress(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   callback: (...args: any[]) => void | Promise<void>,
-  type: HapticTypeKey = 'impactLight',
+  type: HapticTypeKey = 'impactLight'
 ) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   return (...args: any[]) => {
-    ReactNativeHapticFeedback.trigger(type, defaultOptions)
-    callback?.(...args)
-  }
+    ReactNativeHapticFeedback.trigger(type, defaultOptions);
+    callback?.(...args);
+  };
 }

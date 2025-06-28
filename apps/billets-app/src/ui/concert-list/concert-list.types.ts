@@ -1,3 +1,3 @@
-import { components } from '@/types/api'
+import type { components } from '@/types/api';
 
-export type ConcertListItemType = components['schemas']['ConcertDTOSchema']
+export type ConcertListItemType = components['schemas']['ConcertDTOSchema'];

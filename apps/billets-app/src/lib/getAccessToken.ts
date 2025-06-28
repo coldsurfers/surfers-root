@@ -1,18 +1,19 @@
-import { mmkvKeys } from './storage/constants'
-import { mmkvInstance } from './storage/mmkvInstance'
+import { mmkvKeys } from './storage/constants';
+import { mmkvInstance } from './storage/mmkvInstance';
 
 export default async function getAccessToken() {
-  const authToken = mmkvInstance.getString(mmkvKeys.authToken)
+  const authToken = mmkvInstance.getString(mmkvKeys.authToken);
   if (!authToken) {
-    return null
+    return null;
   }
   try {
     const parsedToken = JSON.parse(authToken) as {
-      accessToken: string
-      refreshToken: string
-    }
-    return parsedToken.accessToken
+      accessToken: string;
+      refreshToken: string;
+    };
+    return parsedToken.accessToken;
   } catch (e) {
-    return null
+    console.error(e);
+    return null;
   }
 }

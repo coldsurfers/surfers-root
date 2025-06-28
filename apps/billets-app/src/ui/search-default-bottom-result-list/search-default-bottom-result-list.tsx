@@ -1,24 +1,24 @@
-import { useUserCurrentLocationStore } from '@/features/location/stores'
-import { useKeyboard, withHapticPress } from '@/lib'
-import { apiClient } from '@/lib/api/openapi-client'
-import { useSearchScreenNavigation } from '@/screens/search-screen/search-screen.hooks'
-import { components } from '@/types/api'
-import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
-import { BottomSheetFlatList } from '@gorhom/bottom-sheet'
-import { useFocusEffect } from '@react-navigation/native'
-import { useQuery } from '@tanstack/react-query'
-import format from 'date-fns/format'
-import { useCallback, useMemo } from 'react'
-import { ListRenderItem, StyleSheet } from 'react-native'
-import { SearchItem } from '../search-item'
-import { SearchItemThumbnail } from '../search-item-thumbnail'
+import { useUserCurrentLocationStore } from '@/features/location/stores';
+import { useKeyboard, withHapticPress } from '@/lib';
+import { apiClient } from '@/lib/api/openapi-client';
+import { useSearchScreenNavigation } from '@/screens/search-screen/search-screen.hooks';
+import type { components } from '@/types/api';
+import { Text, useColorScheme } from '@coldsurfers/ocean-road/native';
+import { BottomSheetFlatList } from '@gorhom/bottom-sheet';
+import { useFocusEffect } from '@react-navigation/native';
+import { useQuery } from '@tanstack/react-query';
+import format from 'date-fns/format';
+import { useCallback, useMemo } from 'react';
+import { type ListRenderItem, StyleSheet } from 'react-native';
+import { SearchItem } from '../search-item';
+import { SearchItemThumbnail } from '../search-item-thumbnail';
 
 const FetchSearchConcertItem = ({
   item,
   onPress,
 }: {
-  item: components['schemas']['ConcertDTOSchema']
-  onPress: () => void
+  item: components['schemas']['ConcertDTOSchema'];
+  onPress: () => void;
 }) => {
   return (
     <SearchItem
@@ -29,42 +29,42 @@ const FetchSearchConcertItem = ({
       description={item.mainVenue?.name ?? ''}
       onPress={onPress}
     />
-  )
-}
+  );
+};
 
 export const SearchDefaultBottomResultList = () => {
-  const { semantics } = useColorScheme()
-  const { bottomPadding } = useKeyboard()
-  const userCurrentLocation = useUserCurrentLocationStore()
-  const navigation = useSearchScreenNavigation()
+  const { semantics } = useColorScheme();
+  const { bottomPadding } = useKeyboard();
+  const userCurrentLocation = useUserCurrentLocationStore();
+  const navigation = useSearchScreenNavigation();
   const queryParams = useMemo(() => {
     if (userCurrentLocation.cityId !== null) {
       return {
         locationCityId: userCurrentLocation.cityId,
         offset: 0,
         size: 20,
-      }
+      };
     }
     return {
       latitude: userCurrentLocation.latitude ?? undefined,
       longitude: userCurrentLocation.longitude ?? undefined,
       offset: 0,
       size: 20,
-    }
-  }, [userCurrentLocation.cityId, userCurrentLocation.latitude, userCurrentLocation.longitude])
+    };
+  }, [userCurrentLocation.cityId, userCurrentLocation.latitude, userCurrentLocation.longitude]);
   const { data: concertList } = useQuery({
     queryKey: apiClient.event.queryKeys.list(queryParams),
     queryFn: () => apiClient.event.getEvents(queryParams),
-  })
+  });
   const concertListUIData = useMemo(() => {
     return (
       concertList
         ?.filter((value) => value.type === 'concert')
         .map((value) => {
-          return value.data
+          return value.data;
         }) ?? []
-    )
-  }, [concertList])
+    );
+  }, [concertList]);
 
   const renderConcertListItem: ListRenderItem<(typeof concertListUIData)[number]> = useCallback(
     ({ item: value }) => {
@@ -72,12 +72,14 @@ export const SearchDefaultBottomResultList = () => {
         navigation.navigate('EventStackNavigation', {
           screen: 'EventDetailScreen',
           params: { eventId: value.id },
-        })
-      }
-      return <FetchSearchConcertItem item={value} onPress={withHapticPress(onPress, 'impactMedium')} />
+        });
+      };
+      return (
+        <FetchSearchConcertItem item={value} onPress={withHapticPress(onPress, 'impactMedium')} />
+      );
     },
-    [navigation],
-  )
+    [navigation]
+  );
 
   return (
     <BottomSheetFlatList
@@ -97,8 +99,8 @@ export const SearchDefaultBottomResultList = () => {
       renderItem={renderConcertListItem}
       showsVerticalScrollIndicator={false}
     />
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   contentContainer: {
@@ -110,4 +112,4 @@ const styles = StyleSheet.create({
   listHeaderText: {
     fontSize: 14,
   },
-})
+});

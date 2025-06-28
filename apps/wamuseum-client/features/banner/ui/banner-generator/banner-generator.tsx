@@ -1,13 +1,13 @@
-'use client'
+'use client';
 
-import InputWithLabel from '@/ui/InputWithLabel'
-import { NextFont } from '@next/font/dist/types'
-import { saveAs } from 'file-saver'
-import { toJpeg } from 'html-to-image'
+import InputWithLabel from '@/ui/InputWithLabel';
+import type { NextFont } from '@next/font/dist/types';
+import { saveAs } from 'file-saver';
+import { toJpeg } from 'html-to-image';
 
-import { FontSelect } from '@/ui'
-import { useCallback, useRef, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { FontSelect } from '@/ui';
+import { useCallback, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import {
   ArtistText,
   CityText,
@@ -17,54 +17,70 @@ import {
   StyledGenerateButton,
   TitleText,
   VenueText,
-} from './banner-generator.styled'
-import { BannerOptions } from './banner-generator.types'
+} from './banner-generator.styled';
+import type { BannerOptions } from './banner-generator.types';
 
 export const BannerGenerator = () => {
-  const bannerRef = useRef<HTMLDivElement>(null)
-  const [artistFont, setArtistFont] = useState<NextFont | null>(null)
-  const [cityFont, setCityFont] = useState<NextFont | null>(null)
-  const [titleFont, setTitleFont] = useState<NextFont | null>(null)
-  const [venueFont, setVenueFont] = useState<NextFont | null>(null)
-  const [formattedDateFont, setFormattedDateFont] = useState<NextFont | null>(null)
-  const { setValue, watch } = useForm<BannerOptions>()
-  const { artist, city, venue, formattedDate, title } = watch()
+  const bannerRef = useRef<HTMLDivElement>(null);
+  const [artistFont, setArtistFont] = useState<NextFont | null>(null);
+  const [cityFont, setCityFont] = useState<NextFont | null>(null);
+  const [titleFont, setTitleFont] = useState<NextFont | null>(null);
+  const [venueFont, setVenueFont] = useState<NextFont | null>(null);
+  const [formattedDateFont, setFormattedDateFont] = useState<NextFont | null>(null);
+  const { setValue, watch } = useForm<BannerOptions>();
+  const { artist, city, venue, formattedDate, title } = watch();
 
   const handleExport = useCallback(async () => {
     if (bannerRef.current) {
       try {
-        const dataUrl = await toJpeg(bannerRef.current, { quality: 0.95 })
-        saveAs(dataUrl, 'banner.jpeg')
+        const dataUrl = await toJpeg(bannerRef.current, { quality: 0.95 });
+        saveAs(dataUrl, 'banner.jpeg');
       } catch (error) {
-        console.error('Error exporting banner:', error)
+        console.error('Error exporting banner:', error);
       }
     }
-  }, [])
+  }, []);
 
   return (
     <>
       {/* Banner Form */}
       <StyledBannerForm>
         <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-          <InputWithLabel label="아티스트" value={artist} onChangeText={(text) => setValue('artist', text)} />
+          <InputWithLabel
+            label="아티스트"
+            value={artist}
+            onChangeText={(text) => setValue('artist', text)}
+          />
           <div style={{ marginBottom: '10px', marginLeft: '10px' }}>
             <FontSelect onChange={({ value }) => setArtistFont(value)} />
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-          <InputWithLabel label="도시 이름" value={city} onChangeText={(text) => setValue('city', text)} />
+          <InputWithLabel
+            label="도시 이름"
+            value={city}
+            onChangeText={(text) => setValue('city', text)}
+          />
           <div style={{ marginBottom: '10px', marginLeft: '10px' }}>
             <FontSelect onChange={({ value }) => setCityFont(value)} />
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-          <InputWithLabel label="콘서트 이름" value={title} onChangeText={(text) => setValue('title', text)} />
+          <InputWithLabel
+            label="콘서트 이름"
+            value={title}
+            onChangeText={(text) => setValue('title', text)}
+          />
           <div style={{ marginBottom: '10px', marginLeft: '10px' }}>
             <FontSelect onChange={({ value }) => setTitleFont(value)} />
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-          <InputWithLabel label="공연장" value={venue} onChangeText={(text) => setValue('venue', text)} />
+          <InputWithLabel
+            label="공연장"
+            value={venue}
+            onChangeText={(text) => setValue('venue', text)}
+          />
           <div style={{ marginBottom: '10px', marginLeft: '10px' }}>
             <FontSelect onChange={({ value }) => setVenueFont(value)} />
           </div>
@@ -100,5 +116,5 @@ export const BannerGenerator = () => {
       </StyledBannerPreviewWrapper>
       <StyledGenerateButton onClick={handleExport}>이미지 다운로드</StyledGenerateButton>
     </>
-  )
-}
+  );
+};

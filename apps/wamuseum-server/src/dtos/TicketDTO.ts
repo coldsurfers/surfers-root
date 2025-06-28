@@ -1,12 +1,12 @@
-import { Ticket } from '@prisma/client'
-import { Ticket as TicketResolverType } from '../../gql/resolvers-types'
-import { prisma } from '../libs/db/db.utils'
+import type { Ticket } from '@prisma/client';
+import type { Ticket as TicketResolverType } from '../../gql/resolvers-types';
+import { prisma } from '../libs/db/db.utils';
 
 export default class TicketDTO {
-  props: Partial<Ticket>
+  props: Partial<Ticket>;
 
   constructor(props: Partial<Ticket>) {
-    this.props = props
+    this.props = props;
   }
 
   static async findTickets(concertId: string) {
@@ -18,13 +18,13 @@ export default class TicketDTO {
           },
         },
       },
-    })
-    return data.map((item) => new TicketDTO(item))
+    });
+    return data.map((item) => new TicketDTO(item));
   }
 
   async create({ concertId }: { concertId: string }) {
     if (!this.props.openDate || !this.props.seller || !this.props.sellingURL) {
-      throw Error('invalid openDate, seller, sellingURL')
+      throw Error('invalid openDate, seller, sellingURL');
     }
     const ticket = await prisma.ticket.create({
       data: {
@@ -32,15 +32,15 @@ export default class TicketDTO {
         seller: this.props.seller,
         sellingURL: this.props.sellingURL,
       },
-    })
+    });
     await prisma.concertsOnTickets.create({
       data: {
         concertId,
         ticketId: ticket.id,
       },
-    })
+    });
 
-    return new TicketDTO(ticket)
+    return new TicketDTO(ticket);
   }
 
   async update(data: { openDate?: Date; seller?: string; sellingURL?: string }) {
@@ -49,13 +49,13 @@ export default class TicketDTO {
         id: this.props.id,
       },
       data,
-    })
-    return new TicketDTO(updated)
+    });
+    return new TicketDTO(updated);
   }
 
   async delete({ concertId }: { concertId: string }) {
     if (!this.props.id) {
-      throw Error('invalid id')
+      throw Error('invalid id');
     }
     const data = await prisma.concertsOnTickets.delete({
       where: {
@@ -64,10 +64,10 @@ export default class TicketDTO {
           ticketId: this.props.id,
         },
       },
-    })
+    });
     return new TicketDTO({
       id: data.ticketId,
-    })
+    });
   }
 
   serialize(): TicketResolverType {
@@ -77,6 +77,6 @@ export default class TicketDTO {
       openDate: this.props.openDate?.toISOString() ?? '',
       seller: this.props.seller ?? '',
       sellingURL: this.props.sellingURL ?? '',
-    }
+    };
   }
 }

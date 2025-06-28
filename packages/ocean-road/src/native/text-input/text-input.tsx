@@ -1,23 +1,23 @@
-import color from '@coldsurfers/design-tokens/dist/js/color/variables'
-import { forwardRef, memo, useCallback, useState } from 'react'
-import { TextInput as RNTextInput, StyleSheet } from 'react-native'
-import { colors } from '../../tokens'
-import { useColorScheme } from '../contexts'
-import { TextInputProps } from './text-input.types'
+import color from '@coldsurfers/design-tokens/dist/js/color/variables';
+import { forwardRef, memo, useCallback, useState } from 'react';
+import { TextInput as RNTextInput, StyleSheet } from 'react-native';
+import { colors } from '../../tokens';
+import { useColorScheme } from '../contexts';
+import type { TextInputProps } from './text-input.types';
 
-const DEFAULT_FONT_SIZE = 12
+const DEFAULT_FONT_SIZE = 12;
 
 const _TextInput = forwardRef<RNTextInput, TextInputProps>(({ style, ...otherProps }, ref) => {
-  const { semantics, colorScheme } = useColorScheme()
-  const [focused, setFocused] = useState<boolean>(false)
-  const flattenedStyle = StyleSheet.flatten(style)
-  const lineHeight = (flattenedStyle?.fontSize ?? DEFAULT_FONT_SIZE) * 1.275
+  const { semantics, colorScheme } = useColorScheme();
+  const [focused, setFocused] = useState<boolean>(false);
+  const flattenedStyle = StyleSheet.flatten(style);
+  const lineHeight = (flattenedStyle?.fontSize ?? DEFAULT_FONT_SIZE) * 1.275;
   const onFocus = useCallback(() => {
-    setFocused(true)
-  }, [])
+    setFocused(true);
+  }, []);
   const onBlur = useCallback(() => {
-    setFocused(false)
-  }, [])
+    setFocused(false);
+  }, []);
   return (
     <RNTextInput
       ref={ref}
@@ -42,10 +42,10 @@ const _TextInput = forwardRef<RNTextInput, TextInputProps>(({ style, ...otherPro
         style,
       ]}
     />
-  )
-})
+  );
+});
 
-export const TextInput = memo(_TextInput)
+export const TextInput = memo(_TextInput);
 
 const styles = StyleSheet.create({
   textInput: {
@@ -67,4 +67,4 @@ const styles = StyleSheet.create({
   disabled: {
     backgroundColor: '#f4eded',
   },
-})
+});

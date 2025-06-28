@@ -1,5 +1,5 @@
-import { AuthToken } from 'src/__generated__/graphql'
-import storage from './storage/storage'
+import type { AuthToken } from 'src/__generated__/graphql';
+import storage from './storage/storage';
 
 export const authUtils = {
   localLogin: async (authToken: AuthToken) => {
@@ -8,15 +8,15 @@ export const authUtils = {
       body: JSON.stringify({
         token: authToken.accessToken,
       }),
-    })
-    storage?.set('@wamuseum-client/access-token', authToken.accessToken)
-    storage?.set('@wamuseum-client/refresh-token', authToken.refreshToken)
+    });
+    storage?.set('@wamuseum-client/access-token', authToken.accessToken);
+    storage?.set('@wamuseum-client/refresh-token', authToken.refreshToken);
   },
   localLogout: async () => {
     await fetch('/api/local-logout', {
       method: 'POST',
-    })
-    storage?.remove('@wamuseum-client/access-token')
-    storage?.remove('@wamuseum-client/refresh-token')
+    });
+    storage?.remove('@wamuseum-client/access-token');
+    storage?.remove('@wamuseum-client/refresh-token');
   },
-}
+};

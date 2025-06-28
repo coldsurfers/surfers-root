@@ -1,14 +1,21 @@
-import { colors } from '@coldsurfers/ocean-road'
-import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
-import { match } from 'ts-pattern'
-import palettes from '../../lib/palettes'
-import { HorizontalConcertItem } from '../horizontal-concert-item'
-import { SearchItemThumbnail } from '../search-item-thumbnail'
-import { SearchItemProps } from './search-item.types'
+import { colors } from '@coldsurfers/ocean-road';
+import { Text, useColorScheme } from '@coldsurfers/ocean-road/native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { match } from 'ts-pattern';
+import palettes from '../../lib/palettes';
+import { HorizontalConcertItem } from '../horizontal-concert-item';
+import { SearchItemThumbnail } from '../search-item-thumbnail';
+import type { SearchItemProps } from './search-item.types';
 
-export function SearchItem({ type, thumbnail, title, subtitle, description, onPress }: SearchItemProps) {
-  const { semantics } = useColorScheme()
+export function SearchItem({
+  type,
+  thumbnail,
+  title,
+  subtitle,
+  description,
+  onPress,
+}: SearchItemProps) {
+  const { semantics } = useColorScheme();
   return match(type)
     .with('artist', () => (
       <TouchableOpacity onPress={onPress} style={styles.itemWrapper}>
@@ -36,7 +43,7 @@ export function SearchItem({ type, thumbnail, title, subtitle, description, onPr
             </Text>
           </View>
         </TouchableOpacity>
-      )
+      );
     })
     .with('concert', () => {
       return (
@@ -47,9 +54,9 @@ export function SearchItem({ type, thumbnail, title, subtitle, description, onPr
           thumbnailComponent={thumbnail}
           onPress={onPress}
         />
-      )
+      );
     })
-    .otherwise(() => null)
+    .otherwise(() => null);
 }
 
 SearchItem.Skeleton = () => {
@@ -61,8 +68,8 @@ SearchItem.Skeleton = () => {
         <View style={styles.skeletonSubtitle} />
       </View>
     </TouchableOpacity>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   itemWrapper: {
@@ -83,5 +90,10 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     borderRadius: 4,
   },
-  skeletonSubtitle: { width: '100%', backgroundColor: colors.oc.gray[4].value, height: 16, borderRadius: 4 },
-})
+  skeletonSubtitle: {
+    width: '100%',
+    backgroundColor: colors.oc.gray[4].value,
+    height: 16,
+    borderRadius: 4,
+  },
+});

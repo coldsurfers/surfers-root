@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { Text } from '@coldsurfers/ocean-road'
-import { AnimatePresence } from 'framer-motion'
-import { X as XIcon } from 'lucide-react'
+import { Text } from '@coldsurfers/ocean-road';
+import { AnimatePresence } from 'framer-motion';
+import { X as XIcon } from 'lucide-react';
 import {
   CloseButton,
   Overlay,
@@ -16,22 +16,31 @@ import {
   StyledProductImage,
   StyledProductImageContainer,
   StyledTitle,
-} from './product-card-bottom-sheet.styled'
-import { ProductCardBottomSheetProps } from './product-card-bottom-sheet.types'
+} from './product-card-bottom-sheet.styled';
+import type { ProductCardBottomSheetProps } from './product-card-bottom-sheet.types';
 
-export function ProductCardBottomSheet({ isOpen, onClose, selectedProduct }: ProductCardBottomSheetProps) {
+export function ProductCardBottomSheet({
+  isOpen,
+  onClose,
+  selectedProduct,
+}: ProductCardBottomSheetProps) {
   // Animation variants for the sheet
   const sheetVariants = {
     hidden: { y: '100%', opacity: 0 },
     visible: { y: 0, opacity: 1 },
-  }
+  };
 
   return (
     <AnimatePresence>
       {isOpen && (
         <>
           {/* Overlay */}
-          <Overlay initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => onClose()} />
+          <Overlay
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => onClose()}
+          />
 
           {/* Bottom Sheet */}
           <SheetContainer
@@ -66,7 +75,9 @@ export function ProductCardBottomSheet({ isOpen, onClose, selectedProduct }: Pro
                 <div style={{ gridArea: 'ctaButton' }}>
                   {selectedProduct.ctaTitle && (
                     <StyledCta>
-                      <StyledCtaButton onClick={() => window.open(selectedProduct.ctaLink, '_blank')}>
+                      <StyledCtaButton
+                        onClick={() => window.open(selectedProduct.ctaLink, '_blank')}
+                      >
                         <StyledCtaText>{selectedProduct.ctaTitle}</StyledCtaText>
                       </StyledCtaButton>
                     </StyledCta>
@@ -83,5 +94,5 @@ export function ProductCardBottomSheet({ isOpen, onClose, selectedProduct }: Pro
         </>
       )}
     </AnimatePresence>
-  )
+  );
 }

@@ -1,16 +1,16 @@
-import { getRandomInt } from '@coldsurfers/shared-utils'
-import {
+import { getRandomInt } from '@coldsurfers/shared-utils';
+import type {
   BlockObjectResponse,
   PageObjectResponse,
   PartialBlockObjectResponse,
   QueryDatabaseParameters,
   QueryDatabaseResponse,
-} from '@notionhq/client/build/src/api-endpoints'
-import { cache } from 'react'
-import { match } from 'ts-pattern'
-import { AppLocale } from '../(types)/i18n'
-import { SeriesCategory } from '../(types)/series'
-import notionInstance, { notionDatabaseIds } from './notionInstance'
+} from '@notionhq/client/build/src/api-endpoints';
+import { cache } from 'react';
+import { match } from 'ts-pattern';
+import type { AppLocale } from '../(types)/i18n';
+import type { SeriesCategory } from '../(types)/series';
+import notionInstance, { notionDatabaseIds } from './notionInstance';
 
 export const queryProperties = (propertyName: 'tags') =>
   cache(async () => {
@@ -32,47 +32,47 @@ export const queryProperties = (propertyName: 'tags') =>
           },
         ],
       },
-    })
+    });
     return match(propertyName)
       .with('tags', () => {
         const tags = response.results
           .map((result) => {
-            const page = result as PageObjectResponse
+            const page = result as PageObjectResponse;
             if (page.properties.tags.type === 'multi_select') {
-              return page.properties.tags.multi_select
+              return page.properties.tags.multi_select;
             }
-            return null
+            return null;
           })
           .filter((value) => value !== null)
-          .flat()
+          .flat();
         // id 값으로  중복  제거
-        return Array.from(new Map(tags.map((value) => [value.id, value])).values())
+        return Array.from(new Map(tags.map((value) => [value.id, value])).values());
       })
-      .exhaustive()
-  })
+      .exhaustive();
+  });
 
 export const getBlocks = async ({
   blockId: _blockId,
   withUploadCloudinary = false,
 }: {
-  blockId: string
-  withUploadCloudinary?: boolean
+  blockId: string;
+  withUploadCloudinary?: boolean;
 }) => {
-  const blockId = _blockId.replaceAll('-', '')
+  const blockId = _blockId.replaceAll('-', '');
 
-  let next: string | undefined = ''
-  const list: (BlockObjectResponse | PartialBlockObjectResponse)[] = []
+  let next: string | undefined = '';
+  const list: (BlockObjectResponse | PartialBlockObjectResponse)[] = [];
   while (typeof next === 'string') {
     const { results, has_more, next_cursor } = await notionInstance.blocks.children.list({
       block_id: blockId,
       start_cursor: next || undefined,
-    })
+    });
     if (has_more && next_cursor) {
-      next = next_cursor
+      next = next_cursor;
     } else {
-      next = undefined
+      next = undefined;
     }
-    list.push(...results)
+    list.push(...results);
   }
 
   // Fetches all child blocks recursively
@@ -82,14 +82,15 @@ export const getBlocks = async ({
     const generated = {
       ...block,
     } as BlockObjectResponse & {
-      children: any
-    }
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      children: any;
+    };
     if (generated.has_children) {
       const children = await getBlocks({
         blockId: block.id,
         withUploadCloudinary,
-      })
-      generated.children = children
+      });
+      generated.children = children;
     }
     if (
       process.env.NODE_ENV === 'production' &&
@@ -98,114 +99,118 @@ export const getBlocks = async ({
       withUploadCloudinary
     ) {
       if (generated.image.type === 'file') {
-        const cloudinaryUtils = await import('@coldsurfers/cloudinary-utils')
-        const cloudinary = await cloudinaryUtils.uploadCloudinary(generated.image.file.url)
-        generated.image.file.url = cloudinary.secure_url
+        const cloudinaryUtils = await import('@coldsurfers/cloudinary-utils');
+        const cloudinary = await cloudinaryUtils.uploadCloudinary(generated.image.file.url);
+        generated.image.file.url = cloudinary.secure_url;
       }
     }
-    return generated
-  })
+    return generated;
+  });
 
   return Promise.all(childBlocks).then((blocks) =>
     blocks.reduce((acc, curr) => {
       if (curr.type === 'bulleted_list_item') {
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
         if ((acc[acc.length - 1] as any)?.type === 'bulleted_list') {
-          ;(acc[acc.length - 1][(acc[acc.length - 1] as any).type] as any).children?.push(curr)
+          // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+          (acc[acc.length - 1][(acc[acc.length - 1] as any).type] as any).children?.push(curr);
         } else {
           acc.push({
             id: getRandomInt(10 ** 99, 10 ** 100).toString(),
             type: 'bulleted_list',
             bulleted_list: { children: [curr] },
-          } as never)
+          } as never);
         }
       } else if (curr.type === 'numbered_list_item') {
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
         if ((acc[acc.length - 1] as any)?.type === 'numbered_list') {
-          ;(acc[acc.length - 1][(acc[acc.length - 1] as any).type] as any).children?.push(curr)
+          // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+          (acc[acc.length - 1][(acc[acc.length - 1] as any).type] as any).children?.push(curr);
         } else {
           acc.push({
             id: getRandomInt(10 ** 99, 10 ** 100).toString(),
             type: 'numbered_list',
             numbered_list: { children: [curr] },
-          } as never)
+          } as never);
         }
       } else {
-        acc.push(curr as never)
+        acc.push(curr as never);
       }
-      return acc
-    }, []),
-  )
-}
+      return acc;
+    }, [])
+  );
+};
 
 function parseSeriesItems(result: QueryDatabaseResponse) {
   const seriesItems = result?.results?.map((post) => {
     const createdTime = (() => {
-      const _post = post as PageObjectResponse
-      const pubDate = _post.properties?.['Publish date']
+      const _post = post as PageObjectResponse;
+      const pubDate = _post.properties?.['Publish date'];
       if (pubDate.type === 'date') {
-        return pubDate.date?.start ? new Date(pubDate.date?.start) : null
+        return pubDate.date?.start ? new Date(pubDate.date?.start) : null;
       }
-      return null
-    })()
+      return null;
+    })();
     const lastEditedTime = (() => {
-      const _post = post as PageObjectResponse
-      return new Date(_post.last_edited_time)
-    })()
+      const _post = post as PageObjectResponse;
+      return new Date(_post.last_edited_time);
+    })();
     const slug = (() => {
-      const _post = post as PageObjectResponse
-      const _slug = _post.properties.Slug
+      const _post = post as PageObjectResponse;
+      const _slug = _post.properties.Slug;
       if (_slug.type !== 'rich_text') {
-        return ''
+        return '';
       }
-      const richText = _slug.rich_text.at(0)
+      const richText = _slug.rich_text.at(0);
       if (!richText) {
-        return ''
+        return '';
       }
-      return richText.type === 'text' ? richText.text.content : ''
-    })()
+      return richText.type === 'text' ? richText.text.content : '';
+    })();
     const title = (() => {
-      const _post = post as PageObjectResponse
-      return _post.properties?.Name?.type === 'title' ? _post.properties.Name.title : null
-    })()
+      const _post = post as PageObjectResponse;
+      return _post.properties?.Name?.type === 'title' ? _post.properties.Name.title : null;
+    })();
     const postStatus = (() => {
-      const _post = post as PageObjectResponse
-      const status = _post.properties.Status
+      const _post = post as PageObjectResponse;
+      const status = _post.properties.Status;
       if (status.type !== 'status') {
-        return ''
+        return '';
       }
-      return status.status?.name
-    })()
+      return status.status?.name;
+    })();
     const lang = (() => {
-      const _post = post as PageObjectResponse
-      const _lang = _post.properties.lang
+      const _post = post as PageObjectResponse;
+      const _lang = _post.properties.lang;
       if (_lang.type !== 'multi_select') {
-        return null
+        return null;
       }
-      return _lang.multi_select.at(0)?.name
-    })()
+      return _lang.multi_select.at(0)?.name;
+    })();
     const writer = (() => {
-      const _post = post as PageObjectResponse
-      const people = _post.properties.Writer
+      const _post = post as PageObjectResponse;
+      const people = _post.properties.Writer;
       if (people.type !== 'people') {
-        return null
+        return null;
       }
-      return people.people.at(0)
-    })()
+      return people.people.at(0);
+    })();
     const thumbnailUrl = (() => {
-      const _post = post as PageObjectResponse
-      const thumb = _post.properties.thumb
+      const _post = post as PageObjectResponse;
+      const thumb = _post.properties.thumb;
       if (thumb.type !== 'url') {
-        return null
+        return null;
       }
-      return thumb.url
-    })()
+      return thumb.url;
+    })();
     const seriesCategory = (() => {
-      const _post = post as PageObjectResponse
-      const _seriesCategory = _post.properties.SeriesCategory
+      const _post = post as PageObjectResponse;
+      const _seriesCategory = _post.properties.SeriesCategory;
       if (_seriesCategory.type !== 'multi_select') {
-        return null
+        return null;
       }
-      return _seriesCategory.multi_select.at(0)?.name
-    })()
+      return _seriesCategory.multi_select.at(0)?.name;
+    })();
     return {
       id: post.id,
       createdTime,
@@ -222,10 +227,10 @@ function parseSeriesItems(result: QueryDatabaseResponse) {
       lang,
       seriesCategory,
       thumbnailUrl,
-    }
-  })
+    };
+  });
 
-  return seriesItems
+  return seriesItems;
 }
 
 export const queryAllSeries = cache(async ({ lang }: { lang: AppLocale }) => {
@@ -250,7 +255,7 @@ export const queryAllSeries = cache(async ({ lang }: { lang: AppLocale }) => {
         },
       },
     ],
-  }
+  };
 
   const result = await notionInstance.databases.query({
     database_id: notionDatabaseIds.blog ?? '',
@@ -261,12 +266,16 @@ export const queryAllSeries = cache(async ({ lang }: { lang: AppLocale }) => {
       },
     ],
     filter,
-  })
-  return parseSeriesItems(result)
-})
+  });
+  return parseSeriesItems(result);
+});
 
 export const querySeries = cache(
-  async ({ seriesCategory, lang, tag }: { seriesCategory: SeriesCategory; lang: AppLocale; tag?: string }) => {
+  async ({
+    seriesCategory,
+    lang,
+    tag,
+  }: { seriesCategory: SeriesCategory; lang: AppLocale; tag?: string }) => {
     const filter: QueryDatabaseParameters['filter'] = {
       and: [
         {
@@ -288,14 +297,14 @@ export const querySeries = cache(
           },
         },
       ],
-    }
+    };
     if (tag) {
       filter.and.push({
         property: 'tags',
         multi_select: {
           contains: tag,
         },
-      })
+      });
     }
     const result = await notionInstance.databases.query({
       database_id: notionDatabaseIds.blog ?? '',
@@ -306,14 +315,18 @@ export const querySeries = cache(
         },
       ],
       filter,
-    })
+    });
 
-    return parseSeriesItems(result)
-  },
-)
+    return parseSeriesItems(result);
+  }
+);
 
 export const querySeriesItem = cache(
-  async ({ slug, lang, seriesCategory }: { slug: string; lang: AppLocale; seriesCategory: SeriesCategory }) => {
+  async ({
+    slug,
+    lang,
+    seriesCategory,
+  }: { slug: string; lang: AppLocale; seriesCategory: SeriesCategory }) => {
     const res = await notionInstance.databases.query({
       database_id: notionDatabaseIds.blog ?? '',
       filter: {
@@ -346,12 +359,12 @@ export const querySeriesItem = cache(
           },
         ],
       },
-    })
+    });
     if (res.results.length) {
-      return res.results[0] as PageObjectResponse
+      return res.results[0] as PageObjectResponse;
     }
-    return null
-  },
-)
+    return null;
+  }
+);
 
-export const queryTags = queryProperties('tags')
+export const queryTags = queryProperties('tags');

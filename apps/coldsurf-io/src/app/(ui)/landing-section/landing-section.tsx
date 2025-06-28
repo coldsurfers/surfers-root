@@ -1,19 +1,21 @@
-'use client'
+'use client';
 
-import { PropsWithChildren } from 'react'
-import { StyledLandingSection, StyledLandingSectionInnerContainer } from './landing-section.styled'
+import type { PropsWithChildren } from 'react';
+import { StyledLandingSection, StyledLandingSectionInnerContainer } from './landing-section.styled';
 
 export function LandingSection({
   children,
   reversed = false,
   withoutInitialPaddingTop = false,
 }: PropsWithChildren<{
-  reversed?: boolean
-  withoutInitialPaddingTop?: boolean
+  reversed?: boolean;
+  withoutInitialPaddingTop?: boolean;
 }>) {
   return (
     <StyledLandingSection $withoutInitialPaddingTop={withoutInitialPaddingTop}>
-      <StyledLandingSectionInnerContainer $reversed={reversed}>{children}</StyledLandingSectionInnerContainer>
+      <StyledLandingSectionInnerContainer $reversed={reversed}>
+        {children}
+      </StyledLandingSectionInnerContainer>
     </StyledLandingSection>
-  )
+  );
 }

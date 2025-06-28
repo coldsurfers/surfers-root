@@ -1,5 +1,5 @@
-import { SearchDTO } from '@/dtos/search.dto'
+import type { SearchDTO } from '@/dtos/search.dto';
 
 export interface SearchRepository {
-  searchManyByKeyword(keyword: string): Promise<SearchDTO[]>
+  searchManyByKeyword(keyword: string): Promise<SearchDTO[]>;
 }

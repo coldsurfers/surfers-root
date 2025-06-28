@@ -1,3 +1,7 @@
-import { Product } from '@/types'
+import type { Product } from '@/types';
 
-export type ProductCardBottomSheetProps = { isOpen: boolean; onClose: () => void; selectedProduct: Product }
+export type ProductCardBottomSheetProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  selectedProduct: Product;
+};

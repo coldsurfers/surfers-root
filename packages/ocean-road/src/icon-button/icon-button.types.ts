@@ -1,3 +1,3 @@
-import { ButtonHTMLAttributes } from 'react'
+import type { ButtonHTMLAttributes } from 'react';
 
-export type IconButtonProps = {} & ButtonHTMLAttributes<HTMLButtonElement>
+export type IconButtonProps = {} & ButtonHTMLAttributes<HTMLButtonElement>;

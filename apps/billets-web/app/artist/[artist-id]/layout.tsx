@@ -1,24 +1,26 @@
-import { SITE_URL } from '@/libs/constants'
-import { metadataInstance } from '@/libs/metadata'
-import { apiClient } from '@/libs/openapi-client'
-import { SERVICE_NAME } from '@coldsurfers/shared-utils'
-import { Metadata } from 'next/types'
-import { cache, ReactNode } from 'react'
+import { SITE_URL } from '@/libs/constants';
+import { metadataInstance } from '@/libs/metadata';
+import { apiClient } from '@/libs/openapi-client';
+import { SERVICE_NAME } from '@coldsurfers/shared-utils';
+import type { Metadata } from 'next/types';
+import { type ReactNode, cache } from 'react';
 
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic';
 
 const getArtistDetail = cache(async (artistId: string) => {
-  return await apiClient.artist.getArtistDetail(artistId)
-})
+  return await apiClient.artist.getArtistDetail(artistId);
+});
 
-export const generateMetadata = async ({ params }: { params: Promise<{ ['artist-id']: string }> }) => {
-  const pageParams = await params
-  const artistDetail = await getArtistDetail(pageParams['artist-id'])
+export const generateMetadata = async ({
+  params,
+}: { params: Promise<{ 'artist-id': string }> }) => {
+  const pageParams = await params;
+  const artistDetail = await getArtistDetail(pageParams['artist-id']);
   if (!artistDetail) {
-    return undefined
+    return undefined;
   }
-  const title = `${artistDetail.name} 공연 정보 및 일정 | ${SERVICE_NAME}`
-  const description = `${SERVICE_NAME}에서 ${artistDetail.name}의 공연 일정과 정보를 확인하세요.\n지금 이 순간, 당신 근처에서 열리는 공연을 탐색해보세요.`
+  const title = `${artistDetail.name} 공연 정보 및 일정 | ${SERVICE_NAME}`;
+  const description = `${SERVICE_NAME}에서 ${artistDetail.name}의 공연 일정과 정보를 확인하세요.\n지금 이 순간, 당신 근처에서 열리는 공연을 탐색해보세요.`;
   const meta = metadataInstance.generateMetadata<Metadata>({
     title,
     description,
@@ -28,28 +30,29 @@ export const generateMetadata = async ({ params }: { params: Promise<{ ['artist-
       description,
     },
     keywords: [artistDetail.name],
-  })
+  });
 
-  return meta
-}
+  return meta;
+};
 
 export default async function ArtistDetailPageLayout({
   children,
   params,
 }: {
-  children: ReactNode
-  params: Promise<{ ['artist-id']: string }>
+  children: ReactNode;
+  params: Promise<{ 'artist-id': string }>;
 }) {
-  const pageParams = await params
-  const artistDetail = await getArtistDetail(pageParams['artist-id'])
+  const pageParams = await params;
+  const artistDetail = await getArtistDetail(pageParams['artist-id']);
   if (!artistDetail) {
-    return null
+    return null;
   }
   return (
     <>
       {children}
       <script
         type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
             metadataInstance.generateLdJson({
@@ -74,10 +77,10 @@ export default async function ArtistDetailPageLayout({
                 },
                 offers: [],
               })),
-            }),
+            })
           ),
         }}
       />
     </>
-  )
+  );
 }

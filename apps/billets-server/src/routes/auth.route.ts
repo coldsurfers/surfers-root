@@ -5,19 +5,23 @@ import {
   signinPreHandler,
   signupHandler,
   signupPreHandler,
-} from '@/controllers/auth.controller'
-import { SignInBodyDTOSchema, SignUpBodyDTOSchema, UserWithAuthTokenDTOSchema } from '@/dtos/auth.dto'
+} from '@/controllers/auth.controller';
+import {
+  SignInBodyDTOSchema,
+  SignUpBodyDTOSchema,
+  UserWithAuthTokenDTOSchema,
+} from '@/dtos/auth.dto';
 import {
   ConfirmAuthCodeBodyDTOSchema,
   ConfirmAuthCodeResponseDTOSchema,
   SendAuthCodeResponseDTOSchema,
   SendEmailAuthCodeBodyDTOSchema,
-} from '@/dtos/email-auth-request.dto'
-import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
-import { FastifyPluginCallback } from 'fastify'
-import { ZodTypeProvider } from 'fastify-type-provider-zod'
+} from '@/dtos/email-auth-request.dto';
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto';
+import type { FastifyPluginCallback } from 'fastify';
+import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
-const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
+const authRoute: FastifyPluginCallback = (fastify, _, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().post(
     '/email/send-auth-code',
     {
@@ -31,8 +35,8 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    sendAuthCodeHandler,
-  )
+    sendAuthCodeHandler
+  );
   fastify.withTypeProvider<ZodTypeProvider>().post(
     '/email/confirm-auth-code',
     {
@@ -48,8 +52,8 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    confirmAuthCodeHandler,
-  )
+    confirmAuthCodeHandler
+  );
 
   fastify.withTypeProvider<ZodTypeProvider>().post(
     '/signin',
@@ -65,8 +69,8 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       preHandler: [signinPreHandler],
     },
-    signinHandler,
-  )
+    signinHandler
+  );
 
   fastify.withTypeProvider<ZodTypeProvider>().post(
     '/signup',
@@ -83,10 +87,10 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       preHandler: [signupPreHandler],
     },
-    signupHandler,
-  )
+    signupHandler
+  );
 
-  done()
-}
+  done();
+};
 
-export default authRoute
+export default authRoute;

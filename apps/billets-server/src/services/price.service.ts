@@ -1,14 +1,14 @@
-import { PriceDTO } from '@/dtos/price.dto'
-import { PriceRepository } from '@/repositories/price.repository'
+import type { PriceDTO } from '@/dtos/price.dto';
+import type { PriceRepository } from '@/repositories/price.repository';
 
 export class PriceService {
-  private priceRepository: PriceRepository
+  private priceRepository: PriceRepository;
 
   constructor(priceRepository: PriceRepository) {
-    this.priceRepository = priceRepository
+    this.priceRepository = priceRepository;
   }
 
   async getMany(params: { ticketId: string }): Promise<PriceDTO[]> {
-    return this.priceRepository.findMany(params)
+    return this.priceRepository.findMany(params);
   }
 }

@@ -1,12 +1,12 @@
-import { ConcertListWithPagination } from '../../gql/resolvers-types'
-import { prisma } from '../libs/db/db.utils'
-import ConcertDTO from './ConcertDTO'
+import type { ConcertListWithPagination } from '../../gql/resolvers-types';
+import { prisma } from '../libs/db/db.utils';
+import ConcertDTO from './ConcertDTO';
 
 export default class ConcertListWithPaginationDTO {
-  list: ConcertDTO[]
+  list: ConcertDTO[];
 
   constructor(list: ConcertDTO[]) {
-    this.list = list
+    this.list = list;
   }
 
   static async list({
@@ -14,11 +14,11 @@ export default class ConcertListWithPaginationDTO {
     limit,
     orderBy,
   }: {
-    page: number
-    limit: number
+    page: number;
+    limit: number;
     orderBy: {
-      createdAt: 'asc' | 'desc'
-    }
+      createdAt: 'asc' | 'desc';
+    };
   }) {
     const data = await prisma.concert.findMany({
       skip: (page - 1) * limit,
@@ -27,13 +27,13 @@ export default class ConcertListWithPaginationDTO {
       where: {
         deletedAt: null,
       },
-    })
-    return new ConcertListWithPaginationDTO(data.map((item) => new ConcertDTO(item)))
+    });
+    return new ConcertListWithPaginationDTO(data.map((item) => new ConcertDTO(item)));
   }
 
   static async count() {
-    const count = await prisma.concert.count()
-    return count
+    const count = await prisma.concert.count();
+    return count;
   }
 
   serialize(page: number, count: number, limit: number): ConcertListWithPagination {
@@ -48,6 +48,6 @@ export default class ConcertListWithPaginationDTO {
         current: page,
         count: Math.ceil(count / limit),
       },
-    }
+    };
   }
 }

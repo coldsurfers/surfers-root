@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { Text } from '@coldsurfers/ocean-road'
-import { StyledHeroInfo } from './hero-info.styled'
-import { HeroInfoProps } from './hero-info.types'
+import { Text } from '@coldsurfers/ocean-road';
+import { StyledHeroInfo } from './hero-info.styled';
+import type { HeroInfoProps } from './hero-info.types';
 
 export const HeroInfo = (props: HeroInfoProps) => {
   return (
@@ -14,5 +14,5 @@ export const HeroInfo = (props: HeroInfoProps) => {
         {props.subtitle}
       </Text>
     </StyledHeroInfo>
-  )
-}
+  );
+};

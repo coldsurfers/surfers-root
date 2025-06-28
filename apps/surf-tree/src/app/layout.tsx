@@ -1,6 +1,6 @@
-import { FirebaseContext, OceanRoadThemeContext } from '@/contexts'
-import type { Metadata } from 'next'
-import { Noto_Sans_KR } from 'next/font/google'
+import { FirebaseContext, OceanRoadThemeContext } from '@/contexts';
+import type { Metadata } from 'next';
+import { Noto_Sans_KR } from 'next/font/google';
 
 export const metadata: Metadata = {
   title: 'Support Artists by making their own links | SurfTree',
@@ -10,20 +10,21 @@ export const metadata: Metadata = {
     shortcut: '/icons/favicon.ico',
     apple: '/icons/favicon.ico',
   },
-}
+};
 
-const notoSansKR = Noto_Sans_KR({ subsets: ['latin'] })
+const notoSansKR = Noto_Sans_KR({ subsets: ['latin'] });
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
       <body className={notoSansKR.className}>
         <script
           // https://github.com/reactjs/react.dev/blob/4bae717f59787b4c741f600ee2d2decb07fba226/src/pages/_document.tsx#L103
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
           dangerouslySetInnerHTML={{
             __html: `
                 (function () {
@@ -79,5 +80,5 @@ export default function RootLayout({
         </FirebaseContext>
       </body>
     </html>
-  )
+  );
 }

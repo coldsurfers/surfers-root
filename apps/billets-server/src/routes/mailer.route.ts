@@ -1,12 +1,12 @@
-import { sendUserVoiceHandler } from '@/controllers/mailer.controller'
-import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
-import { SendEmailResponseDTOSchema, SendUserVoiceBodyDTOSchema } from '@/dtos/mailer.dto'
-import { FastifyPluginCallback } from 'fastify'
-import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import { sendUserVoiceHandler } from '@/controllers/mailer.controller';
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto';
+import { SendEmailResponseDTOSchema, SendUserVoiceBodyDTOSchema } from '@/dtos/mailer.dto';
+import type { FastifyPluginCallback } from 'fastify';
+import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
-const timeWindow = '1 minute'
+const timeWindow = '1 minute';
 
-const mailerRoute: FastifyPluginCallback = (fastify, opts, done) => {
+const mailerRoute: FastifyPluginCallback = (fastify, _, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().post(
     '/user-voice',
     {
@@ -16,12 +16,12 @@ const mailerRoute: FastifyPluginCallback = (fastify, opts, done) => {
           timeWindow,
           keyGenerator: (req) => req.ip,
           ban: 2,
-          errorResponseBuilder(req, context) {
+          errorResponseBuilder(_, context) {
             return {
               statusCode: 429,
               error: 'Too Many Requests',
               message: `You have exceeded the request limit of ${context.max} per ${timeWindow}`,
-            }
+            };
           },
         },
       },
@@ -34,9 +34,9 @@ const mailerRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    sendUserVoiceHandler,
-  )
-  done()
-}
+    sendUserVoiceHandler
+  );
+  done();
+};
 
-export default mailerRoute
+export default mailerRoute;

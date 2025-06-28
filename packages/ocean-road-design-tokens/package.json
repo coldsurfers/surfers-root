@@ -8,7 +8,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "eslint": "8.57.0",
+    "@biomejs/biome": "1.9.4",
     "prettier": "*",
     "release-it": "17.2.1",
     "style-dictionary": "^3.7.2",
@@ -25,7 +25,12 @@
     "prerelease:rc": "yarn build",
     "release": "release-it minor --ci",
     "release:rc": "release-it --ci --preRelease=rc",
-    "lint:fix": "eslint './**/*.{ts,tsx}' --cache --ignore-pattern 'dist/*' && prettier --write ."
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "format": "biome format .",
+    "format:fix": "biome format --write .",
+    "check": "biome check .",
+    "check:fix": "biome check --write ."
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"

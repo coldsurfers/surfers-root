@@ -1,18 +1,21 @@
-import { ToastVisibleContext, ToastVisibleContextProvider, validateEmail } from '@/lib'
-import { CommonScreenLayout } from '@/ui'
-import { components, OpenApiError, paths } from '@coldsurfers/api-sdk'
-import { Button, Spinner, TextInput } from '@coldsurfers/ocean-road/native'
-import { useMutation } from '@tanstack/react-query'
-import React, { useCallback, useContext, useState } from 'react'
-import { StyleSheet } from 'react-native'
-import { match } from 'ts-pattern'
-import { useEmailSignupScreenNavigation, useEmailSignupScreenRoute } from './email-signup-screen.hooks'
+import { ToastVisibleContext, ToastVisibleContextProvider, validateEmail } from '@/lib';
+import { CommonScreenLayout } from '@/ui';
+import type { OpenApiError, components, paths } from '@coldsurfers/api-sdk';
+import { Button, Spinner, TextInput } from '@coldsurfers/ocean-road/native';
+import { useMutation } from '@tanstack/react-query';
+import React, { useCallback, useContext, useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { match } from 'ts-pattern';
+import {
+  useEmailSignupScreenNavigation,
+  useEmailSignupScreenRoute,
+} from './email-signup-screen.hooks';
 
 // @todo: refactor EmailSignupScreen to SendAuthCodeScreen
 const _EmailSignupScreen = () => {
-  const route = useEmailSignupScreenRoute()
-  const { show } = useContext(ToastVisibleContext)
-  const { navigate } = useEmailSignupScreenNavigation()
+  const route = useEmailSignupScreenRoute();
+  const { show } = useContext(ToastVisibleContext);
+  const { navigate } = useEmailSignupScreenNavigation();
   const { mutate: sendEmailConfirm, isPending: isPendingSendConfirmEmail } = useMutation<
     components['schemas']['ConfirmAuthCodeResponseDTOSchema'],
     OpenApiError,
@@ -20,42 +23,42 @@ const _EmailSignupScreen = () => {
   >({
     onSuccess: (data) => {
       if (!data) {
-        return
+        return;
       }
       match(route.params.type)
         .with('activate-user', () => {
           navigate('ActivateUserConfirmScreen', {
             email: data.email,
-          })
+          });
         })
         .with('email-signup', () => {
           navigate('EmailConfirmScreen', {
             email: data.email,
-          })
+          });
         })
-        .exhaustive()
+        .exhaustive();
     },
     onError: () => {
-      const message = '알 수 없는 오류가 발생했어요'
+      const message = '알 수 없는 오류가 발생했어요';
       show({
         autoHide: true,
         duration: 2000,
         message,
         type: 'error',
-      })
+      });
     },
-  })
-  const [email, setEmail] = useState<string>('')
-  const [validated, setValidated] = useState<boolean>(false)
+  });
+  const [email, setEmail] = useState<string>('');
+  const [validated, setValidated] = useState<boolean>(false);
   const onPressNext = useCallback(() => {
     sendEmailConfirm({
       email,
-    })
-  }, [sendEmailConfirm, email])
+    });
+  }, [sendEmailConfirm, email]);
   const onChangeText = useCallback((text: string) => {
-    setEmail(text)
-    setValidated(validateEmail(text) !== null)
-  }, [])
+    setEmail(text);
+    setValidated(validateEmail(text) !== null);
+  }, []);
 
   return (
     <CommonScreenLayout>
@@ -70,15 +73,15 @@ const _EmailSignupScreen = () => {
       </Button>
       {isPendingSendConfirmEmail && <Spinner positionCenter />}
     </CommonScreenLayout>
-  )
-}
+  );
+};
 export const EmailSignupScreen = () => {
   return (
     <ToastVisibleContextProvider>
       <_EmailSignupScreen />
     </ToastVisibleContextProvider>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -95,4 +98,4 @@ const styles = StyleSheet.create({
     marginTop: 12,
     marginHorizontal: 16,
   },
-})
+});

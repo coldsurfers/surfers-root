@@ -1,10 +1,10 @@
-import { AuthTokenDTO, CreateAuthTokenDTO } from '@/dtos/auth-token.dto'
-import { dbClient } from '@/lib/db/db.client'
-import { AuthTokenRepository } from './auth-token.repository'
+import type { AuthTokenDTO, CreateAuthTokenDTO } from '@/dtos/auth-token.dto';
+import { dbClient } from '@/lib/db/db.client';
+import type { AuthTokenRepository } from './auth-token.repository';
 
 interface AuthTokenModel {
-  access_token: string
-  refresh_token: string
+  access_token: string;
+  refresh_token: string;
 }
 
 export class AuthTokenRepositoryImpl implements AuthTokenRepository {
@@ -15,14 +15,14 @@ export class AuthTokenRepositoryImpl implements AuthTokenRepository {
         refresh_token: authToken.refresh_token,
         user_id: authToken.user_id,
       },
-    })
-    return this.toDTO(data)
+    });
+    return this.toDTO(data);
   }
 
   private toDTO(data: AuthTokenModel): AuthTokenDTO {
     return {
       accessToken: data.access_token,
       refreshToken: data.refresh_token,
-    }
+    };
   }
 }

@@ -1,10 +1,18 @@
-import { activateUserHandler, deactivateUserHandler, getMeHandler } from '@/controllers/user.controller'
-import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
-import { ActivateUserBodyDTOSchema, DeactivateUserBodyDTOSchema, UserDTOSchema } from '@/dtos/user.dto'
-import { FastifyPluginCallback } from 'fastify'
-import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import {
+  activateUserHandler,
+  deactivateUserHandler,
+  getMeHandler,
+} from '@/controllers/user.controller';
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto';
+import {
+  ActivateUserBodyDTOSchema,
+  DeactivateUserBodyDTOSchema,
+  UserDTOSchema,
+} from '@/dtos/user.dto';
+import type { FastifyPluginCallback } from 'fastify';
+import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
-const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
+const userRoute: FastifyPluginCallback = (fastify, _, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/me',
     {
@@ -24,8 +32,8 @@ const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       preHandler: [fastify.authenticate],
     },
-    getMeHandler,
-  )
+    getMeHandler
+  );
   fastify.withTypeProvider<ZodTypeProvider>().patch(
     '/activate',
     {
@@ -46,8 +54,8 @@ const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    activateUserHandler,
-  )
+    activateUserHandler
+  );
   fastify.withTypeProvider<ZodTypeProvider>().delete(
     '/deactivate',
     {
@@ -67,9 +75,9 @@ const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       preHandler: [fastify.authenticate],
     },
-    deactivateUserHandler,
-  )
-  done()
-}
+    deactivateUserHandler
+  );
+  done();
+};
 
-export default userRoute
+export default userRoute;
