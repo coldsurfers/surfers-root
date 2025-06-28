@@ -1,12 +1,12 @@
+import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
+import { fromZonedTime } from 'https://esm.sh/date-fns-tz';
+import { format } from 'https://esm.sh/date-fns@3.6.0/format';
+import { parse } from 'https://esm.sh/date-fns@3.6.0/parse';
 import { randomUUID } from 'node:crypto';
 import { XMLParser } from 'npm:fast-xml-parser@4.3.5';
 import rawGeohash from 'npm:ngeohash';
 import pLimit from 'npm:p-limit';
 import slugify from 'npm:slugify';
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
-import { fromZonedTime } from 'https://esm.sh/date-fns-tz';
-import { format } from 'https://esm.sh/date-fns@3.6.0/format';
-import { parse } from 'https://esm.sh/date-fns@3.6.0/parse';
 import { kopisKey, slackWebhookUrl } from './_shared/env.ts';
 import { supabase } from './_shared/supabase.ts';
 
@@ -176,6 +176,9 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case '레이어 스튜디오 7 (LAYER 7)':
+      alreadyExistingVenueId = 'e0dc5a73-1986-4cbe-b0e9-291a222b622b';
+      break;
     case '대덕구문예회관 (구. 대덕구평생학습센터)':
       alreadyExistingVenueId = '654a7d21-0928-4513-b2b9-a5405d925276';
       break;
