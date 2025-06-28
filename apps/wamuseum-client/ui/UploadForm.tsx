@@ -1,7 +1,7 @@
 import { Button, Spinner, colors, semantics } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { format, isValid } from 'date-fns';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ConcertListDocument,
@@ -24,8 +24,6 @@ const formInitialState: FormState = {
 };
 
 const UploadForm = () => {
-  const searchParams = useSearchParams();
-  const idParam = searchParams?.get('id');
   const router = useRouter();
 
   const [mutate, { loading: createConcertLoading }] = useCreateConcertMutation({
