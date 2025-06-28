@@ -1,19 +1,16 @@
 {
   "eslint.workingDirectories": ["apps", "packages"],
   "eslint.validate": ["typescript", "javascript", "typescriptreact"],
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "biomejs.biome",
   "editor.formatOnPaste": false,
   "editor.formatOnType": false,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit",
     "source.organizeImports": "explicit",
-    "source.fixAll.biome": "explicit",
-    "source.organizeImports.biome": "explicit"
+    "source.fixAll.biome": "explicit"
   },
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.tsdk": "node_modules/typescript/lib",
-  "prettier.configPath": ".prettierrc.json",
   "conventionalCommits.scopes": [
     "blog-client",
     "common",
