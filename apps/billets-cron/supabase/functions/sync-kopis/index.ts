@@ -1,12 +1,12 @@
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
-import { fromZonedTime } from 'https://esm.sh/date-fns-tz';
-import { format } from 'https://esm.sh/date-fns@3.6.0/format';
-import { parse } from 'https://esm.sh/date-fns@3.6.0/parse';
 import { randomUUID } from 'node:crypto';
 import { XMLParser } from 'npm:fast-xml-parser@4.3.5';
 import rawGeohash from 'npm:ngeohash';
 import pLimit from 'npm:p-limit';
 import slugify from 'npm:slugify';
+import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
+import { fromZonedTime } from 'https://esm.sh/date-fns-tz';
+import { format } from 'https://esm.sh/date-fns@3.6.0/format';
+import { parse } from 'https://esm.sh/date-fns@3.6.0/parse';
 import { kopisKey, slackWebhookUrl } from './_shared/env.ts';
 import { supabase } from './_shared/supabase.ts';
 
