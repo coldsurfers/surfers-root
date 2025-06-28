@@ -1,49 +1,52 @@
-'use client'
+'use client';
 
-import { Button, Spinner, Text, TextInput, Toast, colors } from '@coldsurfers/ocean-road'
-import styled from '@emotion/styled'
-import { AnimatePresence } from 'framer-motion'
-import { useRouter } from 'next/navigation'
-import { useCallback, useState } from 'react'
+import { Button, Spinner, Text, TextInput, Toast, colors } from '@coldsurfers/ocean-road';
+import styled from '@emotion/styled';
+import { AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import { useCallback, useState } from 'react';
 import {
   useAuthenticateEmailAuthRequestMutation,
   useCreateEmailAuthRequestMutation,
   useCreateUserMutation,
-} from 'src/__generated__/graphql'
-import validateEmail from '../../utils/validateEmail'
+} from 'src/__generated__/graphql';
+import validateEmail from '../../utils/validateEmail';
 
 export const CreateUserRequestForm = () => {
-  const router = useRouter()
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
-  const [passwordConfirm, setPasswordConfirm] = useState<string>('')
-  const [authcode, setAuthcode] = useState<string>('')
-  const [emailSent, setEmailSent] = useState<boolean>(false)
-  const [emailAuthenticated, setEmailAuthenticated] = useState<boolean>(false)
-  const [signinCompleted, setSigninCompleted] = useState<boolean>(false)
-  const [mutateCreateEmailAuthRequest, { data: createEmailAuthRequestData, loading: createEmailAuthRequestLoading }] =
-    useCreateEmailAuthRequestMutation()
+  const router = useRouter();
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [passwordConfirm, setPasswordConfirm] = useState<string>('');
+  const [authcode, setAuthcode] = useState<string>('');
+  const [emailSent, setEmailSent] = useState<boolean>(false);
+  const [emailAuthenticated, setEmailAuthenticated] = useState<boolean>(false);
+  const [signinCompleted, setSigninCompleted] = useState<boolean>(false);
+  const [
+    mutateCreateEmailAuthRequest,
+    { data: createEmailAuthRequestData, loading: createEmailAuthRequestLoading },
+  ] = useCreateEmailAuthRequestMutation();
   const [mutateAuthenticateEmailAuthRequest, { loading: authenticateEmailAuthRequestLoading }] =
-    useAuthenticateEmailAuthRequestMutation()
-  const [mutateCreateUser, { loading: createUserLoading }] = useCreateUserMutation()
+    useAuthenticateEmailAuthRequestMutation();
+  const [mutateCreateUser, { loading: createUserLoading }] = useCreateUserMutation();
 
-  const [toastVisible, setToastVisible] = useState(false)
-  const [toastMessage, setToastMessage] = useState('')
+  const [toastVisible, setToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
-  const loading = createEmailAuthRequestLoading || authenticateEmailAuthRequestLoading || createUserLoading
+  const loading =
+    createEmailAuthRequestLoading || authenticateEmailAuthRequestLoading || createUserLoading;
 
-  const authenticatedEmail = createEmailAuthRequestData?.createEmailAuthRequest?.email ?? ''
+  const authenticatedEmail = createEmailAuthRequestData?.createEmailAuthRequest?.email ?? '';
 
   const onClickGetAuthcode = useCallback(() => {
-    setEmailSent(true)
+    setEmailSent(true);
     mutateCreateEmailAuthRequest({
       variables: {
         input: {
           email,
         },
       },
-    })
-  }, [email, mutateCreateEmailAuthRequest])
+    });
+  }, [email, mutateCreateEmailAuthRequest]);
 
   const onClickAuthenticate = useCallback(() => {
     mutateAuthenticateEmailAuthRequest({
@@ -54,24 +57,24 @@ export const CreateUserRequestForm = () => {
         },
       },
       onCompleted(data) {
-        const { authenticateEmailAuthRequest } = data
+        const { authenticateEmailAuthRequest } = data;
         if (!authenticateEmailAuthRequest) {
-          return
+          return;
         }
         switch (authenticateEmailAuthRequest.__typename) {
           case 'HttpError':
-            setToastVisible(true)
-            setToastMessage(authenticateEmailAuthRequest.message)
-            break
+            setToastVisible(true);
+            setToastMessage(authenticateEmailAuthRequest.message);
+            break;
           case 'EmailAuthRequest':
-            setEmailAuthenticated(!!authenticateEmailAuthRequest.authenticated)
-            break
+            setEmailAuthenticated(!!authenticateEmailAuthRequest.authenticated);
+            break;
           default:
-            break
+            break;
         }
       },
-    })
-  }, [authcode, authenticatedEmail, mutateAuthenticateEmailAuthRequest])
+    });
+  }, [authcode, authenticatedEmail, mutateAuthenticateEmailAuthRequest]);
 
   const onClickCreateUser = useCallback(() => {
     mutateCreateUser({
@@ -83,28 +86,28 @@ export const CreateUserRequestForm = () => {
         },
       },
       onCompleted: (data) => {
-        const { createUser } = data
+        const { createUser } = data;
         if (!createUser) {
-          return
+          return;
         }
         switch (createUser.__typename) {
           case 'HttpError':
-            setToastVisible(true)
-            setToastMessage(createUser.message)
-            break
+            setToastVisible(true);
+            setToastMessage(createUser.message);
+            break;
           case 'User':
-            setSigninCompleted(true)
-            setToastMessage('가입이 완료되었습니다.\n로그인 페이지로 이동합니다.')
+            setSigninCompleted(true);
+            setToastMessage('가입이 완료되었습니다.\n로그인 페이지로 이동합니다.');
             setTimeout(() => {
-              router.push('/auth/signin')
-            }, 1500)
-            break
+              router.push('/auth/signin');
+            }, 1500);
+            break;
           default:
-            break
+            break;
         }
       },
-    })
-  }, [authenticatedEmail, mutateCreateUser, password, passwordConfirm, router])
+    });
+  }, [authenticatedEmail, mutateCreateUser, password, passwordConfirm, router]);
 
   return (
     <>
@@ -147,7 +150,9 @@ export const CreateUserRequestForm = () => {
                 marginLeft: 14,
                 backgroundColor: colors.oc.black.value,
               }}
-              disabled={!createEmailAuthRequestData || !authcode || authenticateEmailAuthRequestLoading}
+              disabled={
+                !createEmailAuthRequestData || !authcode || authenticateEmailAuthRequestLoading
+              }
               onClick={onClickAuthenticate}
             >
               인증하기
@@ -181,12 +186,14 @@ export const CreateUserRequestForm = () => {
         )}
       </Wrapper>
       <AnimatePresence>
-        {(toastVisible || signinCompleted) && <Toast message={toastMessage} onClose={() => setToastVisible(false)} />}
+        {(toastVisible || signinCompleted) && (
+          <Toast message={toastMessage} onClose={() => setToastVisible(false)} />
+        )}
       </AnimatePresence>
       {loading && <Spinner variant="page-overlay" />}
     </>
-  )
-}
+  );
+};
 
 const Wrapper = styled.section`
   position: absolute;
@@ -205,10 +212,10 @@ const Wrapper = styled.section`
     0 1px 3px rgba(0, 0, 0, 0.12),
     0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-`
+`;
 
 const EmailAuthRequestButtonsWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-top: 14px;
-`
+`;

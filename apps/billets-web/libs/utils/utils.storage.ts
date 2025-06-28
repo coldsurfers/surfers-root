@@ -1,3 +1,5 @@
+import { tryParse } from '@coldsurfers/shared-utils';
+
 export type StorageItem = '@coldsurf-io/access-token' | '@coldsurf-io/refresh-token';
 
 const storage =
@@ -10,7 +12,7 @@ const storage =
           const value = localStorage.getItem(item);
           try {
             if (!value) return null;
-            const parsed = JSON.parse(value) as ParsedValueT;
+            const parsed = tryParse(value, { fallback: value }) as ParsedValueT;
             return parsed;
           } catch (e) {
             console.error(e);

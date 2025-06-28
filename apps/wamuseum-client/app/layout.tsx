@@ -1,29 +1,31 @@
-import { initializeApollo, OceanRoadThemeRegistry } from '@/libs'
-import { COOKIE_ACCESS_TOKEN_KEY } from '@/utils/constants'
-import { Noto_Sans_KR } from 'next/font/google'
-import { cookies } from 'next/headers'
-import { Suspense } from 'react'
-import { MeDocument } from 'src/__generated__/graphql'
-import { RootLayoutClient } from './layout.client'
+import { OceanRoadThemeRegistry, initializeApollo } from '@/libs';
+import { COOKIE_ACCESS_TOKEN_KEY, COOKIE_REFRESH_TOKEN_KEY } from '@/utils/constants';
+import { Noto_Sans_KR } from 'next/font/google';
+import { cookies } from 'next/headers';
+import { Suspense } from 'react';
+import { MeDocument } from 'src/__generated__/graphql';
+import { RootLayoutClient } from './layout.client';
 
-const notoSansKr = Noto_Sans_KR({ subsets: ['latin'] })
+const notoSansKr = Noto_Sans_KR({ subsets: ['latin'] });
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const cookieStore = await cookies()
-  const accessToken = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY)?.value
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY)?.value;
+  const refreshToken = cookieStore.get(COOKIE_REFRESH_TOKEN_KEY)?.value;
   const apolloClient = initializeApollo({
-    token: accessToken,
-  })
+    accessToken,
+    refreshToken,
+  });
 
   try {
     await apolloClient.query({
       query: MeDocument,
-    })
+    });
   } catch (e) {
-    console.error(e)
+    console.error(e);
   }
 
-  const initialState = JSON.parse(JSON.stringify(apolloClient.cache.extract()))
+  const initialState = JSON.parse(JSON.stringify(apolloClient.cache.extract()));
 
   return (
     <html lang="en">
@@ -42,5 +44,5 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </OceanRoadThemeRegistry>
       </body>
     </html>
-  )
+  );
 }

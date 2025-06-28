@@ -1,1 +1,1 @@
-export * from './registry-provider'
+export * from './registry-provider';

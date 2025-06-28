@@ -1,5 +1,5 @@
-import { semantics, Text } from '@coldsurfers/ocean-road'
-import styled from '@emotion/styled'
+import { Text, semantics } from '@coldsurfers/ocean-road';
+import styled from '@emotion/styled';
 
 export const StyledTicketItemContainer = styled.div`
   display: flex;
@@ -19,14 +19,14 @@ export const StyledTicketItemContainer = styled.div`
       0 14px 28px rgba(0, 0, 0, 0.25),
       0 10px 10px rgba(0, 0, 0, 0.22);
   }
-`
+`;
 
 export const StyledTicketItemLabel = styled(Text)`
   margin: 0.5rem 0.5rem 0px 0px;
-`
+`;
 
 export const StyledTicketBottomWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-top: 1rem;
-`
+`;

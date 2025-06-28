@@ -1,4 +1,4 @@
 export type AppstoreBannerGeneratorForm = {
-  promotionText: string
-  backgroundColor: string
-}
+  promotionText: string;
+  backgroundColor: string;
+};

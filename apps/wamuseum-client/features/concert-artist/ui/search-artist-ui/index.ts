@@ -1,1 +1,1 @@
-export * from './search-artist-ui'
+export * from './search-artist-ui';

@@ -1,1 +1,1 @@
-export * from './firebase-notify-button'
+export * from './firebase-notify-button';

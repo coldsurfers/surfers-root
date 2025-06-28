@@ -6,12 +6,14 @@ let apolloClient: ApolloClient<NormalizedCacheObject> | null = null;
 
 export function initializeApollo({
   initialState,
-  token,
-}: { initialState?: object; token?: string }) {
+  accessToken,
+  refreshToken,
+}: { initialState?: object; accessToken?: string; refreshToken?: string }) {
   const _apolloClient =
     apolloClient ??
     createApolloClient({
-      token,
+      accessToken,
+      refreshToken,
     });
 
   if (initialState) {
@@ -25,6 +27,13 @@ export function initializeApollo({
   return _apolloClient;
 }
 
-export function useApollo({ initialState, token }: { initialState?: object; token?: string }) {
-  return useMemo(() => initializeApollo({ initialState, token }), [initialState, token]);
+export function useApollo({
+  initialState,
+  accessToken,
+  refreshToken,
+}: { initialState?: object; accessToken?: string; refreshToken?: string }) {
+  return useMemo(
+    () => initializeApollo({ initialState, accessToken, refreshToken }),
+    [initialState, accessToken, refreshToken]
+  );
 }

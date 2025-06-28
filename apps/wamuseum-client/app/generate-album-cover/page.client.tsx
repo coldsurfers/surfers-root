@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import { AlbumCoverBannerGenerator } from '@/features/banner/ui/album-cover-banner-generator'
+import { AlbumCoverBannerGenerator } from '@/features/banner/ui/album-cover-banner-generator';
 
 export const GenerateAlbumCoverPageClient = () => {
-  return <AlbumCoverBannerGenerator />
-}
+  return <AlbumCoverBannerGenerator />;
+};

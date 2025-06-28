@@ -1,1 +1,1 @@
-export * from './search-concert-venue-ui'
+export * from './search-concert-venue-ui';

@@ -1,5 +1,5 @@
-import { RegisterArtistPageClient } from './page.client'
+import { RegisterArtistPageClient } from './page.client';
 
 export default function RegisterArtistPage() {
-  return <RegisterArtistPageClient />
+  return <RegisterArtistPageClient />;
 }
