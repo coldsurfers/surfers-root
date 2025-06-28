@@ -1,21 +1,27 @@
-import { ConcertDetailSectionList, ConcertDetailVenueMapBottomSheet } from '@/features/concert-detail'
-import { TicketListBottomSheet } from '@/features/concert-detail/components/ticket-list-bottom-sheet/ticket-list-bottom-sheet'
-import { useToggleSubscribeConcert } from '@/features/subscribe/hooks/useToggleSubscribeConcert'
-import { useEffectOnce, useFirebaseAnalytics, useStoreReview } from '@/lib'
-import commonStyles from '@/lib/common-styles'
-import { concertDetailCountForStoreReviewStorage } from '@/lib/storage'
-import { NAVIGATION_HEADER_HEIGHT } from '@/ui'
-import { colors } from '@coldsurfers/ocean-road'
-import { Spinner, useColorScheme } from '@coldsurfers/ocean-road/native'
-import { BottomSheetModal } from '@gorhom/bottom-sheet'
-import React, { PropsWithChildren, Suspense, useCallback, useRef } from 'react'
-import { Dimensions, StyleSheet, View } from 'react-native'
-import { useEventDetailScreenNavigation, useEventDetailScreenRoute } from './event-detail-screen.hooks'
+import {
+  ConcertDetailSectionList,
+  ConcertDetailVenueMapBottomSheet,
+} from '@/features/concert-detail';
+import { TicketListBottomSheet } from '@/features/concert-detail/components/ticket-list-bottom-sheet/ticket-list-bottom-sheet';
+import { useToggleSubscribeConcert } from '@/features/subscribe/hooks/useToggleSubscribeConcert';
+import { useEffectOnce, useFirebaseAnalytics, useStoreReview } from '@/lib';
+import commonStyles from '@/lib/common-styles';
+import { concertDetailCountForStoreReviewStorage } from '@/lib/storage';
+import { NAVIGATION_HEADER_HEIGHT } from '@/ui';
+import { colors } from '@coldsurfers/ocean-road';
+import { Spinner, useColorScheme } from '@coldsurfers/ocean-road/native';
+import type { BottomSheetModal } from '@gorhom/bottom-sheet';
+import React, { type PropsWithChildren, Suspense, useCallback, useRef } from 'react';
+import { Dimensions, StyleSheet, View } from 'react-native';
+import {
+  useEventDetailScreenNavigation,
+  useEventDetailScreenRoute,
+} from './event-detail-screen.hooks';
 
-const TOP_SPACE = 110
+const TOP_SPACE = 110;
 
 const EventDetailScreenLayout = ({ children }: PropsWithChildren) => {
-  const { semantics } = useColorScheme()
+  const { semantics } = useColorScheme();
   return (
     <View
       style={{
@@ -27,54 +33,56 @@ const EventDetailScreenLayout = ({ children }: PropsWithChildren) => {
     >
       {children}
     </View>
-  )
-}
+  );
+};
 
 const ScreenInner = () => {
-  const { semantics } = useColorScheme()
-  const { logEvent } = useFirebaseAnalytics()
-  const navigation = useEventDetailScreenNavigation()
-  const { params } = useEventDetailScreenRoute()
-  const { requestReview } = useStoreReview()
-  const ticketSheetRef = useRef<BottomSheetModal>(null)
+  const { semantics } = useColorScheme();
+  const { logEvent } = useFirebaseAnalytics();
+  const navigation = useEventDetailScreenNavigation();
+  const { params } = useEventDetailScreenRoute();
+  const { requestReview } = useStoreReview();
+  const ticketSheetRef = useRef<BottomSheetModal>(null);
 
-  const toggleSubscribeConcert = useToggleSubscribeConcert()
+  const toggleSubscribeConcert = useToggleSubscribeConcert();
 
-  const mapDetailBottomSheetModalRef = useRef<BottomSheetModal>(null)
+  const mapDetailBottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const onPressSubscribe = useCallback(
-    (params: { isLoggedIn: false } | { isLoggedIn: true; concertId: string; isSubscribed: boolean }) => {
+    (
+      params: { isLoggedIn: false } | { isLoggedIn: true; concertId: string; isSubscribed: boolean }
+    ) => {
       if (!params.isLoggedIn) {
         // show login modal
         navigation.navigate('LoginStackNavigation', {
           screen: 'LoginSelectionScreen',
           params: {},
-        })
-        return
+        });
+        return;
       }
-      const { concertId, isSubscribed } = params
+      const { concertId, isSubscribed } = params;
       toggleSubscribeConcert({
         isSubscribed,
         eventId: concertId,
-      })
+      });
     },
-    [navigation, toggleSubscribeConcert],
-  )
+    [navigation, toggleSubscribeConcert]
+  );
 
   useEffectOnce(() => {
-    const existingCount = concertDetailCountForStoreReviewStorage.get() ?? 0
-    concertDetailCountForStoreReviewStorage.set(existingCount + 1)
+    const existingCount = concertDetailCountForStoreReviewStorage.get() ?? 0;
+    concertDetailCountForStoreReviewStorage.set(existingCount + 1);
 
     return () => {
-      const count = concertDetailCountForStoreReviewStorage.get()
+      const count = concertDetailCountForStoreReviewStorage.get();
       if (!count) {
-        return
+        return;
       }
       if (count % 10 === 0) {
-        requestReview()
+        requestReview();
       }
-    }
-  })
+    };
+  });
 
   useEffectOnce(() => {
     logEvent({
@@ -82,10 +90,10 @@ const ScreenInner = () => {
       params: {
         event_id: params.eventId,
       },
-    })
-  })
+    });
+  });
 
-  const handlePressTicketCta = () => ticketSheetRef.current?.present()
+  const handlePressTicketCta = () => ticketSheetRef.current?.present();
   const handlePressArtist = useCallback(
     (artistId: string) =>
       navigation.navigate('ArtistStackNavigation', {
@@ -94,9 +102,9 @@ const ScreenInner = () => {
           artistId,
         },
       }),
-    [navigation],
-  )
-  const handlePressVenueMap = () => mapDetailBottomSheetModalRef.current?.present()
+    [navigation]
+  );
+  const handlePressVenueMap = () => mapDetailBottomSheetModalRef.current?.present();
 
   const handlePressVenueProfile = useCallback(
     (venueId: string) => {
@@ -105,12 +113,12 @@ const ScreenInner = () => {
         params: {
           id: venueId,
         },
-      })
+      });
     },
-    [navigation],
-  )
+    [navigation]
+  );
 
-  const handlePressBackdrop = () => ticketSheetRef.current?.close()
+  const handlePressBackdrop = () => ticketSheetRef.current?.close();
 
   return (
     <EventDetailScreenLayout>
@@ -127,14 +135,21 @@ const ScreenInner = () => {
         </Suspense>
       </View>
       <Suspense>
-        <ConcertDetailVenueMapBottomSheet ref={mapDetailBottomSheetModalRef} eventId={params.eventId} />
+        <ConcertDetailVenueMapBottomSheet
+          ref={mapDetailBottomSheetModalRef}
+          eventId={params.eventId}
+        />
       </Suspense>
       <Suspense>
-        <TicketListBottomSheet ref={ticketSheetRef} eventId={params.eventId} onPressBackdrop={handlePressBackdrop} />
+        <TicketListBottomSheet
+          ref={ticketSheetRef}
+          eventId={params.eventId}
+          onPressBackdrop={handlePressBackdrop}
+        />
       </Suspense>
     </EventDetailScreenLayout>
-  )
-}
+  );
+};
 
 export const EventDetailScreen = () => {
   return (
@@ -147,8 +162,8 @@ export const EventDetailScreen = () => {
     >
       <ScreenInner />
     </Suspense>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -180,4 +195,4 @@ const styles = StyleSheet.create({
   ticketBtn: {
     backgroundColor: colors.oc.cyan[8].value,
   },
-})
+});

@@ -1,10 +1,10 @@
-import { ArtistDTO } from '@/dtos/artist.dto'
-import { dbClient } from '@/lib/db/db.client'
-import { Artist, ArtistProfileImage, Copyright } from '@prisma/client'
-import { ArtistRepository } from './artist.repository'
+import type { ArtistDTO } from '@/dtos/artist.dto';
+import { dbClient } from '@/lib/db/db.client';
+import type { Artist, ArtistProfileImage, Copyright } from '@prisma/client';
+import type { ArtistRepository } from './artist.repository';
 
 interface ArtistModel extends Artist {
-  artistProfileImage: (ArtistProfileImage & { copyright: Copyright | null })[]
+  artistProfileImage: (ArtistProfileImage & { copyright: Copyright | null })[];
 }
 
 export class ArtistRepositoryImpl implements ArtistRepository {
@@ -24,8 +24,8 @@ export class ArtistRepositoryImpl implements ArtistRepository {
           },
         },
       },
-    })
-    return artists.map(this.toDTO)
+    });
+    return artists.map(this.toDTO);
   }
   async findById(id: string): Promise<ArtistDTO | null> {
     const artist = await dbClient.artist.findUnique({
@@ -39,17 +39,17 @@ export class ArtistRepositoryImpl implements ArtistRepository {
           },
         },
       },
-    })
-    return artist ? this.toDTO(artist) : null
+    });
+    return artist ? this.toDTO(artist) : null;
   }
 
   private toDTO(model: ArtistModel): ArtistDTO {
-    const mainProfileImage = model.artistProfileImage.at(0)
+    const mainProfileImage = model.artistProfileImage.at(0);
     return {
       id: model.id,
       name: model.name,
       thumbUrl: mainProfileImage ? mainProfileImage.imageURL : null,
       thumbCopyright: mainProfileImage?.copyright ?? null,
-    }
+    };
   }
 }

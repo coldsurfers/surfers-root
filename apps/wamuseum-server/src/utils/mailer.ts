@@ -1,6 +1,6 @@
-import mailer from 'nodemailer'
-import smtpTransport, { SmtpOptions } from 'nodemailer-smtp-transport'
-import Mail from 'nodemailer/lib/mailer'
+import mailer from 'nodemailer';
+import smtpTransport, { type SmtpOptions } from 'nodemailer-smtp-transport';
+import type Mail from 'nodemailer/lib/mailer';
 
 export async function sendEmail({
   to,
@@ -9,25 +9,25 @@ export async function sendEmail({
   subject,
   smtpOptions,
 }: Pick<Mail.Options, 'to' | 'html' | 'subject' | 'from'> & {
-  smtpOptions: SmtpOptions
+  smtpOptions: SmtpOptions;
 }) {
-  const transport = mailer.createTransport(smtpTransport(smtpOptions))
+  const transport = mailer.createTransport(smtpTransport(smtpOptions));
   const mailOptions: Mail.Options = {
     from,
     to,
     subject, // 이메일 제목
     html,
-  }
+  };
   const sendEmailPromise = () =>
     new Promise((resolve, reject) => {
       transport.sendMail(mailOptions, (err, info) => {
         if (err) {
-          reject(err)
+          reject(err);
         }
-        resolve(info)
-      })
-    })
+        resolve(info);
+      });
+    });
 
-  const res = await sendEmailPromise()
-  return res
+  const res = await sendEmailPromise();
+  return res;
 }

@@ -7,7 +7,9 @@
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
-    "source.organizeImports": "explicit"
+    "source.organizeImports": "explicit",
+    "source.fixAll.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
   },
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.tsdk": "node_modules/typescript/lib",

@@ -1,20 +1,20 @@
-import { UserCurrentLocationType } from '@/features/location/stores'
-import { withHapticPress } from '@/lib'
-import commonStyles from '@/lib/common-styles'
-import { colors } from '@coldsurfers/ocean-road'
-import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
-import { MapPin } from 'lucide-react-native'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
-import { match } from 'ts-pattern'
+import type { UserCurrentLocationType } from '@/features/location/stores';
+import { withHapticPress } from '@/lib';
+import commonStyles from '@/lib/common-styles';
+import { colors } from '@coldsurfers/ocean-road';
+import { Text, useColorScheme } from '@coldsurfers/ocean-road/native';
+import { MapPin } from 'lucide-react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { match } from 'ts-pattern';
 
 type LocationSelectorProps = {
-  onPress: () => void
-  cityName: string | null
-  type: UserCurrentLocationType | null
-}
+  onPress: () => void;
+  cityName: string | null;
+  type: UserCurrentLocationType | null;
+};
 
 export const LocationSelector = ({ onPress, cityName, type }: LocationSelectorProps) => {
-  const { semantics } = useColorScheme()
+  const { semantics } = useColorScheme();
   return (
     <View style={styles.wrapper}>
       <TouchableOpacity
@@ -48,8 +48,8 @@ export const LocationSelector = ({ onPress, cityName, type }: LocationSelectorPr
         </Text>
       </TouchableOpacity>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   wrapper: { display: 'flex', flexDirection: 'row', paddingBottom: 12 },
@@ -67,4 +67,4 @@ const styles = StyleSheet.create({
     marginLeft: 4,
     fontSize: 14,
   },
-})
+});

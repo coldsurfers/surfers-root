@@ -1,38 +1,38 @@
-'use client'
+'use client';
 
-import { initialPageQuery } from '@/libs/openapi-client'
-import { useQuery } from '@tanstack/react-query'
-import { ResolvedValues, useAnimation } from 'framer-motion'
-import { useCallback, useLayoutEffect, useRef } from 'react'
-import { RecentConcertListItem } from './recent-concert-list-item'
+import { initialPageQuery } from '@/libs/openapi-client';
+import { useQuery } from '@tanstack/react-query';
+import { type ResolvedValues, useAnimation } from 'framer-motion';
+import { useCallback, useLayoutEffect, useRef } from 'react';
+import { RecentConcertListItem } from './recent-concert-list-item';
 import {
   StyledMotionDiv,
   StyledRecentListBilletsConcertCard,
   StyledRecentListScrollContainer,
   StyledRecentListTitle,
-} from './recent-concert-list.styled'
+} from './recent-concert-list.styled';
 
 export const RecentConcertList = () => {
-  const { data, isLoading } = useQuery(initialPageQuery.home())
+  const { data, isLoading } = useQuery(initialPageQuery.home());
 
-  const controls = useAnimation()
-  const latestX = useRef<string>('0%')
+  const controls = useAnimation();
+  const latestX = useRef<string>('0%');
 
   const startAnim = useCallback(() => {
     controls.start({
       x: [latestX.current, '-100%'], // Moves from start to end
-    })
-  }, [controls])
+    });
+  }, [controls]);
 
   const onUpdate = useCallback((latest: ResolvedValues) => {
     if (latest.x) {
-      latestX.current = latest.x as string
+      latestX.current = latest.x as string;
     }
-  }, [])
+  }, []);
 
   useLayoutEffect(() => {
-    startAnim()
-  }, [startAnim])
+    startAnim();
+  }, [startAnim]);
 
   return (
     <>
@@ -58,7 +58,7 @@ export const RecentConcertList = () => {
             initial={{ x: '0%' }}
             animate={controls}
             transition={{
-              repeat: Infinity, // Loops indefinitely
+              repeat: Number.POSITIVE_INFINITY, // Loops indefinitely
               duration: 60, // Adjust speed (higher = slower)
               ease: 'linear', // Smooth constant scroll
             }}
@@ -66,13 +66,13 @@ export const RecentConcertList = () => {
           >
             {data?.map((value) => {
               if (value.type === 'concert') {
-                return <RecentConcertListItem data={value.data} key={value.data.id} />
+                return <RecentConcertListItem data={value.data} key={value.data.id} />;
               }
-              return null
+              return null;
             })}
           </StyledMotionDiv>
         )}
       </StyledRecentListScrollContainer>
     </>
-  )
-}
+  );
+};

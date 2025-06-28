@@ -1,11 +1,11 @@
-import { Button, Modal, Text } from '@coldsurfers/ocean-road'
-import { useCallback } from 'react'
+import { Button, Modal, Text } from '@coldsurfers/ocean-road';
+import { useCallback } from 'react';
 import {
   ConcertTicketsDocument,
-  ConcertTicketsQuery,
-  ConcertTicketsQueryVariables,
+  type ConcertTicketsQuery,
+  type ConcertTicketsQueryVariables,
   useRemoveConcertTicketMutation,
-} from 'src/__generated__/graphql'
+} from 'src/__generated__/graphql';
 
 export const DeleteTicketConfirmModal = ({
   visible,
@@ -14,16 +14,17 @@ export const DeleteTicketConfirmModal = ({
   ticketId,
   onDeleteSuccess,
 }: {
-  visible: boolean
-  onDeleteSuccess?: () => void
-  onClose: () => void
-  concertId: string
-  ticketId: string
+  visible: boolean;
+  onDeleteSuccess?: () => void;
+  onClose: () => void;
+  concertId: string;
+  ticketId: string;
 }) => {
-  const [mutateRemoveConcertTicket, { loading: loadingRemoveConcertTicket }] = useRemoveConcertTicketMutation()
+  const [mutateRemoveConcertTicket, { loading: loadingRemoveConcertTicket }] =
+    useRemoveConcertTicketMutation();
   const onClickDelete = useCallback(() => {
     if (loadingRemoveConcertTicket) {
-      return
+      return;
     }
     mutateRemoveConcertTicket({
       variables: {
@@ -33,19 +34,22 @@ export const DeleteTicketConfirmModal = ({
         },
       },
       onCompleted: () => {
-        onDeleteSuccess?.()
+        onDeleteSuccess?.();
       },
       update: (cache, { data }) => {
         if (data?.removeConcertTicket?.__typename !== 'Ticket') {
-          return
+          return;
         }
-        const { removeConcertTicket: removedConcertTicketData } = data
-        const concertTicketsCache = cache.readQuery<ConcertTicketsQuery, ConcertTicketsQueryVariables>({
+        const { removeConcertTicket: removedConcertTicketData } = data;
+        const concertTicketsCache = cache.readQuery<
+          ConcertTicketsQuery,
+          ConcertTicketsQueryVariables
+        >({
           query: ConcertTicketsDocument,
           variables: {
             concertId,
           },
-        })
+        });
 
         if (concertTicketsCache?.concertTickets?.__typename === 'TicketList') {
           cache.writeQuery({
@@ -57,15 +61,15 @@ export const DeleteTicketConfirmModal = ({
               concertTickets: {
                 ...concertTicketsCache.concertTickets,
                 list: concertTicketsCache.concertTickets.list?.filter(
-                  (value) => value?.id !== removedConcertTicketData.id,
+                  (value) => value?.id !== removedConcertTicketData.id
                 ),
               },
             },
-          })
+          });
         }
       },
-    })
-  }, [concertId, loadingRemoveConcertTicket, mutateRemoveConcertTicket, onDeleteSuccess, ticketId])
+    });
+  }, [concertId, loadingRemoveConcertTicket, mutateRemoveConcertTicket, onDeleteSuccess, ticketId]);
 
   return (
     <Modal visible={visible} onClose={onClose}>
@@ -74,5 +78,5 @@ export const DeleteTicketConfirmModal = ({
         확인
       </Button>
     </Modal>
-  )
-}
+  );
+};

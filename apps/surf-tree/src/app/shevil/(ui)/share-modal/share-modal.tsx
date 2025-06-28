@@ -1,58 +1,58 @@
-'use client'
+'use client';
 
-import { Modal, semantics, Text } from '@coldsurfers/ocean-road'
-import { motion } from 'framer-motion'
-import { LoaderCircle } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { OGInfo } from '../../(utils)'
-import { PoweredBy } from '../powered-by'
-import { functionLinks } from './(data)'
-import { CopyLinkButton } from './(ui)/copy-link-button'
+import { Modal, Text, semantics } from '@coldsurfers/ocean-road';
+import { motion } from 'framer-motion';
+import { LoaderCircle } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import type { OGInfo } from '../../(utils)';
+import { PoweredBy } from '../powered-by';
+import { functionLinks } from './(data)';
+import { CopyLinkButton } from './(ui)/copy-link-button';
 import {
-  SharedCard,
-  SharedCardThumbnail,
-  SharedModalFunctionLinks,
   ShareModalBody,
   ShareModalCloseButton,
   ShareModalContent,
   ShareModalHeader,
+  SharedCard,
+  SharedCardThumbnail,
+  SharedModalFunctionLinks,
   StyledCloseIcon,
-} from './share-modal.styled'
-import { fetchOGJsonResponseSchema, ShareModalProps } from './share-modal.types'
+} from './share-modal.styled';
+import { type ShareModalProps, fetchOGJsonResponseSchema } from './share-modal.types';
 
-const MotionIcon = motion(LoaderCircle)
+const MotionIcon = motion(LoaderCircle);
 
 export function ShareModal({ visible, onClose, sharedLink }: ShareModalProps) {
-  const [isLoadingParse, setIsLoadingParse] = useState(false)
-  const [ogInfo, setOGInfo] = useState<OGInfo | null>(null)
+  const [isLoadingParse, setIsLoadingParse] = useState(false);
+  const [ogInfo, setOGInfo] = useState<OGInfo | null>(null);
 
   useEffect(() => {
-    setIsLoadingParse(true)
+    setIsLoadingParse(true);
     async function fetchOG(url: string) {
-      const response = await fetch('/api/og-info?siteUrl=' + url)
-      const json = await response.json()
-      const validation = fetchOGJsonResponseSchema.safeParse(json)
+      const response = await fetch(`/api/og-info?siteUrl=${url}`);
+      const json = await response.json();
+      const validation = fetchOGJsonResponseSchema.safeParse(json);
       if (validation.success) {
-        setOGInfo(validation.data)
+        setOGInfo(validation.data);
       } else {
-        console.error(validation.error)
+        console.error(validation.error);
       }
-      setIsLoadingParse(false)
+      setIsLoadingParse(false);
     }
 
     if (sharedLink?.url) {
-      fetchOG(sharedLink.url)
+      fetchOG(sharedLink.url);
     }
-  }, [sharedLink?.url])
+  }, [sharedLink?.url]);
 
   useEffect(() => {
     if (!visible) {
-      setIsLoadingParse(false)
-      setOGInfo(null)
+      setIsLoadingParse(false);
+      setOGInfo(null);
     }
-  }, [visible])
+  }, [visible]);
 
-  console.log(isLoadingParse)
+  console.log(isLoadingParse);
 
   return (
     <Modal visible={visible} onClose={onClose}>
@@ -85,7 +85,7 @@ export function ShareModal({ visible, onClose, sharedLink }: ShareModalProps) {
                   width={32}
                   height={32}
                   transition={{
-                    repeat: Infinity, // Loops the animation infinitely
+                    repeat: Number.POSITIVE_INFINITY, // Loops the animation infinitely
                     duration: 0.5, // Each full rotation takes 2 seconds
                     ease: 'linear', // Smooth, constant speed
                   }}
@@ -127,14 +127,14 @@ export function ShareModal({ visible, onClose, sharedLink }: ShareModalProps) {
           <SharedModalFunctionLinks>
             {functionLinks.map((item) => {
               if (item.type === 'COPY_LINK') {
-                return <CopyLinkButton key={item.type} copyUrl={sharedLink?.url ?? ''} />
+                return <CopyLinkButton key={item.type} copyUrl={sharedLink?.url ?? ''} />;
               }
-              return null
+              return null;
             })}
           </SharedModalFunctionLinks>
           <PoweredBy />
         </ShareModalBody>
       </ShareModalContent>
     </Modal>
-  )
+  );
 }

@@ -1,19 +1,19 @@
-import createFetchClient, { Middleware } from 'openapi-fetch'
-import { paths } from '../types/api'
-import { OpenApiError } from './error'
+import createFetchClient, { type Middleware } from 'openapi-fetch';
+import type { paths } from '../types/api';
+import { OpenApiError } from './error';
 
 const DEFAULT_HEADERS = {
   'Content-Type': 'application/json',
-  'Accept': 'application/json',
-}
+  Accept: 'application/json',
+};
 
 export class ApiSdk {
   public createSdk({ baseUrl, middlewares }: { baseUrl: string; middlewares: Middleware[] }) {
     const baseFetchClient = createFetchClient<paths>({
       baseUrl: baseUrl,
       headers: DEFAULT_HEADERS,
-    })
-    baseFetchClient.use(...middlewares)
+    });
+    baseFetchClient.use(...middlewares);
     const apiClient = {
       event: {
         queryKeys: {
@@ -27,17 +27,25 @@ export class ApiSdk {
             eventCategoryName,
             locationCityName,
           }: {
-            latitude?: number
-            longitude?: number
-            offset?: number
-            size?: number
-            locationCityId?: string
-            eventCategoryName?: string
-            locationCityName?: string
+            latitude?: number;
+            longitude?: number;
+            offset?: number;
+            size?: number;
+            locationCityId?: string;
+            eventCategoryName?: string;
+            locationCityName?: string;
           }) => [
             'event',
             'list',
-            { latitude, longitude, offset, size, locationCityId, eventCategoryName, locationCityName },
+            {
+              latitude,
+              longitude,
+              offset,
+              size,
+              locationCityId,
+              eventCategoryName,
+              locationCityName,
+            },
           ],
           detail: (id: string) => ['event', 'detail', id],
           detailBySlug: (slug: string) => ['event', 'detail', 'slug', slug],
@@ -51,13 +59,13 @@ export class ApiSdk {
           eventCategoryName,
           locationCityName,
         }: {
-          offset: number
-          size: number
-          latitude?: number
-          longitude?: number
-          locationCityId?: string
-          eventCategoryName?: string
-          locationCityName?: string
+          offset: number;
+          size: number;
+          latitude?: number;
+          longitude?: number;
+          locationCityId?: string;
+          eventCategoryName?: string;
+          locationCityName?: string;
         }) => {
           const response = await baseFetchClient.GET('/v1/event/', {
             params: {
@@ -71,11 +79,11 @@ export class ApiSdk {
                 locationCityName,
               },
             },
-          })
+          });
           if (response.error) {
-            throw new OpenApiError(response.error)
+            throw new OpenApiError(response.error);
           }
-          return response.data
+          return response.data;
         },
         getEventDetail: async (id: string) => {
           const response = await baseFetchClient.GET('/v1/event/{eventId}', {
@@ -84,11 +92,11 @@ export class ApiSdk {
                 eventId: id,
               },
             },
-          })
+          });
           if (response.error) {
-            throw new OpenApiError(response.error)
+            throw new OpenApiError(response.error);
           }
-          return response.data
+          return response.data;
         },
         getEventDetailBySlug: async (slug: string) => {
           const response = await baseFetchClient.GET('/v1/event/slug/{slug}', {
@@ -97,11 +105,11 @@ export class ApiSdk {
                 slug,
               },
             },
-          })
+          });
           if (response.error) {
-            throw new OpenApiError(response.error)
+            throw new OpenApiError(response.error);
           }
-          return response.data
+          return response.data;
         },
       },
       eventCategory: {
@@ -110,11 +118,11 @@ export class ApiSdk {
           list: ['event-category', 'list'],
         },
         getEventCategories: async () => {
-          const response = await baseFetchClient.GET('/v1/event-category/')
+          const response = await baseFetchClient.GET('/v1/event-category/');
           if (response.error) {
-            throw new OpenApiError(response.error)
+            throw new OpenApiError(response.error);
           }
-          return response.data
+          return response.data;
         },
       },
       location: {
@@ -122,47 +130,52 @@ export class ApiSdk {
           all: ['location'],
           countries: ['location', 'countries'],
           concerts: (queryParams: {
-            latitude: number
-            latitudeDelta: number
-            longitude: number
-            longitudeDelta: number
-            zoomLevel: number
+            latitude: number;
+            latitudeDelta: number;
+            longitude: number;
+            longitudeDelta: number;
+            zoomLevel: number;
           }) => ['location', 'concerts', queryParams],
         },
         getCountries: async () => {
-          const response = await baseFetchClient.GET('/v1/location/country')
+          const response = await baseFetchClient.GET('/v1/location/country');
           if (response.error) {
-            throw new OpenApiError(response.error)
+            throw new OpenApiError(response.error);
           }
-          return response.data
+          return response.data;
         },
         getConcerts: async (queryParams: {
-          latitude: number
-          latitudeDelta: number
-          longitude: number
-          longitudeDelta: number
-          zoomLevel: number
+          latitude: number;
+          latitudeDelta: number;
+          longitude: number;
+          longitudeDelta: number;
+          zoomLevel: number;
         }) => {
           const response = await baseFetchClient.GET('/v1/location/concert', {
             params: {
               query: queryParams,
             },
-          })
+          });
           if (response.error) {
-            throw new OpenApiError(response.error)
+            throw new OpenApiError(response.error);
           }
-          return response.data
+          return response.data;
         },
       },
       mailer: {
-        sendUserVoice: async (body: { email: string; name: string; message: string; updateAgreement: boolean }) => {
+        sendUserVoice: async (body: {
+          email: string;
+          name: string;
+          message: string;
+          updateAgreement: boolean;
+        }) => {
           const response = await baseFetchClient.POST('/v1/mailer/user-voice', {
             body,
-          })
+          });
           if (response.error) {
-            throw new OpenApiError(response.error)
+            throw new OpenApiError(response.error);
           }
-          return response.data
+          return response.data;
         },
       },
       ticket: {
@@ -177,11 +190,11 @@ export class ApiSdk {
                 eventId,
               },
             },
-          })
+          });
           if (response.error) {
-            throw new OpenApiError(response.error)
+            throw new OpenApiError(response.error);
           }
-          return response.data
+          return response.data;
         },
       },
       venue: {
@@ -196,11 +209,11 @@ export class ApiSdk {
                 id: venueId,
               },
             },
-          })
+          });
           if (response.error) {
-            throw new OpenApiError(response.error)
+            throw new OpenApiError(response.error);
           }
-          return response.data
+          return response.data;
         },
       },
       artist: {
@@ -215,11 +228,11 @@ export class ApiSdk {
                 id: artistId,
               },
             },
-          })
+          });
           if (response.error) {
-            throw new OpenApiError(response.error)
+            throw new OpenApiError(response.error);
           }
-          return response.data
+          return response.data;
         },
       },
       fcm: {
@@ -228,17 +241,22 @@ export class ApiSdk {
             body: {
               fcmToken,
             },
-          })
+          });
           if (response.error) {
-            throw new OpenApiError(response.error)
+            throw new OpenApiError(response.error);
           }
-          return response.data
+          return response.data;
         },
       },
       artistProfileImage: {
         queryKeys: {
           all: ['v1', 'artist-profile-image'],
-          list: ({ artistId }: { artistId: string }) => ['v1', 'artist-profile-image', 'list', { artistId }],
+          list: ({ artistId }: { artistId: string }) => [
+            'v1',
+            'artist-profile-image',
+            'list',
+            { artistId },
+          ],
           detail: ({ artistProfileImageId }: { artistProfileImageId: string }) => [
             'v1',
             'artist-profile-image',
@@ -253,24 +271,27 @@ export class ApiSdk {
                 artistId,
               },
             },
-          })
+          });
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
         getDetail: async ({ artistProfileImageId }: { artistProfileImageId: string }) => {
-          const data = await baseFetchClient.GET('/v1/artist-profile-image/{artistProfileImageId}', {
-            params: {
-              path: {
-                artistProfileImageId,
+          const data = await baseFetchClient.GET(
+            '/v1/artist-profile-image/{artistProfileImageId}',
+            {
+              params: {
+                path: {
+                  artistProfileImageId,
+                },
               },
-            },
-          })
+            }
+          );
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
       },
       subscribe: {
@@ -297,9 +318,24 @@ export class ApiSdk {
             'venue',
             { offset, size },
           ],
-          eventSubscribe: ({ eventId }: { eventId: string }) => ['v1', 'subscribe', 'event', { eventId }],
-          artistSubscribe: ({ artistId }: { artistId: string }) => ['v1', 'subscribe', 'artist', { artistId }],
-          venueSubscribe: ({ venueId }: { venueId: string }) => ['v1', 'subscribe', 'venue', { venueId }],
+          eventSubscribe: ({ eventId }: { eventId: string }) => [
+            'v1',
+            'subscribe',
+            'event',
+            { eventId },
+          ],
+          artistSubscribe: ({ artistId }: { artistId: string }) => [
+            'v1',
+            'subscribe',
+            'artist',
+            { artistId },
+          ],
+          venueSubscribe: ({ venueId }: { venueId: string }) => [
+            'v1',
+            'subscribe',
+            'venue',
+            { venueId },
+          ],
           infoMe: ['v1', 'subscribe', 'me'],
         },
         getEventList: async (params: { offset: number; size: number }) => {
@@ -307,33 +343,33 @@ export class ApiSdk {
             params: {
               query: params,
             },
-          })
+          });
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
         getArtistList: async (params: { offset: number; size: number }) => {
           const data = await baseFetchClient.GET('/v1/subscribe/artist', {
             params: {
               query: params,
             },
-          })
+          });
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
         getVenueList: async (params: { offset: number; size: number }) => {
           const data = await baseFetchClient.GET('/v1/subscribe/venue', {
             params: {
               query: params,
             },
-          })
+          });
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
         getEvent: async ({ eventId }: { eventId: string }) => {
           const data = await baseFetchClient.GET('/v1/subscribe/event/{eventId}', {
@@ -342,11 +378,11 @@ export class ApiSdk {
                 eventId,
               },
             },
-          })
+          });
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
         getVenue: async ({ venueId }: { venueId: string }) => {
           const data = await baseFetchClient.GET('/v1/subscribe/venue/{venueId}', {
@@ -355,11 +391,11 @@ export class ApiSdk {
                 venueId,
               },
             },
-          })
+          });
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
         getArtist: async ({ artistId }: { artistId: string }) => {
           const data = await baseFetchClient.GET('/v1/subscribe/artist/{artistId}', {
@@ -368,84 +404,84 @@ export class ApiSdk {
                 artistId,
               },
             },
-          })
+          });
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
         subscribeEvent: async (params: { eventId: string }) => {
           const data = await baseFetchClient.POST('/v1/subscribe/event', {
             body: {
               eventId: params.eventId,
             },
-          })
+          });
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
         unsubscribeEvent: async (params: { eventId: string }) => {
           const data = await baseFetchClient.DELETE('/v1/subscribe/event', {
             body: {
               eventId: params.eventId,
             },
-          })
+          });
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
         subscribeArtist: async (params: { artistId: string }) => {
           const data = await baseFetchClient.POST('/v1/subscribe/artist', {
             body: {
               artistId: params.artistId,
             },
-          })
+          });
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
         unsubscribeArtist: async (params: { artistId: string }) => {
           const data = await baseFetchClient.DELETE('/v1/subscribe/artist', {
             body: {
               artistId: params.artistId,
             },
-          })
+          });
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
         subscribeVenue: async (params: { venueId: string }) => {
           const data = await baseFetchClient.POST('/v1/subscribe/venue', {
             body: {
               venueId: params.venueId,
             },
-          })
+          });
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
         unsubscribeVenue: async (params: { venueId: string }) => {
           const data = await baseFetchClient.DELETE('/v1/subscribe/venue', {
             body: {
               venueId: params.venueId,
             },
-          })
+          });
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
         getInfoMe: async () => {
-          const data = await baseFetchClient.GET('/v1/subscribe/me')
+          const data = await baseFetchClient.GET('/v1/subscribe/me');
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
       },
       user: {
@@ -454,31 +490,33 @@ export class ApiSdk {
           me: ['v1', 'user', 'me'],
         },
         getMe: async () => {
-          const data = await baseFetchClient.GET('/v1/user/me')
+          const data = await baseFetchClient.GET('/v1/user/me');
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
-        activate: async (body: paths['/v1/user/activate']['patch']['requestBody']['content']['application/json']) => {
+        activate: async (
+          body: paths['/v1/user/activate']['patch']['requestBody']['content']['application/json']
+        ) => {
           const data = await baseFetchClient.PATCH('/v1/user/activate', {
             body: body,
-          })
+          });
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
         deactivate: async () => {
           const data = await baseFetchClient.DELETE('/v1/user/deactivate', {
             body: {
               type: 'deactivate',
             },
-          })
+          });
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
       },
       price: {
@@ -493,53 +531,57 @@ export class ApiSdk {
                 ticketId,
               },
             },
-          })
+          });
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
       },
       auth: {
         sendAuthCode: async (
-          body: paths['/v1/auth/email/send-auth-code']['post']['requestBody']['content']['application/json'],
+          body: paths['/v1/auth/email/send-auth-code']['post']['requestBody']['content']['application/json']
         ) => {
           const data = await baseFetchClient.POST('/v1/auth/email/send-auth-code', {
             body,
-          })
+          });
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
         confirmAuthCode: async (
-          body: paths['/v1/auth/email/confirm-auth-code']['post']['requestBody']['content']['application/json'],
+          body: paths['/v1/auth/email/confirm-auth-code']['post']['requestBody']['content']['application/json']
         ) => {
           const data = await baseFetchClient.POST('/v1/auth/email/confirm-auth-code', {
             body,
-          })
+          });
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
-        signup: async (body: paths['/v1/auth/signup']['post']['requestBody']['content']['application/json']) => {
+        signup: async (
+          body: paths['/v1/auth/signup']['post']['requestBody']['content']['application/json']
+        ) => {
           const data = await baseFetchClient.POST('/v1/auth/signup', {
             body,
-          })
+          });
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
-        signIn: async (body: paths['/v1/auth/signin']['post']['requestBody']['content']['application/json']) => {
+        signIn: async (
+          body: paths['/v1/auth/signin']['post']['requestBody']['content']['application/json']
+        ) => {
           const data = await baseFetchClient.POST('/v1/auth/signin', {
             body,
-          })
+          });
           if (data.error) {
-            throw new OpenApiError(data.error)
+            throw new OpenApiError(data.error);
           }
-          return data.data
+          return data.data;
         },
       },
       search: {
@@ -554,11 +596,11 @@ export class ApiSdk {
                 keyword,
               },
             },
-          })
+          });
           if (response.error) {
-            throw new OpenApiError(response.error)
+            throw new OpenApiError(response.error);
           }
-          return response.data
+          return response.data;
         },
       },
       app: {
@@ -567,15 +609,15 @@ export class ApiSdk {
           updateInfo: ['v1', 'app', 'update-info'],
         },
         getAppUpdateInfo: async () => {
-          const response = await baseFetchClient.GET('/v1/app/update-info')
+          const response = await baseFetchClient.GET('/v1/app/update-info');
           if (response.error) {
-            throw new OpenApiError(response.error)
+            throw new OpenApiError(response.error);
           }
-          return response.data
+          return response.data;
         },
       },
-    } as const
+    } as const;
 
-    return apiClient
+    return apiClient;
   }
 }

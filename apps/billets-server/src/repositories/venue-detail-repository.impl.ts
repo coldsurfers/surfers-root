@@ -1,17 +1,27 @@
-import { VenueDetailDTO } from '@/dtos/venue-detail-dto'
-import { dbClient } from '@/lib/db'
-import { Artist, ArtistProfileImage, Concert, Copyright, KOPISEvent, Poster, Venue } from '@prisma/client'
-import { VenueDetailRepository } from './venue-detail-repository'
+import type { VenueDetailDTO } from '@/dtos/venue-detail-dto';
+import { dbClient } from '@/lib/db';
+import type {
+  Artist,
+  ArtistProfileImage,
+  Concert,
+  Copyright,
+  KOPISEvent,
+  Poster,
+  Venue,
+} from '@prisma/client';
+import type { VenueDetailRepository } from './venue-detail-repository';
 
 type VenueDetailConcertModel = Concert & {
-  posters: Poster[]
-  venues: Venue[]
-  artists: (Artist & { artistProfileImage: (ArtistProfileImage & { copyright: Copyright | null })[] })[]
-  kopisEvent: KOPISEvent | null
-}
+  posters: Poster[];
+  venues: Venue[];
+  artists: (Artist & {
+    artistProfileImage: (ArtistProfileImage & { copyright: Copyright | null })[];
+  })[];
+  kopisEvent: KOPISEvent | null;
+};
 
 interface VenueDetailModel extends Venue {
-  concerts: VenueDetailConcertModel[]
+  concerts: VenueDetailConcertModel[];
 }
 
 export class VenueDetailRepositoryImpl implements VenueDetailRepository {
@@ -64,9 +74,9 @@ export class VenueDetailRepositoryImpl implements VenueDetailRepository {
           },
         },
       },
-    })
+    });
     if (!data) {
-      return null
+      return null;
     }
     return this.toDTO({
       ...data,
@@ -77,26 +87,26 @@ export class VenueDetailRepositoryImpl implements VenueDetailRepository {
           venues: concert.concert.venues.map((value) => value.venue),
           artists: concert.concert.artists.map((value) => value.artist),
           kopisEvent: concert.concert.kopisEvent,
-        }
+        };
       }),
-    })
+    });
   }
 
   private generateMainPoster(model: VenueDetailConcertModel) {
     if (model.kopisEvent) {
-      const posterUrl = model.posters.at(0)?.imageURL ?? ''
+      const posterUrl = model.posters.at(0)?.imageURL ?? '';
       return {
         url: posterUrl,
         copyright: null,
-      }
+      };
     }
-    const mainArtist = model.artists.at(0)
+    const mainArtist = model.artists.at(0);
     return mainArtist
       ? {
           url: mainArtist?.artistProfileImage.at(0)?.imageURL ?? '',
           copyright: mainArtist?.artistProfileImage.at(0)?.copyright ?? null,
         }
-      : null
+      : null;
   }
 
   private toDTO(model: VenueDetailModel): VenueDetailDTO {
@@ -107,7 +117,7 @@ export class VenueDetailRepositoryImpl implements VenueDetailRepository {
       lat: model.lat,
       lng: model.lng,
       upcomingEvents: model.concerts.map((concert) => {
-        const mainVenue = concert.venues.at(0)
+        const mainVenue = concert.venues.at(0);
         return {
           type: 'concert',
           data: {
@@ -122,8 +132,8 @@ export class VenueDetailRepositoryImpl implements VenueDetailRepository {
                 }
               : null,
           },
-        }
+        };
       }),
-    }
+    };
   }
 }

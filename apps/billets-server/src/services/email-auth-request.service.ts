@@ -1,21 +1,21 @@
-import { EmailAuthRequestDTO } from '@/dtos/email-auth-request.dto'
-import { EmailAuthRequestRepository } from '@/repositories/email-auth-request.repository'
+import type { EmailAuthRequestDTO } from '@/dtos/email-auth-request.dto';
+import type { EmailAuthRequestRepository } from '@/repositories/email-auth-request.repository';
 
 export class EmailAuthRequestService {
-  private emailAuthRequestRepository: EmailAuthRequestRepository
+  private emailAuthRequestRepository: EmailAuthRequestRepository;
   constructor(emailAuthRequestRepository: EmailAuthRequestRepository) {
-    this.emailAuthRequestRepository = emailAuthRequestRepository
+    this.emailAuthRequestRepository = emailAuthRequestRepository;
   }
 
   create(email: string, authcode: string): Promise<EmailAuthRequestDTO> {
-    return this.emailAuthRequestRepository.create(email, authcode)
+    return this.emailAuthRequestRepository.create(email, authcode);
   }
 
   confirm(id: string): Promise<EmailAuthRequestDTO> {
-    return this.emailAuthRequestRepository.confirm(id)
+    return this.emailAuthRequestRepository.confirm(id);
   }
 
   findByEmail(email: string): Promise<EmailAuthRequestDTO | null> {
-    return this.emailAuthRequestRepository.findByEmail(email)
+    return this.emailAuthRequestRepository.findByEmail(email);
   }
 }

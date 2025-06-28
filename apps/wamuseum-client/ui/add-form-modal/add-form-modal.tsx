@@ -1,7 +1,7 @@
-import { Button, Modal, Text } from '@coldsurfers/ocean-road'
-import { ReactNode } from 'react'
-import { AddButton } from '../add-button'
-import { StyledAddFormModalTop } from './add-form-modal.styled'
+import { Button, Modal, Text } from '@coldsurfers/ocean-road';
+import type { ReactNode } from 'react';
+import { AddButton } from '../add-button';
+import { StyledAddFormModalTop } from './add-form-modal.styled';
 
 export const AddFormModal = ({
   visible,
@@ -11,12 +11,12 @@ export const AddFormModal = ({
   onClickSubmitForm,
   title,
 }: {
-  visible: boolean
-  onClose: () => void
-  onClickTopAddButton: () => void
-  title: string
-  formListComponent: ReactNode
-  onClickSubmitForm: () => void
+  visible: boolean;
+  onClose: () => void;
+  onClickTopAddButton: () => void;
+  title: string;
+  formListComponent: ReactNode;
+  onClickSubmitForm: () => void;
 }) => {
   return (
     <Modal visible={visible} onClose={onClose}>
@@ -29,5 +29,5 @@ export const AddFormModal = ({
         등록하기
       </Button>
     </Modal>
-  )
-}
+  );
+};

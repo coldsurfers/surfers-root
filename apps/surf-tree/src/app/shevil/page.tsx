@@ -1,7 +1,7 @@
-import { Metadata } from 'next/types'
-import { LinkItems, ShareModal } from './(components)'
-import { shevilData } from './(data)'
-import { HeroInfo, PageLayout, TopCard } from './(ui)'
+import type { Metadata } from 'next/types';
+import { LinkItems, ShareModal } from './(components)';
+import { shevilData } from './(data)';
+import { HeroInfo, PageLayout, TopCard } from './(ui)';
 
 export const metadata: Metadata = {
   title: 'Shevil | SurfTree',
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   icons: {
     icon: '/icons/favicon.ico',
   },
-}
+};
 
 export default function ShevilPage() {
   return (
@@ -21,5 +21,5 @@ export default function ShevilPage() {
       </PageLayout>
       <ShareModal />
     </>
-  )
+  );
 }

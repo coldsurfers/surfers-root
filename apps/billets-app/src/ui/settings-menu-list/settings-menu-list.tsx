@@ -1,35 +1,35 @@
-import { apiClient } from '@/lib/api/openapi-client'
-import { AuthContext } from '@/lib/contexts/auth-context'
-import { useColorScheme } from '@coldsurfers/ocean-road/native'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { LogOut, UserRoundX } from 'lucide-react-native'
-import { useCallback, useContext, useMemo } from 'react'
-import { Alert, FlatList, ListRenderItem, View } from 'react-native'
-import { getBuildNumber, getVersion } from 'react-native-device-info'
-import pkg from '../../../package.json'
-import { StyledMenuItem, StyledText, StyledVersionText } from './settings-menu-list.styled'
+import { apiClient } from '@/lib/api/openapi-client';
+import { AuthContext } from '@/lib/contexts/auth-context';
+import { useColorScheme } from '@coldsurfers/ocean-road/native';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { LogOut, UserRoundX } from 'lucide-react-native';
+import { useCallback, useContext, useMemo } from 'react';
+import { Alert, FlatList, type ListRenderItem, View } from 'react-native';
+import { getBuildNumber, getVersion } from 'react-native-device-info';
+import pkg from '../../../package.json';
+import { StyledMenuItem, StyledText, StyledVersionText } from './settings-menu-list.styled';
 
 export const SettingsMenuList = ({ onLogoutSuccess }: { onLogoutSuccess: () => void }) => {
-  const { semantics } = useColorScheme()
-  const { logout } = useContext(AuthContext)
-  const queryClient = useQueryClient()
+  const { semantics } = useColorScheme();
+  const { logout } = useContext(AuthContext);
+  const queryClient = useQueryClient();
 
-  const versionInfoText = `native: ${getVersion()} (${getBuildNumber()}) ota: ${pkg.version}`
+  const versionInfoText = `native: ${getVersion()} (${getBuildNumber()}) ota: ${pkg.version}`;
 
   const { mutate: deactivateUser } = useMutation({
     mutationFn: apiClient.user.deactivate,
     onSuccess: () => {
-      logout()
-      onLogoutSuccess()
+      logout();
+      onLogoutSuccess();
     },
     onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: apiClient.user.queryKeys.me })
-      await queryClient.setQueryData(apiClient.user.queryKeys.me, null)
+      await queryClient.cancelQueries({ queryKey: apiClient.user.queryKeys.me });
+      await queryClient.setQueryData(apiClient.user.queryKeys.me, null);
     },
     onSettled: async () => {
-      await queryClient.invalidateQueries({ queryKey: apiClient.user.queryKeys.me })
+      await queryClient.invalidateQueries({ queryKey: apiClient.user.queryKeys.me });
     },
-  })
+  });
 
   const onLogout = useCallback(
     () =>
@@ -41,13 +41,13 @@ export const SettingsMenuList = ({ onLogoutSuccess }: { onLogoutSuccess: () => v
         {
           text: '로그아웃',
           onPress: () => {
-            logout()
-            onLogoutSuccess()
+            logout();
+            onLogoutSuccess();
           },
         },
       ]),
-    [logout, onLogoutSuccess],
-  )
+    [logout, onLogoutSuccess]
+  );
 
   const onDeactivateUser = useCallback(() => {
     Alert.alert('회원탈퇴', '회원탈퇴를 하면 더 이상 해당 계정으로 로그인 할 수 없어요', [
@@ -60,8 +60,8 @@ export const SettingsMenuList = ({ onLogoutSuccess }: { onLogoutSuccess: () => v
         style: 'cancel',
         text: '취소',
       },
-    ])
-  }, [deactivateUser])
+    ]);
+  }, [deactivateUser]);
 
   const data = useMemo(
     () =>
@@ -77,8 +77,8 @@ export const SettingsMenuList = ({ onLogoutSuccess }: { onLogoutSuccess: () => v
           onPress: onDeactivateUser,
         },
       ] as const,
-    [onDeactivateUser, onLogout, semantics.foreground],
-  )
+    [onDeactivateUser, onLogout, semantics.foreground]
+  );
 
   const renderItem = useCallback<ListRenderItem<(typeof data)[number]>>(
     (info) => {
@@ -92,10 +92,10 @@ export const SettingsMenuList = ({ onLogoutSuccess }: { onLogoutSuccess: () => v
           {info.item.icon}
           <StyledText style={{ color: semantics.foreground[1] }}>{info.item.title}</StyledText>
         </StyledMenuItem>
-      )
+      );
     },
-    [semantics.border, semantics.foreground],
-  )
+    [semantics.border, semantics.foreground]
+  );
 
   return (
     <FlatList
@@ -107,12 +107,14 @@ export const SettingsMenuList = ({ onLogoutSuccess }: { onLogoutSuccess: () => v
       }}
       ListFooterComponent={
         <View>
-          <StyledVersionText style={{ color: semantics.foreground[4] }}>{versionInfoText}</StyledVersionText>
+          <StyledVersionText style={{ color: semantics.foreground[4] }}>
+            {versionInfoText}
+          </StyledVersionText>
         </View>
       }
       contentContainerStyle={{
         paddingHorizontal: 16,
       }}
     />
-  )
-}
+  );
+};

@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import { StyledHomeTop, StyledHomeWrapper } from './page-layout.styled'
-import { PageLayoutProps } from './page-layout.types'
+import { StyledHomeTop, StyledHomeWrapper } from './page-layout.styled';
+import type { PageLayoutProps } from './page-layout.types';
 
 export function PageLayout({ top, bottomList }: PageLayoutProps) {
   return (
@@ -9,5 +9,5 @@ export function PageLayout({ top, bottomList }: PageLayoutProps) {
       <StyledHomeTop>{top}</StyledHomeTop>
       {bottomList}
     </StyledHomeWrapper>
-  )
+  );
 }

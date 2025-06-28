@@ -1,14 +1,14 @@
-import { ArtistDetailDTO } from '@/dtos/artist-detail.dto'
-import { dbClient } from '@/lib/db'
-import { Artist, ArtistProfileImage, Concert, Copyright, Poster, Venue } from '@prisma/client'
-import { ArtistDetailRepository } from './artist-detail.repository'
+import type { ArtistDetailDTO } from '@/dtos/artist-detail.dto';
+import { dbClient } from '@/lib/db';
+import type { Artist, ArtistProfileImage, Concert, Copyright, Poster, Venue } from '@prisma/client';
+import type { ArtistDetailRepository } from './artist-detail.repository';
 
 interface ArtistDetailModel extends Artist {
   concerts: (Concert & {
-    posters: Poster[]
-    venues: Venue[]
-  })[]
-  artistProfileImage: (ArtistProfileImage & { copyright: Copyright | null })[]
+    posters: Poster[];
+    venues: Venue[];
+  })[];
+  artistProfileImage: (ArtistProfileImage & { copyright: Copyright | null })[];
 }
 
 export class ArtistDetailRepositoryImpl implements ArtistDetailRepository {
@@ -49,10 +49,10 @@ export class ArtistDetailRepositoryImpl implements ArtistDetailRepository {
           },
         },
       },
-    })
+    });
 
     if (!data) {
-      return null
+      return null;
     }
     return this.toDTO({
       ...data,
@@ -61,22 +61,22 @@ export class ArtistDetailRepositoryImpl implements ArtistDetailRepository {
           ...concert.concert,
           posters: concert.concert.posters.map((value) => value.poster),
           venues: concert.concert.venues.map((value) => value.venue),
-        }
+        };
       }),
-    })
+    });
   }
 
   private toDTO(model: ArtistDetailModel): ArtistDetailDTO {
-    const thumbUrl = model.artistProfileImage.at(0)?.imageURL ?? ''
-    const thumbCopyright = model.artistProfileImage.at(0)?.copyright ?? null
+    const thumbUrl = model.artistProfileImage.at(0)?.imageURL ?? '';
+    const thumbCopyright = model.artistProfileImage.at(0)?.copyright ?? null;
     return {
       id: model.id,
       name: model.name,
       thumbUrl,
       thumbCopyright: thumbCopyright,
       upcomingEvents: model.concerts.map((concert) => {
-        const mainPoster = concert.posters.at(0)
-        const mainVenue = concert.venues.at(0)
+        const mainPoster = concert.posters.at(0);
+        const mainVenue = concert.venues.at(0);
         return {
           type: 'concert',
           data: {
@@ -96,8 +96,8 @@ export class ArtistDetailRepositoryImpl implements ArtistDetailRepository {
                 }
               : null,
           },
-        }
+        };
       }),
-    }
+    };
   }
 }

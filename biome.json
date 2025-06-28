@@ -16,7 +16,10 @@
       "generated/**",
       "vendor/**",
       "*.min.js",
-      "*.bundle.js"
+      "*.bundle.js",
+      ".yalc/**",
+      "**/__generated__/**",
+      "**/gql/resolvers-types.ts"
     ]
   },
   "formatter": {

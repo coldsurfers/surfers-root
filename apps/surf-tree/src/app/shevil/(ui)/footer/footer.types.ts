@@ -1,3 +1,3 @@
-import { PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react';
 
-export type FooterProps = PropsWithChildren
+export type FooterProps = PropsWithChildren;

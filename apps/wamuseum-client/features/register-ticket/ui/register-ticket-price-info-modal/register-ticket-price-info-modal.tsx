@@ -1,23 +1,23 @@
-import { AddFormModal } from '@/ui'
-import InputWithLabel from '@/ui/InputWithLabel'
-import { useCallback, useState } from 'react'
+import { AddFormModal } from '@/ui';
+import InputWithLabel from '@/ui/InputWithLabel';
+import { Fragment, useCallback, useState } from 'react';
 import {
   ConcertTicketPricesDocument,
-  ConcertTicketPricesQuery,
-  ConcertTicketPricesQueryVariables,
+  type ConcertTicketPricesQuery,
+  type ConcertTicketPricesQueryVariables,
   useCreateConcertTicketPriceMutation,
-} from 'src/__generated__/graphql'
-import { StyledAddPriceModalInner } from './register-ticket-price-info-modal.styled'
-import { AddPriceInfoForm } from './register-ticket-price-info-modal.types'
+} from 'src/__generated__/graphql';
+import { StyledAddPriceModalInner } from './register-ticket-price-info-modal.styled';
+import type { AddPriceInfoForm } from './register-ticket-price-info-modal.types';
 
 export const RegisterTicketPriceInfoModal = ({
   visible,
   onClose,
   ticketId,
 }: {
-  visible: boolean
-  onClose: () => void
-  ticketId: string
+  visible: boolean;
+  onClose: () => void;
+  ticketId: string;
 }) => {
   const [addPriceForm, setAddPriceForm] = useState<AddPriceInfoForm[]>([
     {
@@ -25,7 +25,7 @@ export const RegisterTicketPriceInfoModal = ({
       price: '',
       currency: '',
     },
-  ])
+  ]);
 
   const addPriceEmptyForm = useCallback(() => {
     setAddPriceForm((prev) =>
@@ -33,11 +33,11 @@ export const RegisterTicketPriceInfoModal = ({
         name: '',
         price: '',
         currency: '',
-      }),
-    )
-  }, [])
+      })
+    );
+  }, []);
 
-  const [createConcertTicketPrice] = useCreateConcertTicketPriceMutation()
+  const [createConcertTicketPrice] = useCreateConcertTicketPriceMutation();
 
   const onClickSubmitForm = useCallback(async () => {
     const promises = addPriceForm.map(async (form) => {
@@ -52,17 +52,18 @@ export const RegisterTicketPriceInfoModal = ({
         },
         update: (cache, { data }) => {
           if (data?.createConcertTicketPrice?.__typename !== 'TicketPrice') {
-            return
+            return;
           }
-          const { createConcertTicketPrice } = data
-          const concertTicketPricesCache = cache.readQuery<ConcertTicketPricesQuery, ConcertTicketPricesQueryVariables>(
-            {
-              query: ConcertTicketPricesDocument,
-              variables: {
-                ticketId: ticketId,
-              },
+          const { createConcertTicketPrice } = data;
+          const concertTicketPricesCache = cache.readQuery<
+            ConcertTicketPricesQuery,
+            ConcertTicketPricesQueryVariables
+          >({
+            query: ConcertTicketPricesDocument,
+            variables: {
+              ticketId: ticketId,
             },
-          )
+          });
           if (concertTicketPricesCache?.concertTicketPrices?.__typename === 'TicketPriceList') {
             cache.writeQuery<ConcertTicketPricesQuery, ConcertTicketPricesQueryVariables>({
               query: ConcertTicketPricesDocument,
@@ -78,14 +79,14 @@ export const RegisterTicketPriceInfoModal = ({
                   }),
                 },
               },
-            })
+            });
           }
         },
-      })
-    })
-    await Promise.all(promises)
-    onClose()
-  }, [addPriceForm, createConcertTicketPrice, onClose, ticketId])
+      });
+    });
+    await Promise.all(promises);
+    onClose();
+  }, [addPriceForm, createConcertTicketPrice, onClose, ticketId]);
 
   return (
     <AddFormModal
@@ -94,10 +95,10 @@ export const RegisterTicketPriceInfoModal = ({
       onClose={onClose}
       onClickTopAddButton={addPriceEmptyForm}
       formListComponent={
-        <>
+        <Fragment>
           {addPriceForm.map((price, priceIndex) => {
             return (
-              <StyledAddPriceModalInner key={priceIndex}>
+              <StyledAddPriceModalInner key={price.name}>
                 <InputWithLabel
                   value={price.name}
                   onChangeText={(text) => {
@@ -107,11 +108,11 @@ export const RegisterTicketPriceInfoModal = ({
                           return {
                             ...prevItem,
                             name: text,
-                          }
+                          };
                         }
-                        return prevItem
-                      }),
-                    )
+                        return prevItem;
+                      })
+                    );
                   }}
                   label="가격 종류"
                   placeholder="가격 종류"
@@ -125,11 +126,11 @@ export const RegisterTicketPriceInfoModal = ({
                           return {
                             ...prevItem,
                             price: text,
-                          }
+                          };
                         }
-                        return prevItem
-                      }),
-                    )
+                        return prevItem;
+                      })
+                    );
                   }}
                   label="가격"
                   placeholder="가격"
@@ -143,21 +144,21 @@ export const RegisterTicketPriceInfoModal = ({
                           return {
                             ...prevItem,
                             currency: text,
-                          }
+                          };
                         }
-                        return prevItem
-                      }),
-                    )
+                        return prevItem;
+                      })
+                    );
                   }}
                   label="화폐단위"
                   placeholder="화폐단위"
                 />
               </StyledAddPriceModalInner>
-            )
+            );
           })}
-        </>
+        </Fragment>
       }
       onClickSubmitForm={onClickSubmitForm}
     />
-  )
-}
+  );
+};

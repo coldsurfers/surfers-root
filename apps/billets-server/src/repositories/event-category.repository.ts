@@ -1,5 +1,5 @@
-import { EventCategoryDTO } from '@/dtos/event-category.dto'
+import type { EventCategoryDTO } from '@/dtos/event-category.dto';
 
 export interface EventCategoryRepository {
-  findAll(): Promise<EventCategoryDTO[]>
+  findAll(): Promise<EventCategoryDTO[]>;
 }

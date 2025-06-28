@@ -1,10 +1,10 @@
-import { postFCMTokenHandler } from '@/controllers/fcm.controller'
-import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
-import { FCMTokenDTOSchema, PostFCMTokenBodyDTOSchema } from '@/dtos/fcm-token.dto'
-import { FastifyPluginCallback } from 'fastify'
-import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import { postFCMTokenHandler } from '@/controllers/fcm.controller';
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto';
+import { FCMTokenDTOSchema, PostFCMTokenBodyDTOSchema } from '@/dtos/fcm-token.dto';
+import type { FastifyPluginCallback } from 'fastify';
+import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
-const fcmRoute: FastifyPluginCallback = (fastify, opts, done) => {
+const fcmRoute: FastifyPluginCallback = (fastify, _, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().post(
     '/token',
     {
@@ -18,9 +18,9 @@ const fcmRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    postFCMTokenHandler,
-  )
-  done()
-}
+    postFCMTokenHandler
+  );
+  done();
+};
 
-export default fcmRoute
+export default fcmRoute;

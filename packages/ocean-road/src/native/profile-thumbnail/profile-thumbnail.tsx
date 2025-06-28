@@ -1,8 +1,8 @@
-import { useMemo } from 'react'
-import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
-import { colors } from '../../tokens'
-import { useColorScheme } from '../contexts'
-import { Text } from '../text'
+import { useMemo } from 'react';
+import { Image, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
+import { colors } from '../../tokens';
+import { useColorScheme } from '../contexts';
+import { Text } from '../text';
 
 const PROFILE_THUMBNAIL_SIZE = {
   md: {
@@ -17,15 +17,15 @@ const PROFILE_THUMBNAIL_SIZE = {
     width: 92,
     height: 92,
   },
-} as const
+} as const;
 
 type ProfileThumbnailProps = {
-  size?: 'md' | 'sm' | 'lg'
-  type?: 'square' | 'circle'
-  emptyBgText: string
-  imageUrl?: string
-  style?: StyleProp<ViewStyle>
-}
+  size?: 'md' | 'sm' | 'lg';
+  type?: 'square' | 'circle';
+  emptyBgText: string;
+  imageUrl?: string;
+  style?: StyleProp<ViewStyle>;
+};
 
 export const ProfileThumbnail = ({
   size = 'md',
@@ -34,24 +34,24 @@ export const ProfileThumbnail = ({
   type = 'square',
   style,
 }: ProfileThumbnailProps) => {
-  const { semantics } = useColorScheme()
+  const { semantics } = useColorScheme();
   const sizeStyle = useMemo(() => {
-    return PROFILE_THUMBNAIL_SIZE[size]
-  }, [size])
+    return PROFILE_THUMBNAIL_SIZE[size];
+  }, [size]);
   const borderRadiusStyle = useMemo(() => {
     switch (type) {
       case 'circle':
         return {
           borderRadius: sizeStyle.width / 2,
-        }
+        };
       case 'square':
-        return { borderRadius: 4 }
+        return { borderRadius: 4 };
       default:
         return {
           borderRadius: 4,
-        }
+        };
     }
-  }, [sizeStyle.width, type])
+  }, [sizeStyle.width, type]);
   return (
     <View
       style={[
@@ -71,8 +71,8 @@ export const ProfileThumbnail = ({
       ) : null}
       {imageUrl && <Image source={{ uri: imageUrl }} style={[styles.image, borderRadiusStyle]} />}
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -88,4 +88,4 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-})
+});

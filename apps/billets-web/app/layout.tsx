@@ -4,21 +4,21 @@ import {
   COMMON_META_TITLE,
   COOKIE_ACCESS_TOKEN_KEY,
   SITE_URL,
-} from '@/libs/constants'
-import { metadataInstance } from '@/libs/metadata'
+} from '@/libs/constants';
+import { metadataInstance } from '@/libs/metadata';
 import {
   FirebaseRegistry,
   GlobalErrorBoundaryRegistry,
   OceanRoadThemeRegistry,
   QueryClientRegistry,
   RegistryProvider,
-} from '@/libs/registries'
-import { SERVICE_NAME } from '@coldsurfers/shared-utils'
-import type { Metadata } from 'next'
-import { cookies } from 'next/headers'
-import { ReactNode } from 'react'
-import { pretendard } from '../libs/font'
-import { AppLayout } from './(ui)'
+} from '@/libs/registries';
+import { SERVICE_NAME } from '@coldsurfers/shared-utils';
+import type { Metadata } from 'next';
+import { cookies } from 'next/headers';
+import type { ReactNode } from 'react';
+import { pretendard } from '../libs/font';
+import { AppLayout } from './(ui)';
 
 export const metadata: Metadata = {
   ...metadataInstance.generateMetadata<Metadata>({
@@ -30,12 +30,12 @@ export const metadata: Metadata = {
       description: COMMON_META_DESCRIPTION,
     },
   }),
-}
+};
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const cookieStore = await cookies()
-  const accessToken = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY)
-  const isLoggedIn = !!accessToken?.value
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY);
+  const isLoggedIn = !!accessToken?.value;
   return (
     <html lang="en">
       <head>
@@ -55,6 +55,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           }}
         /> */}
         <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
           dangerouslySetInnerHTML={{
             __html: `
               (function () {
@@ -109,6 +110,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         />
         <script
           type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(
               metadataInstance.generateLdJson({
@@ -118,19 +120,20 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                 url: SITE_URL,
                 name: SERVICE_NAME,
                 sameAs: [APP_STORE_URL, 'https://coldsurf.io', 'https://blog.coldsurf.io'],
-              }),
+              })
             ),
           }}
         />
         <script
           type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(
               metadataInstance.generateLdJson({
                 type: 'WebSite',
                 url: SITE_URL,
                 name: SERVICE_NAME,
-              }),
+              })
             ),
           }}
         />
@@ -143,5 +146,5 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         </RegistryProvider>
       </body>
     </html>
-  )
+  );
 }

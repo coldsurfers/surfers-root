@@ -1,8 +1,13 @@
-'use client'
+'use client';
 
-import { components } from '@coldsurfers/api-sdk'
-import { Modal } from '@coldsurfers/ocean-road'
-import { StyledFigcaption, StyledFigcaptionText, StyledFigure, StyledImage } from './image-modal.styled'
+import type { components } from '@coldsurfers/api-sdk';
+import { Modal } from '@coldsurfers/ocean-road';
+import {
+  StyledFigcaption,
+  StyledFigcaptionText,
+  StyledFigure,
+  StyledImage,
+} from './image-modal.styled';
 
 export const ImageModal = ({
   visible,
@@ -10,10 +15,10 @@ export const ImageModal = ({
   src,
   copyright,
 }: {
-  visible: boolean
-  onClose: () => void
-  src: string
-  copyright?: components['schemas']['CopyrightDTOSchema']
+  visible: boolean;
+  onClose: () => void;
+  src: string;
+  copyright?: components['schemas']['CopyrightDTOSchema'];
 }) => {
   return (
     <Modal visible={visible} onClose={onClose}>
@@ -28,5 +33,5 @@ export const ImageModal = ({
         )}
       </StyledFigure>
     </Modal>
-  )
-}
+  );
+};

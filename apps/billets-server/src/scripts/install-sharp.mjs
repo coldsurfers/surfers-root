@@ -1,6 +1,6 @@
-import fs from 'fs'
 import fetch from 'node-fetch'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import * as tar from 'tar'
 // import sharpPkg from '../../../../node_modules/.pnpm/sharp@0.33.5/node_modules/sharp/package.json' with { type: 'json' }
 import sharpPkg from '../../../../node_modules/sharp/package.json' with { type: 'json' }

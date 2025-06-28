@@ -1,10 +1,15 @@
-'use client'
+'use client';
 
-import { useLinkStore } from '@/features'
-import Link, { LinkProps } from 'next/link'
-import { usePathname } from 'next/navigation'
-import { AnchorHTMLAttributes, MouseEventHandler, PropsWithChildren, useCallback } from 'react'
-import { useShallow } from 'zustand/shallow'
+import { useLinkStore } from '@/features';
+import Link, { type LinkProps } from 'next/link';
+import { usePathname } from 'next/navigation';
+import {
+  type AnchorHTMLAttributes,
+  type MouseEventHandler,
+  type PropsWithChildren,
+  useCallback,
+} from 'react';
+import { useShallow } from 'zustand/shallow';
 
 export function GlobalLink({
   children,
@@ -13,22 +18,24 @@ export function GlobalLink({
   target,
   ...otherProps
 }: PropsWithChildren<LinkProps & AnchorHTMLAttributes<HTMLAnchorElement>>) {
-  const pathname = usePathname()
-  const { setIsLoading } = useLinkStore(useShallow((state) => ({ setIsLoading: state.setIsLoading })))
+  const pathname = usePathname();
+  const { setIsLoading } = useLinkStore(
+    useShallow((state) => ({ setIsLoading: state.setIsLoading }))
+  );
   const handleClick = useCallback<MouseEventHandler<HTMLAnchorElement>>(
     (e) => {
-      const to = href
-      const from = pathname
+      const to = href;
+      const from = pathname;
       if (!target && to !== from) {
-        setIsLoading(true)
+        setIsLoading(true);
       }
-      onClick?.(e)
+      onClick?.(e);
     },
-    [onClick, pathname, setIsLoading, target, href],
-  )
+    [onClick, pathname, setIsLoading, target, href]
+  );
   return (
     <Link href={href} target={target} onClick={handleClick} {...otherProps}>
       {children}
     </Link>
-  )
+  );
 }

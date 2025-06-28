@@ -1,40 +1,45 @@
-'use client'
+'use client';
 
-import { colors, Text } from '@coldsurfers/ocean-road'
-import { motion, useAnimation } from 'framer-motion'
-import { useCallback, useEffect, useState } from 'react'
-import LiteYouTubeEmbed from 'react-lite-youtube-embed'
-import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
-import { match } from 'ts-pattern'
-import { useShallow } from 'zustand/shallow'
-import { useCommonStore } from '../../(stores)'
-import { ShareButton } from '../share-button'
-import { StyledHighlightedLinkLayout, StyledYoutubeEmbedOverlay } from './highlighted-link.styled'
-import { HighlightedLinkProps } from './highlighted-link.types'
-import './youtube-embed.css'
+import { Text, colors } from '@coldsurfers/ocean-road';
+import { motion, useAnimation } from 'framer-motion';
+import { useCallback, useEffect, useState } from 'react';
+import LiteYouTubeEmbed from 'react-lite-youtube-embed';
+import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
+import { match } from 'ts-pattern';
+import { useShallow } from 'zustand/shallow';
+import { useCommonStore } from '../../(stores)';
+import { ShareButton } from '../share-button';
+import { StyledHighlightedLinkLayout, StyledYoutubeEmbedOverlay } from './highlighted-link.styled';
+import type { HighlightedLinkProps } from './highlighted-link.types';
+import './youtube-embed.css';
 
 export function HighlightedLink(props: HighlightedLinkProps) {
-  const controls = useAnimation()
-  const [isClicked, setIsClicked] = useState(false)
+  const controls = useAnimation();
+  const [isClicked, setIsClicked] = useState(false);
   const { setSharedLink, toggleShareModalVisible } = useCommonStore(
     useShallow((state) => ({
       setSharedLink: state.setSharedLink,
       toggleShareModalVisible: state.toggleShareModalVisible,
-    })),
-  )
+    }))
+  );
 
   const triggerShake = useCallback(() => {
     controls.start({
       rotate: [0, 2, -2, 2, -2, 0],
       x: [0, -2, 2, -2, 2, 0],
       y: [0, 1, -1, 1, -1, 0],
-      transition: { duration: 0.5, ease: 'easeInOut', repeat: Infinity, repeatDelay: 1 },
-    })
-  }, [controls])
+      transition: {
+        duration: 0.5,
+        ease: 'easeInOut',
+        repeat: Number.POSITIVE_INFINITY,
+        repeatDelay: 1,
+      },
+    });
+  }, [controls]);
 
   useEffect(() => {
-    triggerShake()
-  }, [triggerShake])
+    triggerShake();
+  }, [triggerShake]);
 
   useEffect(() => {
     if (isClicked) {
@@ -43,9 +48,9 @@ export function HighlightedLink(props: HighlightedLinkProps) {
         y: 0, // Reset position to initial state
         x: 0,
         transition: { duration: 0.4, ease: 'easeOut', repeat: 0 }, // Smooth transition back
-      })
+      });
     }
-  }, [controls, isClicked])
+  }, [controls, isClicked]);
 
   return (
     <motion.div
@@ -56,7 +61,7 @@ export function HighlightedLink(props: HighlightedLinkProps) {
     >
       <StyledHighlightedLinkLayout
         onClick={() => {
-          setIsClicked(true)
+          setIsClicked(true);
         }}
       >
         {match(props)
@@ -86,12 +91,12 @@ export function HighlightedLink(props: HighlightedLinkProps) {
                 isHighlighted: true,
                 title: props.title,
                 url: `https://www.youtube.com/watch?v=${props.youtubeId}`,
-              })
-              toggleShareModalVisible()
+              });
+              toggleShareModalVisible();
             }}
           />
         </div>
       </StyledHighlightedLinkLayout>
     </motion.div>
-  )
+  );
 }

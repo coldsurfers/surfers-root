@@ -1,14 +1,14 @@
-'use client'
+'use client';
 
-import { AddButton } from '@/ui'
-import { presign, uploadToPresignedURL } from '@/utils/fetcher'
-import { generateS3ImageUrl } from '@/utils/image.utils'
-import pickFile from '@/utils/pickFile'
-import { Button, Spinner, Text, colors } from '@coldsurfers/ocean-road'
-import styled from '@emotion/styled'
-import { useRouter } from 'next/navigation'
-import { MouseEventHandler, useCallback, useState } from 'react'
-import { useCreateConcertPosterMutation } from 'src/__generated__/graphql'
+import { AddButton } from '@/ui';
+import { presign, uploadToPresignedURL } from '@/utils/fetcher';
+import { generateS3ImageUrl } from '@/utils/image.utils';
+import pickFile from '@/utils/pickFile';
+import { Button, Spinner, Text, colors } from '@coldsurfers/ocean-road';
+import styled from '@emotion/styled';
+import { useRouter } from 'next/navigation';
+import { type MouseEventHandler, useCallback, useState } from 'react';
+import { useCreateConcertPosterMutation } from 'src/__generated__/graphql';
 
 const Form = styled.form`
   display: flex;
@@ -26,14 +26,14 @@ const Form = styled.form`
     0 1px 3px rgba(0, 0, 0, 0.12),
     0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-`
+`;
 
 const HeadWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-top: 10px;
-`
+`;
 
 const PosterThumbnail = styled.img`
   width: 100%;
@@ -46,53 +46,53 @@ const PosterThumbnail = styled.img`
     0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   object-fit: contain;
-`
+`;
 
 const FillConcertForm = ({ concertId }: { concertId: string }) => {
-  const router = useRouter()
-  const [uploadFileLoading, setUploadFileLoading] = useState(false)
+  const router = useRouter();
+  const [uploadFileLoading, setUploadFileLoading] = useState(false);
   const [mutate, { loading }] = useCreateConcertPosterMutation({
     onCompleted: () => {
-      router.push('/')
+      router.push('/');
     },
-  })
+  });
   const [posterInfo, setPosterInfo] = useState<{
-    s3Url: string
-    key: string
+    s3Url: string;
+    key: string;
   }>({
     s3Url: '',
     key: '',
-  })
+  });
   const getThumbnail = useCallback<MouseEventHandler<HTMLButtonElement>>(async () => {
     pickFile(async (e) => {
-      const { target } = e
-      if (!target) return
-      const filename = new Date().toISOString()
+      const { target } = e;
+      if (!target) return;
+      const filename = new Date().toISOString();
       // @ts-expect-error
-      const { files } = target
-      setUploadFileLoading(true)
+      const { files } = target;
+      setUploadFileLoading(true);
       try {
         const presignedData = await presign({
           type: 'poster-thumbnails',
           filename,
           filetype: 'image/*',
-        })
+        });
         await uploadToPresignedURL({
           data: presignedData,
           file: files[0],
-        })
-        const { url, key } = generateS3ImageUrl('poster-thumbnails', filename)
+        });
+        const { url, key } = generateS3ImageUrl('poster-thumbnails', filename);
         setPosterInfo({
           s3Url: url,
           key,
-        })
+        });
       } catch (err) {
-        console.error(err)
+        console.error(err);
       } finally {
-        setUploadFileLoading(false)
+        setUploadFileLoading(false);
       }
-    })
-  }, [])
+    });
+  }, []);
 
   const createPoster = useCallback(() => {
     mutate({
@@ -102,8 +102,8 @@ const FillConcertForm = ({ concertId }: { concertId: string }) => {
           key: posterInfo.key,
         },
       },
-    })
-  }, [concertId, mutate, posterInfo.key])
+    });
+  }, [concertId, mutate, posterInfo.key]);
 
   return (
     <Wrapper>
@@ -117,7 +117,7 @@ const FillConcertForm = ({ concertId }: { concertId: string }) => {
                 setPosterInfo({
                   s3Url: '',
                   key: '',
-                })
+                });
               }}
             >
               ✘
@@ -127,20 +127,23 @@ const FillConcertForm = ({ concertId }: { concertId: string }) => {
           )}
         </HeadWrapper>
         {posterInfo.s3Url && <PosterThumbnail src={posterInfo.s3Url} />}
-        <Button style={{ marginTop: 10, backgroundColor: colors.oc.black.value }} onClick={createPoster}>
+        <Button
+          style={{ marginTop: 10, backgroundColor: colors.oc.black.value }}
+          onClick={createPoster}
+        >
           다음
         </Button>
       </Form>
       {loading || uploadFileLoading ? <Spinner variant="page-overlay" /> : null}
     </Wrapper>
-  )
-}
+  );
+};
 
 const Wrapper = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;
 
-export default FillConcertForm
+export default FillConcertForm;
