@@ -20,16 +20,20 @@ export default async function RootPage() {
     refreshToken,
   });
 
-  await client.query({
-    query: ConcertListDocument,
-    variables: {
-      page: DEFAULT_PAGE,
-      limit: DEFAULT_LIMIT,
-      orderBy: {
-        createdAt: DEFAULT_ORDER_BY_CREATED_AT,
+  try {
+    await client.query({
+      query: ConcertListDocument,
+      variables: {
+        page: DEFAULT_PAGE,
+        limit: DEFAULT_LIMIT,
+        orderBy: {
+          createdAt: DEFAULT_ORDER_BY_CREATED_AT,
+        },
       },
-    },
-  });
+    });
+  } catch (e) {
+    console.error(e);
+  }
 
   const initialApolloState = client.cache.extract();
 

@@ -20,4 +20,8 @@ export const authUtils = {
     storage?.remove('@wamuseum-client/access-token');
     storage?.remove('@wamuseum-client/refresh-token');
   },
+  tokenRefresh: (authToken: AuthToken) => {
+    storage?.set('@wamuseum-client/access-token', authToken.accessToken);
+    storage?.set('@wamuseum-client/refresh-token', authToken.refreshToken);
+  },
 };

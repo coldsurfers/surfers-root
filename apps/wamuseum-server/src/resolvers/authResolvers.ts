@@ -2,6 +2,7 @@ import { addMinutes, isAfter } from 'date-fns';
 import { GraphQLError } from 'graphql';
 import type { Resolvers } from '../../gql/resolvers-types';
 import EmailAuthRequestDTO from '../dtos/EmailAuthRequestDTO';
+import UserDTO from '../dtos/UserDTO';
 import UserWithAuthTokenDTO from '../dtos/UserWithAuthTokenDTO';
 import { authorizeUser } from '../utils/authHelpers';
 import encryptPassword from '../utils/encryptPassword';
@@ -10,6 +11,29 @@ import { sendEmail } from '../utils/mailer';
 
 const authResolvers: Resolvers = {
   Mutation: {
+    tokenRefresh: async (_, args) => {
+      const { refreshToken } = args.input;
+      const user = await UserDTO.findByAccessToken(refreshToken);
+      if (!user?.props.id) {
+        throw new GraphQLError('not found user id', {
+          extensions: {
+            code: 404,
+          },
+        });
+      }
+      const userWithAuthTokenDTO = new UserWithAuthTokenDTO({
+        access_token: generateToken({
+          id: user.props.id,
+        }),
+        refresh_token: generateToken({
+          id: user.props.id,
+        }),
+      });
+      const created = await userWithAuthTokenDTO.create({
+        userId: user.props.id,
+      });
+      return created.serialize();
+    },
     login: async (_, args, ctx) => {
       const { email, password } = args.input;
       const { user: authorizedUser } = await authorizeUser(ctx, {
