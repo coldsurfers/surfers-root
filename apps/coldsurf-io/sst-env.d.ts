@@ -2,8 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /* deno-fmt-ignore-file */
-import "sst"
-declare module "sst" {
-  export interface Resource {
-  }
+import 'sst';
+declare module 'sst' {
+  export interface Resource {}
 }
