@@ -1,1 +1,1 @@
-export * from './font-select'
+export * from './font-select';

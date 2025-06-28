@@ -1,1 +1,1 @@
-export * from './concert-venue-list'
+export * from './concert-venue-list';

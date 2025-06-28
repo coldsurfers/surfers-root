@@ -1,1 +1,1 @@
-export * from './create-concert-poster-ui'
+export * from './create-concert-poster-ui';

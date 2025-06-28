@@ -1,2 +1,2 @@
-export * from './format-currency'
-export * from './utils.auth'
+export * from './format-currency';
+export * from './utils.auth';

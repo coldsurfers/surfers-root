@@ -1,1 +1,1 @@
-export * from './ticket-price-list-item'
+export * from './ticket-price-list-item';

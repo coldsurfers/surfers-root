@@ -1,1 +1,1 @@
-export * from './add-tickets-ui'
+export * from './add-tickets-ui';

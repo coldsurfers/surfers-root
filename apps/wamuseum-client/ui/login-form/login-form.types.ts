@@ -1,6 +1,6 @@
 export interface LoginFormRefHandle {
   currentInputValue: () => {
-    email: string
-    password: string
-  }
+    email: string;
+    password: string;
+  };
 }

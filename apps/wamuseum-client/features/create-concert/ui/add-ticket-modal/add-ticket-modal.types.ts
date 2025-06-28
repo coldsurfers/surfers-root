@@ -1,5 +1,5 @@
 export type AddTicketForm = {
-  name: string
-  website: string
-  opendate: string
-}
+  name: string;
+  website: string;
+  opendate: string;
+};

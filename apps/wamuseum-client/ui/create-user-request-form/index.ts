@@ -1,1 +1,1 @@
-export * from './create-user-request-form'
+export * from './create-user-request-form';

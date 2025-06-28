@@ -1,1 +1,1 @@
-export * from './registered-concert-artist-list'
+export * from './registered-concert-artist-list';

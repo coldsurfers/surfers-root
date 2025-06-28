@@ -1,12 +1,12 @@
-'use client'
+'use client';
 
-import { AddButton } from '@/ui'
-import { useState } from 'react'
-import { AddTicketModal } from '../add-ticket-modal'
-import { StyledAddTicketsUIContent } from './add-tickets-ui.styled'
+import { AddButton } from '@/ui';
+import { useState } from 'react';
+import { AddTicketModal } from '../add-ticket-modal';
+import { StyledAddTicketsUIContent } from './add-tickets-ui.styled';
 
 export const AddTicketsUI = ({ concertId }: { concertId: string }) => {
-  const [addTicketModalVisible, setAddTicketModalVisible] = useState(false)
+  const [addTicketModalVisible, setAddTicketModalVisible] = useState(false);
 
   return (
     <>
@@ -19,5 +19,5 @@ export const AddTicketsUI = ({ concertId }: { concertId: string }) => {
         concertId={concertId}
       />
     </>
-  )
-}
+  );
+};

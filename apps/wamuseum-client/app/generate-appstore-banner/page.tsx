@@ -1,5 +1,5 @@
-import { GenerateAppstoreBannerPageClient } from './page.client'
+import { GenerateAppstoreBannerPageClient } from './page.client';
 
 export default function GenerateAppstoreBannerPage() {
-  return <GenerateAppstoreBannerPageClient />
+  return <GenerateAppstoreBannerPageClient />;
 }

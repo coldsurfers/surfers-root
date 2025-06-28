@@ -1,5 +1,5 @@
-import { colors, semantics } from '@coldsurfers/ocean-road'
-import styled from '@emotion/styled'
+import { colors, semantics } from '@coldsurfers/ocean-road';
+import styled from '@emotion/styled';
 
 export const StyledSelect = styled.select`
   appearance: none; /* Remove default styling (useful for custom dropdown) */
@@ -17,9 +17,9 @@ export const StyledSelect = styled.select`
     border-color: ${colors.oc.indigo[6].value};
     box-shadow: 0 0 5px rgba(0, 112, 243, 0.5);
   }
-`
+`;
 
 export const StyledOption = styled.option`
   font-size: 16px;
   color: #333;
-`
+`;

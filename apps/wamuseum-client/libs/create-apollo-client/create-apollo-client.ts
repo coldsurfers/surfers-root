@@ -4,25 +4,36 @@ import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import { urls } from 'libs/constants';
 
-export const createApolloClient = ({ token }: { token?: string }) => {
+export const createApolloClient = ({
+  accessToken,
+  refreshToken,
+}: { accessToken?: string; refreshToken?: string }) => {
   const httpLink = new HttpLink({
     uri: urls.apolloServer,
     credentials: 'include',
   });
 
   const authLink = setContext(async (_, { headers }) => {
-    const accessToken =
-      typeof window === 'undefined' ? token : storage?.get<string>('@wamuseum-client/access-token');
+    const authorization =
+      typeof window === 'undefined'
+        ? accessToken
+        : storage?.get<string>('@wamuseum-client/access-token');
     return {
       headers: {
         ...headers,
-        authorization: accessToken,
+        authorization,
       },
     };
   });
 
   // eslint-disable-next-line consistent-return
-  const errorLink = onError(() => {
+  const errorLink = onError((errorLinkProps) => {
+    // console.log('error occurred', errorLinkProps.graphQLErrors?.at(0));
+    const gqlError = errorLinkProps.graphQLErrors?.at(0);
+    const code = gqlError?.extensions?.code;
+    if (code === 401) {
+      console.log('should refresh token');
+    }
     // if (graphQLErrors) {
     //   for (const err of graphQLErrors) {
     //     switch (err.extensions?.code) {
