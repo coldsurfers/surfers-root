@@ -14,6 +14,7 @@ pre-commit:
 
         if [ -n "$CHANGED_FILES" ]; then
           echo "Running biome on changed files: $CHANGED_FILES"
+          # biome check --write는 format, lint, organize imports를 모두 수행
           pnpm biome check --write $CHANGED_FILES
         else
           echo "No changed files to lint"
