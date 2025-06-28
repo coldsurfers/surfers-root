@@ -1,6 +1,6 @@
-import { AnimatePresence, motion } from 'framer-motion'
-import { PropsWithChildren } from 'react'
-import { semantics } from '../tokens'
+import { AnimatePresence, motion } from 'framer-motion';
+import type { PropsWithChildren } from 'react';
+import { semantics } from '../tokens';
 
 export const Modal = ({
   children,
@@ -8,9 +8,9 @@ export const Modal = ({
   onClose,
   zIndex,
 }: PropsWithChildren<{
-  visible: boolean
-  onClose: () => void
-  zIndex?: number
+  visible: boolean;
+  onClose: () => void;
+  zIndex?: number;
 }>) => {
   return (
     <AnimatePresence>
@@ -55,5 +55,5 @@ export const Modal = ({
         </>
       )}
     </AnimatePresence>
-  )
-}
+  );
+};

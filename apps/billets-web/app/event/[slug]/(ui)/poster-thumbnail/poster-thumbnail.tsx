@@ -1,38 +1,38 @@
-'use client'
+'use client';
 
-import { isEmptySource } from '@/libs/utils/utils.image'
-import { components } from '@coldsurfers/api-sdk'
-import { ImageModal } from 'app/(ui)'
-import { useCallback, useMemo, useState } from 'react'
+import { isEmptySource } from '@/libs/utils/utils.image';
+import type { components } from '@coldsurfers/api-sdk';
+import { ImageModal } from 'app/(ui)';
+import { useCallback, useMemo, useState } from 'react';
 import {
   StyledContentWrapper,
   StyledInfoIcon,
   StyledPosterThumbnail,
   StyledPosterThumbnailEmpty,
   StyledPosterThumbnailEmptyText,
-} from './poster-thumbnail.styled'
+} from './poster-thumbnail.styled';
 
 export function PosterThumbnail({
   src,
   alt,
   copyright,
 }: {
-  src: string
-  alt?: string
-  copyright?: components['schemas']['CopyrightDTOSchema']
+  src: string;
+  alt?: string;
+  copyright?: components['schemas']['CopyrightDTOSchema'];
 }) {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const source = useMemo(() => {
-    if (isEmptySource(src)) return ''
-    return `${src}`
-  }, [src])
+    if (isEmptySource(src)) return '';
+    return `${src}`;
+  }, [src]);
   const imageModalSource = useMemo(() => {
-    if (isEmptySource(src)) return ''
-    return `${src}`
-  }, [src])
+    if (isEmptySource(src)) return '';
+    return `${src}`;
+  }, [src]);
   const openModal = useCallback(() => {
-    setIsModalOpen(true)
-  }, [])
+    setIsModalOpen(true);
+  }, []);
   return source ? (
     <>
       <StyledContentWrapper>
@@ -50,5 +50,5 @@ export function PosterThumbnail({
     <StyledPosterThumbnailEmpty>
       <StyledPosterThumbnailEmptyText>{alt}</StyledPosterThumbnailEmptyText>
     </StyledPosterThumbnailEmpty>
-  )
+  );
 }

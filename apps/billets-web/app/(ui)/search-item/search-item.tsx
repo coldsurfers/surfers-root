@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
-import { generateSlugHref } from '@/libs/utils/utils.slug'
-import { paths } from '@coldsurfers/api-sdk'
-import { format } from 'date-fns'
-import { match } from 'ts-pattern'
+import { generateSlugHref } from '@/libs/utils/utils.slug';
+import type { paths } from '@coldsurfers/api-sdk';
+import { format } from 'date-fns';
+import { match } from 'ts-pattern';
 import {
   SearchItemEventThumbnailSquare,
   SearchItemThumbnailCircle,
@@ -11,11 +11,12 @@ import {
   StyledSearchItemMainText,
   StyledSearchItemRightInfoWrapper,
   StyledSearchItemSubText,
-} from './search-item.styled'
+} from './search-item.styled';
 
-type SearchItemProps = paths['/v1/search/']['get']['responses']['200']['content']['application/json'][number] & {
-  onClick: () => void
-}
+type SearchItemProps =
+  paths['/v1/search/']['get']['responses']['200']['content']['application/json'][number] & {
+    onClick: () => void;
+  };
 
 export const SearchItem = (item: SearchItemProps) => {
   return match(item)
@@ -34,13 +35,13 @@ export const SearchItem = (item: SearchItemProps) => {
               </StyledSearchItemSubText>
             </StyledSearchItemRightInfoWrapper>
           </StyledSearchItemLink>
-        )
-      },
+        );
+      }
     )
     .when(
       (value) => value.type === 'concert',
       (value) => {
-        const href = generateSlugHref(value.slug)
+        const href = generateSlugHref(value.slug);
         return (
           <StyledSearchItemLink key={value.id} href={href} onClick={item.onClick}>
             <SearchItemEventThumbnailSquare src={`${value.thumbnailImgUrl}`} />
@@ -56,8 +57,8 @@ export const SearchItem = (item: SearchItemProps) => {
               </StyledSearchItemSubText>
             </StyledSearchItemRightInfoWrapper>
           </StyledSearchItemLink>
-        )
-      },
+        );
+      }
     )
     .when(
       (value) => value.type === 'venue',
@@ -79,8 +80,8 @@ export const SearchItem = (item: SearchItemProps) => {
               </StyledSearchItemSubText>
             </StyledSearchItemRightInfoWrapper>
           </StyledSearchItemLink>
-        )
-      },
+        );
+      }
     )
-    .otherwise(() => null)
-}
+    .otherwise(() => null);
+};

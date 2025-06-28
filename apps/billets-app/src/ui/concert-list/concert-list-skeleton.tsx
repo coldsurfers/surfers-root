@@ -1,8 +1,8 @@
-import { memo } from 'react'
-import { FlatList, ListRenderItem } from 'react-native'
-import { ConcertListItem } from '../concert-list-item'
-import { EventCategoryListSkeleton } from '../event-category-list'
-import { concertListStyles } from './concert-list.styles'
+import { memo } from 'react';
+import { FlatList, type ListRenderItem } from 'react-native';
+import { ConcertListItem } from '../concert-list-item';
+import { EventCategoryListSkeleton } from '../event-category-list';
+import { concertListStyles } from './concert-list.styles';
 
 const renderItem: ListRenderItem<number> = ({ index }) => {
   return (
@@ -12,10 +12,10 @@ const renderItem: ListRenderItem<number> = ({ index }) => {
         paddingRight: index % 2 === 0 ? 6 : 0,
       }}
     />
-  )
-}
+  );
+};
 
-const data = Array.from({ length: 5 }).map((_, index) => index)
+const data = Array.from({ length: 5 }).map((_, index) => index);
 
 export const ConcertListSkeleton = memo(() => {
   return (
@@ -26,5 +26,5 @@ export const ConcertListSkeleton = memo(() => {
       ListHeaderComponent={<EventCategoryListSkeleton />}
       contentContainerStyle={concertListStyles.concertListContentContainer}
     />
-  )
-})
+  );
+});

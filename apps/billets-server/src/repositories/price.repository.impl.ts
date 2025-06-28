@@ -1,7 +1,7 @@
-import { PriceDTO } from '@/dtos/price.dto'
-import { dbClient } from '@/lib/db'
-import { Price } from '@prisma/client'
-import { PriceRepository } from './price.repository'
+import type { PriceDTO } from '@/dtos/price.dto';
+import { dbClient } from '@/lib/db';
+import type { Price } from '@prisma/client';
+import type { PriceRepository } from './price.repository';
 
 export class PriceRepositoryImpl implements PriceRepository {
   async findMany(params: { ticketId: string }): Promise<PriceDTO[]> {
@@ -13,8 +13,8 @@ export class PriceRepositoryImpl implements PriceRepository {
           },
         },
       },
-    })
-    return data.map(this.toDTO)
+    });
+    return data.map(this.toDTO);
   }
 
   private toDTO(model: Price): PriceDTO {
@@ -23,6 +23,6 @@ export class PriceRepositoryImpl implements PriceRepository {
       name: model.title,
       price: model.price,
       currency: model.priceCurrency,
-    }
+    };
   }
 }

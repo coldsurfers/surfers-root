@@ -1,26 +1,26 @@
-import { AddFormModal } from '@/ui'
-import InputWithLabel from '@/ui/InputWithLabel'
-import { Button } from '@coldsurfers/ocean-road'
-import { isValid } from 'date-fns'
-import { useCallback, useEffect, useState } from 'react'
+import { AddFormModal } from '@/ui';
+import InputWithLabel from '@/ui/InputWithLabel';
+import { Button } from '@coldsurfers/ocean-road';
+import { isValid } from 'date-fns';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import {
   ConcertTicketsDocument,
-  ConcertTicketsQuery,
-  ConcertTicketsQueryVariables,
+  type ConcertTicketsQuery,
+  type ConcertTicketsQueryVariables,
   useCreateConcertTicketMutation,
-} from 'src/__generated__/graphql'
-import { parseDate } from '../add-tickets-ui/add-tickets-ui.utils'
-import { StyledAddTicketModalInner } from './add-ticket-modal.styled'
-import { AddTicketForm } from './add-ticket-modal.types'
+} from 'src/__generated__/graphql';
+import { parseDate } from '../add-tickets-ui/add-tickets-ui.utils';
+import { StyledAddTicketModalInner } from './add-ticket-modal.styled';
+import type { AddTicketForm } from './add-ticket-modal.types';
 
 export const AddTicketModal = ({
   visible,
   onClose,
   concertId,
 }: {
-  visible: boolean
-  onClose: () => void
-  concertId: string
+  visible: boolean;
+  onClose: () => void;
+  concertId: string;
 }) => {
   const [addTicketsForm, setAddTicketsForm] = useState<AddTicketForm[]>([
     {
@@ -28,8 +28,9 @@ export const AddTicketModal = ({
       website: '',
       opendate: '',
     },
-  ])
-  const [mutateCreateConcertTicket, { loading: loadingCreateConcertTicket }] = useCreateConcertTicketMutation({})
+  ]);
+  const [mutateCreateConcertTicket, { loading: loadingCreateConcertTicket }] =
+    useCreateConcertTicketMutation({});
 
   const addTicketEmptyForm = useCallback(() => {
     setAddTicketsForm((prev) =>
@@ -37,25 +38,25 @@ export const AddTicketModal = ({
         name: '',
         website: '',
         opendate: '',
-      }),
-    )
-  }, [])
+      })
+    );
+  }, []);
 
   const removeTicketInput = useCallback((index: number) => {
-    setAddTicketsForm((prev) => prev.filter((value, prevIndex) => prevIndex !== index))
-  }, [])
+    setAddTicketsForm((prev) => prev.filter((_, prevIndex) => prevIndex !== index));
+  }, []);
 
   const onClickBulkAdd = useCallback(async () => {
     if (loadingCreateConcertTicket) {
-      return
+      return;
     }
     const shouldOpenAlert = addTicketsForm.some((ticket) => {
-      const isValidOpenDate = isValid(parseDate(ticket.opendate))
-      return !isValidOpenDate
-    })
+      const isValidOpenDate = isValid(parseDate(ticket.opendate));
+      return !isValidOpenDate;
+    });
     if (shouldOpenAlert) {
-      alert('Invalid Ticket Open Date')
-      return
+      alert('Invalid Ticket Open Date');
+      return;
     }
     const promises = addTicketsForm.map(async (ticket, ticketIndex) => {
       return mutateCreateConcertTicket({
@@ -68,19 +69,22 @@ export const AddTicketModal = ({
           },
         },
         onCompleted: () => {
-          removeTicketInput(ticketIndex)
+          removeTicketInput(ticketIndex);
         },
         update: (cache, { data }) => {
           if (data?.createConcertTicket?.__typename !== 'Ticket') {
-            return
+            return;
           }
-          const { createConcertTicket: addedConcertTicketData } = data
-          const concertTicketsCache = cache.readQuery<ConcertTicketsQuery, ConcertTicketsQueryVariables>({
+          const { createConcertTicket: addedConcertTicketData } = data;
+          const concertTicketsCache = cache.readQuery<
+            ConcertTicketsQuery,
+            ConcertTicketsQueryVariables
+          >({
             query: ConcertTicketsDocument,
             variables: {
               concertId,
             },
-          })
+          });
           if (concertTicketsCache?.concertTickets?.__typename === 'TicketList') {
             cache.writeQuery({
               query: ConcertTicketsDocument,
@@ -95,14 +99,21 @@ export const AddTicketModal = ({
                   }),
                 },
               },
-            })
+            });
           }
         },
-      })
-    })
-    await Promise.all(promises)
-    onClose()
-  }, [addTicketsForm, concertId, mutateCreateConcertTicket, onClose, removeTicketInput, loadingCreateConcertTicket])
+      });
+    });
+    await Promise.all(promises);
+    onClose();
+  }, [
+    addTicketsForm,
+    concertId,
+    mutateCreateConcertTicket,
+    onClose,
+    removeTicketInput,
+    loadingCreateConcertTicket,
+  ]);
 
   useEffect(() => {
     if (!visible) {
@@ -112,9 +123,9 @@ export const AddTicketModal = ({
           website: '',
           opendate: '',
         },
-      ])
+      ]);
     }
-  }, [visible])
+  }, [visible]);
 
   return (
     <AddFormModal
@@ -124,9 +135,9 @@ export const AddTicketModal = ({
       title={'티켓 등록 모달'}
       onClickSubmitForm={onClickBulkAdd}
       formListComponent={
-        <>
+        <Fragment>
           {addTicketsForm.map((ticket, ticketIndex) => (
-            <StyledAddTicketModalInner key={ticketIndex}>
+            <StyledAddTicketModalInner key={ticket.name}>
               <InputWithLabel
                 value={ticket.name}
                 onChangeText={(text) => {
@@ -136,11 +147,11 @@ export const AddTicketModal = ({
                         return {
                           ...prevItem,
                           name: text,
-                        }
+                        };
                       }
-                      return prevItem
-                    }),
-                  )
+                      return prevItem;
+                    })
+                  );
                 }}
                 label="티켓 예매처 이름"
                 placeholder="티켓 예매처 이름"
@@ -154,11 +165,11 @@ export const AddTicketModal = ({
                         return {
                           ...prevItem,
                           website: text,
-                        }
+                        };
                       }
-                      return prevItem
-                    }),
-                  )
+                      return prevItem;
+                    })
+                  );
                 }}
                 label="티켓 예매 링크"
                 placeholder="티켓 예매 링크"
@@ -172,14 +183,14 @@ export const AddTicketModal = ({
                         return {
                           ...prevItem,
                           opendate: text,
-                        }
+                        };
                       }
-                      return prevItem
-                    }),
-                  )
+                      return prevItem;
+                    })
+                  );
                 }}
                 placeholder={'yyMMddHHmm'}
-                label={`티켓 오픈 날짜`}
+                label={'티켓 오픈 날짜'}
               />
               <Button
                 style={{
@@ -187,14 +198,16 @@ export const AddTicketModal = ({
                   height: 10,
                 }}
                 theme={'pink'}
-                onClick={() => setAddTicketsForm((prev) => prev.filter((_, index) => index !== ticketIndex))}
+                onClick={() =>
+                  setAddTicketsForm((prev) => prev.filter((_, index) => index !== ticketIndex))
+                }
               >
                 ✘
               </Button>
             </StyledAddTicketModalInner>
           ))}
-        </>
+        </Fragment>
       }
     />
-  )
-}
+  );
+};

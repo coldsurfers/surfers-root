@@ -1,11 +1,17 @@
-import { getPosterDetailByPosterIdHandler, getPostersByEventIdHandler } from '@/controllers/poster.controller'
-import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
-import { GetPosterDetailByPosterIdParamsDTOSchema, PosterDetailDTOSchema } from '@/dtos/poster-detail.dto'
-import { GetPostersByEventIdQueryStringDTOSchema, PosterDTOSchema } from '@/dtos/poster.dto'
-import { FastifyPluginCallback } from 'fastify'
-import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import {
+  getPosterDetailByPosterIdHandler,
+  getPostersByEventIdHandler,
+} from '@/controllers/poster.controller';
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto';
+import {
+  GetPosterDetailByPosterIdParamsDTOSchema,
+  PosterDetailDTOSchema,
+} from '@/dtos/poster-detail.dto';
+import { GetPostersByEventIdQueryStringDTOSchema, PosterDTOSchema } from '@/dtos/poster.dto';
+import type { FastifyPluginCallback } from 'fastify';
+import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
-const posterRoute: FastifyPluginCallback = (fastify, opts, done) => {
+const posterRoute: FastifyPluginCallback = (fastify, _, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/',
     {
@@ -18,8 +24,8 @@ const posterRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    getPostersByEventIdHandler,
-  )
+    getPostersByEventIdHandler
+  );
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/:posterId',
     {
@@ -33,9 +39,9 @@ const posterRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    getPosterDetailByPosterIdHandler,
-  )
-  done()
-}
+    getPosterDetailByPosterIdHandler
+  );
+  done();
+};
 
-export default posterRoute
+export default posterRoute;

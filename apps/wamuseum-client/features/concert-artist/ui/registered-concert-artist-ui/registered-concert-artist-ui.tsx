@@ -1,15 +1,18 @@
-import { Button, Text } from '@coldsurfers/ocean-road'
-import { useCallback } from 'react'
+import { Button, Text } from '@coldsurfers/ocean-road';
+import { useCallback } from 'react';
 import {
-  Artist,
-  ConcertArtistData,
+  type Artist,
+  type ConcertArtistData,
   ConcertArtistsDocument,
   useRemoveConcertArtistMutation,
-} from '../../../../src/__generated__/graphql'
-import { StyledRegisteredConcertArtistUIContainer } from './registered-concert-artist-ui.styled'
+} from '../../../../src/__generated__/graphql';
+import { StyledRegisteredConcertArtistUIContainer } from './registered-concert-artist-ui.styled';
 
-export const RegisteredConcertArtistUI = ({ value, concertId }: { value: Artist; concertId: string }) => {
-  const [mutateRemoveConcertArtist] = useRemoveConcertArtistMutation({})
+export const RegisteredConcertArtistUI = ({
+  value,
+  concertId,
+}: { value: Artist; concertId: string }) => {
+  const [mutateRemoveConcertArtist] = useRemoveConcertArtistMutation({});
   const onClickDelete = useCallback(() => {
     mutateRemoveConcertArtist({
       variables: {
@@ -20,26 +23,26 @@ export const RegisteredConcertArtistUI = ({ value, concertId }: { value: Artist;
       },
       update: (cache, { data }) => {
         if (data?.removeConcertArtist?.__typename !== 'Artist') {
-          return
+          return;
         }
-        const { id: removeArtistId } = data.removeConcertArtist
+        const { id: removeArtistId } = data.removeConcertArtist;
         const cacheData = cache.readQuery<
           {
-            concertArtists: ConcertArtistData
+            concertArtists: ConcertArtistData;
           },
           {
-            concertId: string
+            concertId: string;
           }
         >({
           query: ConcertArtistsDocument,
           variables: {
             concertId,
           },
-        })
+        });
         if (!cacheData) {
-          return
+          return;
         }
-        const { concertArtists } = cacheData
+        const { concertArtists } = cacheData;
         if (concertArtists.__typename === 'ArtistList') {
           cache.writeQuery({
             query: ConcertArtistsDocument,
@@ -52,11 +55,11 @@ export const RegisteredConcertArtistUI = ({ value, concertId }: { value: Artist;
                 list: concertArtists.list?.filter((artist) => artist?.id !== removeArtistId),
               },
             },
-          })
+          });
         }
       },
-    })
-  }, [concertId, mutateRemoveConcertArtist, value.id])
+    });
+  }, [concertId, mutateRemoveConcertArtist, value.id]);
   return (
     <StyledRegisteredConcertArtistUIContainer>
       <Text as="p" style={{ margin: 'unset' }}>
@@ -72,5 +75,5 @@ export const RegisteredConcertArtistUI = ({ value, concertId }: { value: Artist;
         삭제하기
       </Button>
     </StyledRegisteredConcertArtistUIContainer>
-  )
-}
+  );
+};

@@ -1,9 +1,9 @@
-import { VenueDetailScreen } from '@/screens'
-import { NavigationHeader } from '@/ui'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { VenueStackParamList } from './venue-stack-navigation.types'
+import { VenueDetailScreen } from '@/screens';
+import { NavigationHeader } from '@/ui';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import type { VenueStackParamList } from './venue-stack-navigation.types';
 
-const VenueStack = createNativeStackNavigator<VenueStackParamList>()
+const VenueStack = createNativeStackNavigator<VenueStackParamList>();
 
 export const VenueStackNavigation = () => {
   return (
@@ -28,5 +28,5 @@ export const VenueStackNavigation = () => {
         }}
       />
     </VenueStack.Navigator>
-  )
-}
+  );
+};

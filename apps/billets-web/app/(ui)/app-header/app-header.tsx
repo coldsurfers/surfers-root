@@ -1,17 +1,17 @@
-'use client'
+'use client';
 
-import { APP_DOWNLOAD_WORDING, APP_STORE_URL } from '@/libs/constants'
-import { useAuthStore } from '@/libs/stores'
-import { authUtils } from '@/libs/utils/utils.auth'
-import { breakpoints, Button, IconButton, Spinner, Text } from '@coldsurfers/ocean-road'
-import { SERVICE_NAME } from '@coldsurfers/shared-utils'
-import { useMutation } from '@tanstack/react-query'
-import { Kaushan_Script } from 'next/font/google'
-import { useRouter } from 'next/navigation'
-import { MouseEventHandler, useCallback, useEffect, useState } from 'react'
-import { ColorSchemeToggle } from '../color-scheme-toggle'
-import { GlobalLink } from '../global-link'
-import { AppHeaderSearchUI } from './app-header.search-ui'
+import { APP_DOWNLOAD_WORDING, APP_STORE_URL } from '@/libs/constants';
+import { useAuthStore } from '@/libs/stores';
+import { authUtils } from '@/libs/utils/utils.auth';
+import { Button, IconButton, Spinner, Text, breakpoints } from '@coldsurfers/ocean-road';
+import { SERVICE_NAME } from '@coldsurfers/shared-utils';
+import { useMutation } from '@tanstack/react-query';
+import { Kaushan_Script } from 'next/font/google';
+import { useRouter } from 'next/navigation';
+import { type MouseEventHandler, useCallback, useEffect, useState } from 'react';
+import { ColorSchemeToggle } from '../color-scheme-toggle';
+import { GlobalLink } from '../global-link';
+import { AppHeaderSearchUI } from './app-header.search-ui';
 import {
   HeaderContainer,
   HeaderLogo,
@@ -26,12 +26,12 @@ import {
   ModalContent,
   ModalPaper,
   WebMenuContainer,
-} from './app-header.styled'
+} from './app-header.styled';
 
 const kaushanScriptFont = Kaushan_Script({
   subsets: ['latin'],
   weight: ['400'],
-})
+});
 
 const commonMenuItems = [
   {
@@ -49,7 +49,7 @@ const commonMenuItems = [
     title: '블로그',
     target: undefined,
   },
-] as const
+] as const;
 
 function ModalMenu({
   isOpen,
@@ -57,28 +57,28 @@ function ModalMenu({
   isLoggedIn,
   logout,
 }: {
-  isOpen: boolean
-  onClose: () => void
-  isLoggedIn: boolean
-  logout: () => void
+  isOpen: boolean;
+  onClose: () => void;
+  isLoggedIn: boolean;
+  logout: () => void;
 }) {
-  const router = useRouter()
+  const router = useRouter();
   useEffect(() => {
-    const { body } = document
+    const { body } = document;
     if (isOpen) {
-      body.style.overflow = 'hidden' // Disable scrolling
+      body.style.overflow = 'hidden'; // Disable scrolling
     } else {
-      body.style.overflow = '' // Reset overflow to enable scrolling
+      body.style.overflow = ''; // Reset overflow to enable scrolling
     }
     return () => {
-      body.style.overflow = '' // Clean up on unmount
-    }
-  }, [isOpen])
+      body.style.overflow = ''; // Clean up on unmount
+    };
+  }, [isOpen]);
 
   const onClickLogout = useCallback(() => {
-    logout()
-    onClose()
-  }, [logout, onClose])
+    logout();
+    onClose();
+  }, [logout, onClose]);
 
   return (
     <ModalContainer onClick={onClose} $isOpen={isOpen} style={{ overflowY: 'auto' }}>
@@ -87,12 +87,12 @@ function ModalMenu({
           <ModalContent>
             {commonMenuItems.map((item) => {
               const onClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
-                onClose()
+                onClose();
                 if (item.link === '/browse') {
-                  e.preventDefault()
-                  router.push('/browse/seoul')
+                  e.preventDefault();
+                  router.push('/browse/seoul');
                 }
-              }
+              };
               return (
                 <GlobalLink
                   key={item.link}
@@ -103,10 +103,10 @@ function ModalMenu({
                 >
                   <Text as="p">{item.title}</Text>
                 </GlobalLink>
-              )
+              );
             })}
             {isLoggedIn ? (
-              <HeaderMenuContainerButton role="button" onClick={onClickLogout}>
+              <HeaderMenuContainerButton onClick={onClickLogout}>
                 <HeaderMenuText as="p">로그아웃</HeaderMenuText>
               </HeaderMenuContainerButton>
             ) : (
@@ -121,50 +121,50 @@ function ModalMenu({
         </ModalPaper>
       )}
     </ModalContainer>
-  )
+  );
 }
 
 export function AppHeader({ isLoggedIn }: { isLoggedIn: boolean }) {
-  const router = useRouter()
-  const [animation, setAnimation] = useState<'show' | 'hide'>('show')
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const { setIsLoggedIn } = useAuthStore()
+  const router = useRouter();
+  const [animation, setAnimation] = useState<'show' | 'hide'>('show');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { setIsLoggedIn } = useAuthStore();
 
   const { mutate: logout, isPending: isLogoutPending } = useMutation({
     mutationFn: () => authUtils.localLogout(),
     onSuccess: () => {
-      setIsLoggedIn(false)
-      router.refresh()
+      setIsLoggedIn(false);
+      router.refresh();
     },
     onError: (error) => {
-      console.error(error)
+      console.error(error);
     },
-  })
+  });
 
   useEffect(() => {
-    let lastScrollTop = 0
+    let lastScrollTop = 0;
     const onScroll = () => {
-      const currentScroll = window.pageYOffset || document.documentElement.scrollTop
+      const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
       if (currentScroll > lastScrollTop) {
-        setAnimation('hide')
+        setAnimation('hide');
       } else {
-        setAnimation('show')
+        setAnimation('show');
       }
-      lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // For Mobile or negative scrolling
-    }
+      lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // For Mobile or negative scrolling
+    };
     const onResize = () => {
       if (window.innerWidth > breakpoints.large) {
-        setIsModalOpen(false)
+        setIsModalOpen(false);
       }
-    }
-    window.addEventListener('scroll', onScroll)
-    window.addEventListener('resize', onResize)
+    };
+    window.addEventListener('scroll', onScroll);
+    window.addEventListener('resize', onResize);
 
     return () => {
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onResize)
-    }
-  }, [])
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onResize);
+    };
+  }, []);
 
   return (
     <>
@@ -186,19 +186,20 @@ export function AppHeader({ isLoggedIn }: { isLoggedIn: boolean }) {
           {commonMenuItems.map((item) => {
             const onClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
               if (item.link === '/browse') {
-                e.preventDefault()
-                router.push('/browse/seoul')
+                e.preventDefault();
+                router.push('/browse/seoul');
               }
-            }
-            const Container = item.link === '/browse' ? HeaderMenuContainerLink : HeaderMenuContainerGlobalLink
+            };
+            const Container =
+              item.link === '/browse' ? HeaderMenuContainerLink : HeaderMenuContainerGlobalLink;
             return (
               <Container key={item.link} href={item.link} onClick={onClick} target={item.target}>
                 <HeaderMenuText as="p">{item.title}</HeaderMenuText>
               </Container>
-            )
+            );
           })}
           {isLoggedIn ? (
-            <HeaderMenuContainerButton role="button" onClick={() => logout()}>
+            <HeaderMenuContainerButton onClick={() => logout()}>
               <HeaderMenuText as="p">로그아웃</HeaderMenuText>
             </HeaderMenuContainerButton>
           ) : (
@@ -219,8 +220,13 @@ export function AppHeader({ isLoggedIn }: { isLoggedIn: boolean }) {
           </IconButton>
         </MobileMenuContainer>
       </HeaderContainer>
-      <ModalMenu isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} isLoggedIn={isLoggedIn} logout={logout} />
+      <ModalMenu
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        isLoggedIn={isLoggedIn}
+        logout={logout}
+      />
       {isLogoutPending && <Spinner variant="page-overlay" />}
     </>
-  )
+  );
 }

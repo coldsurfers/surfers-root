@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { logEvent } from '@/features/firebase/firebase'
-import { SERVICE_NAME } from '@coldsurfers/shared-utils'
-import { ReactNode, useEffect } from 'react'
+import { logEvent } from '@/features/firebase/firebase';
+import { SERVICE_NAME } from '@coldsurfers/shared-utils';
+import { type ReactNode, useEffect } from 'react';
 import {
   StyledPageLayout,
   StyledPosterContainer,
@@ -11,7 +11,7 @@ import {
   StyledSectionHeaderText,
   StyledTicketCTAContainer,
   StyledTopInfoContainer,
-} from './page-layout.styled'
+} from './page-layout.styled';
 
 export function PageLayout({
   poster,
@@ -23,14 +23,14 @@ export function PageLayout({
   downloadApp,
   eventId,
 }: {
-  poster: ReactNode
-  topInfo: ReactNode
-  ticketCTA: ReactNode
-  about: ReactNode | null
-  lineup: ReactNode | null
-  venue: ReactNode
-  downloadApp: ReactNode
-  eventId: string
+  poster: ReactNode;
+  topInfo: ReactNode;
+  ticketCTA: ReactNode;
+  about: ReactNode | null;
+  lineup: ReactNode | null;
+  venue: ReactNode;
+  downloadApp: ReactNode;
+  eventId: string;
 }) {
   useEffect(() => {
     logEvent({
@@ -38,8 +38,8 @@ export function PageLayout({
       params: {
         event_id: eventId,
       },
-    })
-  }, [eventId])
+    });
+  }, [eventId]);
 
   return (
     <StyledPageLayout>
@@ -69,5 +69,5 @@ export function PageLayout({
         </StyledSectionContainer>
       </StyledRightSideContainer>
     </StyledPageLayout>
-  )
+  );
 }

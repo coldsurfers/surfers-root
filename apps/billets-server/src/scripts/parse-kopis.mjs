@@ -668,7 +668,7 @@ async function insertKOPISEventDetail(kopisEventId) {
   await connectOrCreateTicket(kopisEventId, ticketSeller, ticketSellingURL)
 }
 
-let success = []
+const success = []
 
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 1000))
 

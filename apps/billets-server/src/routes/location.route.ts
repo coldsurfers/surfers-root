@@ -2,18 +2,18 @@ import {
   getLocationCityListHandler,
   getLocationConcertsHandler,
   getLocationCountryListHandler,
-} from '@/controllers/location.controller'
-import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
+} from '@/controllers/location.controller';
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto';
 import {
   GetLocationConcertsQueryStringDTOSchema,
   LocationCityDTOSchema,
   LocationConcertDTOSchema,
   LocationCountryDTOSchema,
-} from '@/dtos/location.dto'
-import { FastifyPluginCallback } from 'fastify'
-import { ZodTypeProvider } from 'fastify-type-provider-zod'
+} from '@/dtos/location.dto';
+import type { FastifyPluginCallback } from 'fastify';
+import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
-const locationRoute: FastifyPluginCallback = (fastify, opts, done) => {
+const locationRoute: FastifyPluginCallback = (fastify, _, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/concert',
     {
@@ -27,8 +27,8 @@ const locationRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    getLocationConcertsHandler,
-  )
+    getLocationConcertsHandler
+  );
 
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/city',
@@ -41,8 +41,8 @@ const locationRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    getLocationCityListHandler,
-  )
+    getLocationCityListHandler
+  );
 
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/country',
@@ -55,10 +55,10 @@ const locationRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    getLocationCountryListHandler,
-  )
+    getLocationCountryListHandler
+  );
 
-  done()
-}
+  done();
+};
 
-export default locationRoute
+export default locationRoute;

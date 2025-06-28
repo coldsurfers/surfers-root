@@ -1,35 +1,44 @@
-import { useUserCurrentLocationStore } from '@/features/location/stores'
-import { apiClient } from '@/lib/api/openapi-client'
-import { CommonScreenLayout } from '@/ui'
-import { Spinner, Text, TextInput, useColorScheme } from '@coldsurfers/ocean-road/native'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { Suspense, useCallback, useMemo, useState } from 'react'
-import { KeyboardAvoidingView, SectionList, SectionListData, StyleSheet, TouchableOpacity, View } from 'react-native'
-import { LatLng } from '../../types/LatLng'
-import { useLocationSelectionScreenNavigation } from './location-selection-screen.hooks'
+import { useUserCurrentLocationStore } from '@/features/location/stores';
+import { apiClient } from '@/lib/api/openapi-client';
+import { CommonScreenLayout } from '@/ui';
+import { Spinner, Text, TextInput, useColorScheme } from '@coldsurfers/ocean-road/native';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { Suspense, useCallback, useMemo, useState } from 'react';
+import {
+  KeyboardAvoidingView,
+  SectionList,
+  type SectionListData,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import type { LatLng } from '../../types/LatLng';
+import { useLocationSelectionScreenNavigation } from './location-selection-screen.hooks';
 
 type LocationSelectionListItemType = {
-  cityId: string
-  city: string
-  latLng: LatLng
-}
+  cityId: string;
+  city: string;
+  latLng: LatLng;
+};
 type LocationSelectionListSectionType = {
-  country: string
-}
+  country: string;
+};
 
 type LocationSelectionListSectionData = ReadonlyArray<
   SectionListData<LocationSelectionListItemType, LocationSelectionListSectionType>
->
+>;
 
 const LocationSelectionScreenContent = () => {
-  const { semantics } = useColorScheme()
-  const navigation = useLocationSelectionScreenNavigation()
-  const setUserCurrentLocation = useUserCurrentLocationStore((state) => state.setUserCurrentLocation)
-  const [searchKeyword, setSearchKeyword] = useState('')
+  const { semantics } = useColorScheme();
+  const navigation = useLocationSelectionScreenNavigation();
+  const setUserCurrentLocation = useUserCurrentLocationStore(
+    (state) => state.setUserCurrentLocation
+  );
+  const [searchKeyword, setSearchKeyword] = useState('');
   const { data: locationCountries } = useSuspenseQuery({
     queryKey: apiClient.location.queryKeys.countries,
     queryFn: () => apiClient.location.getCountries(),
-  })
+  });
   const sectionData = useMemo<LocationSelectionListSectionData>(() => {
     return locationCountries?.map((country) => ({
       country: country.uiName,
@@ -41,10 +50,10 @@ const LocationSelectionScreenContent = () => {
             latitude: city.lat,
             longitude: city.lng,
           },
-        }
+        };
       }),
-    }))
-  }, [locationCountries])
+    }));
+  }, [locationCountries]);
 
   const searchedSections = useMemo(() => {
     return sectionData
@@ -54,26 +63,30 @@ const LocationSelectionScreenContent = () => {
           data: section.data.filter(
             (item) =>
               item.city.toLowerCase().includes(searchKeyword.toLowerCase()) ||
-              section.country.toLowerCase().includes(searchKeyword.toLowerCase()),
+              section.country.toLowerCase().includes(searchKeyword.toLowerCase())
           ),
-        }
+        };
       })
-      .filter((section) => section !== null)
-  }, [searchKeyword, sectionData])
+      .filter((section) => section !== null);
+  }, [searchKeyword, sectionData]);
 
   const renderSectionHeader = useCallback(
-    (info: { section: SectionListData<LocationSelectionListItemType, LocationSelectionListSectionType> }) => {
+    (info: {
+      section: SectionListData<LocationSelectionListItemType, LocationSelectionListSectionType>;
+    }) => {
       if (info.section.data.length === 0) {
-        return null
+        return null;
       }
       return (
         <View>
-          <Text style={[styles.sectionHeader, { color: semantics.foreground[1] }]}>{info.section.country}</Text>
+          <Text style={[styles.sectionHeader, { color: semantics.foreground[1] }]}>
+            {info.section.country}
+          </Text>
         </View>
-      )
+      );
     },
-    [semantics.foreground],
-  )
+    [semantics.foreground]
+  );
 
   const renderItem = useCallback(
     (info: { item: LocationSelectionListItemType }) => {
@@ -83,17 +96,19 @@ const LocationSelectionScreenContent = () => {
           cityName: info.item.city,
           type: 'city-location',
           cityId: info.item.cityId,
-        })
-        navigation.goBack()
-      }
+        });
+        navigation.goBack();
+      };
       return (
         <TouchableOpacity onPress={onPress}>
-          <Text style={[styles.itemText, { color: semantics.foreground[1] }]}>{info.item.city}</Text>
+          <Text style={[styles.itemText, { color: semantics.foreground[1] }]}>
+            {info.item.city}
+          </Text>
         </TouchableOpacity>
-      )
+      );
     },
-    [navigation, semantics.foreground, setUserCurrentLocation],
-  )
+    [navigation, semantics.foreground, setUserCurrentLocation]
+  );
 
   return (
     <CommonScreenLayout style={styles.wrapper}>
@@ -113,16 +128,16 @@ const LocationSelectionScreenContent = () => {
         />
       </KeyboardAvoidingView>
     </CommonScreenLayout>
-  )
-}
+  );
+};
 
 export const LocationSelectionScreen = () => {
   return (
     <Suspense fallback={<Spinner positionCenter />}>
       <LocationSelectionScreenContent />
     </Suspense>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -136,4 +151,4 @@ const styles = StyleSheet.create({
   },
   sectionHeader: { fontSize: 18, fontWeight: '500' },
   itemText: { fontSize: 16 },
-})
+});

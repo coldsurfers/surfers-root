@@ -1,9 +1,9 @@
-import { ArtistDetailScreen } from '@/screens'
-import { NavigationHeader } from '@/ui'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { ArtistStackParamList } from './artist-stack-navigation.types'
+import { ArtistDetailScreen } from '@/screens';
+import { NavigationHeader } from '@/ui';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import type { ArtistStackParamList } from './artist-stack-navigation.types';
 
-const Stack = createNativeStackNavigator<ArtistStackParamList>()
+const Stack = createNativeStackNavigator<ArtistStackParamList>();
 
 export const ArtistStackNavigation = () => {
   return (
@@ -28,5 +28,5 @@ export const ArtistStackNavigation = () => {
         }}
       />
     </Stack.Navigator>
-  )
-}
+  );
+};

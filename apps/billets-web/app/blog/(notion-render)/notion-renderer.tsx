@@ -1,18 +1,18 @@
-'use client'
+'use client';
 
-import { colors, Spinner } from '@coldsurfers/ocean-road'
-import 'katex/dist/katex.min.css' // For equations
-import dynamic from 'next/dynamic'
-import Link from 'next/link'
-import { ExtendedRecordMap } from 'notion-types'
-import 'prismjs/themes/prism-tomorrow.css' // For syntax highlighting
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { NotionRenderer as NR, type MapImageUrlFn, type NotionComponents } from 'react-notion-x'
-import 'react-notion-x/src/styles.css'
-import { Tweet as TweetEmbed } from 'react-tweet'
+import { Spinner, colors } from '@coldsurfers/ocean-road';
+import 'katex/dist/katex.min.css'; // For equations
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
+import type { ExtendedRecordMap } from 'notion-types';
+import 'prismjs/themes/prism-tomorrow.css'; // For syntax highlighting
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { type MapImageUrlFn, NotionRenderer as NR, type NotionComponents } from 'react-notion-x';
+import 'react-notion-x/src/styles.css';
+import { Tweet as TweetEmbed } from 'react-tweet';
 
 function isNotionImage(url: string) {
-  return url.startsWith('https://prod-files-secure.s3.us-west-2.amazonaws.com')
+  return url.startsWith('https://prod-files-secure.s3.us-west-2.amazonaws.com');
 }
 
 const Code = dynamic(() =>
@@ -51,46 +51,46 @@ const Code = dynamic(() =>
       import('prismjs/components/prism-swift.js'),
       import('prismjs/components/prism-wasm.js'),
       import('prismjs/components/prism-yaml.js'),
-    ])
-    return m.Code
-  }),
-)
+    ]);
+    return m.Code;
+  })
+);
 // comment
 // const Collection = dynamic(() => import('react-notion-x/build/third-party/collection').then((m) => m.Collection))
 
 function Tweet({ id }: { id: string }) {
-  return <TweetEmbed id={id} />
+  return <TweetEmbed id={id} />;
 }
 
 const CustomImage = (props: {
-  alt: string
-  className?: string
-  fill?: boolean
-  height?: number
-  onLoad?: () => void
-  priority: boolean
-  src: string
-  style: object
-  width?: number
+  alt: string;
+  className?: string;
+  fill?: boolean;
+  height?: number;
+  onLoad?: () => void;
+  priority: boolean;
+  src: string;
+  style: object;
+  width?: number;
 }) => {
-  const imgRef = useRef<HTMLImageElement>(null)
-  const [isLoading, setIsLoading] = useState(props.src.includes('/api/notion-image-proxy'))
+  const imgRef = useRef<HTMLImageElement>(null);
+  const [isLoading, setIsLoading] = useState(props.src.includes('/api/notion-image-proxy'));
 
   useEffect(() => {
-    const currentImg = imgRef.current
+    const currentImg = imgRef.current;
     const onImageLoadOrError = () => {
-      setIsLoading(false)
-    }
-    currentImg?.addEventListener('load', onImageLoadOrError)
-    currentImg?.addEventListener('error', onImageLoadOrError)
+      setIsLoading(false);
+    };
+    currentImg?.addEventListener('load', onImageLoadOrError);
+    currentImg?.addEventListener('error', onImageLoadOrError);
 
     return () => {
       if (currentImg) {
-        currentImg.removeEventListener('load', onImageLoadOrError)
-        currentImg.removeEventListener('error', onImageLoadOrError)
+        currentImg.removeEventListener('load', onImageLoadOrError);
+        currentImg.removeEventListener('error', onImageLoadOrError);
       }
-    }
-  }, [])
+    };
+  }, []);
 
   return (
     <>
@@ -116,10 +116,11 @@ const CustomImage = (props: {
           aspectRatio: '1 / 1',
           objectFit: 'contain',
         }}
+        alt={props.alt}
       />
     </>
-  )
-}
+  );
+};
 
 export const NotionRenderer = ({ recordMap }: { recordMap: ExtendedRecordMap }) => {
   const components = useMemo<Partial<NotionComponents>>(() => {
@@ -129,17 +130,17 @@ export const NotionRenderer = ({ recordMap }: { recordMap: ExtendedRecordMap }) 
       nextLink: Link,
       Tweet,
       Image: CustomImage,
-    }
-  }, [])
+    };
+  }, []);
   const mapImageUrl = useCallback<MapImageUrlFn>((url, block) => {
     if (!url) {
-      return ''
+      return '';
     }
     if (isNotionImage(url)) {
-      return `/api/notion-image-proxy?url=${encodeURIComponent(url)}&id=${block.id}`
+      return `/api/notion-image-proxy?url=${encodeURIComponent(url)}&id=${block.id}`;
     }
-    return url
-  }, [])
+    return url;
+  }, []);
 
   return (
     <NR
@@ -150,5 +151,5 @@ export const NotionRenderer = ({ recordMap }: { recordMap: ExtendedRecordMap }) 
       isImageZoomable
       previewImages
     />
-  )
-}
+  );
+};

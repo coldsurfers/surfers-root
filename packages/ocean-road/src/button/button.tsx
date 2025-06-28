@@ -1,9 +1,23 @@
-import { ButtonHTMLAttributes, forwardRef } from 'react'
-import { createStyledIcon, StyledButton, StyledButtonText } from './button.styled'
-import { ButtonProps } from './button.types'
+import { type ButtonHTMLAttributes, forwardRef } from 'react';
+import { StyledButton, StyledButtonText, createStyledIcon } from './button.styled';
+import type { ButtonProps } from './button.types';
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps & ButtonHTMLAttributes<HTMLButtonElement>>(
-  ({ theme = 'indigo', leftIcon, rightIcon, textWeight = 'medium', size = 'md', children, ...otherProps }, ref) => {
+export const Button = forwardRef<
+  HTMLButtonElement,
+  ButtonProps & ButtonHTMLAttributes<HTMLButtonElement>
+>(
+  (
+    {
+      theme = 'indigo',
+      leftIcon,
+      rightIcon,
+      textWeight = 'medium',
+      size = 'md',
+      children,
+      ...otherProps
+    },
+    ref
+  ) => {
     return (
       <StyledButton ref={ref} colorTheme={theme} size={size} {...otherProps}>
         {typeof children === 'string' ? (
@@ -18,6 +32,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps & ButtonHTMLAttr
           children
         )}
       </StyledButton>
-    )
-  },
-)
+    );
+  }
+);

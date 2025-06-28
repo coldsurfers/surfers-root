@@ -1,5 +1,5 @@
-import { PriceDTO } from '@/dtos/price.dto'
+import type { PriceDTO } from '@/dtos/price.dto';
 
 export interface PriceRepository {
-  findMany(params: { ticketId: string }): Promise<PriceDTO[]>
+  findMany(params: { ticketId: string }): Promise<PriceDTO[]>;
 }

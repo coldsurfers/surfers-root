@@ -1,23 +1,23 @@
-import { apiClient } from '@/lib/api/openapi-client'
-import { useSearchScreenNavigation } from '@/screens/search-screen/search-screen.hooks'
-import { useQuery } from '@tanstack/react-query'
-import format from 'date-fns/format'
-import { useMemo } from 'react'
-import { SearchItem } from '../search-item'
-import { SearchItemThumbnail } from '../search-item-thumbnail'
-import { SearchItemProps } from '../search-item/search-item.types'
+import { apiClient } from '@/lib/api/openapi-client';
+import { useSearchScreenNavigation } from '@/screens/search-screen/search-screen.hooks';
+import { useQuery } from '@tanstack/react-query';
+import format from 'date-fns/format';
+import { useMemo } from 'react';
+import { SearchItem } from '../search-item';
+import { SearchItemThumbnail } from '../search-item-thumbnail';
+import type { SearchItemProps } from '../search-item/search-item.types';
 
 export const SearchFetchItem = ({ concertId }: { concertId: string }) => {
-  const navigation = useSearchScreenNavigation()
+  const navigation = useSearchScreenNavigation();
   const { data } = useQuery({
     queryKey: apiClient.event.queryKeys.detail(concertId),
     queryFn: () => apiClient.event.getEventDetail(concertId),
-  })
+  });
   const uiData = useMemo<SearchItemProps | null>(() => {
     if (!data || data.type !== 'concert') {
-      return null
+      return null;
     }
-    const { data: concertDetail } = data
+    const { data: concertDetail } = data;
     return {
       type: 'concert',
       thumbnail: <SearchItemThumbnail type="square" uri={concertDetail.posters.at(0)?.url ?? ''} />,
@@ -29,12 +29,12 @@ export const SearchFetchItem = ({ concertId }: { concertId: string }) => {
           screen: 'EventDetailScreen',
           params: { eventId: concertDetail.id },
         }),
-    }
-  }, [data, navigation])
+    };
+  }, [data, navigation]);
 
   if (!uiData) {
-    return <SearchItem.Skeleton />
+    return <SearchItem.Skeleton />;
   }
 
-  return <SearchItem {...uiData} />
-}
+  return <SearchItem {...uiData} />;
+};

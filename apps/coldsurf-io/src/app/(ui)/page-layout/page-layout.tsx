@@ -1,26 +1,26 @@
-'use client'
+'use client';
 
-import { breakpoints } from '@coldsurfers/ocean-road'
-import { PropsWithChildren, useEffect, useState } from 'react'
-import { Header } from '../header'
-import { MobileMenu } from '../mobile-menu'
+import { breakpoints } from '@coldsurfers/ocean-road';
+import { type PropsWithChildren, useEffect, useState } from 'react';
+import { Header } from '../header';
+import { MobileMenu } from '../mobile-menu';
 
 export function PageLayout({ children }: PropsWithChildren) {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > breakpoints.large) {
-        setIsOpen(false)
+        setIsOpen(false);
       }
-    }
+    };
 
-    window.addEventListener('resize', handleResize)
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
     <>
@@ -32,5 +32,5 @@ export function PageLayout({ children }: PropsWithChildren) {
       <MobileMenu isOpen={isOpen} onClickMenuItem={() => setIsOpen(false)} />
       {children}
     </>
-  )
+  );
 }

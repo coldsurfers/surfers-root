@@ -1,7 +1,10 @@
-import { CSSProperties, DetailedHTMLProps, TextareaHTMLAttributes } from 'react'
+import type { CSSProperties, DetailedHTMLProps, TextareaHTMLAttributes } from 'react';
 
-export type TextAreaProps = DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> & {
-  label?: string
-  labelStyle?: CSSProperties
-  noResize?: boolean
-}
+export type TextAreaProps = DetailedHTMLProps<
+  TextareaHTMLAttributes<HTMLTextAreaElement>,
+  HTMLTextAreaElement
+> & {
+  label?: string;
+  labelStyle?: CSSProperties;
+  noResize?: boolean;
+};

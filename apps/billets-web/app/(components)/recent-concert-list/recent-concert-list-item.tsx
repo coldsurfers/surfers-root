@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
-import { isEmptySource } from '@/libs/utils/utils.image'
-import { generateSlugHref } from '@/libs/utils/utils.slug'
-import { components } from '@coldsurfers/api-sdk'
-import { format, parseISO } from 'date-fns'
-import { useMemo } from 'react'
-import { GlobalLink } from '../../(ui)'
+import { isEmptySource } from '@/libs/utils/utils.image';
+import { generateSlugHref } from '@/libs/utils/utils.slug';
+import type { components } from '@coldsurfers/api-sdk';
+import { format, parseISO } from 'date-fns';
+import { useMemo } from 'react';
+import { GlobalLink } from '../../(ui)';
 import {
   StyledRecentListBilletsConcertCard,
   StyledRecentListBilletsConcertCardImage,
@@ -13,22 +13,24 @@ import {
   StyledRecentListBilletsConcertCardImageEmptyText,
   StyledRecentListParagraph,
   StyledTitle,
-} from './recent-concert-list.styled'
+} from './recent-concert-list.styled';
 
-export const RecentConcertListItem = ({ data }: { data: components['schemas']['ConcertDTOSchema'] }) => {
+export const RecentConcertListItem = ({
+  data,
+}: { data: components['schemas']['ConcertDTOSchema'] }) => {
   const formattedDate = useMemo(() => {
     if (!data.date) {
-      return ''
+      return '';
     }
-    return format(parseISO(data.date), 'yyyy.MM.dd')
-  }, [data.date])
+    return format(parseISO(data.date), 'yyyy.MM.dd');
+  }, [data.date]);
   const thumbUrl = useMemo(() => {
     if (isEmptySource(data.mainPoster?.url ?? '')) {
-      return ''
+      return '';
     }
-    return `${data.mainPoster!.url}`
-  }, [data.mainPoster])
-  const href = generateSlugHref(data.slug)
+    return `${data.mainPoster?.url}`;
+  }, [data.mainPoster]);
+  const href = generateSlugHref(data.slug);
   return (
     <GlobalLink href={href}>
       <StyledRecentListBilletsConcertCard $isLoading={false}>
@@ -48,5 +50,5 @@ export const RecentConcertListItem = ({ data }: { data: components['schemas']['C
         </div>
       </StyledRecentListBilletsConcertCard>
     </GlobalLink>
-  )
-}
+  );
+};

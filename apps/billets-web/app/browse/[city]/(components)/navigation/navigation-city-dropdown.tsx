@@ -1,31 +1,31 @@
-'use client'
+'use client';
 
-import { GLOBAL_Z_INDEX } from '@/libs/constants'
-import { AnimatePresence, motion } from 'framer-motion'
-import { CSSProperties, ReactNode } from 'react'
-import { NavigationDropdownMotionDiv } from './navigation.styled'
+import { GLOBAL_Z_INDEX } from '@/libs/constants';
+import { AnimatePresence, motion } from 'framer-motion';
+import type { CSSProperties, ReactNode } from 'react';
+import { NavigationDropdownMotionDiv } from './navigation.styled';
 
-const POSITION_PADDING = 12
+const POSITION_PADDING = 12;
 
-type RenderItem<ItemT> = (item: ItemT) => ReactNode
+type RenderItem<ItemT> = (item: ItemT) => ReactNode;
 
 type NavigationCityDropdownProps<ItemT> = {
-  isOpen: boolean
-  onClose: () => void
-  data: Array<ItemT>
-  renderItem: RenderItem<ItemT>
-  keyExtractor?: (item: ItemT) => string
+  isOpen: boolean;
+  onClose: () => void;
+  data: Array<ItemT>;
+  renderItem: RenderItem<ItemT>;
+  keyExtractor?: (item: ItemT) => string;
   position: {
-    top: number
-    left: number
-  }
-  className?: string
-  style?: CSSProperties
-}
+    top: number;
+    left: number;
+  };
+  className?: string;
+  style?: CSSProperties;
+};
 
 export const NavigationCityDropdown =
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  <ItemT = any,>({
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  <ItemT = any>({
     isOpen,
     onClose,
     position,
@@ -40,7 +40,7 @@ export const NavigationCityDropdown =
       hidden: { opacity: 0, y: -10 },
       visible: { opacity: 1, y: 0 },
       exit: { opacity: 0, y: -10 },
-    }
+    };
     return (
       <AnimatePresence>
         {isOpen && (
@@ -80,12 +80,12 @@ export const NavigationCityDropdown =
             >
               <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
                 {data.map((value, index) => {
-                  return <li key={keyExtractor?.(value) ?? index}>{renderItem(value)}</li>
+                  return <li key={keyExtractor?.(value) ?? index}>{renderItem(value)}</li>;
                 })}
               </ul>
             </NavigationDropdownMotionDiv>
           </>
         )}
       </AnimatePresence>
-    )
-  }
+    );
+  };

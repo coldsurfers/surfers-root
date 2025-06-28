@@ -1,20 +1,20 @@
-import { Venue } from '@prisma/client'
-import { Venue as VenueResolverType } from '../../gql/resolvers-types'
-import { prisma } from '../libs/db/db.utils'
+import type { Venue } from '@prisma/client';
+import type { Venue as VenueResolverType } from '../../gql/resolvers-types';
+import { prisma } from '../libs/db/db.utils';
 
-type VenueDTOProps = Partial<Venue>
+type VenueDTOProps = Partial<Venue>;
 
 export default class VenueDTO {
-  props: VenueDTOProps
+  props: VenueDTOProps;
 
   constructor(props: VenueDTOProps) {
-    this.props = props
+    this.props = props;
   }
 
   async create() {
-    const { lat, lng, name, geohash, address } = this.props
+    const { lat, lng, name, geohash, address } = this.props;
     if (!lat || !lng || !name || !geohash || !address) {
-      throw Error('invalid props')
+      throw Error('invalid props');
     }
     const data = await prisma.venue.create({
       data: {
@@ -24,13 +24,13 @@ export default class VenueDTO {
         geohash,
         address,
       },
-    })
-    return new VenueDTO(data)
+    });
+    return new VenueDTO(data);
   }
 
   async connect(concertId: string) {
     if (!this.props.id) {
-      throw Error('invalid id.')
+      throw Error('invalid id.');
     }
     const data = await prisma.concertsOnVenues.create({
       data: {
@@ -40,10 +40,10 @@ export default class VenueDTO {
       include: {
         venue: true,
       },
-    })
+    });
     return new VenueDTO({
       ...data.venue,
-    })
+    });
   }
 
   static async search(keyword: string) {
@@ -54,9 +54,9 @@ export default class VenueDTO {
           mode: 'insensitive',
         },
       },
-    })
+    });
 
-    return data.map((value) => new VenueDTO(value))
+    return data.map((value) => new VenueDTO(value));
   }
 
   static async find(concertId: string) {
@@ -67,13 +67,13 @@ export default class VenueDTO {
       include: {
         venue: true,
       },
-    })
-    return data.map((value) => new VenueDTO(value.venue))
+    });
+    return data.map((value) => new VenueDTO(value.venue));
   }
 
   async delete(concertId: string) {
     if (!this.props.id) {
-      throw Error('invalid id')
+      throw Error('invalid id');
     }
     const data = await prisma.concertsOnVenues.delete({
       where: {
@@ -85,8 +85,8 @@ export default class VenueDTO {
       include: {
         venue: true,
       },
-    })
-    return new VenueDTO(data.venue)
+    });
+    return new VenueDTO(data.venue);
   }
 
   serialize(): VenueResolverType {
@@ -98,6 +98,6 @@ export default class VenueDTO {
       lng: this.props.lng ?? 0.0,
       name: this.props.name ?? '',
       address: this.props.address ?? '',
-    }
+    };
   }
 }

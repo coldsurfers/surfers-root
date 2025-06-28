@@ -1,6 +1,6 @@
-import { ConcertDetailDTO } from '@/dtos/concert.dto'
-import { dbClient } from '@/lib/db'
-import {
+import type { ConcertDetailDTO } from '@/dtos/concert.dto';
+import { dbClient } from '@/lib/db';
+import type {
   Artist,
   ArtistProfileImage,
   Concert,
@@ -10,21 +10,23 @@ import {
   Poster,
   Ticket,
   Venue,
-} from '@prisma/client'
-import dotenv from 'dotenv'
-import { ConcertDetailRepository } from './concert-detail.repository'
+} from '@prisma/client';
+import dotenv from 'dotenv';
+import type { ConcertDetailRepository } from './concert-detail.repository';
 
-dotenv.config()
+dotenv.config();
 
-const { STATIC_SERVER_HOST: staticServerHost } = process.env
+const { STATIC_SERVER_HOST: staticServerHost } = process.env;
 
 interface ConcertDetailModel extends Concert {
-  posters: Poster[]
-  venues: Venue[]
-  artists: (Artist & { artistProfileImage: (ArtistProfileImage & { copyright: Copyright | null })[] })[]
-  kopisEvent: KOPISEvent | null
-  tickets: Ticket[]
-  detailImages: DetailImage[]
+  posters: Poster[];
+  venues: Venue[];
+  artists: (Artist & {
+    artistProfileImage: (ArtistProfileImage & { copyright: Copyright | null })[];
+  })[];
+  kopisEvent: KOPISEvent | null;
+  tickets: Ticket[];
+  detailImages: DetailImage[];
 }
 
 export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
@@ -69,27 +71,27 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
         },
         kopisEvent: true,
       },
-    })
+    });
     if (!data) {
-      return null
+      return null;
     }
-    const posters = data.posters.map((value) => value.poster)
-    const venues = data.venues.map((value) => value.venue)
+    const posters = data.posters.map((value) => value.poster);
+    const venues = data.venues.map((value) => value.venue);
     const artists = data.artists.map((value) => ({
       ...value.artist,
       artistProfileImage: value.artist.artistProfileImage,
-    }))
-    const tickets = data.tickets.map((value) => value.ticket)
+    }));
+    const tickets = data.tickets.map((value) => value.ticket);
     const extractDetailImageNumber = (filename: string): number => {
-      const match = filename.match(/detail-image-(\d+)-(?:low|medium|high)\.[^/]+$/)
-      return match ? parseInt(match[1], 10) : 0
-    }
+      const match = filename.match(/detail-image-(\d+)-(?:low|medium|high)\.[^/]+$/);
+      return match ? Number.parseInt(match[1], 10) : 0;
+    };
     const detailImages = data.detailImages
       .map((value) => value.detailImage)
       .filter((detailImage) => detailImage.imageURL.includes('high'))
       .sort((a, b) => {
-        return extractDetailImageNumber(a.imageURL) - extractDetailImageNumber(b.imageURL)
-      })
+        return extractDetailImageNumber(a.imageURL) - extractDetailImageNumber(b.imageURL);
+      });
     return this.toDTO({
       ...data,
       posters,
@@ -97,7 +99,7 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
       artists,
       tickets,
       detailImages,
-    })
+    });
   }
 
   async getConcertDetailBySlug(slug: string): Promise<ConcertDetailDTO | null> {
@@ -141,27 +143,27 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
         },
         kopisEvent: true,
       },
-    })
+    });
     if (!data) {
-      return null
+      return null;
     }
-    const posters = data.posters.map((value) => value.poster)
-    const venues = data.venues.map((value) => value.venue)
+    const posters = data.posters.map((value) => value.poster);
+    const venues = data.venues.map((value) => value.venue);
     const artists = data.artists.map((value) => ({
       ...value.artist,
       artistProfileImage: value.artist.artistProfileImage,
-    }))
-    const tickets = data.tickets.map((value) => value.ticket)
+    }));
+    const tickets = data.tickets.map((value) => value.ticket);
     const extractDetailImageNumber = (filename: string): number => {
-      const match = filename.match(/detail-image-(\d+)-(?:low|medium|high)\.[^/]+$/)
-      return match ? parseInt(match[1], 10) : 0
-    }
+      const match = filename.match(/detail-image-(\d+)-(?:low|medium|high)\.[^/]+$/);
+      return match ? Number.parseInt(match[1], 10) : 0;
+    };
     const detailImages = data.detailImages
       .map((value) => value.detailImage)
       .filter((detailImage) => detailImage.imageURL.includes('high'))
       .sort((a, b) => {
-        return extractDetailImageNumber(a.imageURL) - extractDetailImageNumber(b.imageURL)
-      })
+        return extractDetailImageNumber(a.imageURL) - extractDetailImageNumber(b.imageURL);
+      });
     return this.toDTO({
       ...data,
       posters,
@@ -169,7 +171,7 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
       artists,
       tickets,
       detailImages,
-    })
+    });
   }
 
   private toDTO(model: ConcertDetailModel): ConcertDetailDTO {
@@ -189,13 +191,13 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
         lng: venue.lng,
       })),
       artists: model.artists.map((artist) => {
-        const artistProfileImage = artist.artistProfileImage.at(0)
+        const artistProfileImage = artist.artistProfileImage.at(0);
         return {
           id: artist.id,
           name: artist.name,
           thumbUrl: artistProfileImage ? artistProfileImage.imageURL : null,
           thumbCopyright: artistProfileImage?.copyright ?? null,
-        }
+        };
       }),
       tickets: model.tickets.map((ticket) => ({
         id: ticket.id,
@@ -210,6 +212,6 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
         id: detailImage.id,
         url: `${staticServerHost}/${detailImage.keyId}`,
       })),
-    }
+    };
   }
 }
