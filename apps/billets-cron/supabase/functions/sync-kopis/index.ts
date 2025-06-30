@@ -176,6 +176,12 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case '이음아트홀 [대전]':
+      alreadyExistingVenueId = '0753a0fc-3a88-4d98-b225-8b7783d99b66';
+      break;
+    case '엠스테이지 (구.인사아트홀)':
+      alreadyExistingVenueId = '2c488b4f-9892-448d-8cd8-798c69c14aee';
+      break;
     case '레이어 스튜디오 7 (LAYER 7)':
       alreadyExistingVenueId = 'e0dc5a73-1986-4cbe-b0e9-291a222b622b';
       break;
