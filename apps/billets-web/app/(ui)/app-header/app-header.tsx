@@ -1,7 +1,6 @@
 'use client';
 
 import { APP_DOWNLOAD_WORDING, APP_STORE_URL } from '@/libs/constants';
-import { useAuthStore } from '@/libs/stores';
 import { authUtils } from '@/libs/utils/utils.auth';
 import { Button, IconButton, Spinner, Text, breakpoints } from '@coldsurfers/ocean-road';
 import { SERVICE_NAME } from '@coldsurfers/shared-utils';
@@ -128,12 +127,10 @@ export function AppHeader({ isLoggedIn }: { isLoggedIn: boolean }) {
   const router = useRouter();
   const [animation, setAnimation] = useState<'show' | 'hide'>('show');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { setIsLoggedIn } = useAuthStore();
 
   const { mutate: logout, isPending: isLogoutPending } = useMutation({
     mutationFn: () => authUtils.localLogout(),
     onSuccess: () => {
-      setIsLoggedIn(false);
       router.refresh();
     },
     onError: (error) => {

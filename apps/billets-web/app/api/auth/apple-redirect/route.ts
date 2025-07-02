@@ -1,4 +1,4 @@
-import { COOKIE_ACCESS_TOKEN_KEY } from '@/libs/constants';
+import { COOKIE_ACCESS_TOKEN_KEY, COOKIE_REFRESH_TOKEN_KEY } from '@/libs/constants';
 import { apiClient } from '@/libs/openapi-client';
 import { generateAppleClientSecret } from '@/libs/utils/utils.jwt';
 import { decodeJwt } from '@coldsurfers/shared-utils';
@@ -51,12 +51,23 @@ export async function POST(req: NextRequest) {
       platform: 'web',
     });
 
-    const cookieString = serialize(COOKIE_ACCESS_TOKEN_KEY, authToken.accessToken, {
+    let cookieString = serialize(COOKIE_ACCESS_TOKEN_KEY, authToken.accessToken, {
       httpOnly: true,
       secure: true,
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+      // apple 에서 redirect되기 때문에 일단 none으로 두고 /api/local-login에서 strict로 변경
       sameSite: 'none',
       path: '/',
-      maxAge: 60 * 60 * 24 * 7,
+      domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
+    });
+
+    cookieString += serialize(COOKIE_REFRESH_TOKEN_KEY, authToken.refreshToken, {
+      httpOnly: true,
+      secure: true,
+      maxAge: 60 * 60 * 24 * 7, // 4 weeks
+      // apple 에서 redirect되기 때문에 일단 none으로 두고 /api/local-login에서 strict로 변경
+      sameSite: 'none',
+      path: '/',
       domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
     });
 
@@ -64,7 +75,9 @@ export async function POST(req: NextRequest) {
       status: 302,
       headers: {
         Location:
-          process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://coldsurf.io',
+          process.env.NODE_ENV === 'development'
+            ? 'http://localhost:3000/social-redirect'
+            : 'https://coldsurf.io/social-redirect',
         'Set-Cookie': cookieString,
       },
     });

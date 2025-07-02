@@ -1,6 +1,5 @@
 'use client';
 
-import { useAuthStore } from '@/libs/stores';
 import { type PropsWithChildren, useEffect } from 'react';
 import { AppFooter } from '../app-footer';
 import { AppHeader } from '../app-header';
@@ -10,23 +9,14 @@ import { ChildrenWrapper, Container } from './app-layout.styled';
 
 export function AppLayout({
   children,
-  isServerSideLoggedIn,
+  cookieAccessToken,
 }: PropsWithChildren<{
-  isServerSideLoggedIn: boolean;
+  cookieAccessToken: string;
+  cookieRefreshToken: string;
 }>) {
-  const { isLoggedIn: isClientSideLoggedIn, setIsLoggedIn: setIsClientSideLoggedIn } =
-    useAuthStore();
-  const isLoggedIn = isServerSideLoggedIn || isClientSideLoggedIn;
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      setIsClientSideLoggedIn(true);
-    }
-  }, [isLoggedIn, setIsClientSideLoggedIn]);
-
   return (
     <Container>
-      <AppHeader isLoggedIn={isLoggedIn} />
+      <AppHeader isLoggedIn={!!cookieAccessToken} />
       <ChildrenWrapper>
         <PageLayoutUI>{children}</PageLayoutUI>
       </ChildrenWrapper>
