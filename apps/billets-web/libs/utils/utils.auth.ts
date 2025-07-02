@@ -8,7 +8,8 @@ export const authUtils = {
     await fetch('/api/local-login', {
       method: 'POST',
       body: JSON.stringify({
-        token: authToken.accessToken,
+        accessToken: authToken.accessToken,
+        refreshToken: authToken.refreshToken,
       }),
     });
     storage?.set('@coldsurf-io/access-token', authToken.accessToken);

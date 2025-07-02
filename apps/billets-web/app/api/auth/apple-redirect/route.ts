@@ -1,4 +1,4 @@
-import { COOKIE_ACCESS_TOKEN_KEY } from '@/libs/constants';
+import { COOKIE_ACCESS_TOKEN_KEY, COOKIE_REFRESH_TOKEN_KEY } from '@/libs/constants';
 import { apiClient } from '@/libs/openapi-client';
 import { generateAppleClientSecret } from '@/libs/utils/utils.jwt';
 import { decodeJwt } from '@coldsurfers/shared-utils';
@@ -51,12 +51,21 @@ export async function POST(req: NextRequest) {
       platform: 'web',
     });
 
-    const cookieString = serialize(COOKIE_ACCESS_TOKEN_KEY, authToken.accessToken, {
+    let cookieString = serialize(COOKIE_ACCESS_TOKEN_KEY, authToken.accessToken, {
       httpOnly: true,
       secure: true,
-      sameSite: 'none',
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+      sameSite: 'strict',
       path: '/',
-      maxAge: 60 * 60 * 24 * 7,
+      domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
+    });
+
+    cookieString += serialize(COOKIE_REFRESH_TOKEN_KEY, authToken.refreshToken, {
+      httpOnly: true,
+      secure: true,
+      maxAge: 60 * 60 * 24 * 7, // 4 weeks
+      sameSite: 'strict',
+      path: '/',
       domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
     });
 

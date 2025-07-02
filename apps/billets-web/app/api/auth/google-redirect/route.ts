@@ -1,4 +1,4 @@
-import { COOKIE_ACCESS_TOKEN_KEY } from '@/libs/constants';
+import { COOKIE_ACCESS_TOKEN_KEY, COOKIE_REFRESH_TOKEN_KEY } from '@/libs/constants';
 import { apiClient } from '@/libs/openapi-client';
 import { cookies } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
@@ -57,7 +57,15 @@ export async function GET(req: NextRequest) {
         httpOnly: true,
         secure: true,
         maxAge: 60 * 60 * 24 * 7, // 1 week
-        sameSite: 'none',
+        sameSite: 'strict',
+        path: '/',
+        domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
+      })
+      .set(COOKIE_REFRESH_TOKEN_KEY, authToken.refreshToken, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 60 * 60 * 24 * 7, // 4 weeks
+        sameSite: 'strict',
         path: '/',
         domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
       })
