@@ -3,6 +3,7 @@ import {
   COMMON_META_DESCRIPTION,
   COMMON_META_TITLE,
   COOKIE_ACCESS_TOKEN_KEY,
+  COOKIE_REFRESH_TOKEN_KEY,
   SITE_URL,
 } from '@/libs/constants';
 import { metadataInstance } from '@/libs/metadata';
@@ -34,8 +35,9 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const cookieStore = await cookies();
-  const accessToken = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY);
-  const isLoggedIn = !!accessToken?.value;
+  const cookieAccessToken = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY)?.value;
+  const cookieRefreshToken = cookieStore.get(COOKIE_REFRESH_TOKEN_KEY)?.value;
+
   return (
     <html lang="en">
       <head>
@@ -140,7 +142,12 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <RegistryProvider registries={[OceanRoadThemeRegistry, FirebaseRegistry]}>
           <GlobalErrorBoundaryRegistry>
             <QueryClientRegistry>
-              <AppLayout isServerSideLoggedIn={isLoggedIn}>{children}</AppLayout>
+              <AppLayout
+                cookieAccessToken={cookieAccessToken ?? ''}
+                cookieRefreshToken={cookieRefreshToken ?? ''}
+              >
+                {children}
+              </AppLayout>
             </QueryClientRegistry>
           </GlobalErrorBoundaryRegistry>
         </RegistryProvider>
