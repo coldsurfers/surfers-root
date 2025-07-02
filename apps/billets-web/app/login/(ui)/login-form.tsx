@@ -2,7 +2,6 @@
 
 import { COMMON_META_TITLE } from '@/libs/constants';
 import { apiClient } from '@/libs/openapi-client';
-import { useAuthStore } from '@/libs/stores';
 import { authUtils } from '@/libs/utils/utils.auth';
 import type { OpenApiError } from '@coldsurfers/api-sdk';
 import {
@@ -120,7 +119,6 @@ const ErrorMessage = styled(Text)`
 
 export const LoginForm = () => {
   const router = useRouter();
-  const { setIsLoggedIn } = useAuthStore();
   const { register, watch } = useForm<{
     email: string;
     password: string;
@@ -153,7 +151,6 @@ export const LoginForm = () => {
       setEmailLoginServerError(null);
       try {
         await authUtils.localLogin(data.authToken);
-        setIsLoggedIn(true);
         router.replace('/');
       } catch (e) {
         console.error(e);
@@ -164,19 +161,19 @@ export const LoginForm = () => {
     },
   });
 
-  const login = useCallback(() => emailLogin(formValues), [emailLogin, formValues]);
+  const loginAction = useCallback(() => emailLogin(formValues), [emailLogin, formValues]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
-        login();
+        loginAction();
       }
     };
     window.addEventListener('keydown', onKeyDown);
     return () => {
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [login]);
+  }, [loginAction]);
 
   return (
     <>
@@ -195,7 +192,7 @@ export const LoginForm = () => {
           <Form>
             <EmailLoginTextInput placeholder="이메일" {...register('email')} />
             <EmailLoginTextInput type="password" placeholder="패스워드" {...register('password')} />
-            <EmailLoginButton type="button" onClick={login}>
+            <EmailLoginButton type="button" onClick={loginAction}>
               로그인
             </EmailLoginButton>
           </Form>

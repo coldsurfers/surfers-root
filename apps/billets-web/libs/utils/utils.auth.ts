@@ -1,4 +1,5 @@
 import type { components } from '@coldsurfers/api-sdk';
+import { useAuthStore } from '../stores';
 import storage from './utils.storage';
 
 export const authUtils = {
@@ -12,14 +13,15 @@ export const authUtils = {
         refreshToken: authToken.refreshToken,
       }),
     });
-    storage?.set('@coldsurf-io/access-token', authToken.accessToken);
-    storage?.set('@coldsurf-io/refresh-token', authToken.refreshToken);
+    useAuthStore.getState().login({
+      accessToken: authToken.accessToken,
+      refreshToken: authToken.refreshToken,
+    });
   },
   localLogout: async () => {
     await fetch('/api/local-logout', {
       method: 'POST',
     });
-    storage?.remove('@coldsurf-io/access-token');
-    storage?.remove('@coldsurf-io/refresh-token');
+    useAuthStore.getState().logout();
   },
 };
