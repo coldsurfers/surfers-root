@@ -75,8 +75,8 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.redirect(
       process.env.NODE_ENV === 'development'
-        ? 'http://localhost:3000/google-redirect'
-        : 'https://coldsurf.io/google-redirect',
+        ? 'http://localhost:3000/social-redirect'
+        : 'https://coldsurf.io/social-redirect',
       {
         headers: {
           'Set-Cookie': responseCookie,

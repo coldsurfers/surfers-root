@@ -55,7 +55,8 @@ export async function POST(req: NextRequest) {
       httpOnly: true,
       secure: true,
       maxAge: 60 * 60 * 24 * 7, // 1 week
-      sameSite: 'strict',
+      // apple 에서 redirect되기 때문에 일단 none으로 두고 /api/local-login에서 strict로 변경
+      sameSite: 'none',
       path: '/',
       domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
     });
@@ -64,7 +65,8 @@ export async function POST(req: NextRequest) {
       httpOnly: true,
       secure: true,
       maxAge: 60 * 60 * 24 * 7, // 4 weeks
-      sameSite: 'strict',
+      // apple 에서 redirect되기 때문에 일단 none으로 두고 /api/local-login에서 strict로 변경
+      sameSite: 'none',
       path: '/',
       domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
     });
@@ -73,7 +75,9 @@ export async function POST(req: NextRequest) {
       status: 302,
       headers: {
         Location:
-          process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://coldsurf.io',
+          process.env.NODE_ENV === 'development'
+            ? 'http://localhost:3000/social-redirect'
+            : 'https://coldsurf.io/social-redirect',
         'Set-Cookie': cookieString,
       },
     });
