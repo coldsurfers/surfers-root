@@ -176,6 +176,9 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case '씨드콘서트홀(SEED CONCERT HALL)':
+      alreadyExistingVenueId = '55e8ece3-cb26-44f0-8a61-811d80631056';
+      break;
     case '이음아트홀 [대전]':
       alreadyExistingVenueId = '0753a0fc-3a88-4d98-b225-8b7783d99b66';
       break;
