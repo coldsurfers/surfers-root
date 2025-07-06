@@ -12,6 +12,9 @@ export const API_BASE_URL = (() => {
 })();
 
 export const SITE_URL = (() => {
+  if (process.env.NODE_ENV === 'development') {
+    return 'http://localhost:3000';
+  }
   switch (process.env.APP_PLATFORM) {
     case 'production':
       return 'https://coldsurf.io';

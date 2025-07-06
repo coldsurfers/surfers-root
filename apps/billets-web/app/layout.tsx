@@ -42,15 +42,15 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
 
   try {
     // do not use prefetchQuery, because it will not cause error if server side error is occurred. So catch phrase won't be executed.
-    await queryClient.fetchQuery({
+    await queryClient.prefetchQuery({
       queryKey: apiClient.user.queryKeys.me,
       queryFn: () => apiClient.user.getMe(),
     });
   } catch {
     // if not logged in, set query data to null (for not csr fetch again)
-    await queryClient.setQueryData(apiClient.user.queryKeys.me, null, {
-      updatedAt: Date.now(),
-    });
+    // await queryClient.setQueryData(apiClient.user.queryKeys.me, null, {
+    //   updatedAt: Date.now(),
+    // });
   }
 
   const dehydratedState = JSON.parse(JSON.stringify(dehydrate(queryClient)));
