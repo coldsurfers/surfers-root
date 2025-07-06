@@ -583,6 +583,17 @@ export class ApiSdk {
           }
           return data.data;
         },
+        reissueToken: async (
+          body: paths['/v1/auth/reissue-token']['post']['requestBody']['content']['application/json']
+        ) => {
+          const data = await baseFetchClient.POST('/v1/auth/reissue-token', {
+            body,
+          });
+          if (data.error) {
+            throw new OpenApiError(data.error);
+          }
+          return data.data;
+        },
       },
       search: {
         queryKeys: {

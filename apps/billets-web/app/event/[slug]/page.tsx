@@ -32,7 +32,7 @@ async function getEventMetadata(slug: string) {
     return null;
   }
   try {
-    const eventDetailData = await apiClient.event.getEventDetailBySlug(encodeURIComponent(slug));
+    const eventDetailData = await apiClient.event.getEventDetailBySlug(decodeURIComponent(slug));
     if (!eventDetailData) {
       return null;
     }

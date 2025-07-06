@@ -1,7 +1,60 @@
-import { ApiSdk, type components } from '@coldsurfers/api-sdk';
+import { ApiSdk, type OpenApiError, type components } from '@coldsurfers/api-sdk';
 import type { Middleware } from 'openapi-fetch';
-import { API_BASE_URL, COOKIE_ACCESS_TOKEN_KEY } from './constants';
+import { API_BASE_URL, COOKIE_ACCESS_TOKEN_KEY, COOKIE_REFRESH_TOKEN_KEY } from './constants';
 import { useAuthStore } from './stores';
+import { authUtils } from './utils/utils.auth';
+
+let isRefreshing = false;
+let refreshPromise: Promise<string | null> | null = null;
+
+async function getRefreshToken() {
+  const isSsr = typeof window === 'undefined';
+  if (isSsr) {
+    const cookies = (await import('next/headers')).cookies;
+    const cookieStore = await cookies();
+    return cookieStore.get(COOKIE_REFRESH_TOKEN_KEY)?.value ?? '';
+  }
+  return useAuthStore.getState().refreshToken;
+}
+
+async function getRefreshedToken(): Promise<string | null> {
+  if (isRefreshing && refreshPromise) {
+    return refreshPromise;
+  }
+
+  isRefreshing = true;
+
+  const oldRefreshToken = await getRefreshToken();
+
+  if (!oldRefreshToken) {
+    isRefreshing = false;
+    return null;
+  }
+
+  refreshPromise = fetchRefreshToken(oldRefreshToken)
+    .then(async (tokens) => {
+      authUtils.localLogin(tokens);
+      return tokens.accessToken;
+    })
+    .catch(async (err) => {
+      console.error('[authMiddleware] refresh failed:', err);
+      authUtils.localLogout();
+      return null;
+    })
+    .finally(() => {
+      isRefreshing = false;
+      refreshPromise = null;
+    });
+
+  return refreshPromise;
+}
+
+async function fetchRefreshToken(refreshToken: string) {
+  const response = await apiClient.auth.reissueToken({
+    refreshToken,
+  });
+  return response.authToken;
+}
 
 const authMiddleware: Middleware = {
   onRequest: async ({ request }) => {
@@ -19,6 +72,39 @@ const authMiddleware: Middleware = {
     if (accessToken) {
       request.headers.set('Authorization', `Bearer ${accessToken}`);
     }
+  },
+  onResponse: async ({ response, request }) => {
+    if (response.status === 401) {
+      const cloned = response.clone();
+      let json: OpenApiError | undefined;
+
+      try {
+        json = (await cloned.json()) as OpenApiError | undefined;
+      } catch {
+        return response;
+      }
+
+      if (json?.code !== 'INVALID_ACCESS_TOKEN') {
+        return response;
+      }
+
+      const newAccessToken = await getRefreshedToken();
+      if (!newAccessToken) return response;
+
+      const retryRequest = new Request(request.url, {
+        method: request.method,
+        headers: {
+          ...request.headers,
+          Authorization: `Bearer ${newAccessToken}`,
+        },
+        body: request.body,
+        credentials: request.credentials,
+      });
+
+      return fetch(retryRequest);
+    }
+
+    return response;
   },
 };
 

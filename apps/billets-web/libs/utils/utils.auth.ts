@@ -1,26 +1,35 @@
 import type { components } from '@coldsurfers/api-sdk';
+import { SITE_URL } from '../constants';
 import { useAuthStore } from '../stores';
 
 export const authUtils = {
   localLogin: async (
     authToken: components['schemas']['UserWithAuthTokenDTOSchema']['authToken']
   ) => {
-    await fetch('/api/local-login', {
+    const isSsr = typeof window === 'undefined';
+    const fetchUrl = isSsr ? `${SITE_URL}/api/local-login` : '/api/local-login';
+    await fetch(fetchUrl, {
       method: 'POST',
       body: JSON.stringify({
         accessToken: authToken.accessToken,
         refreshToken: authToken.refreshToken,
       }),
     });
-    useAuthStore.getState().login({
-      accessToken: authToken.accessToken,
-      refreshToken: authToken.refreshToken,
-    });
+    if (!isSsr) {
+      useAuthStore.getState().login({
+        accessToken: authToken.accessToken,
+        refreshToken: authToken.refreshToken,
+      });
+    }
   },
   localLogout: async () => {
-    await fetch('/api/local-logout', {
+    const isSsr = typeof window === 'undefined';
+    const fetchUrl = isSsr ? `${SITE_URL}/api/local-logout` : '/api/local-logout';
+    await fetch(fetchUrl, {
       method: 'POST',
     });
-    useAuthStore.getState().logout();
+    if (!isSsr) {
+      useAuthStore.getState().logout();
+    }
   },
 };

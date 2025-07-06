@@ -340,6 +340,63 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/auth/reissue-token': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['ReissueTokenBodyDTOSchema']
+        }
+      }
+      responses: {
+        /** @description Default Response */
+        201: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['UserWithAuthTokenDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/auth/signin': {
     parameters: {
       query?: never
@@ -424,7 +481,7 @@ export interface paths {
           'application/json': {
             email: string
             password?: string
-            platform?: 'android' | 'ios'
+            platform?: 'android' | 'ios' | 'web'
             provider: 'google' | 'apple' | 'email'
             token?: string
           }
@@ -2381,6 +2438,7 @@ export interface components {
         | 'ARTIST_PROFILE_IMAGE_NOT_FOUND'
         | 'IMAGE_KEY_NOT_FOUND'
         | 'IMAGE_NOT_FOUND'
+        | 'REFRESH_TOKEN_NOT_FOUND'
       message: string
     }
     EventCategoryDTOSchema: {
@@ -2468,6 +2526,9 @@ export interface components {
       id: string
       name: string
       price: number
+    }
+    ReissueTokenBodyDTOSchema: {
+      refreshToken: string
     }
     SendAuthCodeResponseDTOSchema: {
       /** Format: email */
