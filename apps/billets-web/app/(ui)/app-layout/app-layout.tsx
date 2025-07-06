@@ -16,7 +16,7 @@ export function AppLayout({
 }>) {
   return (
     <Container>
-      <AppHeader isLoggedIn={!!cookieAccessToken} />
+      <AppHeader isServerSideLoggedIn={!!cookieAccessToken} />
       <ChildrenWrapper>
         <PageLayoutUI>{children}</PageLayoutUI>
       </ChildrenWrapper>

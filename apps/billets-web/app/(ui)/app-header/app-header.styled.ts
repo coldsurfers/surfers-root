@@ -1,11 +1,11 @@
-import { GLOBAL_Z_INDEX } from '@/libs/constants'
-import { IconButton, media, semantics, Text } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
-import { AlignRight, Search as SearchIcon } from 'lucide-react'
-import Link from 'next/link'
-import { GlobalLink } from '../global-link'
-import { HEADER_HEIGHT } from './app-header.constants'
+import { GLOBAL_Z_INDEX } from '@/libs/constants';
+import { IconButton, Text, media, semantics } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { AlignRight, Search as SearchIcon } from 'lucide-react';
+import Link from 'next/link';
+import { GlobalLink } from '../global-link';
+import { HEADER_HEIGHT } from './app-header.constants';
 
 export const HeaderContainer = styled.header<{ $animation: 'show' | 'hide' }>`
   display: flex;
@@ -27,7 +27,7 @@ export const HeaderContainer = styled.header<{ $animation: 'show' | 'hide' }>`
   ${media.large(css`
     padding: 0 16px;
   `)}
-`
+`;
 
 export const HeaderTitle = styled(Text)`
   font-size: 32px;
@@ -36,7 +36,7 @@ export const HeaderTitle = styled(Text)`
   ${media.large(css`
     font-size: 24px;
   `)}
-`
+`;
 
 export const HeaderLogo = styled.img`
   border-radius: 50%;
@@ -49,7 +49,7 @@ export const HeaderLogo = styled.img`
     width: 36px;
     height: 36px;
   `)}
-`
+`;
 
 export const HeaderMenuContainerGlobalLink = styled(GlobalLink)`
   background-color: transparent;
@@ -57,7 +57,7 @@ export const HeaderMenuContainerGlobalLink = styled(GlobalLink)`
   cursor: pointer;
 
   padding: 10px;
-`
+`;
 
 export const HeaderMenuContainerLink = styled(Link)`
   background-color: transparent;
@@ -69,7 +69,7 @@ export const HeaderMenuContainerLink = styled(Link)`
   ${media.large(css`
     padding: 0;
   `)}
-`
+`;
 
 export const HeaderMenuContainerButton = styled.div`
   background-color: transparent;
@@ -81,9 +81,9 @@ export const HeaderMenuContainerButton = styled.div`
   ${media.large(css`
     padding: 0;
   `)}
-`
+`;
 
-export const HeaderMenuText = styled(Text)``
+export const HeaderMenuText = styled(Text)``;
 
 export const WebMenuContainer = styled.div`
   display: flex;
@@ -94,7 +94,7 @@ export const WebMenuContainer = styled.div`
   ${media.large(css`
     display: none;
   `)}
-`
+`;
 
 export const MobileMenuContainer = styled.div`
   display: none;
@@ -102,7 +102,7 @@ export const MobileMenuContainer = styled.div`
   ${media.large(css`
     display: flex;
   `)}
-`
+`;
 
 export const ModalContainer = styled.div<{ $isOpen: boolean }>`
   position: fixed;
@@ -114,7 +114,7 @@ export const ModalContainer = styled.div<{ $isOpen: boolean }>`
   backdrop-filter: blur(0.5px);
   display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
   z-index: ${GLOBAL_Z_INDEX.MOBILE_MENU_MODAL};
-`
+`;
 
 export const ModalPaper = styled.div`
   background: ${semantics.color.background[2]};
@@ -123,7 +123,7 @@ export const ModalPaper = styled.div`
   margin: 12px auto;
   width: calc(100vw - 24px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-`
+`;
 
 export const ModalContent = styled.div`
   margin: 10px 0;
@@ -131,17 +131,17 @@ export const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-`
+`;
 
 export const MobileMenuIcon = styled(AlignRight)`
   color: ${semantics.color.foreground[3]};
-`
+`;
 
 export const SearchIconUI = styled(SearchIcon)`
   width: 24px;
   height: 24px;
   color: ${semantics.color.foreground[1]};
-`
+`;
 
 export const SearchIconWrapper = styled(IconButton)`
   display: flex;
@@ -159,4 +159,16 @@ export const SearchIconWrapper = styled(IconButton)`
   ${media.large(css`
     margin-right: 0.5rem;
   `)}
-`
+`;
+
+export const AppHeaderMenuTextSkeleton = styled.div`
+  width: 80px;
+  height: 32px;
+  border-radius: 4px;
+  background-color: ${semantics.color.background[4]};
+
+  ${media.medium(css`
+    width: 120px;
+    height: 24px;
+  `)}
+`;
