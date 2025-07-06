@@ -43,13 +43,12 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const queryClient = getQueryClient();
 
   try {
-    await queryClient.fetchQuery({
+    await queryClient.prefetchQuery({
       queryKey: apiClient.user.queryKeys.me,
       queryFn: () => apiClient.user.getMe(),
     });
-  } catch {
-    // if not logged in, set query data to null (for not csr fetch again)
-    await queryClient.setQueryData(apiClient.user.queryKeys.me, null);
+  } catch (e) {
+    console.error(e);
   }
 
   return (
