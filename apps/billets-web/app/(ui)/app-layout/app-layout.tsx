@@ -7,16 +7,10 @@ import { FloatingSearchBar } from '../floating-search-bar';
 import { PageLayoutUI } from '../page-layout-ui';
 import { ChildrenWrapper, Container } from './app-layout.styled';
 
-export function AppLayout({
-  children,
-  cookieAccessToken,
-}: PropsWithChildren<{
-  cookieAccessToken: string;
-  cookieRefreshToken: string;
-}>) {
+export function AppLayout({ children }: PropsWithChildren) {
   return (
     <Container>
-      <AppHeader isServerSideLoggedIn={!!cookieAccessToken} />
+      <AppHeader />
       <ChildrenWrapper>
         <PageLayoutUI>{children}</PageLayoutUI>
       </ChildrenWrapper>

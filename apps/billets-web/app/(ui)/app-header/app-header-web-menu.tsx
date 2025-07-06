@@ -7,10 +7,10 @@ import { useRouter } from 'next/navigation';
 import type { MouseEventHandler } from 'react';
 import { ColorSchemeToggle } from '../color-scheme-toggle';
 import { GlobalLink } from '../global-link';
+import { AppHeaderLoginMenu } from './app-header-login-menu';
 import { AppHeaderSearchUI } from './app-header.search-ui';
 import {
   AppHeaderMenuTextSkeleton,
-  HeaderMenuContainerButton,
   HeaderMenuContainerGlobalLink,
   HeaderMenuContainerLink,
   HeaderMenuText,
@@ -19,15 +19,14 @@ import {
 import { commonMenuItems } from './constants';
 
 export const AppHeaderWebMenu = ({
-  isLoggedIn,
-  logout,
   isLoading,
+  onClickMobileLogout,
 }: {
-  isLoggedIn: boolean;
-  logout: () => void;
   isLoading: boolean;
+  onClickMobileLogout: () => void;
 }) => {
   const router = useRouter();
+
   return (
     <WebMenuContainer>
       {commonMenuItems.map((item) => {
@@ -49,23 +48,7 @@ export const AppHeaderWebMenu = ({
           </Container>
         );
       })}
-      {isLoggedIn ? (
-        <HeaderMenuContainerButton onClick={() => logout()}>
-          {isLoading ? (
-            <AppHeaderMenuTextSkeleton />
-          ) : (
-            <HeaderMenuText as="p">로그아웃</HeaderMenuText>
-          )}
-        </HeaderMenuContainerButton>
-      ) : (
-        <GlobalLink href={'/login'} style={{ paddingRight: 10 }}>
-          {isLoading ? (
-            <AppHeaderMenuTextSkeleton />
-          ) : (
-            <HeaderMenuText as="p">로그인</HeaderMenuText>
-          )}
-        </GlobalLink>
-      )}
+      <AppHeaderLoginMenu onClickMobileLogout={onClickMobileLogout} />
       <AppHeaderSearchUI />
       <GlobalLink href={APP_STORE_URL} target="_blank">
         <Button theme="border">{APP_DOWNLOAD_WORDING}</Button>
