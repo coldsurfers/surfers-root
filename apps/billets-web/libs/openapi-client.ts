@@ -2,7 +2,6 @@ import { ApiSdk, type components } from '@coldsurfers/api-sdk';
 import type { Middleware } from 'openapi-fetch';
 import { API_BASE_URL, COOKIE_ACCESS_TOKEN_KEY } from './constants';
 import { useAuthStore } from './stores';
-import storage from './utils/utils.storage';
 
 const authMiddleware: Middleware = {
   onRequest: async ({ request }) => {
