@@ -4,13 +4,12 @@ import { APP_DOWNLOAD_WORDING } from '@/libs/constants';
 import { Button, IconButton, Text } from '@coldsurfers/ocean-road';
 import { APP_STORE_URL } from '@coldsurfers/shared-utils';
 import { useRouter } from 'next/navigation';
-import { type MouseEventHandler, useCallback, useEffect } from 'react';
+import { type MouseEventHandler, useEffect } from 'react';
 import { GlobalLink } from '../global-link';
+import { AppHeaderLoginMenu } from './app-header-login-menu';
 import { AppHeaderSearchUI } from './app-header.search-ui';
 import {
   AppHeaderMenuTextSkeleton,
-  HeaderMenuContainerButton,
-  HeaderMenuText,
   MobileMenuContainer,
   MobileMenuIcon,
   ModalContainer,
@@ -37,14 +36,10 @@ export const AppHeaderMobileMenuOpener = ({
 export const AppHeaderMobileModalMenu = ({
   isOpen,
   onClose,
-  isLoggedIn,
-  logout,
   isLoading,
 }: {
   isOpen: boolean;
   onClose: () => void;
-  isLoggedIn: boolean;
-  logout: () => void;
   isLoading: boolean;
 }) => {
   const router = useRouter();
@@ -60,11 +55,6 @@ export const AppHeaderMobileModalMenu = ({
       body.style.overflow = ''; // Clean up on unmount
     };
   }, [isOpen]);
-
-  const onClickLogout = useCallback(() => {
-    logout();
-    onClose();
-  }, [logout, onClose]);
 
   return (
     <ModalContainer onClick={onClose} $isOpen={isOpen} style={{ overflowY: 'auto' }}>
@@ -91,23 +81,7 @@ export const AppHeaderMobileModalMenu = ({
                 </GlobalLink>
               );
             })}
-            {isLoggedIn ? (
-              <HeaderMenuContainerButton onClick={onClickLogout}>
-                {isLoading ? (
-                  <AppHeaderMenuTextSkeleton />
-                ) : (
-                  <HeaderMenuText as="p">로그아웃</HeaderMenuText>
-                )}
-              </HeaderMenuContainerButton>
-            ) : (
-              <GlobalLink href={'/login'} onClick={onClose}>
-                {isLoading ? (
-                  <AppHeaderMenuTextSkeleton />
-                ) : (
-                  <HeaderMenuText as="p">로그인</HeaderMenuText>
-                )}
-              </GlobalLink>
-            )}
+            <AppHeaderLoginMenu onClickMobileLogout={onClose} />
             <GlobalLink href={APP_STORE_URL} onClick={onClose} style={{ margin: '0 auto' }}>
               <Button theme="border">{APP_DOWNLOAD_WORDING}</Button>
             </GlobalLink>

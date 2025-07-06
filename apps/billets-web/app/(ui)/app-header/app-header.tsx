@@ -1,36 +1,18 @@
 'use client';
 
-import { apiClient } from '@/libs/openapi-client';
-import { authUtils } from '@/libs/utils/utils.auth';
-import { Spinner, breakpoints } from '@coldsurfers/ocean-road';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { breakpoints } from '@coldsurfers/ocean-road';
 import { useEffect, useState } from 'react';
+import { useIsLoggedIn } from '../../(hooks)/use-is-logged-in';
 import { AppHeaderLogo } from './app-header-logo';
 import { AppHeaderMobileMenuOpener, AppHeaderMobileModalMenu } from './app-header-mobile-menu';
 import { AppHeaderWebMenu } from './app-header-web-menu';
 import { HeaderContainer } from './app-header.styled';
 
-export function AppHeader({ isServerSideLoggedIn }: { isServerSideLoggedIn: boolean }) {
+export function AppHeader() {
   const [animation, setAnimation] = useState<'show' | 'hide'>('show');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const queryClient = useQueryClient();
 
-  const { data: userData, isLoading: isLoadingUser } = useQuery({
-    queryKey: apiClient.user.queryKeys.me,
-    queryFn: () => apiClient.user.getMe(),
-  });
-
-  const isLoggedIn = isServerSideLoggedIn && !!userData;
-
-  const { mutate: logout, isPending: isLogoutPending } = useMutation({
-    mutationFn: () => authUtils.localLogout(),
-    onSuccess: () => {
-      queryClient.removeQueries({ queryKey: apiClient.user.queryKeys.me });
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-  });
+  const { isLoading: isLoadingUser } = useIsLoggedIn();
 
   useEffect(() => {
     let lastScrollTop = 0;
@@ -61,17 +43,17 @@ export function AppHeader({ isServerSideLoggedIn }: { isServerSideLoggedIn: bool
     <>
       <HeaderContainer $animation={animation}>
         <AppHeaderLogo />
-        <AppHeaderWebMenu isLoggedIn={isLoggedIn} logout={logout} isLoading={isLoadingUser} />
+        <AppHeaderWebMenu
+          onClickMobileLogout={() => setIsModalOpen(false)}
+          isLoading={isLoadingUser}
+        />
         <AppHeaderMobileMenuOpener onClick={() => setIsModalOpen(true)} />
       </HeaderContainer>
       <AppHeaderMobileModalMenu
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        isLoggedIn={isLoggedIn}
-        logout={logout}
         isLoading={isLoadingUser}
       />
-      {isLogoutPending && <Spinner variant="page-overlay" />}
     </>
   );
 }

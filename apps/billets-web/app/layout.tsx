@@ -2,8 +2,6 @@ import {
   APP_STORE_URL,
   COMMON_META_DESCRIPTION,
   COMMON_META_TITLE,
-  COOKIE_ACCESS_TOKEN_KEY,
-  COOKIE_REFRESH_TOKEN_KEY,
   SITE_URL,
 } from '@/libs/constants';
 import { metadataInstance } from '@/libs/metadata';
@@ -19,7 +17,6 @@ import { getQueryClient } from '@/libs/utils';
 import { SERVICE_NAME } from '@coldsurfers/shared-utils';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import type { Metadata } from 'next';
-import { cookies } from 'next/headers';
 import type { ReactNode } from 'react';
 import { pretendard } from '../libs/font';
 import { AppLayout } from './(ui)';
@@ -37,12 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const cookieStore = await cookies();
-  const cookieAccessToken = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY)?.value;
-  const cookieRefreshToken = cookieStore.get(COOKIE_REFRESH_TOKEN_KEY)?.value;
   const queryClient = getQueryClient();
 
   try {
+    // do not use prefetchQuery, because it will not cause error if server side error is occurred. So catch phrase won't be executed.
     await queryClient.fetchQuery({
       queryKey: apiClient.user.queryKeys.me,
       queryFn: () => apiClient.user.getMe(),
@@ -159,12 +154,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <GlobalErrorBoundaryRegistry>
             <QueryClientRegistry>
               <HydrationBoundary state={dehydrate(queryClient)}>
-                <AppLayout
-                  cookieAccessToken={cookieAccessToken ?? ''}
-                  cookieRefreshToken={cookieRefreshToken ?? ''}
-                >
-                  {children}
-                </AppLayout>
+                <AppLayout>{children}</AppLayout>
               </HydrationBoundary>
             </QueryClientRegistry>
           </GlobalErrorBoundaryRegistry>
