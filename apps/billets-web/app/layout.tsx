@@ -7,6 +7,7 @@ import {
   SITE_URL,
 } from '@/libs/constants';
 import { metadataInstance } from '@/libs/metadata';
+import { apiClient } from '@/libs/openapi-client';
 import {
   FirebaseRegistry,
   GlobalErrorBoundaryRegistry,
@@ -14,7 +15,9 @@ import {
   QueryClientRegistry,
   RegistryProvider,
 } from '@/libs/registries';
+import { getQueryClient } from '@/libs/utils';
 import { SERVICE_NAME } from '@coldsurfers/shared-utils';
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import type { ReactNode } from 'react';
@@ -37,6 +40,16 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const cookieStore = await cookies();
   const cookieAccessToken = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY)?.value;
   const cookieRefreshToken = cookieStore.get(COOKIE_REFRESH_TOKEN_KEY)?.value;
+  const queryClient = getQueryClient();
+
+  try {
+    await queryClient.prefetchQuery({
+      queryKey: apiClient.user.queryKeys.me,
+      queryFn: () => apiClient.user.getMe(),
+    });
+  } catch (e) {
+    console.error(e);
+  }
 
   return (
     <html lang="en">
@@ -142,12 +155,14 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <RegistryProvider registries={[OceanRoadThemeRegistry, FirebaseRegistry]}>
           <GlobalErrorBoundaryRegistry>
             <QueryClientRegistry>
-              <AppLayout
-                cookieAccessToken={cookieAccessToken ?? ''}
-                cookieRefreshToken={cookieRefreshToken ?? ''}
-              >
-                {children}
-              </AppLayout>
+              <HydrationBoundary state={dehydrate(queryClient)}>
+                <AppLayout
+                  cookieAccessToken={cookieAccessToken ?? ''}
+                  cookieRefreshToken={cookieRefreshToken ?? ''}
+                >
+                  {children}
+                </AppLayout>
+              </HydrationBoundary>
             </QueryClientRegistry>
           </GlobalErrorBoundaryRegistry>
         </RegistryProvider>

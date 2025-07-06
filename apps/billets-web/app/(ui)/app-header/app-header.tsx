@@ -1,132 +1,27 @@
 'use client';
 
-import { APP_DOWNLOAD_WORDING, APP_STORE_URL } from '@/libs/constants';
+import { apiClient } from '@/libs/openapi-client';
 import { authUtils } from '@/libs/utils/utils.auth';
-import { Button, IconButton, Spinner, Text, breakpoints } from '@coldsurfers/ocean-road';
-import { SERVICE_NAME } from '@coldsurfers/shared-utils';
-import { useMutation } from '@tanstack/react-query';
-import { Kaushan_Script } from 'next/font/google';
+import { Spinner, breakpoints } from '@coldsurfers/ocean-road';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { type MouseEventHandler, useCallback, useEffect, useState } from 'react';
-import { ColorSchemeToggle } from '../color-scheme-toggle';
-import { GlobalLink } from '../global-link';
-import { AppHeaderSearchUI } from './app-header.search-ui';
-import {
-  HeaderContainer,
-  HeaderLogo,
-  HeaderMenuContainerButton,
-  HeaderMenuContainerGlobalLink,
-  HeaderMenuContainerLink,
-  HeaderMenuText,
-  HeaderTitle,
-  MobileMenuContainer,
-  MobileMenuIcon,
-  ModalContainer,
-  ModalContent,
-  ModalPaper,
-  WebMenuContainer,
-} from './app-header.styled';
+import { useEffect, useState } from 'react';
+import { AppHeaderLogo } from './app-header-logo';
+import { AppHeaderMobileMenuOpener, AppHeaderMobileModalMenu } from './app-header-mobile-menu';
+import { AppHeaderWebMenu } from './app-header-web-menu';
+import { HeaderContainer } from './app-header.styled';
 
-const kaushanScriptFont = Kaushan_Script({
-  subsets: ['latin'],
-  weight: ['400'],
-});
-
-const commonMenuItems = [
-  {
-    link: '/browse',
-    title: '티켓 찾기',
-    target: undefined,
-  },
-  {
-    link: '/about',
-    title: '소개',
-    target: undefined,
-  },
-  {
-    link: '/blog',
-    title: '블로그',
-    target: undefined,
-  },
-] as const;
-
-function ModalMenu({
-  isOpen,
-  onClose,
-  isLoggedIn,
-  logout,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-  isLoggedIn: boolean;
-  logout: () => void;
-}) {
-  const router = useRouter();
-  useEffect(() => {
-    const { body } = document;
-    if (isOpen) {
-      body.style.overflow = 'hidden'; // Disable scrolling
-    } else {
-      body.style.overflow = ''; // Reset overflow to enable scrolling
-    }
-    return () => {
-      body.style.overflow = ''; // Clean up on unmount
-    };
-  }, [isOpen]);
-
-  const onClickLogout = useCallback(() => {
-    logout();
-    onClose();
-  }, [logout, onClose]);
-
-  return (
-    <ModalContainer onClick={onClose} $isOpen={isOpen} style={{ overflowY: 'auto' }}>
-      {isOpen && (
-        <ModalPaper onClick={(e) => e.stopPropagation()}>
-          <ModalContent>
-            {commonMenuItems.map((item) => {
-              const onClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
-                onClose();
-                if (item.link === '/browse') {
-                  e.preventDefault();
-                  router.push('/browse/seoul');
-                }
-              };
-              return (
-                <GlobalLink
-                  key={item.link}
-                  href={item.link}
-                  target={item.target}
-                  onClick={onClick}
-                  style={{ alignSelf: 'flex-start' }}
-                >
-                  <Text as="p">{item.title}</Text>
-                </GlobalLink>
-              );
-            })}
-            {isLoggedIn ? (
-              <HeaderMenuContainerButton onClick={onClickLogout}>
-                <HeaderMenuText as="p">로그아웃</HeaderMenuText>
-              </HeaderMenuContainerButton>
-            ) : (
-              <GlobalLink href={'/login'} onClick={onClose}>
-                <HeaderMenuText as="p">로그인</HeaderMenuText>
-              </GlobalLink>
-            )}
-            <GlobalLink href={APP_STORE_URL} onClick={onClose} style={{ margin: '0 auto' }}>
-              <Button theme="border">{APP_DOWNLOAD_WORDING}</Button>
-            </GlobalLink>
-          </ModalContent>
-        </ModalPaper>
-      )}
-    </ModalContainer>
-  );
-}
-
-export function AppHeader({ isLoggedIn }: { isLoggedIn: boolean }) {
+export function AppHeader({ isServerSideLoggedIn }: { isServerSideLoggedIn: boolean }) {
   const router = useRouter();
   const [animation, setAnimation] = useState<'show' | 'hide'>('show');
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { data: userData, isLoading: isLoadingUser } = useQuery({
+    queryKey: apiClient.user.queryKeys.me,
+    queryFn: () => apiClient.user.getMe(),
+  });
+
+  const isLoggedIn = isServerSideLoggedIn || !!userData;
 
   const { mutate: logout, isPending: isLogoutPending } = useMutation({
     mutationFn: () => authUtils.localLogout(),
@@ -166,62 +61,16 @@ export function AppHeader({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
     <>
       <HeaderContainer $animation={animation}>
-        <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
-          <GlobalLink href="/">
-            <HeaderLogo src="/logo.png" alt="header_logo" />
-          </GlobalLink>
-          <GlobalLink href="/">
-            <HeaderTitle as="h1">
-              {SERVICE_NAME}{' '}
-              <span style={{ fontSize: 12 }} className={kaushanScriptFont.className}>
-                BETA
-              </span>
-            </HeaderTitle>
-          </GlobalLink>
-        </div>
-        <WebMenuContainer>
-          {commonMenuItems.map((item) => {
-            const onClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
-              if (item.link === '/browse') {
-                e.preventDefault();
-                router.push('/browse/seoul');
-              }
-            };
-            const Container =
-              item.link === '/browse' ? HeaderMenuContainerLink : HeaderMenuContainerGlobalLink;
-            return (
-              <Container key={item.link} href={item.link} onClick={onClick} target={item.target}>
-                <HeaderMenuText as="p">{item.title}</HeaderMenuText>
-              </Container>
-            );
-          })}
-          {isLoggedIn ? (
-            <HeaderMenuContainerButton onClick={() => logout()}>
-              <HeaderMenuText as="p">로그아웃</HeaderMenuText>
-            </HeaderMenuContainerButton>
-          ) : (
-            <GlobalLink href={'/login'} style={{ paddingRight: 10 }}>
-              <HeaderMenuText as="p">로그인</HeaderMenuText>
-            </GlobalLink>
-          )}
-          <AppHeaderSearchUI />
-          <GlobalLink href={APP_STORE_URL} target="_blank">
-            <Button theme="border">{APP_DOWNLOAD_WORDING}</Button>
-          </GlobalLink>
-          <ColorSchemeToggle />
-        </WebMenuContainer>
-        <MobileMenuContainer>
-          <AppHeaderSearchUI />
-          <IconButton onClick={() => setIsModalOpen(true)}>
-            <MobileMenuIcon />
-          </IconButton>
-        </MobileMenuContainer>
+        <AppHeaderLogo />
+        <AppHeaderWebMenu isLoggedIn={isLoggedIn} logout={logout} isLoading={isLoadingUser} />
+        <AppHeaderMobileMenuOpener onClick={() => setIsModalOpen(true)} />
       </HeaderContainer>
-      <ModalMenu
+      <AppHeaderMobileModalMenu
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         isLoggedIn={isLoggedIn}
         logout={logout}
+        isLoading={isLoadingUser}
       />
       {isLogoutPending && <Spinner variant="page-overlay" />}
     </>
