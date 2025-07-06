@@ -4,6 +4,7 @@ import { apiClient } from '@/libs/openapi-client';
 import { authUtils } from '@/libs/utils/utils.auth';
 import { Spinner, breakpoints } from '@coldsurfers/ocean-road';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { AppHeaderLogo } from './app-header-logo';
 import { AppHeaderMobileMenuOpener, AppHeaderMobileModalMenu } from './app-header-mobile-menu';
@@ -11,6 +12,7 @@ import { AppHeaderWebMenu } from './app-header-web-menu';
 import { HeaderContainer } from './app-header.styled';
 
 export function AppHeader({ isServerSideLoggedIn }: { isServerSideLoggedIn: boolean }) {
+  const router = useRouter();
   const [animation, setAnimation] = useState<'show' | 'hide'>('show');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -24,7 +26,7 @@ export function AppHeader({ isServerSideLoggedIn }: { isServerSideLoggedIn: bool
   const { mutate: logout, isPending: isLogoutPending } = useMutation({
     mutationFn: () => authUtils.localLogout(),
     onSuccess: () => {
-      window.location.reload();
+      router.refresh();
     },
     onError: (error) => {
       console.error(error);
