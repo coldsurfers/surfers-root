@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const errorCodeSchema = z.union([
   z.literal('INVALID_PASSWORD'),
@@ -26,4 +26,5 @@ export const errorCodeSchema = z.union([
   z.literal('ARTIST_PROFILE_IMAGE_NOT_FOUND'),
   z.literal('IMAGE_KEY_NOT_FOUND'),
   z.literal('IMAGE_NOT_FOUND'),
-])
+  z.literal('REFRESH_TOKEN_NOT_FOUND'),
+]);
