@@ -3,8 +3,7 @@
 import { apiClient } from '@/libs/openapi-client';
 import { authUtils } from '@/libs/utils/utils.auth';
 import { Spinner, breakpoints } from '@coldsurfers/ocean-road';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { AppHeaderLogo } from './app-header-logo';
 import { AppHeaderMobileMenuOpener, AppHeaderMobileModalMenu } from './app-header-mobile-menu';
@@ -12,21 +11,21 @@ import { AppHeaderWebMenu } from './app-header-web-menu';
 import { HeaderContainer } from './app-header.styled';
 
 export function AppHeader({ isServerSideLoggedIn }: { isServerSideLoggedIn: boolean }) {
-  const router = useRouter();
   const [animation, setAnimation] = useState<'show' | 'hide'>('show');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const { data: userData, isLoading: isLoadingUser } = useQuery({
     queryKey: apiClient.user.queryKeys.me,
     queryFn: () => apiClient.user.getMe(),
   });
 
-  const isLoggedIn = isServerSideLoggedIn || !!userData;
+  const isLoggedIn = isServerSideLoggedIn && !!userData;
 
   const { mutate: logout, isPending: isLogoutPending } = useMutation({
     mutationFn: () => authUtils.localLogout(),
     onSuccess: () => {
-      router.refresh();
+      queryClient.removeQueries({ queryKey: apiClient.user.queryKeys.me });
     },
     onError: (error) => {
       console.error(error);
