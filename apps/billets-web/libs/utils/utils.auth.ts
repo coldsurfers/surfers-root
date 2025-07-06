@@ -1,6 +1,5 @@
 import type { components } from '@coldsurfers/api-sdk';
 import { useAuthStore } from '../stores';
-import storage from './utils.storage';
 
 export const authUtils = {
   localLogin: async (

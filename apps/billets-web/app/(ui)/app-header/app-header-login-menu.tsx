@@ -36,23 +36,19 @@ export const AppHeaderLoginMenu = ({
     return null;
   }
 
+  if (isLoading) {
+    return <AppHeaderMenuTextSkeleton />;
+  }
+
   return (
     <>
       {isLoggedIn ? (
         <HeaderMenuContainerButton onClick={() => logout()}>
-          {isLoading ? (
-            <AppHeaderMenuTextSkeleton />
-          ) : (
-            <HeaderMenuText as="p">로그아웃</HeaderMenuText>
-          )}
+          <HeaderMenuText as="p">로그아웃</HeaderMenuText>
         </HeaderMenuContainerButton>
       ) : (
         <GlobalLink href={'/login'} onClick={onClickMobileLogout}>
-          {isLoading ? (
-            <AppHeaderMenuTextSkeleton />
-          ) : (
-            <HeaderMenuText as="p">로그인</HeaderMenuText>
-          )}
+          <HeaderMenuText as="p">로그인</HeaderMenuText>
         </GlobalLink>
       )}
       {isLogoutPending && <Spinner variant="page-overlay" />}

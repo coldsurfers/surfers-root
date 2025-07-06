@@ -1,6 +1,9 @@
 import { tryParse } from '@coldsurfers/shared-utils';
 
-export type StorageItem = '@coldsurf-io/access-token' | '@coldsurf-io/refresh-token';
+export type StorageItem =
+  | '@coldsurf-io/access-token'
+  | '@coldsurf-io/refresh-token'
+  | '@coldsurf-io/theme';
 
 const storage =
   typeof window !== 'undefined'
@@ -16,7 +19,7 @@ const storage =
             return parsed;
           } catch (e) {
             console.error(e);
-            return value;
+            return value as ParsedValueT;
           }
         },
         remove(item: StorageItem) {

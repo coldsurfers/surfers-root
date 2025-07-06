@@ -5,10 +5,8 @@ export interface TryParseOptions<T> {
 
 export function tryParse<T = any>(
   jsonString: string,
-  options: TryParseOptions<T> = {}
+  { silent = true, fallback }: TryParseOptions<T> = {}
 ): T | undefined {
-  const { fallback, silent } = options;
-
   try {
     return JSON.parse(jsonString) as T;
   } catch (e) {
