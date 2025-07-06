@@ -11,7 +11,6 @@ const jwtSecret = process.env.BILLETS_SERVER_JWT_SECRET ?? '';
 export const jwtPlugin = fp(async (fastify) => {
   fastify.register(fastifyJWT, {
     secret: jwtSecret, // Replace with a strong secret key
-    sign: { expiresIn: '7d' }, // Token expiration
   });
 
   // Add a custom decorator for authentication

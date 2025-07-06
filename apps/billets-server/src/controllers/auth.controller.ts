@@ -8,7 +8,12 @@ import { sendEmail } from '@/lib/mailer';
 import { app } from '@/server';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 
-import type { SignInBodyDTO, SignUpBodyDTO, UserWithAuthTokenDTO } from '@/dtos/auth.dto';
+import type {
+  ReissueTokenBodyDTO,
+  SignInBodyDTO,
+  SignUpBodyDTO,
+  UserWithAuthTokenDTO,
+} from '@/dtos/auth.dto';
 import type {
   ConfirmAuthCodeBodyDTO,
   ConfirmAuthCodeResponseDTO,
@@ -17,6 +22,7 @@ import type {
 } from '@/dtos/email-auth-request.dto';
 import type { ErrorResponseDTO } from '@/dtos/error-response.dto';
 import log from '@/lib/log';
+import { type JwtPayload, generateAuthToken } from '@/lib/utils/utils.jwt';
 import { verifyAppleIdToken } from '@/lib/verifyAppleToken';
 import { AuthTokenRepositoryImpl } from '@/repositories/auth-token.repository.impl';
 import { EmailAuthRequestRepositoryImpl } from '@/repositories/email-auth-request.repository.impl';
@@ -86,24 +92,7 @@ export const signinHandler = async (
           });
         }
 
-        const authToken = {
-          accessToken: app.jwt.sign(
-            {
-              id: existing.id,
-            },
-            {
-              expiresIn: '7d',
-            }
-          ),
-          refreshToken: app.jwt.sign(
-            {
-              id: existing.id,
-            },
-            {
-              expiresIn: '30d',
-            }
-          ),
-        };
+        const authToken = generateAuthToken(existing.id);
         const createdAuthToken = await authTokenService.create({
           access_token: authToken.accessToken,
           refresh_token: authToken.refreshToken,
@@ -148,24 +137,7 @@ export const signinHandler = async (
           await verifyAppleIdToken(token, clientId ?? '');
         }
 
-        const authToken = {
-          accessToken: app.jwt.sign(
-            {
-              id: existing.id,
-            },
-            {
-              expiresIn: '7d',
-            }
-          ),
-          refreshToken: app.jwt.sign(
-            {
-              id: existing.id,
-            },
-            {
-              expiresIn: '30d',
-            }
-          ),
-        };
+        const authToken = generateAuthToken(existing.id);
         const createdAuthToken = await authTokenService.create({
           access_token: authToken.accessToken,
           refresh_token: authToken.refreshToken,
@@ -285,24 +257,7 @@ export const signupHandler = async (
         if (!createdUser) {
           return rep.status(400).send();
         }
-        const authToken = {
-          accessToken: app.jwt.sign(
-            {
-              id: createdUser.id,
-            },
-            {
-              expiresIn: '7d',
-            }
-          ),
-          refreshToken: app.jwt.sign(
-            {
-              id: createdUser.id,
-            },
-            {
-              expiresIn: '30d',
-            }
-          ),
-        };
+        const authToken = generateAuthToken(createdUser.id);
         const createdAuthToken = await authTokenService.create({
           access_token: authToken.accessToken,
           refresh_token: authToken.refreshToken,
@@ -344,24 +299,7 @@ export const signupHandler = async (
         if (!createdUser.id) {
           return rep.status(400).send();
         }
-        const authToken = {
-          accessToken: app.jwt.sign(
-            {
-              id: createdUser.id,
-            },
-            {
-              expiresIn: '7d',
-            }
-          ),
-          refreshToken: app.jwt.sign(
-            {
-              id: createdUser.id,
-            },
-            {
-              expiresIn: '30d',
-            }
-          ),
-        };
+        const authToken = generateAuthToken(createdUser.id);
         const createdAuthToken = await authTokenService.create({
           access_token: authToken.accessToken,
           refresh_token: authToken.refreshToken,
@@ -507,6 +445,67 @@ export const confirmAuthCodeHandler = async (
     });
   } catch (e) {
     console.error(e);
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    });
+  }
+};
+
+interface ReissueTokenRoute extends RouteGenericInterface {
+  Body: ReissueTokenBodyDTO;
+  Reply: {
+    200: UserWithAuthTokenDTO;
+    400: ErrorResponseDTO;
+    500: ErrorResponseDTO;
+  };
+}
+
+export const reissueTokenHandler = async (
+  req: FastifyRequest<ReissueTokenRoute>,
+  rep: FastifyReply<ReissueTokenRoute>
+) => {
+  try {
+    const { refreshToken } = req.body;
+    if (!refreshToken) {
+      return rep.status(400).send({
+        code: 'REFRESH_TOKEN_NOT_FOUND',
+        message: 'refresh token not found',
+      });
+    }
+    app.jwt.verify(refreshToken);
+
+    const jwtPayload = app.jwt.decode<JwtPayload>(refreshToken);
+    if (!jwtPayload?.id) {
+      return rep.status(400).send({
+        code: 'REFRESH_TOKEN_NOT_FOUND',
+        message: 'refresh token not found',
+      });
+    }
+
+    const user = await userService.getUserById(jwtPayload.id);
+
+    if (!user) {
+      return rep.status(400).send({
+        code: 'REFRESH_TOKEN_NOT_FOUND',
+        message: 'refresh token not found',
+      });
+    }
+
+    const authToken = generateAuthToken(jwtPayload.id);
+
+    const createdAuthToken = await authTokenService.create({
+      access_token: authToken.accessToken,
+      refresh_token: authToken.refreshToken,
+      user_id: jwtPayload.id,
+    });
+
+    return rep.status(200).send({
+      authToken: createdAuthToken,
+      user,
+    });
+  } catch (e) {
+    console.error('my error', e);
     return rep.status(500).send({
       code: 'UNKNOWN',
       message: 'internal server error',

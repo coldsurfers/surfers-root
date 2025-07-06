@@ -1,5 +1,6 @@
 import {
   confirmAuthCodeHandler,
+  reissueTokenHandler,
   sendAuthCodeHandler,
   signinHandler,
   signinPreHandler,
@@ -7,6 +8,7 @@ import {
   signupPreHandler,
 } from '@/controllers/auth.controller';
 import {
+  ReissueTokenBodyDTOSchema,
   SignInBodyDTOSchema,
   SignUpBodyDTOSchema,
   UserWithAuthTokenDTOSchema,
@@ -88,6 +90,22 @@ const authRoute: FastifyPluginCallback = (fastify, _, done) => {
       preHandler: [signupPreHandler],
     },
     signupHandler
+  );
+
+  fastify.withTypeProvider<ZodTypeProvider>().post(
+    '/reissue-token',
+    {
+      schema: {
+        tags: ['v1', 'auth'],
+        body: ReissueTokenBodyDTOSchema,
+        response: {
+          201: UserWithAuthTokenDTOSchema,
+          400: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
+        },
+      },
+    },
+    reissueTokenHandler
   );
 
   done();
