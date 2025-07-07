@@ -19,7 +19,7 @@ export const generateAuthToken = (userId: string) => {
         id: userId,
       },
       {
-        expiresIn: '10m',
+        expiresIn: '60d',
       }
     ),
   };

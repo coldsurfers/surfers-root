@@ -1,9 +1,8 @@
-import { COOKIE_ACCESS_TOKEN_KEY, COOKIE_REFRESH_TOKEN_KEY } from '@/libs/constants';
+import { SITE_URL } from '@/libs/constants';
 import { apiClient } from '@/libs/openapi-client';
 import { generateAppleClientSecret } from '@/libs/utils/utils.jwt';
 import { decodeJwt } from '@coldsurfers/shared-utils';
-import { serialize } from 'cookie';
-import type { NextRequest } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 
@@ -38,7 +37,7 @@ export async function POST(req: NextRequest) {
     const decoded = decodeJwt(idToken);
 
     if (!decoded?.email) {
-      return new Response(JSON.stringify({ error: 'Apple login failed' }), {
+      return new Response(JSON.stringify({ error: 'email not found in decoded token' }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
       });
@@ -51,43 +50,14 @@ export async function POST(req: NextRequest) {
       platform: 'web',
     });
 
-    const accessTokenCookie = serialize(COOKIE_ACCESS_TOKEN_KEY, authToken.accessToken, {
-      httpOnly: true,
-      secure: true,
-      maxAge: 60 * 60 * 24 * 7, // 1 week
-      // apple 에서 redirect되기 때문에 일단 none으로 두고 /api/local-login에서 strict로 변경
-      sameSite: 'none',
-      path: '/',
-      domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
-    });
+    const searchParams = new URLSearchParams();
+    searchParams.append('access_token', authToken.accessToken);
+    searchParams.append('refresh_token', authToken.refreshToken);
 
-    const refreshTokenCookie = serialize(COOKIE_REFRESH_TOKEN_KEY, authToken.refreshToken, {
-      httpOnly: true,
-      secure: true,
-      maxAge: 60 * 60 * 24 * 7, // 4 weeks
-      // apple 에서 redirect되기 때문에 일단 none으로 두고 /api/local-login에서 strict로 변경
-      sameSite: 'none',
-      path: '/',
-      domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
-    });
-
-    const headers = new Headers();
-    headers.append('Set-Cookie', accessTokenCookie);
-    headers.append('Set-Cookie', refreshTokenCookie);
-
-    return new Response(null, {
-      status: 302,
-      headers: {
-        Location:
-          process.env.NODE_ENV === 'development'
-            ? 'http://localhost:3000/social-redirect'
-            : 'https://coldsurf.io/social-redirect',
-        ...headers,
-      },
-    });
+    return NextResponse.redirect(`${SITE_URL}/social-redirect?${searchParams.toString()}`);
   } catch (err) {
     console.error('Apple token error:', err);
-    return new Response(JSON.stringify({ error: 'Apple login failed' }), {
+    return new Response(JSON.stringify({ error: 'internal server error' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
