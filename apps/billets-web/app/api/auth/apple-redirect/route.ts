@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
       platform: 'web',
     });
 
-    let cookieString = serialize(COOKIE_ACCESS_TOKEN_KEY, authToken.accessToken, {
+    const accessTokenCookie = serialize(COOKIE_ACCESS_TOKEN_KEY, authToken.accessToken, {
       httpOnly: true,
       secure: true,
       maxAge: 60 * 60 * 24 * 7, // 1 week
@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
       domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
     });
 
-    cookieString += serialize(COOKIE_REFRESH_TOKEN_KEY, authToken.refreshToken, {
+    const refreshTokenCookie = serialize(COOKIE_REFRESH_TOKEN_KEY, authToken.refreshToken, {
       httpOnly: true,
       secure: true,
       maxAge: 60 * 60 * 24 * 7, // 4 weeks
@@ -71,6 +71,10 @@ export async function POST(req: NextRequest) {
       domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
     });
 
+    const headers = new Headers();
+    headers.append('Set-Cookie', accessTokenCookie);
+    headers.append('Set-Cookie', refreshTokenCookie);
+
     return new Response(null, {
       status: 302,
       headers: {
@@ -78,7 +82,7 @@ export async function POST(req: NextRequest) {
           process.env.NODE_ENV === 'development'
             ? 'http://localhost:3000/social-redirect'
             : 'https://coldsurf.io/social-redirect',
-        'Set-Cookie': cookieString,
+        ...headers,
       },
     });
   } catch (err) {
