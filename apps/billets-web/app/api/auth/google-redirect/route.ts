@@ -1,6 +1,5 @@
-import { COOKIE_ACCESS_TOKEN_KEY, COOKIE_REFRESH_TOKEN_KEY } from '@/libs/constants';
+import { SITE_URL } from '@/libs/constants';
 import { apiClient } from '@/libs/openapi-client';
-import { cookies } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
@@ -50,39 +49,11 @@ export async function GET(req: NextRequest) {
     // 3. 세션/쿠키 설정 등 (예시로 localStorage/token 쿠키 설정 가능)
     // 여기서는 단순히 유저 정보를 보여줌
 
-    const cookieStore = await cookies();
+    const searchParams = new URLSearchParams();
+    searchParams.append('access_token', authToken.accessToken);
+    searchParams.append('refresh_token', authToken.refreshToken);
 
-    const responseCookie = cookieStore
-      .set(COOKIE_ACCESS_TOKEN_KEY, authToken.accessToken, {
-        httpOnly: true,
-        secure: true,
-        maxAge: 60 * 60 * 24 * 7, // 1 week
-        // google 에서 redirect되기 때문에 일단 none으로 두고 /api/local-login에서 strict로 변경
-        sameSite: 'none',
-        path: '/',
-        domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
-      })
-      .set(COOKIE_REFRESH_TOKEN_KEY, authToken.refreshToken, {
-        httpOnly: true,
-        secure: true,
-        maxAge: 60 * 60 * 24 * 7, // 4 weeks
-        // google 에서 redirect되기 때문에 일단 none으로 두고 /api/local-login에서 strict로 변경
-        sameSite: 'none',
-        path: '/',
-        domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
-      })
-      .toString();
-
-    return NextResponse.redirect(
-      process.env.NODE_ENV === 'development'
-        ? 'http://localhost:3000/social-redirect'
-        : 'https://coldsurf.io/social-redirect',
-      {
-        headers: {
-          'Set-Cookie': responseCookie,
-        },
-      }
-    );
+    return NextResponse.redirect(`${SITE_URL}/social-redirect?${searchParams.toString()}`);
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: 'Authentication failed' }, { status: 500 });
