@@ -176,6 +176,12 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case '포항시청 대잠홀, 포항문화예술회관':
+      alreadyExistingVenueId = '0af26597-8b09-4acd-8960-5af13c75730c';
+      break;
+    case '리엠아트센터 LEEAM ART CENTER':
+      alreadyExistingVenueId = 'b30163e8-88e5-4148-ba34-d89423d470d1';
+      break;
     case '씨드콘서트홀(SEED CONCERT HALL)':
       alreadyExistingVenueId = '55e8ece3-cb26-44f0-8a61-811d80631056';
       break;
