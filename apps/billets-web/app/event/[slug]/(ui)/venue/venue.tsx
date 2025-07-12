@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { Button } from '@coldsurfers/ocean-road'
-import { GlobalLink } from 'app/(ui)'
-import { memo, useMemo } from 'react'
+import { GlobalLink } from '@/shared/ui';
+import { Button } from '@coldsurfers/ocean-road';
+import { memo, useMemo } from 'react';
 import {
   CtaButtonWrapper,
   StyledIconButton,
@@ -11,17 +11,23 @@ import {
   StyledVenueContainer,
   StyledVenueCopyIcon,
   StyledVenueTitleText,
-} from './venue.styled'
+} from './venue.styled';
 
-type VenueProps = { address: string; id: string; latitude: number; longitude: number; venueTitle: string }
+type VenueProps = {
+  address: string;
+  id: string;
+  latitude: number;
+  longitude: number;
+  venueTitle: string;
+};
 
 // 'https://maps.google.com/?q=The Shacklewell Arms, 71 Shacklewell Lane, London E8 2EB&ll=51.5531551,-0.0699228999999377'
 
 export const Venue = memo(({ address, venueTitle, latitude, longitude, id }: VenueProps) => {
   const openInMapsHref = useMemo(() => {
-    const url = `https://maps.google.com/?q=${venueTitle} ${address}&ll=${latitude},${longitude}`
-    return encodeURI(url)
-  }, [address, latitude, longitude, venueTitle])
+    const url = `https://maps.google.com/?q=${venueTitle} ${address}&ll=${latitude},${longitude}`;
+    return encodeURI(url);
+  }, [address, latitude, longitude, venueTitle]);
   return (
     <StyledVenueContainer>
       <GlobalLink href={`/venue/${id}`}>
@@ -41,5 +47,5 @@ export const Venue = memo(({ address, venueTitle, latitude, longitude, id }: Ven
         </GlobalLink>
       </CtaButtonWrapper>
     </StyledVenueContainer>
-  )
-})
+  );
+});

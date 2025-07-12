@@ -1,16 +1,18 @@
+'use client';
+
 import { GLOBAL_Z_INDEX } from '@/libs/constants';
 import { IconButton, Text, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { AlignRight, Search as SearchIcon } from 'lucide-react';
 import Link from 'next/link';
+import { APP_HEADER_HEIGHT } from '../constants';
 import { GlobalLink } from '../global-link';
-import { HEADER_HEIGHT } from './app-header.constants';
 
 export const HeaderContainer = styled.header<{ $animation: 'show' | 'hide' }>`
   display: flex;
   align-items: center;
-  height: ${HEADER_HEIGHT};
+  height: ${APP_HEADER_HEIGHT};
   padding: 0 40px;
 
   background-color: ${semantics.color.background[2]};
