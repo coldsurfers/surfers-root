@@ -1,6 +1,7 @@
 'use client';
 
-import { GLOBAL_Z_INDEX } from '@/libs/constants';
+import { GoogleLoginButton } from '@/features/auth';
+import { COMMON_META_DESCRIPTION, COMMON_META_TITLE, GLOBAL_Z_INDEX } from '@/libs/constants';
 import { usePreventScrollEffect } from '@/shared/lib';
 import { Text, semantics } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
@@ -37,8 +38,11 @@ const ModalContainer = styled(motion.div)`
     align-items: center;
 `;
 
-const Title = styled(Text)`
-
+const Title = styled(Text)``;
+const SubTitle = styled(Text)`
+    margin: unset;
+    margin-top: 0.75rem;
+    margin-bottom: 1rem;
 `;
 
 export const LoginSideBar = () => {
@@ -90,6 +94,9 @@ export const LoginSideBar = () => {
               <X color={semantics.color.foreground[1]} />
             </div>
             <Title as="h1">Log in / Sign up</Title>
+            <SubTitle as="h2">{COMMON_META_TITLE}</SubTitle>
+            <SubTitle as="h3">{COMMON_META_DESCRIPTION}</SubTitle>
+            <GoogleLoginButton />
           </ModalContainer>
         </>
       )}
