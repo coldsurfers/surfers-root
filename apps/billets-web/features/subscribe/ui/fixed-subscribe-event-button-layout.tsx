@@ -15,7 +15,7 @@ const Container = styled(motion.div)`
     display: flex;
     align-items: center;
     justify-content: center;
-    background: ${semantics.color.background[1]};
+    background: ${semantics.color.background[4]};
     border-radius: 50%;
 
     box-shadow: 0 1px 3px ${semantics.color.border[1]}, 0 1px 2px ${semantics.color.border[2]};

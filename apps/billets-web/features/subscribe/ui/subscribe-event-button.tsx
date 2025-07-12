@@ -16,7 +16,7 @@ const Container = styled.div`
 export const SubscribeEventButton = () => {
   return (
     <Container onClick={withStopPropagation()}>
-      <Heart size={24} color={semantics.color.foreground[1]} />
+      <Heart size={24} color={semantics.color.foreground[4]} />
     </Container>
   );
 };
