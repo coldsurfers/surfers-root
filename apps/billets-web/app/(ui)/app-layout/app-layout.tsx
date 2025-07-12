@@ -1,6 +1,7 @@
 'use client';
 
 import { AppHeader } from '@/shared/ui';
+import { LoginSideBar } from '@/shared/ui';
 import { type PropsWithChildren, useEffect } from 'react';
 import { AppFooter } from '../app-footer';
 import { FloatingSearchBar } from '../floating-search-bar';
@@ -16,6 +17,7 @@ export function AppLayout({ children }: PropsWithChildren) {
       </ChildrenWrapper>
       <AppFooter />
       <FloatingSearchBar />
+      <LoginSideBar />
     </Container>
   );
 }
