@@ -3,7 +3,6 @@
 import { Button, colors } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { useAuthStore } from '../../../libs/stores/auth-store/auth-store';
 
 const SocialLoginButton = styled(Button)`
   width: 100%;
@@ -16,8 +15,6 @@ const SocialLoginButton = styled(Button)`
 `;
 
 export const GoogleLoginButton = () => {
-  const setAfterLoginRedirect = useAuthStore((state) => state.setAfterLoginRedirect);
-
   return (
     <Link href={'/api/auth/google'} style={{ width: '100%' }}>
       <SocialLoginButton type="button">구글로 계속하기</SocialLoginButton>
