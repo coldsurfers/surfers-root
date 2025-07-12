@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 type AuthStoreState = {
   accessToken: string;
   refreshToken: string;
+  afterLoginRedirect?: string;
 };
 
 type AuthStoreActions = {
@@ -18,6 +19,7 @@ export const useAuthStore = create<AuthStore>()(
     (set) => ({
       accessToken: '',
       refreshToken: '',
+      afterLoginRedirect: '',
       login: ({ accessToken, refreshToken }) => set({ accessToken, refreshToken }),
       logout: () => set({ accessToken: '', refreshToken: '' }),
     }),
