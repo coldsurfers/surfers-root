@@ -4,6 +4,7 @@ import { isEmptySource } from '@/libs/utils/utils.image';
 import { generateSlugHref } from '@/libs/utils/utils.slug';
 import type { components } from '@coldsurfers/api-sdk';
 import { GlobalLink } from 'app/(ui)/global-link/global-link';
+import { featureFlags } from 'app/shared/constants';
 import { format } from 'date-fns';
 import { memo, useCallback, useMemo } from 'react';
 import {
@@ -53,9 +54,11 @@ export const ConcertListItem = memo(
                 <StyledGridImageEmptyText>{data.title}</StyledGridImageEmptyText>
               </StyledGridImageEmptyContainer>
             )}
-            <FixedSubscribeEventButtonLayout>
-              <SubscribeEventButton />
-            </FixedSubscribeEventButtonLayout>
+            {featureFlags.useSubscribeButton && (
+              <FixedSubscribeEventButtonLayout>
+                <SubscribeEventButton />
+              </FixedSubscribeEventButtonLayout>
+            )}
           </StyledGridTop>
           <StyledGridTextContainer>
             <StyledGridTitle as="p">{data.title}</StyledGridTitle>
