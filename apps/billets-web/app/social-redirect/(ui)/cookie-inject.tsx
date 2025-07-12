@@ -4,6 +4,7 @@ import { apiClient } from '@/libs/openapi-client';
 import { authUtils } from '@/libs/utils/utils.auth';
 import storage from '@/libs/utils/utils.storage';
 import { themeUtils } from '@/libs/utils/utils.theme';
+import { useSessionStorage } from '@/shared/lib';
 import { type ColorScheme, Spinner } from '@coldsurfers/ocean-road';
 import { useQueryClient } from '@tanstack/react-query';
 import { redirect, useSearchParams } from 'next/navigation';
@@ -14,6 +15,8 @@ export const CookieInject = () => {
   const searchParams = useSearchParams();
   const accessToken = searchParams.get('access_token');
   const refreshToken = searchParams.get('refresh_token');
+  const sessionStorage = useSessionStorage();
+  const prevPathname = sessionStorage.getValue<string>('@coldsurf-io/prev-path');
 
   const restoreColorScheme = useCallback(async () => {
     const themeStorageValue = storage?.get<'dark' | 'light'>('@coldsurf-io/theme');
@@ -43,9 +46,9 @@ export const CookieInject = () => {
       })
       .finally(() => {
         restoreColorScheme();
-        redirect('/');
+        redirect(prevPathname ?? '/');
       });
-  }, [queryClient, accessToken, refreshToken, restoreColorScheme]);
+  }, [queryClient, accessToken, refreshToken, restoreColorScheme, prevPathname]);
 
   return <Spinner variant="page-overlay" />;
 };
