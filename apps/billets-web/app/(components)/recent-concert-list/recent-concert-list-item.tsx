@@ -2,10 +2,10 @@
 
 import { isEmptySource } from '@/libs/utils/utils.image';
 import { generateSlugHref } from '@/libs/utils/utils.slug';
+import { GlobalLink } from '@/shared/ui';
 import type { components } from '@coldsurfers/api-sdk';
 import { format, parseISO } from 'date-fns';
 import { useMemo } from 'react';
-import { GlobalLink } from '../../(ui)';
 import {
   StyledRecentListBilletsConcertCard,
   StyledRecentListBilletsConcertCardImage,

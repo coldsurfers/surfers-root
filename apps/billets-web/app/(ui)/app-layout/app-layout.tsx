@@ -1,6 +1,6 @@
 'use client';
 
-import { AppHeader } from 'app/shared/ui';
+import { AppHeader } from '@/shared/ui';
 import { type PropsWithChildren, useEffect } from 'react';
 import { AppFooter } from '../app-footer';
 import { FloatingSearchBar } from '../floating-search-bar';

@@ -5,8 +5,7 @@ import { authUtils } from '@/libs/utils/utils.auth';
 import { Spinner } from '@coldsurfers/ocean-road';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useIsLoggedIn } from 'app/(hooks)/use-is-logged-in';
-import { useIsSsgPath } from 'app/(hooks)/use-is-ssg-path';
-import { GlobalLink } from 'app/(ui)';
+import { GlobalLink } from '../global-link';
 import {
   AppHeaderMenuTextSkeleton,
   HeaderMenuContainerButton,

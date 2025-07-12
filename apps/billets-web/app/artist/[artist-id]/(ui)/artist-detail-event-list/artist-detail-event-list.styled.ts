@@ -1,7 +1,7 @@
-import { media, semantics, Text } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
-import { GlobalLink } from 'app/(ui)'
+import { GlobalLink } from '@/shared/ui';
+import { Text, media, semantics } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export const StyledArtistDetailEventListTitleText = styled(Text)`
   margin-top: 8rem;
@@ -15,7 +15,7 @@ export const StyledArtistDetailEventListTitleText = styled(Text)`
   ${media.medium(css`
     margin-top: 2rem;
   `)}
-`
+`;
 
 export const StyledArtistDetailEventListContainer = styled.div`
   margin-top: 2rem;
@@ -23,13 +23,13 @@ export const StyledArtistDetailEventListContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-`
+`;
 
 export const StyledArtistDetailEventListItem = styled(GlobalLink)`
   display: flex;
   flex-direction: row;
   align-items: center;
-`
+`;
 
 export const StyledArtistDetailEventListItemThumbnail = styled.img`
   width: 110px;
@@ -38,7 +38,7 @@ export const StyledArtistDetailEventListItemThumbnail = styled.img`
   object-position: 50%;
   border-radius: 8px;
   margin-right: 1rem;
-`
+`;
 
 export const StyledArtistDetailEventListItemThumbnailEmpty = styled.div`
   width: 110px;
@@ -53,7 +53,7 @@ export const StyledArtistDetailEventListItemThumbnailEmpty = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;
 
 export const StyledArtistDetailEventListItemThumbnailEmptyText = styled(Text)`
   text-align: center;
@@ -62,12 +62,12 @@ export const StyledArtistDetailEventListItemThumbnailEmptyText = styled(Text)`
 
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-`
+`;
 
 export const StyledArtistDetailEventListItemDescriptionWrapper = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 
 export const StyledArtistDetailEventListItemTitle = styled(Text)`
   font-size: 20px;
@@ -78,7 +78,7 @@ export const StyledArtistDetailEventListItemTitle = styled(Text)`
   ${media.medium(css`
     font-size: 18px;
   `)}
-`
+`;
 
 export const StyledArtistDetailEventListItemDate = styled(Text)`
   font-size: 18px;
@@ -90,7 +90,7 @@ export const StyledArtistDetailEventListItemDate = styled(Text)`
   ${media.medium(css`
     font-size: 16px;
   `)}
-`
+`;
 
 export const StyledArtistDetailEventListItemVenueText = styled(Text)`
   font-size: 18px;
@@ -101,4 +101,4 @@ export const StyledArtistDetailEventListItemVenueText = styled(Text)`
   ${media.medium(css`
     font-size: 16px;
   `)}
-`
+`;

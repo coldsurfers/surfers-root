@@ -3,9 +3,10 @@
 import { APP_DOWNLOAD_WORDING } from '@/libs/constants';
 import { Button } from '@coldsurfers/ocean-road';
 import { APP_STORE_URL } from '@coldsurfers/shared-utils';
-import { ColorSchemeToggle, GlobalLink } from 'app/(ui)';
+import { ColorSchemeToggle } from 'app/(ui)';
 import { useRouter } from 'next/navigation';
 import type { MouseEventHandler } from 'react';
+import { GlobalLink } from '../global-link';
 import { AppHeaderLoginMenu } from './app-header-login-menu';
 import { AppHeaderSearchUI } from './app-header.search-ui';
 import {

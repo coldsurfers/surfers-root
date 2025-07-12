@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
-import { media, Text } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
-import { GlobalLink } from '../global-link'
+import { GlobalLink } from '@/shared/ui/global-link/global-link';
+import { Text, media } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 const Container = styled.div`
   width: 100%;
   height: 15rem;
@@ -21,7 +21,7 @@ const Container = styled.div`
   ${media.medium(css`
     margin-top: unset;
   `)}
-`
+`;
 
 export function AppFooter() {
   return (
@@ -40,5 +40,5 @@ export function AppFooter() {
         </Text>
       </GlobalLink>
     </Container>
-  )
+  );
 }

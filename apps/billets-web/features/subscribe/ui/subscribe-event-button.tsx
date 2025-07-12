@@ -1,8 +1,8 @@
 'use client';
 
+import { withStopPropagation } from '@/shared/lib';
 import { semantics } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
-import { withStopPropagation } from 'app/shared/lib';
 import { Heart } from 'lucide-react';
 
 const Container = styled.div`

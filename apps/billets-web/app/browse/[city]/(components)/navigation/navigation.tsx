@@ -3,10 +3,10 @@
 import { GLOBAL_Z_INDEX } from '@/libs/constants';
 import { initialPageQuery } from '@/libs/openapi-client';
 import { getEventCategoryUIName } from '@/libs/utils/utils.event-category';
+import { GlobalLink } from '@/shared/ui';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { Fragment, useCallback, useMemo, useRef, useState } from 'react';
-import { GlobalLink } from '../../../../(ui)/global-link/global-link';
 import { NavigationCityDropdown } from './navigation-city-dropdown';
 import {
   DanceIcon,

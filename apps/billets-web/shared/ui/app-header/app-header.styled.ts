@@ -1,11 +1,13 @@
+'use client';
+
 import { GLOBAL_Z_INDEX } from '@/libs/constants';
 import { IconButton, Text, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { GlobalLink } from 'app/(ui)';
 import { AlignRight, Search as SearchIcon } from 'lucide-react';
 import Link from 'next/link';
-import { APP_HEADER_HEIGHT } from './app-header.constants';
+import { APP_HEADER_HEIGHT } from '../constants';
+import { GlobalLink } from '../global-link';
 
 export const HeaderContainer = styled.header<{ $animation: 'show' | 'hide' }>`
   display: flex;

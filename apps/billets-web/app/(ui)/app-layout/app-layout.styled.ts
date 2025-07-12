@@ -1,5 +1,5 @@
+import { APP_HEADER_HEIGHT } from '@/shared/ui/constants';
 import styled from '@emotion/styled';
-import { APP_HEADER_HEIGHT } from 'app/shared/ui';
 
 export const Container = styled.div`
   display: flex;

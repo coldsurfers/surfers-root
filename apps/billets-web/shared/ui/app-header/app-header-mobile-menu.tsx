@@ -3,9 +3,10 @@
 import { APP_DOWNLOAD_WORDING } from '@/libs/constants';
 import { Button, IconButton, Text } from '@coldsurfers/ocean-road';
 import { APP_STORE_URL } from '@coldsurfers/shared-utils';
-import { GlobalLink } from 'app/(ui)';
+import { ColorSchemeToggle } from 'app/(ui)';
 import { useRouter } from 'next/navigation';
 import { type MouseEventHandler, useEffect } from 'react';
+import { GlobalLink } from '../global-link';
 import { AppHeaderLoginMenu } from './app-header-login-menu';
 import { AppHeaderSearchUI } from './app-header.search-ui';
 import {
@@ -85,6 +86,7 @@ export const AppHeaderMobileModalMenu = ({
             <GlobalLink href={APP_STORE_URL} onClick={onClose} style={{ margin: '0 auto' }}>
               <Button theme="border">{APP_DOWNLOAD_WORDING}</Button>
             </GlobalLink>
+            <ColorSchemeToggle />
           </ModalContent>
         </ModalPaper>
       )}

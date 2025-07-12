@@ -1,7 +1,7 @@
+import { APP_HEADER_HEIGHT } from '@/shared/ui/constants';
 import { Text, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { APP_HEADER_HEIGHT } from 'app/shared/ui';
 
 export const StyledPageLayout = styled.div`
   position: relative; /* Required for sticky */

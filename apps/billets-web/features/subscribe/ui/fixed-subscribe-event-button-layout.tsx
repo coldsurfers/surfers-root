@@ -1,8 +1,8 @@
 'use client';
 
+import { withStopPropagation } from '@/shared/lib';
 import { semantics } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
-import { withStopPropagation } from 'app/shared/lib';
 import { motion } from 'framer-motion';
 import type { PropsWithChildren } from 'react';
 

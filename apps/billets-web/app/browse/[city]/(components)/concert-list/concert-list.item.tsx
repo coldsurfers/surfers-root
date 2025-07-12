@@ -2,9 +2,9 @@ import { logEvent } from '@/features/firebase/firebase';
 import { FixedSubscribeEventButtonLayout, SubscribeEventButton } from '@/features/subscribe';
 import { isEmptySource } from '@/libs/utils/utils.image';
 import { generateSlugHref } from '@/libs/utils/utils.slug';
+import { featureFlags } from '@/shared/constants';
+import { GlobalLink } from '@/shared/ui';
 import type { components } from '@coldsurfers/api-sdk';
-import { GlobalLink } from 'app/(ui)/global-link/global-link';
-import { featureFlags } from 'app/shared/constants';
 import { format } from 'date-fns';
 import { memo, useCallback, useMemo } from 'react';
 import {
