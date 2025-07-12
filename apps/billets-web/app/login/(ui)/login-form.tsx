@@ -1,5 +1,6 @@
 'use client';
 
+import { GoogleLoginButton } from '@/features/auth';
 import { COMMON_META_TITLE } from '@/libs/constants';
 import { apiClient } from '@/libs/openapi-client';
 import { authUtils } from '@/libs/utils/utils.auth';
@@ -199,9 +200,7 @@ export const LoginForm = () => {
         )}
         <SocialLoginLayout>
           {USE_EMAIL_LOGIN && <DividerText>OR</DividerText>}
-          <Link href={'/api/auth/google'} style={{ width: '100%' }}>
-            <SocialLoginButton type="button">구글로 계속하기</SocialLoginButton>
-          </Link>
+          <GoogleLoginButton />
           {USE_APPLE_LOGIN && (
             <Link href={'/api/auth/apple'} style={{ width: '100%' }}>
               <SocialLoginButton type="button">애플로 계속하기</SocialLoginButton>

@@ -56,7 +56,7 @@ export const ConcertListItem = memo(
             )}
             {featureFlags.useSubscribeButton && (
               <FixedSubscribeEventButtonLayout>
-                <SubscribeEventButton />
+                <SubscribeEventButton eventId={data.id} />
               </FixedSubscribeEventButtonLayout>
             )}
           </StyledGridTop>
