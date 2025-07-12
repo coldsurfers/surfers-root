@@ -15,6 +15,7 @@ import {
   RegistryProvider,
 } from '@/libs/registries';
 import { getQueryClient } from '@/libs/utils';
+import { RouteListener } from '@/shared/lib';
 import { SERVICE_NAME } from '@coldsurfers/shared-utils';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import type { Metadata } from 'next';
@@ -163,6 +164,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             <QueryClientRegistry>
               <HydrationBoundary state={dehydratedState}>
                 <AppLayout>{children}</AppLayout>
+                <RouteListener />
               </HydrationBoundary>
             </QueryClientRegistry>
           </GlobalErrorBoundaryRegistry>
