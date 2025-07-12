@@ -1,10 +1,12 @@
 'use client';
 
 import { GLOBAL_Z_INDEX } from '@/libs/constants';
-import { semantics } from '@coldsurfers/ocean-road';
+import { usePreventScrollEffect } from '@/shared/lib';
+import { Text, semantics } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { AnimatePresence } from 'framer-motion';
 import { motion } from 'framer-motion';
+import { X } from 'lucide-react';
 import { useLoginModalStore } from '../../store';
 
 const Overlay = styled(motion.div)`
@@ -26,11 +28,26 @@ const ModalContainer = styled(motion.div)`
     width: 512px;
     background-color: ${semantics.color.background[2]};
     z-index: ${GLOBAL_Z_INDEX.LOGIN_MODAL};
+
+    padding: 2.5rem;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+`;
+
+const Title = styled(Text)`
+
 `;
 
 export const LoginSideBar = () => {
   const isVisible = useLoginModalStore((state) => state.isVisible);
   const close = useLoginModalStore((state) => state.close);
+
+  usePreventScrollEffect({
+    shouldPrevent: isVisible,
+  });
 
   return (
     <AnimatePresence onExitComplete={() => close()}>
@@ -61,7 +78,18 @@ export const LoginSideBar = () => {
               ease: 'easeInOut',
             }}
           >
-            Hello Login Modal
+            <div
+              onClick={() => close()}
+              onKeyDown={() => close()}
+              style={{
+                padding: '0.5rem',
+                cursor: 'pointer',
+                marginLeft: 'auto',
+              }}
+            >
+              <X color={semantics.color.foreground[1]} />
+            </div>
+            <Title as="h1">Log in / Sign up</Title>
           </ModalContainer>
         </>
       )}
