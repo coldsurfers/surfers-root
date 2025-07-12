@@ -1,7 +1,7 @@
-import { media, semantics, Text } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
-import { HEADER_HEIGHT } from 'app/(ui)'
+import { Text, media, semantics } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { APP_HEADER_HEIGHT } from 'app/shared/ui';
 
 export const StyledPageLayout = styled.div`
   position: relative; /* Required for sticky */
@@ -12,11 +12,11 @@ export const StyledPageLayout = styled.div`
     flex-direction: column;
     align-items: center;
   `)}
-`
+`;
 
 export const StyledPosterContainer = styled.div`
   position: sticky;
-  top: calc(${HEADER_HEIGHT} + 32px);
+  top: calc(${APP_HEADER_HEIGHT} + 32px);
   left: 2rem;
   width: 320px;
   aspect-ratio: 1 / 1;
@@ -26,7 +26,7 @@ export const StyledPosterContainer = styled.div`
     width: 100%;
     position: static;
   `)}
-`
+`;
 
 export const StyledRightSideContainer = styled.div`
   display: flex;
@@ -42,19 +42,19 @@ export const StyledRightSideContainer = styled.div`
   ${media.medium(css`
     margin-left: 0px;
   `)}
-`
+`;
 
-export const StyledTopInfoContainer = styled.section``
+export const StyledTopInfoContainer = styled.section``;
 
 export const StyledTicketCTAContainer = styled.section`
   margin-top: 3rem;
-`
+`;
 
 export const StyledSectionContainer = styled.section`
   border-bottom: 1px solid ${semantics.color.border[2]};
   margin-top: 3rem;
   padding-bottom: 3rem;
-`
+`;
 
 export const StyledSectionHeaderText = styled(Text)`
   font-weight: 500;
@@ -64,4 +64,4 @@ export const StyledSectionHeaderText = styled(Text)`
   ${media.medium(css`
     font-size: 18px;
   `)}
-`
+`;

@@ -1,5 +1,5 @@
-import styled from '@emotion/styled'
-import { HEADER_HEIGHT } from '../app-header'
+import styled from '@emotion/styled';
+import { APP_HEADER_HEIGHT } from 'app/shared/ui';
 
 export const Container = styled.div`
   display: flex;
@@ -8,9 +8,9 @@ export const Container = styled.div`
   max-width: 1280px;
   margin-left: auto;
   margin-right: auto;
-`
+`;
 
 export const ChildrenWrapper = styled.div`
   flex: 1;
-  padding-top: ${HEADER_HEIGHT};
-`
+  padding-top: ${APP_HEADER_HEIGHT};
+`;

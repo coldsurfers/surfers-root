@@ -1,8 +1,8 @@
 'use client';
 
 import { SERVICE_NAME } from '@coldsurfers/shared-utils';
+import { GlobalLink } from 'app/(ui)';
 import { Kaushan_Script } from 'next/font/google';
-import { GlobalLink } from '../global-link';
 import { HeaderLogo, HeaderTitle } from './app-header.styled';
 
 const kaushanScriptFont = Kaushan_Script({
