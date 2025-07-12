@@ -18,7 +18,6 @@ export const AppHeaderLoginMenu = ({
 }: {
   onClickMobileLogout: () => void;
 }) => {
-  const isSsgPath = useIsSsgPath();
   const { isLoggedIn, isLoading } = useIsLoggedIn();
   const queryClient = useQueryClient();
 
@@ -31,10 +30,6 @@ export const AppHeaderLoginMenu = ({
       console.error(error);
     },
   });
-
-  if (isSsgPath) {
-    return null;
-  }
 
   if (isLoading) {
     return <AppHeaderMenuTextSkeleton />;
