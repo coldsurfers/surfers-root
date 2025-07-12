@@ -54,3 +54,6 @@ prisma/schema.prisma
 
 # open-next
 .open-next
+
+# Sentry Config File
+.env.sentry-build-plugin
