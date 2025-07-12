@@ -24,6 +24,7 @@ export const AppHeaderLoginMenu = ({
     mutationFn: () => authUtils.localLogout(),
     onSuccess: () => {
       queryClient.removeQueries({ queryKey: apiClient.user.queryKeys.me });
+      onClickMobileLogout();
     },
     onError: (error) => {
       console.error(error);
