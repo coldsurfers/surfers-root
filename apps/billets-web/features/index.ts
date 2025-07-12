@@ -1,2 +1,2 @@
-export * from './link'
-export * from './notion'
+export * from './link';
+export * from './notion';

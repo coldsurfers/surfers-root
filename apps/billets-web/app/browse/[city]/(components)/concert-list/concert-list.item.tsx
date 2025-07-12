@@ -1,4 +1,5 @@
 import { logEvent } from '@/features/firebase/firebase';
+import { FixedSubscribeEventButtonLayout, SubscribeEventButton } from '@/features/subscribe';
 import { isEmptySource } from '@/libs/utils/utils.image';
 import { generateSlugHref } from '@/libs/utils/utils.slug';
 import type { components } from '@coldsurfers/api-sdk';
@@ -13,6 +14,7 @@ import {
   StyledGridItem,
   StyledGridTextContainer,
   StyledGridTitle,
+  StyledGridTop,
   StyledVenueText,
 } from './concert-list.styled';
 
@@ -43,13 +45,18 @@ export const ConcertListItem = memo(
     return (
       <GlobalLink href={href} onClick={onClick}>
         <StyledGridItem>
-          {thumbUrl ? (
-            <StyledGridImage src={thumbUrl} alt={data.title} />
-          ) : (
-            <StyledGridImageEmptyContainer>
-              <StyledGridImageEmptyText>{data.title}</StyledGridImageEmptyText>
-            </StyledGridImageEmptyContainer>
-          )}
+          <StyledGridTop>
+            {thumbUrl ? (
+              <StyledGridImage src={thumbUrl} alt={data.title} />
+            ) : (
+              <StyledGridImageEmptyContainer>
+                <StyledGridImageEmptyText>{data.title}</StyledGridImageEmptyText>
+              </StyledGridImageEmptyContainer>
+            )}
+            <FixedSubscribeEventButtonLayout>
+              <SubscribeEventButton />
+            </FixedSubscribeEventButtonLayout>
+          </StyledGridTop>
           <StyledGridTextContainer>
             <StyledGridTitle as="p">{data.title}</StyledGridTitle>
             <StyledGridDate as="p">{formattedDate}</StyledGridDate>
