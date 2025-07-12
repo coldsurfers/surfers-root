@@ -2,6 +2,7 @@
 
 import { apiClient } from '@/libs/openapi-client';
 import { withStopPropagation } from '@/shared/lib';
+import { useLoginModalStore } from '@/shared/store';
 import { semantics } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { useMutation } from '@tanstack/react-query';
@@ -23,6 +24,7 @@ type Props = {
 
 export const SubscribeEventButton = ({ eventId }: Props) => {
   const { isLoggedIn } = useIsLoggedIn();
+  const openLoginModal = useLoginModalStore((state) => state.open);
   const { mutate: subscribeEvent } = useMutation({
     mutationFn: () =>
       apiClient.subscribe.subscribeEvent({
@@ -34,10 +36,11 @@ export const SubscribeEventButton = ({ eventId }: Props) => {
 
   const onClick = useCallback(() => {
     if (!isLoggedIn) {
+      openLoginModal();
       return;
     }
     subscribeEvent();
-  }, [subscribeEvent, isLoggedIn]);
+  }, [subscribeEvent, isLoggedIn, openLoginModal]);
 
   return (
     <Container onClick={withStopPropagation(onClick)}>
