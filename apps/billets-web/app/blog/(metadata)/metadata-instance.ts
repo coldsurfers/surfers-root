@@ -144,7 +144,7 @@ export const generateLogListMetadata = ({
 }: {
   title: string;
   description: string;
-  seriesCategory: SeriesCategory;
+  seriesCategory?: SeriesCategory;
 }) => {
   const metaTitle = title;
   const metaDescription = description;
@@ -156,13 +156,15 @@ export const generateLogListMetadata = ({
       title: metaTitle,
       description: metaDescription,
       type: 'website',
-      url: `${SITE_URL}/blog/${seriesCategory}`,
+      url: seriesCategory ? `${SITE_URL}/blog/${seriesCategory}` : undefined,
     },
     alternates: {
-      canonical: `${SITE_URL}/blog/${seriesCategory}`,
-      languages: {
-        ko: `${SITE_URL}/blog/${seriesCategory}`,
-      },
+      canonical: seriesCategory ? `${SITE_URL}/blog/${seriesCategory}` : undefined,
+      languages: seriesCategory
+        ? {
+            ko: `${SITE_URL}/blog/${seriesCategory}`,
+          }
+        : undefined,
     },
   });
 
