@@ -1,13 +1,13 @@
-'use client'
+'use client';
 
-import { GlobalLink } from 'app/(ui)'
+import { GlobalLink } from '@/shared/ui';
 import {
   StyledFormattedDate,
   StyledKOPISLabel,
   StyledTopInfoContainer,
   StyledTopInfoTitle,
   StyledVenueTitle,
-} from './top-info.styled'
+} from './top-info.styled';
 
 export function TopInfo({
   title,
@@ -16,11 +16,11 @@ export function TopInfo({
   venueId,
   isKOPIS,
 }: {
-  title: string
-  venueTitle: string
-  formattedDate: string
-  venueId: string
-  isKOPIS: boolean
+  title: string;
+  venueTitle: string;
+  formattedDate: string;
+  venueId: string;
+  isKOPIS: boolean;
 }) {
   return (
     <StyledTopInfoContainer>
@@ -30,8 +30,10 @@ export function TopInfo({
       </GlobalLink>
       <StyledFormattedDate as="h3">{formattedDate}</StyledFormattedDate>
       {isKOPIS && (
-        <StyledKOPISLabel as="h3">출처: (재)예술경영지원센터 공연예술통합전산망(www.kopis.or.kr)</StyledKOPISLabel>
+        <StyledKOPISLabel as="h3">
+          출처: (재)예술경영지원센터 공연예술통합전산망(www.kopis.or.kr)
+        </StyledKOPISLabel>
       )}
     </StyledTopInfoContainer>
-  )
+  );
 }

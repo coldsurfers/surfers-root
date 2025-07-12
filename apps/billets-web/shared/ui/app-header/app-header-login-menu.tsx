@@ -5,7 +5,6 @@ import { authUtils } from '@/libs/utils/utils.auth';
 import { Spinner } from '@coldsurfers/ocean-road';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useIsLoggedIn } from 'app/(hooks)/use-is-logged-in';
-import { useIsSsgPath } from 'app/(hooks)/use-is-ssg-path';
 import { GlobalLink } from '../global-link';
 import {
   AppHeaderMenuTextSkeleton,
@@ -18,7 +17,6 @@ export const AppHeaderLoginMenu = ({
 }: {
   onClickMobileLogout: () => void;
 }) => {
-  const isSsgPath = useIsSsgPath();
   const { isLoggedIn, isLoading } = useIsLoggedIn();
   const queryClient = useQueryClient();
 
@@ -31,10 +29,6 @@ export const AppHeaderLoginMenu = ({
       console.error(error);
     },
   });
-
-  if (isSsgPath) {
-    return null;
-  }
 
   if (isLoading) {
     return <AppHeaderMenuTextSkeleton />;

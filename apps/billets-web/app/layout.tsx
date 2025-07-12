@@ -56,7 +56,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const dehydratedState = JSON.parse(JSON.stringify(dehydrate(queryClient)));
 
   return (
-    <html lang="en" className={cookieTheme ? `${cookieTheme}` : 'light'}>
+    <html lang="en" className={cookieTheme ? `${cookieTheme}` : ''}>
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" type="image/png" />
@@ -110,7 +110,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                   if (!initialTheme) {
                     initialTheme = darkQuery.matches ? 'dark' : 'light';
                   }
-                  // setTheme(initialTheme);
+                  setTheme(initialTheme);
 
                   darkQuery.addEventListener('change', function (e) {
                     if (!preferredTheme) {
