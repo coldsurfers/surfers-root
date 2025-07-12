@@ -7,16 +7,6 @@ import { AnimatePresence } from 'framer-motion';
 import { motion } from 'framer-motion';
 import { useLoginModalStore } from '../../store';
 
-const ModalContainer = styled(motion.div)`
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 312px;
-    background-color: ${semantics.color.background[1]};
-    z-index: ${GLOBAL_Z_INDEX.LOGIN_MODAL};
-`;
-
 const Overlay = styled(motion.div)`
     z-index: ${GLOBAL_Z_INDEX.LOGIN_MODAL - 1};
     backdrop-filter: blur(0.5px);
@@ -28,6 +18,16 @@ const Overlay = styled(motion.div)`
     bottom: 0;
 `;
 
+const ModalContainer = styled(motion.div)`
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 512px;
+    background-color: ${semantics.color.background[2]};
+    z-index: ${GLOBAL_Z_INDEX.LOGIN_MODAL};
+`;
+
 export const LoginSideBar = () => {
   const isVisible = useLoginModalStore((state) => state.isVisible);
   const close = useLoginModalStore((state) => state.close);
@@ -36,8 +36,33 @@ export const LoginSideBar = () => {
     <AnimatePresence onExitComplete={() => close()}>
       {isVisible && (
         <>
-          <Overlay onClick={() => close()} />
-          <ModalContainer>Hello Login Modal</ModalContainer>
+          <Overlay
+            initial={{
+              opacity: 0,
+            }}
+            animate={{
+              opacity: 1,
+            }}
+            transition={{
+              duration: 0.3,
+              ease: 'easeInOut',
+            }}
+            onClick={() => close()}
+          />
+          <ModalContainer
+            initial={{
+              right: '-512px',
+            }}
+            animate={{
+              right: '0px',
+            }}
+            transition={{
+              duration: 0.2,
+              ease: 'easeInOut',
+            }}
+          >
+            Hello Login Modal
+          </ModalContainer>
         </>
       )}
     </AnimatePresence>
