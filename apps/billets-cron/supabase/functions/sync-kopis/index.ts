@@ -176,6 +176,9 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case '성미산마을극장 향':
+      alreadyExistingVenueId = '8ee7ad49-5ccd-4231-8c0e-092cc706e26a';
+      break;
     case '포항시청 대잠홀, 포항문화예술회관':
       alreadyExistingVenueId = '0af26597-8b09-4acd-8960-5af13c75730c';
       break;
