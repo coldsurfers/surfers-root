@@ -1,6 +1,7 @@
 'use client';
 
 import { APP_DOWNLOAD_WORDING } from '@/libs/constants';
+import { usePreventScrollEffect } from '@/shared/lib';
 import { Button, IconButton, Text } from '@coldsurfers/ocean-road';
 import { APP_STORE_URL } from '@coldsurfers/shared-utils';
 import { ColorSchemeToggle } from 'app/(ui)';
@@ -45,17 +46,9 @@ export const AppHeaderMobileModalMenu = ({
 }) => {
   const router = useRouter();
 
-  useEffect(() => {
-    const { body } = document;
-    if (isOpen) {
-      body.style.overflow = 'hidden'; // Disable scrolling
-    } else {
-      body.style.overflow = ''; // Reset overflow to enable scrolling
-    }
-    return () => {
-      body.style.overflow = ''; // Clean up on unmount
-    };
-  }, [isOpen]);
+  usePreventScrollEffect({
+    shouldPrevent: isOpen,
+  });
 
   return (
     <ModalContainer onClick={onClose} $isOpen={isOpen} style={{ overflowY: 'auto' }}>
