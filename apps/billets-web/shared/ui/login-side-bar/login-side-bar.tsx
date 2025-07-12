@@ -2,8 +2,9 @@
 
 import { GoogleLoginButton } from '@/features/auth';
 import { COMMON_META_DESCRIPTION, COMMON_META_TITLE, GLOBAL_Z_INDEX } from '@/libs/constants';
-import { usePreventScrollEffect } from '@/shared/lib';
-import { Text, semantics } from '@coldsurfers/ocean-road';
+import { useIsMobile, usePreventScrollEffect } from '@/shared/lib';
+import { Text, media, semantics } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { AnimatePresence } from 'framer-motion';
 import { motion } from 'framer-motion';
@@ -14,7 +15,7 @@ const Overlay = styled(motion.div)`
     z-index: ${GLOBAL_Z_INDEX.LOGIN_MODAL - 1};
     backdrop-filter: blur(0.5px);
     background: rgba(0, 0, 0, 0.45);
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -22,7 +23,7 @@ const Overlay = styled(motion.div)`
 `;
 
 const ModalContainer = styled(motion.div)`
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     right: 0;
@@ -36,18 +37,35 @@ const ModalContainer = styled(motion.div)`
     flex-direction: column;
 
     align-items: center;
+
+    ${media.medium(css`
+        position: fixed;
+        top: unset;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 512px;
+    `)}
 `;
 
-const Title = styled(Text)``;
+const Title = styled(Text)`
+    text-align: center;
+    word-break: break-all;
+    word-wrap: break-word;
+`;
 const SubTitle = styled(Text)`
     margin: unset;
     margin-top: 0.75rem;
     margin-bottom: 1rem;
+    text-align: center;
 `;
 
 export const LoginSideBar = () => {
   const isVisible = useLoginModalStore((state) => state.isVisible);
   const close = useLoginModalStore((state) => state.close);
+
+  const isMobile = useIsMobile();
 
   usePreventScrollEffect({
     shouldPrevent: isVisible,
@@ -71,12 +89,24 @@ export const LoginSideBar = () => {
             onClick={() => close()}
           />
           <ModalContainer
-            initial={{
-              right: '-512px',
-            }}
-            animate={{
-              right: '0px',
-            }}
+            initial={
+              isMobile
+                ? {
+                    bottom: '-512px',
+                  }
+                : {
+                    right: '-512px',
+                  }
+            }
+            animate={
+              isMobile
+                ? {
+                    bottom: '0px',
+                  }
+                : {
+                    right: '0px',
+                  }
+            }
             transition={{
               duration: 0.2,
               ease: 'easeInOut',
