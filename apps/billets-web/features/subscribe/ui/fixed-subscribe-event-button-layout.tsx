@@ -6,10 +6,10 @@ import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import type { PropsWithChildren } from 'react';
 
-const Container = styled(motion.div)`
+const Container = styled(motion.div)<{ $right: number; $bottom: number }>`
     position: absolute;
-    bottom: 12px;
-    right: 12px;
+    bottom: ${(props) => `${props.$bottom}px`};
+    right: ${(props) => `${props.$right}px`};
     background: transparent;
 
     display: flex;
@@ -22,7 +22,14 @@ const Container = styled(motion.div)`
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 `;
 
-export const FixedSubscribeEventButtonLayout = ({ children }: PropsWithChildren) => {
+export const FixedSubscribeEventButtonLayout = ({
+  children,
+  customRight = 12,
+  customBottom = 12,
+}: PropsWithChildren<{
+  customRight?: number;
+  customBottom?: number;
+}>) => {
   return (
     <Container
       onClick={withStopPropagation()}
@@ -30,6 +37,8 @@ export const FixedSubscribeEventButtonLayout = ({ children }: PropsWithChildren)
         scale: 1.1,
       }}
       transition={{ type: 'spring', stiffness: 300 }}
+      $right={customRight}
+      $bottom={customBottom}
     >
       {children}
     </Container>
