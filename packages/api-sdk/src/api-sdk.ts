@@ -488,6 +488,7 @@ export class ApiSdk {
         queryKeys: {
           all: ['v1', 'user'],
           me: ['v1', 'user', 'me'],
+          profile: (handle: string) => ['v1', 'user', 'profile', handle],
         },
         getMe: async () => {
           const data = await baseFetchClient.GET('/v1/user/me');
@@ -511,6 +512,19 @@ export class ApiSdk {
           const data = await baseFetchClient.DELETE('/v1/user/deactivate', {
             body: {
               type: 'deactivate',
+            },
+          });
+          if (data.error) {
+            throw new OpenApiError(data.error);
+          }
+          return data.data;
+        },
+        getUserProfile: async (handle: string) => {
+          const data = await baseFetchClient.GET('/v1/user/{handle}', {
+            params: {
+              path: {
+                handle,
+              },
             },
           });
           if (data.error) {

@@ -76,7 +76,7 @@
   },
   "featureFlags": {
     "useSubscribeButton": false,
-    "useProfileFeature": false
+    "useProfileFeature": true
   },
   "pnpm": {
     "overrides": {

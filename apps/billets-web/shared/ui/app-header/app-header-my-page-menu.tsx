@@ -20,7 +20,7 @@ export const AppHeaderMyPageMenu = () => {
   }
 
   return (
-    <HeaderMenuContainerGlobalLink href={`/@${userHandle}`}>
+    <HeaderMenuContainerGlobalLink href={`/${userHandle}`}>
       {isLoading ? <AppHeaderMenuTextSkeleton /> : <Text as="p">프로필</Text>}
     </HeaderMenuContainerGlobalLink>
   );
