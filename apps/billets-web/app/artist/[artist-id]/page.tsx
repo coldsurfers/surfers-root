@@ -1,3 +1,8 @@
+import {
+  ArtistProfileDetailEventList,
+  ArtistProfileDetailTop,
+  ProfileDetailPageLayout,
+} from '@/features/profile';
 import { apiClient, initialPageQuery } from '@/libs/openapi-client';
 import { ApiErrorBoundaryRegistry } from '@/libs/registries';
 import { getQueryClient } from '@/libs/utils';
@@ -5,7 +10,6 @@ import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { RouteLoading } from 'app/(ui)';
 import { redirect } from 'next/navigation';
 import { cache } from 'react';
-import { ArtistDetailEventList, ArtistDetailPageLayout, ArtistDetailTop } from './(ui)';
 
 const getArtistDetail = cache((artistId: string) => apiClient.artist.getArtistDetail(artistId));
 
@@ -37,10 +41,10 @@ async function PageInner({ params }: { params: { 'artist-id': string } }) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <ArtistDetailPageLayout>
-        <ArtistDetailTop artistId={artistId} />
-        <ArtistDetailEventList artistId={artistId} />
-      </ArtistDetailPageLayout>
+      <ProfileDetailPageLayout>
+        <ArtistProfileDetailTop artistId={artistId} />
+        <ArtistProfileDetailEventList artistId={artistId} />
+      </ProfileDetailPageLayout>
     </HydrationBoundary>
   );
 }
