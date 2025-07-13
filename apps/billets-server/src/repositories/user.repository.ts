@@ -8,4 +8,7 @@ export interface UserRepository {
   findPassword(id: string): Promise<string | null>;
   activate(id: string): Promise<UserDTO | null>;
   deactivate(id: string): Promise<UserDTO | null>;
+  findHandleByEmail(email: string): Promise<string | null>;
+  findUserByHandle(handle: string): Promise<UserDTO | null>;
+  createUserHandleByEmail(seedValue: string): Promise<string>;
 }

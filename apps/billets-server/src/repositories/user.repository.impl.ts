@@ -1,5 +1,7 @@
 import type { CreateUserDTO, UserDTO } from '@/dtos/user.dto';
 import { dbClient } from '@/lib/db';
+import { generateSlug } from '@coldsurfers/shared-utils';
+import { generate as generateRandomWords } from 'random-words';
 import type { UserRepository } from './user.repository';
 
 interface UserModel {
@@ -86,6 +88,44 @@ export class UserRepositoryImpl implements UserRepository {
       },
     });
     return user ? this.toDTO(user) : null;
+  }
+
+  async findHandleByEmail(email: string): Promise<string | null> {
+    const user = await dbClient.user.findUnique({
+      where: {
+        email,
+      },
+      select: {
+        handle: true,
+      },
+    });
+    return user?.handle ?? null;
+  }
+
+  async findUserByHandle(handle: string): Promise<UserDTO | null> {
+    const user = await dbClient.user.findUnique({
+      where: {
+        handle,
+      },
+    });
+
+    return user ? this.toDTO(user) : null;
+  }
+
+  async createUserHandleByEmail(email: string): Promise<string> {
+    const seedValue = email.split('@').at(0) ?? (generateRandomWords(2) as string[]).join(' ');
+    const handleValue = await generateSlug(
+      seedValue,
+      async (newSlug) => {
+        const user = await this.findUserByHandle(newSlug);
+        return !!user;
+      },
+      {
+        lower: false,
+        strict: true,
+      }
+    );
+    return handleValue;
   }
 
   private toDTO(user: UserModel): UserDTO {
