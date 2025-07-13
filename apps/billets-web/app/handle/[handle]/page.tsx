@@ -1,44 +1,47 @@
-'use client';
-
+import {
+  ProfileDetailPageLayout,
+  UserProfileDetailEventList,
+  UserProfileDetailTop,
+} from '@/features/profile';
 import { apiClient } from '@/libs/openapi-client';
-import { Text } from '@coldsurfers/ocean-road';
-import styled from '@emotion/styled';
-import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
-import { useMemo } from 'react';
+import { getQueryClient } from '@/libs/utils';
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
+import { notFound } from 'next/navigation';
 
-const SectionTitle = styled(Text)``;
-
-export default function HandleDetailPage() {
-  const params = useParams() as {
-    handle?: string;
-  };
-  const paramsHandle = useMemo(() => {
-    if (!params.handle) {
-      return null;
-    }
-    return decodeURIComponent(params.handle).split('@').join('');
-  }, [params.handle]);
-  const { data: userData } = useQuery({
+export default async function HandleDetailPage({ params }: { params: { handle: string } }) {
+  const paramsHandle = decodeURIComponent((await params).handle);
+  const queryClient = getQueryClient();
+  const user = await queryClient.fetchQuery({
     queryKey: apiClient.user.queryKeys.me,
     queryFn: () => apiClient.user.getMe(),
   });
 
-  // @TODO: get public-user data from api
+  await queryClient.prefetchQuery({
+    queryKey: apiClient.user.queryKeys.profile(paramsHandle),
+    queryFn: () => apiClient.user.getUserProfile(paramsHandle),
+  });
 
-  const isAuthenticated = useMemo(() => {
-    if (!userData?.handle) {
+  // @TODO: add modify handle button ui
+  const isAuthenticated = (() => {
+    if (!user?.handle) {
       return false;
     }
     if (!paramsHandle) {
       return false;
     }
-    return userData.handle === paramsHandle;
-  }, [userData?.handle, paramsHandle]);
+    return user.handle === paramsHandle;
+  })();
+
+  if (!paramsHandle) {
+    notFound();
+  }
 
   return (
-    <div>
-      <SectionTitle as="h1">찜한 공연 {isAuthenticated.toString()}</SectionTitle>
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <ProfileDetailPageLayout>
+        <UserProfileDetailTop handle={paramsHandle} />
+        <UserProfileDetailEventList handle={paramsHandle} />
+      </ProfileDetailPageLayout>
+    </HydrationBoundary>
   );
 }
