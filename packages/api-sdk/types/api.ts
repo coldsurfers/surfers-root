@@ -6,2411 +6,2411 @@
 export interface paths {
   '/v1/app/update-info': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['AppUpdateInfoDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['AppUpdateInfoDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/artist-profile-image/': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
         query: {
-          artistId: string;
-        };
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
+          artistId: string
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ArtistProfileImageDTOSchema'][];
-          };
-        };
+            'application/json': components['schemas']['ArtistProfileImageDTOSchema'][]
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/artist-profile-image/{artistProfileImageId}': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
-        query?: never;
-        header?: never;
+        query?: never
+        header?: never
         path: {
-          artistProfileImageId: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
+          artistProfileImageId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ArtistProfileImageDetailDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ArtistProfileImageDetailDTOSchema']
+          }
+        }
         /** @description Default Response */
         404: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/artist/{id}': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
-        query?: never;
-        header?: never;
+        query?: never
+        header?: never
         path: {
-          id: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ArtistDetailDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ArtistDetailDTOSchema']
+          }
+        }
         /** @description Default Response */
         404: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/auth/email/confirm-auth-code': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
     post: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
       requestBody: {
         content: {
           'application/json': {
-            authCode: string;
+            authCode: string
             /** Format: email */
-            email: string;
-          };
-        };
-      };
+            email: string
+          }
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ConfirmAuthCodeResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ConfirmAuthCodeResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         401: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         404: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         409: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/auth/email/send-auth-code': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
     post: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
       requestBody: {
         content: {
-          'application/json': components['schemas']['ConfirmAuthCodeResponseDTOSchema'];
-        };
-      };
+          'application/json': components['schemas']['ConfirmAuthCodeResponseDTOSchema']
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ConfirmAuthCodeResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ConfirmAuthCodeResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         409: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/auth/reissue-token': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
     post: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
       requestBody: {
         content: {
-          'application/json': components['schemas']['ReissueTokenBodyDTOSchema'];
-        };
-      };
+          'application/json': components['schemas']['ReissueTokenBodyDTOSchema']
+        }
+      }
       responses: {
         /** @description Default Response */
         201: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['UserWithAuthTokenDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['UserWithAuthTokenDTOSchema']
+          }
+        }
         /** @description Default Response */
         400: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/auth/signin': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
     post: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
       requestBody: {
         content: {
           'application/json': {
-            email: string;
-            password?: string;
-            platform?: 'android' | 'ios' | 'web';
-            provider: 'google' | 'apple' | 'email';
-            token?: string;
-          };
-        };
-      };
+            email: string
+            password?: string
+            platform?: 'android' | 'ios' | 'web'
+            provider: 'google' | 'apple' | 'email'
+            token?: string
+          }
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['UserWithAuthTokenDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['UserWithAuthTokenDTOSchema']
+          }
+        }
         /** @description Default Response */
         401: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/auth/signup': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
     post: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
       requestBody: {
         content: {
           'application/json': {
-            email: string;
-            password?: string;
-            platform?: 'android' | 'ios' | 'web';
-            provider: 'google' | 'apple' | 'email';
-            token?: string;
-          };
-        };
-      };
+            email: string
+            password?: string
+            platform?: 'android' | 'ios' | 'web'
+            provider: 'google' | 'apple' | 'email'
+            token?: string
+          }
+        }
+      }
       responses: {
         /** @description Default Response */
         201: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['UserWithAuthTokenDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['UserWithAuthTokenDTOSchema']
+          }
+        }
         /** @description Default Response */
         400: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         401: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/event-category/': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['EventCategoryDTOSchema'][];
-          };
-        };
+            'application/json': components['schemas']['EventCategoryDTOSchema'][]
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/event/': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
         query?: {
-          eventCategoryName?: string;
-          latitude?: number;
-          locationCityId?: string;
-          locationCityName?: string;
-          longitude?: number;
-          offset?: number;
-          size?: number;
-        };
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
+          eventCategoryName?: string
+          latitude?: number
+          locationCityId?: string
+          locationCityName?: string
+          longitude?: number
+          offset?: number
+          size?: number
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['EventDTOSchema'][];
-          };
-        };
+            'application/json': components['schemas']['EventDTOSchema'][]
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/event/{eventId}': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
-        query?: never;
-        header?: never;
+        query?: never
+        header?: never
         path: {
-          eventId: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
+          eventId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['EventDetailDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['EventDetailDTOSchema']
+          }
+        }
         /** @description Default Response */
         404: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/event/slug/{slug}': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
-        query?: never;
-        header?: never;
+        query?: never
+        header?: never
         path: {
-          slug: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
+          slug: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['EventDetailDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['EventDetailDTOSchema']
+          }
+        }
         /** @description Default Response */
         404: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/fcm/token': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
     post: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
       requestBody: {
         content: {
           'application/json': {
-            fcmToken: string;
-          };
-        };
-      };
+            fcmToken: string
+          }
+        }
+      }
       responses: {
         /** @description Default Response */
         201: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['FCMTokenDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['FCMTokenDTOSchema']
+          }
+        }
         /** @description Default Response */
         401: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/image/': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
         query: {
-          format?: 'jpg' | 'jpeg' | 'png' | 'webp';
-          height?: number;
-          key: string;
-          width?: number;
-        };
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
+          format?: 'jpg' | 'jpeg' | 'png' | 'webp'
+          height?: number
+          key: string
+          width?: number
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': unknown;
-          };
-        };
+            'application/json': unknown
+          }
+        }
         /** @description Default Response */
         304: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': unknown;
-          };
-        };
+            'application/json': unknown
+          }
+        }
         /** @description Default Response */
         400: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/location/city': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['LocationCityDTOSchema'][];
-          };
-        };
+            'application/json': components['schemas']['LocationCityDTOSchema'][]
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/location/concert': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
         query: {
-          latitude: number;
-          latitudeDelta: number;
-          longitude: number;
-          longitudeDelta: number;
-          zoomLevel: number;
-        };
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
+          latitude: number
+          latitudeDelta: number
+          longitude: number
+          longitudeDelta: number
+          zoomLevel: number
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['LocationConcertDTOSchema'][];
-          };
-        };
+            'application/json': components['schemas']['LocationConcertDTOSchema'][]
+          }
+        }
         /** @description Default Response */
         400: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/location/country': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['LocationCountryDTOSchema'][];
-          };
-        };
+            'application/json': components['schemas']['LocationCountryDTOSchema'][]
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/mailer/user-voice': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
     post: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
       requestBody: {
         content: {
           'application/json': {
-            email: string;
-            message: string;
-            name: string;
-            updateAgreement: boolean;
-          };
-        };
-      };
+            email: string
+            message: string
+            name: string
+            updateAgreement: boolean
+          }
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['SendEmailResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['SendEmailResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/poster/': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
         query: {
-          eventId: string;
-        };
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
+          eventId: string
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ArtistProfileImageDTOSchema'][];
-          };
-        };
+            'application/json': components['schemas']['ArtistProfileImageDTOSchema'][]
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/poster/{posterId}': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
-        query?: never;
-        header?: never;
+        query?: never
+        header?: never
         path: {
-          posterId: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
+          posterId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ArtistProfileImageDetailDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ArtistProfileImageDetailDTOSchema']
+          }
+        }
         /** @description Default Response */
         404: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/price/': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
         query: {
-          ticketId: string;
-        };
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
+          ticketId: string
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['PriceDTOSchema'][];
-          };
-        };
+            'application/json': components['schemas']['PriceDTOSchema'][]
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/search/': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
         query: {
-          keyword: string;
-        };
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
+          keyword: string
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
             'application/json': (
               | {
-                  id: string;
-                  name: string;
-                  profileImgUrl: string;
+                  id: string
+                  name: string
+                  profileImgUrl: string
                   /** @enum {string} */
-                  type: 'artist';
+                  type: 'artist'
                 }
               | {
-                  id: string;
-                  name: string;
+                  id: string
+                  name: string
                   /** @enum {string} */
-                  type: 'venue';
+                  type: 'venue'
                 }
               | {
                   /** Format: date-time */
-                  date: string;
-                  id: string;
-                  slug: string | null;
-                  thumbnailImgUrl: string;
-                  title: string;
+                  date: string
+                  id: string
+                  slug: string | null
+                  thumbnailImgUrl: string
+                  title: string
                   /** @enum {string} */
-                  type: 'concert';
-                  venueTitle: string;
+                  type: 'concert'
+                  venueTitle: string
                 }
-            )[];
-          };
-        };
+            )[]
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/subscribe/artist': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
         query?: {
-          offset?: number;
-          size?: number;
-        };
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
+          offset?: number
+          size?: number
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ArtistSubscribeDTOSchema'][];
-          };
-        };
+            'application/json': components['schemas']['ArtistSubscribeDTOSchema'][]
+          }
+        }
         /** @description Default Response */
         401: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
     post: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
       requestBody: {
         content: {
           'application/json': {
             /** Format: uuid */
-            artistId: string;
-          };
-        };
-      };
+            artistId: string
+          }
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ArtistSubscribeDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ArtistSubscribeDTOSchema']
+          }
+        }
         /** @description Default Response */
         401: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         404: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
     delete: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
       requestBody: {
         content: {
           'application/json': {
             /** Format: uuid */
-            artistId: string;
-          };
-        };
-      };
+            artistId: string
+          }
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ArtistSubscribeDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ArtistSubscribeDTOSchema']
+          }
+        }
         /** @description Default Response */
         401: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         404: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/subscribe/artist/{artistId}': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
-        query?: never;
-        header?: never;
+        query?: never
+        header?: never
         path: {
-          artistId: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
+          artistId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ArtistSubscribeDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ArtistSubscribeDTOSchema']
+          }
+        }
         /** @description Default Response */
         401: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         404: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/subscribe/event': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
         query?: {
-          offset?: number;
-          size?: number;
-        };
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
+          offset?: number
+          size?: number
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['EventSubscribeDTOSchema'][];
-          };
-        };
+            'application/json': components['schemas']['EventSubscribeDTOSchema'][]
+          }
+        }
         /** @description Default Response */
         401: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
     post: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
       requestBody: {
         content: {
           'application/json': {
-            eventId: string;
-          };
-        };
-      };
+            eventId: string
+          }
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['EventSubscribeDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['EventSubscribeDTOSchema']
+          }
+        }
         /** @description Default Response */
         401: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         404: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
     delete: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
       requestBody: {
         content: {
           'application/json': {
-            eventId: string;
-          };
-        };
-      };
+            eventId: string
+          }
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['EventSubscribeDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['EventSubscribeDTOSchema']
+          }
+        }
         /** @description Default Response */
         401: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         404: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/subscribe/event/{eventId}': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
-        query?: never;
-        header?: never;
+        query?: never
+        header?: never
         path: {
-          eventId: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
+          eventId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['EventSubscribeDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['EventSubscribeDTOSchema']
+          }
+        }
         /** @description Default Response */
         401: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         404: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/subscribe/me': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['SubscribeInfoMeDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['SubscribeInfoMeDTOSchema']
+          }
+        }
         /** @description Default Response */
         401: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/subscribe/venue': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
         query?: {
-          offset?: number;
-          size?: number;
-        };
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
+          offset?: number
+          size?: number
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['VenueSubscribeDTOSchema'][];
-          };
-        };
+            'application/json': components['schemas']['VenueSubscribeDTOSchema'][]
+          }
+        }
         /** @description Default Response */
         401: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
     post: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
       requestBody: {
         content: {
           'application/json': {
             /** Format: uuid */
-            venueId: string;
-          };
-        };
-      };
+            venueId: string
+          }
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['VenueSubscribeDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['VenueSubscribeDTOSchema']
+          }
+        }
         /** @description Default Response */
         401: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         404: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
     delete: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
       requestBody: {
         content: {
           'application/json': {
             /** Format: uuid */
-            venueId: string;
-          };
-        };
-      };
+            venueId: string
+          }
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['VenueSubscribeDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['VenueSubscribeDTOSchema']
+          }
+        }
         /** @description Default Response */
         401: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         404: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/subscribe/venue/{venueId}': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
-        query?: never;
-        header?: never;
+        query?: never
+        header?: never
         path: {
-          venueId: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
+          venueId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['VenueSubscribeDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['VenueSubscribeDTOSchema']
+          }
+        }
         /** @description Default Response */
         401: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         404: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/ticket/': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
         query: {
-          eventId: string;
-        };
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
+          eventId: string
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['TicketDTOSchema'][];
-          };
-        };
+            'application/json': components['schemas']['TicketDTOSchema'][]
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/user/activate': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
     patch: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
       requestBody: {
         content: {
           'application/json': {
-            authCode: string;
+            authCode: string
             /** Format: email */
-            email: string;
+            email: string
             /** @enum {string} */
-            type: 'activate';
-          };
-        };
-      };
+            type: 'activate'
+          }
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['UserDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['UserDTOSchema']
+          }
+        }
         /** @description Default Response */
         401: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         404: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         409: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    trace?: never
+  }
   '/v1/user/deactivate': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    post?: never;
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
     delete: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
       requestBody: {
         content: {
           'application/json': {
             /** @enum {string} */
-            type: 'deactivate';
-          };
-        };
-      };
+            type: 'deactivate'
+          }
+        }
+      }
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['UserDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['UserDTOSchema']
+          }
+        }
         /** @description Default Response */
         401: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/user/me': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['UserDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['UserDTOSchema']
+          }
+        }
         /** @description Default Response */
         401: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         404: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/venue/{id}': {
     parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     get: {
       parameters: {
-        query?: never;
-        header?: never;
+        query?: never
+        header?: never
         path: {
-          id: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
       responses: {
         /** @description Default Response */
         200: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['VenueDetailDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['VenueDetailDTOSchema']
+          }
+        }
         /** @description Default Response */
         404: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
         /** @description Default Response */
         500: {
           headers: {
-            [name: string]: unknown;
-          };
+            [name: string]: unknown
+          }
           content: {
-            'application/json': components['schemas']['ErrorResponseDTOSchema'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+            'application/json': components['schemas']['ErrorResponseDTOSchema']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
 }
-export type webhooks = Record<string, never>;
+export type webhooks = Record<string, never>
 export interface components {
   schemas: {
     AppUpdateInfoDTOSchema: {
       android: {
-        forceUpdate: boolean;
-        latestVersion: string;
+        forceUpdate: boolean
+        latestVersion: string
         /** @enum {string} */
-        updateType: 'native' | 'ota';
-      };
+        updateType: 'native' | 'ota'
+      }
       ios: {
-        forceUpdate: boolean;
-        latestVersion: string;
+        forceUpdate: boolean
+        latestVersion: string
         /** @enum {string} */
-        updateType: 'native' | 'ota';
-      };
-    };
+        updateType: 'native' | 'ota'
+      }
+    }
     ArtistDetailDTOSchema: {
-      id: string;
-      name: string;
-      thumbCopyright: components['schemas']['CopyrightDTOSchema'] | null;
-      thumbUrl: string | null;
-      upcomingEvents: components['schemas']['EventDTOSchema'][];
-    };
+      id: string
+      name: string
+      thumbCopyright: components['schemas']['CopyrightDTOSchema'] | null
+      thumbUrl: string | null
+      upcomingEvents: components['schemas']['EventDTOSchema'][]
+    }
     ArtistDTOSchema: {
-      id: string;
-      name: string;
-      thumbCopyright: components['schemas']['CopyrightDTOSchema'] | null;
-      thumbUrl: string | null;
-    };
+      id: string
+      name: string
+      thumbCopyright: components['schemas']['CopyrightDTOSchema'] | null
+      thumbUrl: string | null
+    }
     ArtistProfileImageDetailDTOSchema: {
-      copyright: components['schemas']['CopyrightDTOSchema'] | null;
+      copyright: components['schemas']['CopyrightDTOSchema'] | null
       /** Format: uuid */
-      id: string;
+      id: string
       /** Format: uri */
-      url: string;
-    };
+      url: string
+    }
     ArtistProfileImageDTOSchema: {
       /** Format: uuid */
-      id: string;
+      id: string
       /** Format: uri */
-      url: string;
-    };
+      url: string
+    }
     ArtistSubscribeDTOSchema: {
       /** Format: uuid */
-      artistId: string;
+      artistId: string
       /** Format: date-time */
-      subscribedAt: string;
-      thumbUrl?: string;
+      subscribedAt: string
+      thumbUrl?: string
       /** Format: uuid */
-      userId: string;
-    };
+      userId: string
+    }
     ConcertDetailDTOSchema: {
-      artists: components['schemas']['ArtistDTOSchema'][];
+      artists: components['schemas']['ArtistDTOSchema'][]
       /** Format: date-time */
-      date: string;
-      detailImages: components['schemas']['DetailImageDTOSchema'][];
+      date: string
+      detailImages: components['schemas']['DetailImageDTOSchema'][]
       /** Format: uuid */
-      id: string;
-      isKOPIS: boolean;
-      posters: components['schemas']['ArtistProfileImageDTOSchema'][];
-      slug: string | null;
-      tickets: components['schemas']['TicketDTOSchema'][];
-      title: string;
-      venues: components['schemas']['VenueDTOSchema'][];
-    };
+      id: string
+      isKOPIS: boolean
+      posters: components['schemas']['ArtistProfileImageDTOSchema'][]
+      slug: string | null
+      tickets: components['schemas']['TicketDTOSchema'][]
+      title: string
+      venues: components['schemas']['VenueDTOSchema'][]
+    }
     ConcertDTOSchema: {
       /** Format: date-time */
-      date: string;
+      date: string
       /** Format: uuid */
-      id: string;
+      id: string
       mainPoster: {
-        copyright: components['schemas']['CopyrightDTOSchema'] | null;
-        url: string;
-      } | null;
+        copyright: components['schemas']['CopyrightDTOSchema'] | null
+        url: string
+      } | null
       mainVenue: {
-        name: string;
-      } | null;
-      slug: string | null;
-      title: string;
-    };
+        name: string
+      } | null
+      slug: string | null
+      title: string
+    }
     ConfirmAuthCodeResponseDTOSchema: {
       /** Format: email */
-      email: string;
-    };
+      email: string
+    }
     CopyrightDTOSchema: {
-      id: string;
-      license: string;
-      licenseURL: string;
-      owner: string;
-    };
+      id: string
+      license: string
+      licenseURL: string
+      owner: string
+    }
     DetailImageDTOSchema: {
-      id: string;
-      url: string;
-    };
+      id: string
+      url: string
+    }
     ErrorResponseDTOSchema: {
       code:
         | 'INVALID_PASSWORD'
@@ -2438,191 +2438,193 @@ export interface components {
         | 'ARTIST_PROFILE_IMAGE_NOT_FOUND'
         | 'IMAGE_KEY_NOT_FOUND'
         | 'IMAGE_NOT_FOUND'
-        | 'REFRESH_TOKEN_NOT_FOUND';
-      message: string;
-    };
+        | 'REFRESH_TOKEN_NOT_FOUND'
+      message: string
+    }
     EventCategoryDTOSchema: {
-      id: string;
-      name: string;
-    };
+      id: string
+      name: string
+    }
     EventDetailDTOSchema: {
       data: {
-        artists: components['schemas']['ArtistDTOSchema'][];
+        artists: components['schemas']['ArtistDTOSchema'][]
         /** Format: date-time */
-        date: string;
-        detailImages: components['schemas']['DetailImageDTOSchema'][];
+        date: string
+        detailImages: components['schemas']['DetailImageDTOSchema'][]
         /** Format: uuid */
-        id: string;
-        isKOPIS: boolean;
-        posters: components['schemas']['ArtistProfileImageDTOSchema'][];
-        slug: string | null;
-        ticketPromotion: components['schemas']['TicketPromotionDTOSchema'] | null;
-        tickets: components['schemas']['TicketDTOSchema'][];
-        title: string;
-        venues: components['schemas']['VenueDTOSchema'][];
-      };
+        id: string
+        isKOPIS: boolean
+        posters: components['schemas']['ArtistProfileImageDTOSchema'][]
+        slug: string | null
+        ticketPromotion: components['schemas']['TicketPromotionDTOSchema'] | null
+        tickets: components['schemas']['TicketDTOSchema'][]
+        title: string
+        venues: components['schemas']['VenueDTOSchema'][]
+      }
       /** @enum {string} */
-      type: 'concert';
-    };
+      type: 'concert'
+    }
     EventDTOSchema: {
-      data: components['schemas']['ConcertDTOSchema'];
+      data: components['schemas']['ConcertDTOSchema']
       /** @enum {string} */
-      type: 'concert';
-    };
+      type: 'concert'
+    }
     EventSubscribeDTOSchema: {
       /** Format: uuid */
-      eventId: string;
+      eventId: string
       /** Format: date-time */
-      subscribedAt: string;
-      thumbUrl?: string;
+      subscribedAt: string
+      thumbUrl?: string
       /** Format: uuid */
-      userId: string;
-    };
+      userId: string
+    }
     FCMTokenDTOSchema: {
-      id: string;
-      token: string;
-    };
+      id: string
+      token: string
+    }
     LocationCityDTOSchema: {
-      geohash: string | null;
-      id: string;
-      lat: number;
-      lng: number;
-      name: string;
-      uiName: string;
-    };
+      geohash: string | null
+      id: string
+      lat: number
+      lng: number
+      name: string
+      uiName: string
+    }
     LocationConcertDTOSchema: {
-      id: string;
-      latitude: number;
-      longitude: number;
-      title: string;
-    };
+      id: string
+      latitude: number
+      longitude: number
+      title: string
+    }
     LocationCountryDTOSchema: {
       cities: {
-        id: string;
-        lat: number;
-        lng: number;
-        name: string;
-        uiName: string;
-      }[];
-      id: string;
-      name: string;
-      uiName: string;
-    };
+        id: string
+        lat: number
+        lng: number
+        name: string
+        uiName: string
+      }[]
+      id: string
+      name: string
+      uiName: string
+    }
     PosterDetailDTOSchema: {
-      copyright: components['schemas']['CopyrightDTOSchema'] | null;
+      copyright: components['schemas']['CopyrightDTOSchema'] | null
       /** Format: uuid */
-      id: string;
+      id: string
       /** Format: uri */
-      url: string;
-    };
+      url: string
+    }
     PosterDTOSchema: {
       /** Format: uuid */
-      id: string;
+      id: string
       /** Format: uri */
-      url: string;
-    };
+      url: string
+    }
     PriceDTOSchema: {
-      currency: string;
-      id: string;
-      name: string;
-      price: number;
-    };
+      currency: string
+      id: string
+      name: string
+      price: number
+    }
     ReissueTokenBodyDTOSchema: {
-      refreshToken: string;
-    };
+      refreshToken: string
+    }
     SendAuthCodeResponseDTOSchema: {
       /** Format: email */
-      email: string;
-    };
+      email: string
+    }
     SendEmailResponseDTOSchema: {
-      success: boolean;
-    };
+      success: boolean
+    }
     SubscribeInfoMeDTOSchema: {
       artists: {
-        count: number;
-        thumbUrl: string | null;
-      };
+        count: number
+        thumbUrl: string | null
+      }
       events: {
-        count: number;
-        thumbUrl: string | null;
-      };
+        count: number
+        thumbUrl: string | null
+      }
       venues: {
-        count: number;
-        thumbUrl: string | null;
-      };
-    };
+        count: number
+        thumbUrl: string | null
+      }
+    }
     TicketDTOSchema: {
-      id: string;
+      id: string
       /** Format: date-time */
-      openDate: string;
-      prices: components['schemas']['PriceDTOSchema'][];
-      sellerName: string;
-      url: string;
-    };
+      openDate: string
+      prices: components['schemas']['PriceDTOSchema'][]
+      sellerName: string
+      url: string
+    }
     TicketPromotionDTOSchema: {
-      id: string;
+      id: string
       /** Format: date-time */
-      openDate: string;
-      price: components['schemas']['PriceDTOSchema'] | null;
-      sellerName: string;
-      url: string;
-    };
+      openDate: string
+      price: components['schemas']['PriceDTOSchema'] | null
+      sellerName: string
+      url: string
+    }
     UploadImageBodyDTOSchema: {
-      concertId: string;
-      imageUrl: string;
-      index: number;
+      concertId: string
+      imageUrl: string
+      index: number
       /** @enum {string} */
-      resolution: 'low' | 'medium' | 'high';
+      resolution: 'low' | 'medium' | 'high'
       /** @enum {string} */
-      type: 'poster' | 'detail-image';
-    };
+      type: 'poster' | 'detail-image'
+    }
     UploadImageResponseDTOSchema: {
-      key: string;
-    };
+      key: string
+    }
     UserDTOSchema: {
       /** Format: date-time */
-      deactivatedAt: string | null;
-      email: string;
-      id: string;
-      provider: string;
-    };
+      deactivatedAt: string | null
+      email: string
+      handle: components['schemas']['UserHandleDTOSchema'] | null
+      id: string
+      provider: string
+    }
+    UserHandleDTOSchema: string
     UserWithAuthTokenDTOSchema: {
       authToken: {
-        accessToken: string;
-        refreshToken: string;
-      };
-      user: components['schemas']['UserDTOSchema'];
-    };
+        accessToken: string
+        refreshToken: string
+      }
+      user: components['schemas']['UserDTOSchema']
+    }
     VenueDetailDTOSchema: {
-      address: string;
-      id: string;
-      lat: number;
-      lng: number;
-      name: string;
-      upcomingEvents: components['schemas']['EventDTOSchema'][];
-    };
+      address: string
+      id: string
+      lat: number
+      lng: number
+      name: string
+      upcomingEvents: components['schemas']['EventDTOSchema'][]
+    }
     VenueDTOSchema: {
-      address: string;
-      id: string;
-      lat: number;
-      lng: number;
-      name: string;
-    };
+      address: string
+      id: string
+      lat: number
+      lng: number
+      name: string
+    }
     VenueSubscribeDTOSchema: {
       /** Format: date-time */
-      subscribedAt: string;
-      thumbUrl?: string;
+      subscribedAt: string
+      thumbUrl?: string
       /** Format: uuid */
-      userId: string;
+      userId: string
       /** Format: uuid */
-      venueId: string;
-    };
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+      venueId: string
+    }
+  }
+  responses: never
+  parameters: never
+  requestBodies: never
+  headers: never
+  pathItems: never
 }
-export type $defs = Record<string, never>;
-export type operations = Record<string, never>;
+export type $defs = Record<string, never>
+export type operations = Record<string, never>
