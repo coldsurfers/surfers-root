@@ -15,6 +15,8 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+
+    cursor: pointer;
 `;
 
 type Props = {

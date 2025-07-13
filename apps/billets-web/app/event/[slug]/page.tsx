@@ -156,7 +156,14 @@ async function PageInner({ params }: { params: { slug: string } }) {
     <HydrationBoundary state={dehydrate(queryClient)}>
       <PageLayout
         eventId={eventId}
-        poster={<PosterThumbnail src={posterUrl} alt={title} copyright={posterCopyright} />}
+        poster={
+          <PosterThumbnail
+            src={posterUrl}
+            alt={title}
+            copyright={posterCopyright}
+            eventId={eventId}
+          />
+        }
         topInfo={
           <TopInfo
             title={title}
