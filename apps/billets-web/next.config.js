@@ -70,6 +70,10 @@ const nextConfig = {
         source: '/browse',
         destination: '/api/browse',
       },
+      {
+        source: '/@:handle',
+        destination: '/handle/@:handle',
+      },
     ];
   },
 };
