@@ -1,7 +1,6 @@
 import type { CreateUserDTO, UserDTO } from '@/dtos/user.dto';
 import { dbClient } from '@/lib/db';
 import { generateSlug } from '@coldsurfers/shared-utils';
-import { generate as generateRandomWords } from 'random-words';
 import type { UserRepository } from './user.repository';
 
 interface UserModel {
@@ -113,6 +112,8 @@ export class UserRepositoryImpl implements UserRepository {
   }
 
   async createUserHandleByEmail(email: string): Promise<string> {
+    // ESM 이슈로 dynamic import 교체
+    const generateRandomWords = await import('random-words').then((mod) => mod.generate);
     const seedValue = email.split('@').at(0) ?? (generateRandomWords(2) as string[]).join(' ');
     const handleValue = await generateSlug(
       seedValue,
