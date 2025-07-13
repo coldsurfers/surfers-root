@@ -42,6 +42,9 @@ export class UserProfileRepositoryImpl implements UserProfileRepository {
               },
             },
           },
+          orderBy: {
+            createdAt: 'desc',
+          },
         },
       },
     });
