@@ -1,8 +1,16 @@
 import type { ErrorResponseDTO } from '@/dtos/error-response.dto';
-import type { ActivateUserBodyDTO, DeactivateUserBodyDTO, UserDTO } from '@/dtos/user.dto';
+import type { GetUserProfileByHandleParamsDTO, UserProfileDTO } from '@/dtos/user-profile.dto';
+import type {
+  ActivateUserBodyDTO,
+  DeactivateUserBodyDTO,
+  UserDTO,
+  UserHandleDTO,
+} from '@/dtos/user.dto';
 import { EmailAuthRequestRepositoryImpl } from '@/repositories/email-auth-request.repository.impl';
+import { UserProfileRepositoryImpl } from '@/repositories/user-profile.repository.impl';
 import { UserRepositoryImpl } from '@/repositories/user.repository.impl';
 import { EmailAuthRequestService } from '@/services/email-auth-request.service';
+import { UserProfileService } from '@/services/user-profile.service';
 import { UserService } from '@/services/user.service';
 import { differenceInMinutes } from 'date-fns/differenceInMinutes';
 import type { FastifyReply } from 'fastify/types/reply';
@@ -11,6 +19,9 @@ import type { RouteGenericInterface } from 'fastify/types/route';
 
 const userRepository = new UserRepositoryImpl();
 const userService = new UserService(userRepository);
+
+const userProfileRepository = new UserProfileRepositoryImpl();
+const userProfileService = new UserProfileService(userProfileRepository);
 
 const emailAuthRequestRepository = new EmailAuthRequestRepositoryImpl();
 const emailAuthRequestService = new EmailAuthRequestService(emailAuthRequestRepository);
@@ -148,6 +159,40 @@ export const activateUserHandler = async (
       });
     }
     return rep.status(200).send(activatedUser);
+  } catch (e) {
+    console.error(e);
+    return rep.status(500).send({
+      code: 'UNKNOWN',
+      message: 'internal server error',
+    });
+  }
+};
+
+interface GetUserProfileByHandleRoute extends RouteGenericInterface {
+  Params: GetUserProfileByHandleParamsDTO;
+  Reply: {
+    200: UserProfileDTO;
+    404: ErrorResponseDTO;
+    500: ErrorResponseDTO;
+  };
+}
+
+export const getUserProfileByHandleHandler = async (
+  req: FastifyRequest<GetUserProfileByHandleRoute>,
+  rep: FastifyReply<GetUserProfileByHandleRoute>
+) => {
+  try {
+    const { handle } = req.params;
+    const user = await userProfileService.getUserProfileByHandle(handle.split('@').join(''));
+
+    if (!user) {
+      return rep.status(404).send({
+        code: 'USER_NOT_FOUND',
+        message: 'user not found by provided handle',
+      });
+    }
+
+    return rep.status(200).send(user);
   } catch (e) {
     console.error(e);
     return rep.status(500).send({
