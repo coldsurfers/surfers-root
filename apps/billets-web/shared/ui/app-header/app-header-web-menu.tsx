@@ -6,6 +6,7 @@ import { APP_STORE_URL } from '@coldsurfers/shared-utils';
 import { ColorSchemeToggle } from 'app/(ui)';
 import { useRouter } from 'next/navigation';
 import type { MouseEventHandler } from 'react';
+import { HEADER_MENU_ITEMS } from '../constants';
 import { GlobalLink } from '../global-link';
 import { AppHeaderLoginMenu } from './app-header-login-menu';
 import { AppHeaderSearchUI } from './app-header.search-ui';
@@ -16,7 +17,6 @@ import {
   HeaderMenuText,
   WebMenuContainer,
 } from './app-header.styled';
-import { commonMenuItems } from './constants';
 
 export const AppHeaderWebMenu = ({
   isLoading,
@@ -29,7 +29,7 @@ export const AppHeaderWebMenu = ({
 
   return (
     <WebMenuContainer>
-      {commonMenuItems.map((item) => {
+      {HEADER_MENU_ITEMS.map((item) => {
         const onClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
           if (item.link === '/browse') {
             e.preventDefault();
