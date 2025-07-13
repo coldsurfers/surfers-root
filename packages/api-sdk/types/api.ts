@@ -2583,9 +2583,11 @@ export interface components {
       /** Format: date-time */
       deactivatedAt: string | null;
       email: string;
+      handle: components['schemas']['UserHandleDTOSchema'] | null;
       id: string;
       provider: string;
     };
+    UserHandleDTOSchema: string;
     UserWithAuthTokenDTOSchema: {
       authToken: {
         accessToken: string;

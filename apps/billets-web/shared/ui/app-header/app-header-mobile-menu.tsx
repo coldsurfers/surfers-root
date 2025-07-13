@@ -7,8 +7,10 @@ import { APP_STORE_URL } from '@coldsurfers/shared-utils';
 import { ColorSchemeToggle } from 'app/(ui)';
 import { useRouter } from 'next/navigation';
 import { type MouseEventHandler, useEffect } from 'react';
+import { HEADER_MENU_ITEMS } from '../constants';
 import { GlobalLink } from '../global-link';
 import { AppHeaderLoginMenu } from './app-header-login-menu';
+import { AppHeaderMyPageMenu } from './app-header-my-page-menu';
 import { AppHeaderSearchUI } from './app-header.search-ui';
 import {
   AppHeaderMenuTextSkeleton,
@@ -18,7 +20,6 @@ import {
   ModalContent,
   ModalPaper,
 } from './app-header.styled';
-import { commonMenuItems } from './constants';
 
 export const AppHeaderMobileMenuOpener = ({
   onClick,
@@ -55,7 +56,7 @@ export const AppHeaderMobileModalMenu = ({
       {isOpen && (
         <ModalPaper onClick={(e) => e.stopPropagation()}>
           <ModalContent>
-            {commonMenuItems.map((item) => {
+            {HEADER_MENU_ITEMS.map((item) => {
               const onClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
                 onClose();
                 if (item.link === '/browse') {
@@ -75,6 +76,7 @@ export const AppHeaderMobileModalMenu = ({
                 </GlobalLink>
               );
             })}
+            <AppHeaderMyPageMenu />
             <AppHeaderLoginMenu onClickMobileLogout={onClose} />
             <GlobalLink href={APP_STORE_URL} onClick={onClose} style={{ margin: '0 auto' }}>
               <Button theme="border">{APP_DOWNLOAD_WORDING}</Button>

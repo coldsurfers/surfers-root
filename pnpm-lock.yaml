@@ -418,6 +418,9 @@ importers:
       nodemailer-smtp-transport:
         specifier: 2.7.4
         version: 2.7.4
+      random-words:
+        specifier: ^2.0.1
+        version: 2.0.1
       sharp:
         specifier: 0.33.5
         version: 0.33.5
@@ -496,7 +499,7 @@ importers:
         version: 7.4.3
       ts-node-dev:
         specifier: ^2.0.0
-        version: 2.0.0(@types/node@22.13.5)(typescript@5.6.3)
+        version: 2.0.0(@types/node@20.5.1)(typescript@5.6.3)
       tsup:
         specifier: 8.3.5
         version: 8.3.5(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.6.3)(yaml@2.7.0)
@@ -1217,6 +1220,10 @@ importers:
         version: 5.6.3
 
   packages/shared-utils:
+    dependencies:
+      slugify:
+        specifier: ^1.6.6
+        version: 1.6.6
     devDependencies:
       '@biomejs/biome':
         specifier: 1.9.4
@@ -11246,6 +11253,9 @@ packages:
   raf@3.4.1:
     resolution: {integrity: sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==}
 
+  random-words@2.0.1:
+    resolution: {integrity: sha512-nZNJAmgcFmtJMTDDIUCm/iK4R6RydC6NvALvWhYItXQrgYGk1F7Gww416LpVROFQtfVd5TaLEf4WuSsko03N7w==}
+
   randombytes@2.1.0:
     resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
 
@@ -11946,6 +11956,9 @@ packages:
 
   secure-json-parse@2.7.0:
     resolution: {integrity: sha512-6aU+Rwsezw7VR8/nyvKTx8QpWH9FrcYiXXlqC4z5d5XQBDRqtbfsRjnwGyqbi3gddNtWHuEk9OANUotL26qKUw==}
+
+  seedrandom@3.0.5:
+    resolution: {integrity: sha512-8OwmbklUNzwezjGInmZ+2clQmExQPvomqjL7LFqOYqtmuxRgQYqOD3mHaU+MvZn5FLUeVxVfQjwLZW/n/JFuqg==}
 
   selfsigned@2.4.1:
     resolution: {integrity: sha512-th5B4L2U+eGLq1TVh7zNRGBapioSORUeymIydxgFpwww9d2qyKvtuPU2jJuHvYAwwqi2Y596QBL3eEqcPEYL8Q==}
@@ -19143,9 +19156,7 @@ snapshots:
     transitivePeerDependencies:
       - '@babel/core'
       - '@babel/preset-env'
-      - bufferutil
       - supports-color
-      - utf-8-validate
 
   '@react-native/normalize-colors@0.74.89':
     optional: true
@@ -21049,7 +21060,7 @@ snapshots:
 
   axios@1.6.3:
     dependencies:
-      follow-redirects: 1.15.9(debug@4.4.1)
+      follow-redirects: 1.15.9(debug@4.3.7)
       form-data: 4.0.2
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -26652,6 +26663,10 @@ snapshots:
       performance-now: 2.1.0
     optional: true
 
+  random-words@2.0.1:
+    dependencies:
+      seedrandom: 3.0.5
+
   randombytes@2.1.0:
     dependencies:
       safe-buffer: 5.2.1
@@ -27530,6 +27545,8 @@ snapshots:
   scuid@1.1.0: {}
 
   secure-json-parse@2.7.0: {}
+
+  seedrandom@3.0.5: {}
 
   selfsigned@2.4.1:
     dependencies:
@@ -28418,7 +28435,7 @@ snapshots:
       - '@swc/wasm'
       - '@types/node'
 
-  ts-node-dev@2.0.0(@types/node@22.13.5)(typescript@5.6.3):
+  ts-node-dev@2.0.0(@types/node@20.5.1)(typescript@5.6.3):
     dependencies:
       chokidar: 3.6.0
       dynamic-dedupe: 0.3.0
@@ -28428,7 +28445,7 @@ snapshots:
       rimraf: 2.7.1
       source-map-support: 0.5.21
       tree-kill: 1.2.2
-      ts-node: 10.9.2(@types/node@22.13.5)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@20.5.1)(typescript@5.6.3)
       tsconfig: 7.0.0
       typescript: 5.6.3
     transitivePeerDependencies:

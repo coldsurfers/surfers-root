@@ -1,12 +1,11 @@
 'use client';
 
 import { apiClient } from '@/libs/openapi-client';
-import { withStopPropagation } from '@/shared/lib';
+import { useIsLoggedIn, withStopPropagation } from '@/shared/lib';
 import { useLoginModalStore } from '@/shared/store';
 import { semantics } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { useMutation } from '@tanstack/react-query';
-import { useIsLoggedIn } from 'app/(hooks)/use-is-logged-in';
 import { Heart } from 'lucide-react';
 import { useCallback } from 'react';
 

@@ -253,6 +253,7 @@ export const signupHandler = async (
           provider: 'email',
           password: encrypted,
           passwordSalt: salt,
+          handle: await userRepository.createUserHandleByEmail(email),
         });
         if (!createdUser) {
           return rep.status(400).send();
@@ -295,6 +296,7 @@ export const signupHandler = async (
         const createdUser = await userService.createUser({
           email,
           provider,
+          handle: await userRepository.createUserHandleByEmail(email),
         });
         if (!createdUser.id) {
           return rep.status(400).send();

@@ -20,12 +20,12 @@
   ],
   "scripts": {
     "build": "rm -rf dist && tsc",
-    "lint": "biome lint .",
-    "lint:fix": "biome lint --write .",
-    "format": "biome format .",
-    "format:fix": "biome format --write .",
     "check": "biome check .",
     "check:fix": "biome check --write .",
+    "format": "biome format .",
+    "format:fix": "biome format --write .",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
     "prerelease": "yarn build",
     "release": "release-it minor --ci",
     "prerelease:rc": "yarn build",
@@ -43,6 +43,7 @@
   "peerDependencies": {
     "jwt-decode": "^4.0.0",
     "schema-dts": "^1.1.2",
+    "slugify": "^1.6.6",
     "zod": "^3.23.8"
   },
   "publishConfig": {
