@@ -18,6 +18,7 @@ export class UserRepositoryImpl implements UserRepository {
         provider: user.provider,
         password: user.password,
         passwordSalt: user.passwordSalt,
+        handle: user.handle,
       },
     });
     return this.toDTO(newUser);
