@@ -47,7 +47,7 @@ export class UserProfileRepositoryImpl implements UserProfileRepository {
     });
     return user?.handle
       ? this.toDTO({
-          handle: `@${user.handle}`,
+          handle: user.handle,
           subscribedConcerts: user.subscribedConcerts
             .map((concert) => concert.concert)
             .map((concert) => {
@@ -63,7 +63,7 @@ export class UserProfileRepositoryImpl implements UserProfileRepository {
 
   private toDTO(userProfile: UserProfileModel): UserProfileDTO {
     return {
-      handle: userProfile.handle,
+      handle: `@${userProfile.handle}`,
       subscribedEvents: userProfile.subscribedConcerts.map((concert) => {
         const firstPoster = concert.posters.at(0);
         const firstVenue = concert.venues.at(0);
