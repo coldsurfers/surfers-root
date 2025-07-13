@@ -9,6 +9,7 @@ import type { MouseEventHandler } from 'react';
 import { HEADER_MENU_ITEMS } from '../constants';
 import { GlobalLink } from '../global-link';
 import { AppHeaderLoginMenu } from './app-header-login-menu';
+import { AppHeaderMyPageMenu } from './app-header-my-page-menu';
 import { AppHeaderSearchUI } from './app-header.search-ui';
 import {
   AppHeaderMenuTextSkeleton,
@@ -48,6 +49,7 @@ export const AppHeaderWebMenu = ({
           </Container>
         );
       })}
+      <AppHeaderMyPageMenu />
       <AppHeaderLoginMenu onClickMobileLogout={onClickMobileLogout} />
       <AppHeaderSearchUI />
       <GlobalLink href={APP_STORE_URL} target="_blank">

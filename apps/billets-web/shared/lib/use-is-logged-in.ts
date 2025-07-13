@@ -1,3 +1,5 @@
+'use client';
+
 import { apiClient } from '@/libs/openapi-client';
 import type { OpenApiError } from '@coldsurfers/api-sdk';
 import { useQuery } from '@tanstack/react-query';

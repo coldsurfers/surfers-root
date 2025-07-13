@@ -1,7 +1,7 @@
 'use client';
 
+import { useIsLoggedIn } from '@/shared/lib';
 import { breakpoints } from '@coldsurfers/ocean-road';
-import { useIsLoggedIn } from 'app/(hooks)/use-is-logged-in';
 import { useEffect, useState } from 'react';
 import { AppHeaderLogo } from './app-header-logo';
 import { AppHeaderMobileMenuOpener, AppHeaderMobileModalMenu } from './app-header-mobile-menu';

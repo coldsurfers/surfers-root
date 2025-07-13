@@ -10,6 +10,7 @@ import { type MouseEventHandler, useEffect } from 'react';
 import { HEADER_MENU_ITEMS } from '../constants';
 import { GlobalLink } from '../global-link';
 import { AppHeaderLoginMenu } from './app-header-login-menu';
+import { AppHeaderMyPageMenu } from './app-header-my-page-menu';
 import { AppHeaderSearchUI } from './app-header.search-ui';
 import {
   AppHeaderMenuTextSkeleton,
@@ -75,6 +76,7 @@ export const AppHeaderMobileModalMenu = ({
                 </GlobalLink>
               );
             })}
+            <AppHeaderMyPageMenu />
             <AppHeaderLoginMenu onClickMobileLogout={onClose} />
             <GlobalLink href={APP_STORE_URL} onClick={onClose} style={{ margin: '0 auto' }}>
               <Button theme="border">{APP_DOWNLOAD_WORDING}</Button>
