@@ -1,10 +1,10 @@
 'use client';
 
 import { apiClient } from '@/libs/openapi-client';
+import { appSessionStorage } from '@/libs/utils';
 import { authUtils } from '@/libs/utils/utils.auth';
 import storage from '@/libs/utils/utils.storage';
 import { themeUtils } from '@/libs/utils/utils.theme';
-import { useSessionStorage } from '@/shared/lib';
 import { type ColorScheme, Spinner } from '@coldsurfers/ocean-road';
 import { useQueryClient } from '@tanstack/react-query';
 import { redirect, useSearchParams } from 'next/navigation';
@@ -15,8 +15,7 @@ export const CookieInject = () => {
   const searchParams = useSearchParams();
   const accessToken = searchParams.get('access_token');
   const refreshToken = searchParams.get('refresh_token');
-  const sessionStorage = useSessionStorage();
-  const prevPathname = sessionStorage.getValue<string>('@coldsurf-io/prev-path');
+  const prevPathname = appSessionStorage?.get<string>('@coldsurf-io/prev-path');
 
   const restoreColorScheme = useCallback(async () => {
     const themeStorageValue = storage?.get<'dark' | 'light'>('@coldsurf-io/theme');
