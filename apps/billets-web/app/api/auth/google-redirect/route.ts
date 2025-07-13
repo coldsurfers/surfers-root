@@ -39,9 +39,18 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    const userInfoData = await userInfo.json();
+    const userInfoData = (await userInfo.json()) as {
+      sub: string;
+      name: string;
+      given_name: string;
+      family_name: string;
+      picture: string;
+      email: string;
+      email_verified: boolean;
+    };
     const { authToken } = await apiClient.auth.signIn({
       provider: 'google',
+      // @TODO: email 제거 (server side), google token 으로 대체 가능
       email: userInfoData.email,
       token: idToken,
       platform: 'web',

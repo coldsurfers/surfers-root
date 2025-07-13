@@ -2,9 +2,9 @@
 
 import { apiClient } from '@/libs/openapi-client';
 import { authUtils } from '@/libs/utils/utils.auth';
+import { useIsLoggedIn } from '@/shared/lib';
 import { Spinner } from '@coldsurfers/ocean-road';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useIsLoggedIn } from 'app/(hooks)/use-is-logged-in';
 import { GlobalLink } from '../global-link';
 import {
   AppHeaderMenuTextSkeleton,

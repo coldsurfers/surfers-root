@@ -1,5 +1,6 @@
 import type { CreateUserDTO, UserDTO } from '@/dtos/user.dto';
 import { dbClient } from '@/lib/db';
+import { generateSlug } from '@coldsurfers/shared-utils';
 import type { UserRepository } from './user.repository';
 
 interface UserModel {
@@ -7,6 +8,7 @@ interface UserModel {
   deactivatedAt: Date | null;
   email: string;
   provider: string;
+  handle: string | null;
 }
 
 export class UserRepositoryImpl implements UserRepository {
@@ -17,6 +19,7 @@ export class UserRepositoryImpl implements UserRepository {
         provider: user.provider,
         password: user.password,
         passwordSalt: user.passwordSalt,
+        handle: user.handle,
       },
     });
     return this.toDTO(newUser);
@@ -88,12 +91,53 @@ export class UserRepositoryImpl implements UserRepository {
     return user ? this.toDTO(user) : null;
   }
 
+  async findHandleByEmail(email: string): Promise<string | null> {
+    const user = await dbClient.user.findUnique({
+      where: {
+        email,
+      },
+      select: {
+        handle: true,
+      },
+    });
+    return user?.handle ?? null;
+  }
+
+  async findUserByHandle(handle: string): Promise<UserDTO | null> {
+    const user = await dbClient.user.findUnique({
+      where: {
+        handle,
+      },
+    });
+
+    return user ? this.toDTO(user) : null;
+  }
+
+  async createUserHandleByEmail(email: string): Promise<string> {
+    // ESM 이슈로 dynamic import 교체
+    const generateRandomWords = await import('random-words').then((mod) => mod.generate);
+    const seedValue = email.split('@').at(0) ?? (generateRandomWords(2) as string[]).join(' ');
+    const handleValue = await generateSlug(
+      seedValue,
+      async (newSlug) => {
+        const user = await this.findUserByHandle(newSlug);
+        return !!user;
+      },
+      {
+        lower: false,
+        strict: true,
+      }
+    );
+    return handleValue;
+  }
+
   private toDTO(user: UserModel): UserDTO {
     return {
       id: user.id,
       deactivatedAt: user.deactivatedAt,
       email: user.email,
       provider: user.provider,
+      handle: user.handle,
     };
   }
 }

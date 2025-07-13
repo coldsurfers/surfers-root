@@ -75,7 +75,8 @@
     "typescript-plugin-css-modules": "^5.0.2"
   },
   "featureFlags": {
-    "useSubscribeButton": false
+    "useSubscribeButton": false,
+    "useProfileFeature": false
   },
   "pnpm": {
     "overrides": {

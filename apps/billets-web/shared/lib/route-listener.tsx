@@ -1,16 +1,15 @@
 'use client';
 
+import { appSessionStorage } from '@/libs/utils';
 import storage from '@/libs/utils/utils.storage';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
 import { pagePathnames } from '../constants';
-import { useSessionStorage } from './use-session-storage';
 
 const pathnamesToPrevent = [pagePathnames.socialRedirect];
 
 export const RouteListener = () => {
   const pathname = usePathname();
-  const sessionStorage = useSessionStorage();
 
   const restoreThemeCsr = useCallback(() => {
     const themeValue = storage?.get<string>('@coldsurf-io/theme');
@@ -23,10 +22,10 @@ export const RouteListener = () => {
     if (pathnamesToPrevent.includes(pathname)) {
       return;
     }
-    const currentPath = sessionStorage.getValue<string>('@coldsurf-io/current-path');
-    sessionStorage.setValue('@coldsurf-io/prev-path', currentPath || '');
-    sessionStorage.setValue('@coldsurf-io/current-path', pathname);
-  }, [pathname, sessionStorage]);
+    const currentPath = appSessionStorage?.get<string>('@coldsurf-io/current-path');
+    appSessionStorage?.set('@coldsurf-io/prev-path', currentPath || '');
+    appSessionStorage?.set('@coldsurf-io/current-path', pathname);
+  }, [pathname]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
