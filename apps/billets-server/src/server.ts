@@ -66,6 +66,10 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod';
+import {
+  GetUserProfileByHandleParamsDTOSchema,
+  UserProfileDTOSchema,
+} from './dtos/user-profile.dto';
 
 dotenv.config();
 
@@ -216,6 +220,8 @@ app.register(fastifySwagger, {
       AppUpdateInfoDTOSchema,
       ReissueTokenBodyDTOSchema,
       UserHandleDTOSchema,
+      UserProfileDTOSchema,
+      GetUserProfileByHandleParamsDTOSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:

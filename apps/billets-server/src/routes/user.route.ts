@@ -2,8 +2,13 @@ import {
   activateUserHandler,
   deactivateUserHandler,
   getMeHandler,
+  getUserProfileByHandleHandler,
 } from '@/controllers/user.controller';
 import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto';
+import {
+  GetUserProfileByHandleParamsDTOSchema,
+  UserProfileDTOSchema,
+} from '@/dtos/user-profile.dto';
 import {
   ActivateUserBodyDTOSchema,
   DeactivateUserBodyDTOSchema,
@@ -76,6 +81,21 @@ const userRoute: FastifyPluginCallback = (fastify, _, done) => {
       preHandler: [fastify.authenticate],
     },
     deactivateUserHandler
+  );
+  fastify.withTypeProvider<ZodTypeProvider>().get(
+    '/:handle',
+    {
+      schema: {
+        tags: ['v1', 'user'],
+        params: GetUserProfileByHandleParamsDTOSchema,
+        response: {
+          200: UserProfileDTOSchema,
+          404: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
+        },
+      },
+    },
+    getUserProfileByHandleHandler
   );
   done();
 };

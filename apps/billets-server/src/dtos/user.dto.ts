@@ -1,6 +1,9 @@
 import { z } from 'zod';
 
-export const UserHandleDTOSchema = z.string().min(1).max(30);
+export const UserHandleDTOSchema = z.string().regex(/^@[a-zA-Z0-9._-]{3,30}$/, {
+  message: '잘못된 핸들 형식입니다',
+});
+export type UserHandleDTO = z.infer<typeof UserHandleDTOSchema>;
 
 export const UserDTOSchema = z.object({
   id: z.string(),
