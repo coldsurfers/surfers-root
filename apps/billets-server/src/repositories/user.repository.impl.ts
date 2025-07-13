@@ -8,6 +8,7 @@ interface UserModel {
   deactivatedAt: Date | null;
   email: string;
   provider: string;
+  handle: string | null;
 }
 
 export class UserRepositoryImpl implements UserRepository {
@@ -136,6 +137,7 @@ export class UserRepositoryImpl implements UserRepository {
       deactivatedAt: user.deactivatedAt,
       email: user.email,
       provider: user.provider,
+      handle: user.handle,
     };
   }
 }

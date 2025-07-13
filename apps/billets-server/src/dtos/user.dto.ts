@@ -1,9 +1,12 @@
 import { z } from 'zod';
 
+export const UserHandleDTOSchema = z.string().min(1).max(30);
+
 export const UserDTOSchema = z.object({
   id: z.string(),
   email: z.string(),
   provider: z.string(),
+  handle: UserHandleDTOSchema.nullable(),
   deactivatedAt: z.date().nullable(),
 });
 export type UserDTO = z.infer<typeof UserDTOSchema>;
@@ -13,7 +16,7 @@ export const CreateUserDTOSchema = z.object({
   provider: z.union([z.literal('email'), z.literal('google'), z.literal('apple')]),
   password: z.string().optional(),
   passwordSalt: z.string().optional(),
-  handle: z.string().min(1).max(30),
+  handle: UserHandleDTOSchema,
 });
 export type CreateUserDTO = z.infer<typeof CreateUserDTOSchema>;
 
