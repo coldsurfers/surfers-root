@@ -48,14 +48,14 @@ export function ProfileDetailTop({
           </StyledArtistTopDescriptionWrapper>
         </StyledArtistDetailTopLeft>
         <StyledArtistDetailTopRight>
-          <StyledArtistThumbnailWrapper>
-            {thumbUrl && (
+          {thumbUrl && (
+            <StyledArtistThumbnailWrapper>
               <StyledContentWrapper>
                 <StyledArtistThumbnail src={thumbUrl} onClick={openModal} />
                 <StyledInfoIcon onClick={openModal} />
               </StyledContentWrapper>
-            )}
-          </StyledArtistThumbnailWrapper>
+            </StyledArtistThumbnailWrapper>
+          )}
         </StyledArtistDetailTopRight>
       </StyledArtistDetailTopContainer>
       <ImageModal
