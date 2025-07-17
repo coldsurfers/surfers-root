@@ -1,6 +1,9 @@
 import { tryParse } from '@coldsurfers/shared-utils';
 
-export type SessionStorageItem = '@coldsurf-io/prev-path' | '@coldsurf-io/current-path';
+export type SessionStorageItem =
+  | '@coldsurf-io/prev-path'
+  | '@coldsurf-io/current-path'
+  | '@coldsurf-io/auth-redirect-path';
 
 export const appSessionStorage =
   typeof window !== 'undefined'

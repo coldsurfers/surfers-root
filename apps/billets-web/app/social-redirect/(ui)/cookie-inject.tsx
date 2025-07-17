@@ -15,7 +15,6 @@ export const CookieInject = () => {
   const searchParams = useSearchParams();
   const accessToken = searchParams.get('access_token');
   const refreshToken = searchParams.get('refresh_token');
-  const prevPathname = appSessionStorage?.get<string>('@coldsurf-io/prev-path');
 
   const restoreColorScheme = useCallback(async () => {
     const themeStorageValue = storage?.get<'dark' | 'light'>('@coldsurf-io/theme');
@@ -44,10 +43,12 @@ export const CookieInject = () => {
         console.error(e);
       })
       .finally(() => {
+        const authRedirectPath =
+          appSessionStorage?.get<string>('@coldsurf-io/auth-redirect-path') ?? '/';
         restoreColorScheme();
-        redirect(prevPathname ?? '/');
+        redirect(authRedirectPath);
       });
-  }, [queryClient, accessToken, refreshToken, restoreColorScheme, prevPathname]);
+  }, [queryClient, accessToken, refreshToken, restoreColorScheme]);
 
   return <Spinner variant="page-overlay" />;
 };
