@@ -200,7 +200,7 @@ export const LoginForm = () => {
         )}
         <SocialLoginLayout>
           {USE_EMAIL_LOGIN && <DividerText>OR</DividerText>}
-          <GoogleLoginButton />
+          <GoogleLoginButton isFromLoginPage />
           {USE_APPLE_LOGIN && (
             <Link href={'/api/auth/apple'} style={{ width: '100%' }}>
               <SocialLoginButton type="button">애플로 계속하기</SocialLoginButton>
