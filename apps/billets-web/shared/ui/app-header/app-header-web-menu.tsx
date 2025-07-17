@@ -21,10 +21,10 @@ import {
 
 export const AppHeaderWebMenu = ({
   isLoading,
-  onClickMobileLogout,
+  onClose,
 }: {
   isLoading: boolean;
-  onClickMobileLogout: () => void;
+  onClose: () => void;
 }) => {
   const router = useRouter();
 
@@ -49,8 +49,8 @@ export const AppHeaderWebMenu = ({
           </Container>
         );
       })}
-      <AppHeaderMyPageMenu />
-      <AppHeaderLoginMenu onClickMobileLogout={onClickMobileLogout} />
+      <AppHeaderMyPageMenu onClick={onClose} />
+      <AppHeaderLoginMenu onClickMobileLogout={onClose} />
       <AppHeaderSearchUI />
       <GlobalLink href={APP_STORE_URL} target="_blank">
         <Button theme="border">{APP_DOWNLOAD_WORDING}</Button>

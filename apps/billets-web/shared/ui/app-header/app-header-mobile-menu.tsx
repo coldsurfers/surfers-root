@@ -76,7 +76,7 @@ export const AppHeaderMobileModalMenu = ({
                 </GlobalLink>
               );
             })}
-            <AppHeaderMyPageMenu />
+            <AppHeaderMyPageMenu onClick={onClose} />
             <AppHeaderLoginMenu onClickMobileLogout={onClose} />
             <GlobalLink href={APP_STORE_URL} onClick={onClose} style={{ margin: '0 auto' }}>
               <Button theme="border">{APP_DOWNLOAD_WORDING}</Button>
