@@ -176,6 +176,9 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case '밀양아리나 (구, 밀양연극촌)':
+      alreadyExistingVenueId = '1129e076-dec7-4de3-affa-96d81f061ae9';
+      break;
     case '성미산마을극장 향':
       alreadyExistingVenueId = '8ee7ad49-5ccd-4231-8c0e-092cc706e26a';
       break;

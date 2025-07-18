@@ -5,7 +5,22 @@ import { useAuthStore } from './stores';
 import { authUtils } from './utils/utils.auth';
 
 let isRefreshing = false;
-let refreshPromise: Promise<string | null> | null = null;
+let requestQueue: {
+  resolve: (newAccessToken: string) => void;
+  reject: (error: Error) => void;
+}[] = [];
+
+function flushRequestQueue(newAccessToken: string, error?: Error) {
+  // refresh 후 토큰 성공 여부에 따라 처리
+  requestQueue.forEach((queuedPromise) => {
+    if (error) {
+      queuedPromise.reject(error);
+    } else {
+      queuedPromise.resolve(newAccessToken);
+    }
+  });
+  requestQueue = [];
+}
 
 async function getRefreshToken() {
   const isSsr = typeof window === 'undefined';
@@ -17,47 +32,15 @@ async function getRefreshToken() {
   return useAuthStore.getState().refreshToken;
 }
 
-async function getRefreshedToken(): Promise<string | null> {
-  if (isRefreshing && refreshPromise) {
-    return refreshPromise;
-  }
-
-  isRefreshing = true;
-
-  const oldRefreshToken = await getRefreshToken();
-
-  if (!oldRefreshToken) {
-    isRefreshing = false;
-    return null;
-  }
-
-  refreshPromise = fetchRefreshToken(oldRefreshToken)
-    .then(async (tokens) => {
-      authUtils.localLogin(tokens);
-      return tokens.accessToken;
-    })
-    .catch(async (err) => {
-      console.error('[authMiddleware] refresh failed:', err);
-      authUtils.localLogout();
-      return null;
-    })
-    .finally(() => {
-      isRefreshing = false;
-      refreshPromise = null;
-    });
-
-  return refreshPromise;
-}
-
-async function fetchRefreshToken(refreshToken: string) {
-  const response = await apiClient.auth.reissueToken({
-    refreshToken,
-  });
-  return response.authToken;
-}
-
 const authMiddleware: Middleware = {
   onRequest: async ({ request }) => {
+    // ✅ body를 안전하게 백업
+    if (request.method !== 'GET' && request.method !== 'HEAD') {
+      const cloned = request.clone();
+      const originalBody = await cloned.text(); // 이미 문자열로 변환
+      (request as any)._originalBody = originalBody;
+    }
+
     let accessToken = '';
 
     // ssr
@@ -69,47 +52,82 @@ const authMiddleware: Middleware = {
       // csr
       accessToken = useAuthStore.getState().accessToken ?? '';
     }
+
     if (accessToken) {
       request.headers.set('Authorization', `Bearer ${accessToken}`);
     }
   },
   onResponse: async ({ response, request }) => {
-    if (response.status === 401) {
-      const cloned = response.clone();
-      let json: OpenApiError | undefined;
+    if (response.status !== 401) return response;
 
-      try {
-        json = (await cloned.json()) as OpenApiError | undefined;
-      } catch {
-        return response;
-      }
-
-      if (json?.code !== 'INVALID_ACCESS_TOKEN') {
-        return response;
-      }
-
-      const newAccessToken = await getRefreshedToken();
-      if (!newAccessToken) return response;
-
-      const retryRequest = new Request(request.url, {
-        method: request.method,
-        headers: {
-          ...request.headers,
-          Authorization: `Bearer ${newAccessToken}`,
-        },
-        body: request.body,
-        credentials: request.credentials,
-      });
-
-      return fetch(retryRequest);
+    const cloned = response.clone();
+    let json: OpenApiError | undefined;
+    try {
+      json = (await cloned.json()) as OpenApiError | undefined;
+    } catch {
+      return response;
     }
 
-    return response;
+    if (json?.code !== 'INVALID_ACCESS_TOKEN') return response;
+
+    if (isRefreshing) {
+      return new Promise((resolve, reject) => {
+        requestQueue.push({
+          resolve: async (accessToken) => {
+            const retryResponse = await fetch(request.url, {
+              method: request.method,
+              headers: new Headers({
+                // ...Object.fromEntries(request.headers),
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${accessToken}`,
+              }),
+              body: (request as any)._originalBody ?? undefined,
+              credentials: request.credentials,
+            });
+
+            resolve(retryResponse);
+          },
+          reject,
+        });
+      });
+    }
+
+    isRefreshing = true;
+
+    try {
+      const reissued = await apiClient.auth.reissueToken({
+        refreshToken: await getRefreshToken(),
+      });
+
+      await authUtils.localLogin(reissued.authToken);
+      flushRequestQueue(reissued.authToken.accessToken);
+
+      const retryResponse = await fetch(request.url, {
+        method: request.method,
+        headers: new Headers({
+          // ...Object.fromEntries(request.headers),
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${reissued.authToken.accessToken}`,
+        }),
+        body: (request as any)._originalBody ?? undefined,
+        credentials: request.credentials,
+      });
+      return retryResponse;
+    } catch (e) {
+      flushRequestQueue('', e as Error);
+      await authUtils.localLogout();
+      return Promise.reject(e);
+    } finally {
+      isRefreshing = false;
+    }
   },
 };
 
-export const apiClient = new ApiSdk().createSdk({
+const apiSdk = new ApiSdk({
   baseUrl: API_BASE_URL,
+});
+
+export const apiClient = apiSdk.createSdk({
   middlewares: [authMiddleware],
 });
 
