@@ -1,4 +1,4 @@
-import createFetchClient, { type Middleware } from 'openapi-fetch';
+import createFetchClient, { type Client, type Middleware } from 'openapi-fetch';
 import type { paths } from '../types/api';
 import { OpenApiError } from './error';
 
@@ -8,11 +8,17 @@ const DEFAULT_HEADERS = {
 };
 
 export class ApiSdk {
-  public createSdk({ baseUrl, middlewares }: { baseUrl: string; middlewares: Middleware[] }) {
-    const baseFetchClient = createFetchClient<paths>({
+  public baseFetchClient: Client<paths, `${string}/${string}`>;
+
+  constructor({ baseUrl }: { baseUrl: string }) {
+    this.baseFetchClient = createFetchClient<paths>({
       baseUrl: baseUrl,
       headers: DEFAULT_HEADERS,
     });
+  }
+
+  public createSdk({ middlewares }: { middlewares: Middleware[] }) {
+    const baseFetchClient = this.baseFetchClient;
     baseFetchClient.use(...middlewares);
     const apiClient = {
       event: {

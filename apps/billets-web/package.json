@@ -45,7 +45,7 @@
     "lucide-react": "0.469.0",
     "next": "15.2.4",
     "notion-client": "7.1.5",
-    "openapi-fetch": "0.12.5",
+    "openapi-fetch": "0.14.0",
     "openapi-react-query": "0.2.9",
     "prisma": "5.21.1",
     "prismjs": "1.30.0",
