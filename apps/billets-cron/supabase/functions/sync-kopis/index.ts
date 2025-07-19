@@ -176,6 +176,9 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case '제주 오드씽(구.오드싱제주 스테이지)':
+      alreadyExistingVenueId = 'ba53bff0-e36c-437a-8fe7-9e2939a4750a';
+      break;
     case '밀양아리나 (구, 밀양연극촌)':
       alreadyExistingVenueId = '1129e076-dec7-4de3-affa-96d81f061ae9';
       break;

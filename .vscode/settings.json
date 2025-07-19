@@ -41,7 +41,8 @@
     "coldsurf-io",
     "shared-utils",
     "react-native-apple-maps",
-    "api-sdk"
+    "api-sdk",
+    "react-native-esbuild-deploy"
   ],
   "deno.enable": true,
   "deno.enablePaths": ["./apps/billets-cron"],
