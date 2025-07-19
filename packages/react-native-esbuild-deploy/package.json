@@ -5,7 +5,8 @@
   "main": "src/index.ts",
   "react-native": "src/index.ts",
   "scripts": {
-    "build": "rm -rf build && node ./scripts/esbuild.mjs"
+    "build": "rm -rf build/.transpiled && rm -rf build/out && node ./scripts/esbuild.mjs",
+    "build:cli": "rm -rf dist && tsdown --config ./scripts/tsdown.config.ts"
   },
   "keywords": [],
   "author": "",
@@ -18,12 +19,15 @@
     "@babel/preset-typescript": "^7.21.4",
     "@babel/runtime": "^7.25.0",
     "@react-native/typescript-config": "0.78.0",
+    "commander": "^14.0.0",
     "esbuild": "^0.25.7",
+    "execa": "^9.6.0",
     "fast-glob": "^3.3.3",
     "react": "19.0.0",
     "react-native": "0.78.0",
     "react-native-fs": "^2.20.0",
     "react-native-reanimated": "3.17.1",
+    "tsdown": "^0.11.9",
     "typescript": "5.6.3"
   },
   "peerDependencies": {
