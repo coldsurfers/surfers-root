@@ -6,7 +6,7 @@ import * as babel from '@babel/core';
 import esbuild from 'esbuild';
 import glob from 'fast-glob';
 
-const inputDir = 'src';
+const inputDir = 'src/screens';
 const outDir = 'build/.transpiled';
 const entryFile = 'index.js'; // Babel transpiled entry
 

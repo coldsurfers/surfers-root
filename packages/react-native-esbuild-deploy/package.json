@@ -2,7 +2,8 @@
   "name": "@coldsurfers/react-native-esbuild-deploy",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.ts",
+  "react-native": "src/index.ts",
   "scripts": {
     "build": "rm -rf build && node ./scripts/esbuild.mjs"
   },
@@ -18,10 +19,16 @@
     "@babel/runtime": "^7.25.0",
     "esbuild": "^0.25.7",
     "fast-glob": "^3.3.3",
+    "react": "19.0.0",
+    "react-native": "0.78.0",
+    "react-native-fs": "^2.20.0",
     "react-native-reanimated": "3.17.1",
     "typescript": "5.6.3"
   },
   "peerDependencies": {
+    "react": ">= 19.0.0",
+    "react-native": ">= 0.78.0",
+    "react-native-fs": ">= 2.20.0",
     "react-native-reanimated": ">= 3.17.1"
   }
 }
