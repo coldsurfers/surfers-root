@@ -13,7 +13,8 @@ const authMiddleware: Middleware = {
   },
 };
 
-export const apiClient = new ApiSdk().createSdk({
+export const apiClient = new ApiSdk({
   baseUrl: API_BASE_URL,
+}).createSdk({
   middlewares: [authMiddleware],
 });

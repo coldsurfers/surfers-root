@@ -2023,6 +2023,8 @@ PODS:
     - FirebaseCoreExtension
     - React-Core
     - RNFBApp
+  - RNFS (2.20.0):
+    - React-Core
   - RNGestureHandler (2.23.1):
     - DoubleConversion
     - glog
@@ -2449,6 +2451,7 @@ DEPENDENCIES:
   - "RNFBApp (from `../../../node_modules/@react-native-firebase/app`)"
   - "RNFBCrashlytics (from `../../../node_modules/@react-native-firebase/crashlytics`)"
   - "RNFBMessaging (from `../../../node_modules/@react-native-firebase/messaging`)"
+  - RNFS (from `../../../node_modules/react-native-fs`)
   - RNGestureHandler (from `../../../node_modules/react-native-gesture-handler`)
   - RNGoogleMobileAds (from `../../../node_modules/react-native-google-mobile-ads`)
   - "RNGoogleSignin (from `../../../node_modules/@react-native-google-signin/google-signin`)"
@@ -2669,6 +2672,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/@react-native-firebase/crashlytics"
   RNFBMessaging:
     :path: "../../../node_modules/@react-native-firebase/messaging"
+  RNFS:
+    :path: "../../../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../../../node_modules/react-native-gesture-handler"
   RNGoogleMobileAds:
@@ -2805,6 +2810,7 @@ SPEC CHECKSUMS:
   RNFBApp: 60366dd9d6bb01327607e1561a32508592d76db9
   RNFBCrashlytics: e48cb361f4179cea926bcdca3b5834d9bff81b7e
   RNFBMessaging: 9465c2e3adb5e02cae8d40048306a30aea7f55cf
+  RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: a5c5e76f0056a7115b839686934740b6639c7cec
   RNGoogleMobileAds: a6785e3f725fde1f94e24cabb855b3a1a632ac5c
   RNGoogleSignin: 81521697b2c8f97f9a586ac7257b1a1d9b51b115
