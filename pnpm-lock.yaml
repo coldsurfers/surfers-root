@@ -184,6 +184,9 @@ importers:
       react-native-fast-image:
         specifier: ^8.6.1
         version: 8.6.3(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
+      react-native-fs:
+        specifier: ^2.20.0
+        version: 2.20.0(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))
       react-native-gesture-handler:
         specifier: 2.23.1
         version: 2.23.1(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
@@ -678,9 +681,6 @@ importers:
       '@coldsurfers/ocean-road':
         specifier: workspace:*
         version: link:../../packages/ocean-road
-      '@coldsurfers/react-native-esbuild-deploy':
-        specifier: workspace:*
-        version: link:../../packages/react-native-esbuild-deploy
       '@emotion/native':
         specifier: 11.11.0
         version: 11.11.0(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
@@ -691,6 +691,9 @@ importers:
         specifier: 0.78.0
         version: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0)
     devDependencies:
+      '@coldsurfers/react-native-esbuild-deploy':
+        specifier: workspace:*
+        version: link:../../packages/react-native-esbuild-deploy
       typescript:
         specifier: 5.6.3
         version: 5.6.3
