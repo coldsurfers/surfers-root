@@ -4,6 +4,9 @@
   "description": "",
   "main": "src/index.ts",
   "react-native": "src/index.ts",
+  "bin": {
+    "react-native-esbuild-deploy": "build/cli/commands.js"
+  },
   "scripts": {
     "build:cli": "rm -rf dist && tsdown --config ./scripts/tsdown.config.ts"
   },

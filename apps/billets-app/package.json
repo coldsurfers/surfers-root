@@ -28,6 +28,7 @@
     "@coldsurfers/design-tokens": "workspace:*",
     "@coldsurfers/ocean-road": "workspace:*",
     "@coldsurfers/shared-utils": "workspace:*",
+    "@coldsurfers/react-native-esbuild-deploy": "workspace:*",
     "@emotion/native": "11.11.0",
     "@emotion/react": "11.10.6",
     "@gorhom/bottom-sheet": "5.0.6",
