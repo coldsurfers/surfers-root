@@ -20,3 +20,9 @@ export const KOPIS_COPYRIGHT_TEXT =
   '출처: (재)예술경영지원센터 공연예술통합전산망(www.kopis.or.kr)';
 
 export const REMOTE_APP_BUNDLE_HOST_URL = Config.REMOTE_BUNDLE_HOST_URL ?? '';
+export const REMOTE_APPS = {
+  SETTINGS: {
+    PATH: Config.REMOTE_APP_SETTINGS_PATH ?? '',
+    VERSION: 'v1.0.0',
+  },
+} as const;

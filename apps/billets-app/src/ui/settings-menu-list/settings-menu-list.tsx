@@ -1,10 +1,12 @@
 import { apiClient } from '@/lib/api/openapi-client';
+import { REMOTE_APPS, REMOTE_APP_BUNDLE_HOST_URL } from '@/lib/constants';
 import { AuthContext } from '@/lib/contexts/auth-context';
 import { useColorScheme } from '@coldsurfers/ocean-road/native';
+import { loadAsyncScript } from '@coldsurfers/react-native-esbuild-deploy';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LogOut, UserRoundX } from 'lucide-react-native';
-import { useCallback, useContext, useMemo } from 'react';
-import { Alert, FlatList, type ListRenderItem, View } from 'react-native';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { Alert, FlatList, type ListRenderItem, type TextProps, View } from 'react-native';
 import { getBuildNumber, getVersion } from 'react-native-device-info';
 import pkg from '../../../package.json';
 import { StyledMenuItem, StyledText, StyledVersionText } from './settings-menu-list.styled';
@@ -13,6 +15,8 @@ export const SettingsMenuList = ({ onLogoutSuccess }: { onLogoutSuccess: () => v
   const { semantics } = useColorScheme();
   const { logout } = useContext(AuthContext);
   const queryClient = useQueryClient();
+
+  const [VersionText, setVersionText] = useState<React.FC<TextProps> | null>(null);
 
   const versionInfoText = `native: ${getVersion()} (${getBuildNumber()}) ota: ${pkg.version}`;
 
@@ -97,6 +101,17 @@ export const SettingsMenuList = ({ onLogoutSuccess }: { onLogoutSuccess: () => v
     [semantics.border, semantics.foreground]
   );
 
+  useEffect(() => {
+    async function loadScript() {
+      const settingsRemoteApp = await loadAsyncScript<{ VersionText: React.FC<TextProps> }>({
+        path: `${REMOTE_APPS.SETTINGS.PATH}/${REMOTE_APPS.SETTINGS.VERSION}/index.bundle.js`,
+        bundleHostUrl: REMOTE_APP_BUNDLE_HOST_URL,
+      });
+      setVersionText(() => settingsRemoteApp.VersionText);
+    }
+    loadScript();
+  }, []);
+
   return (
     <FlatList
       data={data}
@@ -107,9 +122,9 @@ export const SettingsMenuList = ({ onLogoutSuccess }: { onLogoutSuccess: () => v
       }}
       ListFooterComponent={
         <View>
-          <StyledVersionText style={{ color: semantics.foreground[4] }}>
-            {versionInfoText}
-          </StyledVersionText>
+          {VersionText ? (
+            <VersionText style={{ color: semantics.foreground[4] }}>{versionInfoText}</VersionText>
+          ) : null}
         </View>
       }
       contentContainerStyle={{
