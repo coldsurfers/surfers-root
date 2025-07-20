@@ -6,8 +6,16 @@ import * as babel from '@babel/core';
 import esbuild from 'esbuild';
 import glob from 'fast-glob';
 
+import { fileURLToPath } from 'node:url';
+
+// 현재 파일의 URL을 일반 경로로 변환
+const __filename = fileURLToPath(import.meta.url);
+
+// __dirname 생성
+const __dirname = path.dirname(__filename);
+
 export const runEsbuild = async ({ outfile }) => {
-  const inputDir = 'src/screens';
+  const inputDir = 'src';
   const outDir = 'build/.transpiled';
   const entryFile = 'index.js'; // Babel transpiled entry
 
@@ -24,8 +32,11 @@ export const runEsbuild = async ({ outfile }) => {
       const relativePath = path.relative(inputDir, filePath);
       const outputPath = path.join(outDir, relativePath).replace(/\.tsx?$/, '.js');
 
+      const babelConfigJs = path.resolve(__dirname, '../babel.config.js');
+
       const { code } = await babel.transformFileAsync(filePath, {
-        configFile: './babel.config.js',
+        // configFile: './babel.config.js',
+        configFile: babelConfigJs,
         filename: filePath,
       });
 
@@ -51,6 +62,9 @@ export const runEsbuild = async ({ outfile }) => {
       'react-native-gesture-handler',
       '@gorhom/bottom-sheet',
       '@tanstack/react-query',
+      '@coldsurfers/ocean-road',
+      '@coldsurfers/design-tokens',
+      '@emotion/native',
     ],
     banner: { js: 'module.exports = {};' },
     define: {
