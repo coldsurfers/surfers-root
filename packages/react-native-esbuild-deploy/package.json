@@ -5,7 +5,6 @@
   "main": "src/index.ts",
   "react-native": "src/index.ts",
   "scripts": {
-    "build": "rm -rf build/.transpiled && rm -rf build/out && node ./scripts/esbuild.mjs",
     "build:cli": "rm -rf dist && tsdown --config ./scripts/tsdown.config.ts"
   },
   "keywords": [],
