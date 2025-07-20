@@ -1,10 +1,10 @@
-import type { ReactNode } from 'react';
 import RNFS from 'react-native-fs';
+import { ensureDirAndWriteFile } from './rnfs';
 import { runScript } from './runScript';
 
 const JS_CACHE_PATH = `${RNFS.DocumentDirectoryPath}`;
 
-export const loadAsyncScript = async ({
+export const loadAsyncScript = async <T>({
   path,
   skipCache,
   bundleHostUrl,
@@ -12,24 +12,30 @@ export const loadAsyncScript = async ({
   path: string;
   skipCache?: boolean;
   bundleHostUrl: string;
-}): Promise<{
-  SomeScreen: () => ReactNode;
-}> => {
+}): Promise<T> => {
   const cachedUrl = `${JS_CACHE_PATH}${path}`;
-  const exists = await RNFS.exists(cachedUrl);
+  try {
+    const exists = await RNFS.exists(cachedUrl);
 
-  if (exists && !skipCache) {
-    const cachedScriptText = await RNFS.readFile(cachedUrl, 'utf8');
-    const result = runScript(cachedScriptText, cachedUrl);
-    return result.exports.default;
+    if (exists && !skipCache) {
+      const cachedScriptText = await RNFS.readFile(cachedUrl, 'utf8');
+      const result = runScript<T>(cachedScriptText, cachedUrl);
+      return result.exports.default;
+    }
+  } catch (e) {
+    console.error(e);
   }
 
   const url = `${bundleHostUrl}${path}`;
   const response = await fetch(url);
   const scriptText = await response.text();
-  const result = runScript(scriptText, url);
+  const result = runScript<T>(scriptText, url);
 
-  await RNFS.writeFile(cachedUrl, scriptText, 'utf8');
+  try {
+    await ensureDirAndWriteFile(cachedUrl, scriptText);
+  } catch (e) {
+    console.error(e);
+  }
 
   return result.exports.default;
 };

@@ -63,6 +63,7 @@ export const runEsbuild = async ({ outfile }) => {
       '@gorhom/bottom-sheet',
       '@tanstack/react-query',
       '@coldsurfers/ocean-road',
+      '@coldsurfers/ocean-road/native',
       '@coldsurfers/design-tokens',
       '@emotion/native',
     ],

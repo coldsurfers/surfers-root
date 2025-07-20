@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-export const runScript = (scriptContent: string, sourceURL: string) => {
+export const runScript = <T>(scriptContent: string, sourceURL: string) => {
   // eslint-disable-next-line no-new-func
   const scriptFunction = new Function(
     'require',
@@ -35,6 +35,15 @@ export const runScript = (scriptContent: string, sourceURL: string) => {
     if (name === '@tanstack/react-query') {
       return require('@tanstack/react-query');
     }
+    if (name === '@coldsurfers/ocean-road') {
+      return require('@coldsurfers/ocean-road');
+    }
+    if (name === '@coldsurfers/ocean-road/native') {
+      return require('@coldsurfers/ocean-road/native');
+    }
+    if (name === '@emotion/native') {
+      return require('@emotion/native');
+    }
     throw new Error(`Unknown module: ${name}`);
   };
 
@@ -43,9 +52,7 @@ export const runScript = (scriptContent: string, sourceURL: string) => {
   scriptFunction(requireFn, module, module.exports);
   return module as {
     exports: {
-      default: {
-        SomeScreen: () => ReactNode;
-      };
+      default: T;
     };
   };
 };
