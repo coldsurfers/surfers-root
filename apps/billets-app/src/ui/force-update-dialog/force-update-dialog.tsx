@@ -1,11 +1,11 @@
 import { Button, Modal, Text, useColorScheme } from '@coldsurfers/ocean-road/native';
 import { APP_STORE_URL } from '@coldsurfers/shared-utils';
+import FastImage from '@d11/react-native-fast-image';
 import { HotUpdater, useHotUpdaterStore } from '@hot-updater/react-native';
 import { useLayoutEffect, useState } from 'react';
 import { Linking } from 'react-native';
 import BootSplash from 'react-native-bootsplash';
 import Config from 'react-native-config';
-import FastImage from 'react-native-fast-image';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { match } from 'ts-pattern';
 import { CommonScreenLayout } from '../common-screen-layout';
