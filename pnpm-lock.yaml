@@ -1251,6 +1251,10 @@ importers:
         version: 5.6.3
 
   packages/react-native-esbuild-deploy:
+    dependencies:
+      '@coldsurfers/ocean-road':
+        specifier: workspace:*
+        version: link:../ocean-road
     devDependencies:
       '@babel/core':
         specifier: ^7.25.2

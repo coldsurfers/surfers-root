@@ -13,6 +13,9 @@
   "scripts": {
     "build:cli": "rm -rf dist && tsdown --config ./scripts/tsdown.config.ts"
   },
+  "dependencies": {
+    "@coldsurfers/ocean-road": "workspace:*"
+  },
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
