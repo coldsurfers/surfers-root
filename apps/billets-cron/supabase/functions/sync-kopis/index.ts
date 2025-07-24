@@ -176,6 +176,12 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case '문화공간 iei':
+      alreadyExistingVenueId = '71c54df8-8334-4977-93c6-5e5eb3180fa9';
+      break;
+    case '모브닷.에이':
+      alreadyExistingVenueId = 'd133f80a-2cd2-4084-9b68-615cec869c14';
+      break;
     case '제주 오드씽(구.오드싱제주 스테이지)':
       alreadyExistingVenueId = 'ba53bff0-e36c-437a-8fe7-9e2939a4750a';
       break;
@@ -607,6 +613,61 @@ async function findVenue(venue: string) {
   };
 }
 
+async function connectOrCreatePoster(eventId: string, kopisPosterUrl: string) {
+  // 2. 연결된 concertsOnDetailImages 존재 여부 확인
+  const { data: postersOnConcert, error: postersLinkError } = await supabase
+    .from('ConcertsOnPosters')
+    .select('concertId')
+    .eq('concertId', eventId)
+    .limit(1);
+
+  const alreadyConnectedPoster = !postersLinkError && postersOnConcert.length > 0;
+  console.log('connectOrCreate', alreadyConnectedPoster, eventId);
+
+  if (alreadyConnectedPoster) {
+    return;
+  }
+
+  const { keys } = await uploadImageByResolutions({
+    originalImageUrl: kopisPosterUrl,
+    concertId: eventId,
+    index: 0,
+    type: 'poster',
+  });
+
+  await Promise.all(
+    keys
+      .filter((key) => !!key)
+      .map(async (key) => {
+        const posterId = randomUUID();
+        console.log('posterId', posterId);
+        const { data: poster, error: posterError } = await supabase
+          .from('Poster')
+          .insert({
+            id: posterId,
+            imageURL: `https://api.billets.coldsurf.io/v1/image?key=${key}`,
+            keyId: key,
+          })
+          .select('*')
+          .single();
+
+        if (posterError) {
+          console.error('포스터 생성 실패:', posterError);
+          throw posterError;
+        }
+
+        const { error: relationError } = await supabase.from('ConcertsOnPosters').insert({
+          posterId: poster.id,
+          concertId: eventId,
+        });
+
+        if (relationError) {
+          console.error('ConcertsOnPosters 생성 실패:', relationError);
+        }
+      })
+  );
+}
+
 async function connectOrCreateVenue(venue: string, eventId: string) {
   const { existingVenue, kakaoSearchFirstResult } = await findVenue(venue);
 
@@ -790,6 +851,7 @@ async function insertKOPISEvents(
           await connectEventCategory(existing.id, category);
           await connectLocationCity(existing.id, item.area);
           await connectOrCreateVenue(item.venue, existing.id);
+          await connectOrCreatePoster(existing.id, item.poster);
         } else {
           console.log(`not existing, ${item.title}`);
           const locationCityId = areaToLocationCityId(item.area);
@@ -828,54 +890,7 @@ async function insertKOPISEvents(
             console.error('KOPISEvent 생성 실패:', createKopisError);
           }
 
-          // 2. 연결된 concertsOnDetailImages 존재 여부 확인
-          const { data: postersOnConcert, error: postersLinkError } = await supabase
-            .from('ConcertsOnPosters')
-            .select('concertId')
-            .eq('concertId', event.id)
-            .limit(1);
-
-          const alreadyConnectedPoster = !postersLinkError && postersOnConcert.length > 0;
-
-          if (!alreadyConnectedPoster) {
-            const { keys } = await uploadImageByResolutions({
-              originalImageUrl: item.poster,
-              concertId: event.id,
-              index: 0,
-              type: 'poster',
-            });
-
-            await Promise.all(
-              keys
-                .filter((key) => !!key)
-                .map(async (key) => {
-                  const posterId = randomUUID();
-                  console.log('posterId', posterId);
-                  const { data: poster, error: posterError } = await supabase
-                    .from('Poster')
-                    .insert({
-                      id: posterId,
-                      imageURL: `https://api.billets.coldsurf.io/v1/image?key=${key}`,
-                    })
-                    .select('*')
-                    .single();
-
-                  if (posterError) {
-                    console.error('포스터 생성 실패:', posterError);
-                    throw posterError;
-                  }
-
-                  const { error: relationError } = await supabase.from('ConcertsOnPosters').insert({
-                    posterId: poster.id,
-                    concertId: event.id,
-                  });
-
-                  if (relationError) {
-                    console.error('ConcertsOnPosters 생성 실패:', relationError);
-                  }
-                })
-            );
-          }
+          await connectOrCreatePoster(event.id, item.poster);
 
           await connectOrCreateVenue(item.venue, event.id);
 
@@ -988,6 +1003,7 @@ async function connectOrCreateDetailImage(kopisEventId: string, detailImageUrls:
                 .insert({
                   id: detailImageId,
                   imageURL: `https://api.billets.coldsurf.io/v1/image?key=${key}`,
+                  keyId: key,
                 })
                 .select('*')
                 .single();

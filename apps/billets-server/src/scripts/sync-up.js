@@ -66,7 +66,7 @@ async function syncUp() {
     '대중무용',
   ];
 
-  const pages = [1, 2, 3];
+  const pages = [1, 2, 3, 4];
 
   for (const category of KOPISEVENT_CATEGORIES) {
     for (const page of pages) {
@@ -82,8 +82,8 @@ async function syncUp() {
     }
   }
 
-  await migratePostersKeyId();
-  await migrateDetailImages();
+  // await migratePostersKeyId();
+  // await migrateDetailImages();
 }
 
 syncUp();
