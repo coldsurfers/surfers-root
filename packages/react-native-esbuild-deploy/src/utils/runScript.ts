@@ -44,6 +44,9 @@ export const runScript = <T>(scriptContent: string, sourceURL: string) => {
     if (name === '@emotion/native') {
       return require('@emotion/native');
     }
+    if (name === 'lucide-react-native') {
+      return require('lucide-react-native');
+    }
     throw new Error(`Unknown module: ${name}`);
   };
 
