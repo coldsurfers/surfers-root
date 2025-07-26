@@ -143,8 +143,6 @@ const SuspenseMyScreen = () => {
     ];
   }, [user]);
 
-  console.log('isLoading', isLoading, meError);
-
   if (isLoading && !meError) {
     return <GlobalSuspenseFallback />;
   }
