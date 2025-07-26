@@ -3,11 +3,11 @@ import { apiClient } from '@/lib/api/openapi-client';
 import { CommonScreenLayout, NAVIGATION_HEADER_HEIGHT } from '@/ui';
 import { colors } from '@coldsurfers/ocean-road';
 import { Text, useColorScheme } from '@coldsurfers/ocean-road/native';
+import FastImage from '@d11/react-native-fast-image';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { useCallback, useMemo } from 'react';
 import { Dimensions, FlatList, type ListRenderItem, StyleSheet, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useConcertTicketListScreenRoute } from './concert-ticket-list-screen.hooks';
 

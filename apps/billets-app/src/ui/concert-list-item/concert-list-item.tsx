@@ -2,11 +2,11 @@ import { ConcertSubscribeButton } from '@/features/subscribe';
 import { apiClient } from '@/lib/api/openapi-client';
 import type { components } from '@/types/api';
 import { Text, useColorScheme } from '@coldsurfers/ocean-road/native';
+import FastImage from '@d11/react-native-fast-image';
 import { useQuery } from '@tanstack/react-query';
 import format from 'date-fns/format';
 import { useCallback, useMemo } from 'react';
 import { Pressable, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
-import FastImage from 'react-native-fast-image';
 import {
   getConcertListBottomWrapperDynamicStyles,
   getConcertListItemWrapperDynamicStyles,

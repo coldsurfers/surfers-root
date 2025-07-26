@@ -1,8 +1,8 @@
 import type { components } from '@coldsurfers/api-sdk';
 import { useColorScheme } from '@coldsurfers/ocean-road/native';
+import FastImage from '@d11/react-native-fast-image';
 import { memo, useLayoutEffect, useState } from 'react';
 import { Image, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
 
 export const DetailImageItem = memo(
   ({

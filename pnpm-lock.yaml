@@ -82,6 +82,9 @@ importers:
       '@coldsurfers/shared-utils':
         specifier: workspace:*
         version: link:../../packages/shared-utils
+      '@d11/react-native-fast-image':
+        specifier: 8.10.0
+        version: 8.10.0(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
       '@emotion/native':
         specifier: 11.11.0
         version: 11.11.0(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
@@ -181,9 +184,6 @@ importers:
       react-native-device-info:
         specifier: 14.0.2
         version: 14.0.2(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))
-      react-native-fast-image:
-        specifier: ^8.6.1
-        version: 8.6.3(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
       react-native-fs:
         specifier: ^2.20.0
         version: 2.20.0(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))
@@ -255,11 +255,11 @@ importers:
         specifier: 1.9.4
         version: 1.9.4
       '@callstack/repack':
-        specifier: 5.1.1
-        version: 5.1.1(@babel/core@7.26.9)(@rspack/core@1.3.15(@swc/helpers@0.5.15))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(webpack@5.98.0)
+        specifier: 5.1.3
+        version: 5.1.3(@babel/core@7.26.9)(@rspack/core@1.3.15(@swc/helpers@0.5.15))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(webpack@5.98.0)
       '@callstack/repack-plugin-reanimated':
-        specifier: 5.1.1
-        version: 5.1.1(@babel/core@7.26.9)(@callstack/repack@5.1.1(@babel/core@7.26.9)(@rspack/core@1.3.15(@swc/helpers@0.5.15))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(webpack@5.98.0))
+        specifier: 5.1.3
+        version: 5.1.3(@babel/core@7.26.9)(@callstack/repack@5.1.3(@babel/core@7.26.9)(@rspack/core@1.3.15(@swc/helpers@0.5.15))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(webpack@5.98.0))
       '@hot-updater/metro':
         specifier: ^0.12.3
         version: 0.12.3(@types/node@20.12.0)(typescript@5.6.3)
@@ -1251,6 +1251,10 @@ importers:
         version: 5.6.3
 
   packages/react-native-esbuild-deploy:
+    dependencies:
+      '@coldsurfers/ocean-road':
+        specifier: workspace:*
+        version: link:../ocean-road
     devDependencies:
       '@babel/core':
         specifier: ^7.25.2
@@ -1267,6 +1271,9 @@ importers:
       '@babel/runtime':
         specifier: ^7.25.0
         version: 7.26.9
+      '@d11/react-native-fast-image':
+        specifier: 8.10.0
+        version: 8.10.0(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
       '@react-native/typescript-config':
         specifier: 0.78.0
         version: 0.78.0
@@ -2556,19 +2563,19 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@callstack/repack-dev-server@5.1.1':
-    resolution: {integrity: sha512-0E5/N7yHvRX+Q8Yf5oXZYM2PG+ZgpQqErcLDDOSUdlrSwVJ1MbdaI//90+D5X11fy84st5XCL9mbO4B3sS4DfQ==}
+  '@callstack/repack-dev-server@5.1.3':
+    resolution: {integrity: sha512-dj2RA8c3SUme3MO/g2K7hA3LsOCQdK44vht/1i5PnSBFTTkSkHDuEa6KyaQ1uId/XWtye2G/GZo1a10jXZTcbw==}
     engines: {node: '>=18'}
 
-  '@callstack/repack-plugin-reanimated@5.1.1':
-    resolution: {integrity: sha512-9yehOxflu24PkJK0x618PJO6W/Nr3gdo0BE9H/Cb+8rsmd/9Cj2FnL4gHaoTHuz0Awlkt+VqzHPFcX1Azvhm+Q==}
+  '@callstack/repack-plugin-reanimated@5.1.3':
+    resolution: {integrity: sha512-NU+ucqUVIZ9Wt5yWGrh4ODepUAOB4xqkZ2oc69Vwn0dysUtLYsvyEb7FWrnqAmWHPSRyvfz7VASzHPzXmGj66w==}
     engines: {node: '>=18'}
     peerDependencies:
       '@babel/core': ^7.20
-      '@callstack/repack': 5.1.1
+      '@callstack/repack': 5.1.3
 
-  '@callstack/repack@5.1.1':
-    resolution: {integrity: sha512-GuJcDi4gr5gru3z8lVFNNBUicgg8ibi9FTwJ+XEwyPRKMPWPYwsh7mTEaYzCefzBTIRmxExQN+KTbFQzzL4qsQ==}
+  '@callstack/repack@5.1.3':
+    resolution: {integrity: sha512-nAMzaPHLFXRYxAjy2BvohR9hLJ+q0WtvVAiyJE3CiLO4+cBQaaN92ICjSARFhTCqaq/QLn4Ill66UXICXry2Yg==}
     engines: {node: '>=18'}
     peerDependencies:
       '@module-federation/enhanced': '>=0.6.10'
@@ -2661,6 +2668,12 @@ packages:
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
+
+  '@d11/react-native-fast-image@8.10.0':
+    resolution: {integrity: sha512-ga/UzBReOA1vhXNAickvJbBzAWH3Rg1hu/ZJnKn+SfRFoWvq+X0xOiARHMVR8lkm6MV9ZQSE3vgoKmmVgthNoQ==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
 
   '@discoveryjs/json-ext@0.5.7':
     resolution: {integrity: sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==}
@@ -11665,12 +11678,6 @@ packages:
     peerDependencies:
       react-native: '*'
 
-  react-native-fast-image@8.6.3:
-    resolution: {integrity: sha512-Sdw4ESidXCXOmQ9EcYguNY2swyoWmx53kym2zRsvi+VeFCHEdkO+WG1DK+6W81juot40bbfLNhkc63QnWtesNg==}
-    peerDependencies:
-      react: ^17 || ^18
-      react-native: '>=0.60.0'
-
   react-native-fs@2.20.0:
     resolution: {integrity: sha512-VkTBzs7fIDUiy/XajOSNk0XazFE9l+QlMAce7lGuebZcag5CnjszB+u4BdqzwaQOdcYb5wsJIsqq4kxInIRpJQ==}
     peerDependencies:
@@ -15940,7 +15947,7 @@ snapshots:
   '@biomejs/cli-win32-x64@1.9.4':
     optional: true
 
-  '@callstack/repack-dev-server@5.1.1':
+  '@callstack/repack-dev-server@5.1.3':
     dependencies:
       '@babel/code-frame': 7.26.2
       '@fastify/middie': 8.3.3
@@ -15960,14 +15967,14 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@callstack/repack-plugin-reanimated@5.1.1(@babel/core@7.26.9)(@callstack/repack@5.1.1(@babel/core@7.26.9)(@rspack/core@1.3.15(@swc/helpers@0.5.15))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(webpack@5.98.0))':
+  '@callstack/repack-plugin-reanimated@5.1.3(@babel/core@7.26.9)(@callstack/repack@5.1.3(@babel/core@7.26.9)(@rspack/core@1.3.15(@swc/helpers@0.5.15))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(webpack@5.98.0))':
     dependencies:
       '@babel/core': 7.26.9
-      '@callstack/repack': 5.1.1(@babel/core@7.26.9)(@rspack/core@1.3.15(@swc/helpers@0.5.15))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(webpack@5.98.0)
+      '@callstack/repack': 5.1.3(@babel/core@7.26.9)(@rspack/core@1.3.15(@swc/helpers@0.5.15))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(webpack@5.98.0)
 
-  '@callstack/repack@5.1.1(@babel/core@7.26.9)(@rspack/core@1.3.15(@swc/helpers@0.5.15))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(webpack@5.98.0)':
+  '@callstack/repack@5.1.3(@babel/core@7.26.9)(@rspack/core@1.3.15(@swc/helpers@0.5.15))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(webpack@5.98.0)':
     dependencies:
-      '@callstack/repack-dev-server': 5.1.1
+      '@callstack/repack-dev-server': 5.1.3
       '@discoveryjs/json-ext': 0.5.7
       '@rspack/plugin-react-refresh': 1.0.0(react-refresh@0.14.2)
       babel-loader: 9.2.1(@babel/core@7.26.9)(webpack@5.98.0)
@@ -16130,6 +16137,11 @@ snapshots:
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
+
+  '@d11/react-native-fast-image@8.10.0(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      react: 19.0.0
+      react-native: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0)
 
   '@discoveryjs/json-ext@0.5.7': {}
 
@@ -27265,11 +27277,6 @@ snapshots:
 
   react-native-device-info@14.0.2(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0)):
     dependencies:
-      react-native: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0)
-
-  react-native-fast-image@8.6.3(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0):
-    dependencies:
-      react: 19.0.0
       react-native: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0)
 
   react-native-fs@2.20.0(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0)):
