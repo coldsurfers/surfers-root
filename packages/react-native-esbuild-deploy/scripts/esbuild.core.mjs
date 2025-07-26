@@ -66,6 +66,7 @@ export const runEsbuild = async ({ outfile }) => {
       '@coldsurfers/ocean-road/native',
       '@coldsurfers/design-tokens',
       '@emotion/native',
+      'lucide-react-native',
     ],
     banner: { js: 'module.exports = {};' },
     define: {
