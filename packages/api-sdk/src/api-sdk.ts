@@ -638,9 +638,17 @@ export class ApiSdk {
         queryKeys: {
           all: ['v1', 'app'],
           updateInfo: ['v1', 'app', 'update-info'],
+          remoteAppManifest: ['v1', 'app', 'remote-app-manifest'],
         },
         getAppUpdateInfo: async () => {
           const response = await baseFetchClient.GET('/v1/app/update-info');
+          if (response.error) {
+            throw new OpenApiError(response.error);
+          }
+          return response.data;
+        },
+        getRemoteAppManifest: async () => {
+          const response = await baseFetchClient.GET('/v1/app/remote-app-manifest');
           if (response.error) {
             throw new OpenApiError(response.error);
           }
