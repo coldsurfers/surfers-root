@@ -73,6 +73,7 @@ model AuthToken {
 model Venue {
   id              String                    @id @default(uuid())
   name            String
+  slug            String?                   @unique
   lat             Float
   lng             Float
   geohash         String
