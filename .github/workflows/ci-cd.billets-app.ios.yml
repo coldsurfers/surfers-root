@@ -2,9 +2,9 @@ name: Billets App iOS CI/CD Pipeline
 
 on:
   workflow_dispatch: # Allows the workflow to be triggered manually
-  push:
-    tags: # Trigger on push to a tag
-      - 'v*-billets-app' # Adjust pattern as needed (e.g., v1.0.0)
+  # push:
+    # tags: # Trigger on push to a tag
+      # - 'v*-billets-app' # Adjust pattern as needed (e.g., v1.0.0)
 
 jobs:
   build:
