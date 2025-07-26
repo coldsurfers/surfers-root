@@ -808,8 +808,15 @@ async function insertKOPISEvents(
   page: number,
   category: (typeof KOPISEVENT_CATEGORIES)[keyof typeof KOPISEVENT_CATEGORIES]
 ) {
-  const currentDate = format(new Date(), 'yyyyMMdd');
-  const endDate = '20261231';
+  // 현재 날짜
+  const today = new Date();
+
+  // 7일 전
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(today.getDate() - 7);
+
+  const currentDate = format(sevenDaysAgo, 'yyyyMMdd');
+  const endDate = '20271231';
   const rows = 50;
 
   const response = await fetch(
