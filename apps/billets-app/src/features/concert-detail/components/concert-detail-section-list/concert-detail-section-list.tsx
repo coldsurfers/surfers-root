@@ -63,7 +63,7 @@ export const ConcertDetailSectionList = ({
 
   const [scrollY] = React.useState(new Animated.Value(0));
 
-  const { meData } = useMeQuery();
+  const { data: meData } = useMeQuery();
   const { subscribedConcert } = useSubscribedConcert(id);
 
   const isSubscribed = useMemo(() => !!subscribedConcert, [subscribedConcert]);

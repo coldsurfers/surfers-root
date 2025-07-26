@@ -14,7 +14,7 @@ import type { MainStackNavigationParamList } from './main-stack-navigation.types
 const MainStack = createNativeStackNavigator<MainStackNavigationParamList>();
 
 export const MainStackNavigation = () => {
-  const { meData: user } = useMeQuery();
+  const { data: user } = useMeQuery();
   const isLoggedIn = useMemo(() => !!user, [user]);
   return (
     <MainStack.Navigator
