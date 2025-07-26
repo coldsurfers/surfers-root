@@ -7,4 +7,7 @@ export class VenueDetailService {
   async getVenueDetail(id: string): Promise<VenueDetailDTO | null> {
     return await this.venueDetailRepository.findVenueDetailByVenueId(id);
   }
+  async getVenueDetailBySlug(slug: string): Promise<VenueDetailDTO | null> {
+    return await this.venueDetailRepository.findVenueDetailByVenueSlug(slug);
+  }
 }

@@ -92,6 +92,73 @@ export class VenueDetailRepositoryImpl implements VenueDetailRepository {
     });
   }
 
+  async findVenueDetailByVenueSlug(slug: string): Promise<VenueDetailDTO | null> {
+    const data = await dbClient.venue.findUnique({
+      where: {
+        slug,
+      },
+      include: {
+        concerts: {
+          where: {
+            concert: {
+              date: {
+                gte: new Date(),
+              },
+              deletedAt: {
+                equals: null,
+              },
+            },
+          },
+          include: {
+            concert: {
+              include: {
+                kopisEvent: true,
+                posters: {
+                  include: {
+                    poster: true,
+                  },
+                },
+                venues: {
+                  include: {
+                    venue: true,
+                  },
+                },
+                artists: {
+                  include: {
+                    artist: {
+                      include: {
+                        artistProfileImage: {
+                          include: {
+                            copyright: true,
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+    if (!data) {
+      return null;
+    }
+    return this.toDTO({
+      ...data,
+      concerts: data.concerts.map((concert) => {
+        return {
+          ...concert.concert,
+          posters: concert.concert.posters.map((value) => value.poster),
+          venues: concert.concert.venues.map((value) => value.venue),
+          artists: concert.concert.artists.map((value) => value.artist),
+          kopisEvent: concert.concert.kopisEvent,
+        };
+      }),
+    });
+  }
+
   private generateMainPoster(model: VenueDetailConcertModel) {
     if (model.kopisEvent) {
       const posterUrl = model.posters.at(0)?.imageURL ?? '';
