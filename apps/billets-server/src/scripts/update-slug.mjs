@@ -41,7 +41,7 @@ async function updateSlugForVenues() {
   const promises = venues.map(async (venue) => {
     const slug = await generateSlug(venue.name);
     try {
-      await dbClient.concert.update({
+      await dbClient.venue.update({
         where: {
           id: venue.id,
         },
