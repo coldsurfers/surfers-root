@@ -12,9 +12,3 @@ export const StyledText = styled(Text)`
   font-size: 14px;
   margin-left: 20px;
 `;
-
-export const StyledVersionText = styled(Text)`
-  font-size: 12px;
-  margin-left: 46px;
-  margin-top: 12px;
-`;
