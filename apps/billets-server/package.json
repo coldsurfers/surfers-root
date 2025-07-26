@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-server",
-  "version": "1.2.12",
+  "version": "1.2.13",
   "license": "MIT",
   "main": "index.js",
   "scripts": {
