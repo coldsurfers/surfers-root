@@ -112,9 +112,11 @@ export const SettingsMenuList = ({ onLogoutSuccess }: { onLogoutSuccess: () => v
     const {
       settings: { latestVersion },
     } = manifest;
+
     async function loadScript() {
+      const path = `${REMOTE_APPS.SETTINGS.PATH}/v${latestVersion}/index.bundle.js`;
       const settingsRemoteApp = await loadAsyncScript<{ VersionText: React.FC<TextProps> }>({
-        path: `${REMOTE_APPS.SETTINGS.PATH}/${latestVersion}/index.bundle.js`,
+        path,
         bundleHostUrl: REMOTE_APP_BUNDLE_HOST_URL,
       });
       setVersionText(() => settingsRemoteApp.VersionText);
