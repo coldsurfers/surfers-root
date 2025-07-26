@@ -3,12 +3,10 @@ import { AuthContext } from '@/lib/contexts/auth-context';
 import { useLoadRemoteApp } from '@/lib/hooks/use-load-remote-app';
 import { useColorScheme } from '@coldsurfers/ocean-road/native';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { LogOut, UserRoundX } from 'lucide-react-native';
 import { useCallback, useContext, useMemo } from 'react';
 import { Alert, FlatList, type ListRenderItem, type TextProps, View } from 'react-native';
 import { getBuildNumber, getVersion } from 'react-native-device-info';
 import pkg from '../../../package.json';
-import { StyledMenuItem, StyledText } from './settings-menu-list.styled';
 
 export const SettingsMenuList = ({ onLogoutSuccess }: { onLogoutSuccess: () => void }) => {
   const { semantics } = useColorScheme();
@@ -17,6 +15,10 @@ export const SettingsMenuList = ({ onLogoutSuccess }: { onLogoutSuccess: () => v
   const { component: VersionText } = useLoadRemoteApp({
     appName: 'settings',
     componentName: 'VersionText',
+  });
+  const { component: MenuItem } = useLoadRemoteApp({
+    appName: 'settings',
+    componentName: 'MenuItem',
   });
 
   const versionInfoText = `native: ${getVersion()} (${getBuildNumber()}) ota: ${pkg.version}`;
@@ -72,34 +74,25 @@ export const SettingsMenuList = ({ onLogoutSuccess }: { onLogoutSuccess: () => v
     () =>
       [
         {
-          title: 'Log out',
-          icon: <LogOut color={semantics.foreground[1]} />,
+          type: 'logout',
           onPress: onLogout,
         },
         {
-          title: 'Delete account',
-          icon: <UserRoundX color={semantics.foreground[1]} />,
+          type: 'delete-account',
           onPress: onDeactivateUser,
         },
       ] as const,
-    [onDeactivateUser, onLogout, semantics.foreground]
+    [onLogout, onDeactivateUser]
   );
 
   const renderItem = useCallback<ListRenderItem<(typeof data)[number]>>(
     (info) => {
-      return (
-        <StyledMenuItem
-          onPress={info.item.onPress}
-          style={{
-            borderBottomColor: semantics.border[1],
-          }}
-        >
-          {info.item.icon}
-          <StyledText style={{ color: semantics.foreground[1] }}>{info.item.title}</StyledText>
-        </StyledMenuItem>
-      );
+      if (!MenuItem) {
+        return null;
+      }
+      return <MenuItem type={info.item.type} onPress={info.item.onPress} />;
     },
-    [semantics.border, semantics.foreground]
+    [MenuItem]
   );
 
   return (
