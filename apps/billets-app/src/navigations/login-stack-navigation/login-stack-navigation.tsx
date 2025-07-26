@@ -4,13 +4,13 @@ import {
   EmailLoginScreen,
   EmailSignupScreen,
   LoginSelectionScreen,
-} from '@/screens'
-import { NavigationHeader } from '@/ui'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import React from 'react'
-import { LoginStackParamList } from './login-stack-navigation.types'
+} from '@/screens';
+import { NavigationHeader } from '@/ui';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
+import type { LoginStackParamList } from './login-stack-navigation.types';
 
-const LoginStack = createNativeStackNavigator<LoginStackParamList>()
+const LoginStack = createNativeStackNavigator<LoginStackParamList>();
 
 export const LoginStackNavigation = () => {
   return (
@@ -95,5 +95,5 @@ export const LoginStackNavigation = () => {
         }}
       />
     </LoginStack.Navigator>
-  )
-}
+  );
+};

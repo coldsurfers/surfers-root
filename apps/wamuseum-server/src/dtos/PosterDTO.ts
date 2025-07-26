@@ -1,15 +1,15 @@
-import { Poster } from '@prisma/client'
-import { Poster as PosterResolver } from '../../gql/resolvers-types'
-import { prisma } from '../libs/db/db.utils'
-import { generateImageApiUrl } from '../utils/image.utils'
+import type { Poster } from '@prisma/client';
+import type { Poster as PosterResolver } from '../../gql/resolvers-types';
+import { prisma } from '../libs/db/db.utils';
+import { generateImageApiUrl } from '../utils/image.utils';
 
-type PosterDTOProps = Partial<Poster>
+type PosterDTOProps = Partial<Poster>;
 
 export default class PosterDTO {
-  props: PosterDTOProps
+  props: PosterDTOProps;
 
   constructor(props: PosterDTOProps) {
-    this.props = props
+    this.props = props;
   }
 
   static async findByConcertId(concertId: string) {
@@ -21,8 +21,8 @@ export default class PosterDTO {
           },
         },
       },
-    })
-    return posters.map((poster) => new PosterDTO(poster))
+    });
+    return posters.map((poster) => new PosterDTO(poster));
   }
 
   async create({ concertId, imageKey }: { concertId: string; imageKey: string }) {
@@ -30,7 +30,7 @@ export default class PosterDTO {
       data: {
         imageURL: generateImageApiUrl(imageKey),
       },
-    })
+    });
     const created = await prisma.concertsOnPosters.create({
       data: {
         concertId,
@@ -39,11 +39,11 @@ export default class PosterDTO {
       include: {
         poster: true,
       },
-    })
+    });
     return new PosterDTO({
       id: created.poster.id,
       imageURL: created.poster.imageURL,
-    })
+    });
   }
 
   async update(data: { imageKey: string }) {
@@ -54,8 +54,8 @@ export default class PosterDTO {
       data: {
         imageURL: generateImageApiUrl(data.imageKey),
       },
-    })
-    return new PosterDTO(updated)
+    });
+    return new PosterDTO(updated);
   }
 
   serialize(): PosterResolver {
@@ -63,6 +63,6 @@ export default class PosterDTO {
       __typename: 'Poster',
       id: this.props.id ?? '',
       imageURL: this.props.imageURL ?? '',
-    }
+    };
   }
 }

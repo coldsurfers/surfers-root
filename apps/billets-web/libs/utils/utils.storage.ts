@@ -1,28 +1,34 @@
-export type StorageItem = '@coldsurf-io/access-token' | '@coldsurf-io/refresh-token'
+import { tryParse } from '@coldsurfers/shared-utils';
+
+export type StorageItem =
+  | '@coldsurf-io/access-token'
+  | '@coldsurf-io/refresh-token'
+  | '@coldsurf-io/theme';
 
 const storage =
   typeof window !== 'undefined'
     ? {
         set(item: StorageItem, value: string) {
-          localStorage.setItem(item, value)
+          localStorage.setItem(item, value);
         },
         get<ParsedValueT>(item: StorageItem) {
-          const value = localStorage.getItem(item)
+          const value = localStorage.getItem(item);
           try {
-            if (!value) return null
-            const parsed = JSON.parse(value) as ParsedValueT
-            return parsed
+            if (!value) return null;
+            const parsed = tryParse(value, { fallback: value }) as ParsedValueT;
+            return parsed;
           } catch (e) {
-            return value
+            console.error(e);
+            return value as ParsedValueT;
           }
         },
         remove(item: StorageItem) {
-          localStorage.removeItem(item)
+          localStorage.removeItem(item);
         },
         clear() {
-          localStorage.clear()
+          localStorage.clear();
         },
       }
-    : null
+    : null;
 
-export default storage
+export default storage;

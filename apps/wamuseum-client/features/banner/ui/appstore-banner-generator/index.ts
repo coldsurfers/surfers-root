@@ -1,2 +1,2 @@
-export * from './appstore-banner-generator'
-export * from './appstore-banner-generator.types'
+export * from './appstore-banner-generator';
+export * from './appstore-banner-generator.types';

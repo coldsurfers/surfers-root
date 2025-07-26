@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import { menuItems } from '../../(data)'
+import { menuItems } from '../../(data)';
 import {
   StyledCloseIcon,
   StyledCloseIconButton,
@@ -13,10 +13,14 @@ import {
   StyledMenuItem,
   StyledMenuText,
   StyledMobileMenuIcon,
-} from './header.styled'
-import { HeaderProps } from './header.types'
+} from './header.styled';
+import type { HeaderProps } from './header.types';
 
-export function Header({ onClickMenuIcon, isMobileMenuOpen, onClickCloseMobileMenuIcon }: HeaderProps) {
+export function Header({
+  onClickMenuIcon,
+  isMobileMenuOpen,
+  onClickCloseMobileMenuIcon,
+}: HeaderProps) {
   return (
     <StyledHeaderWrapper>
       <StyledHeader>
@@ -43,5 +47,5 @@ export function Header({ onClickMenuIcon, isMobileMenuOpen, onClickCloseMobileMe
         </StyledCloseIconButton>
       </StyledHeader>
     </StyledHeaderWrapper>
-  )
+  );
 }

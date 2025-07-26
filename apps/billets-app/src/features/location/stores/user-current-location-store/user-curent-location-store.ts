@@ -1,7 +1,7 @@
-import { currentLocationStorage } from '@/lib/storage'
-import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
-import { UserCurrentLocationStore } from './user-current-location-store.types'
+import { currentLocationStorage } from '@/lib/storage';
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import type { UserCurrentLocationStore } from './user-current-location-store.types';
 
 export const useUserCurrentLocationStore = create<UserCurrentLocationStore>()(
   persist(
@@ -23,6 +23,6 @@ export const useUserCurrentLocationStore = create<UserCurrentLocationStore>()(
     {
       name: 'useUserCurrentLocationStoreStorage',
       storage: currentLocationStorage,
-    },
-  ),
-)
+    }
+  )
+);

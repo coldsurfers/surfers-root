@@ -1,21 +1,21 @@
-import { useMeQuery } from '@/features/auth/hooks/useMeQuery'
-import { colors } from '@coldsurfers/ocean-road'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import React, { useMemo } from 'react'
-import { ArtistStackNavigation } from '../artist-stack-navigation'
-import { EventStackNavigation } from '../event-stack-navigation/event-stack-navigation'
-import { LoginStackNavigation } from '../login-stack-navigation'
-import { MainTabNavigation } from '../main-tab-navigation'
-import { SettingsStackNavigation } from '../settings-stack-navigation'
-import { SubscribedStackNavigation } from '../subscribed-stack-navigation'
-import { VenueStackNavigation } from '../venue-stack-navigation'
-import { MainStackNavigationParamList } from './main-stack-navigation.types'
+import { useMeQuery } from '@/features/auth/hooks/useMeQuery';
+import { colors } from '@coldsurfers/ocean-road';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, { useMemo } from 'react';
+import { ArtistStackNavigation } from '../artist-stack-navigation';
+import { EventStackNavigation } from '../event-stack-navigation/event-stack-navigation';
+import { LoginStackNavigation } from '../login-stack-navigation';
+import { MainTabNavigation } from '../main-tab-navigation';
+import { SettingsStackNavigation } from '../settings-stack-navigation';
+import { SubscribedStackNavigation } from '../subscribed-stack-navigation';
+import { VenueStackNavigation } from '../venue-stack-navigation';
+import type { MainStackNavigationParamList } from './main-stack-navigation.types';
 
-const MainStack = createNativeStackNavigator<MainStackNavigationParamList>()
+const MainStack = createNativeStackNavigator<MainStackNavigationParamList>();
 
 export const MainStackNavigation = () => {
-  const { meData: user } = useMeQuery()
-  const isLoggedIn = useMemo(() => !!user, [user])
+  const { data: user } = useMeQuery();
+  const isLoggedIn = useMemo(() => !!user, [user]);
   return (
     <MainStack.Navigator
       screenOptions={{
@@ -66,5 +66,5 @@ export const MainStackNavigation = () => {
         />
       ) : null}
     </MainStack.Navigator>
-  )
-}
+  );
+};

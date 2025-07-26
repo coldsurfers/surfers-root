@@ -1,47 +1,51 @@
-import { presign, uploadToPresignedURL } from '@/utils/fetcher'
-import { generateS3ImageUrl } from '@/utils/image.utils'
-import pickFile from '@/utils/pickFile'
-import { Button } from '@coldsurfers/ocean-road'
-import { useCallback, useMemo } from 'react'
-import { ConcertPosterDocument, useConcertQuery, useCreateConcertPosterMutation } from 'src/__generated__/graphql'
+import { presign, uploadToPresignedURL } from '@/utils/fetcher';
+import { generateS3ImageUrl } from '@/utils/image.utils';
+import pickFile from '@/utils/pickFile';
+import { Button } from '@coldsurfers/ocean-road';
+import { useCallback, useMemo } from 'react';
+import {
+  ConcertPosterDocument,
+  useConcertQuery,
+  useCreateConcertPosterMutation,
+} from 'src/__generated__/graphql';
 
 export const CreateConcertPosterUI = ({ concertId }: { concertId: string }) => {
   const { data: concertData } = useConcertQuery({
     variables: {
       concertId,
     },
-  })
+  });
 
-  const [mutateCreateConcertPoster] = useCreateConcertPosterMutation()
+  const [mutateCreateConcertPoster] = useCreateConcertPosterMutation();
 
   const concert = useMemo(() => {
-    if (!concertData?.concert) return null
+    if (!concertData?.concert) return null;
     switch (concertData.concert.__typename) {
       case 'HttpError':
-        return null
+        return null;
       case 'Concert':
-        return concertData.concert
+        return concertData.concert;
       default:
-        return null
+        return null;
     }
-  }, [concertData])
+  }, [concertData]);
   const onClickCreatePoster = useCallback(() => {
-    if (!concert) return
+    if (!concert) return;
     pickFile(async (e) => {
-      const { target } = e
-      if (!target) return
-      const filename = new Date().toISOString()
+      const { target } = e;
+      if (!target) return;
+      const filename = new Date().toISOString();
       // @ts-expect-error
-      const { files } = target
+      const { files } = target;
       const presignedData = await presign({
         filename,
         filetype: 'image/*',
         type: 'poster-thumbnails',
-      })
+      });
       await uploadToPresignedURL({
         data: presignedData,
         file: files[0],
-      })
+      });
       mutateCreateConcertPoster({
         variables: {
           input: {
@@ -51,10 +55,10 @@ export const CreateConcertPosterUI = ({ concertId }: { concertId: string }) => {
         },
         update: (cache, { data }) => {
           if (!concert) {
-            return
+            return;
           }
           if (data?.createConcertPoster?.__typename !== 'Poster') {
-            return
+            return;
           }
           cache.writeQuery({
             query: ConcertPosterDocument,
@@ -67,15 +71,15 @@ export const CreateConcertPosterUI = ({ concertId }: { concertId: string }) => {
                 list: [data.createConcertPoster],
               },
             },
-          })
+          });
         },
-      })
-    })
-  }, [concert, mutateCreateConcertPoster])
+      });
+    });
+  }, [concert, mutateCreateConcertPoster]);
 
   return (
     <Button onClick={onClickCreatePoster} style={{ marginTop: 12 }}>
       포스터 등록하기
     </Button>
-  )
-}
+  );
+};

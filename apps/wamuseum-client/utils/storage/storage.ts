@@ -1,28 +1,29 @@
-import { StorageItem } from './types'
+import type { StorageItem } from './types';
 
 const storage =
   typeof window !== 'undefined'
     ? {
         set(item: StorageItem, value: string) {
-          localStorage.setItem(item, value)
+          localStorage.setItem(item, value);
         },
         get<ParsedValueT>(item: StorageItem) {
-          const value = localStorage.getItem(item)
+          const value = localStorage.getItem(item);
           try {
-            if (!value) return null
-            const parsed = JSON.parse(value) as ParsedValueT
-            return parsed
+            if (!value) return null;
+            const parsed = JSON.parse(value) as ParsedValueT;
+            return parsed;
           } catch (e) {
-            return value
+            console.error(e);
+            return value;
           }
         },
         remove(item: StorageItem) {
-          localStorage.removeItem(item)
+          localStorage.removeItem(item);
         },
         clear() {
-          localStorage.clear()
+          localStorage.clear();
         },
       }
-    : null
+    : null;
 
-export default storage
+export default storage;

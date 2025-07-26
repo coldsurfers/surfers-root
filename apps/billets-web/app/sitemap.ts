@@ -1,51 +1,49 @@
-import { SITE_URL } from '@/libs/constants'
-import { connectDbClient, dbClient, disconnectDbClient } from '@/libs/db/db.client'
-import { cache } from 'react'
-import { ALL_SERIES_CATEGORIES } from './blog/(constants)'
-import { queryAllSeries, queryTags } from './blog/(notion)/query'
+import { SITE_URL } from '@/libs/constants';
+import { connectDbClient, dbClient, disconnectDbClient } from '@/libs/db/db.client';
+import { cache } from 'react';
+import { ALL_SERIES_CATEGORIES } from './blog/(constants)';
+import { queryAllSeries, queryTags } from './blog/(notion)/query';
 
 const generateUrl = (subPath: string) => {
-  return `${SITE_URL}${subPath}`
-}
+  return `${SITE_URL}${subPath}`;
+};
 const findAllVenues = cache(async () => {
-  const venues = await dbClient.venue.findMany()
-  return venues
-})
+  const venues = await dbClient.venue.findMany();
+  return venues;
+});
 const findAllArtists = cache(async () => {
-  const artists = await dbClient.artist.findMany()
-  return artists
-})
+  const artists = await dbClient.artist.findMany();
+  return artists;
+});
 const findAllCities = cache(async () => {
-  const cities = await dbClient.locationCity.findMany()
-  return cities
-})
+  const cities = await dbClient.locationCity.findMany();
+  return cities;
+});
 const findAllEvents = cache(async () => {
-  const events = await dbClient.concert.findMany()
-  return events
-})
+  const events = await dbClient.concert.findMany();
+  return events;
+});
 const findAllEventCategories = cache(async () => {
-  const eventCategories = await dbClient.eventCategory.findMany()
-  return eventCategories
-})
+  const eventCategories = await dbClient.eventCategory.findMany();
+  return eventCategories;
+});
 
 const generateBlogSitemaps = cache(async () => {
   const allSeries = await queryAllSeries({
     lang: 'ko',
-  })
+  });
   const allSeriesItemsValues = allSeries.map((value) => ({
     slug: value.slug,
     seriesCategory: value.seriesCategory,
     lastModified: value.lastEditedTime,
-  }))
-  const allTags = await queryTags()
-  const allTagsByLocales = allTags
-    .map((tag) => {
-      return {
-        tag: tag.name,
-        locale: 'ko',
-      }
-    })
-    .flat()
+  }));
+  const allTags = await queryTags();
+  const allTagsByLocales = allTags.flatMap((tag) => {
+    return {
+      tag: tag.name,
+      locale: 'ko',
+    };
+  });
 
   const allSeriesEntry = ALL_SERIES_CATEGORIES.map((series) => {
     return {
@@ -53,8 +51,8 @@ const generateBlogSitemaps = cache(async () => {
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
-    }
-  })
+    };
+  });
 
   const allSeriesItemsEntry = allSeriesItemsValues.map(({ slug, seriesCategory, lastModified }) => {
     return {
@@ -62,8 +60,8 @@ const generateBlogSitemaps = cache(async () => {
       lastModified,
       changeFrequency: 'weekly',
       priority: 0.8,
-    }
-  })
+    };
+  });
 
   const allTagsEntry = allTagsByLocales.map(({ tag }) => {
     return {
@@ -71,8 +69,8 @@ const generateBlogSitemaps = cache(async () => {
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
-    }
-  })
+    };
+  });
 
   return [
     {
@@ -90,11 +88,11 @@ const generateBlogSitemaps = cache(async () => {
       priority: 0.8,
     },
     ...allTagsEntry,
-  ]
-})
+  ];
+});
 
 export default async function sitemap() {
-  await connectDbClient()
+  await connectDbClient();
   const staticSitemaps = [
     {
       url: generateUrl(''),
@@ -126,95 +124,93 @@ export default async function sitemap() {
       changeFrequency: 'weekly',
       priority: 0.8,
     },
-  ]
+  ];
 
-  const allCities = await findAllCities()
+  const allCities = await findAllCities();
 
   // "/browse/[city]"
   const browseByCitySitemaps = allCities.map((city) => {
-    const url = generateUrl(`/browse/${city.name}`)
-    const lastModified = new Date()
-    const changeFrequency = 'weekly'
-    const priority = 0.8
+    const url = generateUrl(`/browse/${city.name}`);
+    const lastModified = new Date();
+    const changeFrequency = 'weekly';
+    const priority = 0.8;
     return {
       url,
       lastModified,
       changeFrequency,
       priority,
-    }
-  })
+    };
+  });
 
   // "/browse/[city]/[event-category]"
-  const allEventCategories = await findAllEventCategories()
-  const browseByCityEventCategorySitemaps = allCities
-    .map((city) => {
-      return allEventCategories.map((eventCategory) => {
-        const url = generateUrl(`/browse/${city.name}/${eventCategory.name.toLowerCase()}`)
-        const lastModified = new Date()
-        const changeFrequency = 'weekly'
-        const priority = 0.8
-        return {
-          url,
-          lastModified,
-          changeFrequency,
-          priority,
-        }
-      })
-    })
-    .flat()
-
-  const allEvents = await findAllEvents()
-
-  // "/event/[slug]"
-  const eventSitemaps = allEvents
-    .map((event) => {
-      if (!event.slug) {
-        return null
-      }
-      const url = generateUrl(`/event/${encodeURIComponent(event.slug)}`)
-      const lastModified = new Date()
-      const changeFrequency = 'weekly'
-      const priority = 0.8
+  const allEventCategories = await findAllEventCategories();
+  const browseByCityEventCategorySitemaps = allCities.flatMap((city) => {
+    return allEventCategories.map((eventCategory) => {
+      const url = generateUrl(`/browse/${city.name}/${eventCategory.name.toLowerCase()}`);
+      const lastModified = new Date();
+      const changeFrequency = 'weekly';
+      const priority = 0.8;
       return {
         url,
         lastModified,
         changeFrequency,
         priority,
+      };
+    });
+  });
+
+  const allEvents = await findAllEvents();
+
+  // "/event/[slug]"
+  const eventSitemaps = allEvents
+    .map((event) => {
+      if (!event.slug) {
+        return null;
       }
+      const url = generateUrl(`/event/${encodeURIComponent(event.slug)}`);
+      const lastModified = new Date();
+      const changeFrequency = 'weekly';
+      const priority = 0.8;
+      return {
+        url,
+        lastModified,
+        changeFrequency,
+        priority,
+      };
     })
-    .filter((value) => value !== null)
+    .filter((value) => value !== null);
 
   // "/venue/[venue-id]"
-  const allVenues = await findAllVenues()
+  const allVenues = await findAllVenues();
   const venueSitemaps = allVenues.map((venue) => {
-    const lastModified = new Date()
-    const changeFrequency = 'weekly'
-    const priority = 0.8
+    const lastModified = new Date();
+    const changeFrequency = 'weekly';
+    const priority = 0.8;
     return {
       url: generateUrl(`/venue/${venue.id}`),
       lastModified,
       changeFrequency,
       priority,
-    }
-  })
+    };
+  });
 
   // "/artist/[artist-id]"
-  const allArtists = await findAllArtists()
+  const allArtists = await findAllArtists();
   const artistSitemaps = allArtists.map((artist) => {
-    const lastModified = new Date()
-    const changeFrequency = 'weekly'
-    const priority = 0.8
+    const lastModified = new Date();
+    const changeFrequency = 'weekly';
+    const priority = 0.8;
     return {
       url: generateUrl(`/artist/${artist.id}`),
       lastModified,
       changeFrequency,
       priority,
-    }
-  })
+    };
+  });
 
-  const blogSitemaps = await generateBlogSitemaps()
+  const blogSitemaps = await generateBlogSitemaps();
 
-  await disconnectDbClient()
+  await disconnectDbClient();
 
   return [
     ...staticSitemaps,
@@ -224,5 +220,5 @@ export default async function sitemap() {
     ...venueSitemaps,
     ...artistSitemaps,
     ...blogSitemaps,
-  ]
+  ];
 }

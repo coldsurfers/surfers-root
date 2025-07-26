@@ -1,12 +1,12 @@
-import { copyrightResolvers, ticketPriceResolvers } from '../src/resolvers'
-import artistResolvers from '../src/resolvers/artistResolvers'
-import authResolvers from '../src/resolvers/authResolvers'
-import concertPosterResolvers from '../src/resolvers/concertPosterResolvers'
-import concertResolvers from '../src/resolvers/concertResolvers'
-import concertTicketResolvers from '../src/resolvers/concertTicketResolvers'
-import userResolvers from '../src/resolvers/userResolvers'
-import venueResolvers from '../src/resolvers/venueResolvers'
-import { Resolvers } from './resolvers-types'
+import { copyrightResolvers, ticketPriceResolvers } from '../src/resolvers';
+import artistResolvers from '../src/resolvers/artistResolvers';
+import authResolvers from '../src/resolvers/authResolvers';
+import concertPosterResolvers from '../src/resolvers/concertPosterResolvers';
+import concertResolvers from '../src/resolvers/concertResolvers';
+import concertTicketResolvers from '../src/resolvers/concertTicketResolvers';
+import userResolvers from '../src/resolvers/userResolvers';
+import venueResolvers from '../src/resolvers/venueResolvers';
+import type { Resolvers } from './resolvers-types';
 
 const resolvers: Resolvers = {
   Query: {
@@ -30,6 +30,6 @@ const resolvers: Resolvers = {
     ...ticketPriceResolvers.Mutation,
     ...copyrightResolvers.Mutation,
   },
-}
+};
 
-export default resolvers
+export default resolvers;

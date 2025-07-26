@@ -1,10 +1,10 @@
-import { TicketDTO } from '@/dtos/ticket.dto'
-import { dbClient } from '@/lib/db'
-import { Price, Ticket } from '@prisma/client'
-import { TicketRepository } from './ticket.repository'
+import type { TicketDTO } from '@/dtos/ticket.dto';
+import { dbClient } from '@/lib/db';
+import type { Price, Ticket } from '@prisma/client';
+import type { TicketRepository } from './ticket.repository';
 
 interface TicketModel extends Ticket {
-  prices: Price[]
+  prices: Price[];
 }
 
 export class TicketRepositoryImpl implements TicketRepository {
@@ -24,14 +24,14 @@ export class TicketRepositoryImpl implements TicketRepository {
           },
         },
       },
-    })
+    });
 
     return data.map((value) =>
       this.toDTO({
         ...value,
         prices: value.prices.map((price) => price.price),
-      }),
-    )
+      })
+    );
   }
 
   private toDTO(model: TicketModel): TicketDTO {
@@ -46,6 +46,6 @@ export class TicketRepositoryImpl implements TicketRepository {
       sellerName: model.seller,
       url: model.sellingURL,
       openDate: model.openDate.toISOString(),
-    }
+    };
   }
 }

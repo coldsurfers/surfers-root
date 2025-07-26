@@ -1,5 +1,5 @@
-import { GenerateAlbumCoverPageClient } from './page.client'
+import { GenerateAlbumCoverPageClient } from './page.client';
 
 export default function GenerateAlbumCoverPage() {
-  return <GenerateAlbumCoverPageClient />
+  return <GenerateAlbumCoverPageClient />;
 }

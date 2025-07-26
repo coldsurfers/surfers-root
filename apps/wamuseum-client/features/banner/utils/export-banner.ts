@@ -1,26 +1,26 @@
-import saveAs from 'file-saver'
-import { toJpeg } from 'html-to-image'
+import saveAs from 'file-saver';
+import { toJpeg } from 'html-to-image';
 
 export const exportBanner = async (
   element: HTMLElement,
   options: {
     size: {
-      width: number
-      height: number
-    }
-  },
+      width: number;
+      height: number;
+    };
+  }
 ) => {
   const {
     size: { width, height },
-  } = options
+  } = options;
   try {
     const dataUrl = await toJpeg(element, {
       quality: 0.95,
       canvasWidth: width,
       canvasHeight: height,
-    })
-    saveAs(dataUrl, 'banner.jpeg')
+    });
+    saveAs(dataUrl, 'banner.jpeg');
   } catch (error) {
-    console.error('Error exporting banner:', error)
+    console.error('Error exporting banner:', error);
   }
-}
+};

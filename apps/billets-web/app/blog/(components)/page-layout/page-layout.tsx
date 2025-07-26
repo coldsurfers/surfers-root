@@ -1,18 +1,18 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { PropsWithChildren } from 'react'
-import { Header } from '../header/header'
-import { BigTitle, BigTitleWrapper, StyledPageLayoutContainer } from './page-layout.styled'
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import type { PropsWithChildren } from 'react';
+import { Header } from '../header/header';
+import { BigTitle, BigTitleWrapper, StyledPageLayoutContainer } from './page-layout.styled';
 
 export const PageLayout = ({
   children,
   title,
 }: PropsWithChildren<{
-  title?: string
+  title?: string;
 }>) => {
-  const pathname = usePathname()
+  const pathname = usePathname();
   return (
     <StyledPageLayoutContainer>
       <BigTitleWrapper>
@@ -20,8 +20,10 @@ export const PageLayout = ({
           <BigTitle as="h1">{title ?? 'The COLDSURF Blog'}</BigTitle>
         </Link>
       </BigTitleWrapper>
-      {process.env.NODE_ENV === 'development' && pathname === '/blog/about/paul' ? null : <Header />}
+      {process.env.NODE_ENV === 'development' && pathname === '/blog/about/paul' ? null : (
+        <Header />
+      )}
       {children}
     </StyledPageLayoutContainer>
-  )
-}
+  );
+};

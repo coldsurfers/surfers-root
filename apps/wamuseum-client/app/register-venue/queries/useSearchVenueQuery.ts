@@ -1,6 +1,6 @@
-import { gql, useQuery } from '@apollo/client'
-import { CommonQueryHookOptions } from '../../../libs/types'
-import { SearchVenueData } from '../../../src/__generated__/graphql'
+import { gql, useQuery } from '@apollo/client';
+import type { CommonQueryHookOptions } from '../../../libs/types';
+import type { SearchVenueData } from '../../../src/__generated__/graphql';
 
 export const searchVenueQuery = gql`
   query SearchVenue($keyword: String!) {
@@ -27,17 +27,18 @@ export const searchVenueQuery = gql`
       }
     }
   }
-`
+`;
 
 export type UseSearchVenueQueryDataT = {
-  searchVenue: SearchVenueData
-}
+  searchVenue: SearchVenueData;
+};
 
 export type UseSearchVenueQueryInputT = {
-  keyword: string
-}
+  keyword: string;
+};
 
-const useSearchVenueQuery = (options: CommonQueryHookOptions<UseSearchVenueQueryDataT, UseSearchVenueQueryInputT>) =>
-  useQuery<UseSearchVenueQueryDataT, UseSearchVenueQueryInputT>(searchVenueQuery, options)
+const useSearchVenueQuery = (
+  options: CommonQueryHookOptions<UseSearchVenueQueryDataT, UseSearchVenueQueryInputT>
+) => useQuery<UseSearchVenueQueryDataT, UseSearchVenueQueryInputT>(searchVenueQuery, options);
 
-export default useSearchVenueQuery
+export default useSearchVenueQuery;

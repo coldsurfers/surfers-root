@@ -1,3 +1,3 @@
-import { PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react';
 
-export type LinkItemsLayoutProps = PropsWithChildren
+export type LinkItemsLayoutProps = PropsWithChildren;

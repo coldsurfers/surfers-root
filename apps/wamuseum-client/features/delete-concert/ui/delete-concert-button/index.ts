@@ -1,1 +1,1 @@
-export * from './delete-concert-button'
+export * from './delete-concert-button';

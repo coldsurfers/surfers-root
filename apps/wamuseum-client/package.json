@@ -8,8 +8,12 @@
     "check:type": "tsc --noEmit",
     "deploy:prod": "APP_PLATFORM=production pnpm sst deploy --stage production",
     "dev": "next dev",
-    "lint": "next lint",
-    "lint:fix": "pnpm lint --fix && prettier --write .",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "format": "biome format .",
+    "format:fix": "biome format --write .",
+    "check": "biome check .",
+    "check:fix": "biome check --write .",
     "postcompile": "pnpm lint:fix",
     "start": "next start",
     "watch": "graphql-codegen -w"
@@ -40,6 +44,7 @@
     "zod": "3.23.8"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@graphql-codegen/cli": "2.16.1",
     "@graphql-codegen/client-preset": "^4.2.6",
     "@graphql-codegen/typescript": "^4.1.1",
@@ -49,7 +54,6 @@
     "@types/file-saver": "^2",
     "@types/react": "19.0.12",
     "@types/react-dom": "19.0.4",
-    "eslint": "8.57.0",
     "pm2": "*",
     "prettier": "*",
     "sst": "3.4.28",

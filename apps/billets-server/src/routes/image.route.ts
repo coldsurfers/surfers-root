@@ -1,14 +1,14 @@
-import { getImageResizeHandler, uploadImageHandler } from '@/controllers/image.controller'
-import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
+import { getImageResizeHandler, uploadImageHandler } from '@/controllers/image.controller';
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto';
 import {
   GetImageResizeQueryStringDTOSchema,
   UploadImageBodyDTOSchema,
   UploadImageResponseDTOSchema,
-} from '@/dtos/image.dto'
-import { FastifyPluginCallback } from 'fastify'
-import { z } from 'zod'
+} from '@/dtos/image.dto';
+import type { FastifyPluginCallback } from 'fastify';
+import { z } from 'zod';
 
-const imageRoute: FastifyPluginCallback = (fastify, opts, done) => {
+const imageRoute: FastifyPluginCallback = (fastify, _, done) => {
   fastify.get(
     '/',
     {
@@ -23,8 +23,8 @@ const imageRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    getImageResizeHandler,
-  )
+    getImageResizeHandler
+  );
   if (process.env.NODE_ENV === 'development') {
     fastify.post(
       '/',
@@ -38,11 +38,11 @@ const imageRoute: FastifyPluginCallback = (fastify, opts, done) => {
           },
         },
       },
-      uploadImageHandler,
-    )
+      uploadImageHandler
+    );
   }
 
-  done()
-}
+  done();
+};
 
-export default imageRoute
+export default imageRoute;

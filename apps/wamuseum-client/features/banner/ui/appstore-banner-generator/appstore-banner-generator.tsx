@@ -1,21 +1,21 @@
-import InputWithLabel from '@/ui/InputWithLabel'
-import { Button } from '@coldsurfers/ocean-road'
-import { DragEvent, useCallback, useRef, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { exportBanner } from '../../utils'
+import InputWithLabel from '@/ui/InputWithLabel';
+import { Button } from '@coldsurfers/ocean-road';
+import { type DragEvent, useCallback, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { exportBanner } from '../../utils';
 import {
   StyledBannerImg,
   StyledDndFileZone,
   StyledGeneratorWrapper,
   StyledPromotionText,
-} from './appstore-banner-generator.styled'
-import { AppstoreBannerGeneratorForm } from './appstore-banner-generator.types'
+} from './appstore-banner-generator.styled';
+import type { AppstoreBannerGeneratorForm } from './appstore-banner-generator.types';
 
 export const AppstoreBannerGenerator = () => {
-  const bannerRef = useRef<HTMLDivElement>(null)
-  const { watch, setValue } = useForm<AppstoreBannerGeneratorForm>()
-  const { promotionText, backgroundColor } = watch()
-  const [previewUrl, setPreviewUrl] = useState('')
+  const bannerRef = useRef<HTMLDivElement>(null);
+  const { watch, setValue } = useForm<AppstoreBannerGeneratorForm>();
+  const { promotionText, backgroundColor } = watch();
+  const [previewUrl, setPreviewUrl] = useState('');
 
   const handleExport = useCallback(async () => {
     if (bannerRef.current) {
@@ -24,16 +24,16 @@ export const AppstoreBannerGenerator = () => {
           width: 1320,
           height: 2868,
         },
-      })
+      });
     }
-  }, [])
+  }, []);
 
   const onFileDrop = useCallback((e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    const droppedFiles = Array.from(e.dataTransfer.files)
-    const [bannerImgFile] = droppedFiles
-    setPreviewUrl(URL.createObjectURL(bannerImgFile))
-  }, [])
+    e.preventDefault();
+    const droppedFiles = Array.from(e.dataTransfer.files);
+    const [bannerImgFile] = droppedFiles;
+    setPreviewUrl(URL.createObjectURL(bannerImgFile));
+  }, []);
 
   return (
     <StyledGeneratorWrapper>
@@ -54,5 +54,5 @@ export const AppstoreBannerGenerator = () => {
       </StyledDndFileZone>
       <Button onClick={handleExport}>이미지 다운로드</Button>
     </StyledGeneratorWrapper>
-  )
-}
+  );
+};

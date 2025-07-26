@@ -1,26 +1,26 @@
-import { apiClient } from '@/lib/api/openapi-client'
-import palettes from '@/lib/palettes'
-import { components } from '@/types/api'
-import { colors } from '@coldsurfers/ocean-road'
-import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
-import { SearchItemThumbnail } from '../search-item-thumbnail'
+import { apiClient } from '@/lib/api/openapi-client';
+import palettes from '@/lib/palettes';
+import type { components } from '@/types/api';
+import { colors } from '@coldsurfers/ocean-road';
+import { Text, useColorScheme } from '@coldsurfers/ocean-road/native';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { SearchItemThumbnail } from '../search-item-thumbnail';
 
 export function SubscribedVenueListItem({
   data,
   onPress,
 }: {
-  data: components['schemas']['VenueSubscribeDTOSchema']
-  onPress: (venueId: string) => void
+  data: components['schemas']['VenueSubscribeDTOSchema'];
+  onPress: (venueId: string) => void;
 }) {
-  const { semantics } = useColorScheme()
+  const { semantics } = useColorScheme();
   const { data: venueDetailData } = useSuspenseQuery({
     queryKey: apiClient.venue.queryKeys.detail(data.venueId),
     queryFn: () => apiClient.venue.getVenueDetail(data.venueId),
-  })
+  });
   if (!venueDetailData) {
-    return null
+    return null;
   }
   return (
     <TouchableOpacity onPress={() => onPress(data.venueId)} style={styles.itemWrapper}>
@@ -34,7 +34,7 @@ export function SubscribedVenueListItem({
         </Text>
       </View>
     </TouchableOpacity>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -56,5 +56,10 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     borderRadius: 4,
   },
-  skeletonSubtitle: { width: '100%', backgroundColor: colors.oc.gray[4].value, height: 16, borderRadius: 4 },
-})
+  skeletonSubtitle: {
+    width: '100%',
+    backgroundColor: colors.oc.gray[4].value,
+    height: 16,
+    borderRadius: 4,
+  },
+});

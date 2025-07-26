@@ -1,22 +1,22 @@
-import { ErrorResponseDTO } from '@/dtos/error-response.dto'
-import { SendUserVoiceBodyDTO } from '@/dtos/mailer.dto'
-import { sendEmail } from '@/lib/mailer'
-import { SERVICE_NAME } from '@coldsurfers/shared-utils'
-import { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify'
+import type { ErrorResponseDTO } from '@/dtos/error-response.dto';
+import type { SendUserVoiceBodyDTO } from '@/dtos/mailer.dto';
+import { sendEmail } from '@/lib/mailer';
+import { SERVICE_NAME } from '@coldsurfers/shared-utils';
+import type { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify';
 
 interface SendUserVoiceRoute extends RouteGenericInterface {
-  Body: SendUserVoiceBodyDTO
+  Body: SendUserVoiceBodyDTO;
   Reply: {
-    500: ErrorResponseDTO
-  }
+    500: ErrorResponseDTO;
+  };
 }
 
 export const sendUserVoiceHandler = async (
   req: FastifyRequest<SendUserVoiceRoute>,
-  rep: FastifyReply<SendUserVoiceRoute>,
+  rep: FastifyReply<SendUserVoiceRoute>
 ) => {
   try {
-    const { email, name, message, updateAgreement } = req.body
+    const { email, name, message, updateAgreement } = req.body;
     await sendEmail({
       from: process.env.BILLETS_SERVER_MAILER_EMAIL_ADDRESS,
       smtpOptions: {
@@ -35,11 +35,12 @@ export const sendUserVoiceHandler = async (
         <p>내용: ${message}</p>
         <p>업데이트 동의: ${updateAgreement ? 'Yes' : 'No'}</p>
       `,
-    })
+    });
   } catch (e) {
+    console.error(e);
     return rep.status(500).send({
       code: 'UNKNOWN',
       message: 'internal server error',
-    })
+    });
   }
-}
+};

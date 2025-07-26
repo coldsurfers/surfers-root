@@ -1,11 +1,11 @@
-import { getArtistByIdHandler } from '@/controllers/artist.controller'
-import { ArtistDetailDTOSchema } from '@/dtos/artist-detail.dto'
-import { GetArtistByIdParamsDTOSchema } from '@/dtos/artist.dto'
-import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
-import { FastifyPluginCallback } from 'fastify'
-import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import { getArtistByIdHandler } from '@/controllers/artist.controller';
+import { ArtistDetailDTOSchema } from '@/dtos/artist-detail.dto';
+import { GetArtistByIdParamsDTOSchema } from '@/dtos/artist.dto';
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto';
+import type { FastifyPluginCallback } from 'fastify';
+import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
-const artistRoute: FastifyPluginCallback = (fastify, opts, done) => {
+const artistRoute: FastifyPluginCallback = (fastify, _, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/:id',
     {
@@ -19,9 +19,9 @@ const artistRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    getArtistByIdHandler,
-  )
-  done()
-}
+    getArtistByIdHandler
+  );
+  done();
+};
 
-export default artistRoute
+export default artistRoute;

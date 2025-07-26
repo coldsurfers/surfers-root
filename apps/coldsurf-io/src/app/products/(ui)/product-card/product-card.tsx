@@ -1,14 +1,20 @@
-'use client'
+'use client';
 
 import {
   StyledProductCardContainer,
   StyledProductCardDescription,
   StyledProductCardTitle,
   StyledProductImage,
-} from './product-card.styled'
-import { ProductCardProps } from './product-card.types'
+} from './product-card.styled';
+import type { ProductCardProps } from './product-card.types';
 
-export function ProductCard({ title, description, imgSrc, backgroundImgSrc, onClick }: ProductCardProps) {
+export function ProductCard({
+  title,
+  description,
+  imgSrc,
+  backgroundImgSrc,
+  onClick,
+}: ProductCardProps) {
   return (
     <StyledProductCardContainer
       onClick={onClick}
@@ -19,5 +25,5 @@ export function ProductCard({ title, description, imgSrc, backgroundImgSrc, onCl
       <StyledProductCardTitle as="h1">{title}</StyledProductCardTitle>
       <StyledProductCardDescription as="p">{description}</StyledProductCardDescription>
     </StyledProductCardContainer>
-  )
+  );
 }

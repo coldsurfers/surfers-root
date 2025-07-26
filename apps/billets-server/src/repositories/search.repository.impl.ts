@@ -1,8 +1,8 @@
-import { SearchDTO } from '@/dtos/search.dto'
-import { dbClient } from '@/lib/db/db.client'
-import { SearchRepository } from './search.repository'
+import type { SearchDTO } from '@/dtos/search.dto';
+import { dbClient } from '@/lib/db/db.client';
+import type { SearchRepository } from './search.repository';
 
-type SearchModel = SearchDTO
+type SearchModel = SearchDTO;
 
 export class SearchRepositoryImpl implements SearchRepository {
   async searchManyByKeyword(keyword: string): Promise<SearchDTO[]> {
@@ -20,7 +20,7 @@ export class SearchRepositoryImpl implements SearchRepository {
           },
         },
       },
-    })
+    });
 
     const venuesData = await dbClient.venue.findMany({
       where: {
@@ -29,7 +29,7 @@ export class SearchRepositoryImpl implements SearchRepository {
           mode: 'insensitive',
         },
       },
-    })
+    });
 
     const concertData = await dbClient.concert.findMany({
       where: {
@@ -89,7 +89,7 @@ export class SearchRepositoryImpl implements SearchRepository {
           },
         },
       },
-    })
+    });
 
     // 순서: artist -> venue -> concert
 
@@ -99,16 +99,16 @@ export class SearchRepositoryImpl implements SearchRepository {
         id: artist.id,
         name: artist.name,
         profileImgUrl: artist.artistProfileImage.at(0)?.imageURL ?? '',
-      }),
-    )
+      })
+    );
 
     const venues = venuesData.map((venue) =>
       this.toDTO({
         type: 'venue',
         id: venue.id,
         name: venue.name,
-      }),
-    )
+      })
+    );
 
     const concerts = concertData.map((concert) =>
       this.toDTO({
@@ -119,13 +119,13 @@ export class SearchRepositoryImpl implements SearchRepository {
         venueTitle: concert.venues.at(0)?.venue.name ?? '',
         id: concert.id,
         slug: concert.slug,
-      }),
-    )
+      })
+    );
 
-    return artists.concat(venues).concat(concerts)
+    return artists.concat(venues).concat(concerts);
   }
 
   private toDTO(data: SearchModel): SearchDTO {
-    return data
+    return data;
   }
 }

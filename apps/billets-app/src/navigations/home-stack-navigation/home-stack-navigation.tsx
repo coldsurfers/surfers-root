@@ -1,9 +1,9 @@
-import { HomeScreen, LocationSelectionScreen } from '@/screens'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import React from 'react'
-import { HomeStackParamList } from './home-stack-navigation.types'
+import { HomeScreen, LocationSelectionScreen } from '@/screens';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
+import type { HomeStackParamList } from './home-stack-navigation.types';
 
-const HomeStack = createNativeStackNavigator<HomeStackParamList>()
+const HomeStack = createNativeStackNavigator<HomeStackParamList>();
 
 export const HomeStackNavigation = () => {
   return (
@@ -24,5 +24,5 @@ export const HomeStackNavigation = () => {
         }}
       />
     </HomeStack.Navigator>
-  )
-}
+  );
+};

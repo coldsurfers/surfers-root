@@ -1,11 +1,11 @@
-import { getVenueByIdHandler } from '@/controllers/venue.controller'
-import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
-import { VenueDetailDTOSchema } from '@/dtos/venue-detail-dto'
-import { GetVenueByIdParamsDTOSchema } from '@/dtos/venue.dto'
-import { FastifyPluginCallback } from 'fastify'
-import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import { getVenueByIdHandler } from '@/controllers/venue.controller';
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto';
+import { VenueDetailDTOSchema } from '@/dtos/venue-detail-dto';
+import { GetVenueByIdParamsDTOSchema } from '@/dtos/venue.dto';
+import type { FastifyPluginCallback } from 'fastify';
+import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
-const venueRoute: FastifyPluginCallback = (fastify, opts, done) => {
+const venueRoute: FastifyPluginCallback = (fastify, _, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/:id',
     {
@@ -19,9 +19,9 @@ const venueRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    getVenueByIdHandler,
-  )
-  done()
-}
+    getVenueByIdHandler
+  );
+  done();
+};
 
-export default venueRoute
+export default venueRoute;

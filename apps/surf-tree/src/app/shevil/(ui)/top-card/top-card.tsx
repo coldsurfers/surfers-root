@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import { StyledTopCard } from './top-card.styled'
-import { TopCardProps } from './top-card.types'
+import { StyledTopCard } from './top-card.styled';
+import type { TopCardProps } from './top-card.types';
 
 export function TopCard(props: TopCardProps) {
   return (
@@ -15,5 +15,5 @@ export function TopCard(props: TopCardProps) {
     >
       {props.children}
     </StyledTopCard>
-  )
+  );
 }

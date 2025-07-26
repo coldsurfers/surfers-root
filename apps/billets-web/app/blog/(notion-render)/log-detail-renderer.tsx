@@ -1,17 +1,17 @@
-'use client'
+'use client';
 
-import { media, Text } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
-import { PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoints'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { useMemo } from 'react'
-import { PageLayout } from '../(components)/page-layout'
-import { TagList } from '../(components)/tag-list/tag-list'
-import { queryKeyFactory } from '../(react-query)/react-query.key-factory'
-import { AppLocale } from '../(types)/i18n'
-import { SeriesCategory } from '../(types)/series'
-import { NotionRenderer } from './notion-renderer'
+import { Text, media } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import type { PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
+import { PageLayout } from '../(components)/page-layout';
+import { TagList } from '../(components)/tag-list/tag-list';
+import { queryKeyFactory } from '../(react-query)/react-query.key-factory';
+import type { AppLocale } from '../(types)/i18n';
+import type { SeriesCategory } from '../(types)/series';
+import { NotionRenderer } from './notion-renderer';
 
 const WriterText = styled(Text)`
   font-size: 20px;
@@ -19,7 +19,7 @@ const WriterText = styled(Text)`
   ${media.small(css`
     font-size: 16px;
   `)}
-`
+`;
 
 const RendererSection = styled.section`
   margin-top: 2rem;
@@ -27,34 +27,37 @@ const RendererSection = styled.section`
   ${media.small(css`
     margin-top: 1rem;
   `)}
-`
+`;
 
 export const LogDetailRenderer = ({
   slug,
   locale,
   seriesCategory,
 }: {
-  slug: string
-  locale: AppLocale
-  seriesCategory: SeriesCategory
+  slug: string;
+  locale: AppLocale;
+  seriesCategory: SeriesCategory;
 }) => {
   const { data } = useSuspenseQuery(
     queryKeyFactory.series.item(slug, {
       appLocale: locale,
       seriesCategory,
-    }),
-  )
-  const page = useMemo(() => data?.page, [data])
-  const recordMap = useMemo(() => data?.recordMap, [data?.recordMap])
+    })
+  );
+  const page = useMemo(() => data?.page, [data]);
+  const recordMap = useMemo(() => data?.recordMap, [data?.recordMap]);
 
-  const pageTitle = useMemo(() => (page?.properties.Name.type === 'title' ? page.properties.Name.title : null), [page])
+  const pageTitle = useMemo(
+    () => (page?.properties.Name.type === 'title' ? page.properties.Name.title : null),
+    [page]
+  );
   const writerName = useMemo(() => {
     if (page?.properties.Writer?.type === 'people') {
-      const writer = page.properties.Writer.people.at(0) as PersonUserObjectResponse
-      return writer.name
+      const writer = page.properties.Writer.people.at(0) as PersonUserObjectResponse;
+      return writer.name;
     }
-    return ''
-  }, [page])
+    return '';
+  }, [page]);
 
   const tags = useMemo(
     () =>
@@ -65,8 +68,8 @@ export const LogDetailRenderer = ({
             color: value.color,
           }))
         : [],
-    [page],
-  )
+    [page]
+  );
 
   return (
     <PageLayout title={pageTitle?.at(0)?.plain_text}>
@@ -87,5 +90,5 @@ export const LogDetailRenderer = ({
         </RendererSection>
       </article>
     </PageLayout>
-  )
-}
+  );
+};

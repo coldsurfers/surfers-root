@@ -1,17 +1,17 @@
-'use client'
+'use client';
 
-import { OpenApiError } from '@coldsurfers/api-sdk'
-import { QueryErrorResetBoundary } from '@tanstack/react-query'
-import { NetworkError } from 'app/(ui)'
-import { PropsWithChildren } from 'react'
-import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
+import { OpenApiError } from '@coldsurfers/api-sdk';
+import { QueryErrorResetBoundary } from '@tanstack/react-query';
+import { NetworkError } from 'app/(ui)';
+import type { PropsWithChildren } from 'react';
+import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 
 const fallbackRender = ({ resetErrorBoundary, error }: FallbackProps) => {
   if (error instanceof OpenApiError) {
-    return <NetworkError onClickRetry={resetErrorBoundary} />
+    return <NetworkError onClickRetry={resetErrorBoundary} />;
   }
-  throw error
-}
+  throw error;
+};
 
 export const ApiErrorBoundaryRegistry = ({ children }: PropsWithChildren) => {
   return (
@@ -22,5 +22,5 @@ export const ApiErrorBoundaryRegistry = ({ children }: PropsWithChildren) => {
         </ErrorBoundary>
       )}
     </QueryErrorResetBoundary>
-  )
-}
+  );
+};

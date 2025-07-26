@@ -1,1 +1,1 @@
-export * from './apollo-hydration-boundary'
+export * from './apollo-hydration-boundary';

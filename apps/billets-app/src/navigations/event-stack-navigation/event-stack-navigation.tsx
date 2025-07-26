@@ -1,14 +1,14 @@
-import { zodScreen } from '@/lib'
-import { getEventCategoryUIName } from '@/lib/utils.event-category'
-import { ConcertTicketListScreen, EventDetailScreen } from '@/screens'
-import { EventCategoryScreen } from '@/screens/event-category-screen'
-import { NavigationHeader } from '@/ui'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import React from 'react'
-import { z } from 'zod'
-import { EventStackParamList } from './event-stack-navigation.types'
+import type { zodScreen } from '@/lib';
+import { getEventCategoryUIName } from '@/lib/utils.event-category';
+import { ConcertTicketListScreen, EventDetailScreen } from '@/screens';
+import { EventCategoryScreen } from '@/screens/event-category-screen';
+import { NavigationHeader } from '@/ui';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
+import type { z } from 'zod';
+import type { EventStackParamList } from './event-stack-navigation.types';
 
-const Stack = createNativeStackNavigator<EventStackParamList>()
+const Stack = createNativeStackNavigator<EventStackParamList>();
 
 export const EventStackNavigation = () => {
   return (
@@ -65,7 +65,10 @@ export const EventStackNavigation = () => {
                 ...props.options,
                 presentation: 'card',
                 title: getEventCategoryUIName(
-                  (props.route.params as z.infer<typeof zodScreen.EventCategoryScreen.params>)['eventCategory'],
+                  (props.route.params as z.infer<typeof zodScreen.EventCategoryScreen.params>)[
+                    // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+                    'eventCategory'
+                  ]
                 ),
               }}
             />
@@ -73,5 +76,5 @@ export const EventStackNavigation = () => {
         }}
       />
     </Stack.Navigator>
-  )
-}
+  );
+};

@@ -1,26 +1,32 @@
 import {
   ConcertMapView,
   getZoomLevel,
-  mapPointSchema,
+  type mapPointSchema,
   useMapRegionWithZoomLevel,
   useUserCurrentLocationStore,
-} from '@/features'
-import { getViewMode, SearchStoreLocationConcert, SearchStoreSnapIndex, useSearchStore } from '@/features/search/store'
-import { FULLY_EXPANDED_SNAP_INDEX } from '@/features/search/store/search-store.constants'
-import { useBottomTab, withHapticPress } from '@/lib'
-import { useUIStore } from '@/lib/stores'
-import { CommonScreenLayout } from '@/ui/common-screen-layout'
-import { NAVIGATION_HEADER_HEIGHT } from '@/ui/navigation-header'
-import { SearchBottomList, SearchBottomListProps } from '@/ui/search-bottom-list'
-import { SearchScreenNavigationHeader } from '@/ui/search-screen-navigation-header'
-import { SEARCH_DIM_HEIGHT_FLAG } from '@/ui/search.ui.constants'
-import { Button, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
-import BottomSheet, { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
-import { useFocusEffect } from '@react-navigation/native'
-import { useDebounce } from '@uidotdev/usehooks'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { BackHandler, Keyboard, Pressable, StyleSheet } from 'react-native'
-import MapView, { Region } from 'react-native-maps'
+} from '@/features';
+import {
+  type SearchStoreLocationConcert,
+  type SearchStoreSnapIndex,
+  getViewMode,
+  useSearchStore,
+} from '@/features/search/store';
+import { FULLY_EXPANDED_SNAP_INDEX } from '@/features/search/store/search-store.constants';
+import { useBottomTab, withHapticPress } from '@/lib';
+import { useUIStore } from '@/lib/stores';
+import { CommonScreenLayout } from '@/ui/common-screen-layout';
+import { NAVIGATION_HEADER_HEIGHT } from '@/ui/navigation-header';
+import { SearchBottomList, type SearchBottomListProps } from '@/ui/search-bottom-list';
+import { SearchScreenNavigationHeader } from '@/ui/search-screen-navigation-header';
+import { SEARCH_DIM_HEIGHT_FLAG } from '@/ui/search.ui.constants';
+import { Button, Text, useColorScheme } from '@coldsurfers/ocean-road/native';
+import BottomSheet, { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { useFocusEffect } from '@react-navigation/native';
+import { useDebounce } from '@uidotdev/usehooks';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { BackHandler, Keyboard, Pressable, StyleSheet } from 'react-native';
+import type MapView from 'react-native-maps';
+import type { Region } from 'react-native-maps';
 import Animated, {
   interpolateColor,
   runOnJS,
@@ -28,161 +34,162 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
-} from 'react-native-reanimated'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { z } from 'zod'
-import { useShallow } from 'zustand/shallow'
+} from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import type { z } from 'zod';
+import { useShallow } from 'zustand/shallow';
 
-const AnimatedButton = Animated.createAnimatedComponent(Button)
+const AnimatedButton = Animated.createAnimatedComponent(Button);
 
 export const SearchScreen = () => {
-  const { semantics } = useColorScheme()
-  const { top: topInset } = useSafeAreaInsets()
-  const { tabBarHeight } = useBottomTab()
-  const bottomSheetRef = useRef<BottomSheet>(null)
-  const bottomBtnOpacityValue = useSharedValue(1.0)
-  const DEFAULT_BOTTOM_BTN_BOTTOM_VALUE = 12 + tabBarHeight
-  const bottomBtnBottomValue = useSharedValue(DEFAULT_BOTTOM_BTN_BOTTOM_VALUE)
-  const [floatingBtnVisible, setFloatingBtnVisible] = useState(Boolean(FULLY_EXPANDED_SNAP_INDEX))
-  const snapPoints = useMemo(() => ['30%', '100%'], [])
+  const { semantics } = useColorScheme();
+  const { top: topInset } = useSafeAreaInsets();
+  const { tabBarHeight } = useBottomTab();
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const bottomBtnOpacityValue = useSharedValue(1.0);
+  const DEFAULT_BOTTOM_BTN_BOTTOM_VALUE = 12 + tabBarHeight;
+  const bottomBtnBottomValue = useSharedValue(DEFAULT_BOTTOM_BTN_BOTTOM_VALUE);
+  const [floatingBtnVisible, setFloatingBtnVisible] = useState(Boolean(FULLY_EXPANDED_SNAP_INDEX));
+  const snapPoints = useMemo(() => ['30%', '100%'], []);
 
-  const mapRef = useRef<MapView | null>(null)
+  const mapRef = useRef<MapView | null>(null);
   const { keyword: searchKeyword } = useSearchStore(
     useShallow((state) => ({
       keyword: state.keyword,
       setKeyword: state.setKeyword,
-    })),
-  )
+    }))
+  );
   const { setSelectedLocationFilter, selectedLocationFilter } = useSearchStore(
     useShallow((state) => ({
       setSelectedLocationFilter: state.setSelectedLocationFilter,
       selectedLocationFilter: state.selectedLocationFilter,
-    })),
-  )
+    }))
+  );
   const { viewMode, setViewMode, snapIndex, setSnapIndex } = useSearchStore(
     useShallow((state) => ({
       viewMode: state.viewMode,
       setViewMode: state.setViewMode,
       snapIndex: state.snapIndex,
       setSnapIndex: state.setSnapIndex,
-    })),
-  )
+    }))
+  );
   const { locationConcerts, setLocationConcerts } = useSearchStore(
     useShallow((state) => ({
       locationConcerts: state.locationConcerts,
       setLocationConcerts: state.setLocationConcerts,
-    })),
-  )
+    }))
+  );
 
   const { hideBottomTabBar, showBottomTabBar } = useUIStore(
     useShallow((state) => ({
       hideBottomTabBar: state.hideBottomTabBar,
       showBottomTabBar: state.showBottomTabBar,
-    })),
-  )
+    }))
+  );
 
-  const [pointsLength, setPointsLength] = useState(0)
-  const debouncedSearchKeyword = useDebounce(searchKeyword, 350)
+  const [pointsLength, setPointsLength] = useState(0);
+  const debouncedSearchKeyword = useDebounce(searchKeyword, 350);
 
   const { latitude, longitude } = useUserCurrentLocationStore(
     useShallow((state) => ({
       latitude: state.latitude ? +`${state.latitude}`.substring(0, 7) : null,
       longitude: state.longitude ? +`${state.longitude}`.substring(0, 8) : null,
-    })),
-  )
+    }))
+  );
 
-  const { mapRegionWithZoomLevel, setMapRegionWithZoomLevel, initialize } = useMapRegionWithZoomLevel({
-    latitude: latitude ?? 37.78825,
-    longitude: longitude ?? -122.4324,
-  })
+  const { mapRegionWithZoomLevel, setMapRegionWithZoomLevel, initialize } =
+    useMapRegionWithZoomLevel({
+      latitude: latitude ?? 37.78825,
+      longitude: longitude ?? -122.4324,
+    });
 
   useEffect(() => {
     const keyboardWillShowEmitterSubscription = Keyboard.addListener('keyboardWillShow', (e) => {
-      bottomBtnBottomValue.value = withTiming(e.endCoordinates.height + 12, { duration: 250 })
-    })
+      bottomBtnBottomValue.value = withTiming(e.endCoordinates.height + 12, { duration: 250 });
+    });
     const keyboardWillHideEmitterSubscription = Keyboard.addListener('keyboardWillHide', () => {
-      bottomBtnBottomValue.value = withTiming(DEFAULT_BOTTOM_BTN_BOTTOM_VALUE, { duration: 250 })
-    })
+      bottomBtnBottomValue.value = withTiming(DEFAULT_BOTTOM_BTN_BOTTOM_VALUE, { duration: 250 });
+    });
 
     return () => {
-      keyboardWillShowEmitterSubscription.remove()
-      keyboardWillHideEmitterSubscription.remove()
-    }
-  }, [DEFAULT_BOTTOM_BTN_BOTTOM_VALUE, bottomBtnBottomValue])
+      keyboardWillShowEmitterSubscription.remove();
+      keyboardWillHideEmitterSubscription.remove();
+    };
+  }, [DEFAULT_BOTTOM_BTN_BOTTOM_VALUE, bottomBtnBottomValue]);
 
   useEffect(() => {
-    const visible = snapIndex === FULLY_EXPANDED_SNAP_INDEX
+    const visible = snapIndex === FULLY_EXPANDED_SNAP_INDEX;
     const preUpdate = () => {
       if (visible) {
-        setFloatingBtnVisible(true)
+        setFloatingBtnVisible(true);
       }
-    }
-    preUpdate()
+    };
+    preUpdate();
     bottomBtnOpacityValue.value = withTiming(visible ? 1.0 : 0.0, { duration: 200 }, (finished) => {
       if (finished) {
-        runOnJS(setFloatingBtnVisible)(visible)
+        runOnJS(setFloatingBtnVisible)(visible);
       }
-    })
-  }, [bottomBtnOpacityValue, snapIndex])
+    });
+  }, [bottomBtnOpacityValue, snapIndex]);
 
   useFocusEffect(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
       if (snapIndex === 0) {
-        setSnapIndex(FULLY_EXPANDED_SNAP_INDEX)
-        return true
+        setSnapIndex(FULLY_EXPANDED_SNAP_INDEX);
+        return true;
       }
 
-      return false
-    })
-    return () => backHandler.remove()
-  })
+      return false;
+    });
+    return () => backHandler.remove();
+  });
 
   const onPressMapFloatingBtn = useCallback(() => {
-    setSnapIndex(0)
-    setSelectedLocationFilter('map-location')
-    setViewMode('map')
-    hideBottomTabBar()
-  }, [hideBottomTabBar, setSelectedLocationFilter, setSnapIndex, setViewMode])
+    setSnapIndex(0);
+    setSelectedLocationFilter('map-location');
+    setViewMode('map');
+    hideBottomTabBar();
+  }, [hideBottomTabBar, setSelectedLocationFilter, setSnapIndex, setViewMode]);
   const floatingBtnOpacityStyle = useAnimatedStyle(() => ({
     opacity: bottomBtnOpacityValue.value,
     bottom: bottomBtnBottomValue.value,
-  }))
+  }));
 
   const onChangeBottomSheet = useCallback(
     (index: number) => {
-      setSnapIndex(index as SearchStoreSnapIndex)
-      const viewMode = getViewMode(index as SearchStoreSnapIndex)
+      setSnapIndex(index as SearchStoreSnapIndex);
+      const viewMode = getViewMode(index as SearchStoreSnapIndex);
       if (viewMode === 'map') {
-        setSelectedLocationFilter('map-location')
-        setViewMode(viewMode)
-        hideBottomTabBar()
+        setSelectedLocationFilter('map-location');
+        setViewMode(viewMode);
+        hideBottomTabBar();
       } else {
-        setViewMode('list')
-        showBottomTabBar()
+        setViewMode('list');
+        showBottomTabBar();
       }
     },
-    [hideBottomTabBar, setSelectedLocationFilter, setSnapIndex, setViewMode, showBottomTabBar],
-  )
+    [hideBottomTabBar, setSelectedLocationFilter, setSnapIndex, setViewMode, showBottomTabBar]
+  );
 
   const onChangeVisiblePoints = useCallback((points: z.TypeOf<typeof mapPointSchema>[]) => {
-    setPointsLength(points.length)
-  }, [])
+    setPointsLength(points.length);
+  }, []);
   const onChangeLocationConcerts = useCallback(
     (concerts: SearchStoreLocationConcert[]) => {
-      setLocationConcerts(concerts)
+      setLocationConcerts(concerts);
     },
-    [setLocationConcerts],
-  )
+    [setLocationConcerts]
+  );
 
   const onRegionChangeComplete = useCallback(
     (region: Region) => {
       setMapRegionWithZoomLevel({
         ...region,
         zoomLevel: getZoomLevel(region.latitudeDelta),
-      })
+      });
     },
-    [setMapRegionWithZoomLevel],
-  )
+    [setMapRegionWithZoomLevel]
+  );
 
   useEffect(() => {
     if (selectedLocationFilter === 'current-location' || selectedLocationFilter === null) {
@@ -190,17 +197,17 @@ export const SearchScreen = () => {
         initialize({
           latitude: latitude ?? 37.78825,
           longitude: longitude ?? -122.4324,
-        }),
-      )
-      setLocationConcerts(null)
+        })
+      );
+      setLocationConcerts(null);
     }
     if (selectedLocationFilter === 'map-location') {
-      Keyboard.dismiss()
+      Keyboard.dismiss();
     }
-  }, [initialize, latitude, longitude, selectedLocationFilter, setLocationConcerts])
+  }, [initialize, latitude, longitude, selectedLocationFilter, setLocationConcerts]);
 
   // Animated position
-  const animatedPosition = useSharedValue(0)
+  const animatedPosition = useSharedValue(0);
 
   // Listen to position changes in real time
   useAnimatedReaction(
@@ -208,8 +215,8 @@ export const SearchScreen = () => {
     () => {
       // console.log('Current position (Y-axis):', position)
       // runOnJS(setShouldShowMapView)(position > 0)
-    },
-  )
+    }
+  );
 
   // Dynamic backdrop color (optional)
   const animatedBackdropStyle = useAnimatedStyle(() => {
@@ -219,14 +226,14 @@ export const SearchScreen = () => {
       /**
        * oc gray 1
        */
-      [semantics.background[2], 'rgba(0, 0, 0, 0)'], // From original color to dimmed black overlay
-    )
+      [semantics.background[2], 'rgba(0, 0, 0, 0)'] // From original color to dimmed black overlay
+    );
 
     return {
       backgroundColor,
       display: animatedPosition.value >= SEARCH_DIM_HEIGHT_FLAG ? 'none' : 'flex',
-    }
-  })
+    };
+  });
 
   const renderBackdrop = useCallback(
     () => (
@@ -240,26 +247,26 @@ export const SearchScreen = () => {
         ]}
       />
     ),
-    [animatedBackdropStyle, topInset],
-  )
+    [animatedBackdropStyle, topInset]
+  );
 
   const bottomListProps = useMemo<SearchBottomListProps>(() => {
     if (debouncedSearchKeyword) {
       return {
         type: 'search',
         keyword: debouncedSearchKeyword,
-      }
+      };
     }
     if (selectedLocationFilter === 'map-location') {
       return {
         type: 'map',
         events: locationConcerts ?? [],
-      }
+      };
     }
     return {
       type: 'default',
-    }
-  }, [debouncedSearchKeyword, locationConcerts, selectedLocationFilter])
+    };
+  }, [debouncedSearchKeyword, locationConcerts, selectedLocationFilter]);
 
   return (
     <BottomSheetModalProvider>
@@ -325,8 +332,8 @@ export const SearchScreen = () => {
         </AnimatedButton>
       )}
     </BottomSheetModalProvider>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   wrapper: { flex: 1 },
@@ -366,4 +373,4 @@ const styles = StyleSheet.create({
   guideFont: {
     fontSize: 16,
   },
-})
+});

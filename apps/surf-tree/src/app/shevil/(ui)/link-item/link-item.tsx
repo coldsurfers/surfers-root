@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
-import { ShareButton } from '../share-button'
-import { StyledLinkItemContainer, StyledLinkItemText } from './link-item.styled'
-import { LinkItemProps } from './link-item.types'
+import Link from 'next/link';
+import { ShareButton } from '../share-button';
+import { StyledLinkItemContainer, StyledLinkItemText } from './link-item.styled';
+import type { LinkItemProps } from './link-item.types';
 
 export function LinkItem({ href, title, onClickShare }: LinkItemProps) {
   return (
@@ -41,5 +41,5 @@ export function LinkItem({ href, title, onClickShare }: LinkItemProps) {
         <ShareButton onClickShare={onClickShare} />
       </div>
     </StyledLinkItemContainer>
-  )
+  );
 }

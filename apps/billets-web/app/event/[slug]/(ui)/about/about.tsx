@@ -1,15 +1,20 @@
-'use client'
+'use client';
 
-import { components } from '@coldsurfers/api-sdk'
-import { useState } from 'react'
-import { StyledAboutButton, StyledAboutContainer, StyledAboutImage, StyledAboutShowMoreGradation } from './about.styled'
+import type { components } from '@coldsurfers/api-sdk';
+import { useState } from 'react';
+import {
+  StyledAboutButton,
+  StyledAboutContainer,
+  StyledAboutImage,
+  StyledAboutShowMoreGradation,
+} from './about.styled';
 
 type AboutProps = {
-  detailImages: components['schemas']['DetailImageDTOSchema'][]
-}
+  detailImages: components['schemas']['DetailImageDTOSchema'][];
+};
 
 export const About = ({ detailImages }: AboutProps) => {
-  const [isFolded, setIsFolded] = useState(true)
+  const [isFolded, setIsFolded] = useState(true);
   return (
     <>
       <StyledAboutContainer $isFolded={isFolded}>
@@ -18,7 +23,9 @@ export const About = ({ detailImages }: AboutProps) => {
         ))}
         {isFolded && <StyledAboutShowMoreGradation />}
       </StyledAboutContainer>
-      <StyledAboutButton onClick={() => setIsFolded(!isFolded)}>{isFolded ? '더보기' : '접기'}</StyledAboutButton>
+      <StyledAboutButton onClick={() => setIsFolded(!isFolded)}>
+        {isFolded ? '더보기' : '접기'}
+      </StyledAboutButton>
     </>
-  )
-}
+  );
+};

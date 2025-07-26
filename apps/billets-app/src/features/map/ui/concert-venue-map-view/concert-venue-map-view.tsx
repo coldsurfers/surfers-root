@@ -1,7 +1,10 @@
-import { Text } from '@coldsurfers/ocean-road/native'
-import { Dimensions, StyleSheet } from 'react-native'
-import MapView, { LatLng, MapPressEvent, Marker, Region } from 'react-native-maps'
-import { CONCERT_VENUE_MAP_HEIGHT_LARGE, CONCERT_VENUE_MAP_HEIGHT_MEDIUM } from './concert-venue-map.constants'
+import { Text } from '@coldsurfers/ocean-road/native';
+import { Dimensions, StyleSheet } from 'react-native';
+import MapView, { type LatLng, type MapPressEvent, Marker, type Region } from 'react-native-maps';
+import {
+  CONCERT_VENUE_MAP_HEIGHT_LARGE,
+  CONCERT_VENUE_MAP_HEIGHT_MEDIUM,
+} from './concert-venue-map.constants';
 
 export const ConcertVenueMapView = ({
   region,
@@ -10,11 +13,11 @@ export const ConcertVenueMapView = ({
   size = 'medium',
   markerCoordinate,
 }: {
-  region: Region
-  scrollEnabled?: boolean
-  onPress?: (event: MapPressEvent) => void
-  size?: 'medium' | 'large'
-  markerCoordinate: LatLng
+  region: Region;
+  scrollEnabled?: boolean;
+  onPress?: (event: MapPressEvent) => void;
+  size?: 'medium' | 'large';
+  markerCoordinate: LatLng;
 }) => {
   return (
     <MapView
@@ -24,7 +27,8 @@ export const ConcertVenueMapView = ({
       style={[
         styles.venueMap,
         {
-          height: size === 'medium' ? CONCERT_VENUE_MAP_HEIGHT_MEDIUM : CONCERT_VENUE_MAP_HEIGHT_LARGE,
+          height:
+            size === 'medium' ? CONCERT_VENUE_MAP_HEIGHT_MEDIUM : CONCERT_VENUE_MAP_HEIGHT_LARGE,
         },
       ]}
     >
@@ -32,8 +36,8 @@ export const ConcertVenueMapView = ({
         <Text style={styles.venueMapMarker}>{'📍'}</Text>
       </Marker>
     </MapView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   venueMap: {
@@ -46,4 +50,4 @@ const styles = StyleSheet.create({
   venueMapMarker: {
     fontSize: 24,
   },
-})
+});

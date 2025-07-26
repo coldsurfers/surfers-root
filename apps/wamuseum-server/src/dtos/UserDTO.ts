@@ -1,12 +1,12 @@
-import { User } from '@prisma/client'
-import { User as UserResolverType } from '../../gql/resolvers-types'
-import { prisma } from '../libs/db/db.utils'
+import type { User } from '@prisma/client';
+import type { User as UserResolverType } from '../../gql/resolvers-types';
+import { prisma } from '../libs/db/db.utils';
 
 export default class UserDTO {
-  props: Partial<User>
+  props: Partial<User>;
 
   constructor(props: Partial<User>) {
-    this.props = props
+    this.props = props;
   }
 
   static async findByEmail(email: string) {
@@ -14,9 +14,9 @@ export default class UserDTO {
       where: {
         email,
       },
-    })
-    if (!data) return null
-    return new UserDTO(data)
+    });
+    if (!data) return null;
+    return new UserDTO(data);
   }
 
   static async findByAccessToken(accessToken: string) {
@@ -30,14 +30,14 @@ export default class UserDTO {
           },
         },
       },
-    })
-    if (!data) return null
-    return new UserDTO(data)
+    });
+    if (!data) return null;
+    return new UserDTO(data);
   }
 
   async create() {
     if (!this.props.provider || !this.props.email) {
-      throw Error('provider value or email value is invalid')
+      throw Error('provider value or email value is invalid');
     }
     const created = await prisma.user.create({
       data: {
@@ -46,9 +46,9 @@ export default class UserDTO {
         passwordSalt: this.props.passwordSalt,
         provider: this.props.provider,
       },
-    })
+    });
 
-    return new UserDTO(created)
+    return new UserDTO(created);
   }
 
   serialize(): UserResolverType {
@@ -57,6 +57,6 @@ export default class UserDTO {
       createdAt: this.props.createdAt?.toISOString(),
       email: this.props.email ?? '',
       id: this.props.id ?? '',
-    }
+    };
   }
 }

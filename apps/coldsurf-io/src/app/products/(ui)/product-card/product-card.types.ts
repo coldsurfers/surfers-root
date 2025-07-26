@@ -1,5 +1,5 @@
-import { Product } from '@/types'
+import type { Product } from '@/types';
 
 export type ProductCardProps = Product & {
-  onClick: () => void
-}
+  onClick: () => void;
+};

@@ -1,33 +1,41 @@
-'use client'
+'use client';
 
-import { initialPageQuery } from '@/libs/openapi-client'
-import { components } from '@coldsurfers/api-sdk'
-import { useInfiniteQuery } from '@tanstack/react-query'
-import { memo, useCallback, useMemo } from 'react'
-import { ConcertListItem } from './concert-list.item'
-import { ConcertListLoadMore } from './concert-list.load-more'
-import { StyledGridContainer, StyledListContainer, StyledListHeader, StyledListHeaderText } from './concert-list.styled'
+import { initialPageQuery } from '@/libs/openapi-client';
+import type { components } from '@coldsurfers/api-sdk';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { memo, useCallback, useMemo } from 'react';
+import { ConcertListItem } from './concert-list.item';
+import { ConcertListLoadMore } from './concert-list.load-more';
+import {
+  StyledGridContainer,
+  StyledListContainer,
+  StyledListHeader,
+  StyledListHeaderText,
+} from './concert-list.styled';
 
 type ConcertListProps = {
-  cityData: components['schemas']['LocationCountryDTOSchema']['cities'][number]
-  eventCategoryName?: string
-}
+  cityData: components['schemas']['LocationCountryDTOSchema']['cities'][number];
+  eventCategoryName?: string;
+};
 
 export const ConcertList = memo(({ cityData, eventCategoryName }: ConcertListProps) => {
   const { data, fetchNextPage, isFetchingNextPage, isFetching, hasNextPage } = useInfiniteQuery(
-    initialPageQuery.browseEvents({ cityName: cityData.name, eventCategoryName: eventCategoryName?.toLowerCase() }),
-  )
+    initialPageQuery.browseEvents({
+      cityName: cityData.name,
+      eventCategoryName: eventCategoryName?.toLowerCase(),
+    })
+  );
 
   const pages = useMemo(() => {
-    return data?.pages.flat()
-  }, [data?.pages])
+    return data?.pages.flat();
+  }, [data?.pages]);
 
   const loadMore = useCallback(() => {
     if (!hasNextPage || isFetchingNextPage || isFetching) {
-      return
+      return;
     }
-    fetchNextPage()
-  }, [fetchNextPage, hasNextPage, isFetching, isFetchingNextPage])
+    fetchNextPage();
+  }, [fetchNextPage, hasNextPage, isFetching, isFetchingNextPage]);
 
   return (
     <StyledListContainer>
@@ -37,12 +45,12 @@ export const ConcertList = memo(({ cityData, eventCategoryName }: ConcertListPro
       <StyledGridContainer>
         {pages?.map((item) => {
           if (item.type !== 'concert') {
-            return null
+            return null;
           }
-          return <ConcertListItem key={item.data.id} data={item.data} />
+          return <ConcertListItem key={item.data.id} data={item.data} />;
         })}
       </StyledGridContainer>
       {hasNextPage && <ConcertListLoadMore onLoadMore={loadMore} />}
     </StyledListContainer>
-  )
-})
+  );
+});

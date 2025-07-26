@@ -1,16 +1,16 @@
-'use client'
+'use client';
 
-import { Spinner, Text, TextInput, colors } from '@coldsurfers/ocean-road'
-import styled from '@emotion/styled'
-import { useDebounce } from '@uidotdev/usehooks'
-import { useMemo, useState } from 'react'
+import { Spinner, Text, TextInput, colors } from '@coldsurfers/ocean-road';
+import styled from '@emotion/styled';
+import { useDebounce } from '@uidotdev/usehooks';
+import { useMemo, useState } from 'react';
 import {
   ConcertVenuesDocument,
-  ConcertVenuesQuery,
-  ConcertVenuesQueryVariables,
+  type ConcertVenuesQuery,
+  type ConcertVenuesQueryVariables,
   useCreateConcertVenueMutation,
   useSearchConcertVenueQuery,
-} from 'src/__generated__/graphql'
+} from 'src/__generated__/graphql';
 
 const SearchResultWrapper = styled.div`
   box-shadow:
@@ -20,26 +20,27 @@ const SearchResultWrapper = styled.div`
   background-color: ${colors.oc.white.value};
   padding: 8px;
   margin: 4px;
-`
+`;
 
 export const SearchConcertVenueUI = ({ concertId }: { concertId: string }) => {
-  const [searchConcertVenueKeyword, setSearchConcertVenueKeyword] = useState('')
-  const debouncedSearchConcertVenueKeyword = useDebounce(searchConcertVenueKeyword, 350)
-  const { data: searchedConcertVenues, loading: loadingSearchConcertVenue } = useSearchConcertVenueQuery({
-    variables: {
-      keyword: debouncedSearchConcertVenueKeyword,
-    },
-    skip: debouncedSearchConcertVenueKeyword === '',
-  })
+  const [searchConcertVenueKeyword, setSearchConcertVenueKeyword] = useState('');
+  const debouncedSearchConcertVenueKeyword = useDebounce(searchConcertVenueKeyword, 350);
+  const { data: searchedConcertVenues, loading: loadingSearchConcertVenue } =
+    useSearchConcertVenueQuery({
+      variables: {
+        keyword: debouncedSearchConcertVenueKeyword,
+      },
+      skip: debouncedSearchConcertVenueKeyword === '',
+    });
 
-  const [mutateCreateConcertVenue] = useCreateConcertVenueMutation({})
+  const [mutateCreateConcertVenue] = useCreateConcertVenueMutation({});
 
   const concertVenuesSearchResult = useMemo(() => {
     if (searchedConcertVenues?.searchConcertVenue?.__typename === 'SearchedConcertVenueList') {
-      return searchedConcertVenues.searchConcertVenue.list ?? []
+      return searchedConcertVenues.searchConcertVenue.list ?? [];
     }
-    return []
-  }, [searchedConcertVenues])
+    return [];
+  }, [searchedConcertVenues]);
 
   return (
     <>
@@ -56,9 +57,10 @@ export const SearchConcertVenueUI = ({ concertId }: { concertId: string }) => {
           {concertVenuesSearchResult.map((result) => (
             <div
               key={result?.id}
+              onKeyUp={() => {}}
               onClick={() => {
                 if (!result || !result.id) {
-                  return
+                  return;
                 }
                 mutateCreateConcertVenue({
                   variables: {
@@ -69,16 +71,19 @@ export const SearchConcertVenueUI = ({ concertId }: { concertId: string }) => {
                   },
                   update: (cache, { data }) => {
                     if (data?.createConcertVenue?.__typename !== 'Venue') {
-                      return
+                      return;
                     }
-                    const concertVenuesCache = cache.readQuery<ConcertVenuesQuery, ConcertVenuesQueryVariables>({
+                    const concertVenuesCache = cache.readQuery<
+                      ConcertVenuesQuery,
+                      ConcertVenuesQueryVariables
+                    >({
                       query: ConcertVenuesDocument,
                       variables: {
                         concertId,
                       },
-                    })
+                    });
                     if (!concertVenuesCache) {
-                      return
+                      return;
                     }
                     if (concertVenuesCache.concertVenues?.__typename === 'ConcertVenueList') {
                       cache.writeQuery({
@@ -94,10 +99,10 @@ export const SearchConcertVenueUI = ({ concertId }: { concertId: string }) => {
                         variables: {
                           concertId,
                         },
-                      })
+                      });
                     }
                   },
-                })
+                });
               }}
               style={{
                 background: colors.oc.white.value,
@@ -111,5 +116,5 @@ export const SearchConcertVenueUI = ({ concertId }: { concertId: string }) => {
       ) : null}
       {loadingSearchConcertVenue ? <Spinner variant="page-overlay" /> : null}
     </>
-  )
-}
+  );
+};

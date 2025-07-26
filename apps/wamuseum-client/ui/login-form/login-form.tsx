@@ -1,39 +1,45 @@
-'use client'
+'use client';
 
-import { Button, Text, TextInput } from '@coldsurfers/ocean-road'
-import Link from 'next/link'
-import { forwardRef, MouseEventHandler, useCallback, useImperativeHandle, useState } from 'react'
-import { StyledLoginFormContainer } from './login-form.styled'
-import { LoginFormRefHandle } from './login-form.types'
+import { Button, Text, TextInput } from '@coldsurfers/ocean-road';
+import Link from 'next/link';
+import {
+  type MouseEventHandler,
+  forwardRef,
+  useCallback,
+  useImperativeHandle,
+  useState,
+} from 'react';
+import { StyledLoginFormContainer } from './login-form.styled';
+import type { LoginFormRefHandle } from './login-form.types';
 
 interface Props {
-  onPressLoginButton: (params: { email: string; password: string }) => void
-  withRequestButtonUI?: boolean
-  onPressCreateAccountButtonUI?: () => void
-  formTitle?: string
+  onPressLoginButton: (params: { email: string; password: string }) => void;
+  withRequestButtonUI?: boolean;
+  onPressCreateAccountButtonUI?: () => void;
+  formTitle?: string;
 }
 
 export const LoginForm = forwardRef<LoginFormRefHandle, Props>(
   ({ onPressLoginButton, withRequestButtonUI, onPressCreateAccountButtonUI, formTitle }, ref) => {
-    const [email, setEmail] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
 
     useImperativeHandle(ref, () => ({
       currentInputValue() {
         return {
           email,
           password,
-        }
+        };
       },
-    }))
+    }));
 
     const onClickLogin = useCallback<MouseEventHandler<HTMLButtonElement>>(
       (event) => {
-        event.preventDefault()
-        onPressLoginButton({ email, password })
+        event.preventDefault();
+        onPressLoginButton({ email, password });
       },
-      [email, onPressLoginButton, password],
-    )
+      [email, onPressLoginButton, password]
+    );
 
     return (
       <StyledLoginFormContainer>
@@ -71,6 +77,6 @@ export const LoginForm = forwardRef<LoginFormRefHandle, Props>(
           </Link>
         )}
       </StyledLoginFormContainer>
-    )
-  },
-)
+    );
+  }
+);

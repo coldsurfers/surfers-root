@@ -1,5 +1,5 @@
-import { StyledPageLoadingWrapper, StyledSpinner } from './spinner.styled'
-import { SpinnerVariant } from './spinner.types'
+import { StyledPageLoadingWrapper, StyledSpinner } from './spinner.styled';
+import type { SpinnerVariant } from './spinner.types';
 
 const RotateSpinner = () => {
   return (
@@ -8,13 +8,13 @@ const RotateSpinner = () => {
         rotate: 360, // Rotates the element 360 degrees
       }}
       transition={{
-        repeat: Infinity, // Loops the animation infinitely
+        repeat: Number.POSITIVE_INFINITY, // Loops the animation infinitely
         duration: 0.5, // Each full rotation takes 2 seconds
         ease: 'linear', // Smooth, constant speed
       }}
     />
-  )
-}
+  );
+};
 
 export const Spinner = ({ variant }: { variant?: SpinnerVariant }) => {
   switch (variant) {
@@ -23,8 +23,8 @@ export const Spinner = ({ variant }: { variant?: SpinnerVariant }) => {
         <StyledPageLoadingWrapper>
           <RotateSpinner />
         </StyledPageLoadingWrapper>
-      )
+      );
     default:
-      return <RotateSpinner />
+      return <RotateSpinner />;
   }
-}
+};

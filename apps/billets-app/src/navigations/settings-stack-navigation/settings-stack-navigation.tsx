@@ -1,9 +1,9 @@
-import { SettingsScreen } from '@/screens/settings-screen'
-import { NavigationHeader } from '@/ui'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { SettingsStackParamList } from './settings-stack-navigation.types'
+import { SettingsScreen } from '@/screens/settings-screen';
+import { NavigationHeader } from '@/ui';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import type { SettingsStackParamList } from './settings-stack-navigation.types';
 
-const SettingsStack = createNativeStackNavigator<SettingsStackParamList>()
+const SettingsStack = createNativeStackNavigator<SettingsStackParamList>();
 
 export const SettingsStackNavigation = () => {
   return (
@@ -17,5 +17,5 @@ export const SettingsStackNavigation = () => {
         }}
       />
     </SettingsStack.Navigator>
-  )
-}
+  );
+};

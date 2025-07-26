@@ -1,9 +1,9 @@
-import { getEventCategoryListHandler } from '@/controllers/event-category.controller'
-import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
-import { EventCategoryDTOSchema } from '@/dtos/event-category.dto'
-import { FastifyPluginCallback } from 'fastify'
+import { getEventCategoryListHandler } from '@/controllers/event-category.controller';
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto';
+import { EventCategoryDTOSchema } from '@/dtos/event-category.dto';
+import type { FastifyPluginCallback } from 'fastify';
 
-const eventCategoryRoute: FastifyPluginCallback = (fastify, opts, done) => {
+const eventCategoryRoute: FastifyPluginCallback = (fastify, _, done) => {
   fastify.get(
     '/',
     {
@@ -15,9 +15,9 @@ const eventCategoryRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    getEventCategoryListHandler,
-  )
-  done()
-}
+    getEventCategoryListHandler
+  );
+  done();
+};
 
-export default eventCategoryRoute
+export default eventCategoryRoute;

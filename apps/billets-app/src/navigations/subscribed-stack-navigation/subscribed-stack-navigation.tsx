@@ -1,11 +1,11 @@
-import { SubscribedConcertListScreen } from '@/screens'
-import { SubscribedArtistListScreen } from '@/screens/subscribed-artist-list-screen'
-import { SubscribedVenueListScreen } from '@/screens/subscribed-venue-list-screen'
-import { NavigationHeader } from '@/ui'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { SubscribedStackParamList } from './subscribed-stack-navigation.types'
+import { SubscribedConcertListScreen } from '@/screens';
+import { SubscribedArtistListScreen } from '@/screens/subscribed-artist-list-screen';
+import { SubscribedVenueListScreen } from '@/screens/subscribed-venue-list-screen';
+import { NavigationHeader } from '@/ui';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import type { SubscribedStackParamList } from './subscribed-stack-navigation.types';
 
-const SubscribedStack = createNativeStackNavigator<SubscribedStackParamList>()
+const SubscribedStack = createNativeStackNavigator<SubscribedStackParamList>();
 
 export const SubscribedStackNavigation = () => {
   return (
@@ -60,5 +60,5 @@ export const SubscribedStackNavigation = () => {
         component={SubscribedVenueListScreen}
       />
     </SubscribedStack.Navigator>
-  )
-}
+  );
+};

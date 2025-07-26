@@ -1,4 +1,4 @@
 export type AlbumCoverBannerGeneratorForm = {
-  artist: string
-  albumTitle: string
-}
+  artist: string;
+  albumTitle: string;
+};

@@ -1,10 +1,10 @@
-'use client'
+'use client';
 
-import { AnimatePresence, Variants } from 'framer-motion'
-import Link from 'next/link'
-import { menuItems } from '../../(data)'
-import { StyledMobileMenuBackground, StyledMobileMenuText } from './mobile-menu.styled'
-import { MobileMenuProps } from './mobile-menu.types'
+import { AnimatePresence, type Variants } from 'framer-motion';
+import Link from 'next/link';
+import { menuItems } from '../../(data)';
+import { StyledMobileMenuBackground, StyledMobileMenuText } from './mobile-menu.styled';
+import type { MobileMenuProps } from './mobile-menu.types';
 
 export function MobileMenu({ isOpen, onClickMenuItem }: MobileMenuProps) {
   // Animation variants
@@ -30,12 +30,17 @@ export function MobileMenu({ isOpen, onClickMenuItem }: MobileMenuProps) {
         damping: 12,
       },
     },
-  }
+  };
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <StyledMobileMenuBackground initial="hidden" animate="visible" exit="exit" variants={menuVariants}>
+        <StyledMobileMenuBackground
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          variants={menuVariants}
+        >
           <ul style={{ listStyleType: 'none', padding: 0 }}>
             {menuItems.map((item) => {
               return (
@@ -44,11 +49,11 @@ export function MobileMenu({ isOpen, onClickMenuItem }: MobileMenuProps) {
                     <StyledMobileMenuText as="h3">{item.title}</StyledMobileMenuText>
                   </Link>
                 </li>
-              )
+              );
             })}
           </ul>
         </StyledMobileMenuBackground>
       )}
     </AnimatePresence>
-  )
+  );
 }

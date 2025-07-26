@@ -1,3 +1,3 @@
-import { Product } from '@/types'
+import type { Product } from '@/types';
 
-export type ProductCardProps = Product
+export type ProductCardProps = Product;

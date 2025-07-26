@@ -1,13 +1,13 @@
-import { Concert } from '@prisma/client'
-import { GraphQLError } from 'graphql'
-import { Concert as ConcertResolverType } from '../../gql/resolvers-types'
-import { prisma } from '../libs/db/db.utils'
+import type { Concert } from '@prisma/client';
+import { GraphQLError } from 'graphql';
+import type { Concert as ConcertResolverType } from '../../gql/resolvers-types';
+import { prisma } from '../libs/db/db.utils';
 
 export default class ConcertDTO {
-  props: Partial<Concert>
+  props: Partial<Concert>;
 
   constructor(props: Partial<Concert>) {
-    this.props = props
+    this.props = props;
   }
 
   static async findById(id: string) {
@@ -15,23 +15,23 @@ export default class ConcertDTO {
       where: {
         id,
       },
-    })
-    if (!concert) return null
-    return new ConcertDTO(concert)
+    });
+    if (!concert) return null;
+    return new ConcertDTO(concert);
   }
 
   async create() {
-    const { title, date } = this.props
+    const { title, date } = this.props;
     if (!title || !date) {
-      throw new GraphQLError('invalid title or date')
+      throw new GraphQLError('invalid title or date');
     }
     const created = await prisma.concert.create({
       data: {
         title,
         date,
       },
-    })
-    return new ConcertDTO(created)
+    });
+    return new ConcertDTO(created);
   }
 
   async update({ title, date }: { title: string; date: string }) {
@@ -43,8 +43,8 @@ export default class ConcertDTO {
         title,
         date,
       },
-    })
-    return new ConcertDTO(data)
+    });
+    return new ConcertDTO(data);
   }
 
   async delete() {
@@ -55,15 +55,15 @@ export default class ConcertDTO {
       data: {
         deletedAt: new Date(),
       },
-    })
+    });
   }
 
   get id() {
-    return this.props.id
+    return this.props.id;
   }
 
   get title() {
-    return this.props.title
+    return this.props.title;
   }
 
   serialize(): ConcertResolverType {
@@ -74,6 +74,6 @@ export default class ConcertDTO {
       id: this.props.id ?? '',
       title: this.props.title ?? '',
       updatedAt: this.props.updatedAt?.toISOString() ?? '',
-    }
+    };
   }
 }

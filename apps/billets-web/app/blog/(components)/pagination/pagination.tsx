@@ -1,19 +1,24 @@
-'use client'
+'use client';
 
-import { Text } from '@coldsurfers/ocean-road'
-import { AppLocale } from 'app/blog/(types)/i18n'
-import { SeriesCategory } from 'app/blog/(types)/series'
-import { generateSeriesHref } from 'app/blog/(utils)'
-import Link from 'next/link'
-import { useMemo } from 'react'
-import { MoveLeftIcon, MoveRightIcon, PageMoveButton, StyledPaginationContainer } from './pagination.styled'
+import { Text } from '@coldsurfers/ocean-road';
+import type { AppLocale } from 'app/blog/(types)/i18n';
+import type { SeriesCategory } from 'app/blog/(types)/series';
+import { generateSeriesHref } from 'app/blog/(utils)';
+import Link from 'next/link';
+import { useMemo } from 'react';
+import {
+  MoveLeftIcon,
+  MoveRightIcon,
+  PageMoveButton,
+  StyledPaginationContainer,
+} from './pagination.styled';
 
 type PaginationProps = {
-  seriesCategory: SeriesCategory | null
-  currentPage: number
-  totalPage: number
-  appLocale: AppLocale
-}
+  seriesCategory: SeriesCategory | null;
+  currentPage: number;
+  totalPage: number;
+  appLocale: AppLocale;
+};
 
 export function Pagination({ currentPage, seriesCategory, totalPage }: PaginationProps) {
   const seriesHrefPrev = useMemo(
@@ -24,8 +29,8 @@ export function Pagination({ currentPage, seriesCategory, totalPage }: Paginatio
           page: currentPage - 1 > 0 ? currentPage - 1 : 1,
         },
       }),
-    [currentPage, seriesCategory],
-  )
+    [currentPage, seriesCategory]
+  );
 
   const seriesHrefNext = useMemo(
     () =>
@@ -35,8 +40,8 @@ export function Pagination({ currentPage, seriesCategory, totalPage }: Paginatio
           page: currentPage + 1 >= totalPage ? totalPage : currentPage + 1,
         },
       }),
-    [currentPage, seriesCategory, totalPage],
-  )
+    [currentPage, seriesCategory, totalPage]
+  );
 
   return (
     <StyledPaginationContainer>
@@ -54,5 +59,5 @@ export function Pagination({ currentPage, seriesCategory, totalPage }: Paginatio
         </PageMoveButton>
       </Link>
     </StyledPaginationContainer>
-  )
+  );
 }

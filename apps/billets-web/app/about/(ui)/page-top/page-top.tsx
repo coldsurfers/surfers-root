@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
-import { SERVICE_NAME } from '@coldsurfers/shared-utils'
-import Link from 'next/link'
-import { memo } from 'react'
-import { PageTopFadeInMotion, PageTopSlideUpMotion } from './page-top.motion'
+import { SERVICE_NAME } from '@coldsurfers/shared-utils';
+import Link from 'next/link';
+import { memo } from 'react';
+import { PageTopFadeInMotion, PageTopSlideUpMotion } from './page-top.motion';
 import {
   SectionDivider,
   StyledFigCaption,
@@ -11,7 +11,7 @@ import {
   StyledNormalText,
   StyledSectionImage,
   StyledTopTitleText,
-} from './page-top.styled'
+} from './page-top.styled';
 
 const sectionContents = [
   [
@@ -88,10 +88,10 @@ const sectionContents = [
     },
     {
       type: 'paragraph',
-      text: `\nWe want to expand support all venues and all kind of events.\nSo let me know your opinion.\nIt would be very helpful to support every artists and venues.`,
+      text: '\nWe want to expand support all venues and all kind of events.\nSo let me know your opinion.\nIt would be very helpful to support every artists and venues.',
     },
   ],
-] as const
+] as const;
 
 const renderSectionContents = (contents: typeof sectionContents) => {
   return contents.map((contentChunk) => {
@@ -113,7 +113,7 @@ const renderSectionContents = (contents: typeof sectionContents) => {
                     />
                     <StyledFigCaption>{content.caption}</StyledFigCaption>
                   </StyledFigure>
-                )
+                );
               }
               return content.type === 'paragraph' ? (
                 content.text
@@ -121,14 +121,14 @@ const renderSectionContents = (contents: typeof sectionContents) => {
                 <Link href={content.href} target="_blank" key={content.href}>
                   {content.text}
                 </Link>
-              )
+              );
             })}
           </StyledNormalText>
         </PageTopFadeInMotion>
       </SectionDivider>
-    )
-  })
-}
+    );
+  });
+};
 
 export const PageTop = memo(() => {
   return (
@@ -140,5 +140,5 @@ export const PageTop = memo(() => {
       </SectionDivider>
       {renderSectionContents(sectionContents)}
     </>
-  )
-})
+  );
+});

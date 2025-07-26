@@ -1,27 +1,27 @@
-'use client'
+'use client';
 
-import { SeriesItem } from 'app/blog/(types)/series'
-import { generateSeriesHref, generateSeriesItemHref } from 'app/blog/(utils)'
-import Link from 'next/link'
-import { memo, useMemo } from 'react'
-import { Text } from '../../(notion-render)/renderer.text'
+import type { SeriesItem } from 'app/blog/(types)/series';
+import { generateSeriesHref, generateSeriesItemHref } from 'app/blog/(utils)';
+import Link from 'next/link';
+import { memo, useMemo } from 'react';
+import { Text } from '../../(notion-render)/renderer.text';
 import {
   StyledPostDateText,
   StyledPostItemContainer,
   StyledPostPlatformText,
   StyledPostThumbnail,
   StyledPostTitleText,
-} from './post-item.styled'
+} from './post-item.styled';
 
 export const PostItem = memo((props: SeriesItem) => {
   const platformHref = useMemo(
     () => generateSeriesHref({ seriesCategory: props.seriesCategory }),
-    [props.seriesCategory],
-  )
+    [props.seriesCategory]
+  );
   const postHref = useMemo(
     () => generateSeriesItemHref(props.seriesCategory, props.slug),
-    [props.seriesCategory, props.slug],
-  )
+    [props.seriesCategory, props.slug]
+  );
 
   return (
     <StyledPostItemContainer>
@@ -45,5 +45,5 @@ export const PostItem = memo((props: SeriesItem) => {
       </Link>
       <StyledPostDateText as="p">{props.dateLocale}</StyledPostDateText>
     </StyledPostItemContainer>
-  )
-})
+  );
+});

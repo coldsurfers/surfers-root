@@ -1,10 +1,10 @@
-import { getPricesByTicketIdHandler } from '@/controllers/price.controller'
-import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
-import { GetPricesByTicketIdQueryStringDTOSchema, PriceDTOSchema } from '@/dtos/price.dto'
-import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { FastifyPluginCallback } from 'fastify/types/plugin'
+import { getPricesByTicketIdHandler } from '@/controllers/price.controller';
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto';
+import { GetPricesByTicketIdQueryStringDTOSchema, PriceDTOSchema } from '@/dtos/price.dto';
+import type { ZodTypeProvider } from 'fastify-type-provider-zod';
+import type { FastifyPluginCallback } from 'fastify/types/plugin';
 
-const priceRoute: FastifyPluginCallback = (fastify, opts, done) => {
+const priceRoute: FastifyPluginCallback = (fastify, _, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/',
     {
@@ -17,9 +17,9 @@ const priceRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    getPricesByTicketIdHandler,
-  )
-  done()
-}
+    getPricesByTicketIdHandler
+  );
+  done();
+};
 
-export default priceRoute
+export default priceRoute;

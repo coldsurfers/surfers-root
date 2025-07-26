@@ -5,7 +5,13 @@
   "main": "src/index.ts",
   "scripts": {
     "swagger": "npx openapi-typescript https://api.billets.coldsurf.io/docs/json -o types/api.ts --alphabetize && prettier --write ./types/api.ts",
-    "swagger:dev": "npx openapi-typescript https://dev.api.billets.coldsurf.io/docs/json -o types/api.ts --alphabetize && prettier --write ./types/api.ts",
+    "swagger:dev": "npx openapi-typescript https://dev.api.billets.coldsurf.io/docs/json -o types/api.ts --alphabetize && biome lint --write ./types/api.ts",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "format": "biome format .",
+    "format:fix": "biome format --write .",
+    "check": "biome check .",
+    "check:fix": "biome check --write .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -16,6 +22,7 @@
     "openapi-fetch": "*"
   },
   "devDependencies": {
-    "openapi-fetch": "0.12.5"
+    "@biomejs/biome": "1.9.4",
+    "openapi-fetch": "0.14.0"
   }
 }

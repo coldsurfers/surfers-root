@@ -1,17 +1,17 @@
-import { Price } from '@prisma/client'
-import { TicketPrice } from '../../../gql/resolvers-types'
-import { prisma } from '../../libs/db/db.utils'
+import type { Price } from '@prisma/client';
+import type { TicketPrice } from '../../../gql/resolvers-types';
+import { prisma } from '../../libs/db/db.utils';
 
 export class TicketPriceDTO {
-  props: Partial<Price>
+  props: Partial<Price>;
 
   constructor(props: Partial<Price>) {
-    this.props = props
+    this.props = props;
   }
 
   async create({ ticketId }: { ticketId: string }) {
     if (!this.props.price || !this.props.priceCurrency || !this.props.title) {
-      throw Error('invalid price, priceCurrency, title')
+      throw Error('invalid price, priceCurrency, title');
     }
     const price = await prisma.price.create({
       data: {
@@ -19,15 +19,15 @@ export class TicketPriceDTO {
         priceCurrency: this.props.priceCurrency,
         title: this.props.title,
       },
-    })
+    });
     await prisma.ticketsOnPrices.create({
       data: {
         priceId: price.id,
         ticketId,
       },
-    })
+    });
 
-    return new TicketPriceDTO(price)
+    return new TicketPriceDTO(price);
   }
 
   static async list(ticketId: string) {
@@ -39,13 +39,13 @@ export class TicketPriceDTO {
           },
         },
       },
-    })
-    return data.map((item) => new TicketPriceDTO(item))
+    });
+    return data.map((item) => new TicketPriceDTO(item));
   }
 
   async delete() {
     if (!this.props.id) {
-      throw Error('invalid id')
+      throw Error('invalid id');
     }
     const existing = await prisma.price.findUnique({
       where: {
@@ -56,9 +56,9 @@ export class TicketPriceDTO {
           select: { ticketId: true },
         },
       },
-    })
+    });
     if (!existing) {
-      throw Error('ticket price is not existing')
+      throw Error('ticket price is not existing');
     }
     await prisma.ticketsOnPrices.deleteMany({
       where: {
@@ -73,13 +73,13 @@ export class TicketPriceDTO {
           },
         ],
       },
-    })
+    });
     const data = await prisma.price.delete({
       where: {
         id: this.props.id,
       },
-    })
-    return new TicketPriceDTO(data)
+    });
+    return new TicketPriceDTO(data);
   }
 
   serialize(): TicketPrice {
@@ -89,6 +89,6 @@ export class TicketPriceDTO {
       price: this.props.price ?? 0,
       priceCurrency: this.props.priceCurrency ?? '',
       title: this.props.title ?? '',
-    }
+    };
   }
 }

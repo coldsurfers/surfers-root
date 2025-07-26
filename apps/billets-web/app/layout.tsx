@@ -2,23 +2,27 @@ import {
   APP_STORE_URL,
   COMMON_META_DESCRIPTION,
   COMMON_META_TITLE,
-  COOKIE_ACCESS_TOKEN_KEY,
+  COOKIE_THEME,
   SITE_URL,
-} from '@/libs/constants'
-import { metadataInstance } from '@/libs/metadata'
+} from '@/libs/constants';
+import { metadataInstance } from '@/libs/metadata';
+import { apiClient } from '@/libs/openapi-client';
 import {
   FirebaseRegistry,
   GlobalErrorBoundaryRegistry,
   OceanRoadThemeRegistry,
   QueryClientRegistry,
   RegistryProvider,
-} from '@/libs/registries'
-import { SERVICE_NAME } from '@coldsurfers/shared-utils'
-import type { Metadata } from 'next'
-import { cookies } from 'next/headers'
-import { ReactNode } from 'react'
-import { pretendard } from '../libs/font'
-import { AppLayout } from './(ui)'
+} from '@/libs/registries';
+import { getQueryClient } from '@/libs/utils';
+import { RouteListener } from '@/shared/lib';
+import { SERVICE_NAME } from '@coldsurfers/shared-utils';
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
+import type { Metadata } from 'next';
+import { cookies } from 'next/headers';
+import type { ReactNode } from 'react';
+import { pretendard } from '../libs/font';
+import { AppLayout } from './(ui)';
 
 export const metadata: Metadata = {
   ...metadataInstance.generateMetadata<Metadata>({
@@ -30,14 +34,30 @@ export const metadata: Metadata = {
       description: COMMON_META_DESCRIPTION,
     },
   }),
-}
+};
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const cookieStore = await cookies()
-  const accessToken = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY)
-  const isLoggedIn = !!accessToken?.value
+  const queryClient = getQueryClient();
+  const cookieStore = await cookies();
+  const cookieTheme = cookieStore.get(COOKIE_THEME)?.value ?? '';
+
+  try {
+    // do not use prefetchQuery, because it will not cause error if server side error is occurred. So catch phrase won't be executed.
+    await queryClient.prefetchQuery({
+      queryKey: apiClient.user.queryKeys.me,
+      queryFn: () => apiClient.user.getMe(),
+    });
+  } catch {
+    // if not logged in, set query data to null (for not csr fetch again)
+    // await queryClient.setQueryData(apiClient.user.queryKeys.me, null, {
+    //   updatedAt: Date.now(),
+    // });
+  }
+
+  const dehydratedState = JSON.parse(JSON.stringify(dehydrate(queryClient)));
+
   return (
-    <html lang="en">
+    <html lang="en" className={cookieTheme ? `${cookieTheme}` : ''}>
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" type="image/png" />
@@ -55,9 +75,12 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           }}
         /> */}
         <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
           dangerouslySetInnerHTML={{
             __html: `
               (function () {
+                  var themeStorage = '@coldsurf-io/theme';
+
                   function setTheme(newTheme) {
                     window.__theme = newTheme;
                     if (newTheme === 'dark') {
@@ -69,14 +92,14 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
 
                   var preferredTheme;
                   try {
-                    preferredTheme = localStorage.getItem('theme');
+                    preferredTheme = localStorage.getItem(themeStorage);
                   } catch (err) { }
 
                   window.__setPreferredTheme = function(newTheme) {
                     preferredTheme = newTheme;
                     setTheme(newTheme);
                     try {
-                      localStorage.setItem('theme', newTheme);
+                      localStorage.setItem(themeStorage, newTheme);
                     } catch (err) {
                       console.error(err);
                     }
@@ -98,17 +121,18 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
 
                   // Detect whether the browser is Mac to display platform specific content
                   // An example of such content can be the keyboard shortcut displayed in the search bar
-                  document.documentElement.classList.add(
-                      window.navigator.platform.includes('Mac')
-                      ? "platform-mac"
-                      : "platform-win"
-                  );
+                  // document.documentElement.classList.add(
+                  //     window.navigator.platform.includes('Mac')
+                  //     ? "platform-mac"
+                  //     : "platform-win"
+                  // );
               })();
           `,
           }}
         />
         <script
           type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(
               metadataInstance.generateLdJson({
@@ -118,30 +142,34 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                 url: SITE_URL,
                 name: SERVICE_NAME,
                 sameAs: [APP_STORE_URL, 'https://coldsurf.io', 'https://blog.coldsurf.io'],
-              }),
+              })
             ),
           }}
         />
         <script
           type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(
               metadataInstance.generateLdJson({
                 type: 'WebSite',
                 url: SITE_URL,
                 name: SERVICE_NAME,
-              }),
+              })
             ),
           }}
         />
         <RegistryProvider registries={[OceanRoadThemeRegistry, FirebaseRegistry]}>
           <GlobalErrorBoundaryRegistry>
             <QueryClientRegistry>
-              <AppLayout isServerSideLoggedIn={isLoggedIn}>{children}</AppLayout>
+              <HydrationBoundary state={dehydratedState}>
+                <AppLayout>{children}</AppLayout>
+                <RouteListener />
+              </HydrationBoundary>
             </QueryClientRegistry>
           </GlobalErrorBoundaryRegistry>
         </RegistryProvider>
       </body>
     </html>
-  )
+  );
 }

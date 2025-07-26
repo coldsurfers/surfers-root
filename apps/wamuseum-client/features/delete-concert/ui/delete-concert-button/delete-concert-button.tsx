@@ -1,5 +1,5 @@
-import { Button } from '@coldsurfers/ocean-road'
-import { StyledDeleteConcertButtonPosition } from './delete-concert-button.styled'
+import { Button } from '@coldsurfers/ocean-road';
+import { StyledDeleteConcertButtonPosition } from './delete-concert-button.styled';
 
 export const DeleteConcertButton = ({ onClick }: { onClick: () => void }) => {
   return (
@@ -8,5 +8,5 @@ export const DeleteConcertButton = ({ onClick }: { onClick: () => void }) => {
         삭제하기
       </Button>
     </StyledDeleteConcertButtonPosition>
-  )
-}
+  );
+};

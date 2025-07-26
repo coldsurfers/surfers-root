@@ -1,1 +1,1 @@
-export * from './dnd-file-zone'
+export * from './dnd-file-zone';

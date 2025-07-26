@@ -1,6 +1,7 @@
 'use client'
 
 import { initialPageQuery } from '@/libs/openapi-client'
+import { generateSlugHref } from '@/libs/utils/utils.slug'
 import { useQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { useMemo } from 'react'
@@ -31,8 +32,9 @@ export function VenueDetailEventList({ venueId }: { venueId: string }) {
           const { mainPoster } = value.data
           const posterUrl = mainPoster?.url ? `${mainPoster.url}` : ''
           const formattedDate = format(new Date(value.data.date), 'EEE, MMM dd')
+          const href = generateSlugHref(value.data.slug)
           return (
-            <StyledVenueDetailEventListItem key={value.data.id} href={`/event/${value.data.slug}`}>
+            <StyledVenueDetailEventListItem key={value.data.id} href={href}>
               {posterUrl ? (
                 <StyledVenueDetailEventListItemThumbnail src={posterUrl} />
               ) : (

@@ -1,18 +1,18 @@
-import { EmailAuthRequest } from '@prisma/client'
-import { EmailAuthRequest as EmailAuthRequestResolverType } from '../../gql/resolvers-types'
-import { prisma } from '../libs/db/db.utils'
-import { createEmailAuthCode } from '../utils/createEmailAuthcode'
+import type { EmailAuthRequest } from '@prisma/client';
+import type { EmailAuthRequest as EmailAuthRequestResolverType } from '../../gql/resolvers-types';
+import { prisma } from '../libs/db/db.utils';
+import { createEmailAuthCode } from '../utils/createEmailAuthcode';
 
 export default class EmailAuthRequestDTO {
-  props: Partial<EmailAuthRequest>
+  props: Partial<EmailAuthRequest>;
 
   constructor(props: Partial<EmailAuthRequest>) {
-    this.props = props
+    this.props = props;
   }
 
   async create() {
     if (!this.props.email) {
-      throw Error('invalid email value')
+      throw Error('invalid email value');
     }
     const created = await prisma.emailAuthRequest.create({
       data: {
@@ -25,8 +25,8 @@ export default class EmailAuthRequestDTO {
         authcode: true,
         createdAt: true,
       },
-    })
-    return new EmailAuthRequestDTO(created)
+    });
+    return new EmailAuthRequestDTO(created);
   }
 
   static async findLatest(email: string) {
@@ -45,9 +45,9 @@ export default class EmailAuthRequestDTO {
         email: true,
         authenticatedAt: true,
       },
-    })
-    if (!result) return null
-    return new EmailAuthRequestDTO(result)
+    });
+    if (!result) return null;
+    return new EmailAuthRequestDTO(result);
   }
 
   async update({ id, authenticated }: { id: string; authenticated: boolean }) {
@@ -66,8 +66,8 @@ export default class EmailAuthRequestDTO {
         email: true,
         authenticatedAt: true,
       },
-    })
-    return new EmailAuthRequestDTO(updated)
+    });
+    return new EmailAuthRequestDTO(updated);
   }
 
   serialize(): EmailAuthRequestResolverType {
@@ -78,6 +78,6 @@ export default class EmailAuthRequestDTO {
       createdAt: this.props.createdAt?.toISOString() ?? '',
       email: this.props.email ?? '',
       id: this.props.id ?? '',
-    }
+    };
   }
 }

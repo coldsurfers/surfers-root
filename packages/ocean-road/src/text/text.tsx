@@ -1,5 +1,5 @@
-import { CSSProperties, ElementType, PropsWithChildren } from 'react'
-import { StyledTextContainer } from './text.styled'
+import type { CSSProperties, ElementType, PropsWithChildren } from 'react';
+import { StyledTextContainer } from './text.styled';
 
 export const Text = ({
   children,
@@ -8,10 +8,10 @@ export const Text = ({
   numberOfLines,
   ...otherProps
 }: PropsWithChildren<{
-  style?: CSSProperties
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  as?: ElementType<any, keyof JSX.IntrinsicElements>
-  numberOfLines?: number
+  style?: CSSProperties;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  as?: ElementType<any, keyof JSX.IntrinsicElements>;
+  numberOfLines?: number;
 }>) => {
   return (
     <StyledTextContainer
@@ -24,5 +24,5 @@ export const Text = ({
     >
       {children}
     </StyledTextContainer>
-  )
-}
+  );
+};

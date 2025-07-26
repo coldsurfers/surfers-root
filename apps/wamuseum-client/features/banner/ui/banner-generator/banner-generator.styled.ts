@@ -1,5 +1,5 @@
-import { Button, colors, Text } from '@coldsurfers/ocean-road'
-import styled from '@emotion/styled'
+import { Button, Text, colors } from '@coldsurfers/ocean-road';
+import styled from '@emotion/styled';
 
 export const StyledBannerPreviewWrapper = styled.div`
   position: relative;
@@ -15,12 +15,12 @@ export const StyledBannerPreviewWrapper = styled.div`
   font-size: 24px;
   text-align: center;
   background: #fefefe;
-`
+`;
 
 export const StyledBannerForm = styled.form`
   display: flex;
   flex-direction: column;
-`
+`;
 
 export const ArtistText = styled(Text)`
   font-size: 72px;
@@ -28,7 +28,7 @@ export const ArtistText = styled(Text)`
   letter-spacing: 8px;
   text-align: center;
   color: ${colors.oc.black.value};
-`
+`;
 
 export const CityText = styled(Text)`
   font-size: 62px;
@@ -36,25 +36,25 @@ export const CityText = styled(Text)`
   letter-spacing: 42px;
   text-align: center;
   color: ${colors.oc.black.value};
-`
+`;
 
 export const VenueText = styled(Text)`
   font-size: 32px;
   color: ${colors.oc.black.value};
-`
+`;
 
 export const FormattedDateText = styled(Text)`
   font-size: 32px;
   color: ${colors.oc.black.value};
-`
+`;
 
 export const TitleText = styled(Text)`
   font-size: 32px;
   font-style: italic;
   letter-spacing: 8px;
   color: ${colors.oc.black.value};
-`
+`;
 
 export const StyledGenerateButton = styled(Button)`
   margin-top: 2.5rem;
-`
+`;

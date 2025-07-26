@@ -1,19 +1,19 @@
 import {
   deleteUnsubscribeArtistHandler,
   deleteUnsubscribeVenueHandler,
+  getSubscribeInfoMeHandler,
   getSubscribedArtistHandler,
   getSubscribedArtistsHandler,
   getSubscribedEventHandler,
   getSubscribedEventsHandler,
   getSubscribedVenuesHandler,
-  getSubscribeInfoMeHandler,
   getVenueSubscribeHandler,
   postSubscribeArtistHandler,
   postSubscribeEventHandler,
   postSubscribeVenueHandler,
   unsubscribeEventHandler,
-} from '@/controllers/subscribe.controller'
-import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
+} from '@/controllers/subscribe.controller';
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto';
 import {
   ArtistSubscribeDTOSchema,
   EventSubscribeDTOSchema,
@@ -28,11 +28,11 @@ import {
   UnsubscribeArtistBodyDTOSchema,
   UnsubscribeVenueBodyDTOSchema,
   VenueSubscribeDTOSchema,
-} from '@/dtos/subscribe.dto'
-import { FastifyPluginCallback } from 'fastify'
-import { ZodTypeProvider } from 'fastify-type-provider-zod'
+} from '@/dtos/subscribe.dto';
+import type { FastifyPluginCallback } from 'fastify';
+import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
-const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
+const subscribeRoute: FastifyPluginCallback = (fastify, _, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/me',
     {
@@ -51,8 +51,8 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       preHandler: [fastify.authenticate],
     },
-    getSubscribeInfoMeHandler,
-  )
+    getSubscribeInfoMeHandler
+  );
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/event',
     {
@@ -72,8 +72,8 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       preHandler: [fastify.authenticate],
     },
-    getSubscribedEventsHandler,
-  )
+    getSubscribedEventsHandler
+  );
 
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/artist',
@@ -94,8 +94,8 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       preHandler: [fastify.authenticate],
     },
-    getSubscribedArtistsHandler,
-  )
+    getSubscribedArtistsHandler
+  );
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/venue',
     {
@@ -115,8 +115,8 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       preHandler: [fastify.authenticate],
     },
-    getSubscribedVenuesHandler,
-  )
+    getSubscribedVenuesHandler
+  );
 
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/event/:eventId',
@@ -138,8 +138,8 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       preHandler: [fastify.authenticate],
     },
-    getSubscribedEventHandler,
-  )
+    getSubscribedEventHandler
+  );
 
   fastify.withTypeProvider<ZodTypeProvider>().post(
     '/event',
@@ -161,8 +161,8 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       preHandler: [fastify.authenticate],
     },
-    postSubscribeEventHandler,
-  )
+    postSubscribeEventHandler
+  );
 
   fastify.withTypeProvider<ZodTypeProvider>().delete(
     '/event',
@@ -184,8 +184,8 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       preHandler: [fastify.authenticate],
     },
-    unsubscribeEventHandler,
-  )
+    unsubscribeEventHandler
+  );
 
   // artist subscribe
   fastify.withTypeProvider<ZodTypeProvider>().get(
@@ -208,8 +208,8 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       preHandler: [fastify.authenticate],
     },
-    getSubscribedArtistHandler,
-  )
+    getSubscribedArtistHandler
+  );
   fastify.withTypeProvider<ZodTypeProvider>().post(
     '/artist',
     {
@@ -230,8 +230,8 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       preHandler: [fastify.authenticate],
     },
-    postSubscribeArtistHandler,
-  )
+    postSubscribeArtistHandler
+  );
 
   // artist unsubscribe
   fastify.withTypeProvider<ZodTypeProvider>().delete(
@@ -254,8 +254,8 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       preHandler: [fastify.authenticate],
     },
-    deleteUnsubscribeArtistHandler,
-  )
+    deleteUnsubscribeArtistHandler
+  );
 
   //  venue subscribe
   fastify.withTypeProvider<ZodTypeProvider>().get(
@@ -278,8 +278,8 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       preHandler: [fastify.authenticate],
     },
-    getVenueSubscribeHandler,
-  )
+    getVenueSubscribeHandler
+  );
   fastify.withTypeProvider<ZodTypeProvider>().post(
     '/venue',
     {
@@ -300,8 +300,8 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       preHandler: [fastify.authenticate],
     },
-    postSubscribeVenueHandler,
-  )
+    postSubscribeVenueHandler
+  );
 
   // venue unsubscribe
   fastify.withTypeProvider<ZodTypeProvider>().delete(
@@ -324,10 +324,10 @@ const subscribeRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       preHandler: [fastify.authenticate],
     },
-    deleteUnsubscribeVenueHandler,
-  )
+    deleteUnsubscribeVenueHandler
+  );
 
-  done()
-}
+  done();
+};
 
-export default subscribeRoute
+export default subscribeRoute;

@@ -1,1 +1,1 @@
-export * from './registered-ticket-list'
+export * from './registered-ticket-list';

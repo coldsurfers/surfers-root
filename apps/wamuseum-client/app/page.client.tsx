@@ -1,42 +1,47 @@
-'use client'
+'use client';
 
-import { semantics, Spinner, TextInput } from '@coldsurfers/ocean-road'
-import styled from '@emotion/styled'
-import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
-import { format } from 'date-fns'
-import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Concert, useConcertListQuery } from '../src/__generated__/graphql'
-import { DEFAULT_LIMIT, DEFAULT_ORDER_BY_CREATED_AT, DEFAULT_PAGE } from '../utils/constants'
+import { Spinner, TextInput, semantics } from '@coldsurfers/ocean-road';
+import styled from '@emotion/styled';
+import {
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
+import { format } from 'date-fns';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { type Concert, useConcertListQuery } from '../src/__generated__/graphql';
+import { DEFAULT_LIMIT, DEFAULT_ORDER_BY_CREATED_AT, DEFAULT_PAGE } from '../utils/constants';
 
-const columnHelper = createColumnHelper<Concert>()
+const columnHelper = createColumnHelper<Concert>();
 
 export function RootPageClient() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const pageParam = searchParams?.get('page')
-  const limitParam = searchParams?.get('limit')
-  const [page, setPage] = useState<number>(pageParam ? +pageParam : DEFAULT_PAGE)
-  const [limit, setLimit] = useState<number>(limitParam ? +limitParam : DEFAULT_LIMIT)
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pageParam = searchParams?.get('page');
+  const limitParam = searchParams?.get('limit');
+  const [page, setPage] = useState<number>(pageParam ? +pageParam : DEFAULT_PAGE);
+  const [limit, setLimit] = useState<number>(limitParam ? +limitParam : DEFAULT_LIMIT);
   const [orderBy, setOrderBy] = useState<{
-    createdAt: 'asc' | 'desc'
+    createdAt: 'asc' | 'desc';
   }>({
     createdAt: DEFAULT_ORDER_BY_CREATED_AT,
-  })
+  });
   const { data, loading: loadingConcertList } = useConcertListQuery({
     variables: {
       page,
       limit,
       orderBy,
     },
-  })
-  const [jumpPage, setJumpPage] = useState<string>('')
+  });
+  const [jumpPage, setJumpPage] = useState<string>('');
 
   useEffect(() => {
-    setPage(pageParam ? +pageParam : DEFAULT_PAGE)
-    setLimit(limitParam ? +limitParam : DEFAULT_LIMIT)
-  }, [pageParam, limitParam, router])
+    setPage(pageParam ? +pageParam : DEFAULT_PAGE);
+    setLimit(limitParam ? +limitParam : DEFAULT_LIMIT);
+  }, [pageParam, limitParam]);
 
   const columns = useMemo(
     () => [
@@ -78,11 +83,12 @@ export function RootPageClient() {
           <span>
             등록일{' '}
             <span
+              onKeyUp={() => {}}
               onClick={() => {
                 setOrderBy((prev) => ({
                   ...prev,
                   createdAt: prev.createdAt === 'asc' ? 'desc' : 'asc',
-                }))
+                }));
               }}
               style={{ cursor: 'pointer' }}
             >
@@ -109,41 +115,43 @@ export function RootPageClient() {
         id: 'date',
         header: () => <span>공연 일정</span>,
         cell: (info) => {
-          const value = info.getValue()
-          return value ? format(new Date(value), 'yyyy-MM-dd hh:mm a') : '등록된 공연일정이 없습니다.'
+          const value = info.getValue();
+          return value
+            ? format(new Date(value), 'yyyy-MM-dd hh:mm a')
+            : '등록된 공연일정이 없습니다.';
         },
         footer: (info) => info.column.id,
       }),
     ],
-    [],
-  )
+    []
+  );
 
   const tableData = useMemo(() => {
-    if (!data?.concertList) return [] as Concert[]
+    if (!data?.concertList) return [] as Concert[];
     switch (data.concertList.__typename) {
       case 'HttpError':
-        return [] as Concert[]
+        return [] as Concert[];
       case 'ConcertListWithPagination':
-        return data.concertList.list?.list ?? []
+        return data.concertList.list?.list ?? [];
       default:
-        return [] as Concert[]
+        return [] as Concert[];
     }
-  }, [data])
+  }, [data]);
 
   const pageCount = useMemo(() => {
     if (!data || data.concertList?.__typename !== 'ConcertListWithPagination') {
-      return 0
+      return 0;
     }
-    return data.concertList.pagination?.count ?? 0
-  }, [data])
+    return data.concertList.pagination?.count ?? 0;
+  }, [data]);
 
   const pagination = useMemo(
     () => ({
       pageIndex: page,
       pageSize: limit,
     }),
-    [limit, page],
-  )
+    [limit, page]
+  );
 
   const table = useReactTable<Concert>({
     data: tableData.filter((value) => value !== null) as Concert[],
@@ -156,14 +164,14 @@ export function RootPageClient() {
       pagination,
     },
     debugTable: process.env.NODE_ENV === 'development',
-  })
+  });
 
   const onClickNavigatePage = useCallback(
     (targetPage: number) => {
-      router.push(`/?page=${targetPage}&limit=${limit}`)
+      router.push(`/?page=${targetPage}&limit=${limit}`);
     },
-    [router, limit],
-  )
+    [router, limit]
+  );
 
   return (
     <Wrapper>
@@ -173,7 +181,9 @@ export function RootPageClient() {
             <Tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <Th key={header.id} colSpan={header.colSpan}>
-                  {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(header.column.columnDef.header, header.getContext())}
                 </Th>
               ))}
             </Tr>
@@ -198,9 +208,9 @@ export function RootPageClient() {
           <PaginationButton
             onClick={() => {
               if (page - 1 < 1) {
-                return
+                return;
               }
-              onClickNavigatePage(page - 1)
+              onClickNavigatePage(page - 1);
             }}
           >
             👈
@@ -211,9 +221,9 @@ export function RootPageClient() {
           <PaginationButton
             onClick={() => {
               if (page + 1 > pageCount) {
-                return
+                return;
               }
-              onClickNavigatePage(page + 1)
+              onClickNavigatePage(page + 1);
             }}
           >
             👉
@@ -225,20 +235,20 @@ export function RootPageClient() {
           onChange={(event) => setJumpPage(event.target.value)}
           onKeyPress={(e) => {
             if (e.key !== 'Enter') {
-              return
+              return;
             }
-            const numberJumpPage = +jumpPage
+            const numberJumpPage = +jumpPage;
             if (Number.isNaN(numberJumpPage)) {
-              alert('숫자를 입력해주세요')
-              return
+              alert('숫자를 입력해주세요');
+              return;
             }
-            onClickNavigatePage(numberJumpPage)
+            onClickNavigatePage(numberJumpPage);
           }}
         />
       </TableBottom>
       {loadingConcertList && <Spinner variant="page-overlay" />}
     </Wrapper>
-  )
+  );
 }
 
 const Wrapper = styled.div`
@@ -246,7 +256,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`
+`;
 
 const Table = styled.table`
   margin-top: 60px;
@@ -257,13 +267,13 @@ const Table = styled.table`
     0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   border-radius: 3px;
-`
-const Thead = styled.thead``
+`;
+const Thead = styled.thead``;
 const Tr = styled.tr`
   & + & {
     border-top: 1px solid ${semantics.color.border[1]};
   }
-`
+`;
 const Th = styled.th`
   height: 50px;
   padding-left: 8px;
@@ -273,8 +283,8 @@ const Th = styled.th`
   & + & {
     border-left: 1px solid ${semantics.color.border[1]};
   }
-`
-const Tbody = styled.tbody``
+`;
+const Tbody = styled.tbody``;
 const Td = styled.td`
   height: 52px;
   padding-left: 8px;
@@ -286,24 +296,24 @@ const Td = styled.td`
     border-left: 1px solid ${semantics.color.border[1]};
   }
   cursor: pointer;
-`
+`;
 
 const PaginationWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-right: 10px;
-`
+`;
 
 const PaginationButton = styled.span`
   font-size: 30px;
   cursor: pointer;
-`
+`;
 
 const PageInfo = styled.span`
   margin-left: 8px;
   margin-right: 8px;
   font-size: 20px;
-`
+`;
 
 const TableBottom = styled.div`
   display: flex;
@@ -311,4 +321,4 @@ const TableBottom = styled.div`
   justify-content: flex-end;
   margin-top: 20px;
   width: 90vw;
-`
+`;

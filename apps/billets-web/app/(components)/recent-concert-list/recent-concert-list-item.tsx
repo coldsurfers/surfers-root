@@ -1,10 +1,11 @@
-'use client'
+'use client';
 
-import { isEmptySource } from '@/libs/utils/utils.image'
-import { components } from '@coldsurfers/api-sdk'
-import { format, parseISO } from 'date-fns'
-import { useMemo } from 'react'
-import { GlobalLink } from '../../(ui)'
+import { isEmptySource } from '@/libs/utils/utils.image';
+import { generateSlugHref } from '@/libs/utils/utils.slug';
+import { GlobalLink } from '@/shared/ui';
+import type { components } from '@coldsurfers/api-sdk';
+import { format, parseISO } from 'date-fns';
+import { useMemo } from 'react';
 import {
   StyledRecentListBilletsConcertCard,
   StyledRecentListBilletsConcertCardImage,
@@ -12,23 +13,26 @@ import {
   StyledRecentListBilletsConcertCardImageEmptyText,
   StyledRecentListParagraph,
   StyledTitle,
-} from './recent-concert-list.styled'
+} from './recent-concert-list.styled';
 
-export const RecentConcertListItem = ({ data }: { data: components['schemas']['ConcertDTOSchema'] }) => {
+export const RecentConcertListItem = ({
+  data,
+}: { data: components['schemas']['ConcertDTOSchema'] }) => {
   const formattedDate = useMemo(() => {
     if (!data.date) {
-      return ''
+      return '';
     }
-    return format(parseISO(data.date), 'yyyy.MM.dd')
-  }, [data.date])
+    return format(parseISO(data.date), 'yyyy.MM.dd');
+  }, [data.date]);
   const thumbUrl = useMemo(() => {
     if (isEmptySource(data.mainPoster?.url ?? '')) {
-      return ''
+      return '';
     }
-    return `${data.mainPoster!.url}`
-  }, [data.mainPoster])
+    return `${data.mainPoster?.url}`;
+  }, [data.mainPoster]);
+  const href = generateSlugHref(data.slug);
   return (
-    <GlobalLink href={`/event/${data.slug}`}>
+    <GlobalLink href={href}>
       <StyledRecentListBilletsConcertCard $isLoading={false}>
         {thumbUrl ? (
           <StyledRecentListBilletsConcertCardImage src={thumbUrl} alt={data.title} />
@@ -46,5 +50,5 @@ export const RecentConcertListItem = ({ data }: { data: components['schemas']['C
         </div>
       </StyledRecentListBilletsConcertCard>
     </GlobalLink>
-  )
-}
+  );
+};

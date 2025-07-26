@@ -1,1 +1,1 @@
-export * from './update-concert-poster-ui'
+export * from './update-concert-poster-ui';

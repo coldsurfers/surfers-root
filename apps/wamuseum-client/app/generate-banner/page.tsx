@@ -1,5 +1,5 @@
-import { GenerateBannerPageClient } from './page.client'
+import { GenerateBannerPageClient } from './page.client';
 
 export default function GenerateBannerPage() {
-  return <GenerateBannerPageClient />
+  return <GenerateBannerPageClient />;
 }

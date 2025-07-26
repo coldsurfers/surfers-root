@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { StyledFooter } from './footer.styled'
-import { FooterProps } from './footer.types'
+import { StyledFooter } from './footer.styled';
+import type { FooterProps } from './footer.types';
 
 export function Footer({ children }: FooterProps) {
-  return <StyledFooter>{children}</StyledFooter>
+  return <StyledFooter>{children}</StyledFooter>;
 }

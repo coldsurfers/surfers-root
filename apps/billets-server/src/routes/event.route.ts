@@ -2,19 +2,19 @@ import {
   getEventDetailByIdHandler,
   getEventDetailBySlugHandler,
   getEventsHandler,
-} from '@/controllers/event.controller'
-import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
+} from '@/controllers/event.controller';
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto';
 import {
-  EventDetailDTOSchema,
   EventDTOSchema,
+  EventDetailDTOSchema,
   GetEventDetailByIdParamsDTOSchema,
   GetEventDetailBySlugParamsDTOSchema,
   GetEventsQueryStringDTOSchema,
-} from '@/dtos/event.dto'
-import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { FastifyPluginCallback } from 'fastify/types/plugin'
+} from '@/dtos/event.dto';
+import type { ZodTypeProvider } from 'fastify-type-provider-zod';
+import type { FastifyPluginCallback } from 'fastify/types/plugin';
 
-const eventRoute: FastifyPluginCallback = (fastify, opts, done) => {
+const eventRoute: FastifyPluginCallback = (fastify, _, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/',
     {
@@ -27,8 +27,8 @@ const eventRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    getEventsHandler,
-  )
+    getEventsHandler
+  );
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/:eventId',
     {
@@ -42,8 +42,8 @@ const eventRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    getEventDetailByIdHandler,
-  )
+    getEventDetailByIdHandler
+  );
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/slug/:slug',
     {
@@ -57,9 +57,9 @@ const eventRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    getEventDetailBySlugHandler,
-  )
-  done()
-}
+    getEventDetailBySlugHandler
+  );
+  done();
+};
 
-export default eventRoute
+export default eventRoute;

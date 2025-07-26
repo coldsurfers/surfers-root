@@ -1,10 +1,10 @@
-import { FCMTokenDTO } from '@/dtos/fcm-token.dto'
-import { dbClient } from '@/lib/db/db.client'
-import { FCMTokenRepository } from './fcm-token.repository'
+import type { FCMTokenDTO } from '@/dtos/fcm-token.dto';
+import { dbClient } from '@/lib/db/db.client';
+import type { FCMTokenRepository } from './fcm-token.repository';
 
 interface FCMTokenModel {
-  id: string
-  tokenValue: string
+  id: string;
+  tokenValue: string;
 }
 
 export class FCMTokenRepositoryImpl implements FCMTokenRepository {
@@ -26,36 +26,36 @@ export class FCMTokenRepositoryImpl implements FCMTokenRepository {
       include: {
         fcmToken: true,
       },
-    })
+    });
     return this.toDTO({
       id: data.fcmTokenId,
       tokenValue: data.fcmToken.tokenValue,
-    })
+    });
   }
   async create(token: string): Promise<FCMTokenDTO> {
     const data = await dbClient.fCMToken.create({
       data: {
         tokenValue: token,
       },
-    })
-    return this.toDTO(data)
+    });
+    return this.toDTO(data);
   }
   async findByToken(token: string): Promise<FCMTokenDTO | null> {
     const data = await dbClient.fCMToken.findUnique({
       where: {
         tokenValue: token,
       },
-    })
+    });
     if (!data) {
-      return null
+      return null;
     }
-    return data ? this.toDTO(data) : null
+    return data ? this.toDTO(data) : null;
   }
 
   private toDTO(data: FCMTokenModel): FCMTokenDTO {
     return {
       id: data.id,
       token: data.tokenValue,
-    }
+    };
   }
 }

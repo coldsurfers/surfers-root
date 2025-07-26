@@ -1,5 +1,5 @@
-import { colors } from '@coldsurfers/ocean-road'
-import styled from '@emotion/styled'
+import { colors } from '@coldsurfers/ocean-road';
+import styled from '@emotion/styled';
 
 export const StyledSearchResultWrapper = styled.div`
   box-shadow:
@@ -9,4 +9,4 @@ export const StyledSearchResultWrapper = styled.div`
   background-color: ${colors.oc.white.value};
   padding: 8px;
   margin: 4px;
-`
+`;

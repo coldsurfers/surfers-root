@@ -1,8 +1,8 @@
-import { ArtistProfileImageDetailDTO } from '@/dtos/artist-profile-image-detail.dto'
-import { ArtistProfileImageDTO } from '@/dtos/artist-profile-image.dto'
-import { dbClient } from '@/lib/db'
-import { ArtistProfileImage, Copyright } from '@prisma/client'
-import { ArtistProfileImageRepository } from './artist-profile-image.repository'
+import type { ArtistProfileImageDetailDTO } from '@/dtos/artist-profile-image-detail.dto';
+import type { ArtistProfileImageDTO } from '@/dtos/artist-profile-image.dto';
+import { dbClient } from '@/lib/db';
+import type { ArtistProfileImage, Copyright } from '@prisma/client';
+import type { ArtistProfileImageRepository } from './artist-profile-image.repository';
 
 export class ArtistProfileImageRepositoryImpl implements ArtistProfileImageRepository {
   async findMany(params: { artistId: string }): Promise<ArtistProfileImageDTO[]> {
@@ -10,11 +10,13 @@ export class ArtistProfileImageRepositoryImpl implements ArtistProfileImageRepos
       where: {
         artistId: params.artistId,
       },
-    })
-    return data.map((value) => this.toDTO(value))
+    });
+    return data.map((value) => this.toDTO(value));
   }
 
-  async findOne(params: { artistProfileImageId: string }): Promise<ArtistProfileImageDetailDTO | null> {
+  async findOne(params: {
+    artistProfileImageId: string;
+  }): Promise<ArtistProfileImageDetailDTO | null> {
     const data = await dbClient.artistProfileImage.findUnique({
       where: {
         id: params.artistProfileImageId,
@@ -22,29 +24,29 @@ export class ArtistProfileImageRepositoryImpl implements ArtistProfileImageRepos
       include: {
         copyright: true,
       },
-    })
+    });
     if (!data) {
-      return null
+      return null;
     }
-    return this.toDetailDTO(data)
+    return this.toDetailDTO(data);
   }
 
   private toDTO(model: ArtistProfileImage): ArtistProfileImageDTO {
     return {
       id: model.id,
       url: model.imageURL,
-    }
+    };
   }
 
   private toDetailDTO(
     model: ArtistProfileImage & {
-      copyright: Copyright | null
-    },
+      copyright: Copyright | null;
+    }
   ): ArtistProfileImageDetailDTO {
     return {
       id: model.id,
       url: model.imageURL,
       copyright: model.copyright,
-    }
+    };
   }
 }

@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
-import { media } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
-import styles from './post.module.css'
+import { media } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import styles from './post.module.css';
 
 const TextSpan = styled.span`
   line-height: 1.7;
@@ -11,11 +11,11 @@ const TextSpan = styled.span`
   ${media.medium(css`
     line-height: 1.6;
   `)}
-`
+`;
 
 export function Text({ title }) {
   if (!title) {
-    return null
+    return null;
   }
   return title.map((value) => {
     const {
@@ -23,7 +23,7 @@ export function Text({ title }) {
       text,
       mention,
       type,
-    } = value
+    } = value;
     if (type === 'text') {
       return (
         <TextSpan
@@ -39,14 +39,14 @@ export function Text({ title }) {
         >
           {text.link ? <a href={text.link.url}>{text.content}</a> : text.content}
         </TextSpan>
-      )
+      );
     }
 
     if (type === 'mention') {
-      const { type } = mention
+      const { type } = mention;
       if (type === 'link_preview') {
-        const { link_preview } = mention
-        const { url } = link_preview
+        const { link_preview } = mention;
+        const { url } = link_preview;
         return (
           <TextSpan
             className={[
@@ -79,10 +79,10 @@ export function Text({ title }) {
               </TextSpan>
             </a>
           </TextSpan>
-        )
+        );
       }
       if (type === 'link_mention') {
-        const { link_mention } = mention
+        const { link_mention } = mention;
         const {
           // description, // "Single · Shevil · 2024 · 3 songs"
           // height, // 352
@@ -92,7 +92,7 @@ export function Text({ title }) {
           link_provider, // "Spotify"
           // thumbnail_url, // "https://i.scdn.co/image/ab67616d0000b273a4ad9fc81933bbd70a6eb7f3"
           title: linkTitle, // "Cunningham"
-        } = link_mention
+        } = link_mention;
         return (
           <TextSpan
             className={[
@@ -113,7 +113,7 @@ export function Text({ title }) {
                   alignItems: 'center',
                 }}
               >
-                <img src={icon_url} style={{ width: 20, height: 20 }} />
+                <img src={icon_url} style={{ width: 20, height: 20 }} alt={'notion_icon'} />
                 <TextSpan
                   style={{
                     marginTop: 0,
@@ -136,11 +136,11 @@ export function Text({ title }) {
               </TextSpan>
             </a>
           </TextSpan>
-        )
+        );
       }
-      return null
+      return null;
     }
 
-    return null
-  })
+    return null;
+  });
 }

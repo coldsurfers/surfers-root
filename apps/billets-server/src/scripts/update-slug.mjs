@@ -24,7 +24,7 @@ async function main() {
         },
       })
     } catch (e) {
-      console.error('already existing slug', slug, event.id)
+      console.error('already existing slug', slug, event.id, e)
     }
   })
   await Promise.allSettled(promises)

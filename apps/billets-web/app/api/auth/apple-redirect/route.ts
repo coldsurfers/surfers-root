@@ -1,47 +1,46 @@
-import { COOKIE_ACCESS_TOKEN_KEY } from '@/libs/constants'
-import { apiClient } from '@/libs/openapi-client'
-import { generateAppleClientSecret } from '@/libs/utils/utils.jwt'
-import { decodeJwt } from '@coldsurfers/shared-utils'
-import { serialize } from 'cookie'
-import { NextRequest } from 'next/server'
+import { SITE_URL } from '@/libs/constants';
+import { apiClient } from '@/libs/openapi-client';
+import { generateAppleClientSecret } from '@/libs/utils/utils.jwt';
+import { decodeJwt } from '@coldsurfers/shared-utils';
+import { type NextRequest, NextResponse } from 'next/server';
 
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
   try {
-    const formData = await req.formData()
-    const code = formData.get('code') as string
+    const formData = await req.formData();
+    const code = formData.get('code') as string;
 
     if (!code) {
       return new Response(JSON.stringify({ error: 'Missing code' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
-      })
+      });
     }
 
-    const clientSecret = generateAppleClientSecret()
+    const clientSecret = generateAppleClientSecret();
 
     const tokenRes = await fetch('https://appleid.apple.com/auth/token', {
       method: 'POST',
       body: new URLSearchParams({
         grant_type: 'authorization_code',
         code,
-        redirect_uri: process.env.APPLE_REDIRECT_URI!,
-        client_id: process.env.APPLE_CLIENT_ID!,
+        redirect_uri: process.env.APPLE_REDIRECT_URI ?? '',
+        client_id: process.env.APPLE_CLIENT_ID ?? '',
         client_secret: clientSecret,
       }),
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    })
+    });
 
-    const tokenJson = await tokenRes.json()
-    const idToken = tokenJson.id_token
-    const decoded = decodeJwt(idToken)
+    const tokenJson = await tokenRes.json();
+    const idToken = tokenJson.id_token;
+    const decoded = decodeJwt(idToken);
 
     if (!decoded?.email) {
-      return new Response(JSON.stringify({ error: 'Apple login failed' }), {
+      return new Response(JSON.stringify({ error: 'email not found in decoded token' }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
-      })
+      });
     }
 
     const { authToken } = await apiClient.auth.signIn({
@@ -49,29 +48,18 @@ export async function POST(req: NextRequest) {
       email: decoded.email,
       token: idToken,
       platform: 'web',
-    })
+    });
 
-    const cookieString = serialize(COOKIE_ACCESS_TOKEN_KEY, authToken.accessToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none',
-      path: '/',
-      maxAge: 60 * 60 * 24 * 7,
-      domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
-    })
+    const searchParams = new URLSearchParams();
+    searchParams.append('access_token', authToken.accessToken);
+    searchParams.append('refresh_token', authToken.refreshToken);
 
-    return new Response(null, {
-      status: 302,
-      headers: {
-        'Location': process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://coldsurf.io',
-        'Set-Cookie': cookieString,
-      },
-    })
+    return NextResponse.redirect(`${SITE_URL}/social-redirect?${searchParams.toString()}`);
   } catch (err) {
-    console.error('Apple token error:', err)
-    return new Response(JSON.stringify({ error: 'Apple login failed' }), {
+    console.error('Apple token error:', err);
+    return new Response(JSON.stringify({ error: 'internal server error' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
-    })
+    });
   }
 }

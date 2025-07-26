@@ -1,8 +1,8 @@
-import { components } from '@coldsurfers/api-sdk'
-import { useColorScheme } from '@coldsurfers/ocean-road/native'
-import { memo, useLayoutEffect, useState } from 'react'
-import { Image, View } from 'react-native'
-import FastImage from 'react-native-fast-image'
+import type { components } from '@coldsurfers/api-sdk';
+import { useColorScheme } from '@coldsurfers/ocean-road/native';
+import FastImage from '@d11/react-native-fast-image';
+import { memo, useLayoutEffect, useState } from 'react';
+import { Image, View } from 'react-native';
 
 export const DetailImageItem = memo(
   ({
@@ -10,24 +10,24 @@ export const DetailImageItem = memo(
     isFirst,
     isLast,
   }: components['schemas']['DetailImageDTOSchema'] & {
-    isFirst: boolean
-    isLast: boolean
+    isFirst: boolean;
+    isLast: boolean;
   }) => {
-    const { semantics } = useColorScheme()
-    const [aspectRatio, setAspectRatio] = useState<string>('')
-    const [isLoading, setIsLoading] = useState(true)
+    const { semantics } = useColorScheme();
+    const [aspectRatio, setAspectRatio] = useState<string>('');
+    const [isLoading, setIsLoading] = useState(true);
 
     useLayoutEffect(() => {
       if (aspectRatio) {
-        return
+        return;
       }
       Image.getSize(url, (width, height) => {
-        setAspectRatio(`${width} / ${height}`)
-      })
-    }, [aspectRatio, url])
+        setAspectRatio(`${width} / ${height}`);
+      });
+    }, [aspectRatio, url]);
 
     if (!aspectRatio) {
-      return null
+      return null;
     }
 
     return (
@@ -72,6 +72,6 @@ export const DetailImageItem = memo(
           />
         )}
       </View>
-    )
-  },
-)
+    );
+  }
+);

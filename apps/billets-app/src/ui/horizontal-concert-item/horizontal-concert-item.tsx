@@ -1,7 +1,7 @@
-import { colors } from '@coldsurfers/ocean-road'
-import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
-import { ReactNode } from 'react'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { colors } from '@coldsurfers/ocean-road';
+import { Text, useColorScheme } from '@coldsurfers/ocean-road/native';
+import type { ReactNode } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 export const HorizontalConcertItem = ({
   onPress,
@@ -11,19 +11,23 @@ export const HorizontalConcertItem = ({
   description,
   bottomRightAddOn,
 }: {
-  onPress?: () => void
-  thumbnailComponent: ReactNode
-  title: string
-  subtitle: string
-  description: string
-  bottomRightAddOn?: ReactNode
+  onPress?: () => void;
+  thumbnailComponent: ReactNode;
+  title: string;
+  subtitle: string;
+  description: string;
+  bottomRightAddOn?: ReactNode;
 }) => {
-  const { semantics } = useColorScheme()
+  const { semantics } = useColorScheme();
   return (
     <TouchableOpacity onPress={onPress} style={styles.itemWrapper}>
       {thumbnailComponent}
       <View style={styles.itemInnerRight}>
-        <Text weight="bold" numberOfLines={1} style={[styles.textTitle, { color: semantics.foreground[1] }]}>
+        <Text
+          weight="bold"
+          numberOfLines={1}
+          style={[styles.textTitle, { color: semantics.foreground[1] }]}
+        >
           {title}
         </Text>
         <Text weight="medium" style={[styles.text, { color: semantics.foreground[3] }]}>
@@ -35,8 +39,8 @@ export const HorizontalConcertItem = ({
       </View>
       {bottomRightAddOn && <View style={styles.bottomRight}>{bottomRightAddOn}</View>}
     </TouchableOpacity>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   itemWrapper: {
@@ -65,4 +69,4 @@ const styles = StyleSheet.create({
     color: colors.oc.black.value,
     fontSize: 14,
   },
-})
+});

@@ -1,15 +1,19 @@
-import { S3Client as AWSS3Client, GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3'
+import {
+  S3Client as AWSS3Client,
+  type GetObjectCommand,
+  type PutObjectCommand,
+} from '@aws-sdk/client-s3';
 
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
 export class S3Client {
-  private instance: AWSS3Client
-  private getObjectCommand?: GetObjectCommand
-  private putObjectCommand?: PutObjectCommand
+  private instance: AWSS3Client;
+  private getObjectCommand?: GetObjectCommand;
+  private putObjectCommand?: PutObjectCommand;
   constructor() {
-    this.instance = this.getInstance()
+    this.instance = this.getInstance();
   }
 
   private getInstance(): AWSS3Client {
@@ -20,32 +24,32 @@ export class S3Client {
           accessKeyId: process.env.COLDSURF_AWS_ACCESS_KEY_ID ?? '',
           secretAccessKey: process.env.COLDSURF_AWS_SECRET_ACCESS_KEY ?? '',
         },
-      })
+      });
     }
-    return this.instance
+    return this.instance;
   }
 
   public setGetObjectCommand(command: GetObjectCommand) {
-    this.getObjectCommand = command
-    return this
+    this.getObjectCommand = command;
+    return this;
   }
 
   public setPutObjectCommand(command: PutObjectCommand) {
-    this.putObjectCommand = command
-    return this
+    this.putObjectCommand = command;
+    return this;
   }
 
   public get() {
     if (!this.getObjectCommand) {
-      throw new Error('GetObjectCommand is not set')
+      throw new Error('GetObjectCommand is not set');
     }
-    return this.getInstance().send(this.getObjectCommand)
+    return this.getInstance().send(this.getObjectCommand);
   }
 
   public put() {
     if (!this.putObjectCommand) {
-      throw new Error('PutObjectCommand is not set')
+      throw new Error('PutObjectCommand is not set');
     }
-    return this.getInstance().send(this.putObjectCommand)
+    return this.getInstance().send(this.putObjectCommand);
   }
 }

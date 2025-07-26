@@ -1,8 +1,8 @@
-import { PropsWithChildren, useEffect } from 'react'
-import Reanimated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import { type PropsWithChildren, useEffect } from 'react';
+import Reanimated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 export const AnimatePresence = ({ children }: PropsWithChildren) => {
-  const opacityValue = useSharedValue(0)
+  const opacityValue = useSharedValue(0);
 
   const opacityStyles = useAnimatedStyle(
     () => ({
@@ -19,14 +19,14 @@ export const AnimatePresence = ({ children }: PropsWithChildren) => {
       ...(opacityValue.value === 0 ? { display: 'none' } : { display: 'flex' }),
       backgroundColor: 'rgba(0, 0, 0, 0.2)',
     }),
-    [children],
-  )
+    [children]
+  );
 
   useEffect(() => {
     opacityValue.value = withTiming(Number(typeof children === 'object'), {
       duration: 250,
-    })
-  }, [children, opacityValue])
+    });
+  }, [children, opacityValue]);
 
-  return <Reanimated.View style={opacityStyles}>{children}</Reanimated.View>
-}
+  return <Reanimated.View style={opacityStyles}>{children}</Reanimated.View>;
+};

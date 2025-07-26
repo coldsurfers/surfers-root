@@ -1,13 +1,13 @@
-'use client'
+'use client';
 
-import { GLOBAL_Z_INDEX } from '@/libs/constants'
-import { initialPageQuery } from '@/libs/openapi-client'
-import { getEventCategoryUIName } from '@/libs/utils/utils.event-category'
-import { useQuery } from '@tanstack/react-query'
-import { useParams } from 'next/navigation'
-import { useCallback, useMemo, useRef, useState } from 'react'
-import { GlobalLink } from '../../../../(ui)/global-link/global-link'
-import { NavigationCityDropdown } from './navigation-city-dropdown'
+import { GLOBAL_Z_INDEX } from '@/libs/constants';
+import { initialPageQuery } from '@/libs/openapi-client';
+import { getEventCategoryUIName } from '@/libs/utils/utils.event-category';
+import { GlobalLink } from '@/shared/ui';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
+import { Fragment, useCallback, useMemo, useRef, useState } from 'react';
+import { NavigationCityDropdown } from './navigation-city-dropdown';
 import {
   DanceIcon,
   DropdownItem,
@@ -20,37 +20,37 @@ import {
   NavButton,
   NavContainer,
   TheatreIcon,
-} from './navigation.styled'
+} from './navigation.styled';
 
 const getUiIcon = (name: string) => {
   switch (name) {
     case 'Gigs':
-      return <MicVocalIcon />
+      return <MicVocalIcon />;
     case 'Theatre':
-      return <TheatreIcon />
+      return <TheatreIcon />;
     case 'Dance':
-      return <DanceIcon />
+      return <DanceIcon />;
     default:
-      return ''
+      return '';
   }
-}
+};
 
 export const Navigation = ({ initialCity }: { initialCity: string }) => {
-  const cityDropdownBtnRef = useRef<HTMLButtonElement | null>(null)
-  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
+  const cityDropdownBtnRef = useRef<HTMLButtonElement | null>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const [dropdownPosition, setDropdownPosition] = useState<{
-    top: number
-    left: number
+    top: number;
+    left: number;
   }>({
     top: 0,
     left: 0,
-  })
-  const { data } = useQuery(initialPageQuery.getCountries())
+  });
+  const { data } = useQuery(initialPageQuery.getCountries());
   const { data: eventCategories } = useQuery({
     ...initialPageQuery.eventCategories(),
     throwOnError: true,
-  })
-  const params = useParams()
+  });
+  const params = useParams();
 
   const eventCategoriesUIData = useMemo(() => {
     return (
@@ -59,19 +59,19 @@ export const Navigation = ({ initialCity }: { initialCity: string }) => {
           ...value,
           uiname: getEventCategoryUIName(value.name),
           uiIcon: getUiIcon(value.name),
-        }
+        };
       }) ?? []
-    )
-  }, [eventCategories])
+    );
+  }, [eventCategories]);
 
   const dropdownData = useMemo<
     {
-      country: string
+      country: string;
       cities: {
-        name: string
-        lat: number
-        lng: number
-      }[]
+        name: string;
+        lat: number;
+        lng: number;
+      }[];
     }[]
   >(() => {
     return (
@@ -79,31 +79,33 @@ export const Navigation = ({ initialCity }: { initialCity: string }) => {
         return {
           country: value.name,
           cities: value.cities,
-        }
+        };
       }) ?? []
-    )
-  }, [data])
+    );
+  }, [data]);
 
   // Handle dropdown open
   const openDropdown = useCallback(() => {
     if (cityDropdownBtnRef.current) {
-      const rect = cityDropdownBtnRef.current.getBoundingClientRect()
+      const rect = cityDropdownBtnRef.current.getBoundingClientRect();
       setDropdownPosition({
         top: rect.bottom + window.scrollY, // Bottom of button
         left: rect.left + window.scrollX, // Left of button
-      })
+      });
     }
-    setIsDropdownOpen(true)
-  }, [])
+    setIsDropdownOpen(true);
+  }, []);
 
   const renderItem = useCallback(
     (item: (typeof dropdownData)[number]) => {
       return (
         <>
           <DropdownItemSectionHeader>
-            <DropdownItemSectionHeaderTitle as="p">{item.country.toUpperCase()}</DropdownItemSectionHeaderTitle>
+            <DropdownItemSectionHeaderTitle as="p">
+              {item.country.toUpperCase()}
+            </DropdownItemSectionHeaderTitle>
           </DropdownItemSectionHeader>
-          <>
+          <Fragment>
             {item.cities.map((city, index) => {
               return (
                 <GlobalLink href={`/browse/${city.name}`} key={city.name}>
@@ -114,14 +116,14 @@ export const Navigation = ({ initialCity }: { initialCity: string }) => {
                     </DropdownItemText>
                   </DropdownItem>
                 </GlobalLink>
-              )
+              );
             })}
-          </>
+          </Fragment>
         </>
-      )
+      );
     },
-    [initialCity],
-  )
+    [initialCity]
+  );
 
   return (
     <>
@@ -146,12 +148,16 @@ export const Navigation = ({ initialCity }: { initialCity: string }) => {
               href={`/browse/${params.city}/${value.name.toLowerCase()}`}
               style={{ marginRight: '0.5rem' }}
             >
-              <NavButton $isActive={value.name.toLowerCase() === params['event-category']?.toString().toLowerCase()}>
+              <NavButton
+                $isActive={
+                  value.name.toLowerCase() === params['event-category']?.toString().toLowerCase()
+                }
+              >
                 {value.uiIcon}
                 <NavBtnText style={{ fontSize: 14 }}>{value.uiname}</NavBtnText>
               </NavButton>
             </GlobalLink>
-          )
+          );
         })}
       </NavContainer>
       <NavigationCityDropdown
@@ -167,5 +173,5 @@ export const Navigation = ({ initialCity }: { initialCity: string }) => {
         renderItem={renderItem}
       />
     </>
-  )
-}
+  );
+};

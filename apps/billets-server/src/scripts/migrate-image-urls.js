@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { PrismaClient } = require('@prisma/client')
-const fetch = require('node-fetch')
+const { PrismaClient } = require('@prisma/client');
 
 const dbClient = new PrismaClient({
   log: ['warn', 'info', 'error'],
-})
+});
 
+// biome-ignore lint/correctness/noUnusedVariables: <explanation>
 async function migratePosters() {
-  const allPosters = await dbClient.poster.findMany()
+  const allPosters = await dbClient.poster.findMany();
 
   for (const poster of allPosters) {
-    const { imageURL } = poster
+    const { imageURL } = poster;
     await dbClient.poster.update({
       where: {
         id: poster.id,
@@ -18,18 +18,17 @@ async function migratePosters() {
       data: {
         imageURL: imageURL.split('&width=')[0],
       },
-    })
+    });
   }
 }
 
-// migratePosters()
-
+// biome-ignore lint/correctness/noUnusedVariables: <explanation>
 async function migrateArtistProfileImages() {
-  const allArtistProfileImages = await dbClient.artistProfileImage.findMany()
+  const allArtistProfileImages = await dbClient.artistProfileImage.findMany();
 
   for (const artistProfileImage of allArtistProfileImages) {
-    const { imageURL } = artistProfileImage
-    const [_, key] = imageURL.split('https://abyss.coldsurf.io/')
+    const { imageURL } = artistProfileImage;
+    const [_, key] = imageURL.split('https://abyss.coldsurf.io/');
     await dbClient.artistProfileImage.update({
       where: {
         id: artistProfileImage.id,
@@ -37,90 +36,51 @@ async function migrateArtistProfileImages() {
       data: {
         imageURL: `https://api.billets.coldsurf.io/v1/image?key=${key}`,
       },
-    })
+    });
   }
 }
 
-// migrateArtistProfileImages()
+// biome-ignore lint/correctness/noUnusedVariables: <explanation>
+async function restore남부터미널() {
+  try {
+    // await dbClient.$connect()
+    const ids = ['392378e1-1375-4ff2-aeb4-37164c402e6b'];
 
-async function migratePostersKeyId() {
-  const allPosters = await dbClient.poster.findMany()
-
-  const concurrency = 10
-  let index = 0
-  async function processBatch() {
-    const batch = allPosters.slice(index, index + concurrency)
-    index += concurrency
     await Promise.all(
-      batch.map(async (poster) => {
-        const { imageURL } = poster
-        const [_, key] = imageURL.split('https://api.billets.coldsurf.io/v1/image?key=')
-        await dbClient.poster.update({
-          where: { id: poster.id },
-          data: { keyId: key },
-        })
-      }),
-    )
-  }
-  while (index < allPosters.length) {
-    await processBatch()
-  }
-}
+      ids.map(async (concertId) => {
+        const existing = await dbClient.concertsOnVenues.findUnique({
+          where: {
+            concertId_venueId: {
+              concertId,
+              venueId: '36939b92-af12-462f-a50d-8061dae5ad26',
+            },
+          },
+        });
 
-// migratePostersKeyId()
+        if (existing) {
+          await dbClient.concertsOnVenues.delete({
+            where: {
+              concertId_venueId: {
+                concertId,
+                venueId: '36939b92-af12-462f-a50d-8061dae5ad26',
+              },
+            },
+          });
+        }
 
-async function migrateDetailImages() {
-  const allDetailImages = await dbClient.detailImage.findMany()
-
-  const concurrency = 10
-  let index = 0
-  async function processBatch() {
-    const batch = allDetailImages.slice(index, index + concurrency)
-    index += concurrency
-    await Promise.all(
-      batch.map(async (detailImage) => {
-        const { imageURL } = detailImage
-        const [_, key] = imageURL.split('https://api.billets.coldsurf.io/v1/image?key=')
-        await dbClient.detailImage.update({
-          where: { id: detailImage.id },
-          data: { keyId: key },
-        })
-      }),
-    )
-  }
-  while (index < allDetailImages.length) {
-    await processBatch()
-  }
-}
-
-// migrateDetailImages()
-
-async function syncUp() {
-  const KOPISEVENT_CATEGORIES = [
-    '대중음악',
-    '연극',
-    '서양음악(클래식)',
-    '한국음악(국악)',
-    '뮤지컬',
-    '무용(서양/한국무용)',
-    '대중무용',
-  ]
-
-  const pages = [1, 2, 3]
-
-  for (const category of KOPISEVENT_CATEGORIES) {
-    for (const page of pages) {
-      console.log(`FETCHING ${category} ${page}`)
-      await fetch(`http://127.0.0.1:54321/functions/v1/sync-kopis`, {
-        method: 'POST',
-        body: JSON.stringify({
-          category,
-          page,
-        }),
+        await dbClient.concertsOnVenues.create({
+          data: {
+            concertId,
+            venueId: '3149ac24-9b5d-4130-8bf2-6cbe8cd561f4',
+          },
+        });
       })
-      console.log(`FETCHED ${category} ${page}`)
-    }
+    );
+  } catch (e) {
+    console.error(e);
+  } finally {
+    // await dbClient.$disconnect()
   }
 }
 
-// syncUp()
+// restore남부터미널()

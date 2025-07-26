@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
 export const StyledAddTicketsUIContent = styled.h3`
   font-size: 20px;
@@ -6,4 +6,4 @@ export const StyledAddTicketsUIContent = styled.h3`
   font-weight: 600;
   display: flex;
   align-items: center;
-`
+`;

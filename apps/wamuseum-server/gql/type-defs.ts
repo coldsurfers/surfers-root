@@ -303,6 +303,8 @@ const typeDefs = `#graphql
 
   union CreateCopyrightData = Copyright | HttpError
 
+  union TokenRefreshData = UserWithAuthToken | HttpError
+
   input ConcertListOrderBy {
     createdAt: String!
   }
@@ -355,6 +357,10 @@ const typeDefs = `#graphql
     artistProfileImageId: String
   }
 
+  input TokenRefreshInput {
+    refreshToken: String!
+  }
+
   type Query {
     me: UserData
     user(
@@ -404,6 +410,9 @@ const typeDefs = `#graphql
     authenticateEmailAuthRequest(
       input: AuthenticateEmailAuthRequestInput!
     ): AuthenticateEmailAuthRequestData
+    tokenRefresh(
+      input: TokenRefreshInput!
+    ): TokenRefreshData
     login(
       input: LoginInput!
     ): LoginData
@@ -463,6 +472,6 @@ const typeDefs = `#graphql
       input: CreateCopyrightInput!
     ): CreateCopyrightData
   }
-`
+`;
 
-export default typeDefs
+export default typeDefs;

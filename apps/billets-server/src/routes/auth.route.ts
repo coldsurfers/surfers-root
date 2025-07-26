@@ -1,23 +1,29 @@
 import {
   confirmAuthCodeHandler,
+  reissueTokenHandler,
   sendAuthCodeHandler,
   signinHandler,
   signinPreHandler,
   signupHandler,
   signupPreHandler,
-} from '@/controllers/auth.controller'
-import { SignInBodyDTOSchema, SignUpBodyDTOSchema, UserWithAuthTokenDTOSchema } from '@/dtos/auth.dto'
+} from '@/controllers/auth.controller';
+import {
+  ReissueTokenBodyDTOSchema,
+  SignInBodyDTOSchema,
+  SignUpBodyDTOSchema,
+  UserWithAuthTokenDTOSchema,
+} from '@/dtos/auth.dto';
 import {
   ConfirmAuthCodeBodyDTOSchema,
   ConfirmAuthCodeResponseDTOSchema,
   SendAuthCodeResponseDTOSchema,
   SendEmailAuthCodeBodyDTOSchema,
-} from '@/dtos/email-auth-request.dto'
-import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
-import { FastifyPluginCallback } from 'fastify'
-import { ZodTypeProvider } from 'fastify-type-provider-zod'
+} from '@/dtos/email-auth-request.dto';
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto';
+import type { FastifyPluginCallback } from 'fastify';
+import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
-const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
+const authRoute: FastifyPluginCallback = (fastify, _, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().post(
     '/email/send-auth-code',
     {
@@ -31,8 +37,8 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    sendAuthCodeHandler,
-  )
+    sendAuthCodeHandler
+  );
   fastify.withTypeProvider<ZodTypeProvider>().post(
     '/email/confirm-auth-code',
     {
@@ -48,8 +54,8 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
         },
       },
     },
-    confirmAuthCodeHandler,
-  )
+    confirmAuthCodeHandler
+  );
 
   fastify.withTypeProvider<ZodTypeProvider>().post(
     '/signin',
@@ -65,8 +71,8 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       preHandler: [signinPreHandler],
     },
-    signinHandler,
-  )
+    signinHandler
+  );
 
   fastify.withTypeProvider<ZodTypeProvider>().post(
     '/signup',
@@ -83,10 +89,26 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
       },
       preHandler: [signupPreHandler],
     },
-    signupHandler,
-  )
+    signupHandler
+  );
 
-  done()
-}
+  fastify.withTypeProvider<ZodTypeProvider>().post(
+    '/reissue-token',
+    {
+      schema: {
+        tags: ['v1', 'auth'],
+        body: ReissueTokenBodyDTOSchema,
+        response: {
+          201: UserWithAuthTokenDTOSchema,
+          400: ErrorResponseDTOSchema,
+          500: ErrorResponseDTOSchema,
+        },
+      },
+    },
+    reissueTokenHandler
+  );
 
-export default authRoute
+  done();
+};
+
+export default authRoute;

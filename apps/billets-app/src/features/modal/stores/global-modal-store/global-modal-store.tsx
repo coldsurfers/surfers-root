@@ -1,14 +1,14 @@
-import { create } from 'zustand'
+import { create } from 'zustand';
 
 type ModalVisible = {
-  geolocationPermissionAlertModal: boolean
-}
+  geolocationPermissionAlertModal: boolean;
+};
 
 type GlobalModalStore = {
-  visible: ModalVisible
-  open: (key: keyof ModalVisible) => void
-  close: (key: keyof ModalVisible) => void
-}
+  visible: ModalVisible;
+  open: (key: keyof ModalVisible) => void;
+  close: (key: keyof ModalVisible) => void;
+};
 
 export const useGlobalModalStore = create<GlobalModalStore>((set) => ({
   visible: {
@@ -19,15 +19,16 @@ export const useGlobalModalStore = create<GlobalModalStore>((set) => ({
       visible: {
         ...Object.keys(state.visible).reduce(
           (acc, modalKey) => ({
+            // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
             ...acc,
             [modalKey]: modalKey === key,
           }),
           {
             geolocationPermissionAlertModal: false,
-          } as ModalVisible,
+          } as ModalVisible
         ),
       },
-    }))
+    }));
   },
   close: (key: keyof ModalVisible) => {
     set((state) => ({
@@ -35,6 +36,6 @@ export const useGlobalModalStore = create<GlobalModalStore>((set) => ({
         ...state.visible,
         [key]: false,
       },
-    }))
+    }));
   },
-}))
+}));

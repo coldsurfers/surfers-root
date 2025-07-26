@@ -1,20 +1,20 @@
 import {
   GetArtistProfileImageDetailHandler,
   getArtistProfileImagesByArtistIdHandler,
-} from '@/controllers/artist-profile-image.controller'
+} from '@/controllers/artist-profile-image.controller';
 import {
   ArtistProfileImageDetailDTOSchema,
   GetArtistProfileImageDetailParamsDTOSchema,
-} from '@/dtos/artist-profile-image-detail.dto'
+} from '@/dtos/artist-profile-image-detail.dto';
 import {
   ArtistProfileImageDTOSchema,
   GetArtistProfileImagesByArtistIdQueryStringDTOSchema,
-} from '@/dtos/artist-profile-image.dto'
-import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto'
-import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { FastifyPluginCallback } from 'fastify/types/plugin'
+} from '@/dtos/artist-profile-image.dto';
+import { ErrorResponseDTOSchema } from '@/dtos/error-response.dto';
+import type { ZodTypeProvider } from 'fastify-type-provider-zod';
+import type { FastifyPluginCallback } from 'fastify/types/plugin';
 
-const artistProfileImageRoute: FastifyPluginCallback = (fastify, opts, done) => {
+const artistProfileImageRoute: FastifyPluginCallback = (fastify, _, done) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/',
     {
@@ -27,8 +27,8 @@ const artistProfileImageRoute: FastifyPluginCallback = (fastify, opts, done) => 
         },
       },
     },
-    getArtistProfileImagesByArtistIdHandler,
-  )
+    getArtistProfileImagesByArtistIdHandler
+  );
   fastify.withTypeProvider<ZodTypeProvider>().get(
     '/:artistProfileImageId',
     {
@@ -42,9 +42,9 @@ const artistProfileImageRoute: FastifyPluginCallback = (fastify, opts, done) => 
         },
       },
     },
-    GetArtistProfileImageDetailHandler,
-  )
-  done()
-}
+    GetArtistProfileImageDetailHandler
+  );
+  done();
+};
 
-export default artistProfileImageRoute
+export default artistProfileImageRoute;

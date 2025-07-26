@@ -1,13 +1,13 @@
-import styled from '@emotion/styled'
-import { icons as Icons } from 'lucide-react'
-import { Text } from '../text'
-import { colors } from '../tokens/tokens'
-import { ButtonTheme } from './button.types'
-import { getButtonBackgroundColor, getButtonForegroundColor } from './button.utils'
+import styled from '@emotion/styled';
+import { icons as Icons } from 'lucide-react';
+import { Text } from '../text';
+import { colors } from '../tokens/tokens';
+import type { ButtonTheme } from './button.types';
+import { getButtonBackgroundColor, getButtonForegroundColor } from './button.utils';
 
 export const StyledButton = styled.button<{
-  colorTheme: ButtonTheme
-  size: 'lg' | 'md' | 'sm'
+  colorTheme: ButtonTheme;
+  size: 'lg' | 'md' | 'sm';
 }>`
   align-items: center;
   justify-content: center;
@@ -18,24 +18,22 @@ export const StyledButton = styled.button<{
   padding: ${(props) => {
     switch (props.size) {
       case 'lg':
-        return '18px'
+        return '18px';
       case 'md':
-        return '14px'
-      case 'sm':
+        return '14px';
       default:
-        return '10px'
+        return '10px';
     }
   }};
 
   border-radius: ${(props) => {
     switch (props.size) {
       case 'lg':
-        return '24px'
+        return '24px';
       case 'md':
-        return '22px'
-      case 'sm':
+        return '22px';
       default:
-        return '20px'
+        return '20px';
     }
   }};
 
@@ -54,22 +52,21 @@ export const StyledButton = styled.button<{
   &:active {
     opacity: 0.5;
   }
-`
+`;
 
 export const StyledButtonText = styled(Text)<{
-  colorTheme: ButtonTheme
-  size: 'lg' | 'md' | 'sm'
-  textWeight: 'light' | 'medium' | 'bold'
+  colorTheme: ButtonTheme;
+  size: 'lg' | 'md' | 'sm';
+  textWeight: 'light' | 'medium' | 'bold';
 }>`
   font-weight: ${({ textWeight }) => {
     switch (textWeight) {
       case 'light':
-        return '300'
+        return '300';
       case 'medium':
-        return '500'
-      case 'bold':
+        return '500';
       default:
-        return '700'
+        return '700';
     }
   }};
   color: ${({ colorTheme }) => getButtonForegroundColor(colorTheme)};
@@ -79,32 +76,34 @@ export const StyledButtonText = styled(Text)<{
   font-size: ${(props) => {
     switch (props.size) {
       case 'lg':
-        return '16px'
+        return '16px';
       case 'md':
-        return '14px'
-      case 'sm':
+        return '14px';
       default:
-        return '12px'
+        return '12px';
     }
   }};
-`
+`;
 
 const iconSize = (size: 'lg' | 'md' | 'sm') => {
   switch (size) {
     case 'lg':
-      return '18px'
+      return '18px';
     case 'md':
-      return '16px'
-    case 'sm':
+      return '16px';
     default:
-      return '14px'
+      return '14px';
   }
-}
+};
 
-export const createStyledIcon = (icon: keyof typeof Icons, size: 'lg' | 'md' | 'sm', position: 'left' | 'right') => {
+export const createStyledIcon = (
+  icon: keyof typeof Icons,
+  size: 'lg' | 'md' | 'sm',
+  position: 'left' | 'right'
+) => {
   const TargetIcon = styled(Icons[icon])`
     color: ${colors.oc.white.value};
-  `
+  `;
 
   return (
     <TargetIcon
@@ -115,5 +114,5 @@ export const createStyledIcon = (icon: keyof typeof Icons, size: 'lg' | 'md' | '
         marginRight: position === 'left' ? 4 : undefined,
       }}
     />
-  )
-}
+  );
+};

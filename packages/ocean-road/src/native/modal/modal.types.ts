@@ -1,8 +1,8 @@
-import { PropsWithChildren } from 'react'
-import { GestureResponderEvent } from 'react-native'
+import type { PropsWithChildren } from 'react';
+import type { GestureResponderEvent } from 'react-native';
 
 export type ModalProps = PropsWithChildren<{
-  visible?: boolean
-  transparent?: boolean
-  onPressBackground?: (event: GestureResponderEvent) => void
-}>
+  visible?: boolean;
+  transparent?: boolean;
+  onPressBackground?: (event: GestureResponderEvent) => void;
+}>;

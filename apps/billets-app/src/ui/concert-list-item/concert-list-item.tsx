@@ -1,51 +1,57 @@
-import { ConcertSubscribeButton } from '@/features/subscribe'
-import { apiClient } from '@/lib/api/openapi-client'
-import { components } from '@/types/api'
-import { Text, useColorScheme } from '@coldsurfers/ocean-road/native'
-import { useQuery } from '@tanstack/react-query'
-import format from 'date-fns/format'
-import { useCallback, useMemo } from 'react'
-import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
-import FastImage from 'react-native-fast-image'
+import { ConcertSubscribeButton } from '@/features/subscribe';
+import { apiClient } from '@/lib/api/openapi-client';
+import type { components } from '@/types/api';
+import { Text, useColorScheme } from '@coldsurfers/ocean-road/native';
+import FastImage from '@d11/react-native-fast-image';
+import { useQuery } from '@tanstack/react-query';
+import format from 'date-fns/format';
+import { useCallback, useMemo } from 'react';
+import { Pressable, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
 import {
   getConcertListBottomWrapperDynamicStyles,
   getConcertListItemWrapperDynamicStyles,
-} from './concert-list-item.utils'
+} from './concert-list-item.utils';
 
 type ConcertListItemProps = {
-  data: components['schemas']['ConcertDTOSchema']
-  onPress: (concertId: string) => void
-  onPressSubscribe?: (params: { isSubscribed: boolean; concertId: string }) => void
-  size?: 'small' | 'large'
-  style?: StyleProp<ViewStyle>
-}
+  data: components['schemas']['ConcertDTOSchema'];
+  onPress: (concertId: string) => void;
+  onPressSubscribe?: (params: { isSubscribed: boolean; concertId: string }) => void;
+  size?: 'small' | 'large';
+  style?: StyleProp<ViewStyle>;
+};
 
-export const ConcertListItem = ({ data, onPress, onPressSubscribe, size = 'large', style }: ConcertListItemProps) => {
-  const { semantics } = useColorScheme()
+export const ConcertListItem = ({
+  data,
+  onPress,
+  onPressSubscribe,
+  size = 'large',
+  style,
+}: ConcertListItemProps) => {
+  const { semantics } = useColorScheme();
 
   const { data: subscribedConcertData } = useQuery({
     queryKey: apiClient.subscribe.queryKeys.eventSubscribe({ eventId: data.id }),
     queryFn: () => apiClient.subscribe.getEvent({ eventId: data.id }),
-  })
+  });
 
   const thumbnailUrl = useMemo(() => {
-    const url = data.mainPoster?.url
+    const url = data.mainPoster?.url;
     if (!url) {
-      return ''
+      return '';
     }
-    return `${url}`
-  }, [data.mainPoster?.url])
-  const venue = useMemo(() => data.mainVenue, [data.mainVenue])
+    return `${url}`;
+  }, [data.mainPoster?.url]);
+  const venue = useMemo(() => data.mainVenue, [data.mainVenue]);
 
   const handlePress = useCallback(() => {
-    onPress(data.id)
-  }, [data.id, onPress])
+    onPress(data.id);
+  }, [data.id, onPress]);
   const handlePressSubscribe = useCallback(() => {
     onPressSubscribe?.({
       isSubscribed: !!subscribedConcertData,
       concertId: data.id,
-    })
-  }, [onPressSubscribe, subscribedConcertData, data.id])
+    });
+  }, [onPressSubscribe, subscribedConcertData, data.id]);
 
   return (
     <Pressable
@@ -63,7 +69,10 @@ export const ConcertListItem = ({ data, onPress, onPressSubscribe, size = 'large
       >
         {onPressSubscribe && (
           <View style={styles.subscribeBtnWrapper}>
-            <ConcertSubscribeButton onPress={handlePressSubscribe} isSubscribed={!!subscribedConcertData} />
+            <ConcertSubscribeButton
+              onPress={handlePressSubscribe}
+              isSubscribed={!!subscribedConcertData}
+            />
           </View>
         )}
       </FastImage>
@@ -112,14 +121,19 @@ export const ConcertListItem = ({ data, onPress, onPressSubscribe, size = 'large
         </View>
       </View>
     </Pressable>
-  )
-}
+  );
+};
 
-ConcertListItem.Skeleton = ({ size = 'large', style }: { size?: 'small' | 'large'; style?: StyleProp<ViewStyle> }) => {
+ConcertListItem.Skeleton = ({
+  size = 'large',
+  style,
+}: { size?: 'small' | 'large'; style?: StyleProp<ViewStyle> }) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { semantics } = useColorScheme()
+  const { semantics } = useColorScheme();
   return (
-    <Pressable style={[styles.concertListItem, getConcertListItemWrapperDynamicStyles(size), style]}>
+    <Pressable
+      style={[styles.concertListItem, getConcertListItemWrapperDynamicStyles(size), style]}
+    >
       <View
         style={[
           styles.concertThumbnail,
@@ -139,7 +153,9 @@ ConcertListItem.Skeleton = ({ size = 'large', style }: { size?: 'small' | 'large
               },
             ]}
           />
-          {size === 'small' && <View style={[styles.skeletonTitle, { backgroundColor: semantics.background[2] }]} />}
+          {size === 'small' && (
+            <View style={[styles.skeletonTitle, { backgroundColor: semantics.background[2] }]} />
+          )}
           <View
             style={[
               styles.skeletonSubtitle,
@@ -152,8 +168,8 @@ ConcertListItem.Skeleton = ({ size = 'large', style }: { size?: 'small' | 'large
         </View>
       </View>
     </Pressable>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   concertListItem: {
@@ -196,4 +212,4 @@ const styles = StyleSheet.create({
     height: 24,
     borderRadius: 8,
   },
-})
+});

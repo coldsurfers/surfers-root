@@ -1,12 +1,12 @@
-'use client'
+'use client';
 
-import { components } from '@coldsurfers/api-sdk'
-import { memo } from 'react'
-import { LineupItem } from './lineup-item'
+import type { components } from '@coldsurfers/api-sdk';
+import { memo } from 'react';
+import { LineupItem } from './lineup-item';
 
 type LineupProps = {
-  artists: components['schemas']['ArtistDTOSchema'][]
-}
+  artists: components['schemas']['ArtistDTOSchema'][];
+};
 
 export const Lineup = memo(({ artists }: LineupProps) => {
   return (
@@ -15,5 +15,5 @@ export const Lineup = memo(({ artists }: LineupProps) => {
         <LineupItem key={artist.id} artist={artist} />
       ))}
     </>
-  )
-})
+  );
+});

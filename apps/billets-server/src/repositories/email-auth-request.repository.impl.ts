@@ -1,7 +1,7 @@
-import { EmailAuthRequestDTO } from '@/dtos/email-auth-request.dto'
-import { dbClient } from '@/lib/db/db.client'
-import { EmailAuthRequest } from '@prisma/client'
-import { EmailAuthRequestRepository } from './email-auth-request.repository'
+import type { EmailAuthRequestDTO } from '@/dtos/email-auth-request.dto';
+import { dbClient } from '@/lib/db/db.client';
+import type { EmailAuthRequest } from '@prisma/client';
+import type { EmailAuthRequestRepository } from './email-auth-request.repository';
 
 export class EmailAuthRequestRepositoryImpl implements EmailAuthRequestRepository {
   async create(email: string, authcode: string): Promise<EmailAuthRequestDTO> {
@@ -10,8 +10,8 @@ export class EmailAuthRequestRepositoryImpl implements EmailAuthRequestRepositor
         email,
         authcode,
       },
-    })
-    return this.toDTO(data)
+    });
+    return this.toDTO(data);
   }
   async findByEmail(email: string): Promise<EmailAuthRequestDTO | null> {
     const data = await dbClient.emailAuthRequest.findFirst({
@@ -21,9 +21,9 @@ export class EmailAuthRequestRepositoryImpl implements EmailAuthRequestRepositor
       orderBy: {
         createdAt: 'desc',
       },
-    })
-    if (!data) return null
-    return this.toDTO(data)
+    });
+    if (!data) return null;
+    return this.toDTO(data);
   }
   async confirm(id: string): Promise<EmailAuthRequestDTO> {
     const data = await dbClient.emailAuthRequest.update({
@@ -34,8 +34,8 @@ export class EmailAuthRequestRepositoryImpl implements EmailAuthRequestRepositor
         authenticated: true,
         authenticatedAt: new Date(),
       },
-    })
-    return this.toDTO(data)
+    });
+    return this.toDTO(data);
   }
 
   private toDTO(model: EmailAuthRequest): EmailAuthRequestDTO {
@@ -45,6 +45,6 @@ export class EmailAuthRequestRepositoryImpl implements EmailAuthRequestRepositor
       authcode: model.authcode,
       authenticated: model.authenticated,
       createdAt: model.createdAt.toISOString(),
-    }
+    };
   }
 }

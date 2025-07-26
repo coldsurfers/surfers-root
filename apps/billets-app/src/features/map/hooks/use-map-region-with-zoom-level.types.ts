@@ -1,10 +1,10 @@
-import { Region } from 'react-native-maps'
+import type { Region } from 'react-native-maps';
 
 export type MapRegionWithZoomLevel = Region & {
-  zoomLevel: number
-}
+  zoomLevel: number;
+};
 
 export type UseMapRegionWithZoomLevelParams = {
-  latitude: number
-  longitude: number
-}
+  latitude: number;
+  longitude: number;
+};

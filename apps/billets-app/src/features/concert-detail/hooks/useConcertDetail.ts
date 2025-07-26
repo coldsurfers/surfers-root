@@ -1,6 +1,6 @@
-import { useMemo } from 'react'
-import { ConcertDetailSectionListSections } from '../components/concert-detail-section-list/concert-detail-section-list.types'
-import { useConcertDetailQuery } from './useConcertDetailQuery'
+import { useMemo } from 'react';
+import type { ConcertDetailSectionListSections } from '../components/concert-detail-section-list/concert-detail-section-list.types';
+import { useConcertDetailQuery } from './useConcertDetailQuery';
 
 export const useConcertDetail = ({
   id,
@@ -9,26 +9,29 @@ export const useConcertDetail = ({
   onPressVenueMap,
   onPressVenueProfile,
 }: {
-  id: string
-  onPressTicketCta?: () => void
-  onPressArtist?: (artistId: string) => void
-  onPressVenueMap?: () => void
-  onPressVenueProfile?: (venueId: string) => void
+  id: string;
+  onPressTicketCta?: () => void;
+  onPressArtist?: (artistId: string) => void;
+  onPressVenueMap?: () => void;
+  onPressVenueProfile?: (venueId: string) => void;
 }) => {
-  const { data: eventData } = useConcertDetailQuery(id)
+  const { data: eventData } = useConcertDetailQuery(id);
   const mainVenue = useMemo(() => {
     if (eventData.type !== 'concert') {
-      return null
+      return null;
     }
-    return eventData.data.venues.at(0)
-  }, [eventData.data.venues, eventData.type])
-  const thumbnails = useMemo(() => eventData?.data.posters.map((poster) => poster.url ?? ''), [eventData?.data.posters])
+    return eventData.data.venues.at(0);
+  }, [eventData.data.venues, eventData.type]);
+  const thumbnails = useMemo(
+    () => eventData?.data.posters.map((poster) => poster.url ?? ''),
+    [eventData?.data.posters]
+  );
 
   const sections: ConcertDetailSectionListSections = useMemo(() => {
     if (!eventData || eventData.type !== 'concert') {
-      return []
+      return [];
     }
-    const { data: concertDetail } = eventData
+    const { data: concertDetail } = eventData;
     const innerSections: ConcertDetailSectionListSections = [
       {
         title: 'title',
@@ -102,15 +105,15 @@ export const useConcertDetail = ({
             venueTitle: mainVenue?.name ?? '',
             onPressProfile: () => {
               if (!mainVenue?.id) {
-                return
+                return;
               }
-              onPressVenueProfile?.(mainVenue.id)
+              onPressVenueProfile?.(mainVenue.id);
             },
           },
         ],
       },
-    ]
-    return innerSections
+    ];
+    return innerSections;
   }, [
     eventData,
     mainVenue?.address,
@@ -122,9 +125,9 @@ export const useConcertDetail = ({
     onPressTicketCta,
     onPressVenueMap,
     onPressVenueProfile,
-  ])
+  ]);
 
-  const tickets = useMemo(() => eventData.data.tickets, [eventData.data.tickets])
+  const tickets = useMemo(() => eventData.data.tickets, [eventData.data.tickets]);
 
   return {
     eventData,
@@ -132,5 +135,5 @@ export const useConcertDetail = ({
     thumbnails,
     mainVenue,
     tickets,
-  }
-}
+  };
+};

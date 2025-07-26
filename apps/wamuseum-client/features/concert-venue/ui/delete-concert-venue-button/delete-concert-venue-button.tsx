@@ -1,14 +1,17 @@
-import { Button } from '@coldsurfers/ocean-road'
-import { useCallback } from 'react'
+import { Button } from '@coldsurfers/ocean-road';
+import { useCallback } from 'react';
 import {
   ConcertVenuesDocument,
-  ConcertVenuesQuery,
-  ConcertVenuesQueryVariables,
+  type ConcertVenuesQuery,
+  type ConcertVenuesQueryVariables,
   useRemoveConcertVenueMutation,
-} from 'src/__generated__/graphql'
+} from 'src/__generated__/graphql';
 
-export const DeleteConcertVenueButton = ({ concertId, venueId }: { concertId: string; venueId: string }) => {
-  const [mutateRemoveConcertVenue] = useRemoveConcertVenueMutation({})
+export const DeleteConcertVenueButton = ({
+  concertId,
+  venueId,
+}: { concertId: string; venueId: string }) => {
+  const [mutateRemoveConcertVenue] = useRemoveConcertVenueMutation({});
   const onClick = useCallback(() => {
     mutateRemoveConcertVenue({
       variables: {
@@ -19,17 +22,19 @@ export const DeleteConcertVenueButton = ({ concertId, venueId }: { concertId: st
       },
       update: (cache, { data }) => {
         if (data?.removeConcertVenue?.__typename !== 'Venue') {
-          return
+          return;
         }
-        const { id: removedConcertVenueId } = data.removeConcertVenue
-        const concertVenuesCache = cache.readQuery<ConcertVenuesQuery, ConcertVenuesQueryVariables>({
-          query: ConcertVenuesDocument,
-          variables: {
-            concertId,
-          },
-        })
+        const { id: removedConcertVenueId } = data.removeConcertVenue;
+        const concertVenuesCache = cache.readQuery<ConcertVenuesQuery, ConcertVenuesQueryVariables>(
+          {
+            query: ConcertVenuesDocument,
+            variables: {
+              concertId,
+            },
+          }
+        );
         if (!concertVenuesCache) {
-          return
+          return;
         }
         if (concertVenuesCache.concertVenues?.__typename === 'ConcertVenueList') {
           cache.writeQuery({
@@ -40,14 +45,16 @@ export const DeleteConcertVenueButton = ({ concertId, venueId }: { concertId: st
             data: {
               concertVenues: {
                 ...concertVenuesCache.concertVenues,
-                list: concertVenuesCache.concertVenues.list?.filter((venue) => venue?.id !== removedConcertVenueId),
+                list: concertVenuesCache.concertVenues.list?.filter(
+                  (venue) => venue?.id !== removedConcertVenueId
+                ),
               },
             },
-          })
+          });
         }
       },
-    })
-  }, [concertId, mutateRemoveConcertVenue, venueId])
+    });
+  }, [concertId, mutateRemoveConcertVenue, venueId]);
 
   return (
     <Button
@@ -59,5 +66,5 @@ export const DeleteConcertVenueButton = ({ concertId, venueId }: { concertId: st
     >
       삭제하기
     </Button>
-  )
-}
+  );
+};

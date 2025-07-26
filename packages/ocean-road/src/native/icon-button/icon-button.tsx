@@ -1,8 +1,8 @@
-import { icons as Icons } from 'lucide-react-native'
-import { colors } from '../../tokens'
-import { StyledIconButtonContainer } from './icon-button.styled'
-import { IconButtonProps } from './icon-button.types'
-import { getIconButtonBackgroundStyles, getIconButtonSizeStyles, sizes } from './icon-button.utils'
+import { icons as Icons } from 'lucide-react-native';
+import { colors } from '../../tokens';
+import { StyledIconButtonContainer } from './icon-button.styled';
+import type { IconButtonProps } from './icon-button.types';
+import { getIconButtonBackgroundStyles, getIconButtonSizeStyles, sizes } from './icon-button.utils';
 
 export const IconButton = ({
   icon,
@@ -15,7 +15,7 @@ export const IconButton = ({
   fill,
   ...otherProps
 }: IconButtonProps) => {
-  const TargetIcon = Icons[icon]
+  const TargetIcon = Icons[icon];
   return (
     <StyledIconButtonContainer
       {...otherProps}
@@ -29,5 +29,5 @@ export const IconButton = ({
         color={color ?? colors.oc.white.value}
       />
     </StyledIconButtonContainer>
-  )
-}
+  );
+};

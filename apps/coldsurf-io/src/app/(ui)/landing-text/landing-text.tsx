@@ -1,7 +1,11 @@
-'use client'
+'use client';
 
-import { StyledLandingText, StyledLandingTextContainer, StyledSmallLandingText } from './landing-text.styled'
-import { LandingTextProps } from './landing-text.types'
+import {
+  StyledLandingText,
+  StyledLandingTextContainer,
+  StyledSmallLandingText,
+} from './landing-text.styled';
+import type { LandingTextProps } from './landing-text.types';
 
 export function LandingText({ bigTitle, smallTitle }: LandingTextProps) {
   return (
@@ -9,5 +13,5 @@ export function LandingText({ bigTitle, smallTitle }: LandingTextProps) {
       <StyledLandingText as="h1">{bigTitle}</StyledLandingText>
       <StyledSmallLandingText>{smallTitle}</StyledSmallLandingText>
     </StyledLandingTextContainer>
-  )
+  );
 }

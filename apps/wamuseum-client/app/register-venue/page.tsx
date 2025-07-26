@@ -1,5 +1,5 @@
-import RegisterVenueClientPage from './page.client'
+import RegisterVenueClientPage from './page.client';
 
-const RegisterVenuePage = () => <RegisterVenueClientPage />
+const RegisterVenuePage = () => <RegisterVenueClientPage />;
 
-export default RegisterVenuePage
+export default RegisterVenuePage;

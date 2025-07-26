@@ -1,11 +1,11 @@
-import admin from 'firebase-admin'
-import { FirebaseMessageData, TopicType } from './firebase.types'
+import admin from 'firebase-admin';
+import type { FirebaseMessageData, TopicType } from './firebase.types';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const serviceAccount = require('../../../assets/firebase/firebase-service-account-key.json')
+const serviceAccount = require('../../../assets/firebase/firebase-service-account-key.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-})
+});
 
 const sendMessageToDevice = async ({
   token,
@@ -13,10 +13,10 @@ const sendMessageToDevice = async ({
   body,
   data,
 }: {
-  token: string
-  title: string
-  body: string
-  data: FirebaseMessageData
+  token: string;
+  title: string;
+  body: string;
+  data: FirebaseMessageData;
 }) => {
   const response = await admin.messaging().send({
     token,
@@ -38,9 +38,9 @@ const sendMessageToDevice = async ({
         },
       },
     },
-  })
-  return response
-}
+  });
+  return response;
+};
 
 const sendMessageToTopic = async ({
   topic,
@@ -48,10 +48,10 @@ const sendMessageToTopic = async ({
   body,
   data,
 }: {
-  topic: TopicType
-  title: string
-  body: string
-  data: FirebaseMessageData
+  topic: TopicType;
+  title: string;
+  body: string;
+  data: FirebaseMessageData;
 }) => {
   const response = await admin.messaging().send({
     topic,
@@ -73,11 +73,11 @@ const sendMessageToTopic = async ({
         },
       },
     },
-  })
-  return response
-}
+  });
+  return response;
+};
 
 export const firebaseAdmin = {
   sendMessageToDevice,
   sendMessageToTopic,
-}
+};

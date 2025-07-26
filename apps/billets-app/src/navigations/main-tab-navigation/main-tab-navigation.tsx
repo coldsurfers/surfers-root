@@ -1,14 +1,14 @@
-import { TabBar } from '@/ui'
-import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import React from 'react'
-import { HomeStackNavigation } from '../home-stack-navigation'
-import { MyStackNavigation } from '../my-stack-navigation'
-import SearchStackNavigation from '../search-stack-navigation/search-stack-navigation'
-import { MainTabParamList } from './main-tab-navigation.types'
+import { TabBar } from '@/ui';
+import { type BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React from 'react';
+import { HomeStackNavigation } from '../home-stack-navigation';
+import { MyStackNavigation } from '../my-stack-navigation';
+import SearchStackNavigation from '../search-stack-navigation/search-stack-navigation';
+import type { MainTabParamList } from './main-tab-navigation.types';
 
-const Tab = createBottomTabNavigator<MainTabParamList>()
+const Tab = createBottomTabNavigator<MainTabParamList>();
 
-const renderTabBar = (props: BottomTabBarProps) => <TabBar {...props} />
+const renderTabBar = (props: BottomTabBarProps) => <TabBar {...props} />;
 
 export const MainTabNavigation = () => {
   return (
@@ -43,5 +43,5 @@ export const MainTabNavigation = () => {
         component={MyStackNavigation}
       />
     </Tab.Navigator>
-  )
-}
+  );
+};

@@ -1,1 +1,1 @@
-export * from './register-ticket-price-info-modal'
+export * from './register-ticket-price-info-modal';

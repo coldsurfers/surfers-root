@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const kakaoSearchDocumentSchema = z.object({
   address_name: z.string(),
@@ -13,4 +13,4 @@ export const kakaoSearchDocumentSchema = z.object({
   road_address_name: z.string(),
   x: z.string(),
   y: z.string(),
-})
+});

@@ -1,6 +1,6 @@
-import { TreeData } from './data.types'
+import type { TreeData } from './data.types';
 
-export const urls = []
+export const urls = [];
 
 export const shevilData: TreeData = {
   title: 'Shevil',
@@ -25,4 +25,4 @@ export const shevilData: TreeData = {
       url: 'https://open.spotify.com/artist/2tShjM9Q1fN4yOdVCsEpWo',
     },
   ],
-}
+};

@@ -1,17 +1,17 @@
-import { useCallback } from 'react'
-import { GestureResponderEvent } from 'react-native'
-import { StyledToastContainer, StyledToastPressable, StyledToastText } from './toast.styled'
-import { ToastProps } from './toast.types'
+import { useCallback } from 'react';
+import type { GestureResponderEvent } from 'react-native';
+import { StyledToastContainer, StyledToastPressable, StyledToastText } from './toast.styled';
+import type { ToastProps } from './toast.types';
 
 export const Toast = ({ type, message, onPress }: ToastProps) => {
   const handlePress = useCallback(
     (e: GestureResponderEvent) => {
       if (onPress) {
-        onPress(e)
+        onPress(e);
       }
     },
-    [onPress],
-  )
+    [onPress]
+  );
 
   return (
     <StyledToastContainer>
@@ -19,5 +19,5 @@ export const Toast = ({ type, message, onPress }: ToastProps) => {
         <StyledToastText>{message}</StyledToastText>
       </StyledToastPressable>
     </StyledToastContainer>
-  )
-}
+  );
+};

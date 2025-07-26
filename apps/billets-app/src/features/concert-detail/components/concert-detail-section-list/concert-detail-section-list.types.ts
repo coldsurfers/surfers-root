@@ -1,5 +1,5 @@
-import { SectionListData } from 'react-native'
-import {
+import type { SectionListData } from 'react-native';
+import type {
   ConcertDetailSectionListAboutItemProps,
   ConcertDetailSectionListDateItemProps,
   ConcertDetailSectionListLineupItemProps,
@@ -10,7 +10,7 @@ import {
   ConcertDetailSectionListTicketsItemProps,
   ConcertDetailSectionListTitleItemProps,
   ConcertDetailSectionListVenueMapItemProps,
-} from '../concert-detail-section-list-item'
+} from '../concert-detail-section-list-item';
 
 export type ConcertDetailSectionListItemT =
   | ConcertDetailSectionListDateItemProps
@@ -22,7 +22,7 @@ export type ConcertDetailSectionListItemT =
   | ConcertDetailSectionListTicketSellerItemProps
   | ConcertDetailSectionListVenueMapItemProps
   | ConcertDetailSectionListTicketsItemProps
-  | ConcertDetailSectionListAboutItemProps
+  | ConcertDetailSectionListAboutItemProps;
 
 export type ConcertDetailSectionListSectionT = {
   title:
@@ -35,7 +35,7 @@ export type ConcertDetailSectionListSectionT = {
     | 'price-info'
     | 'ticket-open-date'
     | 'tickets'
-    | 'about'
+    | 'about';
   sectionHeaderTitle?:
     | '라인업'
     | '티켓 판매처'
@@ -45,20 +45,20 @@ export type ConcertDetailSectionListSectionT = {
     | '티켓 오픈 날짜'
     | '종합 정보'
     | '티켓'
-    | '소개'
-}
+    | '소개';
+};
 
 export type ConcertDetailSectionListSection = SectionListData<
   ConcertDetailSectionListItemT,
   ConcertDetailSectionListSectionT
->
+>;
 
-export type ConcertDetailSectionListSections = ReadonlyArray<ConcertDetailSectionListSection>
+export type ConcertDetailSectionListSections = ReadonlyArray<ConcertDetailSectionListSection>;
 
 export interface ConcertDetailSectionListProps {
-  sections: ConcertDetailSectionListSections
-  thumbnails: string[]
-  isSubscribed?: boolean
-  onPressSubscribe?: () => void
-  ListFooterComponent?: React.ComponentType<unknown> | React.ReactElement | null
+  sections: ConcertDetailSectionListSections;
+  thumbnails: string[];
+  isSubscribed?: boolean;
+  onPressSubscribe?: () => void;
+  ListFooterComponent?: React.ComponentType<unknown> | React.ReactElement | null;
 }

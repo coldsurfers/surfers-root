@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { PropsWithChildren } from 'react'
-import { StyledPostsContainer } from './post-list-container.styled'
+import type { PropsWithChildren } from 'react';
+import { StyledPostsContainer } from './post-list-container.styled';
 
 export const PostListContainer = ({ children }: PropsWithChildren) => {
-  return <StyledPostsContainer>{children}</StyledPostsContainer>
-}
+  return <StyledPostsContainer>{children}</StyledPostsContainer>;
+};

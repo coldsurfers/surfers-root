@@ -6,7 +6,7 @@ PODS:
   - AppAuth/ExternalUserAgent (1.7.6):
     - AppAuth/Core
   - boost (1.84.0)
-  - callstack-repack (5.1.1):
+  - callstack-repack (5.1.3):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -213,6 +213,11 @@ PODS:
     - SSZipArchive (~> 2.2.2)
     - Yoga
   - JWTDecode (3.0.1)
+  - libavif/core (0.11.1)
+  - libavif/libdav1d (0.11.1):
+    - libavif/core
+    - libdav1d (>= 0.6.0)
+  - libdav1d (1.2.0)
   - libwebp (1.5.0):
     - libwebp/demux (= 1.5.0)
     - libwebp/mux (= 1.5.0)
@@ -2002,10 +2007,32 @@ PODS:
     - Yoga
   - RNDeviceInfo (14.0.2):
     - React-Core
-  - RNFastImage (8.6.3):
+  - RNFastImage (8.10.0):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - libavif/core (~> 0.11.1)
+    - libavif/libdav1d (~> 0.11.1)
+    - RCT-Folly (= 2024.11.18.00)
+    - RCTRequired
+    - RCTTypeSafety
     - React-Core
-    - SDWebImage (~> 5.11.1)
-    - SDWebImageWebPCoder (~> 0.8.4)
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - SDWebImage (>= 5.19.1)
+    - SDWebImageAVIFCoder (~> 0.11.0)
+    - SDWebImageWebPCoder (~> 0.14)
+    - Yoga
   - RNFBAnalytics (21.11.0):
     - Firebase/Analytics (= 11.8.0)
     - React-Core
@@ -2023,6 +2050,8 @@ PODS:
     - FirebaseCoreExtension
     - React-Core
     - RNFBApp
+  - RNFS (2.20.0):
+    - React-Core
   - RNGestureHandler (2.23.1):
     - DoubleConversion
     - glog
@@ -2343,12 +2372,15 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - SDWebImage (5.11.1):
-    - SDWebImage/Core (= 5.11.1)
-  - SDWebImage/Core (5.11.1)
-  - SDWebImageWebPCoder (0.8.5):
+  - SDWebImage (5.21.0):
+    - SDWebImage/Core (= 5.21.0)
+  - SDWebImage/Core (5.21.0)
+  - SDWebImageAVIFCoder (0.11.0):
+    - libavif/core (>= 0.11.0)
+    - SDWebImage (~> 5.10)
+  - SDWebImageWebPCoder (0.14.6):
     - libwebp (~> 1.0)
-    - SDWebImage/Core (~> 5.10)
+    - SDWebImage/Core (~> 5.17)
   - SocketRocket (0.7.1)
   - SSZipArchive (2.2.3)
   - SwiftyRSA (1.7.0):
@@ -2444,11 +2476,12 @@ DEPENDENCIES:
   - "RNCClipboard (from `../../../node_modules/@react-native-clipboard/clipboard`)"
   - "RNDateTimePicker (from `../../../node_modules/@react-native-community/datetimepicker`)"
   - RNDeviceInfo (from `../../../node_modules/react-native-device-info`)
-  - RNFastImage (from `../../../node_modules/react-native-fast-image`)
+  - "RNFastImage (from `../../../node_modules/@d11/react-native-fast-image`)"
   - "RNFBAnalytics (from `../../../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../../../node_modules/@react-native-firebase/app`)"
   - "RNFBCrashlytics (from `../../../node_modules/@react-native-firebase/crashlytics`)"
   - "RNFBMessaging (from `../../../node_modules/@react-native-firebase/messaging`)"
+  - RNFS (from `../../../node_modules/react-native-fs`)
   - RNGestureHandler (from `../../../node_modules/react-native-gesture-handler`)
   - RNGoogleMobileAds (from `../../../node_modules/react-native-google-mobile-ads`)
   - "RNGoogleSignin (from `../../../node_modules/@react-native-google-signin/google-signin`)"
@@ -2485,11 +2518,14 @@ SPEC REPOS:
     - GTMAppAuth
     - GTMSessionFetcher
     - JWTDecode
+    - libavif
+    - libdav1d
     - libwebp
     - nanopb
     - PromisesObjC
     - PromisesSwift
     - SDWebImage
+    - SDWebImageAVIFCoder
     - SDWebImageWebPCoder
     - SocketRocket
     - SSZipArchive
@@ -2660,7 +2696,7 @@ EXTERNAL SOURCES:
   RNDeviceInfo:
     :path: "../../../node_modules/react-native-device-info"
   RNFastImage:
-    :path: "../../../node_modules/react-native-fast-image"
+    :path: "../../../node_modules/@d11/react-native-fast-image"
   RNFBAnalytics:
     :path: "../../../node_modules/@react-native-firebase/analytics"
   RNFBApp:
@@ -2669,6 +2705,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/@react-native-firebase/crashlytics"
   RNFBMessaging:
     :path: "../../../node_modules/@react-native-firebase/messaging"
+  RNFS:
+    :path: "../../../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../../../node_modules/react-native-gesture-handler"
   RNGoogleMobileAds:
@@ -2695,7 +2733,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
-  callstack-repack: 6730a36dbf8d49d715470716ca66a6983b7828e8
+  callstack-repack: 42584ddcd3f68956239b9d8f7b994776e7ef7ae7
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
   FBLazyVector: 6fe148afcef2e3213e484758e3459609d40d57f5
@@ -2724,6 +2762,8 @@ SPEC CHECKSUMS:
   hermes-engine: b417d2b2aee3b89b58e63e23a51e02be91dc876d
   HotUpdater: a07f18e1514c4fc75b3129d03bfd7ad4498bfc14
   JWTDecode: 2eed97c2fa46ccaf3049a787004eedf0be474a87
+  libavif: 84bbb62fb232c3018d6f1bab79beea87e35de7b7
+  libdav1d: 23581a4d8ec811ff171ed5e2e05cd27bad64c39f
   libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
@@ -2800,11 +2840,12 @@ SPEC CHECKSUMS:
   RNCClipboard: e49bce333d562b966bc57196410de9eb4c95c554
   RNDateTimePicker: 8f539ad932a1ab50e4667c681a6bc1eae0dbc72b
   RNDeviceInfo: 3f2e5fcca3637f75c6d30ba287293c2f97206781
-  RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
+  RNFastImage: 7ac60cfef843f0634271b7d352b66e135409681d
   RNFBAnalytics: 5313ad2b6e6641a6b9bfbe06d646d5fb25e0ccc1
   RNFBApp: 60366dd9d6bb01327607e1561a32508592d76db9
   RNFBCrashlytics: e48cb361f4179cea926bcdca3b5834d9bff81b7e
   RNFBMessaging: 9465c2e3adb5e02cae8d40048306a30aea7f55cf
+  RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: a5c5e76f0056a7115b839686934740b6639c7cec
   RNGoogleMobileAds: a6785e3f725fde1f94e24cabb855b3a1a632ac5c
   RNGoogleSignin: 81521697b2c8f97f9a586ac7257b1a1d9b51b115
@@ -2815,8 +2856,9 @@ SPEC CHECKSUMS:
   RNScreens: 77f93ec55b749c49549b447527ebf78e990125f3
   RNStoreReview: 7aa376002798f0047d49d79e291bb19a239347c0
   RNSVG: 05776cf3f0d52d3f8e7ebee34b2189da7b8638ff
-  SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
-  SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
+  SDWebImage: f84b0feeb08d2d11e6a9b843cb06d75ebf5b8868
+  SDWebImageAVIFCoder: 00310d246aab3232ce77f1d8f0076f8c4b021d90
+  SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   SwiftyRSA: 8c6dd1ea7db1b8dc4fb517a202f88bb1354bc2c6

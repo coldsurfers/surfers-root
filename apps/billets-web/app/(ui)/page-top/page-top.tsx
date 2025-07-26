@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
-import { Button } from '@coldsurfers/ocean-road'
-import { AnimatePresence, motion } from 'framer-motion'
-import Link from 'next/link'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { Button } from '@coldsurfers/ocean-road';
+import { AnimatePresence, motion } from 'framer-motion';
+import Link from 'next/link';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {
   StyledHomeMainTitle,
   StyledHomeMainTitleWrapper,
@@ -11,34 +11,34 @@ import {
   StyledWrapper,
   TicketIcon,
   TopWrapper,
-} from './page-top.styled'
+} from './page-top.styled';
 
-const words = ['라이브 공연', '재즈 공연', '뮤지컬', '페스티벌', '연극', '콘서트', '클래식 공연']
-const duration = 2500
+const words = ['라이브 공연', '재즈 공연', '뮤지컬', '페스티벌', '연극', '콘서트', '클래식 공연'];
+const duration = 2500;
 
 export function PageTop() {
-  const [index, setIndex] = useState(0)
-  const [width, setWidth] = useState(0)
-  const wordRef = useRef<HTMLSpanElement>(null)
+  const [index, setIndex] = useState(0);
+  const [width, setWidth] = useState(0);
+  const wordRef = useRef<HTMLSpanElement>(null);
 
   /**
    * words가 셔플되면서, 레이아웃 자체가 변할때에만 동작합니다.
    */
   useLayoutEffect(() => {
     if (wordRef.current) {
-      setWidth(wordRef.current.offsetWidth)
+      setWidth(wordRef.current.offsetWidth);
     }
-  }, [index])
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
       /**
        * index의 순서대로 셔플
        */
-      setIndex((prev) => (prev + 1) % words.length)
-    }, duration)
-    return () => clearInterval(interval)
-  }, [])
+      setIndex((prev) => (prev + 1) % words.length);
+    }, duration);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <StyledWrapper>
@@ -71,5 +71,5 @@ export function PageTop() {
         <Button theme="border">티켓 찾기</Button>
       </Link>
     </StyledWrapper>
-  )
+  );
 }

@@ -1,7 +1,7 @@
-import { media, semantics, Text } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
-import { GlobalLink } from 'app/(ui)'
+import { GlobalLink } from '@/shared/ui';
+import { Text, media, semantics } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export const StyledVenueDetailEventListTitleText = styled(Text)`
   font-size: 28px;
@@ -9,7 +9,7 @@ export const StyledVenueDetailEventListTitleText = styled(Text)`
   ${media.large(css`
     font-size: 20px;
   `)}
-`
+`;
 
 export const StyledVenueDetailEventListLayout = styled.div`
   display: grid;
@@ -19,7 +19,7 @@ export const StyledVenueDetailEventListLayout = styled.div`
   ${media.small(css`
     grid-template-columns: repeat(1, 1fr);
   `)}
-`
+`;
 
 export const StyledVenueDetailEventListItem = styled(GlobalLink)`
   display: flex;
@@ -35,7 +35,7 @@ export const StyledVenueDetailEventListItem = styled(GlobalLink)`
     flex-direction: row;
     align-items: center;
   `)}
-`
+`;
 
 export const StyledVenueDetailEventListItemThumbnail = styled.img`
   width: 100%;
@@ -50,7 +50,7 @@ export const StyledVenueDetailEventListItemThumbnail = styled.img`
     width: 100px;
     height: 100px;
   `)}
-`
+`;
 
 export const StyledVenueDetailEventListItemThumbnailEmpty = styled.div`
   width: 100%;
@@ -67,7 +67,7 @@ export const StyledVenueDetailEventListItemThumbnailEmpty = styled.div`
     width: 100px;
     height: 100px;
   `)}
-`
+`;
 
 export const StyledVenueDetailEventListItemThumbnailEmptyText = styled(Text)`
   font-size: 22px;
@@ -88,7 +88,7 @@ export const StyledVenueDetailEventListItemThumbnailEmptyText = styled(Text)`
     padding-left: 0.5rem;
     padding-right: 0.5rem;
   `)}
-`
+`;
 
 export const StyledVenueDetailItemDescriptionWrapper = styled.div`
   margin-top: 1rem;
@@ -97,7 +97,7 @@ export const StyledVenueDetailItemDescriptionWrapper = styled.div`
     margin-top: unset;
     margin-left: 0.5rem;
   `)}
-`
+`;
 
 export const StyledVenueDetailEventListItemTitleText = styled(Text)`
   font-size: 16px;
@@ -111,7 +111,7 @@ export const StyledVenueDetailEventListItemTitleText = styled(Text)`
   ${media.small(css`
     margin-top: unset;
   `)}
-`
+`;
 
 export const StyledVenueDetailEventListItemDateText = styled(Text)`
   margin: unset;
@@ -122,7 +122,7 @@ export const StyledVenueDetailEventListItemDateText = styled(Text)`
   ${media.medium(css`
     font-size: 14px;
   `)}
-`
+`;
 
 export const StyledVenueDetailEventListItemVenueText = styled(Text)`
   margin: unset;
@@ -133,4 +133,4 @@ export const StyledVenueDetailEventListItemVenueText = styled(Text)`
   ${media.medium(css`
     font-size: 14px;
   `)}
-`
+`;

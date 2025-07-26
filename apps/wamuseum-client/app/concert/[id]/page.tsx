@@ -1,24 +1,25 @@
-import { COOKIE_ACCESS_TOKEN_KEY } from '@/utils/constants'
-import { ApolloHydrationBoundary, initializeApollo } from 'libs'
-import { cookies } from 'next/headers'
+import { COOKIE_ACCESS_TOKEN_KEY, COOKIE_REFRESH_TOKEN_KEY } from '@/utils/constants';
+import { ApolloHydrationBoundary, initializeApollo } from 'libs';
+import { cookies } from 'next/headers';
 import {
   ConcertArtistsDocument,
   ConcertDocument,
   ConcertPosterDocument,
   ConcertTicketsDocument,
   ConcertVenuesDocument,
-} from 'src/__generated__/graphql'
-import { ConcertIdPageClient } from './page.client'
+} from 'src/__generated__/graphql';
+import { ConcertIdPageClient } from './page.client';
 
 export default async function ConcertIdPage(props: {
   params: Promise<{
-    id: string
-  }>
+    id: string;
+  }>;
 }) {
-  const params = await props.params
-  const cookieStore = await cookies()
-  const accessToken = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY)?.value
-  const apolloClient = initializeApollo({ token: accessToken })
+  const params = await props.params;
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY)?.value;
+  const refreshToken = cookieStore.get(COOKIE_REFRESH_TOKEN_KEY)?.value;
+  const apolloClient = initializeApollo({ accessToken, refreshToken });
   const promises = [
     apolloClient.query({
       query: ConcertDocument,
@@ -50,14 +51,14 @@ export default async function ConcertIdPage(props: {
         concertId: params.id,
       },
     }),
-  ]
-  await Promise.all(promises)
+  ];
+  await Promise.all(promises);
 
-  const initialState = JSON.parse(JSON.stringify(apolloClient.cache.extract()))
+  const initialState = JSON.parse(JSON.stringify(apolloClient.cache.extract()));
 
   return (
     <ApolloHydrationBoundary initialState={initialState}>
       <ConcertIdPageClient params={params} />
     </ApolloHydrationBoundary>
-  )
+  );
 }

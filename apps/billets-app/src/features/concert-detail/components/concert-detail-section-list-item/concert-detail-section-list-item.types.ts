@@ -1,50 +1,50 @@
-import { components } from '@coldsurfers/api-sdk'
+import type { components } from '@coldsurfers/api-sdk';
 
 export interface ConcertDetailSectionListDateItemProps {
-  date: string
-  isKOPIS?: boolean
+  date: string;
+  isKOPIS?: boolean;
 }
 export interface ConcertDetailSectionListLocationItemProps {
-  location: string
+  location: string;
 }
 export interface ConcertDetailSectionListPriceItemProps {
   priceInfo: {
-    description: string
-    price: string
-  }
+    description: string;
+    price: string;
+  };
 }
 export interface ConcertDetailSectionListTicketOpenDateItemProps {
-  openDate: string
-  description: string
+  openDate: string;
+  description: string;
 }
 export interface ConcertDetailSectionListTitleItemProps {
-  title: string
+  title: string;
 }
 export type ConcertDetailSectionListLineupItemProps = {
-  thumbUrl: string
-  name: string
-  artistId: string
-  onPress?: () => void
-}
+  thumbUrl: string;
+  name: string;
+  artistId: string;
+  onPress?: () => void;
+};
 export type ConcertDetailSectionListTicketSellerItemProps = {
-  siteUrl: string
-  name: string
-}
+  siteUrl: string;
+  name: string;
+};
 export type ConcertDetailSectionListVenueMapItemProps = {
-  latitude: number
-  longitude: number
-  address: string
-  onPressMap?: () => void
-  onPressProfile?: () => void
-  venueTitle: string
-  venueId: string
-}
+  latitude: number;
+  longitude: number;
+  address: string;
+  onPressMap?: () => void;
+  onPressProfile?: () => void;
+  venueTitle: string;
+  venueId: string;
+};
 
 export type ConcertDetailSectionListTicketsItemProps = {
-  tickets: components['schemas']['TicketDTOSchema'][]
-  onPressCta?: () => void
-}
+  tickets: components['schemas']['TicketDTOSchema'][];
+  onPressCta?: () => void;
+};
 
 export type ConcertDetailSectionListAboutItemProps = {
-  detailImages: components['schemas']['DetailImageDTOSchema'][]
-}
+  detailImages: components['schemas']['DetailImageDTOSchema'][];
+};

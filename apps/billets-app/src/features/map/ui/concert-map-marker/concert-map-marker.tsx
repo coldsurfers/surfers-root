@@ -1,16 +1,16 @@
-import { colors } from '@coldsurfers/ocean-road'
-import { Text } from '@coldsurfers/ocean-road/native'
-import { memo } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Marker } from 'react-native-maps'
-import { ConcertMapMarkerProps } from './concert-map-marker.types'
+import { colors } from '@coldsurfers/ocean-road';
+import { Text } from '@coldsurfers/ocean-road/native';
+import { memo } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Marker } from 'react-native-maps';
+import type { ConcertMapMarkerProps } from './concert-map-marker.types';
 
 export const ConcertMapMarker = memo(({ clusters }: ConcertMapMarkerProps) => {
   return (
     <>
       {clusters.map((point) => {
-        const { properties, geometry } = point
-        const [longitude, latitude] = geometry.coordinates
+        const { properties, geometry } = point;
+        const [longitude, latitude] = geometry.coordinates;
 
         if (properties.cluster) {
           return (
@@ -21,7 +21,7 @@ export const ConcertMapMarker = memo(({ clusters }: ConcertMapMarkerProps) => {
                 </Text>
               </View>
             </Marker>
-          )
+          );
         }
 
         return (
@@ -32,11 +32,11 @@ export const ConcertMapMarker = memo(({ clusters }: ConcertMapMarkerProps) => {
           >
             <View style={styles.circleMarker} />
           </Marker>
-        )
+        );
       })}
     </>
-  )
-})
+  );
+});
 
 const styles = StyleSheet.create({
   circleMarker: {
@@ -49,4 +49,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   markerText: { color: colors.oc.white.value, fontSize: 14 },
-})
+});

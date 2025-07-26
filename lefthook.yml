@@ -3,7 +3,22 @@ pre-commit:
   commands:
     lint:
       glob: '*.{js,ts,jsx,tsx}'
-      run: npx eslint {staged_files}
+      run: |
+        # staging 브랜치와 비교해서 변경된 파일들만 biome 적용
+        if git rev-parse --verify origin/staging >/dev/null 2>&1; then
+          CHANGED_FILES=$(git diff --cached --name-only --diff-filter=ACM origin/staging...HEAD | grep -E '\.(js|ts|jsx|tsx)$' | tr '\n' ' ')
+        else
+          # staging 브랜치가 없으면 모든 변경된 파일에 대해 실행
+          CHANGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(js|ts|jsx|tsx)$' | tr '\n' ' ')
+        fi
+
+        if [ -n "$CHANGED_FILES" ]; then
+          echo "Running biome on changed files: $CHANGED_FILES"
+          # biome check --write는 format, lint, organize imports를 모두 수행
+          pnpm biome check --write $CHANGED_FILES
+        else
+          echo "No changed files to lint"
+        fi
     types:
       glob: '*.{js,ts,jsx,tsx}'
       run: pnpm turbo check:type

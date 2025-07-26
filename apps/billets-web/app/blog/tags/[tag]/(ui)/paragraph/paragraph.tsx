@@ -1,13 +1,13 @@
-'use client'
+'use client';
 
-import { semantics } from '@coldsurfers/ocean-road'
-import styled from '@emotion/styled'
-import { CSSProperties, ElementType, PropsWithChildren, type JSX } from 'react'
+import { semantics } from '@coldsurfers/ocean-road';
+import styled from '@emotion/styled';
+import type { CSSProperties, ElementType, JSX, PropsWithChildren } from 'react';
 
 const ParagraphContainer = styled.p`
   color: ${semantics.color.foreground[1]};
   white-space: pre-wrap;
-`
+`;
 
 export const Paragraph = ({
   children,
@@ -15,9 +15,9 @@ export const Paragraph = ({
   as,
   ...otherProps
 }: PropsWithChildren<{
-  style?: CSSProperties
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  as?: ElementType<any, keyof JSX.IntrinsicElements>
+  style?: CSSProperties;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  as?: ElementType<any, keyof JSX.IntrinsicElements>;
 }>) => {
   return (
     <ParagraphContainer
@@ -29,5 +29,5 @@ export const Paragraph = ({
     >
       {children}
     </ParagraphContainer>
-  )
-}
+  );
+};

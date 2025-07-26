@@ -1,2 +1,2 @@
-export * from './copyright-modal'
-export * from './copyright-modal.types'
+export * from './copyright-modal';
+export * from './copyright-modal.types';

@@ -1,22 +1,35 @@
-import { components } from '@coldsurfers/api-sdk'
-import storage from './utils.storage'
+import type { components } from '@coldsurfers/api-sdk';
+import { SITE_URL } from '../constants';
+import { useAuthStore } from '../stores';
 
 export const authUtils = {
-  localLogin: async (authToken: components['schemas']['UserWithAuthTokenDTOSchema']['authToken']) => {
-    await fetch('/api/local-login', {
+  localLogin: async (
+    authToken: components['schemas']['UserWithAuthTokenDTOSchema']['authToken']
+  ) => {
+    const isSsr = typeof window === 'undefined';
+    const fetchUrl = isSsr ? `${SITE_URL}/api/local-login` : '/api/local-login';
+    await fetch(fetchUrl, {
       method: 'POST',
       body: JSON.stringify({
-        token: authToken.accessToken,
+        accessToken: authToken.accessToken,
+        refreshToken: authToken.refreshToken,
       }),
-    })
-    storage?.set('@coldsurf-io/access-token', authToken.accessToken)
-    storage?.set('@coldsurf-io/refresh-token', authToken.refreshToken)
+    });
+    if (!isSsr) {
+      useAuthStore.getState().login({
+        accessToken: authToken.accessToken,
+        refreshToken: authToken.refreshToken,
+      });
+    }
   },
   localLogout: async () => {
-    await fetch('/api/local-logout', {
+    const isSsr = typeof window === 'undefined';
+    const fetchUrl = isSsr ? `${SITE_URL}/api/local-logout` : '/api/local-logout';
+    await fetch(fetchUrl, {
       method: 'POST',
-    })
-    storage?.remove('@coldsurf-io/access-token')
-    storage?.remove('@coldsurf-io/refresh-token')
+    });
+    if (!isSsr) {
+      useAuthStore.getState().logout();
+    }
   },
-}
+};

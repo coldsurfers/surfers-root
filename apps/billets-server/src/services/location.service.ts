@@ -1,22 +1,22 @@
-import { LocationCityDTO, LocationConcertDTO, LocationCountryDTO } from '@/dtos/location.dto'
-import { LocationRepository } from '@/repositories/location.repository'
+import type { LocationCityDTO, LocationConcertDTO, LocationCountryDTO } from '@/dtos/location.dto';
+import type { LocationRepository } from '@/repositories/location.repository';
 
 export class LocationService {
-  private locationRepository: LocationRepository
+  private locationRepository: LocationRepository;
 
   constructor(locationRepository: LocationRepository) {
-    this.locationRepository = locationRepository
+    this.locationRepository = locationRepository;
   }
 
   async findAllCity(): Promise<LocationCityDTO[]> {
-    return await this.locationRepository.findAllCity()
+    return await this.locationRepository.findAllCity();
   }
 
   async findAllConcertsByGeohashes(geohashes: string[]): Promise<LocationConcertDTO[]> {
-    return await this.locationRepository.findAllConcertsByGeohashes(geohashes)
+    return await this.locationRepository.findAllConcertsByGeohashes(geohashes);
   }
 
   async findAllCountry(): Promise<LocationCountryDTO[]> {
-    return await this.locationRepository.findAllCountry()
+    return await this.locationRepository.findAllCountry();
   }
 }
