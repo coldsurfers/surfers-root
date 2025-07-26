@@ -21,7 +21,7 @@ export const KOPIS_COPYRIGHT_TEXT =
 
 export const REMOTE_APP_BUNDLE_HOST_URL = Config.REMOTE_BUNDLE_HOST_URL ?? '';
 export const REMOTE_APPS = {
-  SETTINGS: {
+  settings: {
     PATH: Config.REMOTE_APP_SETTINGS_PATH ?? '',
   },
 } as const;

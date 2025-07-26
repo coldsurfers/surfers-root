@@ -1,11 +1,10 @@
 import { apiClient } from '@/lib/api/openapi-client';
-import { REMOTE_APPS, REMOTE_APP_BUNDLE_HOST_URL } from '@/lib/constants';
 import { AuthContext } from '@/lib/contexts/auth-context';
+import { useLoadRemoteApp } from '@/lib/hooks/use-load-remote-app';
 import { useColorScheme } from '@coldsurfers/ocean-road/native';
-import { loadAsyncScript } from '@coldsurfers/react-native-esbuild-deploy';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LogOut, UserRoundX } from 'lucide-react-native';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 import { Alert, FlatList, type ListRenderItem, type TextProps, View } from 'react-native';
 import { getBuildNumber, getVersion } from 'react-native-device-info';
 import pkg from '../../../package.json';
@@ -15,12 +14,10 @@ export const SettingsMenuList = ({ onLogoutSuccess }: { onLogoutSuccess: () => v
   const { semantics } = useColorScheme();
   const { logout } = useContext(AuthContext);
   const queryClient = useQueryClient();
-  const { data: manifest } = useQuery({
-    queryKey: apiClient.app.queryKeys.remoteAppManifest,
-    queryFn: () => apiClient.app.getRemoteAppManifest(),
+  const { component: VersionText } = useLoadRemoteApp({
+    appName: 'settings',
+    componentName: 'VersionText',
   });
-
-  const [VersionText, setVersionText] = useState<React.FC<TextProps> | null>(null);
 
   const versionInfoText = `native: ${getVersion()} (${getBuildNumber()}) ota: ${pkg.version}`;
 
@@ -104,25 +101,6 @@ export const SettingsMenuList = ({ onLogoutSuccess }: { onLogoutSuccess: () => v
     },
     [semantics.border, semantics.foreground]
   );
-
-  useEffect(() => {
-    if (!manifest) {
-      return;
-    }
-    const {
-      settings: { latestVersion },
-    } = manifest;
-
-    async function loadScript() {
-      const path = `${REMOTE_APPS.SETTINGS.PATH}/v${latestVersion}/index.bundle.js`;
-      const settingsRemoteApp = await loadAsyncScript<{ VersionText: React.FC<TextProps> }>({
-        path,
-        bundleHostUrl: REMOTE_APP_BUNDLE_HOST_URL,
-      });
-      setVersionText(() => settingsRemoteApp.VersionText);
-    }
-    loadScript();
-  }, [manifest]);
 
   return (
     <FlatList
