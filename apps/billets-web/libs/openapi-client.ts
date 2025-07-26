@@ -60,6 +60,10 @@ const authMiddleware: Middleware = {
   onResponse: async ({ response, request }) => {
     if (response.status !== 401) return response;
 
+    const refreshToken = await getRefreshToken();
+
+    if (!refreshToken) return response;
+
     const cloned = response.clone();
     let json: OpenApiError | undefined;
     try {
@@ -96,7 +100,7 @@ const authMiddleware: Middleware = {
 
     try {
       const reissued = await apiClient.auth.reissueToken({
-        refreshToken: await getRefreshToken(),
+        refreshToken,
       });
 
       await authUtils.localLogin(reissued.authToken);
