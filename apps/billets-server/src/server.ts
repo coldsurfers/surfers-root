@@ -66,6 +66,7 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod';
+import { RemoteAppManifestDTOSchema } from './dtos/remote-app-manifest.dto';
 import {
   GetUserProfileByHandleParamsDTOSchema,
   UserProfileDTOSchema,
@@ -222,6 +223,7 @@ app.register(fastifySwagger, {
       UserHandleDTOSchema,
       UserProfileDTOSchema,
       GetUserProfileByHandleParamsDTOSchema,
+      RemoteAppManifestDTOSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
