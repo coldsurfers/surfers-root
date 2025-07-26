@@ -55,7 +55,7 @@ export const getVenueBySlugHandler = async (
 ) => {
   try {
     const { slug } = req.params;
-    const venue = await venueDetailService.getVenueDetail(slug);
+    const venue = await venueDetailService.getVenueDetailBySlug(slug);
     if (!venue) {
       return rep.status(404).send({
         code: 'VENUE_NOT_FOUND',
