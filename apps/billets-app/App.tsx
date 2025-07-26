@@ -1,6 +1,7 @@
 import { AuthContextProvider, useFirebaseAnalytics, useFirebaseCrashlytics } from '@/lib';
 import { apiClient } from '@/lib/api/openapi-client';
 import { GlobalErrorBoundaryRegistry } from '@/lib/errors';
+import { getQueryClient } from '@/lib/getQueryClient';
 import { useColorSchemeStorage } from '@/lib/storage';
 import { compareVersion } from '@/lib/utils.semver';
 import { BackgroundOtaUpdater } from '@/ui/background-ota-updater';
@@ -17,16 +18,7 @@ import { match } from 'ts-pattern';
 import pkg from './package.json';
 import AppContainer from './src/AppContainer';
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    mutations: {
-      retry: false,
-    },
-    queries: {
-      retry: false,
-    },
-  },
-});
+const queryClient = getQueryClient();
 
 const AppSystemColorSwitcher = memo(() => {
   const { colorScheme, setColorScheme } = useColorScheme();

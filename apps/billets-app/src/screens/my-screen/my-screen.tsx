@@ -28,7 +28,7 @@ import type {
 
 const SuspenseMyScreen = () => {
   const navigation = useMyScreenNavigation();
-  const { meData: user, isLoading } = useMeQuery();
+  const { meData: user, isLoading, error: meError } = useMeQuery();
 
   const { semantics } = useColorScheme();
 
@@ -143,7 +143,7 @@ const SuspenseMyScreen = () => {
     ];
   }, [user]);
 
-  if (isLoading) {
+  if (isLoading && !meError) {
     return <GlobalSuspenseFallback />;
   }
 
