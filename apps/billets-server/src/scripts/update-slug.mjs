@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { generateSlug } from './generateSlug.mjs';
+import { generateSlug, generateSlugForVenue } from './generateSlug.mjs';
 
 const dbClient = new PrismaClient({
   log: ['warn', 'info', 'error'],
@@ -39,7 +39,7 @@ async function updateSlugForVenues() {
     },
   });
   const promises = venues.map(async (venue) => {
-    const slug = await generateSlug(venue.name);
+    const slug = await generateSlugForVenue(venue.name);
     try {
       await dbClient.venue.update({
         where: {
