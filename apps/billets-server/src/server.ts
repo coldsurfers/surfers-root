@@ -34,7 +34,7 @@ import {
 import { TicketDTOSchema, TicketPromotionDTOSchema } from '@/dtos/ticket.dto';
 import { UserDTOSchema, UserHandleDTOSchema } from '@/dtos/user.dto';
 import { VenueDetailDTOSchema } from '@/dtos/venue-detail-dto';
-import { VenueDTOSchema } from '@/dtos/venue.dto';
+import { GetVenueBySlugDTOSchema, VenueDTOSchema } from '@/dtos/venue.dto';
 import { SWAGGER_HOST } from '@/lib/constants';
 import { jwtPlugin } from '@/plugins';
 import appRoute from '@/routes/app.route';
@@ -224,6 +224,7 @@ app.register(fastifySwagger, {
       UserProfileDTOSchema,
       GetUserProfileByHandleParamsDTOSchema,
       RemoteAppManifestDTOSchema,
+      GetVenueBySlugDTOSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
