@@ -19,7 +19,7 @@ const findAllCities = cache(async () => {
   const cities = await dbClient.locationCity.findMany();
   return cities;
 });
-const findAllEvents = cache(async () => {
+const findFutureEvents = cache(async () => {
   const events = await dbClient.concert.findMany();
   return events;
 });
@@ -159,10 +159,13 @@ export default async function sitemap() {
     });
   });
 
-  const allEvents = await findAllEvents();
+  /**
+   * 이미 날짜가 지나간 이벤트들은 sitemap을 만들 필요 없음
+   */
+  const futureEvents = await findFutureEvents();
 
   // "/event/[slug]"
-  const eventSitemaps = allEvents
+  const eventSitemaps = futureEvents
     .map((event) => {
       if (!event.slug) {
         return null;
