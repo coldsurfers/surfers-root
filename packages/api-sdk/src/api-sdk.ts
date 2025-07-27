@@ -105,9 +105,9 @@ export class ApiSdk {
           return response.data;
         },
         getEventDetailBySlug: async (slug: string) => {
-          const response = await baseFetchClient.GET('/v1/event/slug/{slug}', {
+          const response = await baseFetchClient.GET('/v1/event/detail', {
             params: {
-              path: {
+              query: {
                 slug,
               },
             },
