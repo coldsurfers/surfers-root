@@ -10,7 +10,7 @@ export function getSafeSlug(value) {
     replacement: '-', // 공백을 "-"로 변환
     lower: true, // 소문자로 변환
     strict: false, // 특수 문자 제거
-    remove: /[[\]*+~.()'"?!:@,&<>〈〉#]/g, // 특정 특수문자 제거
+    remove: /[[\]*+~.()'"?!:@,&<>〈〉]/g, // 특정 특수문자 제거
   });
   return slug;
 }
