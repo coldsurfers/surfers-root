@@ -170,7 +170,7 @@ export default async function sitemap() {
       if (!event.slug) {
         return null;
       }
-      const url = generateUrl(`/event/${encodeURIComponent(event.slug)}`);
+      const url = generateUrl(`/event/${event.slug}`);
       const lastModified = new Date();
       const changeFrequency = 'weekly';
       const priority = 0.8;
