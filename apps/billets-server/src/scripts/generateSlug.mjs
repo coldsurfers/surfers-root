@@ -5,7 +5,7 @@ const dbClient = new PrismaClient({
   log: ['warn', 'info', 'error'],
 });
 
-function getSafeSlug(value) {
+export function getSafeSlug(value) {
   const slug = slugify(value, {
     replacement: '-', // 공백을 "-"로 변환
     lower: true, // 소문자로 변환
