@@ -8,7 +8,7 @@ import { metadataInstance } from '@/libs/metadata';
 import { apiClient, initialPageQuery } from '@/libs/openapi-client';
 import { ApiErrorBoundaryRegistry } from '@/libs/registries';
 import { getQueryClient } from '@/libs/utils';
-import { generateSafeSlug, generateSlugHref } from '@/libs/utils/utils.slug';
+import { generateSlugHref } from '@/libs/utils/utils.slug';
 import { SERVICE_NAME } from '@coldsurfers/shared-utils';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { RouteLoading } from 'app/(ui)';
@@ -238,7 +238,7 @@ export default async function EventDetailPage(props: { params: Promise<{ slug: s
       <RouteLoading>
         <PageInner
           params={{
-            slug: generateSafeSlug(decodeURIComponent(params.slug)),
+            slug: params.slug,
           }}
         />
       </RouteLoading>
