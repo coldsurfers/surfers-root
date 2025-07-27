@@ -4,6 +4,7 @@ import type {
   EventDetailDTO,
   GetEventDetailByIdParamsDTO,
   GetEventDetailBySlugParamsDTO,
+  GetEventDetailBySlugQuerystringDTO,
   GetEventsQueryStringDTO,
 } from '@/dtos/event.dto';
 import geohashUtils from '@/lib/geohashUtils';
@@ -119,6 +120,7 @@ export const getEventDetailByIdHandler = async (
 
 interface GetEventDetailBySlugRoute extends RouteGenericInterface {
   Params: GetEventDetailBySlugParamsDTO;
+  Querystring: GetEventDetailBySlugQuerystringDTO;
   Reply: {
     200: EventDetailDTO;
     404: ErrorResponseDTO;
@@ -131,7 +133,14 @@ export const getEventDetailBySlugHandler = async (
   rep: FastifyReply<GetEventDetailBySlugRoute>
 ) => {
   try {
-    const slug = decodeURIComponent(req.params.slug);
+    const slugValue = req.query.slug ?? req.params.slug;
+    if (!slugValue) {
+      return rep.status(404).send({
+        code: 'EVENT_NOT_FOUND',
+        message: 'event not found',
+      });
+    }
+    const slug = decodeURIComponent(slugValue);
     const event = await eventService.getEventDetailBySlug({
       type: 'concert',
       data: {
