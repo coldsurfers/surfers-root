@@ -43,7 +43,8 @@
     "react-native-apple-maps",
     "api-sdk",
     "react-native-esbuild-deploy",
-    "coldsurf-app-settings-app"
+    "coldsurf-app-settings-app",
+    "billets-cron"
   ],
   "deno.enable": true,
   "deno.enablePaths": ["./apps/billets-cron"],
