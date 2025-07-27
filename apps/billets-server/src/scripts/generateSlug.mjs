@@ -5,18 +5,23 @@ const dbClient = new PrismaClient({
   log: ['warn', 'info', 'error'],
 });
 
+function getSafeSlug(value) {
+  const slug = slugify(value, {
+    replacement: '-', // 공백을 "-"로 변환
+    lower: true, // 소문자로 변환
+    strict: false, // 특수 문자 제거
+    remove: /[[\]*+~.()'"?!:@,&<>〈〉#]/g, // 특정 특수문자 제거
+  });
+  return slug;
+}
+
 /**
  * generate slug for concert
  */
 export async function generateSlug(title) {
   try {
     await dbClient.$connect();
-    let slug = slugify(title, {
-      replacement: '-', // 공백을 "-"로 변환
-      lower: true, // 소문자로 변환
-      strict: false, // 특수 문자 제거
-      remove: /[[\]*+~.()'"?!:@,&<>〈〉]/g, // 특정 특수문자 제거
-    });
+    let slug = getSafeSlug(title);
 
     // Check for existing slugs in the database
     let existing = await dbClient.concert.findUnique({
@@ -51,12 +56,7 @@ export async function generateSlug(title) {
 export async function generateSlugForVenue(title) {
   try {
     await dbClient.$connect();
-    let slug = slugify(title, {
-      replacement: '-', // 공백을 "-"로 변환
-      lower: true, // 소문자로 변환
-      strict: false, // 특수 문자 제거
-      remove: /[[\]*+~.()'"?!:@,&<>〈〉]/g, // 특정 특수문자 제거
-    });
+    let slug = getSafeSlug(title);
 
     // Check for existing slugs in the database
     let existing = await dbClient.venue.findUnique({
