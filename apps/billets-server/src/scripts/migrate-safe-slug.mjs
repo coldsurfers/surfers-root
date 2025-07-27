@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { generateSlug } from './generateSlug.mjs';
 
 const dbClient = new PrismaClient({
   log: ['warn', 'info', 'error'],
