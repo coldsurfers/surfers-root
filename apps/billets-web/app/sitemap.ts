@@ -20,7 +20,13 @@ const findAllCities = cache(async () => {
   return cities;
 });
 const findFutureEvents = cache(async () => {
-  const events = await dbClient.concert.findMany();
+  const events = await dbClient.concert.findMany({
+    where: {
+      date: {
+        gte: new Date(),
+      },
+    },
+  });
   return events;
 });
 const findAllEventCategories = cache(async () => {
