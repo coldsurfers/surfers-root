@@ -176,6 +176,15 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case '지리산 오도재 힐링 캠핑장':
+      alreadyExistingVenueId = '090575cf-f62c-43ec-84d3-cc4c2f651e50';
+      break;
+    case '앳모스피어 뮤직홀':
+      alreadyExistingVenueId = '07736644-8842-4f01-80c8-33ebf6145fba';
+      break;
+    case '예술나무씨어터(구. 상상나눔씨어터)':
+      alreadyExistingVenueId = 'c1cd66bb-4a86-4603-9bb0-aeede6a2b96b';
+      break;
     case '문화공간 iei':
       alreadyExistingVenueId = '71c54df8-8334-4977-93c6-5e5eb3180fa9';
       break;
