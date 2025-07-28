@@ -238,7 +238,7 @@ export default async function EventDetailPage(props: { params: Promise<{ slug: s
       <RouteLoading>
         <PageInner
           params={{
-            slug: params.slug,
+            slug: decodeURIComponent(params.slug),
           }}
         />
       </RouteLoading>
