@@ -36,6 +36,9 @@ export class SearchRepositoryImpl implements SearchRepository {
         deletedAt: {
           equals: null,
         },
+        date: {
+          gte: new Date(),
+        },
         OR: [
           {
             title: {
@@ -89,9 +92,12 @@ export class SearchRepositoryImpl implements SearchRepository {
           },
         },
       },
+      orderBy: {
+        date: 'asc',
+      },
     });
 
-    // 순서: artist -> venue -> concert
+    // 순서: concert -> venue -> artist
 
     const artists = artistData.map((artist) =>
       this.toDTO({
@@ -122,7 +128,7 @@ export class SearchRepositoryImpl implements SearchRepository {
       })
     );
 
-    return artists.concat(venues).concat(concerts);
+    return concerts.concat(venues).concat(artists);
   }
 
   private toDTO(data: SearchModel): SearchDTO {
