@@ -759,13 +759,45 @@ async function connectOrCreateVenue(venue: string, eventId: string) {
   }
 }
 
+const replacements = [
+  [/#/g, 'no'],
+  [/&/g, 'and'],
+  [/%/g, 'percent'],
+] as const;
+
+function preprocess(title: string) {
+  return replacements.reduce((acc, [regex, value]) => acc.replace(regex, value), title);
+}
+
+// 서수 접미사 함수
+function getOrdinalSuffix(day: number): string {
+  if (day > 3 && day < 21) return 'th';
+  switch (day % 10) {
+    case 1:
+      return 'st';
+    case 2:
+      return 'nd';
+    case 3:
+      return 'rd';
+    default:
+      return 'th';
+  }
+}
+
+function formatDateSlug(date: Date): string {
+  const day = Number(format(date, 'd')); // 1~31
+  const month = format(date, 'MMM').toLowerCase(); // "Oct" → "oct"
+  const ordinal = getOrdinalSuffix(day);
+  return `${day}${ordinal}-${month}`;
+}
+
 export async function generateSlug(title: string) {
   try {
-    let slug = slugify.default(title, {
+    let slug = slugify.default(preprocess(`${title}`), {
       replacement: '-', // 공백을 "-"로 변환
       lower: true, // 소문자로 변환
       strict: false, // 특수 문자 제거
-      remove: /[[\]*+~.()'"?!:@,&<>〈〉#]/g, // 특정 특수문자 제거
+      remove: /[[\]*+~.()'"?!:@,<>〈〉]/g, // 특정 특수문자 제거
     });
 
     // Check for existing slugs in the database
@@ -871,7 +903,10 @@ async function insertKOPISEvents(
         } else {
           console.log(`not existing, ${item.title}`);
           const locationCityId = areaToLocationCityId(item.area);
-          const slug = await generateSlug(item.title);
+          const dateSlug = formatDateSlug(new Date(item.date));
+          const slug = await generateSlug(
+            `${item.title}-${dateSlug}-${item.venue}-${item.area}-티켓`
+          );
 
           const concertId = randomUUID();
           console.log('concertId', concertId);
@@ -911,7 +946,7 @@ async function insertKOPISEvents(
           await connectOrCreateVenue(item.venue, event.id);
 
           await sendSlack({
-            text: `🎉 newly created event, ${event.id}`,
+            text: `🎉 newly created event, https://coldsurf.io/event/${slug}`,
           });
         }
       })
