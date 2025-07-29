@@ -19,11 +19,15 @@ const findAllCities = cache(async () => {
   const cities = await dbClient.locationCity.findMany();
   return cities;
 });
-const findFutureEvents = cache(async () => {
+const findEvents = cache(async () => {
+  const now = new Date();
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(now.getDate() - 30);
+
   const events = await dbClient.concert.findMany({
     where: {
       date: {
-        gte: new Date(),
+        gte: thirtyDaysAgo,
       },
     },
   });
@@ -168,15 +172,15 @@ export default async function sitemap() {
   /**
    * 이미 날짜가 지나간 이벤트들은 sitemap을 만들 필요 없음
    */
-  const futureEvents = await findFutureEvents();
+  const events = await findEvents();
 
   // "/event/[slug]"
-  const eventSitemaps = futureEvents
+  const eventSitemaps = events
     .map((event) => {
       if (!event.slug) {
         return null;
       }
-      const url = generateUrl(`/event/${encodeURIComponent(event.slug)}`);
+      const url = generateUrl(`/event/${event.slug}`);
       const lastModified = new Date();
       const changeFrequency = 'weekly';
       const priority = 0.8;
