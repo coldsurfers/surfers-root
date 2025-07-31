@@ -1125,6 +1125,9 @@ importers:
 
   packages/db-migration:
     dependencies:
+      '@coldsurfers/shared-utils':
+        specifier: workspace:*
+        version: link:../shared-utils
       '@prisma/client':
         specifier: 5.21.1
         version: 5.21.1(prisma@5.21.1)
