@@ -1132,6 +1132,9 @@ importers:
       prisma:
         specifier: 5.21.1
         version: 5.21.1
+      typescript:
+        specifier: 5.6.3
+        version: 5.6.3
 
   packages/ocean-road:
     devDependencies:
