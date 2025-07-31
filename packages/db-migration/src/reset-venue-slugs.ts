@@ -1,16 +1,12 @@
-import { PrismaClient } from '@prisma/client';
-
-const dbClient = new PrismaClient({
-  log: ['warn', 'info', 'error'],
-});
+import { db } from './db';
 
 async function main() {
-  await dbClient.$connect();
+  await db.$connect();
 
-  const allVenues = await dbClient.venue.findMany({});
+  const allVenues = await db.venue.findMany({});
 
   const migrationPromises = allVenues.map(async (venue) => {
-    await dbClient.venue.update({
+    await db.venue.update({
       where: {
         id: venue.id,
       },
@@ -22,7 +18,7 @@ async function main() {
 
   await Promise.allSettled(migrationPromises);
 
-  await dbClient.$disconnect();
+  await db.$disconnect();
 }
 
 main();
