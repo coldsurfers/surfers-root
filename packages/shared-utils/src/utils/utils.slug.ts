@@ -37,3 +37,23 @@ export async function generateSlug(
 
   return slug;
 }
+
+const replacements = [
+  [/#/g, 'no'],
+  [/&/g, 'and'],
+  [/%/g, 'percent'],
+] as const;
+
+function preprocess(title: string) {
+  return replacements.reduce((acc, [regex, value]) => acc.replace(regex, value), title);
+}
+
+export const createSlug = (valueToSlugify: string) => {
+  const slug = slugify(preprocess(`${valueToSlugify}`), {
+    replacement: '-', // 공백을 "-"로 변환
+    lower: true, // 소문자로 변환
+    strict: false, // 특수 문자 제거
+    remove: /[[\]*+~.()'"?!:@,<>〈〉]/g, // 특정 특수문자 제거
+  });
+  return slug;
+};
