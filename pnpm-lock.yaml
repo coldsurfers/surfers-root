@@ -1123,6 +1123,16 @@ importers:
         specifier: ^0.12.5
         version: 0.12.5
 
+  packages/db-migration:
+    dependencies:
+      '@prisma/client':
+        specifier: 5.21.1
+        version: 5.21.1(prisma@5.21.1)
+    devDependencies:
+      prisma:
+        specifier: 5.21.1
+        version: 5.21.1
+
   packages/ocean-road:
     devDependencies:
       '@babel/preset-react':
