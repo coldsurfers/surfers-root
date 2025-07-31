@@ -1,0 +1,23 @@
+{
+  "name": "@coldsurfers/db-migration",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "pnpm prisma:generate",
+    "prisma:db-push": "pnpm prisma db push --schema ../prisma-schema/prisma/schema.prisma",
+    "prisma:generate": "pnpm prisma generate --schema ../prisma-schema/prisma/schema.prisma",
+    "prisma:migrate-dev": "pnpm prisma migrate dev --schema ../prisma-schema/prisma/schema.prisma",
+    "prisma:studio": "pnpm prisma studio --schema ../prisma-schema/prisma/schema.prisma"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.4.1",
+  "dependencies": {
+    "@prisma/client": "5.21.1"
+  },
+  "devDependencies": {
+    "prisma": "5.21.1"
+  }
+}
