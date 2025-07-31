@@ -117,17 +117,10 @@ export class UserRepositoryImpl implements UserRepository {
     // ESM 이슈로 dynamic import 교체
     const generateRandomWords = await import('random-words').then((mod) => mod.generate);
     const seedValue = email.split('@').at(0) ?? (generateRandomWords(2) as string[]).join(' ');
-    const handleValue = await generateSlug(
-      seedValue,
-      async (newSlug) => {
-        const user = await this.findUserByHandle(newSlug);
-        return !!user;
-      },
-      {
-        lower: false,
-        strict: true,
-      }
-    );
+    const handleValue = await generateSlug(seedValue, async (newSlug) => {
+      const user = await this.findUserByHandle(newSlug);
+      return !!user;
+    });
     return handleValue;
   }
 
