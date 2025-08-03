@@ -64,7 +64,7 @@ export const SearchItem = (item: SearchItemProps) => {
       (value) => value.type === 'venue',
       (value) => {
         return (
-          <StyledSearchItemLink key={value.id} href={`/venue/${value.id}`} onClick={item.onClick}>
+          <StyledSearchItemLink key={value.id} href={`/venue/${value.slug}`} onClick={item.onClick}>
             <SearchItemThumbnailCircle
               as="div"
               style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}

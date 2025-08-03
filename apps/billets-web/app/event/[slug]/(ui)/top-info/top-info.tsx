@@ -13,19 +13,19 @@ export function TopInfo({
   title,
   venueTitle,
   formattedDate,
-  venueId,
+  venueSlug,
   isKOPIS,
 }: {
   title: string;
   venueTitle: string;
   formattedDate: string;
-  venueId: string;
+  venueSlug: string;
   isKOPIS: boolean;
 }) {
   return (
     <StyledTopInfoContainer>
       <StyledTopInfoTitle as="h1">{title}</StyledTopInfoTitle>
-      <GlobalLink href={`/venue/${venueId}`}>
+      <GlobalLink href={`/venue/${venueSlug}`}>
         <StyledVenueTitle as="h3">{venueTitle}</StyledVenueTitle>
       </GlobalLink>
       <StyledFormattedDate as="h3">{formattedDate}</StyledFormattedDate>
