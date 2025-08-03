@@ -505,7 +505,7 @@ importers:
         version: 7.4.3
       ts-node-dev:
         specifier: ^2.0.0
-        version: 2.0.0(@types/node@22.13.5)(typescript@5.6.3)
+        version: 2.0.0(@types/node@20.5.1)(typescript@5.6.3)
       tsup:
         specifier: 8.3.5
         version: 8.3.5(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.6.3)(yaml@2.7.0)
@@ -1254,7 +1254,26 @@ importers:
         specifier: 5.6.3
         version: 5.6.3
 
-  packages/ocean-road-extension: {}
+  packages/ocean-road-extension:
+    devDependencies:
+      '@coldsurfers/ocean-road':
+        specifier: workspace:*
+        version: link:../ocean-road
+      react:
+        specifier: 19.0.0
+        version: 19.0.0
+      react-native:
+        specifier: 0.78.0
+        version: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0)
+      react-native-safe-area-context:
+        specifier: 5.3.0
+        version: 5.3.0(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
+      tsdown:
+        specifier: ^0.11.9
+        version: 0.11.9(typescript@5.6.3)
+      typescript:
+        specifier: 5.6.3
+        version: 5.6.3
 
   packages/prisma-schema:
     devDependencies:
@@ -21484,7 +21503,7 @@ snapshots:
 
   axios@1.6.3:
     dependencies:
-      follow-redirects: 1.15.9(debug@4.4.1)
+      follow-redirects: 1.15.9(debug@4.3.7)
       form-data: 4.0.2
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -28936,7 +28955,7 @@ snapshots:
       - '@swc/wasm'
       - '@types/node'
 
-  ts-node-dev@2.0.0(@types/node@22.13.5)(typescript@5.6.3):
+  ts-node-dev@2.0.0(@types/node@20.5.1)(typescript@5.6.3):
     dependencies:
       chokidar: 3.6.0
       dynamic-dedupe: 0.3.0
@@ -28946,7 +28965,7 @@ snapshots:
       rimraf: 2.7.1
       source-map-support: 0.5.21
       tree-kill: 1.2.2
-      ts-node: 10.9.2(@types/node@22.13.5)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@20.5.1)(typescript@5.6.3)
       tsconfig: 7.0.0
       typescript: 5.6.3
     transitivePeerDependencies:
