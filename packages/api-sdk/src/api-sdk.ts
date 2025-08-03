@@ -207,6 +207,7 @@ export class ApiSdk {
         queryKeys: {
           all: ['venue'],
           detail: (venueId: string) => ['venue', 'detail', venueId],
+          detailBySlug: (venueSlug: string) => ['venue', 'detail', venueSlug],
         },
         getVenueDetail: async (venueId: string) => {
           const response = await baseFetchClient.GET('/v1/venue/{id}', {
