@@ -1,0 +1,27 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "extends": ["../../biome.json"],
+  "files": {
+    "ignore": [
+      "node_modules/**",
+      "android/**",
+      "ios/**",
+      "output/**",
+      "generated/**",
+      "vendor/**",
+      "*.min.js",
+      "*.bundle.js"
+    ]
+  },
+  "linter": {
+    "rules": {
+      "recommended": true,
+      "correctness": {
+        "noUnusedVariables": "warn"
+      },
+      "suspicious": {
+        "noExplicitAny": "warn"
+      }
+    }
+  }
+}
