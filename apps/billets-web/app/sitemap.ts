@@ -193,14 +193,18 @@ export default async function sitemap() {
     })
     .filter((value) => value !== null);
 
-  // "/venue/[venue-id]"
+  // "/venue/[slug]"
   const allVenues = await findAllVenues();
   const venueSitemaps = allVenues.map((venue) => {
+    if (!venue.slug) {
+      return null;
+    }
+    const url = generateUrl(`/venue/${venue.slug}`);
     const lastModified = new Date();
     const changeFrequency = 'weekly';
     const priority = 0.8;
     return {
-      url: generateUrl(`/venue/${venue.id}`),
+      url,
       lastModified,
       changeFrequency,
       priority,
