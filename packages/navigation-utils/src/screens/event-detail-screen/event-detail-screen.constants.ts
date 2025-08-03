@@ -1,0 +1,1 @@
+export const EVENT_DETAIL_FIXED_BOTTOM_HEIGHT = 95
