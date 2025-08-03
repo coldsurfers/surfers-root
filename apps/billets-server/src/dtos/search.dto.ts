@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const SearchDTOSchema = z.discriminatedUnion('type', [
   z.object({
@@ -11,6 +11,7 @@ export const SearchDTOSchema = z.discriminatedUnion('type', [
     type: z.literal('venue'),
     name: z.string(),
     id: z.string(),
+    slug: z.string().nullable(),
   }),
   z.object({
     type: z.literal('concert'),
@@ -21,10 +22,10 @@ export const SearchDTOSchema = z.discriminatedUnion('type', [
     id: z.string(),
     slug: z.string().nullable(),
   }),
-])
-export type SearchDTO = z.infer<typeof SearchDTOSchema>
+]);
+export type SearchDTO = z.infer<typeof SearchDTOSchema>;
 
 export const SearchListQueryStringDTOSchema = z.object({
   keyword: z.string(),
-})
-export type SearchListQueryStringDTO = z.infer<typeof SearchListQueryStringDTOSchema>
+});
+export type SearchListQueryStringDTO = z.infer<typeof SearchListQueryStringDTOSchema>;

@@ -113,6 +113,7 @@ export class SearchRepositoryImpl implements SearchRepository {
         type: 'venue',
         id: venue.id,
         name: venue.name,
+        slug: venue.slug,
       })
     );
 
