@@ -8,7 +8,9 @@
     "prisma:db-push": "pnpm prisma db push --schema ../prisma-schema/prisma/schema.prisma",
     "prisma:generate": "pnpm prisma generate --schema ../prisma-schema/prisma/schema.prisma",
     "prisma:migrate-dev": "pnpm prisma migrate dev --schema ../prisma-schema/prisma/schema.prisma",
-    "prisma:studio": "pnpm prisma studio --schema ../prisma-schema/prisma/schema.prisma"
+    "prisma:studio": "pnpm prisma studio --schema ../prisma-schema/prisma/schema.prisma",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write ."
   },
   "keywords": [],
   "author": "",
@@ -19,6 +21,7 @@
     "@prisma/client": "5.21.1"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "prisma": "5.21.1",
     "typescript": "5.6.3"
   }
