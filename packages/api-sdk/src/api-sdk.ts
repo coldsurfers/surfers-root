@@ -221,6 +221,19 @@ export class ApiSdk {
           }
           return response.data;
         },
+        getVenueDetailBySlug: async (slug: string) => {
+          const response = await baseFetchClient.GET('/v1/venue/detail', {
+            params: {
+              query: {
+                slug,
+              },
+            },
+          });
+          if (response.error) {
+            throw new OpenApiError(response.error);
+          }
+          return response.data;
+        },
       },
       artist: {
         queryKeys: {
