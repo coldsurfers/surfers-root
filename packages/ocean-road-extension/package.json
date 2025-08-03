@@ -1,0 +1,35 @@
+{
+  "name": "@coldsurfers/ocean-road-extension",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "react-native": "src/index.ts",
+  "module": "dist/index.mjs",
+  "source": "src/",
+  "types": "dist/index.d.ts",
+  "files": ["src", "dist", "package.json"],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./*.css": {
+      "import": "./src/css/*.css",
+      "require": "./src/css/*.css"
+    },
+    "./native": {
+      "import": "./src/native/index.ts",
+      "require": "./src/native/index.ts"
+    }
+  },
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "rm -rf dist && tsdown && cp -R ./src/css ./dist",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.4.1"
+}
