@@ -1,8 +1,6 @@
-import { MenuItem } from './menu-item';
-import { VersionText } from './version-text';
+import { SettingsScreen } from './settings-screen';
+import type { SettingsScreenProps } from './types';
 
-export * from './types';
-export default {
-  VersionText,
-  MenuItem,
-};
+export type { SettingsScreenProps };
+
+export default SettingsScreen;
