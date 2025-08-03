@@ -1,11 +1,6 @@
 import { generateSlug } from '@coldsurfers/shared-utils';
 import { db } from './db';
-
-function runSequentially(tasks: (() => Promise<any>)[]) {
-  return tasks.reduce((prevPromise, task) => {
-    return prevPromise.then(() => task().then(console.log));
-  }, Promise.resolve());
-}
+import { runSequentially } from './utils';
 
 /**
  * !!WARNING: update all

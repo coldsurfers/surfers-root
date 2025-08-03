@@ -1,14 +1,8 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const fetch = require('node-fetch');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { PrismaClient } = require('@prisma/client');
-
-const dbClient = new PrismaClient({
-  log: ['warn', 'info', 'error'],
-});
+import fetch from 'node-fetch';
+import { db } from './db';
 
 async function migratePostersKeyId() {
-  const allPosters = await dbClient.poster.findMany();
+  const allPosters = await db.poster.findMany();
 
   const concurrency = 10;
   let index = 0;
@@ -18,11 +12,13 @@ async function migratePostersKeyId() {
     await Promise.all(
       batch.map(async (poster) => {
         const { imageURL } = poster;
-        const [_, key] = imageURL.split('https://api.billets.coldsurf.io/v1/image?key=');
-        await dbClient.poster.update({
-          where: { id: poster.id },
-          data: { keyId: key },
-        });
+        if (imageURL) {
+          const [_, key] = imageURL.split('https://api.billets.coldsurf.io/v1/image?key=');
+          await db.poster.update({
+            where: { id: poster.id },
+            data: { keyId: key },
+          });
+        }
       })
     );
   }
@@ -32,7 +28,7 @@ async function migratePostersKeyId() {
 }
 
 async function migrateDetailImages() {
-  const allDetailImages = await dbClient.detailImage.findMany();
+  const allDetailImages = await db.detailImage.findMany();
 
   const concurrency = 10;
   let index = 0;
@@ -43,7 +39,7 @@ async function migrateDetailImages() {
       batch.map(async (detailImage) => {
         const { imageURL } = detailImage;
         const [_, key] = imageURL.split('https://api.billets.coldsurf.io/v1/image?key=');
-        await dbClient.detailImage.update({
+        await db.detailImage.update({
           where: { id: detailImage.id },
           data: { keyId: key },
         });
@@ -55,7 +51,7 @@ async function migrateDetailImages() {
   }
 }
 
-async function syncUp() {
+async function main() {
   const KOPISEVENT_CATEGORIES = [
     '대중음악',
     '연극',
@@ -86,4 +82,4 @@ async function syncUp() {
   // await migrateDetailImages();
 }
 
-syncUp();
+main();
