@@ -689,7 +689,7 @@ async function connectOrCreateVenue(venue: string, eventId: string) {
 
     if (!connected) {
       console.log('not connected venue:', eventId, venue);
-      sendSlack({
+      await sendSlack({
         text: `🛠️ not connected venue: ${eventId}, ${venue}`,
       });
     }
@@ -704,15 +704,17 @@ async function connectOrCreateVenue(venue: string, eventId: string) {
       // 1. Venue 생성
       const venueId = randomUUID();
       console.log('venueId', venueId);
+      const placeName = kakaoSearchFirstResult?.place_name;
       const { data: createdVenue, error: venueError } = await supabase
         .from('Venue')
         .insert({
           id: venueId,
           lat,
           lng,
-          name: kakaoSearchFirstResult?.place_name,
+          name: placeName,
           address: kakaoSearchFirstResult?.road_address_name,
           geohash,
+          slug: await generateSlug(placeName),
         })
         .select('id') // 생성된 id를 받아오기 위해 select 사용
         .single(); // 하나의 row만 반환
