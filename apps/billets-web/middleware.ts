@@ -17,18 +17,36 @@ export function middleware(request: NextRequest) {
 
   // /event/[event-id] 패턴으로 올 경우 대비
   // UUID 패턴만 매칭 (대소문자 허용)
-  const match = pathname.match(
+  const legacyEventPagePathMatch = pathname.match(
     /^\/event\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/
   );
 
-  if (match) {
-    const eventId = match[1];
+  if (legacyEventPagePathMatch) {
+    const eventId = legacyEventPagePathMatch[1];
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const idToSlugJson = require('./id-to-slug.json');
     const slug = idToSlugJson[eventId];
 
     if (slug) {
       const newUrl = new URL(`/event/${slug}`, request.url);
+      return NextResponse.redirect(newUrl, 301); // 301 (영구 리디렉션)
+    }
+    return NextResponse.redirect(new URL('/404', request.url));
+  }
+
+  // /venue/[venue-id] 패턴으로 올 경우 대비
+  // UUID 패턴만 매칭 (대소문자 허용)
+  const legacyVenuePagePathMatch = pathname.match(
+    /^\/venue\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/
+  );
+  if (legacyVenuePagePathMatch) {
+    const venueId = legacyVenuePagePathMatch[1];
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const idToSlugJson = require('./venue-id-to-slug.json');
+    const slug = idToSlugJson[venueId];
+
+    if (slug) {
+      const newUrl = new URL(`/venue/${slug}`, request.url);
       return NextResponse.redirect(newUrl, 301); // 301 (영구 리디렉션)
     }
     return NextResponse.redirect(new URL('/404', request.url));
