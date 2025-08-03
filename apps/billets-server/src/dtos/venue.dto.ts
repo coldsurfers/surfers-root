@@ -44,3 +44,10 @@ export const GetVenuesByConcertIdParamsDTOSchema = z.object({
   concertId: z.string(),
 });
 export type GetVenuesByConcertIdParamsDTO = z.infer<typeof GetVenuesByConcertIdParamsDTOSchema>;
+
+export const GetVenueDetailBySlugQuerystringDTOSchema = z.object({
+  slug: z.string().optional(),
+});
+export type GetVenueDetailBySlugQuerystringDTO = z.infer<
+  typeof GetVenueDetailBySlugQuerystringDTOSchema
+>;
