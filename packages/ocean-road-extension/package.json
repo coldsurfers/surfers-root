@@ -33,6 +33,7 @@
   "license": "ISC",
   "packageManager": "pnpm@10.4.1",
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@coldsurfers/ocean-road": "workspace:*",
     "react": "19.0.0",
     "react-native": "0.78.0",

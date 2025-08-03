@@ -1256,6 +1256,9 @@ importers:
 
   packages/ocean-road-extension:
     devDependencies:
+      '@biomejs/biome':
+        specifier: 1.9.4
+        version: 1.9.4
       '@coldsurfers/ocean-road':
         specifier: workspace:*
         version: link:../ocean-road
