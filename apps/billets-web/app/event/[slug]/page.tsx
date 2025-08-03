@@ -54,7 +54,8 @@ export async function generateMetadata({
   params,
 }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const pageParams = await params;
-  const meta = await getEventMetadata(pageParams.slug);
+  const slug = decodeURIComponent(pageParams.slug);
+  const meta = await getEventMetadata(slug);
   if (!meta) {
     return {
       title: COMMON_META_TITLE,
