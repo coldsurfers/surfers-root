@@ -146,6 +146,7 @@ async function PageInner({ params }: { params: { slug: string } }) {
     latitude: mainVenue?.lat ?? 0,
     longitude: mainVenue?.lng ?? 0,
     venueTitle: mainVenue?.name ?? '',
+    slug: mainVenue?.slug ?? '',
   };
 
   const artistNamesString = artists.map((artist) => artist.name).join('\n');
@@ -170,7 +171,7 @@ async function PageInner({ params }: { params: { slug: string } }) {
             title={title}
             venueTitle={venueTitle}
             formattedDate={formattedDate}
-            venueId={venueInfo.id}
+            venueSlug={venueInfo.slug}
             isKOPIS={isKOPIS}
           />
         }
