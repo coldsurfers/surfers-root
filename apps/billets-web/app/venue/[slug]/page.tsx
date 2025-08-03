@@ -12,11 +12,11 @@ import {
   VenueDetailTop,
 } from './(ui)';
 
-const getVenueDetail = cache((venueId: string) => apiClient.venue.getVenueDetail(venueId));
+const getVenueDetailBySlug = cache((slug: string) => apiClient.venue.getVenueDetailBySlug(slug));
 
-async function validateVenue(venueId: string) {
+async function validateVenue(venueSlug: string) {
   try {
-    const response = await getVenueDetail(venueId);
+    const response = await getVenueDetailBySlug(venueSlug);
     return {
       isValid: true,
       data: response,
@@ -30,10 +30,10 @@ async function validateVenue(venueId: string) {
   }
 }
 
-async function PageInner({ params }: { params: { 'venue-id': string } }) {
-  const venueId = params['venue-id'];
+async function PageInner({ params }: { params: { slug: string } }) {
+  const venueSlug = decodeURIComponent(params.slug);
 
-  const validation = await validateVenue(venueId);
+  const validation = await validateVenue(venueSlug);
 
   if (!validation.isValid) {
     return redirect('/404');
@@ -41,21 +41,21 @@ async function PageInner({ params }: { params: { 'venue-id': string } }) {
 
   const queryClient = getQueryClient();
 
-  await queryClient.prefetchQuery(initialPageQuery.venueDetail(venueId));
+  await queryClient.prefetchQuery(initialPageQuery.venueDetailBySlug(venueSlug));
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <VenueDetailPageLayout>
-        <VenueDetailTop venueId={venueId} />
-        <VenueDetailEventList venueId={venueId} />
-        <VenueDetailAbout venueId={venueId} />
+        <VenueDetailTop venueSlug={venueSlug} />
+        <VenueDetailEventList venueSlug={venueSlug} />
+        <VenueDetailAbout venueSlug={venueSlug} />
       </VenueDetailPageLayout>
     </HydrationBoundary>
   );
 }
 
 export default async function VenueDetailPage(props: {
-  params: Promise<{ 'venue-id': string }>;
+  params: Promise<{ slug: string }>;
 }) {
   const params = await props.params;
   return (

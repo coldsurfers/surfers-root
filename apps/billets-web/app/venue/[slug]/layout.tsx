@@ -8,17 +8,18 @@ import { type ReactNode, cache } from 'react';
 
 export const dynamic = 'force-dynamic';
 
-const getVenueDetail = cache(async (venueId: string) => {
-  return await apiClient.venue.getVenueDetail(venueId);
+const getVenueDetailBySlug = cache(async (slug: string) => {
+  return await apiClient.venue.getVenueDetailBySlug(slug);
 });
 
 export const generateMetadata = async ({
   params,
 }: {
-  params: Promise<{ 'venue-id': string }>;
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata | undefined> => {
   const pageParams = await params;
-  const venueDetail = await getVenueDetail(pageParams['venue-id']);
+  const slug = decodeURIComponent(pageParams.slug);
+  const venueDetail = await getVenueDetailBySlug(slug);
   if (!venueDetail) {
     return undefined;
   }
@@ -43,10 +44,11 @@ export default async function VenueDetailPageLayout({
   params,
 }: {
   children: ReactNode;
-  params: Promise<{ 'venue-id': string }>;
+  params: Promise<{ slug: string }>;
 }) {
   const pageParams = await params;
-  const venueDetail = await getVenueDetail(pageParams['venue-id']);
+  const slug = decodeURIComponent(pageParams.slug);
+  const venueDetail = await getVenueDetailBySlug(slug);
   if (!venueDetail) {
     return redirect('/404');
   }
@@ -65,7 +67,7 @@ export default async function VenueDetailPageLayout({
               latitude: venueDetail.lat,
               longitude: venueDetail.lng,
               name: venueDetail.name,
-              url: `${SITE_URL}/venue/${pageParams['venue-id']}`,
+              url: `${SITE_URL}/venue/${slug}`,
               events: venueDetail.upcomingEvents.map((event) => ({
                 type: 'MusicEvent',
                 url: `${SITE_URL}/event/${event.data.slug}`,
