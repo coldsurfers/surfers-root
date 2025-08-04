@@ -51,7 +51,7 @@ export const runEsbuild = async ({ outfile }) => {
     bundle: true,
     platform: 'node', // or 'neutral'
     format: 'cjs', // 핵심 설정
-    target: ['esnext'],
+    target: ['es2015'],
     // outfile: 'build/out/index.bundle.js',
     outfile,
     external: [
@@ -64,9 +64,17 @@ export const runEsbuild = async ({ outfile }) => {
       '@tanstack/react-query',
       '@coldsurfers/ocean-road',
       '@coldsurfers/ocean-road/native',
+      '@coldsurfers/ocean-road-extension',
+      '@coldsurfers/ocean-road-extension/native',
       '@coldsurfers/design-tokens',
+      '@coldsurfers/shared-utils',
+      '@coldsurfers/navigation-utils',
       '@emotion/native',
       'lucide-react-native',
+      '@react-navigation/native',
+      '@coldsurfers/openapi-client',
+      '@coldsurfers/openapi-client/native',
+      'react-native-device-info',
     ],
     banner: { js: 'module.exports = {};' },
     define: {

@@ -45,7 +45,8 @@
     "react-native-esbuild-deploy",
     "coldsurf-app-settings-app",
     "billets-cron",
-    "db-migration"
+    "db-migration",
+    "ocean-road-extension"
   ],
   "deno.enable": true,
   "deno.enablePaths": ["./apps/billets-cron"],

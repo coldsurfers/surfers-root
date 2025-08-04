@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-app",
-  "version": "2.1.1",
+  "version": "2.2.1",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -20,20 +20,15 @@
     "test": "jest"
   },
   "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
     "preset": "react-native"
   },
   "dependencies": {
     "@coldsurfers/api-sdk": "workspace:*",
     "@coldsurfers/design-tokens": "workspace:*",
     "@coldsurfers/ocean-road": "workspace:*",
+    "@coldsurfers/ocean-road-extension": "workspace:*",
+    "@coldsurfers/openapi-client": "workspace:*",
     "@coldsurfers/react-native-esbuild-deploy": "workspace:*",
     "@coldsurfers/shared-utils": "workspace:*",
     "@d11/react-native-fast-image": "8.10.0",
@@ -88,7 +83,8 @@
     "semver": "^7.7.1",
     "supercluster": "^8.0.1",
     "ts-pattern": "5.4.0",
-    "zustand": "5.0.1"
+    "zustand": "5.0.1",
+    "zod": "3.23.8"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

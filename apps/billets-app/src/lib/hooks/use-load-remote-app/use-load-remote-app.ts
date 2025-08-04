@@ -1,6 +1,6 @@
 import { apiClient } from '@/lib/api/openapi-client';
 import { REMOTE_APPS, REMOTE_APP_BUNDLE_HOST_URL } from '@/lib/constants';
-import type { MenuItemProps } from '@coldsurfers/coldsurf-app-settings-app';
+import type { SettingsScreenProps } from '@coldsurfers/coldsurf-app-settings-app';
 import { loadAsyncScript } from '@coldsurfers/react-native-esbuild-deploy';
 import { useQuery } from '@tanstack/react-query';
 import { type FC, useEffect, useMemo, useState } from 'react';
@@ -8,10 +8,7 @@ import type { TextProps } from 'react-native';
 
 type RemoteAppRegistry = {
   type: 'settings';
-  components: {
-    VersionText: FC<TextProps>;
-    MenuItem: FC<MenuItemProps>;
-  };
+  componentType: FC<SettingsScreenProps>;
 };
 
 type RemoteAppByType<T extends RemoteAppRegistry['type']> = Extract<RemoteAppRegistry, { type: T }>;
@@ -19,21 +16,15 @@ type RemoteAppByType<T extends RemoteAppRegistry['type']> = Extract<RemoteAppReg
 /**
  * RemoteApp의 componentName별 정확한 타입을 추출하는 유틸
  */
-type RemoteAppComponentType<
-  T extends RemoteAppRegistry['type'],
-  C extends keyof RemoteAppByType<T>['components'],
-> = RemoteAppByType<T>['components'][C];
-export const useLoadRemoteApp = <
-  TApp extends RemoteAppRegistry['type'],
-  C extends keyof RemoteAppByType<TApp>['components'],
->(remoteApp: {
+type RemoteAppComponentType<T extends RemoteAppRegistry['type']> =
+  RemoteAppByType<T>['componentType'];
+
+export const useLoadRemoteApp = <TApp extends RemoteAppRegistry['type']>(remoteApp: {
   appName: TApp;
-  componentName: C;
 }) => {
-  const [remoteAppComponent, setRemoteAppComponent] = useState<RemoteAppComponentType<
-    TApp,
-    C
-  > | null>(null);
+  const [remoteAppComponent, setRemoteAppComponent] = useState<RemoteAppComponentType<TApp> | null>(
+    null
+  );
 
   const {
     data: manifest,
@@ -68,12 +59,12 @@ export const useLoadRemoteApp = <
       const { latestVersion } = manifest[remoteApp.appName];
       const path = `${REMOTE_APPS[remoteApp.appName].PATH}/v${latestVersion}/index.bundle.js`;
 
-      const script = await loadAsyncScript<RemoteAppByType<TApp>['components']>({
+      const script = await loadAsyncScript<RemoteAppByType<TApp>['componentType']>({
         path,
         bundleHostUrl: REMOTE_APP_BUNDLE_HOST_URL,
       });
 
-      return script[remoteApp.componentName];
+      return script;
     },
     // enabled: __DEV__ ? true : !!manifest,
     enabled: !!manifest,

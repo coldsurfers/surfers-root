@@ -16,7 +16,7 @@ export const getRemoteAppManifestHandler = async (
   try {
     return rep.status(200).send({
       settings: {
-        latestVersion: '1.0.1',
+        latestVersion: '1.0.2',
       },
     });
   } catch (e) {

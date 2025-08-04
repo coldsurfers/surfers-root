@@ -41,11 +41,41 @@ export const runScript = <T>(scriptContent: string, sourceURL: string) => {
     if (name === '@coldsurfers/ocean-road/native') {
       return require('@coldsurfers/ocean-road/native');
     }
+    if (name === '@coldsurfers/ocean-road-extension') {
+      return require('@coldsurfers/ocean-road-extension');
+    }
+    if (name === '@coldsurfers/ocean-road-extension/native') {
+      return require('@coldsurfers/ocean-road-extension/native');
+    }
+    if (name === '@coldsurfers/navigation-utils') {
+      return require('@coldsurfers/navigation-utils');
+    }
     if (name === '@emotion/native') {
       return require('@emotion/native');
     }
     if (name === 'lucide-react-native') {
       return require('lucide-react-native');
+    }
+    if (name === '@coldsurfers/ocean-road-extension') {
+      return require('@coldsurfers/ocean-road-extension');
+    }
+    if (name === '@coldsurfers/ocean-road-extension/native') {
+      return require('@coldsurfers/ocean-road-extension/native');
+    }
+    if (name === '@react-navigation/native') {
+      return require('@react-navigation/native');
+    }
+    if (name === '@coldsurfers/shared-utils') {
+      return require('@coldsurfers/shared-utils');
+    }
+    if (name === '@coldsurfers/openapi-client') {
+      return require('@coldsurfers/openapi-client');
+    }
+    if (name === '@coldsurfers/openapi-client/native') {
+      return require('@coldsurfers/openapi-client/native');
+    }
+    if (name === 'react-native-device-info') {
+      return require('react-native-device-info');
     }
     throw new Error(`Unknown module: ${name}`);
   };

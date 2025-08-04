@@ -1,21 +1,25 @@
-import { CommonScreenLayout, SettingsMenuList } from '@/ui'
-import { useCallback } from 'react'
-import { useSettingsScreenNavigation } from './settings-screen.hooks'
+import { AuthContext } from '@/lib/contexts';
+import { useLoadRemoteApp } from '@/lib/hooks/use-load-remote-app';
+import { CommonScreenLayout } from '@coldsurfers/ocean-road-extension/native';
+import { Spinner } from '@coldsurfers/ocean-road/native';
+import { useContext } from 'react';
+import pkg from '../../../package.json';
 
 export const SettingsScreen = () => {
-  const navigation = useSettingsScreenNavigation()
-  const onLogoutSuccess = useCallback(() => {
-    navigation.navigate('MainTabNavigation', {
-      screen: 'HomeStackNavigation',
-      params: {
-        screen: 'HomeScreen',
-        params: {},
-      },
-    })
-  }, [navigation])
-  return (
-    <CommonScreenLayout>
-      <SettingsMenuList onLogoutSuccess={onLogoutSuccess} />
-    </CommonScreenLayout>
-  )
-}
+  const { isLoading, component: RemoteSettingsScreen } = useLoadRemoteApp({
+    appName: 'settings',
+  });
+  const { logout } = useContext(AuthContext);
+
+  if (isLoading) {
+    return (
+      <CommonScreenLayout>
+        <Spinner positionCenter />
+      </CommonScreenLayout>
+    );
+  }
+
+  return RemoteSettingsScreen ? (
+    <RemoteSettingsScreen pkgVersion={pkg.version} onLogout={logout} />
+  ) : null;
+};
