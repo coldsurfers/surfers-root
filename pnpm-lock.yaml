@@ -539,6 +539,9 @@ importers:
       '@coldsurfers/ocean-road':
         specifier: workspace:*
         version: link:../../packages/ocean-road
+      '@coldsurfers/openapi-client':
+        specifier: workspace:*
+        version: link:../../packages/openapi-client
       '@coldsurfers/shared-utils':
         specifier: workspace:*
         version: link:../../packages/shared-utils
@@ -1112,6 +1115,15 @@ importers:
       openapi-fetch:
         specifier: 0.14.0
         version: 0.14.0
+
+  packages/auth:
+    devDependencies:
+      tsdown:
+        specifier: ^0.11.9
+        version: 0.11.9(typescript@5.6.3)
+      typescript:
+        specifier: 5.6.3
+        version: 5.6.3
 
   packages/cloudinary-utils:
     dependencies:
@@ -14248,11 +14260,11 @@ snapshots:
   '@ardatan/relay-compiler@12.0.0(encoding@0.1.13)(graphql@16.10.0)':
     dependencies:
       '@babel/core': 7.26.9
-      '@babel/generator': 7.27.1
-      '@babel/parser': 7.27.2
+      '@babel/generator': 7.28.0
+      '@babel/parser': 7.28.0
       '@babel/runtime': 7.26.9
       '@babel/traverse': 7.26.9
-      '@babel/types': 7.27.1
+      '@babel/types': 7.28.2
       babel-preset-fbjs: 3.4.0(@babel/core@7.26.9)
       chalk: 4.1.2
       fb-watchman: 2.0.2
@@ -14271,8 +14283,8 @@ snapshots:
 
   '@ardatan/relay-compiler@12.0.2(encoding@0.1.13)(graphql@16.10.0)':
     dependencies:
-      '@babel/generator': 7.27.1
-      '@babel/parser': 7.27.2
+      '@babel/generator': 7.28.0
+      '@babel/parser': 7.28.0
       '@babel/runtime': 7.26.9
       chalk: 4.1.2
       fb-watchman: 2.0.2
@@ -18910,8 +18922,8 @@ snapshots:
 
   '@jridgewell/source-map@0.3.6':
     dependencies:
-      '@jridgewell/gen-mapping': 0.3.8
-      '@jridgewell/trace-mapping': 0.3.25
+      '@jridgewell/gen-mapping': 0.3.12
+      '@jridgewell/trace-mapping': 0.3.29
 
   '@jridgewell/sourcemap-codec@1.5.0': {}
 
@@ -26323,7 +26335,7 @@ snapshots:
   metro-source-map@0.81.1:
     dependencies:
       '@babel/traverse': 7.26.9
-      '@babel/traverse--for-generate-function-map': '@babel/traverse@7.26.9'
+      '@babel/traverse--for-generate-function-map': '@babel/traverse@7.28.0'
       '@babel/types': 7.27.1
       flow-enums-runtime: 0.0.6
       invariant: 2.2.4
@@ -29242,7 +29254,7 @@ snapshots:
 
   terser-webpack-plugin@5.3.11(webpack@5.98.0):
     dependencies:
-      '@jridgewell/trace-mapping': 0.3.25
+      '@jridgewell/trace-mapping': 0.3.29
       jest-worker: 27.5.1
       schema-utils: 4.3.0
       serialize-javascript: 6.0.2

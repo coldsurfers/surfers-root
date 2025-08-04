@@ -24,6 +24,7 @@
     "@coldsurfers/cloudinary-utils": "workspace:*",
     "@coldsurfers/design-tokens": "workspace:*",
     "@coldsurfers/ocean-road": "workspace:*",
+    "@coldsurfers/openapi-client": "workspace:*",
     "@coldsurfers/shared-utils": "workspace:*",
     "@emotion/css": "11.10.6",
     "@emotion/react": "11.10.6",
