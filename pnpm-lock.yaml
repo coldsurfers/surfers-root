@@ -1116,15 +1116,6 @@ importers:
         specifier: 0.14.0
         version: 0.14.0
 
-  packages/auth:
-    devDependencies:
-      tsdown:
-        specifier: ^0.11.9
-        version: 0.11.9(typescript@5.6.3)
-      typescript:
-        specifier: 5.6.3
-        version: 5.6.3
-
   packages/cloudinary-utils:
     dependencies:
       '@coldsurfers/shared-utils':
@@ -1427,6 +1418,18 @@ importers:
       '@babel/runtime':
         specifier: ^7.25.0
         version: 7.26.9
+      '@coldsurfers/navigation-utils':
+        specifier: workspace:*
+        version: link:../navigation-utils
+      '@coldsurfers/ocean-road-extension':
+        specifier: workspace:*
+        version: link:../ocean-road-extension
+      '@coldsurfers/openapi-client':
+        specifier: workspace:*
+        version: link:../openapi-client
+      '@coldsurfers/shared-utils':
+        specifier: workspace:*
+        version: link:../shared-utils
       '@d11/react-native-fast-image':
         specifier: 8.10.0
         version: 8.10.0(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
