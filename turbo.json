@@ -18,6 +18,10 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
+    "@coldsurfers/openapi-client#build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
     "@coldsurfers/billets-cron#dev": {
       "dependsOn": ["^build"]
     },
@@ -36,7 +40,11 @@
       "outputs": ["dist/**"]
     },
     "build:packages": {
-      "dependsOn": ["@coldsurfers/shared-utils#build", "@coldsurfers/cloudinary-utils#build"],
+      "dependsOn": [
+        "@coldsurfers/shared-utils#build",
+        "@coldsurfers/cloudinary-utils#build",
+        "@coldsurfers/openapi-client#build"
+      ],
       "outputs": ["dist/**"]
     },
     "deploy:coldsurf-server:prod": {
@@ -46,7 +54,11 @@
       "dependsOn": ["build"]
     },
     "deploy:coldsurf-io:prod": {
-      "dependsOn": ["build:packages", "build:ui", "@coldsurfers/billets-web#deploy:coldsurf-io:prod"]
+      "dependsOn": [
+        "build:packages",
+        "build:ui",
+        "@coldsurfers/billets-web#deploy:coldsurf-io:prod"
+      ]
     },
     "lint": {
       "outputs": []

@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-web",
-  "version": "1.1.12",
+  "version": "1.1.13",
   "scripts": {
     "build": "pnpm prisma:generate && next build",
     "create:env:ci": "pnpm ts-node ./libs/createDotEnv.ts",
@@ -24,6 +24,7 @@
     "@coldsurfers/cloudinary-utils": "workspace:*",
     "@coldsurfers/design-tokens": "workspace:*",
     "@coldsurfers/ocean-road": "workspace:*",
+    "@coldsurfers/openapi-client": "workspace:*",
     "@coldsurfers/shared-utils": "workspace:*",
     "@emotion/css": "11.10.6",
     "@emotion/react": "11.10.6",

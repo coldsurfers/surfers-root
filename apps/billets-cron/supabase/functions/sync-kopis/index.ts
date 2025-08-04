@@ -176,6 +176,9 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case '그랜드 워커힐 서울 (비스타 워커힐 서울) (빛의 시어터 (구.워커힐 시어터) )':
+      alreadyExistingVenueId = 'e1bbb68b-332d-4702-8bfb-da9ab42d2bfd';
+      break;
     case '지리산 오도재 힐링 캠핑장':
       alreadyExistingVenueId = '090575cf-f62c-43ec-84d3-cc4c2f651e50';
       break;
