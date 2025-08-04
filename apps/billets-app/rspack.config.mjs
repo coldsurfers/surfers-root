@@ -41,6 +41,14 @@ export default (env) => {
           '../../packages/ocean-road/src/native/index.ts',
           import.meta.url
         ).pathname,
+        '@coldsurfers/openapi-client/native': new URL(
+          '../../packages/openapi-client/src/native/index.ts',
+          import.meta.url
+        ).pathname,
+        '@coldsurfers/ocean-road-extension/native': new URL(
+          '../../packages/ocean-road-extension/src/native/index.ts',
+          import.meta.url
+        ).pathname,
         '@/screens': new URL('./src/screens', import.meta.url).pathname,
         '@/navigations': new URL('./src/navigations', import.meta.url).pathname,
         '@/lib': new URL('./src/lib', import.meta.url).pathname,
