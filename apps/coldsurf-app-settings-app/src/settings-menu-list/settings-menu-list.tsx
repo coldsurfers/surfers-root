@@ -1,32 +1,28 @@
-import { apiClient } from '@/lib/api/openapi-client';
-import { AuthContext } from '@/lib/contexts/auth-context';
-import { useLoadRemoteApp } from '@/lib/hooks/use-load-remote-app';
 import { useColorScheme } from '@coldsurfers/ocean-road/native';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useContext, useMemo } from 'react';
-import { Alert, FlatList, type ListRenderItem, type TextProps, View } from 'react-native';
+import { Alert, FlatList, type ListRenderItem, View } from 'react-native';
 import { getBuildNumber, getVersion } from 'react-native-device-info';
-import pkg from '../../../package.json';
+import { apiClient } from '../api-client';
+import { MenuItem } from '../menu-item';
+import { VersionText } from '../version-text';
 
-export const SettingsMenuList = ({ onLogoutSuccess }: { onLogoutSuccess: () => void }) => {
+type Props = {
+  pkgVersion: string;
+  onLogoutSuccess: () => void;
+  logout: () => Promise<void> | void;
+};
+
+export const SettingsMenuList = ({ pkgVersion, onLogoutSuccess, logout }: Props) => {
   const { semantics } = useColorScheme();
-  const { logout } = useContext(AuthContext);
   const queryClient = useQueryClient();
-  const { component: VersionText } = useLoadRemoteApp({
-    appName: 'settings',
-    componentName: 'VersionText',
-  });
-  const { component: MenuItem } = useLoadRemoteApp({
-    appName: 'settings',
-    componentName: 'MenuItem',
-  });
 
-  const versionInfoText = `native: ${getVersion()} (${getBuildNumber()}) ota: ${pkg.version}`;
+  const versionInfoText = `native: ${getVersion()} (${getBuildNumber()}) ota: ${pkgVersion}`;
 
   const { mutate: deactivateUser } = useMutation({
     mutationFn: apiClient.user.deactivate,
-    onSuccess: () => {
-      logout();
+    onSuccess: async () => {
+      await logout();
       onLogoutSuccess();
     },
     onMutate: async () => {
@@ -85,15 +81,9 @@ export const SettingsMenuList = ({ onLogoutSuccess }: { onLogoutSuccess: () => v
     [onLogout, onDeactivateUser]
   );
 
-  const renderItem = useCallback<ListRenderItem<(typeof data)[number]>>(
-    (info) => {
-      if (!MenuItem) {
-        return null;
-      }
-      return <MenuItem type={info.item.type} onPress={info.item.onPress} />;
-    },
-    [MenuItem]
-  );
+  const renderItem = useCallback<ListRenderItem<(typeof data)[number]>>((info) => {
+    return <MenuItem type={info.item.type} onPress={info.item.onPress} />;
+  }, []);
 
   return (
     <FlatList
@@ -105,9 +95,7 @@ export const SettingsMenuList = ({ onLogoutSuccess }: { onLogoutSuccess: () => v
       }}
       ListFooterComponent={
         <View>
-          {VersionText ? (
-            <VersionText style={{ color: semantics.foreground[4] }}>{versionInfoText}</VersionText>
-          ) : null}
+          <VersionText style={{ color: semantics.foreground[4] }}>{versionInfoText}</VersionText>
         </View>
       }
       contentContainerStyle={{
