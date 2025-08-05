@@ -1,5 +1,4 @@
 import fetch from 'node-fetch';
-import { db } from './db';
 
 async function main() {
   const KOPISEVENT_CATEGORIES = [
@@ -27,9 +26,6 @@ async function main() {
       console.log(`FETCHED ${category} ${page}`);
     }
   }
-
-  // await migratePostersKeyId();
-  // await migrateDetailImages();
 }
 
 main();

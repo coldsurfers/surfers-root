@@ -242,6 +242,15 @@ async function findVenue(venue: string) {
     case 'KT&amp;G 상상마당 라이브홀 [마포] (KT&amp;G 상상마당 라이브홀 [마포] )':
       alreadyExistingVenueId = '3149ac24-9b5d-4130-8bf2-6cbe8cd561f4';
       break;
+    case 'KT&amp;G 상상마당 대치아트홀 (KT&amp;G 상상마당 대치아트홀)':
+      alreadyExistingVenueId = 'd39c992c-5fb3-4ff5-85db-db3f0139255b';
+      break;
+    case 'KT&amp;G 상상마당 라이브홀 [부산] (라운지)':
+      alreadyExistingVenueId = '3078c04e-db1d-4934-9b75-e453c5cf6901';
+      break;
+    case 'KT&amp;G 상상마당 [춘천] (사운드홀)':
+      alreadyExistingVenueId = 'abefb7ea-8b38-4aae-94ad-b758600cade1';
+      break;
     case '제주호은아트센터(구.섬아이뮤직아트센터)':
       alreadyExistingVenueId = '75e5bbb2-fcee-42f1-8c23-96f630379937';
       break;
