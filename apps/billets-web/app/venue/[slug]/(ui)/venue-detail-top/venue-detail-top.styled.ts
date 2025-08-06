@@ -30,5 +30,12 @@ export const VenueDetailMemoText = styled(Text)`
 
   ${media.large(css`
     font-size: 18px;
+
+    &::before {
+      font-size: 1.25rem;
+    }
+    &::after {
+      font-size: 1.25rem;
+    }
   `)}
 `;
