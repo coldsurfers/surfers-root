@@ -11,8 +11,8 @@ export const VenueDetailTopTitleText = styled(Text)`
 `;
 
 export const VenueDetailMemoText = styled(Text)`
-  font-size: 32px;
+  font-size: 28px;
   ${media.large(css`
-    font-size: 22px;
+    font-size: 18px;
   `)}
 `;
