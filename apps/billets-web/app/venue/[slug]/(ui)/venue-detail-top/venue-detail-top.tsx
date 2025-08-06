@@ -9,7 +9,7 @@ export function VenueDetailTop({ venueSlug }: { venueSlug: string }) {
   return (
     <>
       <VenueDetailTopTitleText as="h1">{venueDetail?.name}</VenueDetailTopTitleText>
-      <VenueDetailMemoText as="p">{venueDetail?.memo}</VenueDetailMemoText>
+      <VenueDetailMemoText as="q">{venueDetail?.memo}</VenueDetailMemoText>
     </>
   );
 }
