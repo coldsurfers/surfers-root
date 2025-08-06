@@ -1,6 +1,6 @@
-import { media, Text } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
+import { Text, media } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export const VenueDetailTopTitleText = styled(Text)`
   font-size: 64px;
@@ -8,4 +8,11 @@ export const VenueDetailTopTitleText = styled(Text)`
   ${media.large(css`
     font-size: 36px;
   `)}
-`
+`;
+
+export const VenueDetailMemoText = styled(Text)`
+  font-size: 32px;
+  ${media.large(css`
+    font-size: 22px;
+  `)}
+`;
