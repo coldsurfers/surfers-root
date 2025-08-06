@@ -84,6 +84,7 @@ export default async function VenueDetailPageLayout({
                 description: '',
                 offers: [],
               })),
+              description: venueDetail.memo ?? '',
             })
           ),
         }}

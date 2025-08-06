@@ -190,6 +190,7 @@ export class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
         lat: venue.lat,
         lng: venue.lng,
         slug: venue.slug,
+        memo: venue.memo,
       })),
       artists: model.artists.map((artist) => {
         const artistProfileImage = artist.artistProfileImage.at(0);

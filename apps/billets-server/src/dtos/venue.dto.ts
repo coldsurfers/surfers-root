@@ -7,6 +7,7 @@ export const VenueDTOSchema = z.object({
   lat: z.number(),
   lng: z.number(),
   slug: z.string().nullable(),
+  memo: z.string().nullable(),
 });
 export type VenueDTO = z.infer<typeof VenueDTOSchema>;
 

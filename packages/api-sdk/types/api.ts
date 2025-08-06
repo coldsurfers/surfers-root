@@ -2882,6 +2882,7 @@ export interface components {
       id: string;
       lat: number;
       lng: number;
+      memo: string | null;
       name: string;
       slug: string | null;
       upcomingEvents: components['schemas']['EventDTOSchema'][];
@@ -2891,6 +2892,7 @@ export interface components {
       id: string;
       lat: number;
       lng: number;
+      memo: string | null;
       name: string;
       slug: string | null;
     };

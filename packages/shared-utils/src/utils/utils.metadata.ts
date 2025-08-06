@@ -154,6 +154,7 @@ export class NextMetadataGenerator {
           name: string;
           url: string;
           events: CustomMusicEvent[];
+          description: string;
         }
       | {
           type: 'PerformingGroup';
@@ -196,6 +197,7 @@ export class NextMetadataGenerator {
           },
           name: params.name,
           url: params.url,
+          description: params.description,
         } satisfies WithContext<Place>;
       case 'PerformingGroup':
         return {

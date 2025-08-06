@@ -184,6 +184,7 @@ export class VenueDetailRepositoryImpl implements VenueDetailRepository {
       lat: model.lat,
       lng: model.lng,
       slug: model.slug,
+      memo: model.memo,
       upcomingEvents: model.concerts.map((concert) => {
         const mainVenue = concert.venues.at(0);
         return {

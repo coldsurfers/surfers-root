@@ -81,6 +81,7 @@ model Venue {
   address         String
   concerts        ConcertsOnVenues[]
   subscribedUsers UsersOnSubscribedVenues[]
+  memo            String?
 }
 
 model Promoter {
