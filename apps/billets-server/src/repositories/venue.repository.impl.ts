@@ -46,6 +46,7 @@ export class VenueRepositoryImpl implements VenueRepository {
       lat: model.lat,
       lng: model.lng,
       slug: model.slug,
+      memo: model.memo,
     };
   }
 }
