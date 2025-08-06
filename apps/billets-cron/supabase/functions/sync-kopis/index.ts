@@ -176,6 +176,9 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case 'NOL 서경스퀘어(구. 서경대학교 공연예술센터)':
+      alreadyExistingVenueId = '45486c74-e4d3-449d-b661-e9cbad1606bd';
+      break;
     case '그랜드 워커힐 서울 (비스타 워커힐 서울) (빛의 시어터 (구.워커힐 시어터) )':
       alreadyExistingVenueId = 'e1bbb68b-332d-4702-8bfb-da9ab42d2bfd';
       break;
