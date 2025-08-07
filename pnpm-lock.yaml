@@ -70,6 +70,9 @@ importers:
       '@coldsurfers/api-sdk':
         specifier: workspace:*
         version: link:../../packages/api-sdk
+      '@coldsurfers/coldsurf-app-settings-app':
+        specifier: workspace:*
+        version: link:../coldsurf-app-settings-app
       '@coldsurfers/design-tokens':
         specifier: workspace:*
         version: link:../../packages/ocean-road-design-tokens
