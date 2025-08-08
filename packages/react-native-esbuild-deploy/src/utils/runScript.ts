@@ -1,5 +1,3 @@
-import type { ReactNode } from 'react';
-
 export const runScript = <T>(scriptContent: string, sourceURL: string) => {
   // eslint-disable-next-line no-new-func
   const scriptFunction = new Function(

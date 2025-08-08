@@ -32,7 +32,7 @@ export const loadAsyncScript = async <T>({
   const result = runScript<T>(scriptText, url);
 
   try {
-    await ensureDirAndWriteFile(cachedUrl, scriptText);
+    ensureDirAndWriteFile(cachedUrl, scriptText);
   } catch (e) {
     console.error(e);
   }
