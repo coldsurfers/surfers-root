@@ -3,10 +3,10 @@ import { getEventCategoryUIName } from '@/lib/utils.event-category';
 import { ConcertTicketListScreen, EventDetailScreen } from '@/screens';
 import { EventCategoryScreen } from '@/screens/event-category-screen';
 import { NavigationHeader } from '@/ui';
+import type { EventStackParamList } from '@coldsurfers/navigation-utils';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import type { z } from 'zod';
-import type { EventStackParamList } from './event-stack-navigation.types';
 
 const Stack = createNativeStackNavigator<EventStackParamList>();
 

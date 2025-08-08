@@ -1,5 +1,5 @@
 import type { ZodScreenParams, zodScreen } from '@/lib/navigations';
-import type { EventStackScreenProps } from '@/navigations/event-stack-navigation';
+import type { EventStackScreenProps } from '@coldsurfers/navigation-utils';
 
 export type EventCategoryScreenParams = ZodScreenParams<typeof zodScreen.EventCategoryScreen>;
 export type EventCategoryScreenProps = EventStackScreenProps<

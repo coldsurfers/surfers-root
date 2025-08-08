@@ -1,9 +1,8 @@
 import { type ZodNavigationParamList, type ZodNavigationParams, zodNavigation } from '@/lib';
-import type { LoginStackParamList } from '@coldsurfers/navigation-utils';
+import type { EventStackParamList, LoginStackParamList } from '@coldsurfers/navigation-utils';
 import type { NavigatorScreenParams } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { ArtistStackParamList } from '../artist-stack-navigation';
-import type { EventStackParamList } from '../event-stack-navigation';
 import type { MainTabParamList } from '../main-tab-navigation';
 import type { SettingsStackParamList } from '../settings-stack-navigation/settings-stack-navigation.types';
 import type { SubscribedStackParamList } from '../subscribed-stack-navigation';
