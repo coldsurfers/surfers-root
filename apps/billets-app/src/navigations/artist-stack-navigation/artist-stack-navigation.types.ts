@@ -1,5 +1,5 @@
 import type { ZodNavigationParamList, ZodNavigationParams } from '@/lib';
-import type { ArtistDetailScreenParam } from '@/screens/artist-detail-screen';
+import type { ArtistDetailScreenParam } from '@coldsurfers/navigation-utils';
 import type { CompositeScreenProps } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { type zodNavigation, zodScreen } from '../../lib/navigations/constants';

@@ -1,11 +1,14 @@
-import { ArtistDetailConcertList, ArtistProfileImageModal, CommonScreenLayout } from '@/ui'
-import { useState } from 'react'
-import { useArtistDetailScreenNavigation, useArtistDetailScreenRoute } from './artist-detail-screen.hooks'
+import { ArtistDetailConcertList, ArtistProfileImageModal, CommonScreenLayout } from '@/ui';
+import {
+  useArtistDetailScreenNavigation,
+  useArtistDetailScreenRoute,
+} from '@coldsurfers/navigation-utils';
+import { useState } from 'react';
 
 export const ArtistDetailScreen = () => {
-  const route = useArtistDetailScreenRoute()
-  const navigation = useArtistDetailScreenNavigation()
-  const [profileImageViewerVisible, setProfileImageViewerVisible] = useState(false)
+  const route = useArtistDetailScreenRoute();
+  const navigation = useArtistDetailScreenNavigation();
+  const [profileImageViewerVisible, setProfileImageViewerVisible] = useState(false);
 
   return (
     <CommonScreenLayout>
@@ -17,7 +20,7 @@ export const ArtistDetailScreen = () => {
             params: {
               eventId,
             },
-          })
+          });
         }}
         onPressArtistProfile={() => setProfileImageViewerVisible(true)}
       />
@@ -27,5 +30,5 @@ export const ArtistDetailScreen = () => {
         onClose={() => setProfileImageViewerVisible(false)}
       />
     </CommonScreenLayout>
-  )
-}
+  );
+};

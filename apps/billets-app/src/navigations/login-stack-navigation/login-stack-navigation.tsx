@@ -6,9 +6,9 @@ import {
   LoginSelectionScreen,
 } from '@/screens';
 import { NavigationHeader } from '@/ui';
+import type { LoginStackParamList } from '@coldsurfers/navigation-utils';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import type { LoginStackParamList } from './login-stack-navigation.types';
 
 const LoginStack = createNativeStackNavigator<LoginStackParamList>();
 

@@ -1,6 +1,6 @@
 import type { zodScreen } from '@/lib';
+import type { LoginStackScreenProps } from '@coldsurfers/navigation-utils';
 import type { z } from 'zod';
-import type { LoginStackScreenProps } from '../../navigations/login-stack-navigation/login-stack-navigation.types';
 
 export type LoginSelectionScreenParams = z.infer<typeof zodScreen.LoginSelectionScreen.params>;
 

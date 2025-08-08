@@ -1,5 +1,5 @@
 import type { ZodScreenParams, zodScreen } from '@/lib';
-import type { LoginStackScreenProps } from '@/navigations';
+import type { LoginStackScreenProps } from '@coldsurfers/navigation-utils';
 
 export type EmailSignupScreenParams = ZodScreenParams<typeof zodScreen.EmailSignupScreen>;
 

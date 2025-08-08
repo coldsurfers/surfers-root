@@ -1,24 +1,24 @@
-import { ArtistSubscribeButton } from '@/features/subscribe'
-import { apiClient } from '@/lib/api/openapi-client'
-import { useArtistDetailScreenNavigation } from '@/screens/artist-detail-screen/artist-detail-screen.hooks'
-import { colors } from '@coldsurfers/ocean-road'
-import { ProfileThumbnail, Text, useColorScheme } from '@coldsurfers/ocean-road/native'
-import { useQuery } from '@tanstack/react-query'
-import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native'
+import { ArtistSubscribeButton } from '@/features/subscribe';
+import { apiClient } from '@/lib/api/openapi-client';
+import { useArtistDetailScreenNavigation } from '@coldsurfers/navigation-utils';
+import { colors } from '@coldsurfers/ocean-road';
+import { ProfileThumbnail, Text, useColorScheme } from '@coldsurfers/ocean-road/native';
+import { useQuery } from '@tanstack/react-query';
+import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
 
 export const ArtistDetailTop = ({
   artistId,
   onPressArtistProfile,
 }: {
-  artistId: string
-  onPressArtistProfile?: () => void
+  artistId: string;
+  onPressArtistProfile?: () => void;
 }) => {
-  const { semantics } = useColorScheme()
-  const navigation = useArtistDetailScreenNavigation()
+  const { semantics } = useColorScheme();
+  const navigation = useArtistDetailScreenNavigation();
   const { data: artistDetail, isLoading: isLoadingArtistDetail } = useQuery({
     queryKey: apiClient.artist.queryKeys.detail(artistId),
     queryFn: () => apiClient.artist.getArtistDetail(artistId),
-  })
+  });
   return (
     <View>
       <View style={styles.topContainer}>
@@ -47,7 +47,7 @@ export const ArtistDetailTop = ({
                 navigation.navigate('LoginStackNavigation', {
                   params: {},
                   screen: 'LoginSelectionScreen',
-                })
+                });
               }}
               style={styles.subscribeButton}
             />
@@ -58,8 +58,8 @@ export const ArtistDetailTop = ({
         콘서트 리스트
       </Text>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   topContainer: {
@@ -85,4 +85,4 @@ const styles = StyleSheet.create({
   subscribeButton: {
     marginTop: 12,
   },
-})
+});
