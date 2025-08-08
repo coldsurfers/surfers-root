@@ -6,12 +6,12 @@ import { useContext } from 'react';
 import pkg from '../../../package.json';
 
 export const SettingsScreen = () => {
-  const { isLoading, component: RemoteSettingsScreen } = useLoadRemoteApp({
+  const { component: RemoteSettingsScreen } = useLoadRemoteApp({
     appName: 'settings',
   });
   const { logout } = useContext(AuthContext);
 
-  if (isLoading) {
+  if (!RemoteSettingsScreen) {
     return (
       <CommonScreenLayout>
         <Spinner positionCenter />

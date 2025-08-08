@@ -5,10 +5,13 @@ import type { SettingsScreenProps } from '@coldsurfers/coldsurf-app-settings-app
 import { loadAsyncScript } from '@coldsurfers/react-native-esbuild-deploy';
 import { useQuery } from '@tanstack/react-query';
 import { type FC, useEffect, useMemo, useState } from 'react';
+import { InteractionManager } from 'react-native';
 
-if (__DEV__) {
+const isDevMode = !__DEV__;
+
+if (isDevMode) {
   ScriptManager.shared.addResolver(async (scriptId, caller) => {
-    if (__DEV__) {
+    if (isDevMode) {
       return {
         url: Script.getDevServerURL(scriptId),
         cache: false,
@@ -37,23 +40,15 @@ export const useLoadRemoteApp = <TApp extends RemoteAppRegistry['type']>(remoteA
     null
   );
 
-  const {
-    data: manifest,
-    isLoading: isLoadingManifest,
-    error: manifestError,
-  } = useQuery({
+  const { data: manifest, error: manifestError } = useQuery({
     queryKey: apiClient.app.queryKeys.remoteAppManifest,
     queryFn: () => apiClient.app.getRemoteAppManifest(),
   });
 
-  const {
-    data: remoteLoadedComponent,
-    isLoading: isLoadingRemoteLoadedComponent,
-    error: remoteLoadedComponentError,
-  } = useQuery({
+  const { data: remoteLoadedComponent, error: remoteLoadedComponentError } = useQuery({
     queryKey: ['remote-app', remoteApp],
     queryFn: async () => {
-      if (__DEV__) {
+      if (isDevMode) {
         if (remoteApp.appName === 'settings') {
           const SettingsApp = await import('@coldsurfers/coldsurf-app-settings-app');
           return SettingsApp.default;
@@ -77,25 +72,22 @@ export const useLoadRemoteApp = <TApp extends RemoteAppRegistry['type']>(remoteA
         return null;
       }
     },
-    enabled: __DEV__ ? true : !!manifest,
+    enabled: isDevMode ? true : !!manifest,
   });
 
   useEffect(() => {
     if (!remoteLoadedComponent) return;
-    setRemoteAppComponent(() => remoteLoadedComponent);
+    const task = InteractionManager.runAfterInteractions(async () => {
+      setRemoteAppComponent(() => remoteLoadedComponent);
+    });
+
+    return () => task.cancel();
   }, [remoteLoadedComponent]);
 
   return useMemo(() => {
     return {
-      isLoading: isLoadingManifest || isLoadingRemoteLoadedComponent,
       component: remoteAppComponent,
       isError: !!manifestError || !!remoteLoadedComponentError,
     };
-  }, [
-    isLoadingManifest,
-    isLoadingRemoteLoadedComponent,
-    remoteAppComponent,
-    manifestError,
-    remoteLoadedComponentError,
-  ]);
+  }, [remoteAppComponent, manifestError, remoteLoadedComponentError]);
 };
