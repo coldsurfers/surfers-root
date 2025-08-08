@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { type FC, useEffect, useMemo, useState } from 'react';
 import { InteractionManager } from 'react-native';
 
-const isDevMode = !__DEV__;
+const isDevMode = __DEV__;
 
 if (isDevMode) {
   ScriptManager.shared.addResolver(async (scriptId, caller) => {
