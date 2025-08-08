@@ -2,16 +2,16 @@ import { ToastVisibleContext, ToastVisibleContextProvider } from '@/lib';
 import { apiClient } from '@/lib/api/openapi-client';
 import { CommonScreenLayout } from '@/ui';
 import type { OpenApiError, components, paths } from '@coldsurfers/api-sdk';
+import {
+  useActivateUserConfirmScreenNavigation,
+  useActivateUserConfirmScreenRoute,
+} from '@coldsurfers/navigation-utils';
 import { colors } from '@coldsurfers/ocean-road';
 import { Button, Spinner, TextInput } from '@coldsurfers/ocean-road/native';
 import { useMutation } from '@tanstack/react-query';
 import { useCallback, useContext, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {
-  useActivateUserConfirmScreenNavigation,
-  useActivateUserConfirmScreenRoute,
-} from './activate-user-confirm-screen.hook';
 
 const Screen = () => {
   const { show } = useContext(ToastVisibleContext);

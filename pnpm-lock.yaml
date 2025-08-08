@@ -76,6 +76,9 @@ importers:
       '@coldsurfers/design-tokens':
         specifier: workspace:*
         version: link:../../packages/ocean-road-design-tokens
+      '@coldsurfers/navigation-utils':
+        specifier: workspace:*
+        version: link:../../packages/navigation-utils
       '@coldsurfers/ocean-road':
         specifier: workspace:*
         version: link:../../packages/ocean-road

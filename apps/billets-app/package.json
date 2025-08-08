@@ -32,6 +32,7 @@
     "@coldsurfers/react-native-esbuild-deploy": "workspace:*",
     "@coldsurfers/coldsurf-app-settings-app": "workspace:*",
     "@coldsurfers/shared-utils": "workspace:*",
+    "@coldsurfers/navigation-utils": "workspace:*",
     "@d11/react-native-fast-image": "8.10.0",
     "@emotion/native": "11.11.0",
     "@emotion/react": "11.10.6",

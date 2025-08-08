@@ -5,12 +5,12 @@ import {
   zodScreen,
 } from '@/lib';
 import type {
-  ActivateUserConfirmScreenParams,
   EmailConfirmScreenParams,
   EmailLoginScreenParams,
   EmailSignupScreenParams,
   LoginSelectionScreenParams,
 } from '@/screens';
+import type { ActivateUserConfirmScreenParams } from '@coldsurfers/navigation-utils';
 import type { CompositeScreenProps } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { MainStackScreenProps } from '../main-stack-navigation';
