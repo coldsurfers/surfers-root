@@ -20,7 +20,7 @@ export async function generateMetadata() {
 
 const notionPageId = {
   en: 'Resume-2025-1862bbac578280e39760f02a88e17941',
-  ko: 'Resume-2025-1862bbac5782802db432c9b8ee5016b4',
+  ko: 'Resume-2025-2-24a2bbac578280c7a560eff45c8527c4',
 };
 
 const AboutDetailPage = async (props: { params: Promise<{ user: string }> }) => {
