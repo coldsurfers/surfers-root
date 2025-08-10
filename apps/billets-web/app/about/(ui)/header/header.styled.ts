@@ -79,6 +79,14 @@ export const StyledMenuItem = styled(Link)`
   }
 `;
 
+export const ColorSchemeToggleContainer = styled.div`
+  margin-left: auto;
+
+  ${media.large(css`
+    display: none;
+  `)}
+`;
+
 export const StyledLogoImage = styled(Image)`
   border-radius: 50%;
   margin-right: 20px;
