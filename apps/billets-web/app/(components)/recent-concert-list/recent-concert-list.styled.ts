@@ -1,7 +1,14 @@
-import { media, semantics, Text } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
-import { motion } from 'framer-motion'
+import { Text, media, semantics } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import {
+  APP_CONTAINER_MAX_WIDTH,
+  APP_CONTAINER_PADDING,
+  APP_CONTAINER_PADDING_LARGE,
+  SLICK_SLIDE_INTER_SPACE,
+  SLICK_SLIDE_INTER_SPACE_LARGE,
+} from 'app/(ui)/constants';
+import { motion } from 'framer-motion';
 
 export const StyledRecentListTitle = styled(Text)`
   font-weight: bold;
@@ -18,7 +25,7 @@ export const StyledRecentListTitle = styled(Text)`
     margin-top: 44px;
     font-size: 20px;
   `)}
-`
+`;
 
 export const StyledRecentListScrollContainer = styled.div`
   display: flex;
@@ -27,44 +34,51 @@ export const StyledRecentListScrollContainer = styled.div`
   overflow-x: auto; // Enable horizontal scrolling
   scrollbar-width: none; // Hide scrollbar for Firefox
   -ms-overflow-style: none; // Hide scrollbar for Internet Explorer and Edge
-  padding: 16px;
   scroll-snap-type: x mandatory;
 
   @media (max-width: 960px) {
     margin-top: 22px;
   }
-`
+`;
 
 export const StyledTitle = styled(Text)`
-  font-size: 15px;
+  font-size: 1.25rem;
 
   font-weight: bold;
   overflow-wrap: break-word;
   white-space: normal;
-  margin-top: 0;
+  margin-top: 1rem;
   margin-bottom: 0;
 
-  ${media.large(css`
-    font-size: 13px;
+  ${media['x-large'](css`
+    font-size: 1rem;
   `)};
-`
+
+  ${media.medium(css`
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+  `)};
+`;
 
 export const StyledRecentListParagraph = styled(Text)`
-  font-size: 14px;
+  font-size: 1.1rem;
   font-weight: 500;
   overflow-wrap: break-word;
   white-space: normal;
   margin-top: 0;
   margin-bottom: 0;
 
-  ${media.large(css`
-    font-size: 12px;
+  ${media['x-large'](css`
+    font-size: 0.9rem;
   `)};
-`
+
+  ${media.medium(css`
+    font-size: 0.8rem;
+  `)};
+`;
 
 export const StyledRecentListBilletsConcertCard = styled.div<{ $isLoading: boolean }>`
-  width: 200px;
-  height: ${(props) => (props.$isLoading ? '180px' : '300px')};
+  width: calc((${APP_CONTAINER_MAX_WIDTH}px - (${APP_CONTAINER_PADDING}px * 2)px - ${SLICK_SLIDE_INTER_SPACE}px * 3) / 4);
   overflow: hidden;
   background: ${(props) =>
     props.$isLoading ? 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)' : 'none'};
@@ -74,21 +88,9 @@ export const StyledRecentListBilletsConcertCard = styled.div<{ $isLoading: boole
 
   border-radius: 8px;
 
-  ${(props) => {
-    const height = props.$isLoading ? '160px' : '260px'
-    return media.large(css`
-      width: 180px;
-      height: ${height};
-    `)
-  }};
-
-  ${(props) => {
-    const height = props.$isLoading ? '140px' : '250px'
-    return media.medium(css`
-      width: 140px;
-      height: ${height};
-    `)
-  }};
+  ${media.large(css`
+    width: calc((${APP_CONTAINER_MAX_WIDTH}px - (${APP_CONTAINER_PADDING_LARGE}px * 2)px - ${SLICK_SLIDE_INTER_SPACE_LARGE}px * 3) / 4);
+  `)}
 
   @keyframes loading {
     0% {
@@ -98,7 +100,7 @@ export const StyledRecentListBilletsConcertCard = styled.div<{ $isLoading: boole
       background-position: 0 0;
     }
   }
-`
+`;
 
 export const StyledRecentListBilletsConcertCardImage = styled.img`
   border-radius: 8px;
@@ -106,7 +108,7 @@ export const StyledRecentListBilletsConcertCardImage = styled.img`
   width: 100%;
   aspect-ratio: 1 / 1;
   object-position: 50%;
-`
+`;
 
 export const StyledRecentListBilletsConcertCardImageEmpty = styled.div`
   border-radius: 8px;
@@ -121,7 +123,7 @@ export const StyledRecentListBilletsConcertCardImageEmpty = styled.div`
 
   background-color: ${semantics.color.background[1]};
   margin-bottom: 0.25rem;
-`
+`;
 
 export const StyledRecentListBilletsConcertCardImageEmptyText = styled(Text)`
   text-align: center;
@@ -130,10 +132,10 @@ export const StyledRecentListBilletsConcertCardImageEmptyText = styled(Text)`
 
   padding-left: 1rem;
   padding-right: 1rem;
-`
+`;
 
 export const StyledMotionDiv = styled(motion.div)`
   display: flex;
   flex-direction: row;
   gap: 16px;
-`
+`;
