@@ -50,6 +50,12 @@ export const initialPageQuery = {
         }),
     };
   },
+  homeVenueCollection: (slug: string) => {
+    return {
+      queryKey: ['home-collections', slug],
+      queryFn: () => apiClient.venue.getVenueDetailBySlug(slug),
+    };
+  },
   venueDetail: (venueId: string) => {
     return {
       queryKey: apiClient.venue.queryKeys.detail(venueId),

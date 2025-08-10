@@ -46,14 +46,6 @@ export function PageRenderer({
       <Wrapper>
         {/* career */}
         <NotionRenderer recordMap={careerRecordMap} />
-
-        {process.env.NODE_ENV === 'production' && (
-          <article className={postStyles.container}>
-            <Link href="/" className={postStyles.back}>
-              ← Go home
-            </Link>
-          </article>
-        )}
       </Wrapper>
     </PageLayout>
   );

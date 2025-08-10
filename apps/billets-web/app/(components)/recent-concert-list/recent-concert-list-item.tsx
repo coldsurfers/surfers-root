@@ -52,3 +52,7 @@ export const RecentConcertListItem = ({
     </GlobalLink>
   );
 };
+
+RecentConcertListItem.Empty = () => {
+  return <div />;
+};
