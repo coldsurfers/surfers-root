@@ -1,2 +1,1 @@
-export * from './recent-concert-list';
 export * from './venue-with-memo-event-list';
