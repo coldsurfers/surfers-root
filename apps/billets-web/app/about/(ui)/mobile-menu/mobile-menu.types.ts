@@ -1,4 +1,4 @@
 export type MobileMenuProps = {
-  isOpen: boolean
-  onClickMenuItem: () => void
-}
+  isOpen: boolean;
+  onClickMenuItem: () => void;
+};

@@ -1,6 +1,6 @@
-import { media } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
+import { media } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export const StyledLandingYoutubeContainer = styled.div`
   width: 50%;
@@ -11,4 +11,4 @@ export const StyledLandingYoutubeContainer = styled.div`
     width: 100%;
     padding-right: 0;
   `)}
-`
+`;

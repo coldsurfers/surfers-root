@@ -1,4 +1,4 @@
 export type LandingTextProps = {
-  bigTitle: string
-  smallTitle: string
-}
+  bigTitle: string;
+  smallTitle: string;
+};

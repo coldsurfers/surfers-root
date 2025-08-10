@@ -1,1 +1,1 @@
-export * from './top-title'
+export * from './top-title';

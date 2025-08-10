@@ -1,1 +1,1 @@
-export * from './product-card-bottom-sheet'
+export * from './product-card-bottom-sheet';

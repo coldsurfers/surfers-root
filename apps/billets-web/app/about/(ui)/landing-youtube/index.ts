@@ -1,1 +1,1 @@
-export * from './landing-youtube'
+export * from './landing-youtube';

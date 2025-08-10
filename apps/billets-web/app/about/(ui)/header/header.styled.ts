@@ -1,9 +1,9 @@
-import { media, semantics, Text } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
-import { X as CloseIcon, Menu } from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
+import { Text, media, semantics } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { X as CloseIcon, Menu } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export const StyledHeaderWrapper = styled.div`
   padding-left: 96px;
@@ -33,7 +33,7 @@ export const StyledHeaderWrapper = styled.div`
     padding-right: 16px;
     padding-top: 16px;
   `)};
-`
+`;
 
 export const StyledHeader = styled.header`
   max-width: 1728px;
@@ -57,18 +57,18 @@ export const StyledHeader = styled.header`
     max-width: none;
     width: 100%;
   `)}
-`
+`;
 
 export const StyledMenuContainer = styled.div`
   display: block;
   ${media.large(css`
     display: none;
   `)}
-`
+`;
 
 export const StyledMenuText = styled(Text)`
   color: ${semantics.color.foreground[3]};
-`
+`;
 
 export const StyledMenuItem = styled(Link)`
   padding: 11px 16px;
@@ -77,14 +77,14 @@ export const StyledMenuItem = styled(Link)`
   &:hover {
     background-color: ${semantics.color.background[4]};
   }
-`
+`;
 
 export const StyledLogoImage = styled(Image)`
   border-radius: 50%;
   margin-right: 20px;
   width: 48px;
   height: 48px;
-`
+`;
 
 export const StyledLogoText = styled(Text)`
   display: block;
@@ -95,7 +95,7 @@ export const StyledLogoText = styled(Text)`
   ${media.large(css`
     display: none;
   `)}
-`
+`;
 
 export const StyledLogoWrapper = styled(Link)`
   padding-left: 32px;
@@ -111,7 +111,7 @@ export const StyledLogoWrapper = styled(Link)`
   ${media.small(css`
     padding-left: 0;
   `)}
-`
+`;
 
 export const StyledMobileMenuIcon = styled(Menu)`
   display: none;
@@ -119,7 +119,7 @@ export const StyledMobileMenuIcon = styled(Menu)`
     display: block;
     color: ${semantics.color.foreground[3]};
   `)}
-`
+`;
 
 export const StyledCloseIconButton = styled.button<{ $isOpen: boolean }>`
   display: none;
@@ -144,7 +144,7 @@ export const StyledCloseIconButton = styled.button<{ $isOpen: boolean }>`
   ${media.small(css`
     margin-right: 0px;
   `)}
-`
+`;
 
 export const StyledCloseIcon = styled(CloseIcon)`
   display: none;
@@ -152,4 +152,4 @@ export const StyledCloseIcon = styled(CloseIcon)`
     display: block;
     color: ${semantics.color.foreground[3]};
   `)}
-`
+`;

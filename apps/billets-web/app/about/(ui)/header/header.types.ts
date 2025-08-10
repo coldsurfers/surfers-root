@@ -1,5 +1,5 @@
 export type HeaderProps = {
-  onClickMenuIcon: () => void
-  onClickCloseMobileMenuIcon: () => void
-  isMobileMenuOpen: boolean
-}
+  onClickMenuIcon: () => void;
+  onClickCloseMobileMenuIcon: () => void;
+  isMobileMenuOpen: boolean;
+};

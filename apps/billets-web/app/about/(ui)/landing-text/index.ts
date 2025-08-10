@@ -1,1 +1,1 @@
-export * from './landing-text'
+export * from './landing-text';

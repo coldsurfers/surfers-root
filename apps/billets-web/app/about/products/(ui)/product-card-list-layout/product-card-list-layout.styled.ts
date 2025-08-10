@@ -1,6 +1,6 @@
-import { media } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
+import { media } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export const ProductCardListLayoutWrapper = styled.div`
   width: 100%;
@@ -9,7 +9,7 @@ export const ProductCardListLayoutWrapper = styled.div`
   min-width: 0px;
   -webkit-box-pack: center;
   justify-content: center;
-`
+`;
 
 export const ProductCardListLayoutContainer = styled.div`
   display: grid;
@@ -48,4 +48,4 @@ export const ProductCardListLayoutContainer = styled.div`
     padding-right: 16px;
     /* grid-template-columns: repeat(1, 1fr); */
   `)}
-`
+`;

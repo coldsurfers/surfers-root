@@ -1,1 +1,1 @@
-export * from './landing-image'
+export * from './landing-image';

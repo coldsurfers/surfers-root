@@ -1,6 +1,6 @@
-import { media } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
+import { media } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export const StyledLandingImageContainer = styled.div`
   width: 50%;
@@ -8,4 +8,4 @@ export const StyledLandingImageContainer = styled.div`
   ${media.large(css`
     width: 100%;
   `)}
-`
+`;

@@ -1,6 +1,6 @@
-import { media, semantics, Text } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
+import { Text, media, semantics } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export const StyledTopTitleContainer = styled.div`
   min-height: auto;
@@ -15,7 +15,7 @@ export const StyledTopTitleContainer = styled.div`
     padding-top: 64px;
     padding-bottom: 64px;
   `)}
-`
+`;
 
 export const StyledTopTitleInner = styled.div`
   max-width: 1728px;
@@ -34,7 +34,7 @@ export const StyledTopTitleInner = styled.div`
     padding-left: 48px;
     padding-right: 48px;
   `)}
-`
+`;
 
 export const StyledTopTitle = styled(Text)`
   font-size: clamp(32px, 8.5vmin, 88px);
@@ -42,7 +42,7 @@ export const StyledTopTitle = styled(Text)`
   letter-spacing: -0.02em;
   line-height: 1.05;
   text-align: center;
-`
+`;
 
 export const StyledSmallTopTitleContainer = styled.div`
   margin-top: 24px;
@@ -51,7 +51,7 @@ export const StyledSmallTopTitleContainer = styled.div`
 
   display: flex;
   justify-content: center;
-`
+`;
 
 export const StyledSmallTopTitle = styled(Text)`
   font-weight: 418;
@@ -64,4 +64,4 @@ export const StyledSmallTopTitle = styled(Text)`
   ${media.medium(css`
     font-size: 14px;
   `)}
-`
+`;

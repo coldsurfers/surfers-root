@@ -1,1 +1,1 @@
-export * from './product-card-list-layout'
+export * from './product-card-list-layout';
