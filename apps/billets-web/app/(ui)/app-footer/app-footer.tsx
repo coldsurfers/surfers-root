@@ -1,7 +1,7 @@
 'use client';
 
 import { GlobalLink } from '@/shared/ui/global-link/global-link';
-import { Text, media } from '@coldsurfers/ocean-road';
+import { Button, Text, media } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 const Container = styled.div`
@@ -19,7 +19,7 @@ const Container = styled.div`
   `)}
 
   ${media.medium(css`
-    margin-top: unset;
+    margin-top: 12.5rem;
   `)}
 `;
 
@@ -37,6 +37,11 @@ export function AppFooter() {
       <GlobalLink href="/terms-of-service">
         <Text as="p" style={{ margin: 'unset' }}>
           Terms of Service
+        </Text>
+      </GlobalLink>
+      <GlobalLink href="/about/products">
+        <Text as="p" style={{ margin: 'unset' }}>
+          Products
         </Text>
       </GlobalLink>
     </Container>

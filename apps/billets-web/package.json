@@ -58,6 +58,7 @@
     "react-slick": "^0.31.0",
     "react-spinners": "0.14.1",
     "react-tweet": "^3.2.2",
+    "react-lite-youtube-embed": "2.4.0",
     "schema-dts": "1.1.2",
     "slick-carousel": "^1.8.1",
     "ts-pattern": "5.4.0",
