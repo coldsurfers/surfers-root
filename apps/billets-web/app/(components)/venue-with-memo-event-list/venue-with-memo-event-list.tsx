@@ -2,13 +2,19 @@
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { apiClient } from '@/libs/openapi-client';
+import { apiClient, initialPageQuery } from '@/libs/openapi-client';
 import type { OpenApiError } from '@coldsurfers/api-sdk';
 import { media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useQuery } from '@tanstack/react-query';
-import { SLICK_SLIDE_INTER_SPACE, SLICK_SLIDE_INTER_SPACE_LARGE } from 'app/(ui)/constants';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import {
+  APP_CONTAINER_PADDING_LARGE,
+  HOME_COLLECTION_COL_DEFAULT,
+  HOME_COLLECTION_COL_SMALL,
+  SLICK_SLIDE_INTER_SPACE,
+  SLICK_SLIDE_INTER_SPACE_LARGE,
+} from 'app/(ui)/constants';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useMemo } from 'react';
 import Slider from 'react-slick';
@@ -24,22 +30,22 @@ const Wrapper = styled.div`
 
     .slick-slide + .slick-slide {
       margin-left: ${SLICK_SLIDE_INTER_SPACE}px;
-      :nth-of-type(4n + 1) {
+      :nth-of-type(${HOME_COLLECTION_COL_DEFAULT}n + 1) {
         margin-left: 0px;
       }
 
       ${media.large(css`
           margin-left: ${SLICK_SLIDE_INTER_SPACE_LARGE}px;
-          :nth-of-type(4n + 1) {
+          :nth-of-type(${HOME_COLLECTION_COL_DEFAULT}n + 1) {
             margin-left: 0px;
           }
       `)}
 
       ${media.small(css`
-        :nth-of-type(4n + 1) {
+          :nth-of-type(${HOME_COLLECTION_COL_DEFAULT}n + 1) {
           margin-left: ${SLICK_SLIDE_INTER_SPACE_LARGE}px;
         }
-        :nth-of-type(3n + 1) {
+        :nth-of-type(${HOME_COLLECTION_COL_SMALL}n + 1) {
           margin-left: 0px;
         }
       `)}
@@ -69,8 +75,8 @@ const Wrapper = styled.div`
       `)}
 
       ${media.large(css`
-        left: -20px;
-        width: 20px;
+        left: -${APP_CONTAINER_PADDING_LARGE}px;
+        width: ${APP_CONTAINER_PADDING_LARGE}px;
       `)}
     }
 
@@ -94,8 +100,8 @@ const Wrapper = styled.div`
       `)}
 
       ${media.large(css`
-        right: -20px;
-        width: 20px;
+        right: -${APP_CONTAINER_PADDING_LARGE}px;
+        width: ${APP_CONTAINER_PADDING_LARGE}px;
       `)}
     }
 `;
@@ -112,21 +118,22 @@ type MutableDataT = {
 };
 
 export const VenueWithMemoEventList = ({ slug, col = 4 }: Props) => {
-  const { data } = useQuery<DataT, OpenApiError, MutableDataT>({
-    queryKey: ['venue-with-memo', 'venue-detail-by-slug', slug, col],
+  const { data: serverData } = useSuspenseQuery<DataT, OpenApiError, MutableDataT>({
+    queryKey: initialPageQuery.homeVenueCollection(slug).queryKey,
     queryFn: async () => {
       return await apiClient.venue.getVenueDetailBySlug(slug);
     },
-    select: (data) => {
-      const newUpcomingEvents = data.upcomingEvents ?? [];
-      if (newUpcomingEvents.length % col !== 0) {
-        newUpcomingEvents.push(
-          ...Array(col - (newUpcomingEvents.length % col)).fill({ type: 'empty' })
-        );
-      }
-      return { name: data.name, upcomingEvents: newUpcomingEvents };
-    },
   });
+
+  const data = useMemo(() => {
+    const newUpcomingEvents = serverData?.upcomingEvents ?? [];
+    if (newUpcomingEvents.length % col !== 0) {
+      newUpcomingEvents.push(
+        ...Array(col - (newUpcomingEvents.length % col)).fill({ type: 'empty' })
+      );
+    }
+    return { name: serverData?.name, upcomingEvents: newUpcomingEvents };
+  }, [col, serverData?.name, serverData?.upcomingEvents]);
 
   const uiData = useMemo(() => {
     const events = data?.upcomingEvents ?? [];
@@ -152,7 +159,8 @@ export const VenueWithMemoEventList = ({ slug, col = 4 }: Props) => {
           speed={500}
           centerMode={false}
           initialSlide={0}
-          draggable={false}
+          draggable={col === HOME_COLLECTION_COL_SMALL}
+          arrows={col === HOME_COLLECTION_COL_DEFAULT}
           prevArrow={<ChevronLeft color={semantics.color.foreground[1]} />}
           nextArrow={<ChevronRight color={semantics.color.foreground[1]} />}
           slidesToShow={col}
