@@ -1,11 +1,12 @@
 'use client';
 
+import { logEvent } from '@/features/firebase/firebase';
 import { isEmptySource } from '@/libs/utils/utils.image';
 import { generateSlugHref } from '@/libs/utils/utils.slug';
 import { GlobalLink } from '@/shared/ui';
 import type { components } from '@coldsurfers/api-sdk';
 import { format, parseISO } from 'date-fns';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import {
   StyledRecentListBilletsConcertCard,
   StyledRecentListBilletsConcertCardImage,
@@ -31,8 +32,18 @@ export const RecentConcertListItem = ({
     return `${data.mainPoster?.url}`;
   }, [data.mainPoster]);
   const href = generateSlugHref(data.slug);
+
+  const logHomeCollectionEvent = useCallback(() => {
+    logEvent({
+      name: 'click_home_collection',
+      params: {
+        event_id: data.id,
+      },
+    });
+  }, [data.id]);
+
   return (
-    <GlobalLink href={href}>
+    <GlobalLink href={href} onClick={logHomeCollectionEvent}>
       <StyledRecentListBilletsConcertCard $isLoading={false}>
         {thumbUrl ? (
           <StyledRecentListBilletsConcertCardImage src={thumbUrl} alt={data.title} />
