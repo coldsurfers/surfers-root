@@ -16,6 +16,9 @@ export const StyledRecentListTitle = styled(Text)`
   white-space: normal;
   margin-top: 125px;
 
+  display: flex;
+  align-items: center;
+
   ${media.medium(css`
     margin-top: 88px;
     font-size: 24px;
@@ -25,6 +28,16 @@ export const StyledRecentListTitle = styled(Text)`
     margin-top: 44px;
     font-size: 20px;
   `)}
+
+  svg {
+    display: none;
+  }
+
+  &:hover {
+    svg {
+      display: block;
+    }
+  }
 `;
 
 export const StyledRecentListScrollContainer = styled.div`

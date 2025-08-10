@@ -3,6 +3,7 @@
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { apiClient, initialPageQuery } from '@/libs/openapi-client';
+import { GlobalLink } from '@/shared/ui';
 import type { OpenApiError } from '@coldsurfers/api-sdk';
 import { media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
@@ -152,7 +153,12 @@ export const VenueWithMemoEventList = ({ slug, col = 4 }: Props) => {
 
   return (
     <>
-      <StyledRecentListTitle as="h2">{uiData.name}</StyledRecentListTitle>
+      <GlobalLink href={`/venue/${slug}`}>
+        <StyledRecentListTitle as="h2">
+          {uiData.name}
+          <ChevronRight style={{ marginLeft: '0.5rem' }} />
+        </StyledRecentListTitle>
+      </GlobalLink>
       <Wrapper>
         <Slider
           infinite={false}
