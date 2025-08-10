@@ -2,13 +2,18 @@
 
 import { useIsLoggedIn } from '@/shared/lib';
 import { breakpoints } from '@coldsurfers/ocean-road';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { AppHeaderLogo } from './app-header-logo';
 import { AppHeaderMobileMenuOpener, AppHeaderMobileModalMenu } from './app-header-mobile-menu';
 import { AppHeaderWebMenu } from './app-header-web-menu';
 import { HeaderContainer } from './app-header.styled';
 
+const blacklist = ['/about'];
+
 export function AppHeader() {
+  const pathname = usePathname();
+  const isBlacklisted = blacklist.some((blacklistedPath) => pathname.includes(blacklistedPath));
   const [animation, setAnimation] = useState<'show' | 'hide'>('show');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -38,6 +43,10 @@ export function AppHeader() {
       window.removeEventListener('resize', onResize);
     };
   }, []);
+
+  if (isBlacklisted) {
+    return null;
+  }
 
   return (
     <>
