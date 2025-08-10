@@ -176,6 +176,12 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case '남원국악전용공연장 청아원':
+      alreadyExistingVenueId = 'c992c8a2-1a73-42a9-a59c-11f1ea86e14b';
+      break;
+    case '효천아트센터 그라운드씬':
+      alreadyExistingVenueId = 'c8925933-eeca-4523-a3f9-9da89aa252ba';
+      break;
     case 'NOL 서경스퀘어(구. 서경대학교 공연예술센터)':
       alreadyExistingVenueId = '45486c74-e4d3-449d-b661-e9cbad1606bd';
       break;
