@@ -1,7 +1,9 @@
 'use client';
 
+import { ColorSchemeToggle } from 'app/(ui)';
 import { menuItems } from '../constants';
 import {
+  ColorSchemeToggleContainer,
   StyledCloseIcon,
   StyledCloseIconButton,
   StyledHeader,
@@ -35,6 +37,9 @@ export function Header({
             </StyledMenuItem>
           ))}
         </StyledMenuContainer>
+        <ColorSchemeToggleContainer>
+          <ColorSchemeToggle />
+        </ColorSchemeToggleContainer>
         <StyledCloseIconButton
           $isOpen={isMobileMenuOpen}
           onClick={() => (isMobileMenuOpen ? onClickCloseMobileMenuIcon() : onClickMenuIcon())}

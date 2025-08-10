@@ -1,5 +1,6 @@
 'use client';
 
+import { ColorSchemeToggle } from 'app/(ui)';
 import { AnimatePresence, type Variants } from 'framer-motion';
 import Link from 'next/link';
 import { menuItems } from '../constants';
@@ -52,6 +53,7 @@ export function MobileMenu({ isOpen, onClickMenuItem }: MobileMenuProps) {
               );
             })}
           </ul>
+          <ColorSchemeToggle />
         </StyledMobileMenuBackground>
       )}
     </AnimatePresence>
