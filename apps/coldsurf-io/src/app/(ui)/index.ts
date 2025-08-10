@@ -1,7 +1,0 @@
-export * from './header'
-export * from './landing-image'
-export * from './landing-section'
-export * from './landing-text'
-export * from './landing-youtube'
-export * from './mobile-menu'
-export * from './page-layout'
