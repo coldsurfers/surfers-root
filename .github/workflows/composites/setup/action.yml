@@ -34,7 +34,7 @@ runs:
 
     - name: Install dependencies
       if: steps.pnpm-cache.outputs.cache-hit != 'true'
-      run: pnpm install
+      run: pnpm install --frozen-lockfile
       shell: bash
       env:
         NPM_TOKEN: ${{ inputs.NPM_TOKEN }}
