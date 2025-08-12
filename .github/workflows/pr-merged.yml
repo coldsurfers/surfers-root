@@ -1,4 +1,4 @@
-name: Release
+name: PR Merged
 
 on:
   push:
@@ -14,19 +14,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Install Node.js
-        uses: actions/setup-node@v4
+      - name: Setup
+        uses: ./.github/workflows/composites/setup
         with:
-          cache: 'pnpm'
-          node-version-file: '.nvmrc'
-
-      - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
-        env:
           NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build
-        run: pnpm build
 
       - name: Lint files
         run: pnpm lint
@@ -42,4 +33,4 @@ jobs:
           version: pnpm changeset version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}o
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
