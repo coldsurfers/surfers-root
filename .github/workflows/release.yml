@@ -34,7 +34,7 @@ jobs:
         with:
           title: 'chore: version packages'
           commit: 'chore: version packages'
-          publish: echo 'publish'
+          publish: pnpm changeset publish
           createGithubReleases: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
