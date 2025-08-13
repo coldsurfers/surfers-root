@@ -36,8 +36,8 @@ jobs:
           title: 'chore: version packages'
           commit: 'chore: version packages'
           version: pnpm changeset version
-          publish: echo 'publish'
-          createGithubReleases: true
+          publish: ""                    # 퍼블리시 비활성
+          createGithubReleases: true     # 릴리즈 생성 활성화
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
