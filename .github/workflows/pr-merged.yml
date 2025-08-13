@@ -36,8 +36,15 @@ jobs:
           title: 'chore: version packages'
           commit: 'chore: version packages'
           version: pnpm changeset version
-          publish: ""                    # 퍼블리시 비활성
+          publish: pnpm changeset tag                    # 퍼블리시 비활성
           createGithubReleases: true     # 릴리즈 생성 활성화
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # (권장) 혹시 태그가 로컬에만 생긴 경우를 대비해 명시적으로 푸시
+      - name: Push tags
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git push --follow-tags
