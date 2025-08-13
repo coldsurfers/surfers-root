@@ -7,11 +7,6 @@
   "access": "restricted",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": [
-    "@coldsurfers/billets-*",
-    "@coldsurfers/wamuseum-*",
-    "@coldsurfers/coldsurf-app-*",
-    "@coldsurfers/surf-tree"
-  ],
+  "ignore": [],
   "privatePackages": { "version": true, "tag": true }
 }

@@ -263,3 +263,5 @@ app.register(eventRoute, { prefix: '/v1/event' });
 app.register(imageRoute, { prefix: '/v1/image' });
 app.register(eventCategoryRoute, { prefix: '/v1/event-category' });
 app.register(appRoute, { prefix: '/v1/app' });
+
+console.log('Hello, this is billets-server');
