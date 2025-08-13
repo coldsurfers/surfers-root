@@ -7,5 +7,6 @@
   "access": "restricted",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": []
+  "ignore": ["apps/*"],
+  "privatePackages": { "version": true, "tag": true }
 }
