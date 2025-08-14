@@ -1,5 +1,11 @@
 # @coldsurfers/billets-web
 
+## 1.1.22
+
+### Patch Changes
+
+- [#465](https://github.com/coldsurfers/surfers-root/pull/465) [`72ae95e`](https://github.com/coldsurfers/surfers-root/commit/72ae95eb15a0664c6bd4d778def10a8e20bc2e85) Thanks [@yungblud](https://github.com/yungblud)! - enhance home carousels
+
 ## 1.1.21
 
 ### Patch Changes
