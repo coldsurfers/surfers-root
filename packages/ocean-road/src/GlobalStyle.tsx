@@ -1,6 +1,6 @@
-import { Global, css } from '@emotion/react'
-import { darkModeTheme, lightModeTheme, themeToStyles } from './contexts/ColorSchemeProvider'
-import { colors, semantics } from './tokens'
+import { Global, css } from '@emotion/react';
+import { darkModeTheme, lightModeTheme, themeToStyles } from './contexts/ColorSchemeProvider';
+import { colors, semantics } from './tokens';
 
 export default function GlobalStyle() {
   return (
@@ -35,5 +35,5 @@ export default function GlobalStyle() {
         }
       `}
     />
-  )
+  );
 }

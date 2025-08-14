@@ -7,12 +7,12 @@ import { GlobalLink } from '@/shared/ui';
 import type { components } from '@coldsurfers/api-sdk';
 import { format, parseISO } from 'date-fns';
 import { useCallback, useMemo } from 'react';
+import { RecentConcertListItemThumbnail } from './recent-concert-list-item-thumbnail';
 import {
   StyledRecentListBilletsConcertCard,
-  StyledRecentListBilletsConcertCardImage,
-  StyledRecentListBilletsConcertCardImageEmpty,
-  StyledRecentListBilletsConcertCardImageEmptyText,
+  StyledRecentListBilletsConcertCardImageWrapper,
   StyledRecentListParagraph,
+  StyledRecentListScrollContainerItem,
   StyledTitle,
 } from './recent-concert-list.styled';
 
@@ -43,24 +43,26 @@ export const RecentConcertListItem = ({
   }, [data.id]);
 
   return (
-    <GlobalLink href={href} onClick={logHomeCollectionEvent}>
-      <StyledRecentListBilletsConcertCard $isLoading={false}>
-        {thumbUrl ? (
-          <StyledRecentListBilletsConcertCardImage src={thumbUrl} alt={data.title} />
-        ) : (
-          <StyledRecentListBilletsConcertCardImageEmpty>
-            <StyledRecentListBilletsConcertCardImageEmptyText>
-              {data.title}
-            </StyledRecentListBilletsConcertCardImageEmptyText>
-          </StyledRecentListBilletsConcertCardImageEmpty>
-        )}
-        <StyledTitle as="p">{data.title}</StyledTitle>
-        <div style={{ display: 'flex', flexDirection: 'column', marginTop: '4px' }}>
-          <StyledRecentListParagraph as="p">{formattedDate}</StyledRecentListParagraph>
-          <StyledRecentListParagraph as="p">{data.mainVenue?.name}</StyledRecentListParagraph>
-        </div>
-      </StyledRecentListBilletsConcertCard>
-    </GlobalLink>
+    <StyledRecentListScrollContainerItem>
+      <GlobalLink href={href} onClick={logHomeCollectionEvent}>
+        <StyledRecentListBilletsConcertCard $isLoading={false}>
+          <StyledRecentListBilletsConcertCardImageWrapper>
+            <RecentConcertListItemThumbnail
+              src={thumbUrl}
+              alt={data.title}
+              fallbackText={data.title}
+            />
+          </StyledRecentListBilletsConcertCardImageWrapper>
+          <div style={{ position: 'absolute' }}>
+            <StyledTitle as="p">{data.title}</StyledTitle>
+            <div style={{ display: 'flex', flexDirection: 'column', marginTop: '4px' }}>
+              <StyledRecentListParagraph as="p">{formattedDate}</StyledRecentListParagraph>
+              <StyledRecentListParagraph as="p">{data.mainVenue?.name}</StyledRecentListParagraph>
+            </div>
+          </div>
+        </StyledRecentListBilletsConcertCard>
+      </GlobalLink>
+    </StyledRecentListScrollContainerItem>
   );
 };
 
