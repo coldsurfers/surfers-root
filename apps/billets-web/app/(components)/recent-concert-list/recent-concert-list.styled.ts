@@ -1,13 +1,6 @@
 import { Text, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import {
-  APP_CONTAINER_MAX_WIDTH,
-  APP_CONTAINER_PADDING,
-  APP_CONTAINER_PADDING_LARGE,
-  SLICK_SLIDE_INTER_SPACE,
-  SLICK_SLIDE_INTER_SPACE_LARGE,
-} from 'app/(ui)/constants';
 import { motion } from 'framer-motion';
 
 export const StyledRecentListTitle = styled(Text)`
@@ -40,14 +33,13 @@ export const StyledRecentListTitle = styled(Text)`
   }
 `;
 
-export const StyledRecentListScrollContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 16px;
-  overflow-x: auto; // Enable horizontal scrolling
-  scrollbar-width: none; // Hide scrollbar for Firefox
-  -ms-overflow-style: none; // Hide scrollbar for Internet Explorer and Edge
-  scroll-snap-type: x mandatory;
+export const StyledRecentListScrollContainer = styled(motion.div)`
+  position: relative;
+  display: block;
+  white-space: nowrap;
+  overflow-x: visible;
+
+  position: relative;
 
   @media (max-width: 960px) {
     margin-top: 22px;
@@ -91,51 +83,47 @@ export const StyledRecentListParagraph = styled(Text)`
 `;
 
 export const StyledRecentListBilletsConcertCard = styled.div<{ $isLoading: boolean }>`
-  width: calc((${APP_CONTAINER_MAX_WIDTH}px - (${APP_CONTAINER_PADDING}px * 2)px - ${SLICK_SLIDE_INTER_SPACE}px * 3) / 4);
-  overflow: hidden;
+  position: relative;
   background: ${(props) =>
     props.$isLoading ? 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)' : 'none'};
-  background-position: 50%;
-  background-size: cover;
-  animation: ${(props) => (props.$isLoading ? 'loading 1.5s infinite' : 'none')};
+`;
 
+export const StyledRecentListBilletsConcertCardImageWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: ${semantics.color.background[1]};
   border-radius: 8px;
-
-  ${media.large(css`
-    width: calc((${APP_CONTAINER_MAX_WIDTH}px - (${APP_CONTAINER_PADDING_LARGE}px * 2)px - ${SLICK_SLIDE_INTER_SPACE_LARGE}px * 3) / 4);
-  `)}
-
-  @keyframes loading {
-    0% {
-      background-position: 200% 0;
-    }
-    100% {
-      background-position: 0 0;
-    }
-  }
+  position: relative;
 `;
 
 export const StyledRecentListBilletsConcertCardImage = styled.img`
-  border-radius: 8px;
-  object-fit: cover;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 8px;
   object-position: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 `;
 
 export const StyledRecentListBilletsConcertCardImageEmpty = styled.div`
-  border-radius: 8px;
-  object-fit: cover;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 8px;
   object-position: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 
   display: flex;
   align-items: center;
   justify-content: center;
-
-  background-color: ${semantics.color.background[1]};
-  margin-bottom: 0.25rem;
+  padding: 2.5rem;
 `;
 
 export const StyledRecentListBilletsConcertCardImageEmptyText = styled(Text)`
@@ -151,4 +139,38 @@ export const StyledMotionDiv = styled(motion.div)`
   display: flex;
   flex-direction: row;
   gap: 16px;
+`;
+
+export const StyledRecentListScrollContainerArrow = styled.span`
+  position: absolute;
+  top: 50px;
+  right: 0;
+  bottom: 20px;
+  width: 4%;
+  background: rgba(0, 0, 0, 0.5);
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+`;
+
+export const StyledRecentListScrollContainerItem = styled.div`
+  width: 16%;
+  aspect-ratio: 1 / 1;
+  padding-right: 16px;
+  padding-bottom: 88px;
+
+  display: inline-block;
+
+  ${media['x-large'](css`
+    width: 24%;
+  `)}
+
+  ${media.large(css`
+    width: 32%;
+    padding-right: 8px;
+  `)}
 `;
