@@ -2,15 +2,15 @@
 
 import { useState } from 'react';
 import {
-  StyledRecentListBilletsConcertCardImage,
-  StyledRecentListBilletsConcertCardImageEmpty,
-} from './recent-concert-list.styled';
+  StyledInfiniteHomeCollectionItemThumbnail,
+  StyledInfiniteHomeCollectionItemThumbnailEmpty,
+} from './infinite-home-collection.styled';
 
 type ImageWithFallbackProps = React.ImgHTMLAttributes<HTMLImageElement> & {
   fallbackText?: string;
 };
 
-export const RecentConcertListItemThumbnail = ({
+export const InfiniteHomeCollectionItemThumbnail = ({
   src,
   alt = '',
   fallbackText,
@@ -18,10 +18,10 @@ export const RecentConcertListItemThumbnail = ({
 }: ImageWithFallbackProps) => {
   const [isError, setIsError] = useState(false);
   if (isError || src === '') {
-    return <StyledRecentListBilletsConcertCardImageEmpty />;
+    return <StyledInfiniteHomeCollectionItemThumbnailEmpty />;
   }
   return (
-    <StyledRecentListBilletsConcertCardImage
+    <StyledInfiniteHomeCollectionItemThumbnail
       src={src}
       alt={alt}
       onError={() => setIsError(true)}

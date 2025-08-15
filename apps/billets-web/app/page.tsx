@@ -1,14 +1,15 @@
-import { initialPageQuery } from '@/libs/openapi-client';
+import { apiClient, initialPageQuery } from '@/libs/openapi-client';
 import { ApiErrorBoundaryRegistry } from '@/libs/registries';
 import { getQueryClient } from '@/libs/utils/utils.query-client';
 import { tryParse } from '@coldsurfers/shared-utils';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
+import { InfiniteHomeCollection } from './(components)/infinite-home-collection';
 import { PageLayout, PageTop } from './(ui)';
 import { RouteLoading } from './(ui)/route-loading/route-loading';
 
 export const dynamic = 'force-dynamic';
 
-const slugs = [
+const venueSlugs = [
   '롤링홀',
   '채널1969',
   '웨스트브릿지-라이브홀',
@@ -22,11 +23,28 @@ const slugs = [
 async function PageInner() {
   const queryClient = getQueryClient();
 
+  try {
+    await Promise.allSettled(
+      venueSlugs.map((venueSlug) =>
+        queryClient.prefetchQuery({
+          queryKey: initialPageQuery.homeVenueCollection(venueSlug).queryKey,
+          queryFn: () => apiClient.venue.getVenueDetailBySlug(venueSlug),
+        })
+      )
+    );
+  } catch (e) {
+    console.error(e);
+  }
+
   const dehydratedState = tryParse(JSON.stringify(dehydrate(queryClient)));
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <PageLayout top={<PageTop />} slugs={slugs} />
+      <PageLayout top={<PageTop />}>
+        {venueSlugs.map((slug) => (
+          <InfiniteHomeCollection key={slug} slug={slug} />
+        ))}
+      </PageLayout>
     </HydrationBoundary>
   );
 }
