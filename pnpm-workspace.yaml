@@ -1,3 +1,4 @@
 packages:
   - 'apps/*'
+  - 'mini-apps/*'
   - 'packages/**'
