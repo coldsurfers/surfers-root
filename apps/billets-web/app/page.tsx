@@ -1,3 +1,4 @@
+import { apiClient, initialPageQuery } from '@/libs/openapi-client';
 import { ApiErrorBoundaryRegistry } from '@/libs/registries';
 import { getQueryClient } from '@/libs/utils/utils.query-client';
 import { tryParse } from '@coldsurfers/shared-utils';
@@ -21,6 +22,19 @@ const venueSlugs = [
 
 async function PageInner() {
   const queryClient = getQueryClient();
+
+  try {
+    await Promise.allSettled(
+      venueSlugs.map((venueSlug) =>
+        queryClient.prefetchQuery({
+          queryKey: initialPageQuery.homeVenueCollection(venueSlug).queryKey,
+          queryFn: () => apiClient.venue.getVenueDetailBySlug(venueSlug),
+        })
+      )
+    );
+  } catch (e) {
+    console.error(e);
+  }
 
   const dehydratedState = tryParse(JSON.stringify(dehydrate(queryClient)));
 
