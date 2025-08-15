@@ -3,10 +3,9 @@ import { useWindowWidth } from '@/shared/lib/use-window-width';
 import type { OpenApiError } from '@coldsurfers/api-sdk';
 import { breakpoints } from '@coldsurfers/ocean-road';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { match } from 'ts-pattern';
-import { INFINITE_HOME_COLLECTION_MIN_COUNT } from './infinite-home-collection.constants';
 
 type DataT = Awaited<ReturnType<typeof apiClient.venue.getVenueDetailBySlug>>;
 type MutableDataT = {
@@ -22,33 +21,37 @@ export const useInfiniteHomeCollection = (slug: string) => {
     queryFn: () => apiClient.venue.getVenueDetailBySlug(slug),
   });
 
-  const clonedData = useMemo(() => {
-    let data: (typeof serverData)['upcomingEvents'] = [];
-    if (serverData.upcomingEvents.length > INFINITE_HOME_COLLECTION_MIN_COUNT) {
-      data = serverData.upcomingEvents.slice(0, INFINITE_HOME_COLLECTION_MIN_COUNT);
+  const infiniteCollectionItemsCount = useMemo(() => {
+    return match(windowWidth)
+      .when(
+        (width) => width > breakpoints['x-large'],
+        () => 18
+      )
+      .when(
+        (width) => width > breakpoints.large,
+        () => 12
+      )
+      .when(
+        (width) => width > breakpoints.medium,
+        () => 9
+      )
+      .otherwise(() => 9);
+  }, [windowWidth]);
+
+  const cloneData = useCallback(() => {
+    let data: (typeof serverData)['upcomingEvents'] = serverData.upcomingEvents;
+    if (data.length >= infiniteCollectionItemsCount) {
+      data = serverData.upcomingEvents.slice(0, infiniteCollectionItemsCount);
+      return data;
     }
-    if (data.length < INFINITE_HOME_COLLECTION_MIN_COUNT) {
-      while (data.length < INFINITE_HOME_COLLECTION_MIN_COUNT) {
-        data.push(...serverData.upcomingEvents);
-      }
+    while (data.length < infiniteCollectionItemsCount) {
+      data.push(...serverData.upcomingEvents);
     }
     return data;
-  }, [serverData.upcomingEvents]);
+  }, [serverData.upcomingEvents, infiniteCollectionItemsCount]);
 
   const [infiniteData, setInfiniteData] =
-    useState<(typeof serverData)['upcomingEvents']>(clonedData);
-
-  const flushNextPage = useCallback(() => {
-    flushSync(() => {
-      setInfiniteData((prev) => {
-        const newData = [...prev];
-        const pre = newData.slice(0, perPageItemCount);
-        const middle = newData.slice(perPageItemCount, perPageItemCount * 2);
-        const final = newData.slice(perPageItemCount * 2, perPageItemCount * 3);
-        return [...middle, ...final, ...pre];
-      });
-    });
-  }, []);
+    useState<(typeof serverData)['upcomingEvents']>(cloneData);
 
   const perPageItemCount = useMemo(() => {
     return match(windowWidth)
@@ -83,6 +86,23 @@ export const useInfiniteHomeCollection = (slug: string) => {
       )
       .otherwise(() => 32);
   }, [windowWidth]);
+
+  const flushNextPage = useCallback(() => {
+    flushSync(() => {
+      setInfiniteData((prev) => {
+        const newData = [...prev];
+
+        const pre = newData.slice(0, perPageItemCount);
+        const middle = newData.slice(perPageItemCount, perPageItemCount * 2);
+        const final = newData.slice(perPageItemCount * 2, perPageItemCount * 3);
+        return [...middle, ...final, ...pre];
+      });
+    });
+  }, [perPageItemCount]);
+
+  useLayoutEffect(() => {
+    setInfiniteData(cloneData);
+  }, [cloneData]);
 
   return useMemo(
     () => ({

@@ -34,8 +34,10 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
       .start({
         transform: `translateX(${-(perPageItemCount * itemWidthPercent)}%)`,
         transition: {
-          stiffness: 200,
-          duration: 0.6,
+          stiffness: 100,
+          duration: 0.8,
+          type: 'keyframes',
+          ease: 'easeInOut',
         },
       })
       .then(() => {
