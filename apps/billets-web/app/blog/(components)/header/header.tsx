@@ -1,34 +1,38 @@
-'use client'
+'use client';
 
-import { useParams, usePathname } from 'next/navigation'
-import { memo, useMemo } from 'react'
+import { useParams, usePathname } from 'next/navigation';
+import { memo, useMemo } from 'react';
 import {
   StyledHeaderBigContainer,
   StyledHeaderContainer,
   StyledHeaderHeading,
   StyledHeaderLinkBadge,
-} from './header.styled'
+} from './header.styled';
 
-const HeaderBadge = memo(({ href, isActive, title }: { href: string; isActive: boolean; title: string }) => {
-  return (
-    <StyledHeaderLinkBadge href={href} $isactive={isActive ? 'true' : undefined}>
-      <StyledHeaderHeading $isactive={isActive ? 'true' : undefined}>{title}</StyledHeaderHeading>
-    </StyledHeaderLinkBadge>
-  )
-})
+const HeaderBadge = memo(
+  ({ href, isActive, title }: { href: string; isActive: boolean; title: string }) => {
+    return (
+      <StyledHeaderLinkBadge href={href} $isactive={isActive ? 'true' : undefined}>
+        <StyledHeaderHeading $isactive={isActive ? 'true' : undefined} as="p">
+          {title}
+        </StyledHeaderHeading>
+      </StyledHeaderLinkBadge>
+    );
+  }
+);
 
 export const Header = () => {
-  const pathname = usePathname()
-  const params = useParams()
+  const pathname = usePathname();
+  const params = useParams();
   const seriesParam = useMemo(() => {
-    return params.series as string
-  }, [params.series])
+    return params.series as string;
+  }, [params.series]);
 
   const data = useMemo<
     {
-      href: string
-      title: string
-      isActive: boolean
+      href: string;
+      title: string;
+      isActive: boolean;
     }[]
   >(() => {
     return [
@@ -57,8 +61,8 @@ export const Header = () => {
         title: 'ABOUT',
         isActive: pathname.startsWith('/about'),
       },
-    ]
-  }, [pathname, seriesParam])
+    ];
+  }, [pathname, seriesParam]);
 
   return (
     <StyledHeaderBigContainer>
@@ -68,5 +72,5 @@ export const Header = () => {
         ))}
       </StyledHeaderContainer>
     </StyledHeaderBigContainer>
-  )
-}
+  );
+};

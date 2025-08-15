@@ -6,14 +6,14 @@ import { PageLayout } from 'app/blog/(components)/page-layout/page-layout';
 import { NotionRenderer } from 'app/blog/(notion-render)/notion-renderer';
 import { generatePDF } from 'app/blog/(pdf)/pdf.utils';
 import type { AppLocale } from 'app/blog/(types)/i18n';
-import Link from 'next/link';
 import type { ExtendedRecordMap } from 'notion-types';
 import { useEffect } from 'react';
-import postStyles from '../../../../(notion-render)/post.module.css';
 const Wrapper = styled.div`
   a {
     color: ${variables.oc.blue[5].value};
   }
+
+  margin-top: 2rem;
 `;
 
 const shouldGeneratePDF = process.env.NODE_ENV === 'development';
