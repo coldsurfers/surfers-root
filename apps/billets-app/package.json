@@ -20,14 +20,7 @@
     "test": "jest"
   },
   "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
     "preset": "react-native"
   },
   "dependencies": {
@@ -37,7 +30,7 @@
     "@coldsurfers/ocean-road-extension": "workspace:*",
     "@coldsurfers/openapi-client": "workspace:*",
     "@coldsurfers/react-native-esbuild-deploy": "workspace:*",
-    "@coldsurfers/coldsurf-app-settings-app": "workspace:*",
+    "@coldsurfers/settings-mini-app": "workspace:*",
     "@coldsurfers/shared-utils": "workspace:*",
     "@d11/react-native-fast-image": "8.10.0",
     "@emotion/native": "11.11.0",

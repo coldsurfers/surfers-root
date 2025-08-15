@@ -1,8 +1,8 @@
 import { apiClient } from '@/lib/api/openapi-client';
 import { REMOTE_APPS, REMOTE_APP_BUNDLE_HOST_URL } from '@/lib/constants';
 import { Script, ScriptManager } from '@callstack/repack/client';
-import type { SettingsScreenProps } from '@coldsurfers/coldsurf-app-settings-app';
 import { loadAsyncScript } from '@coldsurfers/react-native-esbuild-deploy';
+import type { SettingsScreenProps } from '@coldsurfers/settings-mini-app';
 import { useQuery } from '@tanstack/react-query';
 import { type FC, useEffect, useMemo, useState } from 'react';
 import { InteractionManager } from 'react-native';
@@ -50,7 +50,7 @@ export const useLoadRemoteApp = <TApp extends RemoteAppRegistry['type']>(remoteA
     queryFn: async () => {
       if (isDevMode) {
         if (remoteApp.appName === 'settings') {
-          const SettingsApp = await import('@coldsurfers/coldsurf-app-settings-app');
+          const SettingsApp = await import('@coldsurfers/settings-mini-app');
           return SettingsApp.default;
         }
         return null;
