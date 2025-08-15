@@ -7,16 +7,16 @@ import { GlobalLink } from '@/shared/ui';
 import type { components } from '@coldsurfers/api-sdk';
 import { format, parseISO } from 'date-fns';
 import { useCallback, useMemo } from 'react';
-import { RecentConcertListItemThumbnail } from './recent-concert-list-item-thumbnail';
+import { InfiniteHomeCollectionItemThumbnail } from './infinite-home-collection.item-thumbnail';
 import {
-  StyledRecentListBilletsConcertCard,
-  StyledRecentListBilletsConcertCardImageWrapper,
-  StyledRecentListParagraph,
+  StyledInfiniteHomeCollectionItem,
+  StyledInfiniteHomeCollectionItemDescriptionText,
+  StyledInfiniteHomeCollectionItemThumbnailWrapper,
+  StyledInfiniteHomeCollectionItemTitle,
   StyledRecentListScrollContainerItem,
-  StyledTitle,
-} from './recent-concert-list.styled';
+} from './infinite-home-collection.styled';
 
-export const RecentConcertListItem = ({
+export const InfiniteHomeCollectionItem = ({
   data,
 }: { data: components['schemas']['ConcertDTOSchema'] }) => {
   const formattedDate = useMemo(() => {
@@ -45,27 +45,29 @@ export const RecentConcertListItem = ({
   return (
     <StyledRecentListScrollContainerItem>
       <GlobalLink href={href} onClick={logHomeCollectionEvent}>
-        <StyledRecentListBilletsConcertCard $isLoading={false}>
-          <StyledRecentListBilletsConcertCardImageWrapper>
-            <RecentConcertListItemThumbnail
+        <StyledInfiniteHomeCollectionItem $isLoading={false}>
+          <StyledInfiniteHomeCollectionItemThumbnailWrapper>
+            <InfiniteHomeCollectionItemThumbnail
               src={thumbUrl}
               alt={data.title}
               fallbackText={data.title}
             />
-          </StyledRecentListBilletsConcertCardImageWrapper>
+          </StyledInfiniteHomeCollectionItemThumbnailWrapper>
           <div style={{ position: 'absolute' }}>
-            <StyledTitle as="p">{data.title}</StyledTitle>
+            <StyledInfiniteHomeCollectionItemTitle as="p">
+              {data.title}
+            </StyledInfiniteHomeCollectionItemTitle>
             <div style={{ display: 'flex', flexDirection: 'column', marginTop: '4px' }}>
-              <StyledRecentListParagraph as="p">{formattedDate}</StyledRecentListParagraph>
-              <StyledRecentListParagraph as="p">{data.mainVenue?.name}</StyledRecentListParagraph>
+              <StyledInfiniteHomeCollectionItemDescriptionText as="p">
+                {formattedDate}
+              </StyledInfiniteHomeCollectionItemDescriptionText>
+              <StyledInfiniteHomeCollectionItemDescriptionText as="p">
+                {data.mainVenue?.name}
+              </StyledInfiniteHomeCollectionItemDescriptionText>
             </div>
           </div>
-        </StyledRecentListBilletsConcertCard>
+        </StyledInfiniteHomeCollectionItem>
       </GlobalLink>
     </StyledRecentListScrollContainerItem>
   );
-};
-
-RecentConcertListItem.Empty = () => {
-  return <div />;
 };

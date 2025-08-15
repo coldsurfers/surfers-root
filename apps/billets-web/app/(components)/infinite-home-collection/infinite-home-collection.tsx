@@ -11,14 +11,14 @@ import { ChevronRight } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { match } from 'ts-pattern';
-import { RecentConcertListItem } from '../recent-concert-list/recent-concert-list-item';
-import {
-  StyledRecentListScrollContainer,
-  StyledRecentListScrollContainerArrow,
-  StyledRecentListTitle,
-} from '../recent-concert-list/recent-concert-list.styled';
 import { INFINITE_HOME_COLLECTION_MIN_COUNT } from './infinite-home-collection.constants';
 import { useInfiniteHomeCollection } from './infinite-home-collection.hooks';
+import { InfiniteHomeCollectionItem } from './infinite-home-collection.item';
+import {
+  StyledInfiniteHomeCollectionItemTitle,
+  StyledInfiniteHomeCollectionScrollContainer,
+  StyledInfiniteHomeCollectionScrollContainerArrow,
+} from './infinite-home-collection.styled';
 
 const Wrapper = styled.div`
   position: relative;
@@ -91,23 +91,25 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
   return (
     <Wrapper>
       <GlobalLink href={`/venue/${slug}`}>
-        <StyledRecentListTitle as="h2">
+        <StyledInfiniteHomeCollectionItemTitle as="h2">
           {serverData.name}
           <ChevronRight style={{ marginLeft: '0.5rem' }} />
-        </StyledRecentListTitle>
+        </StyledInfiniteHomeCollectionItemTitle>
       </GlobalLink>
-      <StyledRecentListScrollContainer animate={controls}>
+      <StyledInfiniteHomeCollectionScrollContainer animate={controls}>
         {infiniteData.map((value, index) => {
           return match(value)
             .with({ type: 'concert' }, (value) => {
-              return <RecentConcertListItem data={value.data} key={`${value.data.id}-${index}`} />;
+              return (
+                <InfiniteHomeCollectionItem data={value.data} key={`${value.data.id}-${index}`} />
+              );
             })
             .otherwise(() => null);
         })}
-      </StyledRecentListScrollContainer>
-      <StyledRecentListScrollContainerArrow onClick={runInfiniteAnimation}>
+      </StyledInfiniteHomeCollectionScrollContainer>
+      <StyledInfiniteHomeCollectionScrollContainerArrow onClick={runInfiniteAnimation}>
         <ChevronRight color={semantics.color.foreground[1]} size={48} />
-      </StyledRecentListScrollContainerArrow>
+      </StyledInfiniteHomeCollectionScrollContainerArrow>
     </Wrapper>
   );
 };
