@@ -1,5 +1,11 @@
 # @coldsurfers/billets-web
 
+## 1.1.24
+
+### Patch Changes
+
+- [#469](https://github.com/coldsurfers/surfers-root/pull/469) [`71e596b`](https://github.com/coldsurfers/surfers-root/commit/71e596b7cffb47e7a1ddf0ce5a46c3378c7b8a05) Thanks [@yungblud](https://github.com/yungblud)! - fixed layout bugs home collections
+
 ## 1.1.23
 
 ### Patch Changes
