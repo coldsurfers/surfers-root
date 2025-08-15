@@ -18,6 +18,7 @@ import {
   StyledInfiniteHomeCollectionItemTitle,
   StyledInfiniteHomeCollectionScrollContainer,
   StyledInfiniteHomeCollectionScrollContainerArrow,
+  StyledInfiniteHomeCollectionTitle,
 } from './infinite-home-collection.styled';
 
 const Wrapper = styled.div`
@@ -38,9 +39,7 @@ type MutableDataT = {
 export const InfiniteHomeCollection = ({ slug }: Props) => {
   const { data: serverData } = useSuspenseQuery<DataT, OpenApiError, MutableDataT>({
     queryKey: initialPageQuery.homeVenueCollection(slug).queryKey,
-    queryFn: async () => {
-      return await apiClient.venue.getVenueDetailBySlug(slug);
-    },
+    queryFn: () => apiClient.venue.getVenueDetailBySlug(slug),
   });
 
   const dataToCopy = useMemo(() => {
@@ -91,10 +90,10 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
   return (
     <Wrapper>
       <GlobalLink href={`/venue/${slug}`}>
-        <StyledInfiniteHomeCollectionItemTitle as="h2">
+        <StyledInfiniteHomeCollectionTitle as="h2">
           {serverData.name}
           <ChevronRight style={{ marginLeft: '0.5rem' }} />
-        </StyledInfiniteHomeCollectionItemTitle>
+        </StyledInfiniteHomeCollectionTitle>
       </GlobalLink>
       <StyledInfiniteHomeCollectionScrollContainer animate={controls}>
         {infiniteData.map((value, index) => {

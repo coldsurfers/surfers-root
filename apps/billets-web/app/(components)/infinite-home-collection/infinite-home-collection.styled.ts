@@ -35,13 +35,15 @@ export const StyledInfiniteHomeCollectionItemTitle = styled(Text)`
   `)};
 `;
 
-export const StyledInfiniteHomeCollectionItemDescriptionText = styled(Text)`
+export const StyledInfiniteHomeCollectionItemDescriptionText = styled(Text)<{
+  $marginTop?: number;
+}>`
   font-size: 1.1rem;
   font-weight: 500;
   overflow-wrap: break-word;
   white-space: normal;
-  margin-top: 0;
   margin-bottom: 0;
+  margin-top: ${(props) => props.$marginTop ?? 0}px;
 
   ${media['x-large'](css`
     font-size: 0.9rem;
@@ -143,4 +145,33 @@ export const StyledRecentListScrollContainerItem = styled.div`
     width: 32%;
     padding-right: 8px;
   `)}
+`;
+
+export const StyledInfiniteHomeCollectionItemBottomWrapper = styled.div`
+  position: absolute;
+`;
+
+export const StyledInfiniteHomeCollectionTitle = styled(Text)`
+  font-weight: bold;
+  overflow-wrap: break-word;
+  white-space: normal;
+  margin-top: 125px;
+  display: flex;
+  align-items: center;
+  ${media.medium(css`
+    margin-top: 88px;
+    font-size: 24px;
+  `)}
+  ${media.small(css`
+    margin-top: 44px;
+    font-size: 20px;
+  `)}
+  svg {
+    display: none;
+  }
+  &:hover {
+    svg {
+      display: block;
+    }
+  }
 `;

@@ -10,6 +10,7 @@ import { useCallback, useMemo } from 'react';
 import { InfiniteHomeCollectionItemThumbnail } from './infinite-home-collection.item-thumbnail';
 import {
   StyledInfiniteHomeCollectionItem,
+  StyledInfiniteHomeCollectionItemBottomWrapper,
   StyledInfiniteHomeCollectionItemDescriptionText,
   StyledInfiniteHomeCollectionItemThumbnailWrapper,
   StyledInfiniteHomeCollectionItemTitle,
@@ -53,19 +54,17 @@ export const InfiniteHomeCollectionItem = ({
               fallbackText={data.title}
             />
           </StyledInfiniteHomeCollectionItemThumbnailWrapper>
-          <div style={{ position: 'absolute' }}>
+          <StyledInfiniteHomeCollectionItemBottomWrapper>
             <StyledInfiniteHomeCollectionItemTitle as="p">
               {data.title}
             </StyledInfiniteHomeCollectionItemTitle>
-            <div style={{ display: 'flex', flexDirection: 'column', marginTop: '4px' }}>
-              <StyledInfiniteHomeCollectionItemDescriptionText as="p">
-                {formattedDate}
-              </StyledInfiniteHomeCollectionItemDescriptionText>
-              <StyledInfiniteHomeCollectionItemDescriptionText as="p">
-                {data.mainVenue?.name}
-              </StyledInfiniteHomeCollectionItemDescriptionText>
-            </div>
-          </div>
+            <StyledInfiniteHomeCollectionItemDescriptionText as="p" $marginTop={4}>
+              {formattedDate}
+            </StyledInfiniteHomeCollectionItemDescriptionText>
+            <StyledInfiniteHomeCollectionItemDescriptionText as="p">
+              {data.mainVenue?.name}
+            </StyledInfiniteHomeCollectionItemDescriptionText>
+          </StyledInfiniteHomeCollectionItemBottomWrapper>
         </StyledInfiniteHomeCollectionItem>
       </GlobalLink>
     </StyledRecentListScrollContainerItem>
