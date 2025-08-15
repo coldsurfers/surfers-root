@@ -1,15 +1,15 @@
 'use client';
 
 import { apiClient, initialPageQuery } from '@/libs/openapi-client';
-import { useWindowWidth } from '@/shared/lib/use-window-width';
 import { GlobalLink } from '@/shared/ui';
 import type { OpenApiError } from '@coldsurfers/api-sdk';
-import { breakpoints, semantics } from '@coldsurfers/ocean-road';
+import { semantics } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useAnimation } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { match } from 'ts-pattern';
 import { RecentConcertListItem } from '../recent-concert-list/recent-concert-list-item';
 import {
@@ -17,6 +17,8 @@ import {
   StyledRecentListScrollContainerArrow,
   StyledRecentListTitle,
 } from '../recent-concert-list/recent-concert-list.styled';
+import { INFINITE_HOME_COLLECTION_MIN_COUNT } from './infinite-home-collection.constants';
+import { useInfiniteHomeCollection } from './infinite-home-collection.hooks';
 
 const Wrapper = styled.div`
   position: relative;
@@ -33,7 +35,7 @@ type MutableDataT = {
   upcomingEvents: (DataT['upcomingEvents'][number] | { type: 'empty' })[];
 };
 
-export const VenueWithMemoEventList = ({ slug }: Props) => {
+export const InfiniteHomeCollection = ({ slug }: Props) => {
   const { data: serverData } = useSuspenseQuery<DataT, OpenApiError, MutableDataT>({
     queryKey: initialPageQuery.homeVenueCollection(slug).queryKey,
     queryFn: async () => {
@@ -42,13 +44,12 @@ export const VenueWithMemoEventList = ({ slug }: Props) => {
   });
 
   const dataToCopy = useMemo(() => {
-    const minLength = 18;
     let data: (typeof serverData)['upcomingEvents'] = [];
-    if (serverData.upcomingEvents.length > minLength) {
-      data = serverData.upcomingEvents.slice(0, minLength);
+    if (serverData.upcomingEvents.length > INFINITE_HOME_COLLECTION_MIN_COUNT) {
+      data = serverData.upcomingEvents.slice(0, INFINITE_HOME_COLLECTION_MIN_COUNT);
     }
-    if (data.length < minLength) {
-      while (data.length < minLength) {
+    if (data.length < INFINITE_HOME_COLLECTION_MIN_COUNT) {
+      while (data.length < INFINITE_HOME_COLLECTION_MIN_COUNT) {
         data.push(...serverData.upcomingEvents);
       }
     }
@@ -60,25 +61,9 @@ export const VenueWithMemoEventList = ({ slug }: Props) => {
 
   const controls = useAnimation();
 
-  const windowWidth = useWindowWidth();
+  const { perPageItemCount, itemWidthPercent } = useInfiniteHomeCollection();
 
-  const handleClick = () => {
-    const perPageItemCount = 6;
-    const itemWidthPercent = match(windowWidth)
-      .when(
-        (width) => width > breakpoints['x-large'],
-        () => 16
-      )
-      .when(
-        (width) => width > breakpoints.large,
-        () => 24
-      )
-      .when(
-        (width) => width > breakpoints.medium,
-        () => 32
-      )
-      .otherwise(() => 32);
-
+  const runInfiniteAnimation = useCallback(() => {
     controls
       .start({
         transform: `translateX(${-(perPageItemCount * itemWidthPercent)}%)`,
@@ -88,7 +73,7 @@ export const VenueWithMemoEventList = ({ slug }: Props) => {
         },
       })
       .then(() => {
-        requestAnimationFrame(() => {
+        flushSync(() => {
           setInfiniteData((prev) => {
             const newData = [...prev];
             const pre = newData.slice(0, perPageItemCount);
@@ -96,12 +81,12 @@ export const VenueWithMemoEventList = ({ slug }: Props) => {
             const final = newData.slice(perPageItemCount * 2, perPageItemCount * 3);
             return [...middle, ...final, ...pre];
           });
-          controls.set({
-            transform: `translateX(${0}%)`,
-          });
+        });
+        controls.set({
+          transform: `translateX(${0}%)`,
         });
       });
-  };
+  }, [controls, itemWidthPercent, perPageItemCount]);
 
   return (
     <Wrapper>
@@ -120,7 +105,7 @@ export const VenueWithMemoEventList = ({ slug }: Props) => {
             .otherwise(() => null);
         })}
       </StyledRecentListScrollContainer>
-      <StyledRecentListScrollContainerArrow onClick={handleClick}>
+      <StyledRecentListScrollContainerArrow onClick={runInfiniteAnimation}>
         <ChevronRight color={semantics.color.foreground[1]} size={48} />
       </StyledRecentListScrollContainerArrow>
     </Wrapper>
