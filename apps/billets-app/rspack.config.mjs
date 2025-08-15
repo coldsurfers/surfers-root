@@ -49,8 +49,8 @@ export default (env) => {
           '../../packages/ocean-road-extension/src/native/index.ts',
           import.meta.url
         ).pathname,
-        '@coldsurfers/coldsurf-app-settings-app': new URL(
-          '../coldsurf-app-settings-app/src/index.ts',
+        '@coldsurfers/settings-mini-app': new URL(
+          '../../mini-apps/settings-mini-app/src/index.ts',
           import.meta.url
         ).pathname,
         '@/screens': new URL('./src/screens', import.meta.url).pathname,

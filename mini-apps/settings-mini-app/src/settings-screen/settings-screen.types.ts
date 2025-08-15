@@ -1,5 +1,8 @@
-import type { SettingsStackScreenProps } from '@coldsurfers/navigation-utils';
-import type { ZodScreenParams, zodScreen } from '@coldsurfers/shared-utils/native';
+import type {
+  SettingsStackScreenProps,
+  ZodScreenParams,
+  zodScreen,
+} from '@coldsurfers/navigation-utils';
 
 export type SettingsScreenParams = ZodScreenParams<typeof zodScreen.SettingsScreen>;
 export type SettingsScreenProps = SettingsStackScreenProps<'SettingsScreen'>;
