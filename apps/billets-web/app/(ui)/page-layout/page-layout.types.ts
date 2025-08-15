@@ -1,3 +1,3 @@
-import type { ReactNode } from 'react';
+import type { PropsWithChildren, ReactNode } from 'react';
 
-export type PageLayoutProps = { top: ReactNode; slugs: string[] };
+export type HomePageLayoutProps = PropsWithChildren<{ top: ReactNode }>;

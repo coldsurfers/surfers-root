@@ -3,37 +3,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 
-export const StyledRecentListTitle = styled(Text)`
-  font-weight: bold;
-  overflow-wrap: break-word;
-  white-space: normal;
-  margin-top: 125px;
-
-  display: flex;
-  align-items: center;
-
-  ${media.medium(css`
-    margin-top: 88px;
-    font-size: 24px;
-  `)}
-
-  ${media.small(css`
-    margin-top: 44px;
-    font-size: 20px;
-  `)}
-
-  svg {
-    display: none;
-  }
-
-  &:hover {
-    svg {
-      display: block;
-    }
-  }
-`;
-
-export const StyledRecentListScrollContainer = styled(motion.div)`
+export const StyledInfiniteHomeCollectionScrollContainer = styled(motion.div)`
   position: relative;
   display: block;
   white-space: nowrap;
@@ -46,7 +16,7 @@ export const StyledRecentListScrollContainer = styled(motion.div)`
   }
 `;
 
-export const StyledTitle = styled(Text)`
+export const StyledInfiniteHomeCollectionItemTitle = styled(Text)`
   font-size: 1.25rem;
 
   font-weight: bold;
@@ -65,13 +35,15 @@ export const StyledTitle = styled(Text)`
   `)};
 `;
 
-export const StyledRecentListParagraph = styled(Text)`
+export const StyledInfiniteHomeCollectionItemDescriptionText = styled(Text)<{
+  $marginTop?: number;
+}>`
   font-size: 1.1rem;
   font-weight: 500;
   overflow-wrap: break-word;
   white-space: normal;
-  margin-top: 0;
   margin-bottom: 0;
+  margin-top: ${(props) => props.$marginTop ?? 0}px;
 
   ${media['x-large'](css`
     font-size: 0.9rem;
@@ -82,13 +54,13 @@ export const StyledRecentListParagraph = styled(Text)`
   `)};
 `;
 
-export const StyledRecentListBilletsConcertCard = styled.div<{ $isLoading: boolean }>`
+export const StyledInfiniteHomeCollectionItem = styled.div<{ $isLoading: boolean }>`
   position: relative;
   background: ${(props) =>
     props.$isLoading ? 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)' : 'none'};
 `;
 
-export const StyledRecentListBilletsConcertCardImageWrapper = styled.div`
+export const StyledInfiniteHomeCollectionItemThumbnailWrapper = styled.div`
   width: 100%;
   height: 100%;
   aspect-ratio: 1 / 1;
@@ -97,7 +69,7 @@ export const StyledRecentListBilletsConcertCardImageWrapper = styled.div`
   position: relative;
 `;
 
-export const StyledRecentListBilletsConcertCardImage = styled.img`
+export const StyledInfiniteHomeCollectionItemThumbnail = styled.img`
   width: 100%;
   object-fit: cover;
   border-radius: 8px;
@@ -109,7 +81,7 @@ export const StyledRecentListBilletsConcertCardImage = styled.img`
   height: 100%;
 `;
 
-export const StyledRecentListBilletsConcertCardImageEmpty = styled.div`
+export const StyledInfiniteHomeCollectionItemThumbnailEmpty = styled.div`
   width: 100%;
   object-fit: cover;
   border-radius: 8px;
@@ -141,7 +113,7 @@ export const StyledMotionDiv = styled(motion.div)`
   gap: 16px;
 `;
 
-export const StyledRecentListScrollContainerArrow = styled.span`
+export const StyledInfiniteHomeCollectionScrollContainerArrow = styled.span`
   position: absolute;
   top: 50px;
   right: 0;
@@ -173,4 +145,33 @@ export const StyledRecentListScrollContainerItem = styled.div`
     width: 32%;
     padding-right: 8px;
   `)}
+`;
+
+export const StyledInfiniteHomeCollectionItemBottomWrapper = styled.div`
+  position: absolute;
+`;
+
+export const StyledInfiniteHomeCollectionTitle = styled(Text)`
+  font-weight: bold;
+  overflow-wrap: break-word;
+  white-space: normal;
+  margin-top: 125px;
+  display: flex;
+  align-items: center;
+  ${media.medium(css`
+    margin-top: 88px;
+    font-size: 24px;
+  `)}
+  ${media.small(css`
+    margin-top: 44px;
+    font-size: 20px;
+  `)}
+  svg {
+    display: none;
+  }
+  &:hover {
+    svg {
+      display: block;
+    }
+  }
 `;
