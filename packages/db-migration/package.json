@@ -10,7 +10,8 @@
     "prisma:migrate-dev": "pnpm prisma migrate dev --schema ../prisma-schema/prisma/schema.prisma",
     "prisma:studio": "pnpm prisma studio --schema ../prisma-schema/prisma/schema.prisma",
     "lint": "biome lint .",
-    "lint:fix": "biome lint --write ."
+    "lint:fix": "biome lint --write .",
+    "syncup": "npx ts-node ./src/sync-up.ts"
   },
   "keywords": [],
   "author": "",
