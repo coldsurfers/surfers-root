@@ -176,6 +176,15 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case 'BLACKCUBE LAB(BCL)':
+      alreadyExistingVenueId = 'dbc59372-5de4-40c0-b97c-81caab3c0802';
+      break;
+    case '클럽 A.O.R(All Of Rock)':
+      alreadyExistingVenueId = 'aaf65c9d-478a-47ea-b4ce-3e7c6b199506';
+      break;
+    case '플렉스홀 3호점':
+      alreadyExistingVenueId = '3fc00b89-33a3-4bea-9ae5-8581eb24e45f';
+      break;
     case '남원국악전용공연장 청아원':
       alreadyExistingVenueId = 'c992c8a2-1a73-42a9-a59c-11f1ea86e14b';
       break;
