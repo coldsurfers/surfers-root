@@ -18,6 +18,7 @@ const venueSlugs = [
   '고양종합운동장',
   '아르코예술극장',
   '예술의전당',
+  '무신사-개러지',
 ].sort(() => Math.random() - 0.5);
 
 async function PageInner() {

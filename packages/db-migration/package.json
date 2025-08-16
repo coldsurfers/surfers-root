@@ -11,7 +11,8 @@
     "prisma:studio": "pnpm prisma studio --schema ../prisma-schema/prisma/schema.prisma",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
-    "syncup": "npx ts-node ./src/sync-up.ts"
+    "syncup": "npx ts-node ./src/sync-up.ts",
+    "fill-venue-slug": "npx ts-node ./src/fill-empty-venue-slugs.ts"
   },
   "keywords": [],
   "author": "",
