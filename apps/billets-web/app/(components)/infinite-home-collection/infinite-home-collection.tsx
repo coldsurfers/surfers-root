@@ -16,6 +16,7 @@ import {
 } from './infinite-home-collection.styled';
 
 const LEFT_SPACE_PERCENT = 10;
+const DISABLE_PREV_BUTTON = true;
 
 const Wrapper = styled.div`
   position: relative;
@@ -31,24 +32,32 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
 
   const controls = useAnimation();
 
-  const runInfiniteAnimation = useCallback(() => {
-    controls
-      .start({
-        transform: `translateX(${-(perPageItemCount * itemWidthPercent + LEFT_SPACE_PERCENT)}%)`,
-        transition: {
-          stiffness: 100,
-          duration: 0.8,
-          type: 'keyframes',
-          ease: 'easeInOut',
-        },
-      })
-      .then(() => {
-        flushNextPage();
-        controls.set({
-          transform: `translateX(${-LEFT_SPACE_PERCENT}%)`,
-        });
-      });
-  }, [controls, flushNextPage, itemWidthPercent, perPageItemCount]);
+  const runInfiniteAnimation = useCallback(
+    (type: 'prev' | 'next') => {
+      if (type === 'next') {
+        controls
+          .start({
+            transform: `translateX(${-(perPageItemCount * itemWidthPercent + LEFT_SPACE_PERCENT)}%)`,
+            transition: {
+              stiffness: 100,
+              duration: 0.8,
+              type: 'keyframes',
+              ease: 'easeInOut',
+            },
+          })
+          .then(() => {
+            flushNextPage();
+            controls.set({
+              transform: `translateX(${-LEFT_SPACE_PERCENT}%)`,
+            });
+          });
+      }
+      if (type === 'prev') {
+        // @TODO: implement prev animation
+      }
+    },
+    [controls, flushNextPage, itemWidthPercent, perPageItemCount]
+  );
 
   return (
     <Wrapper>
@@ -72,12 +81,17 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
             .otherwise(() => null);
         })}
       </StyledInfiniteHomeCollectionScrollContainer>
-      <StyledInfiniteHomeCollectionScrollContainerArrow $isLeft onClick={runInfiniteAnimation}>
-        <ChevronRight color={semantics.color.background[1]} size={48} />
-      </StyledInfiniteHomeCollectionScrollContainerArrow>
+      {!DISABLE_PREV_BUTTON && (
+        <StyledInfiniteHomeCollectionScrollContainerArrow
+          $isLeft
+          onClick={() => runInfiniteAnimation('prev')}
+        >
+          <ChevronRight color={semantics.color.background[1]} size={48} />
+        </StyledInfiniteHomeCollectionScrollContainerArrow>
+      )}
       <StyledInfiniteHomeCollectionScrollContainerArrow
         $isLeft={false}
-        onClick={runInfiniteAnimation}
+        onClick={() => runInfiniteAnimation('next')}
       >
         <ChevronRight color={semantics.color.background[1]} size={48} />
       </StyledInfiniteHomeCollectionScrollContainerArrow>
