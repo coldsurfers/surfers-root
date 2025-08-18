@@ -1,7 +1,9 @@
-import { Text, media, semantics } from '@coldsurfers/ocean-road';
+import { Text, breakpoints, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { APP_CONTAINER_PADDING, APP_CONTAINER_PADDING_LARGE } from 'app/(ui)/constants';
 import { motion } from 'framer-motion';
+import { INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT } from './infinite-home-collection.constants';
 
 export const StyledInfiniteHomeCollectionScrollContainer = styled(motion.div)`
   position: relative;
@@ -10,10 +12,6 @@ export const StyledInfiniteHomeCollectionScrollContainer = styled(motion.div)`
   overflow-x: visible;
 
   position: relative;
-
-  @media (max-width: 960px) {
-    margin-top: 22px;
-  }
 `;
 
 export const StyledInfiniteHomeCollectionItemTitle = styled(Text)`
@@ -113,37 +111,53 @@ export const StyledMotionDiv = styled(motion.div)`
   gap: 16px;
 `;
 
-export const StyledInfiniteHomeCollectionScrollContainerArrow = styled.span`
+export const StyledInfiniteHomeCollectionScrollContainerArrow = styled.span<{ $isLeft: boolean }>`
   position: absolute;
   top: 50px;
-  right: 0;
-  bottom: 20px;
-  width: 4%;
+  ${(props) => (props.$isLeft ? 'left: -0.4%;' : 'right: 0;')};
+  bottom: 0px;
+  width: 2%;
   background: rgba(0, 0, 0, 0.5);
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
+  ${(props) => (props.$isLeft ? 'border-top-right-radius: 8px;' : 'border-top-left-radius: 8px;')};
+  ${(props) => (props.$isLeft ? 'border-bottom-right-radius: 8px;' : 'border-bottom-left-radius: 8px;')};
   display: flex;
   align-items: center;
   justify-content: center;
 
   cursor: pointer;
+
+  ${media['x-large'](css`
+    width: 5%;
+  `)}
+
+  ${media.large(css`
+    top: unset;
+  `)}
+
+  &:hover {
+    svg {
+      scale: 1.25;
+    }
+    background: rgba(0, 0, 0, 0.7);
+  }
 `;
 
 export const StyledRecentListScrollContainerItem = styled.div`
-  width: 16%;
+  width: ${INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.DEFAULT}%;
   aspect-ratio: 1 / 1;
-  padding-right: 16px;
+  padding-right: .4vw;
   padding-bottom: 88px;
 
   display: inline-block;
 
   ${media['x-large'](css`
-    width: 24%;
+    width: ${INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.X_LARGE}%;
+    padding-bottom: 128px;
   `)}
 
   ${media.large(css`
-    width: 32%;
-    padding-right: 8px;
+    width: ${INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.LARGE}%;
+    padding-right: .6vw;
   `)}
 `;
 
@@ -158,6 +172,13 @@ export const StyledInfiniteHomeCollectionTitle = styled(Text)`
   margin-top: 125px;
   display: flex;
   align-items: center;
+  padding-left: 2%;
+  ${media['x-large'](css`
+    padding-left: 5%;
+  `)}
+  ${media.large(css`
+    padding-left: ${APP_CONTAINER_PADDING_LARGE}px;
+  `)}
   ${media.medium(css`
     margin-top: 88px;
     font-size: 24px;

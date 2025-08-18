@@ -15,6 +15,8 @@ import {
   StyledInfiniteHomeCollectionTitle,
 } from './infinite-home-collection.styled';
 
+const LEFT_SPACE_PERCENT = 10;
+
 const Wrapper = styled.div`
   position: relative;
 `;
@@ -32,7 +34,7 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
   const runInfiniteAnimation = useCallback(() => {
     controls
       .start({
-        transform: `translateX(${-(perPageItemCount * itemWidthPercent)}%)`,
+        transform: `translateX(${-(perPageItemCount * itemWidthPercent + LEFT_SPACE_PERCENT)}%)`,
         transition: {
           stiffness: 100,
           duration: 0.8,
@@ -43,7 +45,7 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
       .then(() => {
         flushNextPage();
         controls.set({
-          transform: `translateX(${0}%)`,
+          transform: `translateX(${-LEFT_SPACE_PERCENT}%)`,
         });
       });
   }, [controls, flushNextPage, itemWidthPercent, perPageItemCount]);
@@ -56,7 +58,10 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
           <ChevronRight style={{ marginLeft: '0.5rem' }} />
         </StyledInfiniteHomeCollectionTitle>
       </GlobalLink>
-      <StyledInfiniteHomeCollectionScrollContainer animate={controls}>
+      <StyledInfiniteHomeCollectionScrollContainer
+        animate={controls}
+        initial={{ transform: `translateX(${-LEFT_SPACE_PERCENT}%)` }}
+      >
         {data.collectionItems.map((value, index) => {
           return match(value)
             .with({ type: 'concert' }, (value) => {
@@ -67,8 +72,14 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
             .otherwise(() => null);
         })}
       </StyledInfiniteHomeCollectionScrollContainer>
-      <StyledInfiniteHomeCollectionScrollContainerArrow onClick={runInfiniteAnimation}>
-        <ChevronRight color={semantics.color.foreground[1]} size={48} />
+      <StyledInfiniteHomeCollectionScrollContainerArrow $isLeft onClick={runInfiniteAnimation}>
+        <ChevronRight color={semantics.color.background[1]} size={48} />
+      </StyledInfiniteHomeCollectionScrollContainerArrow>
+      <StyledInfiniteHomeCollectionScrollContainerArrow
+        $isLeft={false}
+        onClick={runInfiniteAnimation}
+      >
+        <ChevronRight color={semantics.color.background[1]} size={48} />
       </StyledInfiniteHomeCollectionScrollContainerArrow>
     </Wrapper>
   );
