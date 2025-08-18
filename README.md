@@ -48,6 +48,15 @@ mini-apps/              # RN 마이크로 서비스를 담당하는 미니앱들
 ├── settings-mini-app/  # 실험용으로 만든 설정 페이지에 대한 미니앱이에요.
 ```
 
+## Client Conventions
+react를 활용하여 컴포넌트를 만들거나, 유틸함수를 만들때에는 다음과 같은 규칙을 클라이언트단에서 사용하고 있어요.
+- 먼저, 생성이 필요한 폴더를 생성해요. (ex. `event-layout/`)
+- `index.ts`와 같은 barrel file을 생성해요. (ex. `event-layout/index.ts`)
+- 타겟이 되는 본체 파일을 만들어요. (ex. `event-layout/event-layout.tsx`)
+- barrel file을 통해 본체파일을 export 해요.
+- 부가적인 해당 파일을 구성하는데에 필요한 constants, util 함수의 분리가 필요하면 다음과 같이 만들고 필요시 barrel file에서 export 해요.
+  - `event-layout/event-layout.constants.ts`, `event-layout/event-layout.utils.ts`, `event-layout/event-layout.styled.tsx`
+
 ## Linting
 린트는 biome를 사용하고 있어요. eslint보다 속도가 훨씬 빠르고, eslint 못지 않게 IDE 지원도 잘 되고 있는 것 같아 사용하고 있어요.
 
