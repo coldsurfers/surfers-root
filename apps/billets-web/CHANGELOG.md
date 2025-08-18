@@ -1,5 +1,11 @@
 # @coldsurfers/billets-web
 
+## 1.1.27
+
+### Patch Changes
+
+- [#478](https://github.com/coldsurfers/surfers-root/pull/478) [`ce3110c`](https://github.com/coldsurfers/surfers-root/commit/ce3110ca2769a748deae8be3b67f5dcd430b67b6) Thanks [@yungblud](https://github.com/yungblud)! - Support typescript for pdf library
+
 ## 1.1.26
 
 ### Patch Changes
