@@ -6,6 +6,10 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { match } from 'ts-pattern';
+import {
+  INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT,
+  INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT,
+} from './infinite-home-collection.constants';
 
 type DataT = Awaited<ReturnType<typeof apiClient.venue.getVenueDetailBySlug>>;
 type MutableDataT = {
@@ -25,17 +29,17 @@ export const useInfiniteHomeCollection = (slug: string) => {
     return match(windowWidth)
       .when(
         (width) => width > breakpoints['x-large'],
-        () => 18
+        () => INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.DEFAULT * 3
       )
       .when(
         (width) => width > breakpoints.large,
-        () => 12
+        () => INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.X_LARGE * 3
       )
       .when(
         (width) => width > breakpoints.medium,
-        () => 9
+        () => INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.LARGE * 3
       )
-      .otherwise(() => 9);
+      .otherwise(() => INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.LARGE * 3);
   }, [windowWidth]);
 
   const cloneData = useCallback(() => {
@@ -57,34 +61,34 @@ export const useInfiniteHomeCollection = (slug: string) => {
     return match(windowWidth)
       .when(
         (width) => width > breakpoints['x-large'],
-        () => 6
+        () => INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.DEFAULT
       )
       .when(
         (width) => width > breakpoints.large,
-        () => 4
+        () => INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.X_LARGE
       )
       .when(
         (width) => width > breakpoints.medium,
-        () => 3
+        () => INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.LARGE
       )
-      .otherwise(() => 3);
+      .otherwise(() => INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.LARGE);
   }, [windowWidth]);
 
   const itemWidthPercent = useMemo(() => {
     return match(windowWidth)
       .when(
         (width) => width > breakpoints['x-large'],
-        () => 16
+        () => INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.DEFAULT
       )
       .when(
         (width) => width > breakpoints.large,
-        () => 24
+        () => INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.X_LARGE
       )
       .when(
         (width) => width > breakpoints.medium,
-        () => 32
+        () => INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.LARGE
       )
-      .otherwise(() => 32);
+      .otherwise(() => INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.LARGE);
   }, [windowWidth]);
 
   const flushNextPage = useCallback(() => {
