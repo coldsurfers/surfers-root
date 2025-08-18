@@ -523,7 +523,7 @@ importers:
         version: 7.4.3
       ts-node-dev:
         specifier: ^2.0.0
-        version: 2.0.0(@types/node@20.5.1)(typescript@5.6.3)
+        version: 2.0.0(@types/node@22.13.5)(typescript@5.6.3)
       tsup:
         specifier: 8.3.5
         version: 8.3.5(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.6.3)(yaml@2.7.0)
@@ -672,6 +672,9 @@ importers:
       '@biomejs/biome':
         specifier: 1.9.4
         version: 1.9.4
+      '@types/html2pdf.js':
+        specifier: ^0.10.0
+        version: 0.10.0
       '@types/node':
         specifier: 20.12.0
         version: 20.12.0
@@ -6492,6 +6495,9 @@ packages:
 
   '@types/hammerjs@2.0.46':
     resolution: {integrity: sha512-ynRvcq6wvqexJ9brDMS4BnBLzmr0e14d6ZJTEShTBWKymQiHwlAyGu0ZPEFI2Fh1U53F7tN9ufClWM5KvqkKOw==}
+
+  '@types/html2pdf.js@0.10.0':
+    resolution: {integrity: sha512-XisuzaIQRGHsdu+Xxnymffh/+M2cu4lzpFMsoMTCoq3flN0EcEVFeYhqIO2uq5FE19NoA7tWYE62lS3SeOdMqA==}
 
   '@types/http-cache-semantics@4.0.4':
     resolution: {integrity: sha512-1m0bIFVc7eJWyve9S0RnuRgcQqF/Xd5QsUZAZeQFr1Q3/p9JWoQQEqmVy+DPTNpGXwhgIetAoYF8JSc33q29QA==}
@@ -20157,7 +20163,9 @@ snapshots:
     transitivePeerDependencies:
       - '@babel/core'
       - '@babel/preset-env'
+      - bufferutil
       - supports-color
+      - utf-8-validate
 
   '@react-native/normalize-colors@0.74.89':
     optional: true
@@ -21285,6 +21293,8 @@ snapshots:
 
   '@types/hammerjs@2.0.46': {}
 
+  '@types/html2pdf.js@0.10.0': {}
+
   '@types/http-cache-semantics@4.0.4': {}
 
   '@types/http-errors@2.0.4': {}
@@ -22119,7 +22129,7 @@ snapshots:
 
   axios@1.6.3:
     dependencies:
-      follow-redirects: 1.15.9(debug@4.3.7)
+      follow-redirects: 1.15.9(debug@4.4.1)
       form-data: 4.0.2
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -29665,7 +29675,7 @@ snapshots:
       - '@swc/wasm'
       - '@types/node'
 
-  ts-node-dev@2.0.0(@types/node@20.5.1)(typescript@5.6.3):
+  ts-node-dev@2.0.0(@types/node@22.13.5)(typescript@5.6.3):
     dependencies:
       chokidar: 3.6.0
       dynamic-dedupe: 0.3.0
@@ -29675,7 +29685,7 @@ snapshots:
       rimraf: 2.7.1
       source-map-support: 0.5.21
       tree-kill: 1.2.2
-      ts-node: 10.9.2(@types/node@20.5.1)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@22.13.5)(typescript@5.6.3)
       tsconfig: 7.0.0
       typescript: 5.6.3
     transitivePeerDependencies:
