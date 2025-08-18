@@ -7,7 +7,7 @@ apps, packages, mini-apps로 워크스페이스가 분리되어 있어요.
 ## apps
 apps의 구조에 대해 간략히 설명드릴게요.
 
-```
+```sh
 apps/                   # 애플리케이션들
 ├── billets-app/        # RN 모바일 앱 (COLDSURF 앱)
 ├── billets-web/        # Nextjs 웹 앱 (COLDSURF 웹)
@@ -25,7 +25,7 @@ apps/                   # 애플리케이션들
 ## packages
 packages의 구조에 대해 간략히 설명드릴게요.
 
-```
+```sh
 packages/               # 공유 패키지들
 ├── api-sdk/            # openapi-fetch와 openapi-typescript로 api 호출부를 관리해요.
 ├── ocean-road/         # UI 컴포넌트 라이브러리이자 일종의 디자인시스템 역할도 수행하고 있어요.
@@ -39,8 +39,11 @@ packages/               # 공유 패키지들
 
 ## mini-apps
 mini-apps의 구조에 대해 간략히 설명드릴게요.
+COLDSURF app에 들어갈 mini app들은 모두 S3에 수동 배포되고 있어요.
+Nextjs에서 script를 동적 로드하는 것 처럼, manifest api를 바라보고 어떤 js chunk 파일을 불러와야 할지 판단하도록 설계했어요.
+내부 패키지인 `@coldsurfers/react-native-esbuild-deploy`를 사용하여 빌드하고 동적 JS script를 실행시키는 함수를 유틸화 하여 재사용하고 있어요.
 
-```
+```sh
 mini-apps/              # RN 마이크로 서비스를 담당하는 미니앱들이 들어있어요.
 ├── settings-mini-app/  # 실험용으로 만든 설정 페이지에 대한 미니앱이에요.
 ```
