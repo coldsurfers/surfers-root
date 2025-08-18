@@ -1,8 +1,10 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import type { PropsWithChildren } from 'react';
 import { StyledPageLayoutUI } from './page-layout-ui.styled';
 
 export const PageLayoutUI = ({ children }: PropsWithChildren) => {
-  return <StyledPageLayoutUI>{children}</StyledPageLayoutUI>;
+  const pathname = usePathname();
+  return <StyledPageLayoutUI $isHome={pathname === '/'}>{children}</StyledPageLayoutUI>;
 };
