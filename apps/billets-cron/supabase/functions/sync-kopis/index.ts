@@ -176,6 +176,12 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case '컨벤트펍 (The convent Live Pub)':
+      alreadyExistingVenueId = '6edf2a1d-c50f-42b0-8168-e2c0a5ce7267';
+      break;
+    case '하우스오브레퓨즈(House of Refuge)':
+      alreadyExistingVenueId = 'e8694138-467d-411b-9f9a-3a718d121224';
+      break;
     case 'BLACKCUBE LAB(BCL)':
       alreadyExistingVenueId = 'dbc59372-5de4-40c0-b97c-81caab3c0802';
       break;
