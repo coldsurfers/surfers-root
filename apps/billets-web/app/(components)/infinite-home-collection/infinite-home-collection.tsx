@@ -4,7 +4,7 @@ import { GlobalLink } from '@/shared/ui';
 import { semantics } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { useAnimation } from 'framer-motion';
-import { ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useCallback } from 'react';
 import { match } from 'ts-pattern';
 import { useInfiniteHomeCollection } from './infinite-home-collection.hooks';
@@ -15,8 +15,7 @@ import {
   StyledInfiniteHomeCollectionTitle,
 } from './infinite-home-collection.styled';
 
-const LEFT_SPACE_PERCENT = 10;
-const DISABLE_PREV_BUTTON = true;
+const DISABLE_PREV_BUTTON = false;
 
 const Wrapper = styled.div`
   position: relative;
@@ -27,17 +26,20 @@ type Props = {
 };
 
 export const InfiniteHomeCollection = ({ slug }: Props) => {
-  const { perPageItemCount, itemWidthPercent, data, flushNextPage } =
+  const { perPageItemCount, itemWidthPercent, data, flushNextPage, flushPrevPage } =
     useInfiniteHomeCollection(slug);
 
   const controls = useAnimation();
 
+  const initialRotatePercent = -(perPageItemCount * itemWidthPercent) + 2;
+
   const runInfiniteAnimation = useCallback(
     (type: 'prev' | 'next') => {
+      const rotatePercent = perPageItemCount * itemWidthPercent;
       if (type === 'next') {
         controls
           .start({
-            transform: `translateX(${-(perPageItemCount * itemWidthPercent + LEFT_SPACE_PERCENT)}%)`,
+            transform: `translateX(${initialRotatePercent - rotatePercent}%)`,
             transition: {
               stiffness: 100,
               duration: 0.8,
@@ -48,15 +50,37 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
           .then(() => {
             flushNextPage();
             controls.set({
-              transform: `translateX(${-LEFT_SPACE_PERCENT}%)`,
+              transform: `translateX(${initialRotatePercent}%)`,
             });
           });
       }
       if (type === 'prev') {
-        // @TODO: implement prev animation
+        controls
+          .start({
+            transform: `translateX(${initialRotatePercent + rotatePercent}%)`,
+            transition: {
+              stiffness: 100,
+              duration: 0.8,
+              type: 'keyframes',
+              ease: 'easeInOut',
+            },
+          })
+          .then(() => {
+            flushPrevPage();
+            controls.set({
+              transform: `translateX(${initialRotatePercent}%)`,
+            });
+          });
       }
     },
-    [controls, flushNextPage, itemWidthPercent, perPageItemCount]
+    [
+      controls,
+      flushNextPage,
+      flushPrevPage,
+      itemWidthPercent,
+      perPageItemCount,
+      initialRotatePercent,
+    ]
   );
 
   return (
@@ -69,7 +93,9 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
       </GlobalLink>
       <StyledInfiniteHomeCollectionScrollContainer
         animate={controls}
-        initial={{ transform: `translateX(${-LEFT_SPACE_PERCENT}%)` }}
+        initial={{
+          transform: `translateX(${initialRotatePercent}%)`,
+        }}
       >
         {data.collectionItems.map((value, index) => {
           return match(value)
@@ -86,7 +112,7 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
           $isLeft
           onClick={() => runInfiniteAnimation('prev')}
         >
-          <ChevronRight color={semantics.color.background[1]} size={48} />
+          <ChevronLeft color={semantics.color.background[1]} size={48} />
         </StyledInfiniteHomeCollectionScrollContainerArrow>
       )}
       <StyledInfiniteHomeCollectionScrollContainerArrow
