@@ -1,5 +1,11 @@
 # @coldsurfers/billets-web
 
+## 1.1.29
+
+### Patch Changes
+
+- [#485](https://github.com/coldsurfers/surfers-root/pull/485) [`77e853c`](https://github.com/coldsurfers/surfers-root/commit/77e853c17a7663c8735585a122baa6be8849e720) Thanks [@yungblud](https://github.com/yungblud)! - implement prev page home collection
+
 ## 1.1.28
 
 ### Patch Changes
