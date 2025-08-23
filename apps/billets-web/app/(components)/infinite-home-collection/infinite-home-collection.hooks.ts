@@ -104,6 +104,19 @@ export const useInfiniteHomeCollection = (slug: string) => {
     });
   }, [perPageItemCount]);
 
+  const flushPrevPage = useCallback(() => {
+    flushSync(() => {
+      setInfiniteData((prev) => {
+        const newData = [...prev];
+
+        const pre = newData.slice(0, perPageItemCount);
+        const middle = newData.slice(perPageItemCount, perPageItemCount * 2);
+        const final = newData.slice(perPageItemCount * 2, perPageItemCount * 3);
+        return [...final, ...pre, ...middle];
+      });
+    });
+  }, [perPageItemCount]);
+
   useLayoutEffect(() => {
     setInfiniteData(cloneData);
   }, [cloneData]);
@@ -117,7 +130,15 @@ export const useInfiniteHomeCollection = (slug: string) => {
         collectionTitle: serverData.name,
       },
       flushNextPage,
+      flushPrevPage,
     }),
-    [perPageItemCount, itemWidthPercent, infiniteData, flushNextPage, serverData.name]
+    [
+      perPageItemCount,
+      itemWidthPercent,
+      infiniteData,
+      flushNextPage,
+      flushPrevPage,
+      serverData.name,
+    ]
   );
 };
