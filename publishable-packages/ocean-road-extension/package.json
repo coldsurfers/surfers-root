@@ -1,17 +1,20 @@
 {
   "name": "@coldsurfers/ocean-road-extension",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "bugs": {
+    "url": "https://github.com/coldsurfers/surfers-root/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coldsurfers/surfers-root"
+  },
   "description": "",
   "main": "dist/index.js",
   "react-native": "src/index.ts",
   "module": "dist/index.mjs",
   "source": "src/",
   "types": "dist/index.d.ts",
-  "files": [
-    "src",
-    "dist",
-    "package.json"
-  ],
+  "files": ["src", "dist", "package.json"],
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
