@@ -41,5 +41,8 @@
     "react": "*",
     "react-native": "*",
     "react-native-safe-area-context": "*"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }
