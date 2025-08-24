@@ -1,5 +1,11 @@
 # @coldsurfers/billets-cron
 
+## 1.0.2
+
+### Patch Changes
+
+- [#487](https://github.com/coldsurfers/surfers-root/pull/487) [`7ae0841`](https://github.com/coldsurfers/surfers-root/commit/7ae0841e395feac026a84c87f4689280b560876a) Thanks [@yungblud](https://github.com/yungblud)! - Add findVenue item
+
 ## 1.0.1
 
 ### Patch Changes
