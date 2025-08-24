@@ -20,20 +20,13 @@
     "test": "jest"
   },
   "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
     "preset": "react-native"
   },
   "dependencies": {
     "@coldsurfers/api-sdk": "workspace:*",
-    "@coldsurfers/ocean-road-design-tokens": "1.10.3",
-    "@coldsurfers/ocean-road": "1.11.5",
+    "@coldsurfers/ocean-road-design-tokens": "1.10.3-alpha.5",
+    "@coldsurfers/ocean-road": "1.11.5-alpha.2",
     "@coldsurfers/ocean-road-extension": "1.0.1",
     "@coldsurfers/openapi-client": "workspace:*",
     "@coldsurfers/react-native-esbuild-deploy": "workspace:*",
