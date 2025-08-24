@@ -1,12 +1,16 @@
 {
   "name": "@coldsurfers/infinite-carousel",
-  "version": "1.0.2-alpha.5",
+  "version": "1.0.2",
   "description": "Netflix style infinite carousel",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "source": "src/",
   "types": "dist/index.d.ts",
-  "files": ["src", "dist", "package.json"],
+  "files": [
+    "src",
+    "dist",
+    "package.json"
+  ],
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "rm -rf dist && tsdown",
@@ -27,8 +31,8 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "@biomejs/biome": "1.9.4",
-    "@coldsurfers/ocean-road": "1.11.5-alpha.2",
-    "@coldsurfers/ocean-road-design-tokens": "1.10.3-alpha.5",
+    "@coldsurfers/ocean-road": "1.11.5",
+    "@coldsurfers/ocean-road-design-tokens": "1.10.3",
     "@emotion/css": "11.10.6",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
@@ -40,8 +44,8 @@
   "peerDependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "@coldsurfers/ocean-road": "^1.11.4",
-    "@coldsurfers/ocean-road-design-tokens": "^1.10.2",
+    "@coldsurfers/ocean-road": "^1.11.5",
+    "@coldsurfers/ocean-road-design-tokens": "^1.10.3",
     "@emotion/css": "^11.10.6",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
