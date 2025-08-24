@@ -1,12 +1,12 @@
 {
   "name": "@coldsurfers/ocean-road-design-tokens",
-  "version": "1.10.1-alpha.1",
+  "version": "1.10.1-alpha.2",
   "bugs": {
-    "url": "https://github.com/coldsurfers/ocean-road-design-tokens/issues"
+    "url": "https://github.com/coldsurfers/surfers-root/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/coldsurfers/ocean-road-design-tokens"
+    "url": "git+https://github.com/coldsurfers/surfers-root"
   },
   "main": "dist/css/variables.css",
   "files": ["src", "dist", "tokens", "package.json"],

@@ -1,12 +1,12 @@
 {
   "name": "@coldsurfers/ocean-road",
-  "version": "1.11.2-alpha.1",
+  "version": "1.11.2-alpha.2",
   "bugs": {
-    "url": "https://github.com/coldsurfers/ocean-road/issues"
+    "url": "https://github.com/coldsurfers/surfers-root/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/coldsurfers/ocean-road"
+    "url": "git+https://github.com/coldsurfers/surfers-root"
   },
   "license": "MIT",
   "main": "dist/index.js",
@@ -43,7 +43,7 @@
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.21.4",
     "@biomejs/biome": "1.9.4",
-    "@coldsurfers/ocean-road-design-tokens": "1.10.1-alpha.1",
+    "@coldsurfers/ocean-road-design-tokens": "1.10.1-alpha.2",
     "@emotion/css": "11.10.6",
     "@emotion/native": "11.11.0",
     "@emotion/react": "11.10.6",
@@ -69,7 +69,7 @@
     "typescript": "5.6.3"
   },
   "peerDependencies": {
-    "@coldsurfers/ocean-road-design-tokens": "1.10.1-alpha.1",
+    "@coldsurfers/ocean-road-design-tokens": "1.10.1-alpha.2",
     "@emotion/css": "11.10.6",
     "@emotion/native": "11.11.0",
     "@emotion/react": "11.10.6",
