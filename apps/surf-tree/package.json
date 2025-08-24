@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/surf-tree",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "private": true,
   "scripts": {
     "build": "next build",
@@ -14,7 +14,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@coldsurfers/ocean-road": "1.11.5-alpha.2",
+    "@coldsurfers/ocean-road": "1.11.5",
     "@emotion/css": "11.10.6",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",

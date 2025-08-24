@@ -1,5 +1,15 @@
 # @coldsurfers/infinite-carousel
 
+## 1.0.2
+
+### Patch Changes
+
+- [#494](https://github.com/coldsurfers/surfers-root/pull/494) [`ffa5e53`](https://github.com/coldsurfers/surfers-root/commit/ffa5e536820d303eaa2103b68f6ddc6f088c5885) Thanks [@yungblud](https://github.com/yungblud)! - support carousel item wrapper
+
+- Updated dependencies [[`ffa5e53`](https://github.com/coldsurfers/surfers-root/commit/ffa5e536820d303eaa2103b68f6ddc6f088c5885)]:
+  - @coldsurfers/ocean-road-design-tokens@1.10.3
+  - @coldsurfers/ocean-road@1.11.5
+
 ## 1.0.1
 
 ### Patch Changes
