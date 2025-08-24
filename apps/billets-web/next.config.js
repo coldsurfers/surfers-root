@@ -8,9 +8,6 @@ const { NEXT_PUBLIC_STATIC_SERVER_HOST: staticServerHost } = process.env;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    externalDir: true,
-  },
   output: 'standalone',
   images: {
     remotePatterns: [

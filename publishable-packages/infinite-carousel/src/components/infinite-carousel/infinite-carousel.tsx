@@ -19,19 +19,18 @@ const Wrapper = styled.div`
 
 type Props = {
   breakpoints: BreakpointT[];
-  title: string;
   data: DataT[];
   titleLinkHref?: string;
 };
 
-export const InfiniteCarousel = ({ breakpoints, title, data, titleLinkHref }: Props) => {
+export const InfiniteCarousel = ({ breakpoints, data }: Props) => {
   const {
     perPageItemCount,
     itemWidthPercent,
     data: infiniteCarouselData,
     flushNextPage,
     flushPrevPage,
-  } = useInfiniteHomeCollection({ breakpoints, title, data });
+  } = useInfiniteHomeCollection({ breakpoints, data });
 
   const controls = useAnimation();
 

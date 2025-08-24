@@ -5,11 +5,10 @@ import type { BreakpointT, DataT } from './infinite-carousel.types';
 
 type Props = {
   breakpoints: BreakpointT[];
-  title: string;
   data: DataT[];
 };
 
-export const useInfiniteHomeCollection = ({ breakpoints, title, data }: Props) => {
+export const useInfiniteHomeCollection = ({ breakpoints, data }: Props) => {
   const windowWidth = useWindowWidth();
 
   const infiniteCollectionItemsCount = useMemo(() => {
@@ -100,11 +99,10 @@ export const useInfiniteHomeCollection = ({ breakpoints, title, data }: Props) =
       itemWidthPercent,
       data: {
         carouselItems: infiniteData,
-        carouselTitle: title,
       },
       flushNextPage,
       flushPrevPage,
     }),
-    [perPageItemCount, itemWidthPercent, infiniteData, flushNextPage, flushPrevPage, title]
+    [perPageItemCount, itemWidthPercent, infiniteData, flushNextPage, flushPrevPage]
   );
 };

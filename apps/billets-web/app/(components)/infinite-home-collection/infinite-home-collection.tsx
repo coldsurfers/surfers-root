@@ -1,126 +1,86 @@
 'use client';
 
+import { apiClient, initialPageQuery } from '@/libs/openapi-client';
 import { GlobalLink } from '@/shared/ui';
-import { semantics } from '@coldsurfers/ocean-road';
+import type { OpenApiError } from '@coldsurfers/api-sdk';
+import { InfiniteCarousel } from '@coldsurfers/infinite-carousel';
+import { breakpoints } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
-import { useAnimation } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useCallback } from 'react';
-import { match } from 'ts-pattern';
-import { useInfiniteHomeCollection } from './infinite-home-collection.hooks';
-import { InfiniteHomeCollectionItem } from './infinite-home-collection.item';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { format, parseISO } from 'date-fns';
+import { ChevronRight } from 'lucide-react';
+import { useMemo } from 'react';
 import {
-  StyledInfiniteHomeCollectionScrollContainer,
-  StyledInfiniteHomeCollectionScrollContainerArrow,
-  StyledInfiniteHomeCollectionTitle,
-} from './infinite-home-collection.styled';
-
-const DISABLE_PREV_BUTTON = false;
+  INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT,
+  INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT,
+} from './infinite-home-collection.constants';
+import { StyledInfiniteHomeCollectionTitle } from './infinite-home-collection.styled';
 
 const Wrapper = styled.div`
   position: relative;
 `;
+
+type DataT = Awaited<ReturnType<typeof apiClient.venue.getVenueDetailBySlug>>;
+type MutableDataT = {
+  name: string;
+  upcomingEvents: (DataT['upcomingEvents'][number] | { type: 'empty' })[];
+};
 
 type Props = {
   slug: string;
 };
 
 export const InfiniteHomeCollection = ({ slug }: Props) => {
-  const { perPageItemCount, itemWidthPercent, data, flushNextPage, flushPrevPage } =
-    useInfiniteHomeCollection(slug);
+  const { data: serverData } = useSuspenseQuery<DataT, OpenApiError, MutableDataT>({
+    queryKey: initialPageQuery.homeVenueCollection(slug).queryKey,
+    queryFn: () => apiClient.venue.getVenueDetailBySlug(slug),
+  });
 
-  const controls = useAnimation();
+  const collectionTitle = useMemo(() => {
+    return serverData.name;
+  }, [serverData.name]);
 
-  const initialRotatePercent = -(perPageItemCount * itemWidthPercent) + 2;
-
-  const runInfiniteAnimation = useCallback(
-    (type: 'prev' | 'next') => {
-      const rotatePercent = perPageItemCount * itemWidthPercent;
-      if (type === 'next') {
-        controls
-          .start({
-            transform: `translateX(${initialRotatePercent - rotatePercent}%)`,
-            transition: {
-              stiffness: 100,
-              duration: 0.8,
-              type: 'keyframes',
-              ease: 'easeInOut',
-            },
-          })
-          .then(() => {
-            flushNextPage();
-            controls.set({
-              transform: `translateX(${initialRotatePercent}%)`,
-            });
-          });
-      }
-      if (type === 'prev') {
-        controls
-          .start({
-            transform: `translateX(${initialRotatePercent + rotatePercent}%)`,
-            transition: {
-              stiffness: 100,
-              duration: 0.8,
-              type: 'keyframes',
-              ease: 'easeInOut',
-            },
-          })
-          .then(() => {
-            flushPrevPage();
-            controls.set({
-              transform: `translateX(${initialRotatePercent}%)`,
-            });
-          });
-      }
-    },
-    [
-      controls,
-      flushNextPage,
-      flushPrevPage,
-      itemWidthPercent,
-      perPageItemCount,
-      initialRotatePercent,
-    ]
-  );
+  const carouselData = useMemo(() => {
+    const filtered = serverData.upcomingEvents.filter((item) => item.type === 'concert');
+    return filtered;
+  }, [serverData.upcomingEvents]);
 
   return (
     <Wrapper>
       <GlobalLink href={`/venue/${slug}`}>
         <StyledInfiniteHomeCollectionTitle as="h2">
-          {data.collectionTitle}
+          {collectionTitle}
           <ChevronRight style={{ marginLeft: '0.5rem' }} />
         </StyledInfiniteHomeCollectionTitle>
       </GlobalLink>
-      <StyledInfiniteHomeCollectionScrollContainer
-        animate={controls}
-        initial={{
-          transform: `translateX(${initialRotatePercent}%)`,
-        }}
-      >
-        {data.collectionItems.map((value, index) => {
-          return match(value)
-            .with({ type: 'concert' }, (value) => {
-              return (
-                <InfiniteHomeCollectionItem data={value.data} key={`${value.data.id}-${index}`} />
-              );
-            })
-            .otherwise(() => null);
+      <InfiniteCarousel
+        breakpoints={[
+          {
+            windowWidthLargerThan: breakpoints['x-large'],
+            itemWidthPercent: INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.DEFAULT,
+            perPageItemCount: INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.DEFAULT,
+          },
+          {
+            windowWidthLargerThan: breakpoints.large,
+            itemWidthPercent: INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.X_LARGE,
+            perPageItemCount: INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.X_LARGE,
+          },
+          {
+            windowWidthLargerThan: breakpoints.medium,
+            itemWidthPercent: INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.LARGE,
+            perPageItemCount: INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.LARGE,
+          },
+        ]}
+        title={collectionTitle}
+        data={carouselData.map((item) => {
+          return {
+            dateDescription: format(parseISO(item.data.date), 'yyyy.MM.dd'),
+            posterSrc: item.data.mainPoster?.url ?? '',
+            title: item.data.title ?? '',
+            venueName: item.data.mainVenue?.name ?? '',
+          };
         })}
-      </StyledInfiniteHomeCollectionScrollContainer>
-      {!DISABLE_PREV_BUTTON && (
-        <StyledInfiniteHomeCollectionScrollContainerArrow
-          $isLeft
-          onClick={() => runInfiniteAnimation('prev')}
-        >
-          <ChevronLeft color={semantics.color.background[1]} size={48} />
-        </StyledInfiniteHomeCollectionScrollContainerArrow>
-      )}
-      <StyledInfiniteHomeCollectionScrollContainerArrow
-        $isLeft={false}
-        onClick={() => runInfiniteAnimation('next')}
-      >
-        <ChevronRight color={semantics.color.background[1]} size={48} />
-      </StyledInfiniteHomeCollectionScrollContainerArrow>
+      />
     </Wrapper>
   );
 };

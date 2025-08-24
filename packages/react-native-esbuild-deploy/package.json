@@ -15,7 +15,7 @@
     "build:cli": "rm -rf dist && tsdown --config ./scripts/tsdown.config.ts"
   },
   "dependencies": {
-    "@coldsurfers/ocean-road": "1.11.4"
+    "@coldsurfers/ocean-road": "1.11.5-alpha.2"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
