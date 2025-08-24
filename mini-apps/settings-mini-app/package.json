@@ -15,8 +15,8 @@
   "dependencies": {
     "@emotion/native": "11.11.0",
     "@coldsurfers/api-sdk": "workspace:*",
-    "@coldsurfers/ocean-road-design-tokens": "workspace:*",
-    "@coldsurfers/ocean-road": "workspace:*",
+    "@coldsurfers/ocean-road-design-tokens": "1.10.1-alpha.0",
+    "@coldsurfers/ocean-road": "1.11.2-alpha.0",
     "@coldsurfers/ocean-road-extension": "workspace:*",
     "@coldsurfers/shared-utils": "workspace:*",
     "@coldsurfers/navigation-utils": "workspace:*",

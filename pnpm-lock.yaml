@@ -77,11 +77,11 @@ importers:
         specifier: workspace:*
         version: link:../../packages/api-sdk
       '@coldsurfers/ocean-road':
-        specifier: workspace:*
-        version: link:../../publishable-packages/ocean-road
+        specifier: 1.11.2-alpha.0
+        version: 1.11.2-alpha.0(6abb73a5222803d5db1f0d3ab4e05235)
       '@coldsurfers/ocean-road-design-tokens':
-        specifier: workspace:*
-        version: link:../../publishable-packages/ocean-road-design-tokens
+        specifier: 1.10.1-alpha.0
+        version: 1.10.1-alpha.0
       '@coldsurfers/ocean-road-extension':
         specifier: workspace:*
         version: link:../../publishable-packages/ocean-road-extension
@@ -543,11 +543,11 @@ importers:
         specifier: workspace:*
         version: link:../../packages/cloudinary-utils
       '@coldsurfers/ocean-road':
-        specifier: workspace:*
-        version: link:../../publishable-packages/ocean-road
+        specifier: 1.11.2-alpha.0
+        version: 1.11.2-alpha.0(b39e11562def0f4987298657a4d24471)
       '@coldsurfers/ocean-road-design-tokens':
-        specifier: workspace:*
-        version: link:../../publishable-packages/ocean-road-design-tokens
+        specifier: 1.10.1-alpha.0
+        version: 1.10.1-alpha.0
       '@coldsurfers/openapi-client':
         specifier: workspace:*
         version: link:../../packages/openapi-client
@@ -574,7 +574,7 @@ importers:
         version: 5.21.1(prisma@5.21.1)
       '@sentry/nextjs':
         specifier: ^9.38.0
-        version: 9.38.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(encoding@0.1.13)(next@15.2.4(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0))(react@19.0.0)(webpack@5.98.0)
+        version: 9.38.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(encoding@0.1.13)(next@15.2.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0))(react@19.0.0)(webpack@5.98.0)
       '@tanstack/react-query':
         specifier: 5.59.16
         version: 5.59.16(react@19.0.0)
@@ -712,8 +712,8 @@ importers:
   apps/surf-tree:
     dependencies:
       '@coldsurfers/ocean-road':
-        specifier: workspace:*
-        version: link:../../publishable-packages/ocean-road
+        specifier: 1.11.2-alpha.0
+        version: 1.11.2-alpha.0(b39e11562def0f4987298657a4d24471)
       '@emotion/css':
         specifier: 11.10.6
         version: 11.10.6
@@ -737,7 +737,7 @@ importers:
         version: 0.469.0(react@19.0.0)
       next:
         specifier: 15.1.0
-        version: 15.1.0(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0)
+        version: 15.1.0(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0)
       react:
         specifier: 19.0.0
         version: 19.0.0
@@ -782,8 +782,8 @@ importers:
         specifier: ^3.10.4
         version: 3.13.1(@types/react@18.2.67)(graphql-ws@5.12.1(graphql@16.10.0))(graphql@16.10.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@coldsurfers/ocean-road':
-        specifier: workspace:*
-        version: link:../../publishable-packages/ocean-road
+        specifier: 1.11.2-alpha.0
+        version: 1.11.2-alpha.0(b39e11562def0f4987298657a4d24471)
       '@emotion/css':
         specifier: 11.10.6
         version: 11.10.6
@@ -1030,11 +1030,11 @@ importers:
         specifier: workspace:*
         version: link:../../packages/navigation-utils
       '@coldsurfers/ocean-road':
-        specifier: workspace:*
-        version: link:../../publishable-packages/ocean-road
+        specifier: 1.11.2-alpha.0
+        version: 1.11.2-alpha.0(6abb73a5222803d5db1f0d3ab4e05235)
       '@coldsurfers/ocean-road-design-tokens':
-        specifier: workspace:*
-        version: link:../../publishable-packages/ocean-road-design-tokens
+        specifier: 1.10.1-alpha.0
+        version: 1.10.1-alpha.0
       '@coldsurfers/ocean-road-extension':
         specifier: workspace:*
         version: link:../../publishable-packages/ocean-road-extension
@@ -1227,8 +1227,8 @@ importers:
   packages/react-native-esbuild-deploy:
     dependencies:
       '@coldsurfers/ocean-road':
-        specifier: workspace:*
-        version: link:../../publishable-packages/ocean-road
+        specifier: 1.11.2-alpha.0
+        version: 1.11.2-alpha.0(6abb73a5222803d5db1f0d3ab4e05235)
     devDependencies:
       '@babel/core':
         specifier: ^7.25.2
@@ -1457,8 +1457,8 @@ importers:
         specifier: 1.9.4
         version: 1.9.4
       '@coldsurfers/ocean-road':
-        specifier: workspace:*
-        version: link:../ocean-road
+        specifier: 1.11.2-alpha.0
+        version: 1.11.2-alpha.0(6abb73a5222803d5db1f0d3ab4e05235)
       react:
         specifier: 19.0.0
         version: 19.0.0
@@ -2858,6 +2858,23 @@ packages:
 
   '@coldsurfers/ocean-road-design-tokens@1.10.1-alpha.0':
     resolution: {integrity: sha512-7/JA2TPD9NJiYRwvPCgX5lP4MoUWJ4zbzXfKRz14Dw+V6f2Dj7S28oAEwqWSuM3kbpIQLOT5oAZtiOSPljzc6A==, tarball: https://npm.pkg.github.com/download/@coldsurfers/ocean-road-design-tokens/1.10.1-alpha.0/4e14ec318d52cd4970476c3c026231944fbc82f9}
+
+  '@coldsurfers/ocean-road@1.11.2-alpha.0':
+    resolution: {integrity: sha512-VyYjAmhX7AGxQoLWS2CNix53V963+sSetUkbxQ6cnBG05mGmQFqIhzYT7QJvHep82SdoPUEJqGQNTqpGADaxVg==, tarball: https://npm.pkg.github.com/download/@coldsurfers/ocean-road/1.11.2-alpha.0/e3e158d11e184705a1322a57dc25f63d82aba0b3}
+    peerDependencies:
+      '@coldsurfers/ocean-road-design-tokens': 1.10.1-alpha.0
+      '@emotion/css': 11.10.6
+      '@emotion/native': 11.11.0
+      '@emotion/react': 11.10.6
+      '@emotion/styled': 11.10.6
+      framer-motion: 11.11.13
+      lucide-react: 0.469.0
+      lucide-react-native: 0.468.0
+      react: '>= 19.0.0'
+      react-dom: '>= 19.0.0'
+      react-native-reanimated: '>= 3.17.1'
+      react-native-svg: 15.11.1
+      react-spinners: 0.14.1
 
   '@commitlint/cli@17.8.1':
     resolution: {integrity: sha512-ay+WbzQesE0Rv4EQKfNbSMiJJ12KdKTDzIt0tcK4k11FdsWmtwP0Kp1NWMOUswfIWo6Eb7p7Ln721Nx9FLNBjg==}
@@ -16650,6 +16667,38 @@ snapshots:
     dependencies:
       open-color: 1.9.1
 
+  '@coldsurfers/ocean-road@1.11.2-alpha.0(6abb73a5222803d5db1f0d3ab4e05235)':
+    dependencies:
+      '@coldsurfers/ocean-road-design-tokens': 1.10.1-alpha.0
+      '@emotion/css': 11.10.6
+      '@emotion/native': 11.11.0(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
+      '@emotion/react': 11.10.6(@types/react@18.2.67)(react@19.0.0)
+      '@emotion/styled': 11.10.6(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(@types/react@18.2.67)(react@19.0.0)
+      framer-motion: 11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.1.0(react@19.0.0))(react@19.0.0)
+      lucide-react: 0.469.0(react@19.0.0)
+      lucide-react-native: 0.468.0(react-native-svg@15.11.2(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
+      react: 19.0.0
+      react-dom: 19.1.0(react@19.0.0)
+      react-native-reanimated: 3.17.1(@babel/core@7.26.9)(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
+      react-native-svg: 15.11.2(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
+      react-spinners: 0.14.1(react-dom@19.1.0(react@19.0.0))(react@19.0.0)
+
+  '@coldsurfers/ocean-road@1.11.2-alpha.0(b39e11562def0f4987298657a4d24471)':
+    dependencies:
+      '@coldsurfers/ocean-road-design-tokens': 1.10.1-alpha.0
+      '@emotion/css': 11.10.6
+      '@emotion/native': 11.11.0(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
+      '@emotion/react': 11.10.6(@types/react@18.2.67)(react@19.0.0)
+      '@emotion/styled': 11.10.6(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(@types/react@18.2.67)(react@19.0.0)
+      framer-motion: 11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      lucide-react: 0.469.0(react@19.0.0)
+      lucide-react-native: 0.468.0(react-native-svg@15.11.2(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+      react-native-reanimated: 3.17.1(@babel/core@7.26.9)(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
+      react-native-svg: 15.11.2(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
+      react-spinners: 0.14.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+
   '@commitlint/cli@17.8.1':
     dependencies:
       '@commitlint/format': 17.8.1
@@ -20658,7 +20707,7 @@ snapshots:
 
   '@sentry/core@9.38.0': {}
 
-  '@sentry/nextjs@9.38.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(encoding@0.1.13)(next@15.2.4(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0))(react@19.0.0)(webpack@5.98.0)':
+  '@sentry/nextjs@9.38.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(encoding@0.1.13)(next@15.2.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0))(react@19.0.0)(webpack@5.98.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/semantic-conventions': 1.36.0
@@ -24480,6 +24529,14 @@ snapshots:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
 
+  framer-motion@11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.1.0(react@19.0.0))(react@19.0.0):
+    dependencies:
+      tslib: 2.8.1
+    optionalDependencies:
+      '@emotion/is-prop-valid': 1.3.1
+      react: 19.0.0
+      react-dom: 19.1.0(react@19.0.0)
+
   fresh@0.5.2: {}
 
   fs-constants@1.0.0: {}
@@ -26857,7 +26914,7 @@ snapshots:
     dependencies:
       type-fest: 2.19.0
 
-  next@15.1.0(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0):
+  next@15.1.0(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0):
     dependencies:
       '@next/env': 15.1.0
       '@swc/counter': 0.1.3
@@ -28272,6 +28329,11 @@ snapshots:
     dependencies:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
+
+  react-spinners@0.14.1(react-dom@19.1.0(react@19.0.0))(react@19.0.0):
+    dependencies:
+      react: 19.0.0
+      react-dom: 19.1.0(react@19.0.0)
 
   react-test-renderer@19.0.0(react@19.0.0):
     dependencies:
