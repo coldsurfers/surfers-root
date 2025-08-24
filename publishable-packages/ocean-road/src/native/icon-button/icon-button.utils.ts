@@ -1,4 +1,4 @@
-import color from '@coldsurfers/design-tokens/dist/js/color/variables';
+import color from '@coldsurfers/ocean-road-design-tokens/dist/js/color/variables';
 import { css } from '@emotion/native';
 import type { ButtonTheme } from '../../button';
 import type { IconButtonSize } from './icon-button.types';

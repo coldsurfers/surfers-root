@@ -1,4 +1,4 @@
-import color from '@coldsurfers/design-tokens/dist/js/color/variables';
+import color from '@coldsurfers/ocean-road-design-tokens/dist/js/color/variables';
 import { forwardRef, memo, useCallback, useState } from 'react';
 import { TextInput as RNTextInput, StyleSheet } from 'react-native';
 import { colors } from '../../tokens';
