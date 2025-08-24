@@ -1,6 +1,8 @@
 'use client';
 
+import { logEvent } from '@/features/firebase/firebase';
 import { apiClient, initialPageQuery } from '@/libs/openapi-client';
+import { generateSlugHref } from '@/libs/utils/utils.slug';
 import { GlobalLink } from '@/shared/ui';
 import type { OpenApiError } from '@coldsurfers/api-sdk';
 import { InfiniteCarousel } from '@coldsurfers/infinite-carousel';
@@ -54,6 +56,28 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
         </StyledInfiniteHomeCollectionTitle>
       </GlobalLink>
       <InfiniteCarousel
+        renderItemWrapper={(children, item) => {
+          const targetItem = carouselData.find(
+            (carouselItem) => carouselItem.data.title === item.title
+          );
+          return (
+            <GlobalLink
+              href={targetItem ? generateSlugHref(targetItem.data.slug) : ''}
+              onClick={() => {
+                if (targetItem) {
+                  logEvent({
+                    name: 'click_home_collection',
+                    params: {
+                      event_id: targetItem.data.id,
+                    },
+                  });
+                }
+              }}
+            >
+              {children}
+            </GlobalLink>
+          );
+        }}
         breakpoints={[
           {
             windowWidthLargerThan: breakpoints['x-large'],

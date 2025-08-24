@@ -8,15 +8,18 @@ import {
   StyledInfiniteHomeCollectionItemTitle,
   StyledRecentListScrollContainerItem,
 } from './infinite-carousel.styled';
-import type { DataT } from './infinite-carousel.types';
+import type { DataT, ItemWrapperT } from './infinite-carousel.types';
 
-type Props = DataT;
+type Props = DataT & {
+  renderItemWrapper: ItemWrapperT;
+};
 
 export const InfiniteHomeCollectionItem = ({
   dateDescription,
   posterSrc,
   title,
   venueName,
+  renderItemWrapper,
 }: Props) => {
   const thumbUrl = useMemo(() => {
     if (!posterSrc) {
@@ -25,7 +28,7 @@ export const InfiniteHomeCollectionItem = ({
     return `${posterSrc}`;
   }, [posterSrc]);
 
-  return (
+  return renderItemWrapper(
     <StyledRecentListScrollContainerItem>
       <StyledInfiniteHomeCollectionItem $isLoading={false}>
         <StyledInfiniteHomeCollectionItemThumbnailWrapper>
@@ -43,6 +46,12 @@ export const InfiniteHomeCollectionItem = ({
           </StyledInfiniteHomeCollectionItemDescriptionText>
         </StyledInfiniteHomeCollectionItemBottomWrapper>
       </StyledInfiniteHomeCollectionItem>
-    </StyledRecentListScrollContainerItem>
+    </StyledRecentListScrollContainerItem>,
+    {
+      dateDescription,
+      posterSrc,
+      title,
+      venueName,
+    }
   );
 };
