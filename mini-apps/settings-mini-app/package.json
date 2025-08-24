@@ -1,6 +1,7 @@
 {
   "name": "@coldsurfers/settings-mini-app",
   "version": "1.0.3",
+  "private": true,
   "description": "",
   "main": "src/index.ts",
   "react-native": "src/index.ts",

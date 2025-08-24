@@ -2,6 +2,7 @@
   "name": "@coldsurfers/navigation-utils",
   "version": "1.0.0",
   "description": "",
+  "private": true,
   "exports": {
     ".": {
       "import": "./dist/index.js",
