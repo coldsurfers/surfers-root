@@ -71,7 +71,6 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
             perPageItemCount: INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.LARGE,
           },
         ]}
-        title={collectionTitle}
         data={carouselData.map((item) => {
           return {
             dateDescription: format(parseISO(item.data.date), 'yyyy.MM.dd'),

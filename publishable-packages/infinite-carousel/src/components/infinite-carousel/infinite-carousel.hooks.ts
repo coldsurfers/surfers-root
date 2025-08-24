@@ -19,7 +19,9 @@ export const useInfiniteHomeCollection = ({ breakpoints, data }: Props) => {
     const targetItemsCount =
       sortedByLargeBreakpoint.find(
         ({ windowWidthLargerThan }) => windowWidthLargerThan < windowWidth
-      )?.perPageItemCount ?? 0;
+      )?.perPageItemCount ??
+      sortedByLargeBreakpoint.at(-1)?.perPageItemCount ??
+      0;
 
     return targetItemsCount * 3;
   }, [windowWidth, breakpoints]);
@@ -45,7 +47,9 @@ export const useInfiniteHomeCollection = ({ breakpoints, data }: Props) => {
     const targetItemsCount =
       sortedByLargeBreakpoint.find(
         ({ windowWidthLargerThan }) => windowWidthLargerThan < windowWidth
-      )?.perPageItemCount ?? 0;
+      )?.perPageItemCount ??
+      sortedByLargeBreakpoint.at(-1)?.perPageItemCount ??
+      0;
 
     return targetItemsCount;
   }, [windowWidth, breakpoints]);
@@ -58,7 +62,9 @@ export const useInfiniteHomeCollection = ({ breakpoints, data }: Props) => {
     const itemWidthPercent =
       sortedByLargeBreakpoint.find(
         ({ windowWidthLargerThan }) => windowWidthLargerThan < windowWidth
-      )?.itemWidthPercent ?? 0;
+      )?.itemWidthPercent ??
+      sortedByLargeBreakpoint.at(-1)?.itemWidthPercent ??
+      0;
 
     return itemWidthPercent;
   }, [windowWidth, breakpoints]);
