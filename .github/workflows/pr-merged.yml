@@ -1,11 +1,8 @@
-name: PR Merged
+name: Changesets
 
 on:
   push:
     branches: [main]
-    paths:
-      - 'apps/**'
-      - 'packages/**'
 
 permissions:
   contents: write
@@ -39,7 +36,8 @@ jobs:
           title: 'chore: version packages'
           commit: 'chore: version packages'
           version: pnpm changeset version
-          publish: pnpm changeset tag                    # 퍼블리시 비활성
+          # publish: pnpm changeset tag                    # 퍼블리시 비활성
+          publish: pnpm changeset publish
           createGithubReleases: true     # 릴리즈 생성 활성화
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
