@@ -10,6 +10,10 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
+    "@coldsurfers/infinite-carousel#build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
     "@coldsurfers/shared-utils#build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
@@ -43,7 +47,8 @@
       "dependsOn": [
         "@coldsurfers/shared-utils#build",
         "@coldsurfers/cloudinary-utils#build",
-        "@coldsurfers/openapi-client#build"
+        "@coldsurfers/openapi-client#build",
+        "@coldsurfers/infinite-carousel#build"
       ],
       "outputs": ["dist/**"]
     },
