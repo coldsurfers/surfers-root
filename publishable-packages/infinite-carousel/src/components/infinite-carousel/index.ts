@@ -1,1 +1,1 @@
-export * from './infinite-home-collection';
+export * from './infinite-carousel';
