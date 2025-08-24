@@ -1,5 +1,11 @@
 # @coldsurfers/billets-web
 
+## 1.1.30
+
+### Patch Changes
+
+- [#487](https://github.com/coldsurfers/surfers-root/pull/487) [`7ae0841`](https://github.com/coldsurfers/surfers-root/commit/7ae0841e395feac026a84c87f4689280b560876a) Thanks [@yungblud](https://github.com/yungblud)! - add venue slugs for home collection
+
 ## 1.1.29
 
 ### Patch Changes
