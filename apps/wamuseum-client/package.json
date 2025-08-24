@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/wamuseum-client",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "private": true,
   "scripts": {
     "build": "next build",
@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.10.4",
-    "@coldsurfers/ocean-road": "1.11.3",
+    "@coldsurfers/ocean-road": "1.11.4",
     "@emotion/css": "11.10.6",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
