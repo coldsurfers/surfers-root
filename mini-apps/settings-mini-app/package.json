@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/settings-mini-app",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "src/index.ts",
   "react-native": "src/index.ts",
@@ -15,8 +15,8 @@
   "dependencies": {
     "@emotion/native": "11.11.0",
     "@coldsurfers/api-sdk": "workspace:*",
-    "@coldsurfers/ocean-road-design-tokens": "1.10.1",
-    "@coldsurfers/ocean-road": "1.11.3",
+    "@coldsurfers/ocean-road-design-tokens": "1.10.2",
+    "@coldsurfers/ocean-road": "1.11.4",
     "@coldsurfers/ocean-road-extension": "workspace:*",
     "@coldsurfers/shared-utils": "workspace:*",
     "@coldsurfers/navigation-utils": "workspace:*",
