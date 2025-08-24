@@ -9,7 +9,7 @@ import {
   StyledInfiniteHomeCollectionScrollContainer,
   StyledInfiniteHomeCollectionScrollContainerArrow,
 } from './infinite-carousel.styled';
-import type { BreakpointT, DataT } from './infinite-carousel.types';
+import type { BreakpointT, DataT, ItemWrapperT } from './infinite-carousel.types';
 
 const DISABLE_PREV_BUTTON = false;
 
@@ -19,19 +19,18 @@ const Wrapper = styled.div`
 
 type Props = {
   breakpoints: BreakpointT[];
-  title: string;
   data: DataT[];
-  titleLinkHref?: string;
+  renderItemWrapper: ItemWrapperT;
 };
 
-export const InfiniteCarousel = ({ breakpoints, title, data, titleLinkHref }: Props) => {
+export const InfiniteCarousel = ({ breakpoints, data, renderItemWrapper }: Props) => {
   const {
     perPageItemCount,
     itemWidthPercent,
     data: infiniteCarouselData,
     flushNextPage,
     flushPrevPage,
-  } = useInfiniteHomeCollection({ breakpoints, title, data });
+  } = useInfiniteHomeCollection({ breakpoints, data });
 
   const controls = useAnimation();
 
@@ -96,7 +95,13 @@ export const InfiniteCarousel = ({ breakpoints, title, data, titleLinkHref }: Pr
         }}
       >
         {infiniteCarouselData.carouselItems.map((value, index) => {
-          return <InfiniteHomeCollectionItem {...value} key={`${value.title}-${index}`} />;
+          return (
+            <InfiniteHomeCollectionItem
+              {...value}
+              key={`${value.title}-${index}`}
+              renderItemWrapper={renderItemWrapper}
+            />
+          );
         })}
       </StyledInfiniteHomeCollectionScrollContainer>
       {!DISABLE_PREV_BUTTON && (

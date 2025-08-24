@@ -112,7 +112,7 @@ export const StyledMotionDiv = styled(motion.div)`
 
 export const StyledInfiniteHomeCollectionScrollContainerArrow = styled.span<{ $isLeft: boolean }>`
   position: absolute;
-  top: 50px;
+  top: 0px;
   ${(props) => (props.$isLeft ? 'left: -0.4%;' : 'right: 0;')};
   bottom: 0px;
   width: 2%;

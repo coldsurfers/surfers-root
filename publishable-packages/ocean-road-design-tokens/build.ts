@@ -1,3 +1,4 @@
+import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import StyleDictionary from 'style-dictionary';
@@ -128,3 +129,24 @@ StyleDictionary.registerFilter({
 });
 
 StyleDictionary.extend('config.json').buildAllPlatforms();
+
+function runTsc() {
+  const cmds = [
+    'pnpm tsc ./dist/js/semantic/theme-variables.ts --declaration',
+    'pnpm tsc ./dist/js/semantic/variables.ts --declaration',
+    'rm -rf ./dist/js/semantic/theme-variables.ts',
+    'rm -rf ./dist/js/semantic/variables.ts',
+  ];
+
+  for (const cmd of cmds) {
+    try {
+      execSync(cmd, { stdio: 'inherit' });
+    } catch (e) {
+      console.error(`⚠️ Failed: ${cmd}`);
+      console.error(e);
+      // 계속 다음 명령 실행
+    }
+  }
+}
+
+runTsc();
