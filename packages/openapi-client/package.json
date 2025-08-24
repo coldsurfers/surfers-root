@@ -2,16 +2,13 @@
   "name": "@coldsurfers/openapi-client",
   "version": "1.0.2",
   "description": "",
+  "private": true,
   "main": "dist/index.js",
   "react-native": "src/index.ts",
   "module": "dist/index.mjs",
   "source": "src/",
   "types": "dist/index.d.ts",
-  "files": [
-    "src",
-    "dist",
-    "package.json"
-  ],
+  "files": ["src", "dist", "package.json"],
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
