@@ -2,6 +2,13 @@
   "name": "@coldsurfers/infinite-carousel",
   "version": "1.0.2",
   "description": "Netflix style infinite carousel",
+  "bugs": {
+    "url": "https://github.com/coldsurfers/surfers-root/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coldsurfers/surfers-root"
+  },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "source": "src/",
