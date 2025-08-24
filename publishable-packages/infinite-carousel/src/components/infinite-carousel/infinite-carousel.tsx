@@ -1,14 +1,13 @@
+import { semantics } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { useAnimation } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useCallback } from 'react';
-import { match } from 'ts-pattern';
 import { useInfiniteHomeCollection } from './infinite-carousel.hooks';
 import { InfiniteHomeCollectionItem } from './infinite-carousel.item';
 import {
   StyledInfiniteHomeCollectionScrollContainer,
   StyledInfiniteHomeCollectionScrollContainerArrow,
-  StyledInfiniteHomeCollectionTitle,
 } from './infinite-carousel.styled';
 import type { BreakpointT, DataT } from './infinite-carousel.types';
 
@@ -90,12 +89,6 @@ export const InfiniteCarousel = ({ breakpoints, title, data, titleLinkHref }: Pr
 
   return (
     <Wrapper>
-      <GlobalLink href={titleLinkHref}>
-        <StyledInfiniteHomeCollectionTitle as="h2">
-          {data.collectionTitle}
-          <ChevronRight style={{ marginLeft: '0.5rem' }} />
-        </StyledInfiniteHomeCollectionTitle>
-      </GlobalLink>
       <StyledInfiniteHomeCollectionScrollContainer
         animate={controls}
         initial={{
@@ -103,13 +96,7 @@ export const InfiniteCarousel = ({ breakpoints, title, data, titleLinkHref }: Pr
         }}
       >
         {infiniteCarouselData.carouselItems.map((value, index) => {
-          return match(value)
-            .with({ type: 'concert' }, (value) => {
-              return (
-                <InfiniteHomeCollectionItem data={value.data} key={`${value.data.id}-${index}`} />
-              );
-            })
-            .otherwise(() => null);
+          return <InfiniteHomeCollectionItem {...value} key={`${value.title}-${index}`} />;
         })}
       </StyledInfiniteHomeCollectionScrollContainer>
       {!DISABLE_PREV_BUTTON && (

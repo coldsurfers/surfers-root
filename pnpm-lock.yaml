@@ -1329,6 +1329,12 @@ importers:
 
   publishable-packages/infinite-carousel:
     devDependencies:
+      '@coldsurfers/ocean-road':
+        specifier: 1.11.4
+        version: 1.11.4(3208ec6b02c604fba48b11d952f3e0ad)
+      '@coldsurfers/ocean-road-design-tokens':
+        specifier: 1.10.2
+        version: 1.10.2
       '@emotion/css':
         specifier: 11.10.6
         version: 11.10.6
@@ -1344,6 +1350,9 @@ importers:
       react-dom:
         specifier: 19.0.0
         version: 19.0.0(react@19.0.0)
+      typescript:
+        specifier: 5.6.3
+        version: 5.6.3
 
   publishable-packages/ocean-road:
     devDependencies:

@@ -23,13 +23,18 @@
   "devDependencies": {
     "react": "19.0.0",
     "react-dom": "19.0.0",
+    "@coldsurfers/ocean-road": "1.11.4",
+    "@coldsurfers/ocean-road-design-tokens": "1.10.2",
     "@emotion/css": "11.10.6",
     "@emotion/react": "11.10.6",
-    "@emotion/styled": "11.10.6"
+    "@emotion/styled": "11.10.6",
+    "typescript": "5.6.3"
   },
   "peerDependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "@coldsurfers/ocean-road": "^1.11.4",
+    "@coldsurfers/ocean-road-design-tokens": "^1.10.2",
     "@emotion/css": "^11.10.6",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6"
