@@ -1,6 +1,6 @@
 {
-  "name": "@coldsurfers/design-tokens",
-  "version": "1.10.0",
+  "name": "@coldsurfers/ocean-road-design-tokens",
+  "version": "1.10.1-alpha.0",
   "main": "dist/css/variables.css",
   "files": ["src", "dist", "tokens", "package.json"],
   "license": "MIT",
@@ -17,8 +17,6 @@
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "ts-node build.ts",
-    "prerelease": "yarn build",
-    "prerelease:rc": "yarn build",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
     "format": "biome format .",

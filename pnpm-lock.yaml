@@ -76,12 +76,12 @@ importers:
       '@coldsurfers/api-sdk':
         specifier: workspace:*
         version: link:../../packages/api-sdk
-      '@coldsurfers/design-tokens':
-        specifier: workspace:*
-        version: link:../../publishable-packages/ocean-road-design-tokens
       '@coldsurfers/ocean-road':
         specifier: workspace:*
         version: link:../../publishable-packages/ocean-road
+      '@coldsurfers/ocean-road-design-tokens':
+        specifier: workspace:*
+        version: link:../../publishable-packages/ocean-road-design-tokens
       '@coldsurfers/ocean-road-extension':
         specifier: workspace:*
         version: link:../../publishable-packages/ocean-road-extension
@@ -542,12 +542,12 @@ importers:
       '@coldsurfers/cloudinary-utils':
         specifier: workspace:*
         version: link:../../packages/cloudinary-utils
-      '@coldsurfers/design-tokens':
-        specifier: workspace:*
-        version: link:../../publishable-packages/ocean-road-design-tokens
       '@coldsurfers/ocean-road':
         specifier: workspace:*
         version: link:../../publishable-packages/ocean-road
+      '@coldsurfers/ocean-road-design-tokens':
+        specifier: workspace:*
+        version: link:../../publishable-packages/ocean-road-design-tokens
       '@coldsurfers/openapi-client':
         specifier: workspace:*
         version: link:../../packages/openapi-client
@@ -1026,15 +1026,15 @@ importers:
       '@coldsurfers/api-sdk':
         specifier: workspace:*
         version: link:../../packages/api-sdk
-      '@coldsurfers/design-tokens':
-        specifier: workspace:*
-        version: link:../../publishable-packages/ocean-road-design-tokens
       '@coldsurfers/navigation-utils':
         specifier: workspace:*
         version: link:../../packages/navigation-utils
       '@coldsurfers/ocean-road':
         specifier: workspace:*
         version: link:../../publishable-packages/ocean-road
+      '@coldsurfers/ocean-road-design-tokens':
+        specifier: workspace:*
+        version: link:../../publishable-packages/ocean-road-design-tokens
       '@coldsurfers/ocean-road-extension':
         specifier: workspace:*
         version: link:../../publishable-packages/ocean-road-extension
@@ -1356,9 +1356,9 @@ importers:
       '@biomejs/biome':
         specifier: 1.9.4
         version: 1.9.4
-      '@coldsurfers/design-tokens':
-        specifier: workspace:*
-        version: link:../ocean-road-design-tokens
+      '@coldsurfers/ocean-road-design-tokens':
+        specifier: 1.10.1-alpha.0
+        version: 1.10.1-alpha.0
       '@emotion/css':
         specifier: 11.10.6
         version: 11.10.6
@@ -2855,6 +2855,9 @@ packages:
 
   '@clack/prompts@0.9.1':
     resolution: {integrity: sha512-JIpyaboYZeWYlyP0H+OoPPxd6nqueG/CmN6ixBiNFsIDHREevjIf0n0Ohh5gr5C8pEDknzgvz+pIJ8dMhzWIeg==}
+
+  '@coldsurfers/ocean-road-design-tokens@1.10.1-alpha.0':
+    resolution: {integrity: sha512-7/JA2TPD9NJiYRwvPCgX5lP4MoUWJ4zbzXfKRz14Dw+V6f2Dj7S28oAEwqWSuM3kbpIQLOT5oAZtiOSPljzc6A==, tarball: https://npm.pkg.github.com/download/@coldsurfers/ocean-road-design-tokens/1.10.1-alpha.0/4e14ec318d52cd4970476c3c026231944fbc82f9}
 
   '@commitlint/cli@17.8.1':
     resolution: {integrity: sha512-ay+WbzQesE0Rv4EQKfNbSMiJJ12KdKTDzIt0tcK4k11FdsWmtwP0Kp1NWMOUswfIWo6Eb7p7Ln721Nx9FLNBjg==}
@@ -16642,6 +16645,10 @@ snapshots:
       '@clack/core': 0.4.1
       picocolors: 1.1.1
       sisteransi: 1.0.5
+
+  '@coldsurfers/ocean-road-design-tokens@1.10.1-alpha.0':
+    dependencies:
+      open-color: 1.9.1
 
   '@commitlint/cli@17.8.1':
     dependencies:

@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/ocean-road",
-  "version": "1.11.1-rc.0",
+  "version": "1.11.2-alpha.0",
   "license": "MIT",
   "main": "dist/index.js",
   "react-native": "src/index.ts",
@@ -30,15 +30,13 @@
     "format": "biome format .",
     "format:fix": "biome format --write .",
     "check": "biome check .",
-    "check:fix": "biome check --write .",
-    "prerelease": "yarn build",
-    "prerelease:rc": "yarn build"
+    "check:fix": "biome check --write ."
   },
   "devDependencies": {
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.21.4",
     "@biomejs/biome": "1.9.4",
-    "@coldsurfers/design-tokens": "workspace:*",
+    "@coldsurfers/ocean-road-design-tokens": "1.10.1-alpha.0",
     "@emotion/css": "11.10.6",
     "@emotion/native": "11.11.0",
     "@emotion/react": "11.10.6",
@@ -64,7 +62,7 @@
     "typescript": "5.6.3"
   },
   "peerDependencies": {
-    "@coldsurfers/design-tokens": "*",
+    "@coldsurfers/ocean-road-design-tokens": "1.10.1-alpha.0",
     "@emotion/css": "11.10.6",
     "@emotion/native": "11.11.0",
     "@emotion/react": "11.10.6",

@@ -31,7 +31,7 @@
   "dependencies": {
     "@coldsurfers/api-sdk": "workspace:*",
     "@coldsurfers/cloudinary-utils": "workspace:*",
-    "@coldsurfers/design-tokens": "workspace:*",
+    "@coldsurfers/ocean-road-design-tokens": "workspace:*",
     "@coldsurfers/ocean-road": "workspace:*",
     "@coldsurfers/openapi-client": "workspace:*",
     "@coldsurfers/shared-utils": "workspace:*",
