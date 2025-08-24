@@ -1,4 +1,4 @@
-import color from '@coldsurfers/design-tokens/dist/js/color/variables';
+import color from '@coldsurfers/ocean-road-design-tokens/dist/js/color/variables';
 import styled from '@emotion/native';
 import { Text } from '../text';
 import type { ToastType } from './toast.types';

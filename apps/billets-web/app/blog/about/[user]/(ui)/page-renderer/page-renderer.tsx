@@ -1,6 +1,6 @@
 'use client';
 
-import variables from '@coldsurfers/design-tokens/dist/js/color/variables';
+import variables from '@coldsurfers/ocean-road-design-tokens/dist/js/color/variables';
 import styled from '@emotion/styled';
 import { PageLayout } from 'app/blog/(components)/page-layout/page-layout';
 import { NotionRenderer } from 'app/blog/(notion-render)/notion-renderer';

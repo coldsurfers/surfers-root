@@ -66,7 +66,7 @@ export const runEsbuild = async ({ outfile }) => {
       '@coldsurfers/ocean-road/native',
       '@coldsurfers/ocean-road-extension',
       '@coldsurfers/ocean-road-extension/native',
-      '@coldsurfers/design-tokens',
+      '@coldsurfers/ocean-road-design-tokens',
       '@coldsurfers/shared-utils',
       '@coldsurfers/navigation-utils',
       '@emotion/native',

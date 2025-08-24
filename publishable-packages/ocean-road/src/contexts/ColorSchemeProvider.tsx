@@ -1,5 +1,5 @@
-import darkColorDesignTokens from '@coldsurfers/design-tokens/dist/json/color/variables-dark.json';
-import lightColorDesignTokens from '@coldsurfers/design-tokens/dist/json/color/variables-light.json';
+import darkColorDesignTokens from '@coldsurfers/ocean-road-design-tokens/dist/json/color/variables-dark.json';
+import lightColorDesignTokens from '@coldsurfers/ocean-road-design-tokens/dist/json/color/variables-light.json';
 import {
   type Context,
   type PropsWithChildren,
