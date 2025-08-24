@@ -14,7 +14,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@coldsurfers/ocean-road": "workspace:*",
+    "@coldsurfers/ocean-road": "1.11.2-alpha.0",
     "@emotion/css": "11.10.6",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",

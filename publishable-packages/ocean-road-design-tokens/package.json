@@ -1,16 +1,12 @@
 {
-  "name": "@coldsurfers/design-tokens",
-  "version": "1.10.0",
+  "name": "@coldsurfers/ocean-road-design-tokens",
+  "version": "1.10.1-alpha.0",
   "main": "dist/css/variables.css",
-  "files": [
-    "dist",
-    "tokens"
-  ],
+  "files": ["src", "dist", "tokens", "package.json"],
   "license": "MIT",
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "prettier": "*",
-    "release-it": "17.2.1",
     "style-dictionary": "^3.7.2",
     "ts-node": "^10.9.1",
     "typescript": "5.6.3"
@@ -21,10 +17,6 @@
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "ts-node build.ts",
-    "prerelease": "yarn build",
-    "prerelease:rc": "yarn build",
-    "release": "release-it minor --ci",
-    "release:rc": "release-it --ci --preRelease=rc",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
     "format": "biome format .",
@@ -34,16 +26,5 @@
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
-  },
-  "release-it": {
-    "git": {
-      "commitMessage": "chore: release @coldsurfers/design-tokens v${version}"
-    },
-    "github": {
-      "release": true
-    },
-    "hooks": {
-      "after:git:release": "git reset --hard HEAD"
-    }
   }
 }

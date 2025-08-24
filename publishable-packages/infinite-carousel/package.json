@@ -1,0 +1,40 @@
+{
+  "name": "@coldsurfers/infinite-carousel",
+  "version": "1.0.0",
+  "description": "Netflix style infinite carousel",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "source": "src/",
+  "types": "dist/index.d.ts",
+  "files": ["src", "dist", "package.json"],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.4.1",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "devDependencies": {
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "@emotion/css": "11.10.6",
+    "@emotion/react": "11.10.6",
+    "@emotion/styled": "11.10.6"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "@emotion/css": "^11.10.6",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  }
+}

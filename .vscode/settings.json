@@ -46,7 +46,8 @@
     "coldsurf-app-settings-app",
     "billets-cron",
     "db-migration",
-    "ocean-road-extension"
+    "ocean-road-extension",
+    "infinite-carousel"
   ],
   "deno.enable": true,
   "deno.enablePaths": ["./apps/billets-cron"],
