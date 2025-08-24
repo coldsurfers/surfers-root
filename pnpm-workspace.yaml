@@ -2,3 +2,4 @@ packages:
   - 'apps/*'
   - 'mini-apps/*'
   - 'packages/**'
+  - 'publishable-packages/**'
