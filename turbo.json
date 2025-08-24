@@ -2,7 +2,7 @@
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["pnpm-lock.yaml"],
   "tasks": {
-    "@coldsurfers/design-tokens#build": {
+    "@coldsurfers/ocean-road-design-tokens#build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
@@ -36,7 +36,7 @@
       "outputs": ["dist/**"]
     },
     "build:ui": {
-      "dependsOn": ["@coldsurfers/design-tokens#build", "@coldsurfers/ocean-road#build"],
+      "dependsOn": ["@coldsurfers/ocean-road-design-tokens#build", "@coldsurfers/ocean-road#build"],
       "outputs": ["dist/**"]
     },
     "build:packages": {
