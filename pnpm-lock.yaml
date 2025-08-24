@@ -83,8 +83,8 @@ importers:
         specifier: 1.10.2
         version: 1.10.2
       '@coldsurfers/ocean-road-extension':
-        specifier: workspace:*
-        version: link:../../publishable-packages/ocean-road-extension
+        specifier: 1.0.1
+        version: 1.0.1(react-native-safe-area-context@5.3.0(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
       '@coldsurfers/openapi-client':
         specifier: workspace:*
         version: link:../../packages/openapi-client
@@ -1036,8 +1036,8 @@ importers:
         specifier: 1.10.2
         version: 1.10.2
       '@coldsurfers/ocean-road-extension':
-        specifier: workspace:*
-        version: link:../../publishable-packages/ocean-road-extension
+        specifier: 1.0.1
+        version: 1.0.1(react-native-safe-area-context@5.3.0(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
       '@coldsurfers/openapi-client':
         specifier: workspace:*
         version: link:../../packages/openapi-client
@@ -1252,8 +1252,8 @@ importers:
         specifier: workspace:*
         version: link:../navigation-utils
       '@coldsurfers/ocean-road-extension':
-        specifier: workspace:*
-        version: link:../../publishable-packages/ocean-road-extension
+        specifier: 1.0.1
+        version: 1.0.1(react-native-safe-area-context@5.3.0(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
       '@coldsurfers/openapi-client':
         specifier: workspace:*
         version: link:../openapi-client
@@ -2858,6 +2858,13 @@ packages:
 
   '@coldsurfers/ocean-road-design-tokens@1.10.2':
     resolution: {integrity: sha512-QNcPi4sFIXvZNRHYcgKjZ382oQo3iHLi/0Sf/wigdHqfoGuaW7zFs2/ce4NM5LkQ8BSDyP8zJp1wzN3+qjPWJg==, tarball: https://npm.pkg.github.com/download/@coldsurfers/ocean-road-design-tokens/1.10.2/9303d1ef20552381ceeec773eca563e793e4d07a}
+
+  '@coldsurfers/ocean-road-extension@1.0.1':
+    resolution: {integrity: sha512-BLRiYzk86oJ6DhnxIwaYPmiC9anjx7i5o/swHKLqJdHare6a5omxR+oKOkq5VPY1qX5Q++7MeELNi1J4eudM/w==, tarball: https://npm.pkg.github.com/download/@coldsurfers/ocean-road-extension/1.0.1/5151b08e95225f16eb2891d17357d8c19275f2fd}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+      react-native-safe-area-context: '*'
 
   '@coldsurfers/ocean-road@1.11.4':
     resolution: {integrity: sha512-5OIZhHIbGaWqE4H44AlqdudGKWEjC31nKvInM3bzTNe1UrQddH02RNZJ80ExWTBFCqKy9UQjOhr8Xczs+QMSwg==, tarball: https://npm.pkg.github.com/download/@coldsurfers/ocean-road/1.11.4/59da61423272d0dce0f568b7d8cb23694e96f977}
@@ -16666,6 +16673,12 @@ snapshots:
   '@coldsurfers/ocean-road-design-tokens@1.10.2':
     dependencies:
       open-color: 1.9.1
+
+  '@coldsurfers/ocean-road-extension@1.0.1(react-native-safe-area-context@5.3.0(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      react: 19.0.0
+      react-native: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0)
+      react-native-safe-area-context: 5.3.0(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
 
   '@coldsurfers/ocean-road@1.11.4(3208ec6b02c604fba48b11d952f3e0ad)':
     dependencies:
