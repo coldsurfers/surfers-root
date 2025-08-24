@@ -176,6 +176,15 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case 'WDG 스튜디오 홍대(WDG STUDIO HONGDAE)':
+      alreadyExistingVenueId = 'b7775502-4eb8-463b-9f85-b0c0d12d91e9';
+      break;
+    case '홍대 카페 (구.홍대카페)':
+      alreadyExistingVenueId = 'f6a51902-757c-46a5-9a10-0d27cc461e07';
+      break;
+    case '광주 예술의 전당 (구. 광주문화예술회관)':
+      alreadyExistingVenueId = '833f60d2-d030-4672-8638-29eb409d3ed8';
+      break;
     case '컨벤트펍 (The convent Live Pub)':
       alreadyExistingVenueId = '6edf2a1d-c50f-42b0-8168-e2c0a5ce7267';
       break;

@@ -19,6 +19,7 @@ const venueSlugs = [
   '아르코예술극장',
   '예술의전당',
   '무신사-개러지',
+  '아틀리에홀',
 ].sort(() => Math.random() - 0.5);
 
 async function PageInner() {
