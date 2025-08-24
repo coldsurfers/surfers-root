@@ -2,9 +2,7 @@
   "name": "@coldsurfers/billets-web",
   "version": "1.1.31",
   "private": true,
-  "files": [
-    "package.json"
-  ],
+  "files": ["package.json"],
   "bugs": {
     "url": "https://github.com/coldsurfers/surfers-root"
   },
@@ -33,10 +31,11 @@
   "dependencies": {
     "@coldsurfers/api-sdk": "workspace:*",
     "@coldsurfers/cloudinary-utils": "workspace:*",
-    "@coldsurfers/ocean-road-design-tokens": "1.10.2",
-    "@coldsurfers/ocean-road": "1.11.4",
+    "@coldsurfers/ocean-road-design-tokens": "1.10.3-alpha.5",
+    "@coldsurfers/ocean-road": "1.11.5-alpha.2",
     "@coldsurfers/openapi-client": "workspace:*",
     "@coldsurfers/shared-utils": "workspace:*",
+    "@coldsurfers/infinite-carousel": "1.0.2-alpha.5",
     "@emotion/css": "11.10.6",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",

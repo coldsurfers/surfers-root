@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 export type BreakpointT = {
   windowWidthLargerThan: number;
   perPageItemCount: number;
@@ -10,3 +12,5 @@ export type DataT = {
   dateDescription: string;
   venueName: string;
 };
+
+export type ItemWrapperT = (children: ReactNode, item: DataT) => ReactNode;

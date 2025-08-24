@@ -77,11 +77,11 @@ importers:
         specifier: workspace:*
         version: link:../../packages/api-sdk
       '@coldsurfers/ocean-road':
-        specifier: 1.11.4
-        version: 1.11.4(c95d85a22e50c5e41c71abd034ad8ece)
+        specifier: 1.11.5-alpha.2
+        version: 1.11.5-alpha.2(f0102c39a689ada18c71204eecaa5bd2)
       '@coldsurfers/ocean-road-design-tokens':
-        specifier: 1.10.2
-        version: 1.10.2
+        specifier: 1.10.3-alpha.5
+        version: 1.10.3-alpha.5
       '@coldsurfers/ocean-road-extension':
         specifier: 1.0.1
         version: 1.0.1(react-native-safe-area-context@5.3.0(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
@@ -542,12 +542,15 @@ importers:
       '@coldsurfers/cloudinary-utils':
         specifier: workspace:*
         version: link:../../packages/cloudinary-utils
+      '@coldsurfers/infinite-carousel':
+        specifier: 1.0.2-alpha.5
+        version: 1.0.2-alpha.5(@coldsurfers/ocean-road-design-tokens@1.10.3-alpha.5)(@coldsurfers/ocean-road@1.11.5-alpha.2(7028754d4e2fbe547b8bcf4b7fd53fd0))(@emotion/css@11.10.6)(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(@emotion/styled@11.10.6(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(@types/react@18.2.67)(react@19.0.0))(framer-motion@11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(lucide-react@0.469.0(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@coldsurfers/ocean-road':
-        specifier: 1.11.4
-        version: 1.11.4(3208ec6b02c604fba48b11d952f3e0ad)
+        specifier: 1.11.5-alpha.2
+        version: 1.11.5-alpha.2(7028754d4e2fbe547b8bcf4b7fd53fd0)
       '@coldsurfers/ocean-road-design-tokens':
-        specifier: 1.10.2
-        version: 1.10.2
+        specifier: 1.10.3-alpha.5
+        version: 1.10.3-alpha.5
       '@coldsurfers/openapi-client':
         specifier: workspace:*
         version: link:../../packages/openapi-client
@@ -712,8 +715,8 @@ importers:
   apps/surf-tree:
     dependencies:
       '@coldsurfers/ocean-road':
-        specifier: 1.11.4
-        version: 1.11.4(3208ec6b02c604fba48b11d952f3e0ad)
+        specifier: 1.11.5-alpha.2
+        version: 1.11.5-alpha.2(7028754d4e2fbe547b8bcf4b7fd53fd0)
       '@emotion/css':
         specifier: 11.10.6
         version: 11.10.6
@@ -782,8 +785,8 @@ importers:
         specifier: ^3.10.4
         version: 3.13.1(@types/react@18.2.67)(graphql-ws@5.12.1(graphql@16.10.0))(graphql@16.10.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@coldsurfers/ocean-road':
-        specifier: 1.11.4
-        version: 1.11.4(3208ec6b02c604fba48b11d952f3e0ad)
+        specifier: 1.11.5-alpha.2
+        version: 1.11.5-alpha.2(7028754d4e2fbe547b8bcf4b7fd53fd0)
       '@emotion/css':
         specifier: 11.10.6
         version: 11.10.6
@@ -1030,11 +1033,11 @@ importers:
         specifier: workspace:*
         version: link:../../packages/navigation-utils
       '@coldsurfers/ocean-road':
-        specifier: 1.11.4
-        version: 1.11.4(c95d85a22e50c5e41c71abd034ad8ece)
+        specifier: 1.11.5-alpha.2
+        version: 1.11.5-alpha.2(f0102c39a689ada18c71204eecaa5bd2)
       '@coldsurfers/ocean-road-design-tokens':
-        specifier: 1.10.2
-        version: 1.10.2
+        specifier: 1.10.3-alpha.5
+        version: 1.10.3-alpha.5
       '@coldsurfers/ocean-road-extension':
         specifier: 1.0.1
         version: 1.0.1(react-native-safe-area-context@5.3.0(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
@@ -1227,8 +1230,8 @@ importers:
   packages/react-native-esbuild-deploy:
     dependencies:
       '@coldsurfers/ocean-road':
-        specifier: 1.11.4
-        version: 1.11.4(c95d85a22e50c5e41c71abd034ad8ece)
+        specifier: 1.11.5-alpha.2
+        version: 1.11.5-alpha.2(f0102c39a689ada18c71204eecaa5bd2)
     devDependencies:
       '@babel/core':
         specifier: ^7.25.2
@@ -1333,11 +1336,11 @@ importers:
         specifier: 1.9.4
         version: 1.9.4
       '@coldsurfers/ocean-road':
-        specifier: 1.11.4
-        version: 1.11.4(3208ec6b02c604fba48b11d952f3e0ad)
+        specifier: 1.11.5-alpha.2
+        version: 1.11.5-alpha.2(7028754d4e2fbe547b8bcf4b7fd53fd0)
       '@coldsurfers/ocean-road-design-tokens':
-        specifier: 1.10.2
-        version: 1.10.2
+        specifier: 1.10.3-alpha.5
+        version: 1.10.3-alpha.5
       '@emotion/css':
         specifier: 11.10.6
         version: 11.10.6
@@ -1347,6 +1350,12 @@ importers:
       '@emotion/styled':
         specifier: 11.10.6
         version: 11.10.6(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(@types/react@18.2.67)(react@19.0.0)
+      framer-motion:
+        specifier: 11.11.13
+        version: 11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      lucide-react:
+        specifier: 0.469.0
+        version: 0.469.0(react@19.0.0)
       react:
         specifier: 19.0.0
         version: 19.0.0
@@ -1372,8 +1381,8 @@ importers:
         specifier: 1.9.4
         version: 1.9.4
       '@coldsurfers/ocean-road-design-tokens':
-        specifier: 1.10.2
-        version: 1.10.2
+        specifier: 1.10.3-alpha.5
+        version: 1.10.3-alpha.5
       '@emotion/css':
         specifier: 11.10.6
         version: 11.10.6
@@ -1472,8 +1481,8 @@ importers:
         specifier: 1.9.4
         version: 1.9.4
       '@coldsurfers/ocean-road':
-        specifier: 1.11.4
-        version: 1.11.4(c95d85a22e50c5e41c71abd034ad8ece)
+        specifier: 1.11.5-alpha.2
+        version: 1.11.5-alpha.2(f0102c39a689ada18c71204eecaa5bd2)
       react:
         specifier: 19.0.0
         version: 19.0.0
@@ -2871,8 +2880,21 @@ packages:
   '@clack/prompts@0.9.1':
     resolution: {integrity: sha512-JIpyaboYZeWYlyP0H+OoPPxd6nqueG/CmN6ixBiNFsIDHREevjIf0n0Ohh5gr5C8pEDknzgvz+pIJ8dMhzWIeg==}
 
-  '@coldsurfers/ocean-road-design-tokens@1.10.2':
-    resolution: {integrity: sha512-QNcPi4sFIXvZNRHYcgKjZ382oQo3iHLi/0Sf/wigdHqfoGuaW7zFs2/ce4NM5LkQ8BSDyP8zJp1wzN3+qjPWJg==, tarball: https://npm.pkg.github.com/download/@coldsurfers/ocean-road-design-tokens/1.10.2/9303d1ef20552381ceeec773eca563e793e4d07a}
+  '@coldsurfers/infinite-carousel@1.0.2-alpha.5':
+    resolution: {integrity: sha512-24OKSad6o2was53cjgKIQJTADpQPgnBEgmPTqiQXqcIjhMBSPGPJa7ptQX1lDLtQdhKXLkfrTPpkt6CTeiVhRA==, tarball: https://npm.pkg.github.com/download/@coldsurfers/infinite-carousel/1.0.2-alpha.5/899524712b4af36d7aecda9d4aad703131d71808}
+    peerDependencies:
+      '@coldsurfers/ocean-road': ^1.11.4
+      '@coldsurfers/ocean-road-design-tokens': ^1.10.2
+      '@emotion/css': ^11.10.6
+      '@emotion/react': ^11.10.6
+      '@emotion/styled': ^11.10.6
+      framer-motion: ^11.11.13
+      lucide-react: ^0.469.0
+      react: ^19.0.0
+      react-dom: ^19.0.0
+
+  '@coldsurfers/ocean-road-design-tokens@1.10.3-alpha.5':
+    resolution: {integrity: sha512-Gh6FSMTBBTsBaQvX82lB66Im4WfDeEEs53MrTWWrjpYPlR7lm0E3dCSs+43rn6LthIruoGR0YZAR9HcqHPh/3w==, tarball: https://npm.pkg.github.com/download/@coldsurfers/ocean-road-design-tokens/1.10.3-alpha.5/cebb71f8ed193d41ababc774c07c6128062b9ae1}
 
   '@coldsurfers/ocean-road-extension@1.0.1':
     resolution: {integrity: sha512-BLRiYzk86oJ6DhnxIwaYPmiC9anjx7i5o/swHKLqJdHare6a5omxR+oKOkq5VPY1qX5Q++7MeELNi1J4eudM/w==, tarball: https://npm.pkg.github.com/download/@coldsurfers/ocean-road-extension/1.0.1/5151b08e95225f16eb2891d17357d8c19275f2fd}
@@ -2881,10 +2903,10 @@ packages:
       react-native: '*'
       react-native-safe-area-context: '*'
 
-  '@coldsurfers/ocean-road@1.11.4':
-    resolution: {integrity: sha512-5OIZhHIbGaWqE4H44AlqdudGKWEjC31nKvInM3bzTNe1UrQddH02RNZJ80ExWTBFCqKy9UQjOhr8Xczs+QMSwg==, tarball: https://npm.pkg.github.com/download/@coldsurfers/ocean-road/1.11.4/59da61423272d0dce0f568b7d8cb23694e96f977}
+  '@coldsurfers/ocean-road@1.11.5-alpha.2':
+    resolution: {integrity: sha512-N9iUMDme03vs8dX3Uf3ntN5WzltQWQWXpEGfrgDWBdwEoGTgFYTjp+DEJwjV31V79gWuSwK8f5PRq+tCV3RFzA==, tarball: https://npm.pkg.github.com/download/@coldsurfers/ocean-road/1.11.5-alpha.2/aea2974e4f5773f80e3b68a6cb7f7745bf5de082}
     peerDependencies:
-      '@coldsurfers/ocean-road-design-tokens': 1.10.2
+      '@coldsurfers/ocean-road-design-tokens': ^1.10.3
       '@emotion/css': 11.10.6
       '@emotion/native': 11.11.0
       '@emotion/react': 11.10.6
@@ -16685,7 +16707,19 @@ snapshots:
       picocolors: 1.1.1
       sisteransi: 1.0.5
 
-  '@coldsurfers/ocean-road-design-tokens@1.10.2':
+  '@coldsurfers/infinite-carousel@1.0.2-alpha.5(@coldsurfers/ocean-road-design-tokens@1.10.3-alpha.5)(@coldsurfers/ocean-road@1.11.5-alpha.2(7028754d4e2fbe547b8bcf4b7fd53fd0))(@emotion/css@11.10.6)(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(@emotion/styled@11.10.6(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(@types/react@18.2.67)(react@19.0.0))(framer-motion@11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(lucide-react@0.469.0(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      '@coldsurfers/ocean-road': 1.11.5-alpha.2(7028754d4e2fbe547b8bcf4b7fd53fd0)
+      '@coldsurfers/ocean-road-design-tokens': 1.10.3-alpha.5
+      '@emotion/css': 11.10.6
+      '@emotion/react': 11.10.6(@types/react@18.2.67)(react@19.0.0)
+      '@emotion/styled': 11.10.6(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(@types/react@18.2.67)(react@19.0.0)
+      framer-motion: 11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      lucide-react: 0.469.0(react@19.0.0)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+
+  '@coldsurfers/ocean-road-design-tokens@1.10.3-alpha.5':
     dependencies:
       open-color: 1.9.1
 
@@ -16695,9 +16729,9 @@ snapshots:
       react-native: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0)
       react-native-safe-area-context: 5.3.0(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
 
-  '@coldsurfers/ocean-road@1.11.4(3208ec6b02c604fba48b11d952f3e0ad)':
+  '@coldsurfers/ocean-road@1.11.5-alpha.2(7028754d4e2fbe547b8bcf4b7fd53fd0)':
     dependencies:
-      '@coldsurfers/ocean-road-design-tokens': 1.10.2
+      '@coldsurfers/ocean-road-design-tokens': 1.10.3-alpha.5
       '@emotion/css': 11.10.6
       '@emotion/native': 11.11.0(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
       '@emotion/react': 11.10.6(@types/react@18.2.67)(react@19.0.0)
@@ -16711,9 +16745,9 @@ snapshots:
       react-native-svg: 15.11.2(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
       react-spinners: 0.14.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
 
-  '@coldsurfers/ocean-road@1.11.4(c95d85a22e50c5e41c71abd034ad8ece)':
+  '@coldsurfers/ocean-road@1.11.5-alpha.2(f0102c39a689ada18c71204eecaa5bd2)':
     dependencies:
-      '@coldsurfers/ocean-road-design-tokens': 1.10.2
+      '@coldsurfers/ocean-road-design-tokens': 1.10.3-alpha.5
       '@emotion/css': 11.10.6
       '@emotion/native': 11.11.0(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
       '@emotion/react': 11.10.6(@types/react@18.2.67)(react@19.0.0)
