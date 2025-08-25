@@ -1,12 +1,22 @@
 {
   "name": "@coldsurfers/ocean-road",
-  "version": "1.11.5",
+  "version": "1.11.6-alpha.6",
   "bugs": {
     "url": "https://github.com/coldsurfers/surfers-root/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/coldsurfers/surfers-root"
+  },
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.js"
+    },
+    "./native": {
+      "require": "./src/native/index.ts",
+      "import": "./src/native/index.ts"
+    }
   },
   "license": "MIT",
   "main": "dist/index.js",

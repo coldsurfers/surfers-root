@@ -9,9 +9,9 @@ module.exports = {
         root: ['.'],
         alias: {
           react: '../../node_modules/react',
-          '@coldsurfers/ocean-road/native': '../../packages/ocean-road/src/native/index.ts',
+          '@coldsurfers/ocean-road/native': '../../node_modules/@coldsurfers/ocean-road/src/native',
           '@coldsurfers/ocean-road-extension/native':
-            '../../packages/ocean-road-extension/src/native/index.ts',
+            '../../node_modules/@coldsurfers/ocean-road-extension/src/native',
           '@coldsurfers/openapi-client/native': '../../packages/openapi-client/src/native/index.ts',
           '@/screens': './src/screens',
           '@/navigations': './src/navigations',
