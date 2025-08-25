@@ -38,7 +38,7 @@ export default (env) => {
       alias: {
         react: new URL('../../node_modules/react', import.meta.url).pathname,
         '@coldsurfers/ocean-road/native': new URL(
-          '../../packages/ocean-road/src/native/index.ts',
+          '../../node_modules/@coldsurfers/ocean-road/src/native',
           import.meta.url
         ).pathname,
         '@coldsurfers/openapi-client/native': new URL(
@@ -46,7 +46,7 @@ export default (env) => {
           import.meta.url
         ).pathname,
         '@coldsurfers/ocean-road-extension/native': new URL(
-          '../../packages/ocean-road-extension/src/native/index.ts',
+          '../../node_modules/@coldsurfers/ocean-road-extension/src/native',
           import.meta.url
         ).pathname,
         '@coldsurfers/settings-mini-app': new URL(
