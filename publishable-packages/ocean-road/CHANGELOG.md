@@ -1,5 +1,11 @@
 # @coldsurfers/ocean-road
 
+## 1.11.6
+
+### Patch Changes
+
+- [#497](https://github.com/coldsurfers/surfers-root/pull/497) [`aa581c9`](https://github.com/coldsurfers/surfers-root/commit/aa581c9c0d45e9d738739055cc741c3d57424121) Thanks [@yungblud](https://github.com/yungblud)! - fixed import exports pkg.josn
+
 ## 1.11.5
 
 ### Patch Changes
