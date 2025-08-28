@@ -47,6 +47,11 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
     return filtered;
   }, [serverData.upcomingEvents]);
 
+  // @TODO: fix in infinite carousel
+  if (carouselData.length === 0) {
+    return null;
+  }
+
   return (
     <Wrapper>
       <GlobalLink href={`/venue/${slug}`}>
