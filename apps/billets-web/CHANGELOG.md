@@ -1,5 +1,11 @@
 # @coldsurfers/billets-web
 
+## 1.1.33
+
+### Patch Changes
+
+- [#500](https://github.com/coldsurfers/surfers-root/pull/500) [`0a1c527`](https://github.com/coldsurfers/surfers-root/commit/0a1c527274ff018f890f5bc44e40434a0a755013) Thanks [@yungblud](https://github.com/yungblud)! - Update blog category
+
 ## 1.1.32
 
 ### Patch Changes
