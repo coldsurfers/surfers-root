@@ -37,6 +37,11 @@ export const Header = () => {
   >(() => {
     return [
       {
+        href: '/blog/catholic',
+        title: 'CATHOLIC',
+        isActive: seriesParam === 'catholic',
+      },
+      {
         href: '/blog/tech',
         title: 'TECH',
         isActive: seriesParam === 'tech',
