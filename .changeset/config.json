@@ -6,7 +6,9 @@
   "linked": [],
   "access": "restricted",
   "baseBranch": "main",
-  "updateInternalDependencies": "patch",
-  "ignore": ["@coldsurfers/billets-*"],
-  "privatePackages": { "version": false, "tag": false }
+  "updateInternalDependencies": "none",
+  "onlyUpdatePeerDependentsWhenOutOfRange": true,
+  "bumpVersionsWithWorkspaceProtocolOnly": true,
+  "ignore": [],
+  "privatePackages": { "version": true, "tag": true }
 }
