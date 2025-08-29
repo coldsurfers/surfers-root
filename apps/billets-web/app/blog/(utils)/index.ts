@@ -34,6 +34,7 @@ export const generateSeriesItemHref = (seriesCategory: SeriesCategory, slug: str
 
 export const convertSeriesCategoryToTitle = (seriesCategory: SeriesCategory) => {
   return match(seriesCategory)
+    .with('catholic', () => 'YOU MUST PRAY THIS')
     .with('sound', () => 'YOU MUST LISTEN THIS')
     .with('tech', () => 'YOU MUST CODE THIS')
     .with('text', () => 'YOU MUST READ THIS')

@@ -26,6 +26,7 @@ export async function generateMetadata(props: {
   try {
     const params = await props.params;
     const metaTitle = match(params.series)
+      .with('catholic', () => 'COLDSURF Blog: Article about Catholic')
       .with('sound', () => 'COLDSURF Blog: Article about music')
       .with('tech', () => 'COLDSURF Blog: Article about Software Development')
       .with('text', () => 'COLDSURF Blog: Article about Books & Texts')
@@ -33,6 +34,7 @@ export async function generateMetadata(props: {
       .exhaustive();
 
     const metaDescription = match(params.series)
+      .with('catholic', () => 'Article about Catholic')
       .with('sound', () => 'Article about music')
       .with('tech', () => 'Article about Software Development')
       .with('text', () => 'Article about Books & Texts')
