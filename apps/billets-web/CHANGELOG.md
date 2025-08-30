@@ -1,5 +1,11 @@
 # @coldsurfers/billets-web
 
+## 1.1.35
+
+### Patch Changes
+
+- [#504](https://github.com/coldsurfers/surfers-root/pull/504) [`c2543f6`](https://github.com/coldsurfers/surfers-root/commit/c2543f6fe683858eb3d1c390683660149c23c9bf) Thanks [@yungblud](https://github.com/yungblud)! - Add utm_source
+
 ## 1.1.34
 
 ### Patch Changes
