@@ -1,6 +1,6 @@
 'use client';
 
-import { Text, colors, media, semantics } from '@coldsurfers/ocean-road';
+import { Button, Text, colors, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import type { PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoints';
@@ -18,6 +18,14 @@ const AVAILABLE_APP_LOCALES: AppLocale[] = ['ko', 'en'];
 const APP_LOCALES_TO_DISPLAY_NAMES: Record<AppLocale, string> = {
   ko: '한국어',
   en: 'English',
+};
+const NOT_TRANSLATED_ARTICLE_MESSAGE = {
+  ko: '아직 번역되지 않은 글이에요.',
+  en: 'This article has not been translated yet.',
+};
+const GO_BACK_BUTTON_TEXT = {
+  ko: '돌아가기',
+  en: 'Go back',
 };
 
 const WriterText = styled(Text)`
@@ -54,10 +62,18 @@ const AppLocaleText = styled(Text)`
   margin: unset;
 
   color: ${colors.oc.blue[8].value};
+
+  ${media.small(css`
+    font-size: 1rem;
+  `)}
 `;
 
 const AppLocaleTextSeparator = styled.span`
   color: ${semantics.color.foreground[4]};
+
+  ${media.small(css`
+    font-size: 1rem;
+  `)}
 `;
 
 const RendererSection = styled.section`
@@ -81,11 +97,13 @@ export const LogDetailRenderer = ({
   locale,
   seriesCategory,
   onClickAppLocale,
+  onClickBack,
 }: {
   slug: string;
   locale: AppLocale;
   seriesCategory: SeriesCategory;
   onClickAppLocale: (appLocale: AppLocale) => void;
+  onClickBack: () => void;
 }) => {
   const { data } = useSuspenseQuery(
     queryKeyFactory.series.item(slug, {
@@ -123,43 +141,63 @@ export const LogDetailRenderer = ({
 
   const formattedCreatedAt = useMemo(
     () =>
-      format(
-        new Date((data.page.properties['Publish date'] as { date: { start: string } }).date.start),
-        'MMMM d, yyyy'
-      ),
-    [data.page.properties['Publish date']]
+      data
+        ? format(
+            new Date(
+              (data.page.properties['Publish date'] as { date: { start: string } }).date.start
+            ),
+            'MMMM d, yyyy'
+          )
+        : '',
+    [data]
   );
 
   return (
     <PageLayout title={pageTitle?.at(0)?.plain_text}>
-      <article style={{ marginTop: '2rem' }}>
-        <TagList tags={tags} />
-        <AppLocalesWrapper>
-          {AVAILABLE_APP_LOCALES.map((appLocale, index) => (
-            <div
-              key={appLocale}
-              onClick={() => onClickAppLocale(appLocale)}
-              onKeyUp={(e) => e.key === 'Enter' && onClickAppLocale(appLocale)}
-              // biome-ignore lint/a11y/useSemanticElements: <explanation>
-              role="button"
-              tabIndex={0}
-              style={{ cursor: 'pointer' }}
-            >
-              <AppLocaleText as="p">
-                {APP_LOCALES_TO_DISPLAY_NAMES[appLocale]}
-                {index !== AVAILABLE_APP_LOCALES.length - 1 && (
-                  <AppLocaleTextSeparator> | </AppLocaleTextSeparator>
-                )}
-              </AppLocaleText>
-            </div>
-          ))}
-        </AppLocalesWrapper>
-        <WriterText as="p">
-          Written by <span style={{ fontWeight: 'bold' }}>{writerName}</span>
-        </WriterText>
-        <CreatedAtText as="p">{formattedCreatedAt}</CreatedAtText>
-        <RendererSection>{recordMap && <NotionRenderer recordMap={recordMap} />}</RendererSection>
-      </article>
+      {data === null ? (
+        <div
+          style={{
+            marginTop: '5rem',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Text as="h2" style={{ textAlign: 'center' }}>
+            {NOT_TRANSLATED_ARTICLE_MESSAGE[locale]}
+          </Text>
+          <Button onClick={onClickBack}>{GO_BACK_BUTTON_TEXT[locale]}</Button>
+        </div>
+      ) : (
+        <article style={{ marginTop: '2rem' }}>
+          <TagList tags={tags} />
+          <AppLocalesWrapper>
+            {AVAILABLE_APP_LOCALES.map((appLocale, index) => (
+              <div
+                key={appLocale}
+                onClick={() => onClickAppLocale(appLocale)}
+                onKeyUp={(e) => e.key === 'Enter' && onClickAppLocale(appLocale)}
+                // biome-ignore lint/a11y/useSemanticElements: <explanation>
+                role="button"
+                tabIndex={0}
+                style={{ cursor: 'pointer' }}
+              >
+                <AppLocaleText as="p">
+                  {APP_LOCALES_TO_DISPLAY_NAMES[appLocale]}
+                  {index !== AVAILABLE_APP_LOCALES.length - 1 && (
+                    <AppLocaleTextSeparator> | </AppLocaleTextSeparator>
+                  )}
+                </AppLocaleText>
+              </div>
+            ))}
+          </AppLocalesWrapper>
+          <WriterText as="p">
+            Written by <span style={{ fontWeight: 'bold' }}>{writerName}</span>
+          </WriterText>
+          <CreatedAtText as="p">{formattedCreatedAt}</CreatedAtText>
+          <RendererSection>{recordMap && <NotionRenderer recordMap={recordMap} />}</RendererSection>
+        </article>
+      )}
     </PageLayout>
   );
 };

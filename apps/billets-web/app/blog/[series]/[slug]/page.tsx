@@ -28,6 +28,7 @@ export default function SeriesSlugPage(props: {
           locale={lang}
           seriesCategory={params.series}
           onClickAppLocale={setLang}
+          onClickBack={() => setLang((prev) => (prev === 'ko' ? 'en' : 'ko'))}
         />
       </Suspense>
     </GlobalErrorBoundaryRegistry>
