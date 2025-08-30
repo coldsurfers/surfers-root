@@ -523,7 +523,7 @@ importers:
         version: 7.4.3
       ts-node-dev:
         specifier: ^2.0.0
-        version: 2.0.0(@types/node@20.5.1)(typescript@5.6.3)
+        version: 2.0.0(@types/node@22.13.5)(typescript@5.6.3)
       tsup:
         specifier: 8.3.5
         version: 8.3.5(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.6.3)(yaml@2.7.0)
@@ -617,6 +617,9 @@ importers:
       notion-client:
         specifier: 7.1.5
         version: 7.1.5
+      nuqs:
+        specifier: ^2.5.1
+        version: 2.5.1(next@15.2.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0))(react@19.0.0)
       openapi-fetch:
         specifier: 0.14.0
         version: 0.14.0
@@ -6435,6 +6438,9 @@ packages:
     resolution: {integrity: sha512-piUTHyp2Axx3p/kc2CIJkYSv0BAaheBQmbACZgQSSfWUumWNW+R1lL+H9PDBxKJkvOeEX+hKYEFiwO8xagL8AQ==}
     engines: {node: '>=18.0.0'}
 
+  '@standard-schema/spec@1.0.0':
+    resolution: {integrity: sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA==}
+
   '@supabase/auth-js@2.68.0':
     resolution: {integrity: sha512-odG7nb7aOmZPUXk6SwL2JchSsn36Ppx11i2yWMIc/meUO2B2HK9YwZHPK06utD9Ql9ke7JKDbwGin/8prHKxxQ==}
 
@@ -11226,6 +11232,27 @@ packages:
 
   nullthrows@1.1.1:
     resolution: {integrity: sha512-2vPPEi+Z7WqML2jZYddDIfy5Dqb0r2fze2zTxNNknZaFpVHU3mFB3R+DWeJWGVx0ecvttSGlJTI+WG+8Z4cDWw==}
+
+  nuqs@2.5.1:
+    resolution: {integrity: sha512-YvAyI01gaEfS6U2iTcfffKccGkqYRnGmLoCHvDjK4ShgtB0tKmYgC7+ez9PmdaiDmrLR+y1qHzfQC66T0VFwWQ==}
+    peerDependencies:
+      '@remix-run/react': '>=2'
+      '@tanstack/react-router': ^1
+      next: '>=14.2.0'
+      react: '>=18.2.0 || ^19.0.0-0'
+      react-router: ^6 || ^7
+      react-router-dom: ^6 || ^7
+    peerDependenciesMeta:
+      '@remix-run/react':
+        optional: true
+      '@tanstack/react-router':
+        optional: true
+      next:
+        optional: true
+      react-router:
+        optional: true
+      react-router-dom:
+        optional: true
 
   ob1@0.81.1:
     resolution: {integrity: sha512-1PEbvI+AFvOcgdNcO79FtDI1TUO8S3lhiKOyAiyWQF3sFDDKS+aw2/BZvGlArFnSmqckwOOB9chQuIX0/OahoQ==}
@@ -20293,7 +20320,9 @@ snapshots:
     transitivePeerDependencies:
       - '@babel/core'
       - '@babel/preset-env'
+      - bufferutil
       - supports-color
+      - utf-8-validate
 
   '@react-native/normalize-colors@0.74.89':
     optional: true
@@ -21247,6 +21276,8 @@ snapshots:
       '@smithy/abort-controller': 4.0.1
       '@smithy/types': 4.1.0
       tslib: 2.8.1
+
+  '@standard-schema/spec@1.0.0': {}
 
   '@supabase/auth-js@2.68.0':
     dependencies:
@@ -22257,7 +22288,7 @@ snapshots:
 
   axios@1.6.3:
     dependencies:
-      follow-redirects: 1.15.9(debug@4.3.7)
+      follow-redirects: 1.15.9(debug@4.4.1)
       form-data: 4.0.2
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -27176,6 +27207,13 @@ snapshots:
 
   nullthrows@1.1.1: {}
 
+  nuqs@2.5.1(next@15.2.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0))(react@19.0.0):
+    dependencies:
+      '@standard-schema/spec': 1.0.0
+      react: 19.0.0
+    optionalDependencies:
+      next: 15.2.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0)
+
   ob1@0.81.1:
     dependencies:
       flow-enums-runtime: 0.0.6
@@ -29816,7 +29854,7 @@ snapshots:
       - '@swc/wasm'
       - '@types/node'
 
-  ts-node-dev@2.0.0(@types/node@20.5.1)(typescript@5.6.3):
+  ts-node-dev@2.0.0(@types/node@22.13.5)(typescript@5.6.3):
     dependencies:
       chokidar: 3.6.0
       dynamic-dedupe: 0.3.0
@@ -29826,7 +29864,7 @@ snapshots:
       rimraf: 2.7.1
       source-map-support: 0.5.21
       tree-kill: 1.2.2
-      ts-node: 10.9.2(@types/node@20.5.1)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@22.13.5)(typescript@5.6.3)
       tsconfig: 7.0.0
       typescript: 5.6.3
     transitivePeerDependencies:
