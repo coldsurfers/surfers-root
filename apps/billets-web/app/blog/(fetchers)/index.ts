@@ -47,6 +47,9 @@ export const fetchGetSeriesItem = async (
   });
   if (!response.ok) {
     console.error(response.status);
+    if (response.status === 404) {
+      return null;
+    }
     throw Error('fetchGetSeriesItem error');
   }
   const json = await response.json();
