@@ -1,5 +1,11 @@
 # @coldsurfers/billets-web
 
+## 1.1.34
+
+### Patch Changes
+
+- [#502](https://github.com/coldsurfers/surfers-root/pull/502) [`03598ce`](https://github.com/coldsurfers/surfers-root/commit/03598ce3dc79b6826a9adc5ff7c73ce56f36a817) Thanks [@yungblud](https://github.com/yungblud)! - patch package react-notion-x
+
 ## 1.1.33
 
 ### Patch Changes
