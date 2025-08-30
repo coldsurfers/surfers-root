@@ -7,7 +7,7 @@ import { AppLocaleSchema } from 'app/blog/(types)/i18n';
 import type { SeriesCategory } from 'app/blog/(types)/series';
 import { parseAsStringLiteral, useQueryState } from 'nuqs';
 
-export const appLocaleParser = parseAsStringLiteral(
+const appLocaleParser = parseAsStringLiteral(
   AppLocaleSchema.options // -> readonly ['ko','en']
 ).withDefault('ko');
 
