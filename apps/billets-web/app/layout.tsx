@@ -20,6 +20,7 @@ import { SERVICE_NAME } from '@coldsurfers/shared-utils';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import type { ReactNode } from 'react';
 import { pretendard } from '../libs/font';
 import { AppLayout } from './(ui)';
@@ -163,7 +164,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <GlobalErrorBoundaryRegistry>
             <QueryClientRegistry>
               <HydrationBoundary state={dehydratedState}>
-                <AppLayout>{children}</AppLayout>
+                <NuqsAdapter>
+                  <AppLayout>{children}</AppLayout>
+                </NuqsAdapter>
                 <RouteListener />
               </HydrationBoundary>
             </QueryClientRegistry>

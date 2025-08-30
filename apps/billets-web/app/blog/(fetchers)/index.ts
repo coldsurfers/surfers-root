@@ -39,9 +39,9 @@ export const fetchGetSeriesItem = async (
   slug: string,
   searchParams: FetchGetSeriesItemSearchParams
 ) => {
-  const { seriesCategory } = searchParams;
+  const { seriesCategory, appLocale } = searchParams;
 
-  const url = `${BASE_URL}/api/blog/series/${slug}?seriesCategory=${seriesCategory}&appLocale=${TEMP_FIXED_APP_LOCALE}`;
+  const url = `${BASE_URL}/api/blog/series/${slug}?seriesCategory=${seriesCategory}&appLocale=${appLocale}`;
   const response = await fetch(url, {
     method: 'GET',
   });
