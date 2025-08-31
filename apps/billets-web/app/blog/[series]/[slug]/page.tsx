@@ -2,6 +2,7 @@
 import { Suspense, use } from 'react';
 
 import { GlobalErrorBoundaryRegistry } from '@/libs/registries/global-error-boundary-registry';
+import { Spinner } from '@coldsurfers/ocean-road';
 import { LogDetailRenderer } from 'app/blog/(notion-render)/log-detail-renderer';
 import { AppLocaleSchema } from 'app/blog/(types)/i18n';
 import type { SeriesCategory } from 'app/blog/(types)/series';
@@ -22,7 +23,7 @@ export default function SeriesSlugPage(props: {
 
   return (
     <GlobalErrorBoundaryRegistry>
-      <Suspense>
+      <Suspense fallback={<Spinner variant="page-overlay" />}>
         <LogDetailRenderer
           slug={params.slug}
           locale={lang}
