@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-web",
-  "version": "1.1.36",
+  "version": "1.1.37",
   "private": true,
   "files": [
     "package.json"
