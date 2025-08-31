@@ -1,5 +1,11 @@
 # @coldsurfers/billets-web
 
+## 1.1.38
+
+### Patch Changes
+
+- [`9e8236b`](https://github.com/coldsurfers/surfers-root/commit/9e8236bff9aa7f613bae484766e89c8d879218ae) Thanks [@yungblud](https://github.com/yungblud)! - Fixed SSG issue on blog detail renderer
+
 ## 1.1.37
 
 ### Patch Changes
