@@ -9,6 +9,7 @@ import { format } from 'date-fns';
 import { useMemo, useRef, useState } from 'react';
 import { PageLayout } from '../(components)/page-layout';
 import { TagList } from '../(components)/tag-list/tag-list';
+import type { fetchGetSeriesItem } from '../(fetchers)';
 import { queryKeyFactory } from '../(react-query)/react-query.key-factory';
 import type { AppLocale } from '../(types)/i18n';
 import type { SeriesCategory } from '../(types)/series';
@@ -126,17 +127,22 @@ type CustomDateProperty = {
 export const LogDetailRenderer = ({
   slug,
   seriesCategory,
+  initialData,
 }: {
   slug: string;
   seriesCategory: SeriesCategory;
+  initialData: Awaited<ReturnType<typeof fetchGetSeriesItem>>;
 }) => {
   const [locale, setLocale] = useState<AppLocale>('ko');
-  const { data } = useSuspenseQuery(
-    queryKeyFactory.series.item(slug, {
+  const { data } = useSuspenseQuery({
+    ...queryKeyFactory.series.item(slug, {
       appLocale: locale,
       seriesCategory,
-    })
-  );
+    }),
+    initialData,
+    initialDataUpdatedAt: 0, // 생성 시점을 과거로 만들어 stale 처리, locale 값이 바뀌었을때에 initialData에 오버라이드 되지 않도록
+    staleTime: 0, // 항상 오래된 것으로 간주
+  });
   const cachedOtherLangs = useRef<AppLocale[]>([]);
 
   const recordMap = useMemo(() => data.recordMap, [data.recordMap]);
