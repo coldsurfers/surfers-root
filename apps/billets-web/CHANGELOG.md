@@ -1,5 +1,11 @@
 # @coldsurfers/billets-web
 
+## 1.1.39
+
+### Patch Changes
+
+- [`daa9334`](https://github.com/coldsurfers/surfers-root/commit/daa933450ea9962abdb4debed101b56ea1a00695) Thanks [@yungblud](https://github.com/yungblud)! - Enhance isFetching with switching en, ko
+
 ## 1.1.38
 
 ### Patch Changes
