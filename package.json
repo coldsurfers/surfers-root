@@ -14,7 +14,10 @@
     "check:fix": "biome check --write ."
   },
   "commitlint": {
-    "extends": ["@commitlint/config-conventional"]
+    "extends": ["@commitlint/config-conventional"],
+    "rules": {
+      "header-max-length": [2, "always", 200]
+    }
   },
   "eslintIgnore": ["node_modules/", "dist/", "build/", "package/"],
   "resolutions": {
