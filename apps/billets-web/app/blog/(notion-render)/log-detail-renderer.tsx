@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import type { PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { PageLayout } from '../(components)/page-layout';
 import { TagList } from '../(components)/tag-list/tag-list';
 import { queryKeyFactory } from '../(react-query)/react-query.key-factory';
@@ -18,14 +18,6 @@ const AVAILABLE_APP_LOCALES: AppLocale[] = ['ko', 'en'];
 const APP_LOCALES_TO_DISPLAY_NAMES: Record<AppLocale, string> = {
   ko: '한국어',
   en: 'English',
-};
-const NOT_TRANSLATED_ARTICLE_MESSAGE = {
-  ko: '아직 번역되지 않은 글이에요.',
-  en: 'This article has not been translated yet.',
-};
-const GO_BACK_BUTTON_TEXT = {
-  ko: '돌아가기',
-  en: 'Go back',
 };
 
 const WriterText = styled(Text)`
@@ -94,17 +86,12 @@ const AppLocalesWrapper = styled.div`
 
 export const LogDetailRenderer = ({
   slug,
-  locale,
   seriesCategory,
-  onClickAppLocale,
-  onClickBack,
 }: {
   slug: string;
-  locale: AppLocale;
   seriesCategory: SeriesCategory;
-  onClickAppLocale: (appLocale: AppLocale) => void;
-  onClickBack: () => void;
 }) => {
+  const [locale, setLocale] = useState<AppLocale>('ko');
   const { data } = useSuspenseQuery(
     queryKeyFactory.series.item(slug, {
       appLocale: locale,
@@ -154,50 +141,34 @@ export const LogDetailRenderer = ({
 
   return (
     <PageLayout title={pageTitle?.at(0)?.plain_text}>
-      {data === null ? (
-        <div
-          style={{
-            marginTop: '5rem',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Text as="h2" style={{ textAlign: 'center' }}>
-            {NOT_TRANSLATED_ARTICLE_MESSAGE[locale]}
-          </Text>
-          <Button onClick={onClickBack}>{GO_BACK_BUTTON_TEXT[locale]}</Button>
-        </div>
-      ) : (
-        <article style={{ marginTop: '2rem' }}>
-          <TagList tags={tags} />
-          <AppLocalesWrapper>
-            {AVAILABLE_APP_LOCALES.map((appLocale, index) => (
-              <div
-                key={appLocale}
-                onClick={() => onClickAppLocale(appLocale)}
-                onKeyUp={(e) => e.key === 'Enter' && onClickAppLocale(appLocale)}
-                // biome-ignore lint/a11y/useSemanticElements: <explanation>
-                role="button"
-                tabIndex={0}
-                style={{ cursor: 'pointer' }}
-              >
-                <AppLocaleText as="p">
-                  {APP_LOCALES_TO_DISPLAY_NAMES[appLocale]}
-                  {index !== AVAILABLE_APP_LOCALES.length - 1 && (
-                    <AppLocaleTextSeparator> | </AppLocaleTextSeparator>
-                  )}
-                </AppLocaleText>
-              </div>
-            ))}
-          </AppLocalesWrapper>
-          <WriterText as="p">
-            Written by <span style={{ fontWeight: 'bold' }}>{writerName}</span>
-          </WriterText>
-          <CreatedAtText as="p">{formattedCreatedAt}</CreatedAtText>
-          <RendererSection>{recordMap && <NotionRenderer recordMap={recordMap} />}</RendererSection>
-        </article>
-      )}
+      <article style={{ marginTop: '2rem' }}>
+        <TagList tags={tags} />
+        <AppLocalesWrapper>
+          {AVAILABLE_APP_LOCALES.map((appLocale, index) => (
+            <div
+              key={appLocale}
+              onClick={() => setLocale(appLocale)}
+              onKeyUp={(e) => e.key === 'Enter' && setLocale(appLocale)}
+              // biome-ignore lint/a11y/useSemanticElements: <explanation>
+              role="button"
+              tabIndex={0}
+              style={{ cursor: 'pointer' }}
+            >
+              <AppLocaleText as="p">
+                {APP_LOCALES_TO_DISPLAY_NAMES[appLocale]}
+                {index !== AVAILABLE_APP_LOCALES.length - 1 && (
+                  <AppLocaleTextSeparator> | </AppLocaleTextSeparator>
+                )}
+              </AppLocaleText>
+            </div>
+          ))}
+        </AppLocalesWrapper>
+        <WriterText as="p">
+          Written by <span style={{ fontWeight: 'bold' }}>{writerName}</span>
+        </WriterText>
+        <CreatedAtText as="p">{formattedCreatedAt}</CreatedAtText>
+        <RendererSection>{recordMap && <NotionRenderer recordMap={recordMap} />}</RendererSection>
+      </article>
     </PageLayout>
   );
 };

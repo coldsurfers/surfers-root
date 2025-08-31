@@ -4,13 +4,7 @@ import { Suspense, use } from 'react';
 import { GlobalErrorBoundaryRegistry } from '@/libs/registries/global-error-boundary-registry';
 import { Spinner } from '@coldsurfers/ocean-road';
 import { LogDetailRenderer } from 'app/blog/(notion-render)/log-detail-renderer';
-import { AppLocaleSchema } from 'app/blog/(types)/i18n';
 import type { SeriesCategory } from 'app/blog/(types)/series';
-import { parseAsStringLiteral, useQueryState } from 'nuqs';
-
-const appLocaleParser = parseAsStringLiteral(
-  AppLocaleSchema.options // -> readonly ['ko','en']
-).withDefault('ko');
 
 export default function SeriesSlugPage(props: {
   params: Promise<{
@@ -19,18 +13,11 @@ export default function SeriesSlugPage(props: {
   }>;
 }) {
   const params = use(props.params);
-  const [lang, setLang] = useQueryState('lang', appLocaleParser);
 
   return (
     <GlobalErrorBoundaryRegistry>
       <Suspense fallback={<Spinner variant="page-overlay" />}>
-        <LogDetailRenderer
-          slug={params.slug}
-          locale={lang}
-          seriesCategory={params.series}
-          onClickAppLocale={setLang}
-          onClickBack={() => setLang((prev) => (prev === 'ko' ? 'en' : 'ko'))}
-        />
+        <LogDetailRenderer slug={params.slug} seriesCategory={params.series} />
       </Suspense>
     </GlobalErrorBoundaryRegistry>
   );
