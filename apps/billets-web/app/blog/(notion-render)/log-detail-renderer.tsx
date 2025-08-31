@@ -1,12 +1,12 @@
 'use client';
 
-import { Button, Text, colors, media, semantics } from '@coldsurfers/ocean-road';
+import { Text, colors, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import type { PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { PageLayout } from '../(components)/page-layout';
 import { TagList } from '../(components)/tag-list/tag-list';
 import { queryKeyFactory } from '../(react-query)/react-query.key-factory';
@@ -14,9 +14,8 @@ import type { AppLocale } from '../(types)/i18n';
 import type { SeriesCategory } from '../(types)/series';
 import { NotionRenderer } from './notion-renderer';
 
-const AVAILABLE_APP_LOCALES: AppLocale[] = ['ko', 'en'];
 const APP_LOCALES_TO_DISPLAY_NAMES: Record<AppLocale, string> = {
-  ko: '한국어',
+  ko: 'Korean',
   en: 'English',
 };
 
@@ -84,6 +83,46 @@ const AppLocalesWrapper = styled.div`
   margin-top: 1rem;
 `;
 
+type CustomMultiSelectProperty = {
+  id: string;
+  type: 'multi_select';
+  multi_select: Array<{
+    id: string;
+    name: string;
+    color: string;
+  }>;
+};
+
+type CustomTitleProperty = {
+  id: 'title';
+  type: 'title';
+  title: Array<{
+    plain_text: string;
+  }>;
+};
+
+type CustomPeopleProperty = {
+  id: string;
+  type: 'people';
+  people: Array<{
+    type: 'person';
+    avatar_url: string;
+    id: string;
+    name: string;
+    object: 'user';
+  }>;
+};
+
+type CustomDateProperty = {
+  id: string;
+  type: 'date';
+  date: {
+    end: string | null;
+    start: string | null;
+    time_zone: string | null;
+  };
+};
+
 export const LogDetailRenderer = ({
   slug,
   seriesCategory,
@@ -98,65 +137,77 @@ export const LogDetailRenderer = ({
       seriesCategory,
     })
   );
+  const cachedOtherLangs = useRef<AppLocale[]>([]);
 
-  const page = useMemo(() => data?.page, [data]);
-  const recordMap = useMemo(() => data?.recordMap, [data?.recordMap]);
+  const recordMap = useMemo(() => data.recordMap, [data.recordMap]);
 
-  const pageTitle = useMemo(
-    () => (page?.properties.Name.type === 'title' ? page.properties.Name.title : null),
+  const page = useMemo(() => data.page, [data]);
+  const pageProperties = useMemo(
+    () =>
+      page?.properties as PageObjectResponse['properties'] & {
+        tags: CustomMultiSelectProperty;
+        otherLangs: CustomMultiSelectProperty;
+        Name: CustomTitleProperty;
+        Writer: CustomPeopleProperty;
+        'Publish date': CustomDateProperty;
+      },
     [page]
   );
+
+  const pageTitle = useMemo(() => pageProperties.Name.title, [pageProperties]);
   const writerName = useMemo(() => {
-    if (page?.properties.Writer?.type === 'people') {
-      const writer = page.properties.Writer.people.at(0) as PersonUserObjectResponse;
-      return writer.name;
-    }
-    return '';
-  }, [page]);
+    return pageProperties.Writer.people.at(0)?.name ?? '';
+  }, [pageProperties]);
 
   const tags = useMemo(
     () =>
-      page?.properties.tags.type === 'multi_select'
-        ? page?.properties.tags.multi_select.map((value) => ({
-            id: value.id,
-            name: value.name,
-            color: value.color,
-          }))
-        : [],
-    [page]
+      pageProperties.tags.multi_select.map((value) => ({
+        id: value.id,
+        name: value.name,
+        color: value.color,
+      })),
+    [pageProperties]
   );
 
-  const formattedCreatedAt = useMemo(
-    () =>
-      data
-        ? format(
-            new Date(
-              (data.page.properties['Publish date'] as { date: { start: string } }).date.start
-            ),
-            'MMMM d, yyyy'
-          )
-        : '',
-    [data]
-  );
+  const formattedCreatedAt = useMemo(() => {
+    const startDate = pageProperties['Publish date'].date.start;
+    if (!startDate) {
+      return '';
+    }
+    return format(new Date(startDate), 'MMMM d, yyyy');
+  }, [pageProperties]);
+
+  const otherLangs = useMemo(() => {
+    if (cachedOtherLangs.current.length) return cachedOtherLangs.current;
+    const otherLangs = pageProperties.otherLangs?.multi_select ?? [];
+    const value = [
+      {
+        name: 'ko',
+      },
+      ...otherLangs,
+    ].map<AppLocale>((value) => value.name as AppLocale);
+    cachedOtherLangs.current = value;
+    return value;
+  }, [pageProperties]);
 
   return (
     <PageLayout title={pageTitle?.at(0)?.plain_text}>
       <article style={{ marginTop: '2rem' }}>
         <TagList tags={tags} />
         <AppLocalesWrapper>
-          {AVAILABLE_APP_LOCALES.map((appLocale, index) => (
+          {otherLangs.map((lang, index) => (
             <div
-              key={appLocale}
-              onClick={() => setLocale(appLocale)}
-              onKeyUp={(e) => e.key === 'Enter' && setLocale(appLocale)}
+              key={lang}
+              onClick={() => setLocale(lang)}
+              onKeyUp={(e) => e.key === 'Enter' && setLocale(lang)}
               // biome-ignore lint/a11y/useSemanticElements: <explanation>
               role="button"
               tabIndex={0}
               style={{ cursor: 'pointer' }}
             >
               <AppLocaleText as="p">
-                {APP_LOCALES_TO_DISPLAY_NAMES[appLocale]}
-                {index !== AVAILABLE_APP_LOCALES.length - 1 && (
+                {APP_LOCALES_TO_DISPLAY_NAMES[lang as AppLocale]}
+                {index !== otherLangs.length - 1 && (
                   <AppLocaleTextSeparator> | </AppLocaleTextSeparator>
                 )}
               </AppLocaleText>
