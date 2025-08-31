@@ -8,7 +8,7 @@ import type { ReactNode } from 'react';
 export const revalidate = 3600;
 export const dynamic = 'force-static';
 // 사전에 생성되지 않은 경로로 SSR 접근 시, 404
-export const dynamicParams = false;
+// export const dynamicParams = false;
 
 const DEFAULT_APP_LOCALE: AppLocale = 'ko';
 

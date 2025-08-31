@@ -1,6 +1,6 @@
 'use client';
 
-import { Text, colors, media, semantics } from '@coldsurfers/ocean-road';
+import { Spinner, Text, colors, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
@@ -134,7 +134,7 @@ export const LogDetailRenderer = ({
   initialData: Awaited<ReturnType<typeof fetchGetSeriesItem>>;
 }) => {
   const [locale, setLocale] = useState<AppLocale>('ko');
-  const { data } = useSuspenseQuery({
+  const { data, isFetching } = useSuspenseQuery({
     ...queryKeyFactory.series.item(slug, {
       appLocale: locale,
       seriesCategory,
@@ -143,6 +143,7 @@ export const LogDetailRenderer = ({
     initialDataUpdatedAt: 0, // 생성 시점을 과거로 만들어 stale 처리, locale 값이 바뀌었을때에 initialData에 오버라이드 되지 않도록
     staleTime: 0, // 항상 오래된 것으로 간주
   });
+
   const cachedOtherLangs = useRef<AppLocale[]>([]);
 
   const recordMap = useMemo(() => data.recordMap, [data.recordMap]);
@@ -197,35 +198,38 @@ export const LogDetailRenderer = ({
   }, [pageProperties]);
 
   return (
-    <PageLayout title={pageTitle?.at(0)?.plain_text}>
-      <article style={{ marginTop: '2rem' }}>
-        <TagList tags={tags} />
-        <AppLocalesWrapper>
-          {otherLangs.map((lang, index) => (
-            <div
-              key={lang}
-              onClick={() => setLocale(lang)}
-              onKeyUp={(e) => e.key === 'Enter' && setLocale(lang)}
-              // biome-ignore lint/a11y/useSemanticElements: <explanation>
-              role="button"
-              tabIndex={0}
-              style={{ cursor: 'pointer' }}
-            >
-              <AppLocaleText as="p">
-                {APP_LOCALES_TO_DISPLAY_NAMES[lang as AppLocale]}
-                {index !== otherLangs.length - 1 && (
-                  <AppLocaleTextSeparator> | </AppLocaleTextSeparator>
-                )}
-              </AppLocaleText>
-            </div>
-          ))}
-        </AppLocalesWrapper>
-        <WriterText as="p">
-          Written by <span style={{ fontWeight: 'bold' }}>{writerName}</span>
-        </WriterText>
-        <CreatedAtText as="p">{formattedCreatedAt}</CreatedAtText>
-        <RendererSection>{recordMap && <NotionRenderer recordMap={recordMap} />}</RendererSection>
-      </article>
-    </PageLayout>
+    <>
+      <PageLayout title={pageTitle?.at(0)?.plain_text}>
+        <article style={{ marginTop: '2rem' }}>
+          <TagList tags={tags} />
+          <AppLocalesWrapper>
+            {otherLangs.map((lang, index) => (
+              <div
+                key={lang}
+                onClick={() => setLocale(lang)}
+                onKeyUp={(e) => e.key === 'Enter' && setLocale(lang)}
+                // biome-ignore lint/a11y/useSemanticElements: <explanation>
+                role="button"
+                tabIndex={0}
+                style={{ cursor: 'pointer' }}
+              >
+                <AppLocaleText as="p">
+                  {APP_LOCALES_TO_DISPLAY_NAMES[lang as AppLocale]}
+                  {index !== otherLangs.length - 1 && (
+                    <AppLocaleTextSeparator> | </AppLocaleTextSeparator>
+                  )}
+                </AppLocaleText>
+              </div>
+            ))}
+          </AppLocalesWrapper>
+          <WriterText as="p">
+            Written by <span style={{ fontWeight: 'bold' }}>{writerName}</span>
+          </WriterText>
+          <CreatedAtText as="p">{formattedCreatedAt}</CreatedAtText>
+          <RendererSection>{recordMap && <NotionRenderer recordMap={recordMap} />}</RendererSection>
+        </article>
+      </PageLayout>
+      {isFetching && <Spinner variant="page-overlay" />}
+    </>
   );
 };
