@@ -4,9 +4,9 @@ import { Spinner, Text, colors, media, semantics } from '@coldsurfers/ocean-road
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { PageLayout } from '../(components)/page-layout';
 import { TagList } from '../(components)/tag-list/tag-list';
 import type { fetchGetSeriesItem } from '../(fetchers)';
@@ -46,7 +46,7 @@ const CreatedAtText = styled(Text)`
   `)}
 `;
 
-const AppLocaleText = styled(Text)`
+const AppLocaleText = styled(Text)<{ $isActive: boolean }>`
   font-size: 1.125rem;
 
   text-align: center;
@@ -54,6 +54,8 @@ const AppLocaleText = styled(Text)`
   margin: unset;
 
   color: ${colors.oc.blue[8].value};
+
+  font-weight: ${({ $isActive }) => ($isActive ? 'bold' : 'normal')};
 
   ${media.small(css`
     font-size: 1rem;
@@ -134,15 +136,21 @@ export const LogDetailRenderer = ({
   initialData: Awaited<ReturnType<typeof fetchGetSeriesItem>>;
 }) => {
   const [locale, setLocale] = useState<AppLocale>('ko');
-  const { data, isFetching } = useSuspenseQuery({
+  const queryClient = useQueryClient();
+  const { data } = useSuspenseQuery({
     ...queryKeyFactory.series.item(slug, {
       appLocale: locale,
       seriesCategory,
     }),
     initialData,
-    initialDataUpdatedAt: 0, // 생성 시점을 과거로 만들어 stale 처리, locale 값이 바뀌었을때에 initialData에 오버라이드 되지 않도록
-    staleTime: 0, // 항상 오래된 것으로 간주
+    initialDataUpdatedAt: Date.now(), // 중요: 바로 갓 받아온 것으로 표시
+    staleTime: Number.POSITIVE_INFINITY, // 신선 → 리마운트시 refetch 안 함
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
   });
+
+  const [isFetching, setIsFetching] = useState(false);
 
   const cachedOtherLangs = useRef<AppLocale[]>([]);
 
@@ -197,6 +205,34 @@ export const LogDetailRenderer = ({
     return value;
   }, [pageProperties]);
 
+  const onClickOtherLang = useCallback(
+    async (lang: AppLocale) => {
+      const { queryKey: nextKey, queryFn } = queryKeyFactory.series.item(slug, {
+        appLocale: lang,
+        seriesCategory,
+      });
+
+      // 1) 캐시에 이미 데이터가 있는지 확인
+      const hasCache = queryClient.getQueryData(nextKey) != null;
+      const isFetching = queryClient.getQueryState(nextKey)?.fetchStatus === 'fetching';
+
+      // 2) 없거나 아직 받아오는 중이 아니면 prefetch
+      if (!hasCache && !isFetching) {
+        setIsFetching(true);
+        await queryClient.prefetchQuery({
+          queryKey: nextKey,
+          queryFn,
+          staleTime: Number.POSITIVE_INFINITY,
+        });
+        setIsFetching(false);
+      }
+
+      // 3) 언어 상태 변경 → 클라 컴포넌트 내부의 useSuspenseQuery가 nextKey로 읽음
+      setLocale(lang);
+    },
+    [queryClient, slug, seriesCategory]
+  );
+
   return (
     <>
       <PageLayout title={pageTitle?.at(0)?.plain_text}>
@@ -206,14 +242,14 @@ export const LogDetailRenderer = ({
             {otherLangs.map((lang, index) => (
               <div
                 key={lang}
-                onClick={() => setLocale(lang)}
-                onKeyUp={(e) => e.key === 'Enter' && setLocale(lang)}
+                onClick={() => onClickOtherLang(lang)}
+                onKeyUp={(e) => e.key === 'Enter' && onClickOtherLang(lang)}
                 // biome-ignore lint/a11y/useSemanticElements: <explanation>
                 role="button"
                 tabIndex={0}
                 style={{ cursor: 'pointer' }}
               >
-                <AppLocaleText as="p">
+                <AppLocaleText as="p" $isActive={locale === lang}>
                   {APP_LOCALES_TO_DISPLAY_NAMES[lang as AppLocale]}
                   {index !== otherLangs.length - 1 && (
                     <AppLocaleTextSeparator> | </AppLocaleTextSeparator>
