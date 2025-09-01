@@ -1,5 +1,11 @@
 # @coldsurfers/billets-web
 
+## 1.1.40
+
+### Patch Changes
+
+- [`a54f330`](https://github.com/coldsurfers/surfers-root/commit/a54f3306d5c201087b30ce5542f45bce3f70550e) Thanks [@yungblud](https://github.com/yungblud)! - improve LogDetailRenderer locale switching and data fetching
+
 ## 1.1.39
 
 ### Patch Changes
