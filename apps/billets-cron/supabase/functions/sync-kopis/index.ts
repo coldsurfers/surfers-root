@@ -7,7 +7,7 @@ import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { fromZonedTime } from 'https://esm.sh/date-fns-tz';
 import { format } from 'https://esm.sh/date-fns@3.6.0/format';
 import { parse } from 'https://esm.sh/date-fns@3.6.0/parse';
-import { kopisKey, slackWebhookUrl } from './_shared/env.ts';
+import { adminHost, kopisKey, slackWebhookUrl } from './_shared/env.ts';
 import { supabase } from './_shared/supabase.ts';
 
 async function sendSlack(payload: { text: string }) {
@@ -735,7 +735,7 @@ async function connectOrCreateVenue(venue: string, eventId: string) {
     if (!connected) {
       console.log('not connected venue:', eventId, venue);
       await sendSlack({
-        text: `🛠️ not connected venue: ${eventId}, ${venue}`,
+        text: `🛠️ not connected venue: ${adminHost}/concert/${eventId}, ${venue}`,
       });
     }
   }
