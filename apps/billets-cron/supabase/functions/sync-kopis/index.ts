@@ -10,6 +10,13 @@ import { parse } from 'https://esm.sh/date-fns@3.6.0/parse';
 import { adminHost, kopisKey, slackWebhookUrl } from './_shared/env.ts';
 import { supabase } from './_shared/supabase.ts';
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+export function runSequentially(tasks: (() => Promise<any>)[]) {
+  return tasks.reduce((prevPromise, task) => {
+    return prevPromise.then(() => task().then(console.log));
+  }, Promise.resolve());
+}
+
 async function sendSlack(payload: { text: string }) {
   await fetch(slackWebhookUrl, {
     method: 'POST',
@@ -1208,6 +1215,8 @@ async function insertKOPISEventDetail(kopisEventId: string) {
   );
   const xmlText = await response.text();
 
+  console.log(xmlText);
+
   const { dbs } = parser.parse(xmlText);
 
   const { db } = dbs;
@@ -1276,13 +1285,15 @@ async function sync(
 
     const success: string[] = [];
 
-    await Promise.all(
-      // @ts-expect-error: items is any
-      items.map((item) =>
-        limit(async () => {
-          await insertKOPISEventDetail(item.id);
-          success.push(item.id);
-        })
+    await runSequentially(
+      items.map(
+        // @ts-expect-error: items is any
+        (item) => {
+          return async () => {
+            await insertKOPISEventDetail(item.id);
+            success.push(item.id);
+          };
+        }
       )
     );
 
