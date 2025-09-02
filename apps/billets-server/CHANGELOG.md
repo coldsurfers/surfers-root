@@ -1,5 +1,11 @@
 # @coldsurfers/billets-server
 
+## 1.2.25
+
+### Patch Changes
+
+- [`fb79684`](https://github.com/coldsurfers/surfers-root/commit/fb796844245b1020cc8168880eb7589582df4622) Thanks [@yungblud](https://github.com/yungblud)! - update venue detail main poster host
+
 ## 1.2.24
 
 ### Patch Changes
