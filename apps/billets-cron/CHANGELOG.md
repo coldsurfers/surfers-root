@@ -1,5 +1,11 @@
 # @coldsurfers/billets-cron
 
+## 1.0.3
+
+### Patch Changes
+
+- [`43abd56`](https://github.com/coldsurfers/surfers-root/commit/43abd56650a7b1d6b12b93ac372384e811adb525) Thanks [@yungblud](https://github.com/yungblud)! - prevent 400 issue rate limit
+
 ## 1.0.2
 
 ### Patch Changes
