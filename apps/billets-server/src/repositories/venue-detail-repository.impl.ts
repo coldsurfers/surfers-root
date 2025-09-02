@@ -11,6 +11,8 @@ import type {
 } from '@prisma/client';
 import type { VenueDetailRepository } from './venue-detail-repository';
 
+const { STATIC_SERVER_HOST: staticServerHost } = process.env;
+
 type VenueDetailConcertModel = Concert & {
   posters: Poster[];
   venues: Venue[];
@@ -161,9 +163,9 @@ export class VenueDetailRepositoryImpl implements VenueDetailRepository {
 
   private generateMainPoster(model: VenueDetailConcertModel) {
     if (model.kopisEvent) {
-      const posterUrl = model.posters.at(0)?.imageURL ?? '';
+      const mainPosterKeyId = model.posters.at(0)?.keyId ?? '';
       return {
-        url: posterUrl,
+        url: `${staticServerHost}/${mainPosterKeyId}`,
         copyright: null,
       };
     }
