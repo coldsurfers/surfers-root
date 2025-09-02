@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import { runSequentially } from './utils';
 
 async function main() {
   const KOPISEVENT_CATEGORIES = [
@@ -13,19 +14,26 @@ async function main() {
 
   const pages = [1, 2, 3, 4];
 
-  for (const category of KOPISEVENT_CATEGORIES) {
-    for (const page of pages) {
-      console.log(`FETCHING ${category} ${page}`);
-      await fetch('http://127.0.0.1:54321/functions/v1/sync-kopis', {
-        method: 'POST',
-        body: JSON.stringify({
-          category,
-          page,
-        }),
-      });
-      console.log(`FETCHED ${category} ${page}`);
-    }
-  }
+  await runSequentially(
+    KOPISEVENT_CATEGORIES.map((category) => {
+      return async () => {
+        await runSequentially(
+          pages.map((page) => {
+            return async () => {
+              console.log(`FETCHING ${category} ${page}`);
+              await fetch('http://127.0.0.1:54321/functions/v1/sync-kopis', {
+                method: 'POST',
+                body: JSON.stringify({
+                  category,
+                  page,
+                }),
+              });
+            };
+          })
+        );
+      };
+    })
+  );
 }
 
 main();
