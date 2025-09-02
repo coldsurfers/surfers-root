@@ -1,5 +1,11 @@
 # @coldsurfers/db-migration
 
+## 1.0.3
+
+### Patch Changes
+
+- [`7ff3c45`](https://github.com/coldsurfers/surfers-root/commit/7ff3c45a8c8ade2c4974c43a5d9726332d7bd934) Thanks [@yungblud](https://github.com/yungblud)! - prevent 400 issue rate limit
+
 ## 1.0.2
 
 ### Patch Changes
