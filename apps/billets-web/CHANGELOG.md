@@ -1,5 +1,11 @@
 # @coldsurfers/billets-web
 
+## 1.1.41
+
+### Patch Changes
+
+- [#516](https://github.com/coldsurfers/surfers-root/pull/516) [`d080107`](https://github.com/coldsurfers/surfers-root/commit/d0801077a3792e2c2acb7df275fa0ee5502a0966) Thanks [@yungblud](https://github.com/yungblud)! - enhance blog layout and series fetching
+
 ## 1.1.40
 
 ### Patch Changes
