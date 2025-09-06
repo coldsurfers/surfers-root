@@ -9,15 +9,12 @@ import { Pagination } from '../pagination';
 import { PostPaginationList } from '../post-pagination-list';
 
 type SeriesListAllProps = {
-  initialData: Awaited<ReturnType<typeof fetchGetSeries>>[];
   page: number;
 };
 
-export const SeriesListAll = ({ initialData, page }: SeriesListAllProps) => {
-  const { data = [] } = useSuspenseQuery({
+export const SeriesListAll = ({ page }: SeriesListAllProps) => {
+  const { data } = useSuspenseQuery({
     ...queryKeyFactory.series.listAll('ko'),
-    initialData,
-    initialDataUpdatedAt: Date.now(), // 중요: 바로 갓 받아온 것으로 표시
     staleTime: Number.POSITIVE_INFINITY, // 신선 → 리마운트시 refetch 안 함
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
