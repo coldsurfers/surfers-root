@@ -5,14 +5,14 @@ import { Spinner } from '@coldsurfers/ocean-road';
 import { type PropsWithChildren, Suspense, useLayoutEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 
-export function RouteLoading({ children }: PropsWithChildren) {
+export function RouteLoading({ children, deps }: PropsWithChildren<{ deps?: any[] }>) {
   const { setIsLoading, isLoading } = useLinkStore(
     useShallow((state) => ({ setIsLoading: state.setIsLoading, isLoading: state.isLoading }))
   );
 
   useLayoutEffect(() => {
     setIsLoading(false);
-  }, [setIsLoading]);
+  }, [setIsLoading, ...(deps ?? [])]);
 
   return (
     <Suspense fallback={<Spinner variant="page-overlay" />}>

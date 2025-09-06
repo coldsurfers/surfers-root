@@ -1,25 +1,37 @@
-'use client'
+'use client';
 
-import { useQuery } from '@tanstack/react-query'
-import { PAGINATION_PER_PAGE } from 'app/blog/(constants)'
-import { queryKeyFactory } from 'app/blog/(react-query)/react-query.key-factory'
-import { useMemo } from 'react'
-import { Pagination } from '../pagination'
-import { PostPaginationList } from '../post-pagination-list'
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { PAGINATION_PER_PAGE } from 'app/blog/(constants)';
+import type { fetchGetSeries } from 'app/blog/(fetchers)';
+import { queryKeyFactory } from 'app/blog/(react-query)/react-query.key-factory';
+import { useMemo } from 'react';
+import { Pagination } from '../pagination';
+import { PostPaginationList } from '../post-pagination-list';
 
-export const SeriesListAll = ({ page }: { page: number }) => {
-  const allSeriesQuery = useQuery({
+type SeriesListAllProps = {
+  initialData: Awaited<ReturnType<typeof fetchGetSeries>>[];
+  page: number;
+};
+
+export const SeriesListAll = ({ initialData, page }: SeriesListAllProps) => {
+  const { data = [] } = useSuspenseQuery({
     ...queryKeyFactory.series.listAll('ko'),
-  })
+    initialData,
+    initialDataUpdatedAt: Date.now(), // 중요: 바로 갓 받아온 것으로 표시
+    staleTime: Number.POSITIVE_INFINITY, // 신선 → 리마운트시 refetch 안 함
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });
 
   const postItems = useMemo(
     () =>
-      (allSeriesQuery.data ?? [])
+      data
         .flat()
         .filter((value) => value !== null)
         .sort((a, b) => new Date(b.createdTime).getTime() - new Date(a.createdTime).getTime()),
-    [allSeriesQuery.data],
-  )
+    [data]
+  );
 
   return (
     <>
@@ -31,5 +43,5 @@ export const SeriesListAll = ({ page }: { page: number }) => {
         appLocale={'ko'}
       />
     </>
-  )
-}
+  );
+};

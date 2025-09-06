@@ -18,6 +18,10 @@ export async function generateMetadata() {
   };
 }
 
+export async function generateStaticParams() {
+  return [{ user: 'paul' }];
+}
+
 const notionPageId = {
   en: 'Resume-2025-1862bbac578280e39760f02a88e17941',
   ko: 'Resume-2025-3-2502bbac5782807fa2e2cdda9cea0227',
