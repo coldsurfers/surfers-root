@@ -1,4 +1,4 @@
-import { Suspense, use } from 'react';
+import { Suspense, cache, use } from 'react';
 
 import { GlobalErrorBoundaryRegistry } from '@/libs/registries/global-error-boundary-registry';
 import type { FetchGetSeriesItemSearchParams } from 'app/api/blog/series/[slug]/types';
@@ -6,10 +6,12 @@ import { fetchGetSeriesItem } from 'app/blog/(fetchers)';
 import { LogDetailRenderer } from 'app/blog/(notion-render)/log-detail-renderer';
 import type { SeriesCategory } from 'app/blog/(types)/series';
 
-async function getSeriesItemStatic(slug: string, searchParams: FetchGetSeriesItemSearchParams) {
-  const response = await fetchGetSeriesItem(slug, searchParams);
-  return response;
-}
+const getSeriesItemStatic = cache(
+  async (slug: string, searchParams: FetchGetSeriesItemSearchParams) => {
+    const response = await fetchGetSeriesItem(slug, searchParams);
+    return response;
+  }
+);
 
 export default async function SeriesSlugPage(props: {
   params: Promise<{
