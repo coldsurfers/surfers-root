@@ -1,5 +1,11 @@
 # @coldsurfers/billets-cron
 
+## 1.0.4
+
+### Patch Changes
+
+- [#518](https://github.com/coldsurfers/surfers-root/pull/518) [`bd9ad2f`](https://github.com/coldsurfers/surfers-root/commit/bd9ad2f1638ece045cfb7d24a09beb4ae9f3b144) Thanks [@yungblud](https://github.com/yungblud)! - 비동기 처리 개선
+
 ## 1.0.3
 
 ### Patch Changes
