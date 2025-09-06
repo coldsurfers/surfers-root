@@ -6,6 +6,7 @@
     "npm:fast-xml-parser@4.3.5": "4.3.5",
     "npm:ngeohash@*": "0.6.3",
     "npm:p-limit@*": "6.2.0",
+    "npm:p-throttle@*": "8.0.0",
     "npm:slugify@*": "1.6.6"
   },
   "npm": {
@@ -993,6 +994,9 @@
       "dependencies": [
         "yocto-queue"
       ]
+    },
+    "p-throttle@8.0.0": {
+      "integrity": "sha512-kvpi14SZClZqNTLevyhCNQano1LH4clozDZoOdxnxyvEl17kjEKxkgD6to7mQMcWE4fMKAwbH0rLqm6Gjj7b2Q=="
     },
     "slugify@1.6.6": {
       "integrity": "sha512-h+z7HKHYXj6wJU+AnS/+IH8Uh9fdcX1Lrhg1/VMdf9PwoBQXFcXiAdsy2tSK0P6gKwJLXp02r90ahUCqHk9rrw=="
