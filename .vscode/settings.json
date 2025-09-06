@@ -51,5 +51,6 @@
   ],
   "deno.enable": true,
   "deno.enablePaths": ["./apps/billets-cron"],
-  "deno.config": "./apps/billets-cron/supabase/functions/sync-kopis/deno.json"
+  "deno.config": "./apps/billets-cron/supabase/functions/sync-kopis/deno.json",
+  "cSpell.words": ["kopis"]
 }
