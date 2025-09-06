@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { XMLParser } from 'npm:fast-xml-parser@4.3.5';
 import rawGeohash from 'npm:ngeohash';
 import pLimit from 'npm:p-limit';
+import pThrottle from 'npm:p-throttle';
 import slugify from 'npm:slugify';
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { fromZonedTime } from 'https://esm.sh/date-fns-tz';
@@ -47,26 +48,27 @@ async function uploadImageByResolutions({
   type: 'poster' | 'detail-image';
 }) {
   const resolutions = ['low', 'medium', 'high'];
-  const keys = [];
-  for await (const resolution of resolutions) {
-    const response = await fetch(`${Deno.env.get('BILLETS_SERVER_URL')}/v1/image`, {
-      method: 'POST',
-      body: JSON.stringify({
-        imageUrl: originalImageUrl,
-        resolution,
-        concertId,
-        index,
-        type,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const { key } = await response.json();
-    console.log(key);
-    keys.push(key);
-  }
-
+  const keys = await Promise.all(
+    resolutions.map(async (resolution) => {
+      const response = await fetch(`${Deno.env.get('BILLETS_SERVER_URL')}/v1/image`, {
+        method: 'POST',
+        body: JSON.stringify({
+          imageUrl: originalImageUrl,
+          resolution,
+          concertId,
+          index,
+          type,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const { key } = await response.json();
+      console.log(key);
+      // keys.push(key);
+      return key as string;
+    })
+  );
   return {
     keys,
   };
@@ -892,6 +894,10 @@ export async function generateSlug(title: string) {
 
 // limit(동시 실행 개수)는 예를 들어 3개로 설정
 const limit = pLimit(25);
+const throttle = pThrottle({
+  limit: 10,
+  interval: 1000,
+});
 
 /**
  *
@@ -911,7 +917,7 @@ async function insertKOPISEvents(
   sevenDaysAgo.setDate(today.getDate() - 7);
 
   const currentDate = format(sevenDaysAgo, 'yyyyMMdd');
-  const endDate = '20271231';
+  const endDate = '20261231';
   const rows = 50;
 
   const response = await fetch(
@@ -1283,21 +1289,26 @@ async function sync(
   try {
     const { items } = await insertKOPISEvents(page, category);
 
-    const success: string[] = [];
+    // insert를 "속도 제한"으로 감싼 래퍼
+    const throttledInsert = throttle(async (id: string) => {
+      try {
+        await insertKOPISEventDetail(id);
+        return id;
+      } catch {
+        return undefined;
+      }
+    });
 
-    await runSequentially(
-      items.map(
-        // @ts-expect-error: items is any
-        (item) => {
-          return async () => {
-            await insertKOPISEventDetail(item.id);
-            success.push(item.id);
-          };
-        }
+    const successIds = await Promise.all(
+      // @ts-expect-error: items is any
+      items.map((item) =>
+        limit(async () => {
+          return await throttledInsert(item.id);
+        })
       )
     );
 
-    console.log(success);
+    console.log(successIds);
   } catch (e) {
     console.error(e);
   }
