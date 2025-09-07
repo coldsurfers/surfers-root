@@ -5,14 +5,15 @@ import type {
 import type { FetchGetSeriesItemSearchParams } from 'app/api/blog/series/[slug]/types';
 import type { FetchGetSeriesSearchParams } from 'app/api/blog/series/types';
 import type { ExtendedRecordMap } from 'notion-types';
-import { TEMP_FIXED_APP_LOCALE } from '../(constants)';
+import { cache } from 'react';
+import { ALL_SERIES_CATEGORIES, PAGINATION_PER_PAGE, TEMP_FIXED_APP_LOCALE } from '../(constants)';
 import type { AppLocale } from '../(types)/i18n';
 import { SeriesItemSchema } from '../(types)/series';
 
 const BASE_URL =
   process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://coldsurf.io';
 
-export const fetchGetSeries = async (params: FetchGetSeriesSearchParams) => {
+export const fetchGetSeries = cache(async (params: FetchGetSeriesSearchParams) => {
   try {
     const { seriesCategory, tag } = params;
     let url = `${BASE_URL}/api/blog/series?seriesCategory=${seriesCategory}&appLocale=${TEMP_FIXED_APP_LOCALE}`;
@@ -33,7 +34,7 @@ export const fetchGetSeries = async (params: FetchGetSeriesSearchParams) => {
     console.error(e);
     return null;
   }
-};
+});
 
 export const fetchGetSeriesItem = async (
   slug: string,
@@ -117,3 +118,22 @@ export const fetchGetTags = async () => {
   };
   return json;
 };
+
+export const fetchGetSeriesListAllStatic = cache(async () => {
+  const promises = ALL_SERIES_CATEGORIES.map(async (seriesCategory) => {
+    return await fetchGetSeries({
+      seriesCategory,
+      appLocale: 'ko',
+      tag: undefined,
+    });
+  });
+  const response = await Promise.all(promises);
+  const allPostItems = response
+    .flat()
+    .filter((value) => value !== null)
+    .sort((a, b) => new Date(b.createdTime).getTime() - new Date(a.createdTime).getTime());
+  return {
+    allPostItems,
+    totalPage: Math.ceil(allPostItems.length / PAGINATION_PER_PAGE),
+  };
+});
