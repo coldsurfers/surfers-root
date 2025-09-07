@@ -5,13 +5,18 @@ import { SeriesListAll } from './(components)/series-list-all';
 import { fetchGetSeriesListAllStatic } from './(fetchers)';
 
 export default async function RootPage() {
-  const { allPostItems, totalPage } = await fetchGetSeriesListAllStatic();
+  const { allPostItems, totalPage } = await fetchGetSeriesListAllStatic({ tag: undefined });
 
   return (
     <GlobalErrorBoundaryRegistry>
       <RouteLoading>
         <PageLayout>
-          <SeriesListAll allPostItems={allPostItems} totalPage={totalPage} currentPage={1} />
+          <SeriesListAll
+            postItems={allPostItems}
+            totalPage={totalPage}
+            currentPage={1}
+            seriesCategory={null}
+          />
         </PageLayout>
       </RouteLoading>
     </GlobalErrorBoundaryRegistry>

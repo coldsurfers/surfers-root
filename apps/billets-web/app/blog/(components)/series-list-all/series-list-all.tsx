@@ -1,23 +1,29 @@
 'use client';
 
-import type { SeriesItem } from 'app/blog/(types)/series';
+import type { SeriesCategory, SeriesItem } from 'app/blog/(types)/series';
 import { Pagination } from '../pagination';
 import { PostPaginationList } from '../post-pagination-list';
 
 type SeriesListAllProps = {
-  allPostItems: SeriesItem[];
+  postItems: SeriesItem[];
   totalPage: number;
   currentPage: number;
+  seriesCategory: SeriesCategory | null;
 };
 
-export const SeriesListAll = ({ allPostItems, totalPage, currentPage }: SeriesListAllProps) => {
+export const SeriesListAll = ({
+  postItems,
+  totalPage,
+  currentPage,
+  seriesCategory,
+}: SeriesListAllProps) => {
   return (
     <>
-      <PostPaginationList postItems={allPostItems} page={currentPage} />
+      <PostPaginationList postItems={postItems} page={currentPage} />
       <Pagination
         currentPage={currentPage}
         totalPage={totalPage}
-        seriesCategory={null}
+        seriesCategory={seriesCategory}
         appLocale={'ko'}
       />
     </>

@@ -8,33 +8,52 @@ import type { ExtendedRecordMap } from 'notion-types';
 import { cache } from 'react';
 import { ALL_SERIES_CATEGORIES, PAGINATION_PER_PAGE, TEMP_FIXED_APP_LOCALE } from '../(constants)';
 import type { AppLocale } from '../(types)/i18n';
-import { SeriesItemSchema } from '../(types)/series';
+import { type SeriesItem, SeriesItemSchema } from '../(types)/series';
 
 const BASE_URL =
   process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://coldsurf.io';
 
-export const fetchGetSeries = cache(async (params: FetchGetSeriesSearchParams) => {
-  try {
-    const { seriesCategory, tag } = params;
-    let url = `${BASE_URL}/api/blog/series?seriesCategory=${seriesCategory}&appLocale=${TEMP_FIXED_APP_LOCALE}`;
-    if (tag) {
-      url += `&tag=${tag}`;
+export const fetchGetSeries = cache(
+  async (
+    params: FetchGetSeriesSearchParams
+  ): Promise<{
+    postItems: SeriesItem[];
+    totalPage: number;
+  }> => {
+    try {
+      const { seriesCategory, tag } = params;
+      let url = `${BASE_URL}/api/blog/series?seriesCategory=${seriesCategory}&appLocale=${TEMP_FIXED_APP_LOCALE}`;
+      if (tag) {
+        url += `&tag=${tag}`;
+      }
+      const response = await fetch(url, {
+        method: 'GET',
+      });
+      const json = await response.json();
+      const validation = SeriesItemSchema.array().safeParse(json);
+      if (!validation.success) {
+        console.error('fetch error, fetchGetSeries', params, validation.error);
+        return {
+          postItems: [],
+          totalPage: 0,
+        };
+      }
+      const { data } = validation;
+      return {
+        postItems: data.sort(
+          (a, b) => new Date(b.createdTime).getTime() - new Date(a.createdTime).getTime()
+        ),
+        totalPage: Math.ceil(data.length / PAGINATION_PER_PAGE),
+      };
+    } catch (e) {
+      console.error(e);
+      return {
+        postItems: [],
+        totalPage: 0,
+      };
     }
-    const response = await fetch(url, {
-      method: 'GET',
-    });
-    const json = await response.json();
-    const validation = SeriesItemSchema.array().safeParse(json);
-    if (!validation.success) {
-      console.error('fetch error, fetchGetSeries', params, validation.error);
-      return [];
-    }
-    return validation.data;
-  } catch (e) {
-    console.error(e);
-    return null;
   }
-});
+);
 
 export const fetchGetSeriesItem = async (
   slug: string,
@@ -105,7 +124,7 @@ export const fetchGetResume = async (_filters: { locale: AppLocale }) => {
   return json;
 };
 
-export const fetchGetTags = async () => {
+export const fetchGetTags = cache(async () => {
   const response = await fetch(`${BASE_URL}/api/blog/tags`, {
     method: 'GET',
   });
@@ -117,19 +136,19 @@ export const fetchGetTags = async () => {
     }[];
   };
   return json;
-};
+});
 
-export const fetchGetSeriesListAllStatic = cache(async () => {
+export const fetchGetSeriesListAllStatic = cache(async ({ tag }: { tag?: string }) => {
   const promises = ALL_SERIES_CATEGORIES.map(async (seriesCategory) => {
     return await fetchGetSeries({
       seriesCategory,
       appLocale: 'ko',
-      tag: undefined,
+      tag,
     });
   });
   const response = await Promise.all(promises);
   const allPostItems = response
-    .flat()
+    .flatMap((value) => value.postItems)
     .filter((value) => value !== null)
     .sort((a, b) => new Date(b.createdTime).getTime() - new Date(a.createdTime).getTime());
   return {

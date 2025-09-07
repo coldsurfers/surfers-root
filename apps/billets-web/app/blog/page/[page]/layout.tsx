@@ -1,12 +1,11 @@
 import type { ReactNode } from 'react';
-import { PAGINATION_PER_PAGE } from '../../(constants)';
 import { fetchGetSeriesListAllStatic } from '../../(fetchers)';
 
 export const dynamic = 'force-static';
 export const revalidate = 3600;
 
 export const generateStaticParams = async () => {
-  const { totalPage } = await fetchGetSeriesListAllStatic();
+  const { totalPage } = await fetchGetSeriesListAllStatic({ tag: undefined });
   return Array.from({ length: totalPage }, (_, index) => ({
     page: `${index + 1}`,
   }));

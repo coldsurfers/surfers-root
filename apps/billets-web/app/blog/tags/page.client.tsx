@@ -1,18 +1,16 @@
-'use client'
+'use client';
 
-import { useQuery } from '@tanstack/react-query'
-import { PageLayout } from '../(components)/page-layout'
-import { TagList } from '../(components)/tag-list/tag-list'
-import { queryKeyFactory } from '../(react-query)/react-query.key-factory'
+import { PageLayout } from '../(components)/page-layout';
+import { TagList } from '../(components)/tag-list/tag-list';
+import type { fetchGetTags } from '../(fetchers)';
 
-export const TagsPageClient = () => {
-  const { data } = useQuery({
-    ...queryKeyFactory.tags.list,
-  })
+export const TagsPageClient = ({
+  tags,
+}: { tags: Awaited<ReturnType<typeof fetchGetTags>>['tags'] }) => {
   return (
     <PageLayout title="Tags">
       <div style={{ marginTop: '6.5rem' }} />
-      {data?.tags && <TagList tags={data.tags} />}
+      {tags && <TagList tags={tags} />}
     </PageLayout>
-  )
-}
+  );
+};
