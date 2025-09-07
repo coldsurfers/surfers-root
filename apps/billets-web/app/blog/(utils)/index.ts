@@ -16,7 +16,7 @@ export const generateSeriesHref = ({
   }
 
   if (query?.page) {
-    return `${url}?page=${query.page}`;
+    return `${url}/page/${query.page}`;
   }
 
   return url;
