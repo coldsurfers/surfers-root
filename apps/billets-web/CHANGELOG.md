@@ -1,5 +1,11 @@
 # @coldsurfers/billets-web
 
+## 1.1.42
+
+### Patch Changes
+
+- [#520](https://github.com/coldsurfers/surfers-root/pull/520) [`9c40d5c`](https://github.com/coldsurfers/surfers-root/commit/9c40d5cb8ebba30c6b8546d0edad58658529dbf0) Thanks [@yungblud](https://github.com/yungblud)! - enhance blog ssg
+
 ## 1.1.41
 
 ### Patch Changes
