@@ -1,16 +1,14 @@
 import { COMMON_META_DESCRIPTION, COMMON_META_TITLE } from '@/libs/constants';
-import { getQueryClient } from '@/libs/utils';
-import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next/types';
 import type { ReactNode } from 'react';
 import { match } from 'ts-pattern';
 import { ALL_SERIES_CATEGORIES } from '../(constants)';
 import { generateLogListMetadata } from '../(metadata)';
-import { queryKeyFactory } from '../(react-query)/react-query.key-factory';
 import { type SeriesCategory, SeriesCategorySchema } from '../(types)/series';
 
 export const revalidate = 3600;
+export const dynamic = 'force-static';
 
 export function generateStaticParams() {
   return ALL_SERIES_CATEGORIES.map((series) => {
@@ -69,15 +67,5 @@ export default async function SeriesPageLayout(props: {
     redirect('/blog');
   }
 
-  const queryClient = getQueryClient();
-
-  await queryClient.prefetchQuery(
-    queryKeyFactory.series.list({
-      seriesCategory: params.series,
-      appLocale: 'ko',
-    })
-  );
-  const dehydratedState = dehydrate(queryClient);
-
-  return <HydrationBoundary state={dehydratedState}>{children}</HydrationBoundary>;
+  return <>{children}</>;
 }
