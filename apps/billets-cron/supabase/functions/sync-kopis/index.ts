@@ -185,6 +185,27 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case '서울문화예술교육센터 은평(서울무용창작센터)':
+      alreadyExistingVenueId = '67efd3c4-2dd0-47a5-9dfe-747438b4c9ee';
+      break;
+    case '티켓링크 1975 씨어터(구.능동 어린이회관)':
+      alreadyExistingVenueId = '8bb8227d-a442-44cc-bad9-5017a97a81f0';
+      break;
+    case '디 휘테 갤러리(die HüTTE Gallery)':
+      alreadyExistingVenueId = '6227503c-66e9-4bc6-b74c-61a430e4ab3a';
+      break;
+    case '미로센터 2관(구.궁동예술극장)':
+      alreadyExistingVenueId = 'e901a8bc-6814-4ba4-8ea2-c8a126a4a9e5';
+      break;
+    case '남해문화센터 (구. 남해군문화체육센터)':
+      alreadyExistingVenueId = 'd9956245-4657-4329-9d83-e2cdb0a827e8';
+      break;
+    case 'HD아트센터(구 현대예술관)':
+      alreadyExistingVenueId = '18e949dd-730f-4367-911f-8b8e6e651714';
+      break;
+    case '소극장 아고고':
+      alreadyExistingVenueId = '2fe1fe67-5785-4e93-9917-f4562494fb77';
+      break;
     case 'WDG 스튜디오 홍대(WDG STUDIO HONGDAE)':
       alreadyExistingVenueId = 'b7775502-4eb8-463b-9f85-b0c0d12d91e9';
       break;
