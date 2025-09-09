@@ -5,6 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "check:type": "pnpm prisma:generate && tsc --noEmit",
     "prisma:db-push": "pnpm prisma db push --schema ../prisma-schema/prisma/schema.prisma",
     "prisma:generate": "pnpm prisma generate --schema ../prisma-schema/prisma/schema.prisma",
     "prisma:migrate-dev": "pnpm prisma migrate dev --schema ../prisma-schema/prisma/schema.prisma",

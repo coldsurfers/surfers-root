@@ -7,7 +7,7 @@
   "scripts": {
     "prebuild": "pnpm clean",
     "build": "tsup",
-    "check:type": "tsc --noEmit",
+    "check:type": "pnpm prisma:generate && tsc --noEmit",
     "circular": "dpdm ./src/start-server.ts",
     "clean": "rm -rf build",
     "dev": "NODE_ENV=development pnpm watch",
