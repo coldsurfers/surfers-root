@@ -581,6 +581,9 @@ importers:
       '@tanstack/react-query':
         specifier: 5.59.16
         version: 5.59.16(react@19.0.0)
+      '@tosspayments/tosspayments-sdk':
+        specifier: ^2.3.7
+        version: 2.3.7
       '@uidotdev/usehooks':
         specifier: ^2.4.1
         version: 2.4.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -6502,6 +6505,9 @@ packages:
 
   '@tootallnate/quickjs-emscripten@0.23.0':
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
+
+  '@tosspayments/tosspayments-sdk@2.3.7':
+    resolution: {integrity: sha512-FTN+KNf8ruF9ydHzNAq/PKf/GYdJJOAS1Mwj3voJfIQ8cJacrKuwsanRh1l8uIcIZhTISCMdGl5DOex43u+3ng==}
 
   '@tsconfig/node10@1.0.11':
     resolution: {integrity: sha512-DcRjDCujK/kCk/cUe8Xz8ZSpm8mS3mNNpta+jGCA6USEDfktlNvm1+IuZ9eTcDbNk41BHwpHHeW+N1lKCz4zOw==}
@@ -21354,6 +21360,8 @@ snapshots:
     optional: true
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
+
+  '@tosspayments/tosspayments-sdk@2.3.7': {}
 
   '@tsconfig/node10@1.0.11': {}
 
