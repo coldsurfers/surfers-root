@@ -40,7 +40,7 @@ runs:
         NPM_TOKEN: ${{ inputs.NPM_TOKEN }}
 
     - name: Generate Prisma client
-      run: pnpm prisma generate
+      run: pnpm prisma:generate
       shell: bash
 
     - name: Cache dependencies
