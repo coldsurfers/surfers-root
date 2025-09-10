@@ -13,7 +13,7 @@
   "scripts": {
     "build": "pnpm prisma:generate && next build",
     "create:env:ci": "pnpm ts-node ./libs/createDotEnv.ts",
-    "check:type": "pnpm prisma:generate && tsc --noEmit",
+    "check:type": "tsc --noEmit",
     "deploy:coldsurf-io:prod": "rm -rf .next && pnpm sst deploy --stage production",
     "dev": "next dev",
     "lint": "biome lint .",
