@@ -44,4 +44,3 @@ export interface TossPaymentsError {
   code: string;
   message: string;
 }
-
