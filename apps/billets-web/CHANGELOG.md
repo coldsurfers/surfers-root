@@ -1,5 +1,41 @@
 # @coldsurfers/billets-web
 
+## 1.1.42
+
+### Patch Changes
+
+- [#520](https://github.com/coldsurfers/surfers-root/pull/520) [`9c40d5c`](https://github.com/coldsurfers/surfers-root/commit/9c40d5cb8ebba30c6b8546d0edad58658529dbf0) Thanks [@yungblud](https://github.com/yungblud)! - enhance blog ssg
+
+## 1.1.41
+
+### Patch Changes
+
+- [#516](https://github.com/coldsurfers/surfers-root/pull/516) [`d080107`](https://github.com/coldsurfers/surfers-root/commit/d0801077a3792e2c2acb7df275fa0ee5502a0966) Thanks [@yungblud](https://github.com/yungblud)! - enhance blog layout and series fetching
+
+## 1.1.40
+
+### Patch Changes
+
+- [`a54f330`](https://github.com/coldsurfers/surfers-root/commit/a54f3306d5c201087b30ce5542f45bce3f70550e) Thanks [@yungblud](https://github.com/yungblud)! - improve LogDetailRenderer locale switching and data fetching
+
+## 1.1.39
+
+### Patch Changes
+
+- [`daa9334`](https://github.com/coldsurfers/surfers-root/commit/daa933450ea9962abdb4debed101b56ea1a00695) Thanks [@yungblud](https://github.com/yungblud)! - Enhance isFetching with switching en, ko
+
+## 1.1.38
+
+### Patch Changes
+
+- [`9e8236b`](https://github.com/coldsurfers/surfers-root/commit/9e8236bff9aa7f613bae484766e89c8d879218ae) Thanks [@yungblud](https://github.com/yungblud)! - Fixed SSG issue on blog detail renderer
+
+## 1.1.37
+
+### Patch Changes
+
+- [#509](https://github.com/coldsurfers/surfers-root/pull/509) [`5d556dc`](https://github.com/coldsurfers/surfers-root/commit/5d556dc606a1c1f33825fdeffa5a286522e8c45f) Thanks [@yungblud](https://github.com/yungblud)! - Fixed en support blog
+
 ## 1.1.36
 
 ### Patch Changes

@@ -1,16 +1,24 @@
-'use client'
+import { GlobalErrorBoundaryRegistry } from '@/libs/registries/global-error-boundary-registry';
+import { RouteLoading } from 'app/(ui)';
+import { PageLayout } from './(components)/page-layout';
+import { SeriesListAll } from './(components)/series-list-all';
+import { fetchGetSeriesListAllStatic } from './(fetchers)';
 
-import { useSearchParams } from 'next/navigation'
-import { PageLayout } from './(components)/page-layout'
-import { SeriesListAll } from './(components)/series-list-all'
-
-export default function RootPage() {
-  const value = useSearchParams()
-  const page = value.get('page') ? Number(value.get('page')) : 1
+export default async function RootPage() {
+  const { allPostItems, totalPage } = await fetchGetSeriesListAllStatic({ tag: undefined });
 
   return (
-    <PageLayout>
-      <SeriesListAll page={page} />
-    </PageLayout>
-  )
+    <GlobalErrorBoundaryRegistry>
+      <RouteLoading>
+        <PageLayout>
+          <SeriesListAll
+            postItems={allPostItems}
+            totalPage={totalPage}
+            currentPage={1}
+            seriesCategory={null}
+          />
+        </PageLayout>
+      </RouteLoading>
+    </GlobalErrorBoundaryRegistry>
+  );
 }

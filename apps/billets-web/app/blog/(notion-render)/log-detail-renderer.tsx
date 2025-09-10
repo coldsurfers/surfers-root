@@ -1,31 +1,23 @@
 'use client';
 
-import { Button, Text, colors, media, semantics } from '@coldsurfers/ocean-road';
+import { Spinner, Text, colors, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import type { PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoints';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
-import { useMemo } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { PageLayout } from '../(components)/page-layout';
 import { TagList } from '../(components)/tag-list/tag-list';
+import type { fetchGetSeriesItem } from '../(fetchers)';
 import { queryKeyFactory } from '../(react-query)/react-query.key-factory';
 import type { AppLocale } from '../(types)/i18n';
 import type { SeriesCategory } from '../(types)/series';
 import { NotionRenderer } from './notion-renderer';
 
-const AVAILABLE_APP_LOCALES: AppLocale[] = ['ko', 'en'];
 const APP_LOCALES_TO_DISPLAY_NAMES: Record<AppLocale, string> = {
-  ko: '한국어',
+  ko: 'Korean',
   en: 'English',
-};
-const NOT_TRANSLATED_ARTICLE_MESSAGE = {
-  ko: '아직 번역되지 않은 글이에요.',
-  en: 'This article has not been translated yet.',
-};
-const GO_BACK_BUTTON_TEXT = {
-  ko: '돌아가기',
-  en: 'Go back',
 };
 
 const WriterText = styled(Text)`
@@ -54,7 +46,7 @@ const CreatedAtText = styled(Text)`
   `)}
 `;
 
-const AppLocaleText = styled(Text)`
+const AppLocaleText = styled(Text)<{ $isActive: boolean }>`
   font-size: 1.125rem;
 
   text-align: center;
@@ -62,6 +54,8 @@ const AppLocaleText = styled(Text)`
   margin: unset;
 
   color: ${colors.oc.blue[8].value};
+
+  font-weight: ${({ $isActive }) => ($isActive ? 'bold' : 'normal')};
 
   ${media.small(css`
     font-size: 1rem;
@@ -92,99 +86,172 @@ const AppLocalesWrapper = styled.div`
   margin-top: 1rem;
 `;
 
+type CustomMultiSelectProperty = {
+  id: string;
+  type: 'multi_select';
+  multi_select: Array<{
+    id: string;
+    name: string;
+    color: string;
+  }>;
+};
+
+type CustomTitleProperty = {
+  id: 'title';
+  type: 'title';
+  title: Array<{
+    plain_text: string;
+  }>;
+};
+
+type CustomPeopleProperty = {
+  id: string;
+  type: 'people';
+  people: Array<{
+    type: 'person';
+    avatar_url: string;
+    id: string;
+    name: string;
+    object: 'user';
+  }>;
+};
+
+type CustomDateProperty = {
+  id: string;
+  type: 'date';
+  date: {
+    end: string | null;
+    start: string | null;
+    time_zone: string | null;
+  };
+};
+
 export const LogDetailRenderer = ({
   slug,
-  locale,
   seriesCategory,
-  onClickAppLocale,
-  onClickBack,
+  initialData,
 }: {
   slug: string;
-  locale: AppLocale;
   seriesCategory: SeriesCategory;
-  onClickAppLocale: (appLocale: AppLocale) => void;
-  onClickBack: () => void;
+  initialData: Awaited<ReturnType<typeof fetchGetSeriesItem>>;
 }) => {
-  const { data } = useSuspenseQuery(
-    queryKeyFactory.series.item(slug, {
+  const [locale, setLocale] = useState<AppLocale>('ko');
+  const queryClient = useQueryClient();
+  const { data } = useSuspenseQuery({
+    ...queryKeyFactory.series.item(slug, {
       appLocale: locale,
       seriesCategory,
-    })
-  );
+    }),
+    initialData,
+    initialDataUpdatedAt: Date.now(), // 중요: 바로 갓 받아온 것으로 표시
+    staleTime: Number.POSITIVE_INFINITY, // 신선 → 리마운트시 refetch 안 함
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });
 
-  const page = useMemo(() => data?.page, [data]);
-  const recordMap = useMemo(() => data?.recordMap, [data?.recordMap]);
+  const [isFetching, setIsFetching] = useState(false);
 
-  const pageTitle = useMemo(
-    () => (page?.properties.Name.type === 'title' ? page.properties.Name.title : null),
+  const cachedOtherLangs = useRef<AppLocale[]>([]);
+
+  const recordMap = useMemo(() => data.recordMap, [data.recordMap]);
+
+  const page = useMemo(() => data.page, [data]);
+  const pageProperties = useMemo(
+    () =>
+      page?.properties as PageObjectResponse['properties'] & {
+        tags: CustomMultiSelectProperty;
+        otherLangs: CustomMultiSelectProperty;
+        Name: CustomTitleProperty;
+        Writer: CustomPeopleProperty;
+        'Publish date': CustomDateProperty;
+      },
     [page]
   );
+
+  const pageTitle = useMemo(() => pageProperties.Name.title, [pageProperties]);
   const writerName = useMemo(() => {
-    if (page?.properties.Writer?.type === 'people') {
-      const writer = page.properties.Writer.people.at(0) as PersonUserObjectResponse;
-      return writer.name;
-    }
-    return '';
-  }, [page]);
+    return pageProperties.Writer.people.at(0)?.name ?? '';
+  }, [pageProperties]);
 
   const tags = useMemo(
     () =>
-      page?.properties.tags.type === 'multi_select'
-        ? page?.properties.tags.multi_select.map((value) => ({
-            id: value.id,
-            name: value.name,
-            color: value.color,
-          }))
-        : [],
-    [page]
+      pageProperties.tags.multi_select.map((value) => ({
+        id: value.id,
+        name: value.name,
+        color: value.color,
+      })),
+    [pageProperties]
   );
 
-  const formattedCreatedAt = useMemo(
-    () =>
-      data
-        ? format(
-            new Date(
-              (data.page.properties['Publish date'] as { date: { start: string } }).date.start
-            ),
-            'MMMM d, yyyy'
-          )
-        : '',
-    [data]
+  const formattedCreatedAt = useMemo(() => {
+    const startDate = pageProperties['Publish date'].date.start;
+    if (!startDate) {
+      return '';
+    }
+    return format(new Date(startDate), 'MMMM d, yyyy');
+  }, [pageProperties]);
+
+  const otherLangs = useMemo(() => {
+    if (cachedOtherLangs.current.length) return cachedOtherLangs.current;
+    const otherLangs = pageProperties.otherLangs?.multi_select ?? [];
+    const value = [
+      {
+        name: 'ko',
+      },
+      ...otherLangs,
+    ].map<AppLocale>((value) => value.name as AppLocale);
+    cachedOtherLangs.current = value;
+    return value;
+  }, [pageProperties]);
+
+  const onClickOtherLang = useCallback(
+    async (lang: AppLocale) => {
+      const { queryKey: nextKey, queryFn } = queryKeyFactory.series.item(slug, {
+        appLocale: lang,
+        seriesCategory,
+      });
+
+      // 1) 캐시에 이미 데이터가 있는지 확인
+      const hasCache = queryClient.getQueryData(nextKey) != null;
+      const isFetching = queryClient.getQueryState(nextKey)?.fetchStatus === 'fetching';
+
+      // 2) 없거나 아직 받아오는 중이 아니면 prefetch
+      if (!hasCache && !isFetching) {
+        setIsFetching(true);
+        await queryClient.prefetchQuery({
+          queryKey: nextKey,
+          queryFn,
+          staleTime: Number.POSITIVE_INFINITY,
+        });
+        setIsFetching(false);
+      }
+
+      // 3) 언어 상태 변경 → 클라 컴포넌트 내부의 useSuspenseQuery가 nextKey로 읽음
+      setLocale(lang);
+    },
+    [queryClient, slug, seriesCategory]
   );
 
   return (
-    <PageLayout title={pageTitle?.at(0)?.plain_text}>
-      {data === null ? (
-        <div
-          style={{
-            marginTop: '5rem',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Text as="h2" style={{ textAlign: 'center' }}>
-            {NOT_TRANSLATED_ARTICLE_MESSAGE[locale]}
-          </Text>
-          <Button onClick={onClickBack}>{GO_BACK_BUTTON_TEXT[locale]}</Button>
-        </div>
-      ) : (
+    <>
+      <PageLayout title={pageTitle?.at(0)?.plain_text}>
         <article style={{ marginTop: '2rem' }}>
           <TagList tags={tags} />
           <AppLocalesWrapper>
-            {AVAILABLE_APP_LOCALES.map((appLocale, index) => (
+            {otherLangs.map((lang, index) => (
               <div
-                key={appLocale}
-                onClick={() => onClickAppLocale(appLocale)}
-                onKeyUp={(e) => e.key === 'Enter' && onClickAppLocale(appLocale)}
+                key={lang}
+                onClick={() => onClickOtherLang(lang)}
+                onKeyUp={(e) => e.key === 'Enter' && onClickOtherLang(lang)}
                 // biome-ignore lint/a11y/useSemanticElements: <explanation>
                 role="button"
                 tabIndex={0}
                 style={{ cursor: 'pointer' }}
               >
-                <AppLocaleText as="p">
-                  {APP_LOCALES_TO_DISPLAY_NAMES[appLocale]}
-                  {index !== AVAILABLE_APP_LOCALES.length - 1 && (
+                <AppLocaleText as="p" $isActive={locale === lang}>
+                  {APP_LOCALES_TO_DISPLAY_NAMES[lang as AppLocale]}
+                  {index !== otherLangs.length - 1 && (
                     <AppLocaleTextSeparator> | </AppLocaleTextSeparator>
                   )}
                 </AppLocaleText>
@@ -197,7 +264,8 @@ export const LogDetailRenderer = ({
           <CreatedAtText as="p">{formattedCreatedAt}</CreatedAtText>
           <RendererSection>{recordMap && <NotionRenderer recordMap={recordMap} />}</RendererSection>
         </article>
-      )}
-    </PageLayout>
+      </PageLayout>
+      {isFetching && <Spinner variant="page-overlay" />}
+    </>
   );
 };

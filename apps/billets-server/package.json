@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-server",
-  "version": "1.2.24",
+  "version": "1.2.25",
   "private": true,
   "license": "MIT",
   "main": "index.js",
@@ -11,7 +11,6 @@
     "circular": "dpdm ./src/start-server.ts",
     "clean": "rm -rf build",
     "dev": "NODE_ENV=development pnpm watch",
-    "postinstall": "pnpm prisma:generate",
     "install:sharp": "node ./src/scripts/install-sharp.mjs",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",

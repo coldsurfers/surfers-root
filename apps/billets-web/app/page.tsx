@@ -3,11 +3,16 @@ import { ApiErrorBoundaryRegistry } from '@/libs/registries';
 import { getQueryClient } from '@/libs/utils/utils.query-client';
 import { tryParse } from '@coldsurfers/shared-utils';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
+import { cache } from 'react';
 import { InfiniteHomeCollection } from './(components)/infinite-home-collection';
 import { PageLayout, PageTop } from './(ui)';
 import { RouteLoading } from './(ui)/route-loading/route-loading';
 
 export const dynamic = 'force-dynamic';
+
+const getVenueDetailBySlug = cache(async (slug: string) => {
+  return await apiClient.venue.getVenueDetailBySlug(slug);
+});
 
 const venueSlugs = [
   '롤링홀',
@@ -20,6 +25,7 @@ const venueSlugs = [
   '예술의전당',
   '무신사-개러지',
   '아틀리에홀',
+  '플렉스라운지',
 ].sort(() => Math.random() - 0.5);
 
 async function PageInner() {
@@ -30,7 +36,7 @@ async function PageInner() {
       venueSlugs.map((venueSlug) =>
         queryClient.prefetchQuery({
           queryKey: initialPageQuery.homeVenueCollection(venueSlug).queryKey,
-          queryFn: () => apiClient.venue.getVenueDetailBySlug(venueSlug),
+          queryFn: () => getVenueDetailBySlug(venueSlug),
         })
       )
     );

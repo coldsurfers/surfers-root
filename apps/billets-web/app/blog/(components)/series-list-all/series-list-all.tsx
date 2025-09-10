@@ -1,35 +1,31 @@
-'use client'
+'use client';
 
-import { useQuery } from '@tanstack/react-query'
-import { PAGINATION_PER_PAGE } from 'app/blog/(constants)'
-import { queryKeyFactory } from 'app/blog/(react-query)/react-query.key-factory'
-import { useMemo } from 'react'
-import { Pagination } from '../pagination'
-import { PostPaginationList } from '../post-pagination-list'
+import type { SeriesCategory, SeriesItem } from 'app/blog/(types)/series';
+import { Pagination } from '../pagination';
+import { PostPaginationList } from '../post-pagination-list';
 
-export const SeriesListAll = ({ page }: { page: number }) => {
-  const allSeriesQuery = useQuery({
-    ...queryKeyFactory.series.listAll('ko'),
-  })
+type SeriesListAllProps = {
+  postItems: SeriesItem[];
+  totalPage: number;
+  currentPage: number;
+  seriesCategory: SeriesCategory | null;
+};
 
-  const postItems = useMemo(
-    () =>
-      (allSeriesQuery.data ?? [])
-        .flat()
-        .filter((value) => value !== null)
-        .sort((a, b) => new Date(b.createdTime).getTime() - new Date(a.createdTime).getTime()),
-    [allSeriesQuery.data],
-  )
-
+export const SeriesListAll = ({
+  postItems,
+  totalPage,
+  currentPage,
+  seriesCategory,
+}: SeriesListAllProps) => {
   return (
     <>
-      <PostPaginationList postItems={postItems} page={page} />
+      <PostPaginationList postItems={postItems} page={currentPage} />
       <Pagination
-        currentPage={page}
-        totalPage={Math.ceil(postItems.length / PAGINATION_PER_PAGE)}
-        seriesCategory={null}
+        currentPage={currentPage}
+        totalPage={totalPage}
+        seriesCategory={seriesCategory}
         appLocale={'ko'}
       />
     </>
-  )
-}
+  );
+};

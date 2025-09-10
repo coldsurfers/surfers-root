@@ -1,10 +1,10 @@
 'use client';
 
+import { GlobalLink } from '@/shared/ui';
 import { Text } from '@coldsurfers/ocean-road';
 import type { AppLocale } from 'app/blog/(types)/i18n';
 import type { SeriesCategory } from 'app/blog/(types)/series';
 import { generateSeriesHref } from 'app/blog/(utils)';
-import Link from 'next/link';
 import { useMemo } from 'react';
 import {
   MoveLeftIcon,
@@ -48,16 +48,16 @@ export function Pagination({ currentPage, seriesCategory, totalPage }: Paginatio
       <Text as="p">
         {currentPage}/{totalPage}
       </Text>
-      <Link href={seriesHrefPrev}>
+      <GlobalLink href={seriesHrefPrev}>
         <PageMoveButton>
           <MoveLeftIcon />
         </PageMoveButton>
-      </Link>
-      <Link href={seriesHrefNext}>
+      </GlobalLink>
+      <GlobalLink href={seriesHrefNext}>
         <PageMoveButton>
           <MoveRightIcon />
         </PageMoveButton>
-      </Link>
+      </GlobalLink>
     </StyledPaginationContainer>
   );
 }

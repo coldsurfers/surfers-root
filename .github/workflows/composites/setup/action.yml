@@ -39,6 +39,10 @@ runs:
       env:
         NPM_TOKEN: ${{ inputs.NPM_TOKEN }}
 
+    - name: Generate Prisma client
+      run: pnpm prisma:generate
+      shell: bash
+
     - name: Cache dependencies
       if: steps.pnpm-cache.outputs.cache-hit != 'true'
       uses: actions/cache/save@v4

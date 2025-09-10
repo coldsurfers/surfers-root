@@ -1,12 +1,13 @@
 generator client {
   provider      = "prisma-client-js"
   output        = "../../../node_modules/.prisma/client"
-  binaryTargets = ["native", "darwin-arm64", "rhel-openssl-3.0.x"]
+  binaryTargets = ["native", "darwin-arm64", "rhel-openssl-3.0.x", "debian-openssl-3.0.x"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Event {

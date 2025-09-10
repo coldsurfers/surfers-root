@@ -2,13 +2,21 @@ import { randomUUID } from 'node:crypto';
 import { XMLParser } from 'npm:fast-xml-parser@4.3.5';
 import rawGeohash from 'npm:ngeohash';
 import pLimit from 'npm:p-limit';
+import pThrottle from 'npm:p-throttle';
 import slugify from 'npm:slugify';
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { fromZonedTime } from 'https://esm.sh/date-fns-tz';
 import { format } from 'https://esm.sh/date-fns@3.6.0/format';
 import { parse } from 'https://esm.sh/date-fns@3.6.0/parse';
-import { kopisKey, slackWebhookUrl } from './_shared/env.ts';
+import { adminHost, kopisKey, slackWebhookUrl } from './_shared/env.ts';
 import { supabase } from './_shared/supabase.ts';
+
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+export function runSequentially(tasks: (() => Promise<any>)[]) {
+  return tasks.reduce((prevPromise, task) => {
+    return prevPromise.then(() => task().then(console.log));
+  }, Promise.resolve());
+}
 
 async function sendSlack(payload: { text: string }) {
   await fetch(slackWebhookUrl, {
@@ -40,26 +48,27 @@ async function uploadImageByResolutions({
   type: 'poster' | 'detail-image';
 }) {
   const resolutions = ['low', 'medium', 'high'];
-  const keys = [];
-  for await (const resolution of resolutions) {
-    const response = await fetch(`${Deno.env.get('BILLETS_SERVER_URL')}/v1/image`, {
-      method: 'POST',
-      body: JSON.stringify({
-        imageUrl: originalImageUrl,
-        resolution,
-        concertId,
-        index,
-        type,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const { key } = await response.json();
-    console.log(key);
-    keys.push(key);
-  }
-
+  const keys = await Promise.all(
+    resolutions.map(async (resolution) => {
+      const response = await fetch(`${Deno.env.get('BILLETS_SERVER_URL')}/v1/image`, {
+        method: 'POST',
+        body: JSON.stringify({
+          imageUrl: originalImageUrl,
+          resolution,
+          concertId,
+          index,
+          type,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const { key } = await response.json();
+      console.log(key);
+      // keys.push(key);
+      return key as string;
+    })
+  );
   return {
     keys,
   };
@@ -176,6 +185,27 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case '서울문화예술교육센터 은평(서울무용창작센터)':
+      alreadyExistingVenueId = '67efd3c4-2dd0-47a5-9dfe-747438b4c9ee';
+      break;
+    case '티켓링크 1975 씨어터(구.능동 어린이회관)':
+      alreadyExistingVenueId = '8bb8227d-a442-44cc-bad9-5017a97a81f0';
+      break;
+    case '디 휘테 갤러리(die HüTTE Gallery)':
+      alreadyExistingVenueId = '6227503c-66e9-4bc6-b74c-61a430e4ab3a';
+      break;
+    case '미로센터 2관(구.궁동예술극장)':
+      alreadyExistingVenueId = 'e901a8bc-6814-4ba4-8ea2-c8a126a4a9e5';
+      break;
+    case '남해문화센터 (구. 남해군문화체육센터)':
+      alreadyExistingVenueId = 'd9956245-4657-4329-9d83-e2cdb0a827e8';
+      break;
+    case 'HD아트센터(구 현대예술관)':
+      alreadyExistingVenueId = '18e949dd-730f-4367-911f-8b8e6e651714';
+      break;
+    case '소극장 아고고':
+      alreadyExistingVenueId = '2fe1fe67-5785-4e93-9917-f4562494fb77';
+      break;
     case 'WDG 스튜디오 홍대(WDG STUDIO HONGDAE)':
       alreadyExistingVenueId = 'b7775502-4eb8-463b-9f85-b0c0d12d91e9';
       break;
@@ -735,7 +765,7 @@ async function connectOrCreateVenue(venue: string, eventId: string) {
     if (!connected) {
       console.log('not connected venue:', eventId, venue);
       await sendSlack({
-        text: `🛠️ not connected venue: ${eventId}, ${venue}`,
+        text: `🛠️ not connected venue: ${adminHost}/concert/${eventId}, ${venue}`,
       });
     }
   }
@@ -885,6 +915,10 @@ export async function generateSlug(title: string) {
 
 // limit(동시 실행 개수)는 예를 들어 3개로 설정
 const limit = pLimit(25);
+const throttle = pThrottle({
+  limit: 10,
+  interval: 1000,
+});
 
 /**
  *
@@ -904,7 +938,7 @@ async function insertKOPISEvents(
   sevenDaysAgo.setDate(today.getDate() - 7);
 
   const currentDate = format(sevenDaysAgo, 'yyyyMMdd');
-  const endDate = '20271231';
+  const endDate = '20261231';
   const rows = 50;
 
   const response = await fetch(
@@ -1208,6 +1242,8 @@ async function insertKOPISEventDetail(kopisEventId: string) {
   );
   const xmlText = await response.text();
 
+  console.log(xmlText);
+
   const { dbs } = parser.parse(xmlText);
 
   const { db } = dbs;
@@ -1274,19 +1310,26 @@ async function sync(
   try {
     const { items } = await insertKOPISEvents(page, category);
 
-    const success: string[] = [];
+    // insert를 "속도 제한"으로 감싼 래퍼
+    const throttledInsert = throttle(async (id: string) => {
+      try {
+        await insertKOPISEventDetail(id);
+        return id;
+      } catch {
+        return undefined;
+      }
+    });
 
-    await Promise.all(
+    const successIds = await Promise.all(
       // @ts-expect-error: items is any
       items.map((item) =>
         limit(async () => {
-          await insertKOPISEventDetail(item.id);
-          success.push(item.id);
+          return await throttledInsert(item.id);
         })
       )
     );
 
-    console.log(success);
+    console.log(successIds);
   } catch (e) {
     console.error(e);
   }

@@ -1,20 +1,16 @@
-import { getQueryClient } from '@/libs/utils/utils.query-client'
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
-import { queryKeyFactory } from '../(react-query)/react-query.key-factory'
-import { TagsPageClient } from './page.client'
+import { GlobalErrorBoundaryRegistry } from '@/libs/registries';
+import { fetchGetTags } from '../(fetchers)';
+import { TagsPageClient } from './page.client';
 
-export const dynamic = 'force-static'
+export const dynamic = 'force-static';
+export const revalidate = 3600;
 
 export default async function TagsPage() {
-  const queryClient = getQueryClient()
-
-  await queryClient.prefetchQuery(queryKeyFactory.tags.list)
-
-  const dehydratedState = dehydrate(queryClient)
+  const data = await fetchGetTags();
 
   return (
-    <HydrationBoundary state={dehydratedState}>
-      <TagsPageClient />
-    </HydrationBoundary>
-  )
+    <GlobalErrorBoundaryRegistry>
+      <TagsPageClient tags={data.tags} />
+    </GlobalErrorBoundaryRegistry>
+  );
 }

@@ -1,11 +1,11 @@
 {
   "name": "@coldsurfers/db-migration",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "private": true,
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "pnpm prisma:generate",
+    "check:type": "tsc --noEmit",
     "prisma:db-push": "pnpm prisma db push --schema ../prisma-schema/prisma/schema.prisma",
     "prisma:generate": "pnpm prisma generate --schema ../prisma-schema/prisma/schema.prisma",
     "prisma:migrate-dev": "pnpm prisma migrate dev --schema ../prisma-schema/prisma/schema.prisma",
