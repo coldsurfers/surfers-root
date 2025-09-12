@@ -1,8 +1,5 @@
 name: CI
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -23,7 +20,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Lint files
-        run: pnpm lint
+        run: pnpm turbo run lint
 
       - name: Typecheck files
         run: pnpm turbo check:type
