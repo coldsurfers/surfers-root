@@ -2,8 +2,8 @@
 
 import { breakpoints } from '@coldsurfers/ocean-road';
 import { type PropsWithChildren, useEffect, useState } from 'react';
-import { Header } from '../header';
-import { MobileMenu } from '../mobile-menu';
+import { Header } from './header';
+import { MobileMenu } from './mobile-menu';
 
 export const AboutPageLayout = ({ children }: PropsWithChildren) => {
   const [isOpen, setIsOpen] = useState(false);

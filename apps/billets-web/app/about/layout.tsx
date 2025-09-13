@@ -1,8 +1,8 @@
 import { COMMON_META_DESCRIPTION } from '@/libs/constants';
 import { metadataInstance } from '@/libs/metadata';
 import { SERVICE_NAME } from '@coldsurfers/shared-utils';
+import { AboutPageLayout } from 'app/(ui)/about-page-layout';
 import type { Metadata } from 'next';
-import { AboutPageLayout } from './(ui)';
 
 export async function generateMetadata(): Promise<Metadata> {
   return metadataInstance.generateMetadata<Metadata>({
