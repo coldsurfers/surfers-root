@@ -4,6 +4,8 @@ import { SERVICE_NAME } from '@coldsurfers/shared-utils';
 import { AboutPageLayout } from 'app/(ui)/about-page-layout';
 import type { Metadata } from 'next';
 
+export const dynamic = 'force-static';
+
 export async function generateMetadata(): Promise<Metadata> {
   return metadataInstance.generateMetadata<Metadata>({
     title: `Story and Mission | About ${SERVICE_NAME}`,

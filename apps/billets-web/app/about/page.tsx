@@ -1,9 +1,5 @@
-import { COMMON_META_DESCRIPTION } from '@/libs/constants';
-import { metadataInstance } from '@/libs/metadata';
 import { ApiErrorBoundaryRegistry } from '@/libs/registries';
-import { SERVICE_NAME } from '@coldsurfers/shared-utils';
-import type { Metadata } from 'next';
-import { AboutPageLayout, LandingImage, LandingSection, LandingText, LandingYoutube } from './(ui)';
+import { LandingImage, LandingSection, LandingText, LandingYoutube } from './(ui)';
 
 function PageInner() {
   return (
