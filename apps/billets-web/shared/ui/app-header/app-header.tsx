@@ -9,7 +9,7 @@ import { AppHeaderMobileMenuOpener, AppHeaderMobileModalMenu } from './app-heade
 import { AppHeaderWebMenu } from './app-header-web-menu';
 import { HeaderContainer } from './app-header.styled';
 
-const blacklist = ['/about'];
+const blacklist = ['/about', '/store'] as const;
 
 export function AppHeader() {
   const pathname = usePathname();

@@ -3,10 +3,9 @@
 import { apiClient } from '@/libs/openapi-client';
 import { featureFlags } from '@/shared/constants';
 import { useIsLoggedIn } from '@/shared/lib';
-import { Text } from '@coldsurfers/ocean-road';
 import { useQuery } from '@tanstack/react-query';
 import { GlobalLink } from '../global-link';
-import { AppHeaderMenuTextSkeleton, HeaderMenuContainerGlobalLink } from './app-header.styled';
+import { HeaderMenuItem } from '../header-menu-item';
 
 type Props = {
   onClick: () => void;
@@ -26,7 +25,7 @@ export const AppHeaderMyPageMenu = ({ onClick }: Props) => {
 
   return (
     <GlobalLink href={`/${userHandle}`} onClick={onClick}>
-      {isLoading ? <AppHeaderMenuTextSkeleton /> : <Text as="p">프로필</Text>}
+      <HeaderMenuItem isLoading={isLoading} title="프로필" />
     </GlobalLink>
   );
 };

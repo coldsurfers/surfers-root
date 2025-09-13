@@ -2,10 +2,9 @@ import { media } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const StyledLandingSection = styled.section<{ $withoutInitialPaddingTop?: boolean }>`
-  padding-top: ${({ $withoutInitialPaddingTop }) => ($withoutInitialPaddingTop ? '0' : '180px')};
+export const StyledLandingSection = styled.section`
   width: 100%;
-  min-height: 100vh;
+  min-height: 80vh;
 
   @media only screen and (orientation: portrait) {
     min-height: auto;

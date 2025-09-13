@@ -2,18 +2,18 @@
 
 import { APP_DOWNLOAD_WORDING } from '@/libs/constants';
 import { usePreventScrollEffect } from '@/shared/lib';
-import { Button, IconButton, Text } from '@coldsurfers/ocean-road';
+import { Button, IconButton } from '@coldsurfers/ocean-road';
 import { APP_STORE_URL } from '@coldsurfers/shared-utils';
 import { ColorSchemeToggle } from 'app/(ui)';
 import { useRouter } from 'next/navigation';
-import { type MouseEventHandler, useEffect } from 'react';
+import type { MouseEventHandler } from 'react';
 import { HEADER_MENU_ITEMS } from '../constants';
 import { GlobalLink } from '../global-link';
+import { HeaderMenuItem } from '../header-menu-item';
 import { AppHeaderLoginMenu } from './app-header-login-menu';
 import { AppHeaderMyPageMenu } from './app-header-my-page-menu';
 import { AppHeaderSearchUI } from './app-header.search-ui';
 import {
-  AppHeaderMenuTextSkeleton,
   MobileMenuContainer,
   MobileMenuIcon,
   ModalContainer,
@@ -56,7 +56,7 @@ export const AppHeaderMobileModalMenu = ({
       {isOpen && (
         <ModalPaper onClick={(e) => e.stopPropagation()}>
           <ModalContent>
-            {HEADER_MENU_ITEMS.map((item) => {
+            {HEADER_MENU_ITEMS.filter((item) => item.visible).map((item) => {
               const onClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
                 onClose();
                 if (item.link === '/browse') {
@@ -65,14 +65,8 @@ export const AppHeaderMobileModalMenu = ({
                 }
               };
               return (
-                <GlobalLink
-                  key={item.link}
-                  href={item.link}
-                  target={item.target}
-                  onClick={onClick}
-                  style={{ alignSelf: 'flex-start' }}
-                >
-                  {isLoading ? <AppHeaderMenuTextSkeleton /> : <Text as="p">{item.title}</Text>}
+                <GlobalLink key={item.link} href={item.link} target={item.target} onClick={onClick}>
+                  <HeaderMenuItem isLoading={isLoading} title={item.title} />
                 </GlobalLink>
               );
             })}
