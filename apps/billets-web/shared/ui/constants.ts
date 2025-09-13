@@ -6,6 +6,11 @@ export const HEADER_MENU_ITEMS = [
     target: undefined,
   },
   {
+    link: '/store',
+    title: '입점하기',
+    target: undefined,
+  },
+  {
     link: '/about',
     title: '소개',
     target: undefined,
