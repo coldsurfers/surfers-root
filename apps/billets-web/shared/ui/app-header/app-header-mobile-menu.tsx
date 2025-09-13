@@ -56,7 +56,7 @@ export const AppHeaderMobileModalMenu = ({
       {isOpen && (
         <ModalPaper onClick={(e) => e.stopPropagation()}>
           <ModalContent>
-            {HEADER_MENU_ITEMS.map((item) => {
+            {HEADER_MENU_ITEMS.filter((item) => item.visible).map((item) => {
               const onClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
                 onClose();
                 if (item.link === '/browse') {

@@ -29,7 +29,7 @@ export const AppHeaderWebMenu = ({
 
   return (
     <WebMenuContainer>
-      {HEADER_MENU_ITEMS.map((item) => {
+      {HEADER_MENU_ITEMS.filter((value) => value.visible).map((item) => {
         const onClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
           if (item.link === '/browse') {
             e.preventDefault();
