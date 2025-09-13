@@ -1,3 +1,5 @@
+import { AboutPageLayout } from 'app/about/(ui)';
+
 export default function StorePage() {
-  return <div>StorePage</div>;
+  return <AboutPageLayout>StorePage</AboutPageLayout>;
 }
