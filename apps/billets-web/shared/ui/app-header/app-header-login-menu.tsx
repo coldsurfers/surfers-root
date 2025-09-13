@@ -6,11 +6,8 @@ import { useIsLoggedIn } from '@/shared/lib';
 import { Spinner } from '@coldsurfers/ocean-road';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { GlobalLink } from '../global-link';
-import {
-  AppHeaderMenuTextSkeleton,
-  HeaderMenuContainerButton,
-  HeaderMenuText,
-} from './app-header.styled';
+import { HeaderMenuItem } from '../header-menu-item';
+import { HeaderMenuContainerButton } from './app-header.styled';
 
 export const AppHeaderLoginMenu = ({
   onClickMobileLogout,
@@ -31,19 +28,15 @@ export const AppHeaderLoginMenu = ({
     },
   });
 
-  if (isLoading) {
-    return <AppHeaderMenuTextSkeleton />;
-  }
-
   return (
     <>
       {isLoggedIn ? (
         <HeaderMenuContainerButton onClick={() => logout()}>
-          <HeaderMenuText as="p">로그아웃</HeaderMenuText>
+          <HeaderMenuItem isLoading={isLoading} title="로그아웃" />
         </HeaderMenuContainerButton>
       ) : (
         <GlobalLink href={'/login'} onClick={onClickMobileLogout}>
-          <HeaderMenuText as="p">로그인</HeaderMenuText>
+          <HeaderMenuItem isLoading={isLoading} title="로그인" />
         </GlobalLink>
       )}
       {isLogoutPending && <Spinner variant="page-overlay" />}

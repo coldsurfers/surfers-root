@@ -57,16 +57,12 @@ export const HeaderMenuContainerGlobalLink = styled(GlobalLink)`
   background-color: transparent;
   border: none;
   cursor: pointer;
-
-  padding: 10px;
 `;
 
 export const HeaderMenuContainerLink = styled(Link)`
   background-color: transparent;
   border: none;
   cursor: pointer;
-
-  padding: 10px;
 
   ${media.large(css`
     padding: 0;
@@ -78,20 +74,15 @@ export const HeaderMenuContainerButton = styled.div`
   border: none;
   cursor: pointer;
 
-  padding: 10px;
-
   ${media.large(css`
     padding: 0;
   `)}
 `;
 
-export const HeaderMenuText = styled(Text)``;
-
 export const WebMenuContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px;
 
   ${media.large(css`
     display: none;
@@ -153,6 +144,8 @@ export const SearchIconWrapper = styled(IconButton)`
   height: 40px;
   background-color: ${semantics.color.background[3]};
   border-radius: 50%;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 
   border: none;
 
@@ -160,17 +153,5 @@ export const SearchIconWrapper = styled(IconButton)`
 
   ${media.large(css`
     margin-right: 0.5rem;
-  `)}
-`;
-
-export const AppHeaderMenuTextSkeleton = styled.div`
-  width: 80px;
-  height: 32px;
-  border-radius: 4px;
-  background-color: ${semantics.color.background[4]};
-
-  ${media.medium(css`
-    width: 120px;
-    height: 24px;
   `)}
 `;
