@@ -19,9 +19,11 @@ export const StyledMenuItem = styled.div`
 
 export const AppHeaderMenuTextSkeleton = styled.div`
   width: 80px;
-  height: 32px;
+  height: 36px;
   border-radius: 4px;
   background-color: ${semantics.color.background[4]};
+
+  margin-right: 0.75rem;
 
   ${media.medium(css`
     width: 120px;
@@ -29,12 +31,13 @@ export const AppHeaderMenuTextSkeleton = styled.div`
   `)}
 `;
 
-export const HeaderMenuItem = (props: { title: string; isLoading?: boolean }) => {
+export const HeaderMenuItem = ({ title, isLoading }: { title: string; isLoading?: boolean }) => {
+  if (isLoading) {
+    return <AppHeaderMenuTextSkeleton />;
+  }
   return (
     <StyledMenuItem>
-      <StyledMenuText as="span">
-        {props.isLoading ? <AppHeaderMenuTextSkeleton /> : props.title}
-      </StyledMenuText>
+      <StyledMenuText as="span">{title}</StyledMenuText>
     </StyledMenuItem>
   );
 };
