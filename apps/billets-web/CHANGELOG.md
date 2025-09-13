@@ -1,5 +1,11 @@
 # @coldsurfers/billets-web
 
+## 1.1.43
+
+### Patch Changes
+
+- [#524](https://github.com/coldsurfers/surfers-root/pull/524) [`185202e`](https://github.com/coldsurfers/surfers-root/commit/185202e3cbf0c3d2062e6e3055c789c6792e2ba8) Thanks [@yungblud](https://github.com/yungblud)! - Add 입점하기 Features basic
+
 ## 1.1.42
 
 ### Patch Changes
