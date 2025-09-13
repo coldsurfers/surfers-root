@@ -20,7 +20,7 @@ function PageInner() {
           ]}
         />
       </LandingSection>
-      <LandingSection reversed withoutInitialPaddingTop>
+      <LandingSection reversed>
         <LandingText
           bigTitle={'첫걸음으로,\n티켓 소개 서비스를 만들었습니다.'}
           smallTitle={
@@ -44,7 +44,7 @@ function PageInner() {
         />
         <LandingYoutube />
       </LandingSection>
-      <LandingSection reversed withoutInitialPaddingTop>
+      <LandingSection reversed>
         <LandingText
           bigTitle={'COLDSURF의\n다음 발걸음'}
           smallTitle={

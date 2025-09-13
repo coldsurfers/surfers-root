@@ -1,9 +1,14 @@
 'use client';
 
 import { breakpoints } from '@coldsurfers/ocean-road';
+import styled from '@emotion/styled';
 import { type PropsWithChildren, useEffect, useState } from 'react';
 import { Header } from './header';
 import { MobileMenu } from './mobile-menu';
+
+const ChildContainer = styled.div`
+  padding-top: 100px;
+`;
 
 export const AboutPageLayout = ({ children }: PropsWithChildren) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +34,7 @@ export const AboutPageLayout = ({ children }: PropsWithChildren) => {
         onClickCloseMobileMenuIcon={() => setIsOpen(false)}
       />
       <MobileMenu isOpen={isOpen} onClickMenuItem={() => setIsOpen(false)} />
-      {children}
+      <ChildContainer>{children}</ChildContainer>
     </>
   );
 };
