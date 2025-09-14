@@ -10,8 +10,8 @@ import { breakpoints } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
-import { ChevronRight } from 'lucide-react';
 import { useMemo } from 'react';
+import { InfiniteHomeCollectionTitle } from './infinite-home-collection-title';
 import {
   INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT,
   INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT,
@@ -56,12 +56,7 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
     <Wrapper>
       <GlobalLink href={`/venue/${slug}`}>
         <VenueTitleMotion
-          text={
-            <StyledInfiniteHomeCollectionTitle as="h2">
-              {collectionTitle}
-              <ChevronRight style={{ marginLeft: '0.5rem' }} />
-            </StyledInfiniteHomeCollectionTitle>
-          }
+          text={<InfiniteHomeCollectionTitle collectionTitle={collectionTitle} />}
         />
       </GlobalLink>
       <InfiniteCarousel
