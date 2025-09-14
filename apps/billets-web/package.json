@@ -93,7 +93,8 @@
   },
   "featureFlags": {
     "useSubscribeButton": true,
-    "useProfileFeature": true
+    "useProfileFeature": true,
+    "useStoreRegistrationFeature": true
   },
   "pnpm": {
     "overrides": {
