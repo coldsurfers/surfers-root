@@ -3,6 +3,7 @@
 import { Button } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { AnimatedText } from './animated-text';
 
@@ -12,6 +13,7 @@ const Spacing = styled.div`
 
 export const PageContent = () => {
   const [step, setStep] = useState(1);
+  const router = useRouter();
   return (
     <AnimatePresence>
       <AnimatedText
@@ -46,7 +48,7 @@ export const PageContent = () => {
           exit={{ opacity: 0, translateY: '-20%' }}
           transition={{ duration: 0.5 }}
         >
-          <Button>입점 신청하기</Button>
+          <Button onClick={() => router.push('/store/registration/contact')}>입점 신청하기</Button>
         </motion.div>
       )}
     </AnimatePresence>

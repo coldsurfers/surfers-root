@@ -1,5 +1,4 @@
 import { FEATURE_FLAGS } from '@/libs/constants';
-import { AboutPageLayout } from 'app/(ui)/about-page-layout';
 import { notFound } from 'next/navigation';
 import { PageContent } from './(ui)';
 
@@ -11,9 +10,5 @@ export default function StorePage() {
   if (!visible) {
     notFound();
   }
-  return (
-    <AboutPageLayout>
-      <PageContent />
-    </AboutPageLayout>
-  );
+  return <PageContent />;
 }

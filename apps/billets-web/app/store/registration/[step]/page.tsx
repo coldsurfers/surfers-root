@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation';
 import { z } from 'zod';
+import { StoreRegistrationFormFunnel } from '../(form)';
 
 const stepSchema = z.enum(['contact', 'user-voice']);
 
-export default async function StepPage({
+export default async function StoreRegistrationStepPage({
   params,
 }: {
   params: Promise<{ step: string }>;
@@ -16,5 +17,5 @@ export default async function StepPage({
     notFound();
   }
 
-  return <div>StepPage</div>;
+  return <StoreRegistrationFormFunnel step={stepValidation.data} />;
 }
