@@ -1,5 +1,15 @@
 # @coldsurfers/billets-web
 
+## 1.1.44
+
+### Patch Changes
+
+- [#526](https://github.com/coldsurfers/surfers-root/pull/526) [`5795f77`](https://github.com/coldsurfers/surfers-root/commit/5795f771a19726a9d3fda12c90ddfad98a97843b) Thanks [@yungblud](https://github.com/yungblud)! - Implement animated venue text styles
+
+- Updated dependencies [[`5795f77`](https://github.com/coldsurfers/surfers-root/commit/5795f771a19726a9d3fda12c90ddfad98a97843b), [`5795f77`](https://github.com/coldsurfers/surfers-root/commit/5795f771a19726a9d3fda12c90ddfad98a97843b)]:
+  - @coldsurfers/infinite-carousel@1.0.4
+  - @coldsurfers/ocean-road@1.11.7
+
 ## 1.1.43
 
 ### Patch Changes
