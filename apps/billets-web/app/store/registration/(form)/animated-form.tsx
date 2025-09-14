@@ -31,7 +31,7 @@ export const AnimatedForm = ({
       initial={{ opacity: 0, translateX: '-10%' }}
       animate={{ opacity: 1, translateX: 0 }}
       exit={{ opacity: 0, translateX: '-10%' }}
-      transition={{ duration: 0.125, type: 'spring', stiffness: 100 }}
+      transition={{ duration: 0.125, type: 'spring', stiffness: 100, delay: 0.125 }}
       onSubmit={onSubmit}
     >
       <StyledFormTitle>{title}</StyledFormTitle>
