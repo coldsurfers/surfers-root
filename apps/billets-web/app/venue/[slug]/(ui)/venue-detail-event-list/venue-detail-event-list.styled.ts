@@ -104,6 +104,8 @@ export const StyledVenueDetailEventListItemTitleText = styled(Text)`
 
   margin: unset;
 
+  color: ${semantics.color.foreground[1]};
+
   ${media.medium(css`
     font-size: 14px;
   `)}
