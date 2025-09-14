@@ -185,6 +185,9 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case '아트리홀':
+      alreadyExistingVenueId = '7eebec13-26de-4e71-8f15-45d63643bfba';
+      break;
     case '서울문화예술교육센터 은평(서울무용창작센터)':
       alreadyExistingVenueId = '67efd3c4-2dd0-47a5-9dfe-747438b4c9ee';
       break;
