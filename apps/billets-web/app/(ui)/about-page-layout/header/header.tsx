@@ -1,6 +1,8 @@
 'use client';
 
+import { HeaderMenuItem } from '@/shared/ui';
 import { ColorSchemeToggle } from 'app/(ui)';
+import Link from 'next/link';
 import { menuItems } from '../constants';
 import {
   ColorSchemeToggleContainer,
@@ -12,7 +14,6 @@ import {
   StyledLogoText,
   StyledLogoWrapper,
   StyledMenuContainer,
-  StyledMenuItem,
   StyledMenuText,
   StyledMobileMenuIcon,
 } from './header.styled';
@@ -31,11 +32,15 @@ export function Header({
           <StyledLogoText as="h2">COLDSURF</StyledLogoText>
         </StyledLogoWrapper>
         <StyledMenuContainer>
-          {menuItems.map((item) => (
-            <StyledMenuItem key={item.link} href={item.link}>
-              <StyledMenuText as="span">{item.title}</StyledMenuText>
-            </StyledMenuItem>
-          ))}
+          {menuItems
+            .filter((item) => item.visible)
+            .map((item) => (
+              <Link key={item.link} href={item.link}>
+                <HeaderMenuItem>
+                  <StyledMenuText as="span">{item.title}</StyledMenuText>
+                </HeaderMenuItem>
+              </Link>
+            ))}
         </StyledMenuContainer>
         <ColorSchemeToggleContainer>
           <ColorSchemeToggle />
