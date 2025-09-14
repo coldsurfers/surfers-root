@@ -1,1 +1,1 @@
-export * from './top-text';
+export * from './page-content';

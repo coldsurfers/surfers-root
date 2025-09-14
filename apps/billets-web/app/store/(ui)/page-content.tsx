@@ -10,7 +10,7 @@ const Spacing = styled.div`
   height: 2rem;
 `;
 
-export const TopText = () => {
+export const PageContent = () => {
   const [step, setStep] = useState(1);
   return (
     <AnimatePresence>
