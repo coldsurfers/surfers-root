@@ -2,22 +2,10 @@
 
 import { Button, Text, TextInput } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
-import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { AnimatedForm } from './animated-form';
 
-const AnimatedForm = motion.form;
-const StyledAnimatedForm = styled(AnimatedForm)`
-  margin-left: auto;
-  margin-right: auto;
-  display: flex;
-  flex-direction: column;
-  max-width: 430px;
-`;
-const StyledFormTitle = styled(Text)`
-  font-size: 24px;
-  font-weight: bold;
-
-`;
 const StyledLabel = styled(Text)`
   margin-top: 20px;
   margin-bottom: 10px;
@@ -33,20 +21,15 @@ type Form = {
 
 export const StoreRegistrationContactForm = () => {
   const { register, handleSubmit } = useForm<Form>();
+  const router = useRouter();
 
   const onSubmit = (data: Form) => {
     console.log(data);
+    router.push('/store/registration/user-voice');
   };
 
   return (
-    <StyledAnimatedForm
-      initial={{ opacity: 0, translateX: '-10%' }}
-      animate={{ opacity: 1, translateX: 0 }}
-      exit={{ opacity: 0, translateX: '-10%' }}
-      transition={{ duration: 0.125, type: 'spring', stiffness: 100 }}
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <StyledFormTitle>연락처를 입력해주세요</StyledFormTitle>
+    <AnimatedForm onSubmit={handleSubmit(onSubmit)} title="연락처를 입력해주세요">
       {/* @ts-ignore */}
       <StyledLabel as="label" htmlFor="email">
         이메일
@@ -58,6 +41,6 @@ export const StoreRegistrationContactForm = () => {
       </StyledLabel>
       <TextInput {...register('phone')} id="phone" placeholder="01012345678" />
       <StyledButton type="submit">다음</StyledButton>
-    </StyledAnimatedForm>
+    </AnimatedForm>
   );
 };
