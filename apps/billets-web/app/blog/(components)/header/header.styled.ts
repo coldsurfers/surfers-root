@@ -22,6 +22,8 @@ export const StyledHeaderHeading = styled(Text)<{ $isactive?: 'true' }>`
   margin: 0;
   font-weight: bold;
 
+  color: ${semantics.color.foreground[1]};
+
   ${(props) =>
     props.$isactive &&
     css`

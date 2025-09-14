@@ -1,6 +1,6 @@
 'use client';
 
-import { GlobalLink } from '@/shared/ui';
+import { GlobalLink, VenueTitleMotion } from '@/shared/ui';
 import { Button } from '@coldsurfers/ocean-road';
 import { memo, useMemo } from 'react';
 import {
@@ -31,7 +31,9 @@ export const Venue = memo(({ address, venueTitle, latitude, longitude, slug }: V
   return (
     <StyledVenueContainer>
       <GlobalLink href={`/venue/${slug}`}>
-        <StyledVenueTitleText as="h3">{venueTitle}</StyledVenueTitleText>
+        <VenueTitleMotion
+          text={<StyledVenueTitleText as="h3">{venueTitle}</StyledVenueTitleText>}
+        />
       </GlobalLink>
       <StyledVenueAddressContainer>
         <StyledVenueAddressText as="p">{address}</StyledVenueAddressText>

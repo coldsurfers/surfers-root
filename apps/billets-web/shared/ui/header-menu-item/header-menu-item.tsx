@@ -3,6 +3,8 @@
 import { Text, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { motion } from 'framer-motion';
+import type { PropsWithChildren } from 'react';
 
 export const StyledMenuText = styled(Text)`
   color: ${semantics.color.foreground[3]};
@@ -12,9 +14,7 @@ export const StyledMenuItem = styled.div`
   padding: 11px 16px;
   border-radius: 8px;
 
-  &:hover {
-    background-color: ${semantics.color.background[4]};
-  }
+  align-self: flex-start;
 `;
 
 export const AppHeaderMenuTextSkeleton = styled.div`
@@ -31,13 +31,28 @@ export const AppHeaderMenuTextSkeleton = styled.div`
   `)}
 `;
 
-export const HeaderMenuItem = ({ title, isLoading }: { title: string; isLoading?: boolean }) => {
+// @ts-ignore
+const MenuItemMotion = motion.create(StyledMenuItem);
+
+export const HeaderMenuItem = ({
+  children,
+  isLoading,
+}: PropsWithChildren<{ isLoading?: boolean }>) => {
   if (isLoading) {
     return <AppHeaderMenuTextSkeleton />;
   }
   return (
-    <StyledMenuItem>
-      <StyledMenuText as="span">{title}</StyledMenuText>
-    </StyledMenuItem>
+    <MenuItemMotion
+      whileHover={{
+        backgroundColor: semantics.color.background[4],
+        transition: { duration: 0.2 },
+      }}
+    >
+      {typeof children === 'string' ? (
+        <StyledMenuText as="span">{children}</StyledMenuText>
+      ) : (
+        children
+      )}
+    </MenuItemMotion>
   );
 };

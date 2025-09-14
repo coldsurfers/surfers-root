@@ -1,6 +1,6 @@
 'use client';
 
-import { GlobalLink } from '@/shared/ui';
+import { GlobalLink, VenueTitleMotion } from '@/shared/ui';
 import {
   StyledFormattedDate,
   StyledKOPISLabel,
@@ -26,7 +26,7 @@ export function TopInfo({
     <StyledTopInfoContainer>
       <StyledTopInfoTitle as="h1">{title}</StyledTopInfoTitle>
       <GlobalLink href={`/venue/${venueSlug}`}>
-        <StyledVenueTitle as="h3">{venueTitle}</StyledVenueTitle>
+        <VenueTitleMotion text={<StyledVenueTitle as="span">{venueTitle}</StyledVenueTitle>} />
       </GlobalLink>
       <StyledFormattedDate as="h3">{formattedDate}</StyledFormattedDate>
       {isKOPIS && (

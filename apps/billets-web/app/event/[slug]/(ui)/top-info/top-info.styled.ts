@@ -1,13 +1,13 @@
-import { media, Text, semantics } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
+import { Text, media, semantics } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export const StyledTopInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
   margin-top: 32px;
-`
+`;
 
 export const StyledTopInfoTitle = styled(Text)`
   font-weight: 600;
@@ -17,7 +17,7 @@ export const StyledTopInfoTitle = styled(Text)`
   ${media.medium(css`
     font-size: 38px;
   `)}
-`
+`;
 
 export const StyledVenueTitle = styled(Text)`
   margin: unset;
@@ -27,7 +27,7 @@ export const StyledVenueTitle = styled(Text)`
   ${media.medium(css`
     font-size: 18px;
   `)}
-`
+`;
 
 export const StyledFormattedDate = styled(Text)`
   margin: unset;
@@ -37,7 +37,7 @@ export const StyledFormattedDate = styled(Text)`
   ${media.medium(css`
     font-size: 18px;
   `)}
-`
+`;
 
 export const StyledKOPISLabel = styled(Text)`
   margin: unset;
@@ -49,4 +49,4 @@ export const StyledKOPISLabel = styled(Text)`
   ${media.medium(css`
     font-size: 12px;
   `)}
-`
+`;

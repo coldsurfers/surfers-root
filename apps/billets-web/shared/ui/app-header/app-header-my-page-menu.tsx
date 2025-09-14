@@ -25,7 +25,7 @@ export const AppHeaderMyPageMenu = ({ onClick }: Props) => {
 
   return (
     <GlobalLink href={`/${userHandle}`} onClick={onClick}>
-      <HeaderMenuItem isLoading={isLoading} title="프로필" />
+      <HeaderMenuItem isLoading={isLoading}>프로필</HeaderMenuItem>
     </GlobalLink>
   );
 };

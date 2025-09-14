@@ -1,6 +1,6 @@
 'use client';
 
-import { Text, media } from '@coldsurfers/ocean-road';
+import { Text, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
@@ -32,6 +32,8 @@ export const BigTitle = styled(Text)`
   font-weight: 820;
   line-height: 1.05;
   text-align: center;
+
+  color: ${semantics.color.foreground[1]};
 
   ${media.large(css`
     font-size: 64px;
