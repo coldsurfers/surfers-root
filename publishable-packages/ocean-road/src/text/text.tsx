@@ -1,4 +1,9 @@
-import type { CSSProperties, ElementType, PropsWithChildren } from 'react';
+import type {
+  CSSProperties,
+  ComponentPropsWithoutRef,
+  ElementType,
+  PropsWithChildren,
+} from 'react';
 import { StyledTextContainer } from './text.styled';
 
 export const Text = ({
@@ -7,12 +12,14 @@ export const Text = ({
   as,
   numberOfLines,
   ...otherProps
-}: PropsWithChildren<{
-  style?: CSSProperties;
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  as?: ElementType<any, keyof JSX.IntrinsicElements>;
-  numberOfLines?: number;
-}>) => {
+}: PropsWithChildren<
+  ComponentPropsWithoutRef<'span'> & {
+    style?: CSSProperties;
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    as?: ElementType<any, keyof JSX.IntrinsicElements>;
+    numberOfLines?: number;
+  }
+>) => {
   return (
     <StyledTextContainer
       as={as}

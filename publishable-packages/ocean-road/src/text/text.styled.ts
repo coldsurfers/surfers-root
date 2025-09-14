@@ -1,8 +1,6 @@
-import styled from '@emotion/styled'
-import { semantics } from '../tokens'
+import styled from '@emotion/styled';
 
 export const StyledTextContainer = styled.span<{ numberOfLines?: number }>`
-  color: ${semantics.color.foreground[1]};
   white-space: pre-wrap;
   line-height: 1.25;
 
@@ -16,4 +14,4 @@ export const StyledTextContainer = styled.span<{ numberOfLines?: number }>`
   -webkit-box-orient: vertical;
   word-break: break-all;
   `}
-`
+`;

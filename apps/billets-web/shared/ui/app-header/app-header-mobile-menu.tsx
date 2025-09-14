@@ -66,7 +66,7 @@ export const AppHeaderMobileModalMenu = ({
               };
               return (
                 <GlobalLink key={item.link} href={item.link} target={item.target} onClick={onClick}>
-                  <HeaderMenuItem isLoading={isLoading} title={item.title} />
+                  <HeaderMenuItem isLoading={isLoading}>{item.title}</HeaderMenuItem>
                 </GlobalLink>
               );
             })}

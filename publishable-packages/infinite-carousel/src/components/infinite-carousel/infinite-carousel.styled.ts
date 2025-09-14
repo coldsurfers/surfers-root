@@ -22,6 +22,8 @@ export const StyledInfiniteHomeCollectionItemTitle = styled(Text)`
   margin-top: 1rem;
   margin-bottom: 0;
 
+  color: ${semantics.color.foreground[1]};
+
   ${media['x-large'](css`
     font-size: 1rem;
   `)};
@@ -41,6 +43,8 @@ export const StyledInfiniteHomeCollectionItemDescriptionText = styled(Text)<{
   white-space: normal;
   margin-bottom: 0;
   margin-top: ${(props) => props.$marginTop ?? 0}px;
+
+  color: ${semantics.color.foreground[1]};
 
   ${media['x-large'](css`
     font-size: 0.9rem;

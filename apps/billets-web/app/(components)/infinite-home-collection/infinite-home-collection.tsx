@@ -3,15 +3,15 @@
 import { logEvent } from '@/features/firebase/firebase';
 import { apiClient, initialPageQuery } from '@/libs/openapi-client';
 import { generateSlugHref } from '@/libs/utils/utils.slug';
-import { GlobalLink } from '@/shared/ui';
+import { GlobalLink, VenueTitleMotion } from '@/shared/ui';
 import type { OpenApiError } from '@coldsurfers/api-sdk';
 import { InfiniteCarousel } from '@coldsurfers/infinite-carousel';
 import { breakpoints } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
-import { ChevronRight } from 'lucide-react';
 import { useMemo } from 'react';
+import { InfiniteHomeCollectionTitle } from './infinite-home-collection-title';
 import {
   INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT,
   INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT,
@@ -55,10 +55,9 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
   return (
     <Wrapper>
       <GlobalLink href={`/venue/${slug}`}>
-        <StyledInfiniteHomeCollectionTitle as="h2">
-          {collectionTitle}
-          <ChevronRight style={{ marginLeft: '0.5rem' }} />
-        </StyledInfiniteHomeCollectionTitle>
+        <VenueTitleMotion
+          text={<InfiniteHomeCollectionTitle collectionTitle={collectionTitle} />}
+        />
       </GlobalLink>
       <InfiniteCarousel
         renderItemWrapper={(children, item) => {

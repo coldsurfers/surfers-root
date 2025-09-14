@@ -1,7 +1,7 @@
 'use client';
 
 import { GlobalLink } from '@/shared/ui/global-link/global-link';
-import { Button, Text, media } from '@coldsurfers/ocean-road';
+import { Text, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 const Container = styled.div`
@@ -23,6 +23,11 @@ const Container = styled.div`
   `)}
 `;
 
+const FooterText = styled(Text)`
+  margin: unset;
+  color: ${semantics.color.foreground[1]};
+`;
+
 export function AppFooter() {
   return (
     <Container>
@@ -30,19 +35,13 @@ export function AppFooter() {
         &copy; 2025 COLDSURF, Inc.
       </Text>
       <GlobalLink href="/privacy-policy">
-        <Text as="p" style={{ margin: 'unset' }}>
-          Privacy Policy
-        </Text>
+        <FooterText as="p">Privacy Policy</FooterText>
       </GlobalLink>
       <GlobalLink href="/terms-of-service">
-        <Text as="p" style={{ margin: 'unset' }}>
-          Terms of Service
-        </Text>
+        <FooterText as="p">Terms of Service</FooterText>
       </GlobalLink>
       <GlobalLink href="/about/products">
-        <Text as="p" style={{ margin: 'unset' }}>
-          Products
-        </Text>
+        <FooterText as="p">Products</FooterText>
       </GlobalLink>
     </Container>
   );
