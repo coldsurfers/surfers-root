@@ -1,5 +1,11 @@
 # @coldsurfers/ocean-road
 
+## 1.11.7
+
+### Patch Changes
+
+- [#526](https://github.com/coldsurfers/surfers-root/pull/526) [`5795f77`](https://github.com/coldsurfers/surfers-root/commit/5795f771a19726a9d3fda12c90ddfad98a97843b) Thanks [@yungblud](https://github.com/yungblud)! - Expand span type props to Text compnonent, Remove text color default
+
 ## 1.11.6
 
 ### Patch Changes
