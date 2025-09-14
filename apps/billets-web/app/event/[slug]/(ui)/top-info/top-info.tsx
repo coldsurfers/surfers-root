@@ -1,6 +1,8 @@
 'use client';
 
 import { GlobalLink } from '@/shared/ui';
+import { colors, semantics } from '@coldsurfers/ocean-road';
+import { motion } from 'framer-motion';
 import {
   StyledFormattedDate,
   StyledKOPISLabel,
@@ -8,6 +10,9 @@ import {
   StyledTopInfoTitle,
   StyledVenueTitle,
 } from './top-info.styled';
+
+// @ts-ignore
+const VenueTitleMotion = motion.create(StyledVenueTitle);
 
 export function TopInfo({
   title,
@@ -26,7 +31,17 @@ export function TopInfo({
     <StyledTopInfoContainer>
       <StyledTopInfoTitle as="h1">{title}</StyledTopInfoTitle>
       <GlobalLink href={`/venue/${venueSlug}`}>
-        <StyledVenueTitle as="h3">{venueTitle}</StyledVenueTitle>
+        <VenueTitleMotion
+          whileHover={{
+            transition: { duration: 0.2, ease: 'easeInOut' },
+            color: colors.oc.cyan[8].value,
+          }}
+          initial={{
+            color: semantics.color.foreground[1],
+          }}
+        >
+          {venueTitle}
+        </VenueTitleMotion>
       </GlobalLink>
       <StyledFormattedDate as="h3">{formattedDate}</StyledFormattedDate>
       {isKOPIS && (

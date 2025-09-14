@@ -32,11 +32,11 @@ export const AppHeaderLoginMenu = ({
     <>
       {isLoggedIn ? (
         <HeaderMenuContainerButton onClick={() => logout()}>
-          <HeaderMenuItem isLoading={isLoading} title="로그아웃" />
+          <HeaderMenuItem isLoading={isLoading}>로그아웃</HeaderMenuItem>
         </HeaderMenuContainerButton>
       ) : (
         <GlobalLink href={'/login'} onClick={onClickMobileLogout}>
-          <HeaderMenuItem isLoading={isLoading} title="로그인" />
+          <HeaderMenuItem isLoading={isLoading}>로그인</HeaderMenuItem>
         </GlobalLink>
       )}
       {isLogoutPending && <Spinner variant="page-overlay" />}

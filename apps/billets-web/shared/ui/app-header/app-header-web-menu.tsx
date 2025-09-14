@@ -40,7 +40,7 @@ export const AppHeaderWebMenu = ({
           item.link === '/browse' ? HeaderMenuContainerLink : HeaderMenuContainerGlobalLink;
         return (
           <Container key={item.link} href={item.link} onClick={onClick} target={item.target}>
-            <HeaderMenuItem isLoading={isLoading} title={item.title} />
+            <HeaderMenuItem isLoading={isLoading}>{item.title}</HeaderMenuItem>
           </Container>
         );
       })}

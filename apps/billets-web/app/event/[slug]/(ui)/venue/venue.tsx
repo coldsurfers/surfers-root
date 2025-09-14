@@ -1,7 +1,8 @@
 'use client';
 
 import { GlobalLink } from '@/shared/ui';
-import { Button } from '@coldsurfers/ocean-road';
+import { Button, colors, semantics } from '@coldsurfers/ocean-road';
+import { motion } from 'framer-motion';
 import { memo, useMemo } from 'react';
 import {
   CtaButtonWrapper,
@@ -12,6 +13,9 @@ import {
   StyledVenueCopyIcon,
   StyledVenueTitleText,
 } from './venue.styled';
+
+// @ts-ignore
+const VenueTitleMotion = motion.create(StyledVenueTitleText);
 
 type VenueProps = {
   address: string;
@@ -31,7 +35,19 @@ export const Venue = memo(({ address, venueTitle, latitude, longitude, slug }: V
   return (
     <StyledVenueContainer>
       <GlobalLink href={`/venue/${slug}`}>
-        <StyledVenueTitleText as="h3">{venueTitle}</StyledVenueTitleText>
+        <VenueTitleMotion
+          // @ts-expect-error
+          as="h3"
+          whileHover={{
+            transition: { duration: 0.2, ease: 'easeInOut' },
+            color: colors.oc.cyan[8].value,
+          }}
+          initial={{
+            color: semantics.color.foreground[1],
+          }}
+        >
+          {venueTitle}
+        </VenueTitleMotion>
       </GlobalLink>
       <StyledVenueAddressContainer>
         <StyledVenueAddressText as="p">{address}</StyledVenueAddressText>
