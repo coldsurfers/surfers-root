@@ -28,16 +28,18 @@ const renderInnerText = (text: string) => {
   return text;
 };
 
-export const AnimatedText = ({
-  text,
-  delay,
-  onAnimateEnd,
-}: { text: string; delay?: number; onAnimateEnd?: () => void }) => {
+export const AnimatedText = ({ text, delay }: { text: string; delay?: number }) => {
   const textSplitByNewLine = text.split('\n');
+
   return (
     <>
       {textSplitByNewLine.map((line, lineIndex) => (
-        <Line key={line}>
+        <Line
+          key={`${line}-${
+            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+            lineIndex
+          }`}
+        >
           {line.split('').map((text, index) => {
             return (
               <StyledMotionText
@@ -56,13 +58,6 @@ export const AnimatedText = ({
                   stiffness: 50,
                   type: 'spring',
                   delay: 0.025 * (lineIndex + index + 1) + (delay ?? 0),
-                }}
-                onAnimationComplete={() => {
-                  const isLast =
-                    lineIndex === textSplitByNewLine.length - 1 && index === line.length - 1;
-                  if (isLast) {
-                    onAnimateEnd?.();
-                  }
                 }}
               >
                 {renderInnerText(text)}
