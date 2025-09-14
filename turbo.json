@@ -53,17 +53,20 @@
       "outputs": ["dist/**"]
     },
     "deploy:coldsurf-server:prod": {
-      "dependsOn": ["build"]
+      "dependsOn": ["build"],
+      "cache": false
     },
     "deploy:coldsurf-server:dev": {
-      "dependsOn": ["build"]
+      "dependsOn": ["build"],
+      "cache": false
     },
     "deploy:coldsurf-io:prod": {
       "dependsOn": [
         "build:packages",
         "build:ui",
         "@coldsurfers/billets-web#deploy:coldsurf-io:prod"
-      ]
+      ],
+      "cache": false
     },
     "lint": {
       "outputs": []
@@ -89,6 +92,14 @@
     },
     "sync-server": {
       "dependsOn": ["@coldsurfers/billets-cron#dev", "@coldsurfers/billets-server#dev"],
+      "cache": false
+    },
+    "syncup": {
+      "dependsOn": ["^syncup"],
+      "cache": false
+    },
+    "fill-venue-slug": {
+      "dependsOn": ["^fill-venue-slug"],
       "cache": false
     }
   }
