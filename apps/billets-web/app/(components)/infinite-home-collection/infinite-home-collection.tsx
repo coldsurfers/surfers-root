@@ -3,13 +3,12 @@
 import { logEvent } from '@/features/firebase/firebase';
 import { apiClient, initialPageQuery } from '@/libs/openapi-client';
 import { generateSlugHref } from '@/libs/utils/utils.slug';
-import { GlobalLink } from '@/shared/ui';
+import { GlobalLink, VenueTitleMotion } from '@/shared/ui';
 import type { OpenApiError } from '@coldsurfers/api-sdk';
 import { InfiniteCarousel } from '@coldsurfers/infinite-carousel';
 import { breakpoints } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { VenueTitleMotion } from 'app/event/[slug]/(ui)';
 import { format, parseISO } from 'date-fns';
 import { ChevronRight } from 'lucide-react';
 import { useMemo } from 'react';

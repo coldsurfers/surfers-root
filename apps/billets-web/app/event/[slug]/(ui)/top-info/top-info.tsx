@@ -1,9 +1,6 @@
 'use client';
 
-import { GlobalLink } from '@/shared/ui';
-import { colors, semantics } from '@coldsurfers/ocean-road';
-import { motion } from 'framer-motion';
-import { VenueTitleMotion } from '../venue-title-motion';
+import { GlobalLink, VenueTitleMotion } from '@/shared/ui';
 import {
   StyledFormattedDate,
   StyledKOPISLabel,

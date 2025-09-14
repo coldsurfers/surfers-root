@@ -5,4 +5,3 @@ export * from './poster-thumbnail';
 export * from './ticket-cta';
 export * from './top-info';
 export * from './venue';
-export * from './venue-title-motion';

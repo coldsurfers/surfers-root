@@ -1,9 +1,8 @@
 'use client';
 
-import { GlobalLink } from '@/shared/ui';
+import { GlobalLink, VenueTitleMotion } from '@/shared/ui';
 import { Button } from '@coldsurfers/ocean-road';
 import { memo, useMemo } from 'react';
-import { VenueTitleMotion } from '../venue-title-motion';
 import {
   CtaButtonWrapper,
   StyledIconButton,
