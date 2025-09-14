@@ -9,6 +9,7 @@ import { InfiniteCarousel } from '@coldsurfers/infinite-carousel';
 import { breakpoints } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import { VenueTitleMotion } from 'app/event/[slug]/(ui)';
 import { format, parseISO } from 'date-fns';
 import { ChevronRight } from 'lucide-react';
 import { useMemo } from 'react';
@@ -55,10 +56,14 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
   return (
     <Wrapper>
       <GlobalLink href={`/venue/${slug}`}>
-        <StyledInfiniteHomeCollectionTitle as="h2">
-          {collectionTitle}
-          <ChevronRight style={{ marginLeft: '0.5rem' }} />
-        </StyledInfiniteHomeCollectionTitle>
+        <VenueTitleMotion
+          text={
+            <StyledInfiniteHomeCollectionTitle as="h2">
+              {collectionTitle}
+              <ChevronRight style={{ marginLeft: '0.5rem' }} />
+            </StyledInfiniteHomeCollectionTitle>
+          }
+        />
       </GlobalLink>
       <InfiniteCarousel
         renderItemWrapper={(children, item) => {

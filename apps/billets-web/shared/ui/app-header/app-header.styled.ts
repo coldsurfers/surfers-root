@@ -34,6 +34,7 @@ export const HeaderContainer = styled.header<{ $animation: 'show' | 'hide' }>`
 export const HeaderTitle = styled(Text)`
   font-size: 32px;
   font-weight: 800;
+  color: ${semantics.color.foreground[1]};
 
   ${media.large(css`
     font-size: 24px;

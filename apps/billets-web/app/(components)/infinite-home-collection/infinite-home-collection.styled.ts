@@ -1,4 +1,4 @@
-import { Text, media } from '@coldsurfers/ocean-road';
+import { Text, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { APP_CONTAINER_PADDING_LARGE } from 'app/(ui)/constants';
