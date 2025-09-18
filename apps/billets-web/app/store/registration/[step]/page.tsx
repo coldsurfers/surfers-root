@@ -4,6 +4,8 @@ import { StoreRegistrationFormFunnel } from '../(form)';
 
 const stepSchema = z.enum(['contact', 'user-voice']);
 
+const useContactForm = false;
+
 export default async function StoreRegistrationStepPage({
   params,
 }: {
@@ -12,6 +14,10 @@ export default async function StoreRegistrationStepPage({
   const { step } = await params;
 
   const stepValidation = stepSchema.safeParse(step);
+
+  if (!useContactForm) {
+    notFound();
+  }
 
   if (!stepValidation.success) {
     notFound();

@@ -33,7 +33,8 @@
       "dependsOn": ["^build"]
     },
     "@coldsurfers/billets-web#deploy:coldsurf-io:prod": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "cache": false
     },
     "build": {
       "dependsOn": ["^build"],

@@ -3,7 +3,7 @@
 import { Button } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { AnimatedText } from './animated-text';
 
 const Spacing = styled.div`
@@ -11,7 +11,6 @@ const Spacing = styled.div`
 `;
 
 export const PageContent = () => {
-  const router = useRouter();
   return (
     <AnimatePresence>
       <AnimatedText
@@ -22,14 +21,14 @@ export const PageContent = () => {
       <Spacing />
       <AnimatedText
         text={
-          '입점하게 되면, 공연장에서 제공하는 공연 정보를 바탕으로 고객분들께 홍보를 할 수 있어요.\n또한, 각 공연장에서 필요한 정보를 수집하여 관리하는 대시보드를 준비하고 있어요.'
+          '먼저 수요를 받고 수요자 분들의 니즈에 맞추어 개발해 나갈 예정이에요.\n또한, 필요시 정보를 수집하여 관리하는 대시보드도 염두해두고 있어요.'
         }
         delay={0.25}
       />
       <Spacing />
       <AnimatedText
         text={
-          '현재는 아무런 조건 없이 베타 테스트를 운영중이므로,\n입점하시고 싶으시다면 아래 버튼을 눌러주세요!'
+          '현재는 아무런 조건 없이 베타 테스트를 운영중이므로,\n입점하시고 싶으시다면 부담없이 연락주세요!'
         }
         delay={0.5}
       />
@@ -40,8 +39,12 @@ export const PageContent = () => {
         exit={{ opacity: 0, translateY: '-20%' }}
         transition={{ duration: 0.5, delay: 0.75 }}
       >
-        <Button onClick={() => router.push('/store/registration/contact')}>입점 신청하기</Button>
+        <Link href="mailto:imcoldsurf@gmail.com">
+          <Button>입점 신청 메일보내기</Button>
+        </Link>
       </motion.div>
+      <Spacing />
+      <AnimatedText text={'또는, imcoldsurf@gmail.com 으로 메일을 보내주세요.'} delay={1} />
     </AnimatePresence>
   );
 };
