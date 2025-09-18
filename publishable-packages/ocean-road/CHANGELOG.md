@@ -1,5 +1,11 @@
 # @coldsurfers/ocean-road
 
+## 1.11.8
+
+### Patch Changes
+
+- [#528](https://github.com/coldsurfers/surfers-root/pull/528) [`d135629`](https://github.com/coldsurfers/surfers-root/commit/d135629134d0310c200de37cb7b4d6355ff23570) Thanks [@yungblud](https://github.com/yungblud)! - type-safe text component with forwardRef
+
 ## 1.11.7
 
 ### Patch Changes
