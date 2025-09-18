@@ -32,7 +32,7 @@
     "@coldsurfers/api-sdk": "workspace:*",
     "@coldsurfers/cloudinary-utils": "workspace:*",
     "@coldsurfers/infinite-carousel": "1.0.4",
-    "@coldsurfers/ocean-road": "1.11.7",
+    "@coldsurfers/ocean-road": "1.11.8-alpha.0",
     "@coldsurfers/ocean-road-design-tokens": "1.10.3",
     "@coldsurfers/openapi-client": "workspace:*",
     "@coldsurfers/shared-utils": "workspace:*",
@@ -93,7 +93,8 @@
   },
   "featureFlags": {
     "useSubscribeButton": true,
-    "useProfileFeature": true
+    "useProfileFeature": true,
+    "useStoreRegistrationFeature": true
   },
   "pnpm": {
     "overrides": {

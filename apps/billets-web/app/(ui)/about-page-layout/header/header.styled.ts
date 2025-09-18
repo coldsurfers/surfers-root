@@ -61,6 +61,8 @@ export const StyledHeader = styled.header`
 
 export const StyledMenuContainer = styled.div`
   display: block;
+  display: flex;
+  align-items: center;
   ${media.large(css`
     display: none;
   `)}
@@ -68,15 +70,6 @@ export const StyledMenuContainer = styled.div`
 
 export const StyledMenuText = styled(Text)`
   color: ${semantics.color.foreground[3]};
-`;
-
-export const StyledMenuItem = styled(Link)`
-  padding: 11px 16px;
-  border-radius: 8px;
-
-  &:hover {
-    background-color: ${semantics.color.background[4]};
-  }
 `;
 
 export const ColorSchemeToggleContainer = styled.div`
