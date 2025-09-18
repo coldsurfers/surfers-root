@@ -1,5 +1,11 @@
 # @coldsurfers/billets-web
 
+## 1.1.45
+
+### Patch Changes
+
+- [`40854ec`](https://github.com/coldsurfers/surfers-root/commit/40854ec5476d88b303b2d2accd52d71b9df823c2) Thanks [@yungblud](https://github.com/yungblud)! - 입점서비스 MVP
+
 ## 1.1.44
 
 ### Patch Changes
