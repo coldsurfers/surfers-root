@@ -1,21 +1,28 @@
 'use client';
 
-import { Text } from '@coldsurfers/ocean-road';
+import { Text, media } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 
 const MotionText = motion(Text);
 const StyledMotionText = styled(MotionText)`
- font-size: clamp(16px, 2vmin, 20px);
+  font-size: clamp(16px, 2vmin, 20px);
   font-weight: 418;
   letter-spacing: -0.02em;
   line-height: 1.25;
   margin: unset;
+
+  ${media.small(css`
+    font-size: 1rem;
+  `)}
 `;
 
 const Line = styled.div`
   display: flex;
   align-items: center;
+
+  flex-wrap: wrap;
 `;
 
 const renderInnerText = (text: string) => {
