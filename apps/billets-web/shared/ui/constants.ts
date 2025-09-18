@@ -1,3 +1,5 @@
+import { FEATURE_FLAGS } from '@/libs/constants';
+
 export const APP_HEADER_HEIGHT = '100px';
 export const HEADER_MENU_ITEMS = [
   {
@@ -7,10 +9,10 @@ export const HEADER_MENU_ITEMS = [
     visible: true,
   },
   {
-    link: '/store',
+    link: '/store/registration',
     title: '입점하기',
     target: undefined,
-    visible: false,
+    visible: FEATURE_FLAGS.useStoreRegistrationFeature,
   },
   {
     link: '/about',
