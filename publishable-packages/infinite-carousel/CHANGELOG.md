@@ -1,5 +1,11 @@
 # @coldsurfers/infinite-carousel
 
+## 1.0.5
+
+### Patch Changes
+
+- [#531](https://github.com/coldsurfers/surfers-root/pull/531) [`7517215`](https://github.com/coldsurfers/surfers-root/commit/75172153665d3fb0c4503e746f56128611c3ee54) Thanks [@yungblud](https://github.com/yungblud)! - Implement render item pattern
+
 ## 1.0.4
 
 ### Patch Changes

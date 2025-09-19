@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/infinite-carousel",
-  "version": "1.0.5-alpha.0",
+  "version": "1.0.5",
   "description": "Netflix style infinite carousel",
   "bugs": {
     "url": "https://github.com/coldsurfers/surfers-root/issues"
@@ -13,7 +13,11 @@
   "module": "dist/index.mjs",
   "source": "src/",
   "types": "dist/index.d.ts",
-  "files": ["src", "dist", "package.json"],
+  "files": [
+    "src",
+    "dist",
+    "package.json"
+  ],
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "rm -rf dist && tsdown",
