@@ -15,6 +15,7 @@ export const VenueTitleMotion = ({ text }: { text: ReactNode }) => {
       }}
       initial={{
         color: semantics.color.foreground[1],
+        display: 'contents',
       }}
     >
       {text}
