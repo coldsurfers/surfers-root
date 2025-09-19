@@ -1,5 +1,11 @@
 # @coldsurfers/billets-web
 
+## 1.1.46
+
+### Patch Changes
+
+- [`4e28b7b`](https://github.com/coldsurfers/surfers-root/commit/4e28b7b6c7f45a93ede001cda6adf14b965a5d06) Thanks [@yungblud](https://github.com/yungblud)! - Home Carousel 애니메이션 및 render pattern 적용
+
 ## 1.1.45
 
 ### Patch Changes
