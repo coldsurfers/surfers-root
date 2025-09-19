@@ -4,7 +4,7 @@ import { StoreRegistrationFormFunnel } from '../(form)';
 
 const stepSchema = z.enum(['contact', 'user-voice']);
 
-const useContactForm = false;
+const useContactForm = true;
 
 export default async function StoreRegistrationStepPage({
   params,

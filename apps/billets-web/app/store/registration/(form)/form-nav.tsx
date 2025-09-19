@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Text } from '@coldsurfers/ocean-road';
+import { Button, Text, semantics } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
@@ -17,6 +17,15 @@ const StyledFormNav = styled(motion.div)`
   position: relative;
 `;
 
+const StyledPrevText = styled(Text)`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 16px;
+
+  color: ${semantics.color.foreground[3]};
+`;
+
 export const FormNav = () => {
   const router = useRouter();
   return (
@@ -27,12 +36,12 @@ export const FormNav = () => {
       transition={{ duration: 0.125, type: 'spring', stiffness: 100 }}
     >
       <Button theme="transparent" onClick={() => router.back()}>
-        <Text style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '16px' }}>
+        <StyledPrevText>
           <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <ArrowLeft size={18} />
           </span>
           이전
-        </Text>
+        </StyledPrevText>
       </Button>
     </StyledFormNav>
   );
