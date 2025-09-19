@@ -8,6 +8,15 @@ export const StyledHomeWrapper = styled.div`
   overflow: hidden;
   position: relative;
   z-index: 0;
+  padding-bottom: 12rem;
+
+  ${media.medium(css`
+    padding-bottom: 6rem;
+  `)}
+
+  ${media.small(css`
+    padding-bottom: 4rem;
+  `)}
 `;
 
 export const StyledHomeTop = styled.div`
