@@ -13,48 +13,6 @@ export const StyledInfiniteHomeCollectionScrollContainer = styled(motion.div)`
   position: relative;
 `;
 
-export const StyledInfiniteHomeCollectionItemTitle = styled(Text)`
-  font-size: 1.25rem;
-
-  font-weight: bold;
-  overflow-wrap: break-word;
-  white-space: normal;
-  margin-top: 1rem;
-  margin-bottom: 0;
-
-  color: ${semantics.color.foreground[1]};
-
-  ${media['x-large'](css`
-    font-size: 1rem;
-  `)};
-
-  ${media.medium(css`
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-  `)};
-`;
-
-export const StyledInfiniteHomeCollectionItemDescriptionText = styled(Text)<{
-  $marginTop?: number;
-}>`
-  font-size: 1.1rem;
-  font-weight: 500;
-  overflow-wrap: break-word;
-  white-space: normal;
-  margin-bottom: 0;
-  margin-top: ${(props) => props.$marginTop ?? 0}px;
-
-  color: ${semantics.color.foreground[1]};
-
-  ${media['x-large'](css`
-    font-size: 0.9rem;
-  `)};
-
-  ${media.medium(css`
-    font-size: 0.8rem;
-  `)};
-`;
-
 export const StyledInfiniteHomeCollectionItem = styled.div<{ $isLoading: boolean }>`
   position: relative;
   background: ${(props) =>

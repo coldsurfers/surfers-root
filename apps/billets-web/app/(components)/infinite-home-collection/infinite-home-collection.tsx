@@ -11,12 +11,16 @@ import styled from '@emotion/styled';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
 import { useMemo } from 'react';
+import { InfiniteHomeCollectionItemThumbnail } from './infinite-carousel.item-thumbnail';
 import { InfiniteHomeCollectionTitle } from './infinite-home-collection-title';
 import {
   INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT,
   INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT,
 } from './infinite-home-collection.constants';
-import { StyledInfiniteHomeCollectionTitle } from './infinite-home-collection.styled';
+import {
+  StyledInfiniteHomeCollectionItemDescriptionText,
+  StyledInfiniteHomeCollectionItemTitle,
+} from './infinite-home-collection.styled';
 
 const Wrapper = styled.div`
   position: relative;
@@ -47,8 +51,17 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
     return filtered;
   }, [serverData.upcomingEvents]);
 
+  const infiniteCarouselData = useMemo(() => {
+    return carouselData.map((item) => ({
+      dateDescription: format(parseISO(item.data.date), 'yyyy.MM.dd'),
+      posterSrc: item.data.mainPoster?.url ?? '',
+      title: item.data.title ?? '',
+      venueName: item.data.mainVenue?.name ?? '',
+    }));
+  }, [carouselData]);
+
   // @TODO: fix in infinite carousel
-  if (carouselData.length === 0) {
+  if (infiniteCarouselData.length === 0) {
     return null;
   }
 
@@ -60,6 +73,7 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
         />
       </GlobalLink>
       <InfiniteCarousel
+        data={infiniteCarouselData}
         renderItemWrapper={(children, item) => {
           const targetItem = carouselData.find(
             (carouselItem) => carouselItem.data.title === item.title
@@ -82,6 +96,42 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
             </GlobalLink>
           );
         }}
+        renderPoster={(src) => {
+          return <InfiniteHomeCollectionItemThumbnail src={src} alt={src} />;
+        }}
+        renderTitle={(title) => {
+          return (
+            <VenueTitleMotion
+              text={
+                <StyledInfiniteHomeCollectionItemTitle as="p">
+                  {title}
+                </StyledInfiniteHomeCollectionItemTitle>
+              }
+            />
+          );
+        }}
+        renderDateDescription={(dateDescription) => {
+          return (
+            <VenueTitleMotion
+              text={
+                <StyledInfiniteHomeCollectionItemDescriptionText as="p">
+                  {dateDescription}
+                </StyledInfiniteHomeCollectionItemDescriptionText>
+              }
+            />
+          );
+        }}
+        renderVenueName={(venueName) => {
+          return (
+            <VenueTitleMotion
+              text={
+                <StyledInfiniteHomeCollectionItemDescriptionText as="p">
+                  {venueName}
+                </StyledInfiniteHomeCollectionItemDescriptionText>
+              }
+            />
+          );
+        }}
         breakpoints={[
           {
             windowWidthLargerThan: breakpoints['x-large'],
@@ -99,14 +149,6 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
             perPageItemCount: INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.LARGE,
           },
         ]}
-        data={carouselData.map((item) => {
-          return {
-            dateDescription: format(parseISO(item.data.date), 'yyyy.MM.dd'),
-            posterSrc: item.data.mainPoster?.url ?? '',
-            title: item.data.title ?? '',
-            venueName: item.data.mainVenue?.name ?? '',
-          };
-        })}
       />
     </Wrapper>
   );
