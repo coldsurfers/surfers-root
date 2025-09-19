@@ -67,7 +67,7 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
 
   return (
     <Wrapper>
-      <GlobalLink href={`/venue/${slug}`}>
+      <GlobalLink href={`/venue/${slug}`} style={{ display: 'contents', width: 'fit-content' }}>
         <VenueTitleMotion
           text={<InfiniteHomeCollectionTitle collectionTitle={collectionTitle} />}
         />

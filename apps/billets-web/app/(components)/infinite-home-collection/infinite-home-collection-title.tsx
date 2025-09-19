@@ -19,15 +19,13 @@ export const InfiniteHomeCollectionTitle = ({ collectionTitle }: { collectionTit
           <motion.span
             initial={{
               opacity: 0,
-
               transform: 'translateX(-20%)',
             }}
             animate={{ opacity: 1, transform: 'translateX(0%)' }}
             exit={{ opacity: 0, transform: 'translateX(-20%)' }}
             transition={{ duration: 0.2, ease: 'easeInOut' }}
             style={{
-              display: 'flex',
-              alignItems: 'center',
+              display: 'contents',
             }}
           >
             <ChevronRight />
