@@ -1,49 +1,34 @@
-import { useMemo } from 'react';
-import { InfiniteHomeCollectionItemThumbnail } from './infinite-carousel.item-thumbnail';
 import {
   StyledInfiniteHomeCollectionItem,
   StyledInfiniteHomeCollectionItemBottomWrapper,
-  StyledInfiniteHomeCollectionItemDescriptionText,
   StyledInfiniteHomeCollectionItemThumbnailWrapper,
-  StyledInfiniteHomeCollectionItemTitle,
   StyledRecentListScrollContainerItem,
 } from './infinite-carousel.styled';
-import type { DataT, ItemWrapperT } from './infinite-carousel.types';
+import type { DataT, ItemRenderT } from './infinite-carousel.types';
 
-type Props = DataT & {
-  renderItemWrapper: ItemWrapperT;
-};
+type Props = DataT & ItemRenderT;
 
 export const InfiniteHomeCollectionItem = ({
-  dateDescription,
   posterSrc,
   title,
+  dateDescription,
   venueName,
+  renderPoster,
+  renderTitle,
+  renderDateDescription,
+  renderVenueName,
   renderItemWrapper,
 }: Props) => {
-  const thumbUrl = useMemo(() => {
-    if (!posterSrc) {
-      return '';
-    }
-    return `${posterSrc}`;
-  }, [posterSrc]);
-
   return renderItemWrapper(
     <StyledRecentListScrollContainerItem>
       <StyledInfiniteHomeCollectionItem $isLoading={false}>
         <StyledInfiniteHomeCollectionItemThumbnailWrapper>
-          <InfiniteHomeCollectionItemThumbnail src={thumbUrl} alt={title} fallbackText={title} />
+          {renderPoster(posterSrc)}
         </StyledInfiniteHomeCollectionItemThumbnailWrapper>
         <StyledInfiniteHomeCollectionItemBottomWrapper>
-          <StyledInfiniteHomeCollectionItemTitle as="p">
-            {title}
-          </StyledInfiniteHomeCollectionItemTitle>
-          <StyledInfiniteHomeCollectionItemDescriptionText as="p" $marginTop={4}>
-            {dateDescription}
-          </StyledInfiniteHomeCollectionItemDescriptionText>
-          <StyledInfiniteHomeCollectionItemDescriptionText as="p">
-            {venueName}
-          </StyledInfiniteHomeCollectionItemDescriptionText>
+          {renderTitle(title)}
+          {renderDateDescription(dateDescription)}
+          {renderVenueName(venueName)}
         </StyledInfiniteHomeCollectionItemBottomWrapper>
       </StyledInfiniteHomeCollectionItem>
     </StyledRecentListScrollContainerItem>,
