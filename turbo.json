@@ -57,7 +57,7 @@
       "outputs": ["dist/**"]
     },
     "deploy:coldsurf-server:prod": {
-      "dependsOn": ["build"],
+      "dependsOn": ["build:packages", "@coldsurfers/billets-server#deploy:coldsurf-server:prod"],
       "cache": false
     },
     "deploy:coldsurf-server:dev": {
