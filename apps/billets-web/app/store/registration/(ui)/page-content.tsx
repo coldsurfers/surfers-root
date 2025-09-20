@@ -1,9 +1,9 @@
 'use client';
 
+import { GlobalLink } from '@/shared/ui';
 import { Button } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { AnimatePresence, motion } from 'framer-motion';
-import Link from 'next/link';
 import { AnimatedText } from './animated-text';
 
 const Spacing = styled.div`
@@ -39,12 +39,13 @@ export const PageContent = () => {
         exit={{ opacity: 0, translateY: '-20%' }}
         transition={{ duration: 0.5, delay: 0.75 }}
       >
-        <Link href="mailto:imcoldsurf@gmail.com">
-          <Button>입점 신청 메일보내기</Button>
-        </Link>
+        <GlobalLink
+          href="/store/registration/contact"
+          style={{ width: 'fit-content', display: 'inline-block' }}
+        >
+          <Button>입점하기</Button>
+        </GlobalLink>
       </motion.div>
-      <Spacing />
-      <AnimatedText text={'또는, imcoldsurf@gmail.com 으로 메일을 보내주세요.'} delay={1} />
     </AnimatePresence>
   );
 };

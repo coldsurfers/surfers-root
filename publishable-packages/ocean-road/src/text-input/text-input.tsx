@@ -1,10 +1,10 @@
 import { forwardRef } from 'react';
 import { Text } from '../text/text';
-import { StyledTextInputContainer } from './text-input.styled';
+import { StyledTextInputContainer, StylesRequiredLabelMark } from './text-input.styled';
 import type { TextInputProps } from './text-input.types';
 
 export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
-  ({ label, labelStyle, ...inputProps }, ref) => {
+  ({ label, labelStyle, isError, required, ...inputProps }, ref) => {
     return (
       <>
         {label && (
@@ -13,11 +13,11 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             style={{ marginTop: '1.5rem', marginBottom: '0.5rem', ...labelStyle }}
           >
             <Text as="p" style={{ margin: 'unset' }}>
-              {label}
+              {label} {required && <StylesRequiredLabelMark as="span">*</StylesRequiredLabelMark>}
             </Text>
           </label>
         )}
-        <StyledTextInputContainer ref={ref} {...inputProps} />
+        <StyledTextInputContainer ref={ref} {...inputProps} $isError={!!isError} />
       </>
     );
   }

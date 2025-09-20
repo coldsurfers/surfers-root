@@ -6,11 +6,11 @@ import { APP_CONTAINER_PADDING_LARGE } from 'app/(ui)/constants';
 export const StyledInfiniteHomeCollectionTitle = styled(Text)`
   font-weight: bold;
 
-
   margin-top: 125px;
 
   display: flex;
   align-items: center;
+  width: fit-content;
 
   padding-left: 2%;
 

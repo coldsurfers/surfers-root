@@ -21,7 +21,7 @@ import {
   LocationConcertDTOSchema,
   LocationCountryDTOSchema,
 } from '@/dtos/location.dto';
-import { SendEmailResponseDTOSchema } from '@/dtos/mailer.dto';
+import { SendEmailResponseDTOSchema, SendUserVoiceBodyDTOSchema } from '@/dtos/mailer.dto';
 import { PosterDetailDTOSchema } from '@/dtos/poster-detail.dto';
 import { PosterDTOSchema } from '@/dtos/poster.dto';
 import { PriceDTOSchema } from '@/dtos/price.dto';
@@ -225,6 +225,7 @@ app.register(fastifySwagger, {
       GetUserProfileByHandleParamsDTOSchema,
       RemoteAppManifestDTOSchema,
       GetVenueBySlugDTOSchema,
+      SendUserVoiceBodyDTOSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
