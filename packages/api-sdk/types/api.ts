@@ -2814,7 +2814,7 @@ export interface components {
       email: string;
       message: string;
       name?: string;
-      phone: string;
+      phone?: string;
       updateAgreement?: boolean;
     };
     SubscribeInfoMeDTOSchema: {
