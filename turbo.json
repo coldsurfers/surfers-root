@@ -35,6 +35,9 @@
     "@coldsurfers/billets-server#deploy:coldsurf-server:dev": {
       "cache": false
     },
+    "@coldsurfers/billets-server#deploy:coldsurf-server:prod": {
+      "cache": false
+    },
     "@coldsurfers/billets-web#deploy:coldsurf-io:prod": {
       "dependsOn": ["^build"],
       "cache": false
