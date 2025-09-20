@@ -1,5 +1,11 @@
 # @coldsurfers/billets-server
 
+## 1.2.26
+
+### Patch Changes
+
+- [`f16e29b`](https://github.com/coldsurfers/surfers-root/commit/f16e29b4ab101971d661f11da5fd706226fcd272) Thanks [@yungblud](https://github.com/yungblud)! - Enhnace mailer api
+
 ## 1.2.25
 
 ### Patch Changes
