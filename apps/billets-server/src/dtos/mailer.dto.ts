@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const SendUserVoiceBodyDTOSchema = z.object({
   email: z.string(),
   message: z.string(),
-  phone: z.string(),
+  phone: z.string().optional(),
   // deprecated
   name: z.string().optional(),
   // deprecated
