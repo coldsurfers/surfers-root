@@ -1,5 +1,11 @@
 # @coldsurfers/ocean-road
 
+## 1.11.9
+
+### Patch Changes
+
+- [#534](https://github.com/coldsurfers/surfers-root/pull/534) [`99d6562`](https://github.com/coldsurfers/surfers-root/commit/99d656208e7438557a9a6a58253c1f767ce26c65) Thanks [@yungblud](https://github.com/yungblud)! - Enhance text input styles
+
 ## 1.11.8
 
 ### Patch Changes
