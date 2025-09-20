@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { AnimatedForm } from './animated-form';
+import { FORM_STORAGE_KEY } from './constants';
+import type { StoreRegistrationContactFormType } from './types';
 
 const StyledLabel = styled(Text)`
   margin-top: 20px;
@@ -15,11 +17,6 @@ const StyledLabel = styled(Text)`
 const StyledButton = styled(Button)`
   margin-top: 20px;
 `;
-
-type Form = {
-  email: string;
-  phone: string;
-};
 
 function isValidEmail(email: string) {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -50,7 +47,9 @@ function formatPhone(value: string) {
 
 export const StoreRegistrationContactForm = () => {
   const storedData = useMemo(() => {
-    return tryParse<Form>(sessionStorage.getItem('@coldsurf-io/user-voice-contact') ?? '');
+    return tryParse<StoreRegistrationContactFormType>(
+      sessionStorage.getItem(FORM_STORAGE_KEY.CONTACT) ?? ''
+    );
   }, []);
 
   const {
@@ -58,7 +57,7 @@ export const StoreRegistrationContactForm = () => {
     handleSubmit,
     formState: { errors },
     control,
-  } = useForm<Form>({
+  } = useForm<StoreRegistrationContactFormType>({
     mode: 'onChange',
     defaultValues: {
       email: storedData?.email ?? '',
@@ -67,8 +66,8 @@ export const StoreRegistrationContactForm = () => {
   });
   const router = useRouter();
 
-  const onSubmit = (data: Form) => {
-    sessionStorage.setItem('@coldsurf-io/user-voice-contact', JSON.stringify(data));
+  const onSubmit = (data: StoreRegistrationContactFormType) => {
+    sessionStorage.setItem(FORM_STORAGE_KEY.CONTACT, JSON.stringify(data));
     router.push('/store/registration/user-voice');
   };
 

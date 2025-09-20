@@ -1,8 +1,7 @@
 import { notFound } from 'next/navigation';
 import { z } from 'zod';
 import { StoreRegistrationFormFunnel } from '../(form)';
-
-const stepSchema = z.enum(['contact', 'user-voice']);
+import { stepSchema } from '../(form)/types';
 
 const useContactForm = true;
 
