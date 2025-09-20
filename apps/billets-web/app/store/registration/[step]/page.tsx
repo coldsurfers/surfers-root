@@ -1,10 +1,9 @@
 import { notFound } from 'next/navigation';
 import { z } from 'zod';
 import { StoreRegistrationFormFunnel } from '../(form)';
+import { stepSchema } from '../(form)/types';
 
-const stepSchema = z.enum(['contact', 'user-voice']);
-
-const useContactForm = false;
+const useContactForm = true;
 
 export default async function StoreRegistrationStepPage({
   params,
