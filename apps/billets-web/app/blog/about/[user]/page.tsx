@@ -23,8 +23,8 @@ export async function generateStaticParams() {
 }
 
 const notionPageId = {
-  en: 'Resume-2025-1862bbac578280e39760f02a88e17941',
-  ko: 'Resume-2025-3-2502bbac5782807fa2e2cdda9cea0227',
+  en: 'Fake-Resume-en-2742bbac5782801394acf6ebd2918c0e',
+  ko: 'Fake-Resume-2742bbac578280a099a7c5ec51719079',
 };
 
 const AboutDetailPage = async (props: { params: Promise<{ user: string }> }) => {
