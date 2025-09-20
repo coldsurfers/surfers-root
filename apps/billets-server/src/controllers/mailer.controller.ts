@@ -16,7 +16,7 @@ export const sendUserVoiceHandler = async (
   rep: FastifyReply<SendUserVoiceRoute>
 ) => {
   try {
-    const { email, name, message, updateAgreement } = req.body;
+    const { email, name, message, updateAgreement, phone } = req.body;
     await sendEmail({
       from: process.env.BILLETS_SERVER_MAILER_EMAIL_ADDRESS,
       smtpOptions: {
@@ -34,6 +34,7 @@ export const sendUserVoiceHandler = async (
         <p>이름: ${name}</p>
         <p>내용: ${message}</p>
         <p>업데이트 동의: ${updateAgreement ? 'Yes' : 'No'}</p>
+        <p>회선점: ${phone}</p>
       `,
     });
   } catch (e) {
