@@ -1130,13 +1130,7 @@ export interface paths {
       };
       requestBody: {
         content: {
-          'application/json': {
-            email: string;
-            message: string;
-            name?: string;
-            phone: string;
-            updateAgreement?: boolean;
-          };
+          'application/json': components['schemas']['SendUserVoiceBodyDTOSchema'];
         };
       };
       responses: {
@@ -2815,6 +2809,13 @@ export interface components {
     };
     SendEmailResponseDTOSchema: {
       success: boolean;
+    };
+    SendUserVoiceBodyDTOSchema: {
+      email: string;
+      message: string;
+      name?: string;
+      phone: string;
+      updateAgreement?: boolean;
     };
     SubscribeInfoMeDTOSchema: {
       artists: {
