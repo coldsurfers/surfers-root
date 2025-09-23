@@ -185,6 +185,9 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case '레브뮤직스튜디오(Reve Music Stuido)':
+      alreadyExistingVenueId = '3fd2a697-1c6c-4724-a1da-19b4960f9c4d';
+      break;
     case '아트리홀':
       alreadyExistingVenueId = '7eebec13-26de-4e71-8f15-45d63643bfba';
       break;
