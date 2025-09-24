@@ -1,6 +1,7 @@
 'use client';
 
-import { Button, Text, TextArea, semantics } from '@coldsurfers/ocean-road';
+import { Button, Text, TextArea, media, semantics } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { AnimatedText } from 'app/store/registration/(ui)/animated-text';
 import { motion } from 'framer-motion';
@@ -17,6 +18,12 @@ const Container = styled.div`
 
   min-height: 231px;
   min-width: 429px;
+
+  ${media.medium(css`
+    max-width: 100%;
+    min-width: 100%;
+    width: 100%;
+  `)}
 `;
 
 const StyledAnimTitle = styled(Text)`

@@ -46,13 +46,9 @@ const FixedLayout = styled.div`
     flex-direction: column-reverse;
 
     ${media.medium(css`
-        bottom: 0.5rem;
-        right: 0.5rem;
-    `)}
-
-    ${media.small(css`
-        bottom: 0.5rem;
-        right: 0.5rem;
+        bottom: 0;
+        right: 0.75rem;
+        left: 0.75rem;
     `)}
 `;
 
