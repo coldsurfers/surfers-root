@@ -2,9 +2,7 @@
   "name": "@coldsurfers/billets-web",
   "version": "1.2.0",
   "private": true,
-  "files": [
-    "package.json"
-  ],
+  "files": ["package.json"],
   "bugs": {
     "url": "https://github.com/coldsurfers/surfers-root"
   },
@@ -96,7 +94,8 @@
   "featureFlags": {
     "useSubscribeButton": true,
     "useProfileFeature": true,
-    "useStoreRegistrationFeature": true
+    "useStoreRegistrationFeature": true,
+    "useSurveyFeature": false
   },
   "pnpm": {
     "overrides": {
