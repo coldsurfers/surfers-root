@@ -1,5 +1,5 @@
 import type { ErrorResponseDTO } from '@/dtos/error-response.dto';
-import type { SendUserVoiceBodyDTO } from '@/dtos/mailer.dto';
+import type { SendEmailResponseDTO, SendUserVoiceBodyDTO } from '@/dtos/mailer.dto';
 import { sendEmail } from '@/lib/mailer';
 import { SERVICE_NAME } from '@coldsurfers/shared-utils';
 import { format } from 'date-fns';
@@ -8,6 +8,7 @@ import type { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastif
 interface SendUserVoiceRoute extends RouteGenericInterface {
   Body: SendUserVoiceBodyDTO;
   Reply: {
+    200: SendEmailResponseDTO;
     500: ErrorResponseDTO;
   };
 }
@@ -18,7 +19,7 @@ export const sendUserVoiceHandler = async (
 ) => {
   try {
     const { email, name, message, updateAgreement, phone } = req.body;
-    await sendEmail({
+    sendEmail({
       from: process.env.BILLETS_SERVER_MAILER_EMAIL_ADDRESS,
       smtpOptions: {
         service: process.env.BILLETS_SERVER_MAILER_SERVICE,
@@ -37,6 +38,9 @@ export const sendUserVoiceHandler = async (
         <p>업데이트 동의: ${updateAgreement ? 'Yes' : 'No'}</p>
         <p>회선점: ${phone}</p>
       `,
+    });
+    return rep.status(200).send({
+      success: true,
     });
   } catch (e) {
     console.error(e);
