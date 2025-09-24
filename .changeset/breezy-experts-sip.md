@@ -2,4 +2,4 @@
 '@coldsurfers/billets-server': patch
 ---
 
-Enhance mailer api performance
+Add mailer api response DTO type
