@@ -1,10 +1,10 @@
 'use client';
 
-import { Button, Text, semantics } from '@coldsurfers/ocean-road';
+import { Button, Text, TextArea, semantics } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { AnimatedText } from 'app/store/registration/(ui)/animated-text';
 import { motion } from 'framer-motion';
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 
 const Container = styled.div`
   width: auto;
@@ -14,6 +14,9 @@ const Container = styled.div`
   padding: 1.25rem;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   margin-bottom: 1rem;
+
+  min-height: 231px;
+  min-width: 429px;
 `;
 
 const StyledAnimTitle = styled(Text)`
@@ -27,22 +30,9 @@ const StyledAnimText = styled(Text)`
   color: ${semantics.color.foreground[1]};
 `;
 
-const ContainerComponent = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  (props, ref) => <Container ref={ref} {...props} />
-);
-
-const MotionContainer = motion.create(ContainerComponent);
-
-export const SurveyForm = forwardRef<HTMLDivElement>((_, ref) => {
+const FunnelIntro = ({ onClickCTA }: { onClickCTA: () => void }) => {
   return (
-    <MotionContainer
-      ref={ref}
-      initial={{ opacity: 0, translateY: '2%' }}
-      animate={{ opacity: 1, translateY: 0 }}
-      exit={{ opacity: 0, translateY: '2%' }}
-      transition={{ duration: 0.25, ease: 'easeInOut' }}
-      key="survey-form"
-    >
+    <>
       <AnimatedText
         text="COLDSURF, 잘 쓰고 계신가요?"
         as="h3"
@@ -79,7 +69,227 @@ export const SurveyForm = forwardRef<HTMLDivElement>((_, ref) => {
         delay={1.05}
       />
       <div style={{ height: '0.75rem' }} />
-      <Button theme="border">답변하기</Button>
+      <Button
+        theme="border"
+        onClick={(e) => {
+          e.stopPropagation();
+          onClickCTA();
+        }}
+      >
+        답변하기
+      </Button>
+    </>
+  );
+};
+
+const FunnelQuestionCommunity = ({ onClickCTA }: { onClickCTA: () => void }) => {
+  return (
+    <>
+      <AnimatedText
+        text="첫 번째 질문이에요 (1/3)"
+        as="h3"
+        renderComponent={(text) => <StyledAnimTitle>{text}</StyledAnimTitle>}
+      />
+      <div style={{ height: '1rem' }} />
+      <AnimatedText
+        text="공연 관련 커뮤니티, 어떻게 생각하시나요?"
+        as="p"
+        renderComponent={(text) => <StyledAnimText>{text}</StyledAnimText>}
+        delay={0.65}
+      />
+      <div style={{ height: '1rem' }} />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <Button
+          theme="border"
+          onClick={(e) => {
+            e.stopPropagation();
+            onClickCTA();
+          }}
+        >
+          좋아요🎉
+        </Button>
+        <Button
+          theme="border"
+          onClick={(e) => {
+            e.stopPropagation();
+            onClickCTA();
+          }}
+        >
+          별로예요🥲
+        </Button>
+      </div>
+    </>
+  );
+};
+
+const FunnelQuestionManiac = ({ onClickCTA }: { onClickCTA: () => void }) => {
+  return (
+    <>
+      <AnimatedText
+        text="두 번째 질문이에요 (2/3)"
+        as="h3"
+        renderComponent={(text) => <StyledAnimTitle>{text}</StyledAnimTitle>}
+      />
+      <div style={{ height: '1rem' }} />
+      <AnimatedText
+        text="COLDSURF에서 소규모 공연장의 공연을 직접 구매할 수 있다면?"
+        as="p"
+        renderComponent={(text) => <StyledAnimText>{text}</StyledAnimText>}
+        delay={0.65}
+      />
+      <div style={{ height: '1rem' }} />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <Button
+          theme="border"
+          onClick={(e) => {
+            e.stopPropagation();
+            onClickCTA();
+          }}
+        >
+          구매할 생각 있어요🎉
+        </Button>
+        <Button
+          theme="border"
+          onClick={(e) => {
+            e.stopPropagation();
+            onClickCTA();
+          }}
+        >
+          구매할 생각 없어요🥲
+        </Button>
+      </div>
+    </>
+  );
+};
+
+const FunnelQuestionUI = ({ onClickCTA }: { onClickCTA: () => void }) => {
+  return (
+    <>
+      <AnimatedText
+        text="마지막 질문이에요 (3/3)"
+        as="h3"
+        renderComponent={(text) => <StyledAnimTitle>{text}</StyledAnimTitle>}
+      />
+      <div style={{ height: '1rem' }} />
+      <AnimatedText
+        text="COLDSURF의 사용성은 어때요?"
+        as="p"
+        renderComponent={(text) => <StyledAnimText>{text}</StyledAnimText>}
+        delay={0.65}
+      />
+      <div style={{ height: '1rem' }} />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <Button
+          theme="border"
+          onClick={(e) => {
+            e.stopPropagation();
+            onClickCTA();
+          }}
+        >
+          좋아요🎉
+        </Button>
+        <Button
+          theme="border"
+          onClick={(e) => {
+            e.stopPropagation();
+            onClickCTA();
+          }}
+        >
+          별로예요🥲
+        </Button>
+      </div>
+    </>
+  );
+};
+
+const StyledTextArea = styled(TextArea)`
+  min-height: 15rem;
+  width: 100%;
+`;
+
+const FunnelUserVoice = ({ onClickCTA }: { onClickCTA: () => void }) => {
+  return (
+    <>
+      <AnimatedText
+        text="전하고 싶은 의견이 있으면, 남겨주세요!"
+        as="h3"
+        renderComponent={(text) => <StyledAnimTitle>{text}</StyledAnimTitle>}
+      />
+      <div style={{ height: '1rem' }} />
+      <StyledTextArea placeholder="의견이 없으시면, 아래버튼으로 종료할 수 있어요" />
+      <div style={{ height: '1rem' }} />
+      <Button
+        theme="border"
+        onClick={(e) => {
+          e.stopPropagation();
+          onClickCTA();
+        }}
+      >
+        제출하고, 마무리하기!
+      </Button>
+    </>
+  );
+};
+
+const ContainerComponent = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  (props, ref) => <Container ref={ref} {...props} />
+);
+
+const MotionContainer = motion.create(ContainerComponent);
+
+export const SurveyForm = forwardRef<
+  HTMLDivElement,
+  {
+    onClose: () => void;
+  }
+>(({ onClose }, ref) => {
+  const [step, setStep] = useState<
+    'intro' | 'question-community' | 'question-maniac' | 'question-user-interface' | 'user-voice'
+  >('intro');
+
+  return (
+    <MotionContainer
+      ref={ref}
+      initial={{ opacity: 0, translateY: '2%' }}
+      animate={{ opacity: 1, translateY: 0 }}
+      exit={{ opacity: 0, translateY: '2%' }}
+      transition={{ duration: 0.25, ease: 'easeInOut' }}
+    >
+      {step === 'intro' && (
+        <FunnelIntro
+          onClickCTA={() => {
+            setStep('question-community');
+          }}
+        />
+      )}
+      {step === 'question-community' && (
+        <FunnelQuestionCommunity
+          onClickCTA={() => {
+            setStep('question-maniac');
+          }}
+        />
+      )}
+      {step === 'question-maniac' && (
+        <FunnelQuestionManiac
+          onClickCTA={() => {
+            setStep('question-user-interface');
+          }}
+        />
+      )}
+      {step === 'question-user-interface' && (
+        <FunnelQuestionUI
+          onClickCTA={() => {
+            setStep('user-voice');
+          }}
+        />
+      )}
+      {step === 'user-voice' && (
+        <FunnelUserVoice
+          onClickCTA={() => {
+            onClose();
+          }}
+        />
+      )}
     </MotionContainer>
   );
 });

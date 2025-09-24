@@ -82,11 +82,13 @@ export const FloatingSurveyButton = ({ onClick }: Props) => {
       }
       setIsSurveyFormOpen(false);
     };
-    window.addEventListener('click', handleClick);
+    if (isSurveyFormOpen) {
+      window.addEventListener('click', handleClick);
+    }
     return () => {
       window.removeEventListener('click', handleClick);
     };
-  }, []);
+  }, [isSurveyFormOpen]);
 
   return (
     <FixedLayout>
@@ -113,7 +115,11 @@ export const FloatingSurveyButton = ({ onClick }: Props) => {
           onClick?.();
         }}
       />
-      <AnimatePresence>{isSurveyFormOpen && <SurveyForm ref={surveyFormRef} />}</AnimatePresence>
+      <AnimatePresence>
+        {isSurveyFormOpen && (
+          <SurveyForm ref={surveyFormRef} onClose={() => setIsSurveyFormOpen(false)} />
+        )}
+      </AnimatePresence>
     </FixedLayout>
   );
 };
