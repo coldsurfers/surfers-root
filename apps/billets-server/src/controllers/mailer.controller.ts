@@ -19,7 +19,7 @@ export const sendUserVoiceHandler = async (
 ) => {
   try {
     const { email, name, message, updateAgreement, phone } = req.body;
-    sendEmail({
+    await sendEmail({
       from: process.env.BILLETS_SERVER_MAILER_EMAIL_ADDRESS,
       smtpOptions: {
         service: process.env.BILLETS_SERVER_MAILER_SERVICE,
