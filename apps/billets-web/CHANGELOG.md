@@ -1,5 +1,11 @@
 # @coldsurfers/billets-web
 
+## 1.2.1
+
+### Patch Changes
+
+- [#540](https://github.com/coldsurfers/surfers-root/pull/540) [`741e15d`](https://github.com/coldsurfers/surfers-root/commit/741e15d9fdd857f7ca6968856dbd4364411dbaba) Thanks [@yungblud](https://github.com/yungblud)! - implement mini survey
+
 ## 1.2.0
 
 ### Minor Changes
