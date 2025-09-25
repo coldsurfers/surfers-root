@@ -1,5 +1,11 @@
 # @coldsurfers/billets-server
 
+## 1.2.27
+
+### Patch Changes
+
+- [#541](https://github.com/coldsurfers/surfers-root/pull/541) [`4998a44`](https://github.com/coldsurfers/surfers-root/commit/4998a44a60f63292f4eb392eded7b8df08fb039f) Thanks [@yungblud](https://github.com/yungblud)! - Add mailer api response DTO type
+
 ## 1.2.26
 
 ### Patch Changes
