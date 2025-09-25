@@ -1,7 +1,6 @@
 'use client';
 
 import { apiClient } from '@/libs/openapi-client';
-import { useLocalStorage } from '@/libs/utils/utils.storage';
 import { Button, Text, TextArea, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -256,8 +255,6 @@ export const SurveyForm = forwardRef<
     mutationFn: apiClient.mailer.sendUserVoice,
   });
 
-  const [, setSurveyCompleted] = useLocalStorage<'true'>('@coldsurf-io/survey-completed');
-
   return (
     <MotionContainer
       ref={ref}
@@ -315,7 +312,6 @@ export const SurveyForm = forwardRef<
                 message: `question-user-voice: ${message}`,
               });
             }
-            setSurveyCompleted('true');
             onClose();
           }}
         />
