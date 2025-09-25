@@ -13,6 +13,18 @@ export const VenueTitleMotion = ({ text }: { text: ReactNode }) => {
         transition: { duration: 0.2, ease: 'easeInOut' },
         color: colors.oc.cyan[8].value,
       }}
+      whileFocus={{
+        transition: { duration: 0.2, ease: 'easeInOut' },
+        color: colors.oc.cyan[8].value,
+      }}
+      whileTap={{
+        transition: { duration: 0.2, ease: 'easeInOut' },
+        color: colors.oc.cyan[8].value,
+      }}
+      transition={{
+        duration: 0.2,
+        ease: 'easeInOut',
+      }}
       initial={{
         color: semantics.color.foreground[1],
         display: 'contents',

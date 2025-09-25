@@ -57,6 +57,12 @@ export const InfiniteHomeCollectionItemThumbnail = ({ src, alt = '' }: ImageWith
       whileHover={{
         scale: 1.05,
       }}
+      whileFocus={{
+        scale: 1.05,
+      }}
+      whileTap={{
+        scale: 1.05,
+      }}
       initial={{
         scale: 1,
       }}
