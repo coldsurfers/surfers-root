@@ -1,8 +1,6 @@
 import { z } from 'zod';
 import { loginProviderSchema } from './auth';
 
-export type FB_EVENTS_NAME = 'click_event';
-
 const fbLogEventClickEventSchema = z.object({
   name: z.literal('click_event'),
   params: z.object({
@@ -39,6 +37,10 @@ export const fbLogEventClickHomeCollectionSchema = z.object({
     event_id: z.string(),
   }),
 });
+export const fbLogEventClickSurveyFloatingButtonSchema = z.object({
+  name: z.literal('click_survey_floating_button'),
+  params: z.object({}),
+});
 const fbLogEventSchema = z.discriminatedUnion('name', [
   fbLogEventClickEventSchema,
   fbLogEventVisitEventDetailSchema,
@@ -46,5 +48,6 @@ const fbLogEventSchema = z.discriminatedUnion('name', [
   fbLogEventLoginSchema,
   fbLogEventLogoutSchema,
   fbLogEventClickHomeCollectionSchema,
+  fbLogEventClickSurveyFloatingButtonSchema,
 ]);
 export type FBLogEvent = z.infer<typeof fbLogEventSchema>;

@@ -3,7 +3,7 @@
 import { Text, media } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { motion } from 'framer-motion';
+import { motion, useIsPresent } from 'framer-motion';
 
 const MotionText = motion(Text);
 const StyledMotionText = styled(MotionText)`
@@ -25,18 +25,31 @@ const Line = styled.div`
   flex-wrap: wrap;
 `;
 
-const renderInnerText = (text: string) => {
+const renderInnerText = (text: string, renderComponent?: (text: string) => React.ReactNode) => {
   if (text === ' ') {
     return <div style={{ width: '0.25rem' }} />;
   }
   if (text === '\n') {
     return <br />;
   }
-  return text;
+  return renderComponent ? renderComponent(text) : text;
 };
 
-export const AnimatedText = ({ text, delay }: { text: string; delay?: number }) => {
+export const AnimatedText = ({
+  text,
+  delay,
+  renderComponent,
+}: {
+  text: string;
+  delay?: number;
+  renderComponent?: (text: string) => React.ReactNode;
+}) => {
   const textSplitByNewLine = text.split('\n');
+  const isPresent = useIsPresent();
+
+  if (!isPresent) {
+    return null;
+  }
 
   return (
     <>
@@ -54,7 +67,7 @@ export const AnimatedText = ({ text, delay }: { text: string; delay?: number }) 
                   // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                   index
                 }`}
-                as="p"
+                as="span"
                 style={{ display: 'flex', alignItems: 'center' }}
                 initial={{ opacity: 0, translateY: '-20%', translateX: '-10%' }}
                 animate={{ opacity: 1, translateY: 0, translateX: 0 }}
@@ -67,7 +80,7 @@ export const AnimatedText = ({ text, delay }: { text: string; delay?: number }) 
                   delay: 0.025 * (lineIndex + index + 1) + (delay ?? 0),
                 }}
               >
-                {renderInnerText(text)}
+                {renderInnerText(text, renderComponent)}
               </StyledMotionText>
             );
           })}
