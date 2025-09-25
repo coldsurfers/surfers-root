@@ -45,13 +45,11 @@ const FunnelIntro = ({ onClickCTA }: { onClickCTA: () => void }) => {
     <>
       <AnimatedText
         text="COLDSURF, 잘 쓰고 계신가요?"
-        as="h3"
         renderComponent={(text) => <StyledAnimTitle>{text}</StyledAnimTitle>}
       />
       <div style={{ height: '1rem' }} />
       <AnimatedText
         text="안녕하세요, COLDSURF의 메이커 Paul입니다"
-        as="p"
         renderComponent={(text) => <StyledAnimText>{text}</StyledAnimText>}
         delay={0.65}
       />
@@ -60,21 +58,18 @@ const FunnelIntro = ({ onClickCTA }: { onClickCTA: () => void }) => {
         text={
           'COLDSURF를 이용해주시는 여러분께\n몇 가지 궁금한점이 있어서 이렇게 찾아뵙게 되었어요'
         }
-        as="p"
         renderComponent={(text) => <StyledAnimText>{text}</StyledAnimText>}
         delay={0.85}
       />
       <div style={{ height: '0.5rem' }} />
       <AnimatedText
         text={'잠깐만 시간을 내주시면, 많은 부분을 채워드릴 수 있을 거예요'}
-        as="p"
         renderComponent={(text) => <StyledAnimText>{text}</StyledAnimText>}
         delay={0.95}
       />
       <div style={{ height: '0.75rem' }} />
       <AnimatedText
         text="그럼 이제 질문을 시작할게요!"
-        as="p"
         renderComponent={(text) => <StyledAnimText>{text}</StyledAnimText>}
         delay={1.05}
       />
@@ -99,13 +94,11 @@ const FunnelQuestionCommunity = ({
     <>
       <AnimatedText
         text="첫 번째 질문이에요 (1/3)"
-        as="h3"
         renderComponent={(text) => <StyledAnimTitle>{text}</StyledAnimTitle>}
       />
       <div style={{ height: '1rem' }} />
       <AnimatedText
         text="공연 관련 커뮤니티, 어떻게 생각하시나요?"
-        as="p"
         renderComponent={(text) => <StyledAnimText>{text}</StyledAnimText>}
         delay={0.65}
       />
@@ -139,13 +132,11 @@ const FunnelQuestionManiac = ({ onClickCTA }: { onClickCTA: (type: 'good' | 'bad
     <>
       <AnimatedText
         text="두 번째 질문이에요 (2/3)"
-        as="h3"
         renderComponent={(text) => <StyledAnimTitle>{text}</StyledAnimTitle>}
       />
       <div style={{ height: '1rem' }} />
       <AnimatedText
         text="COLDSURF에서 소규모 공연장의 공연을 직접 구매할 수 있다면?"
-        as="p"
         renderComponent={(text) => <StyledAnimText>{text}</StyledAnimText>}
         delay={0.65}
       />
@@ -179,13 +170,11 @@ const FunnelQuestionUI = ({ onClickCTA }: { onClickCTA: (type: 'good' | 'bad') =
     <>
       <AnimatedText
         text="마지막 질문이에요 (3/3)"
-        as="h3"
         renderComponent={(text) => <StyledAnimTitle>{text}</StyledAnimTitle>}
       />
       <div style={{ height: '1rem' }} />
       <AnimatedText
         text="COLDSURF의 사용성은 어때요?"
-        as="p"
         renderComponent={(text) => <StyledAnimText>{text}</StyledAnimText>}
         delay={0.65}
       />
@@ -225,7 +214,6 @@ const FunnelUserVoice = ({ onClickCTA }: { onClickCTA: (message: string) => void
     <>
       <AnimatedText
         text="전하고 싶은 의견이 있으면, 남겨주세요!"
-        as="h3"
         renderComponent={(text) => <StyledAnimTitle>{text}</StyledAnimTitle>}
       />
       <div style={{ height: '1rem' }} />

@@ -38,12 +38,10 @@ const renderInnerText = (text: string, renderComponent?: (text: string) => React
 export const AnimatedText = ({
   text,
   delay,
-  as = 'p',
   renderComponent,
 }: {
   text: string;
   delay?: number;
-  as?: 'p' | 'h3';
   renderComponent?: (text: string) => React.ReactNode;
 }) => {
   const textSplitByNewLine = text.split('\n');
@@ -69,7 +67,7 @@ export const AnimatedText = ({
                   // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                   index
                 }`}
-                as={as}
+                as="span"
                 style={{ display: 'flex', alignItems: 'center' }}
                 initial={{ opacity: 0, translateY: '-20%', translateX: '-10%' }}
                 animate={{ opacity: 1, translateY: 0, translateX: 0 }}
