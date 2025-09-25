@@ -1,9 +1,11 @@
 import { tryParse } from '@coldsurfers/shared-utils';
+import { useLocalStorage as useLocalStorageHook } from '@uidotdev/usehooks';
 
 export type StorageItem =
   | '@coldsurf-io/access-token'
   | '@coldsurf-io/refresh-token'
-  | '@coldsurf-io/theme';
+  | '@coldsurf-io/theme'
+  | '@coldsurf-io/survey-completed';
 
 const storage =
   typeof window !== 'undefined'
@@ -32,3 +34,7 @@ const storage =
     : null;
 
 export default storage;
+
+export const useLocalStorage = <T>(key: StorageItem) => {
+  return useLocalStorageHook<T>(key, undefined);
+};

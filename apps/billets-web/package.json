@@ -95,7 +95,7 @@
     "useSubscribeButton": true,
     "useProfileFeature": true,
     "useStoreRegistrationFeature": true,
-    "useSurveyFeature": false
+    "useSurveyFeature": true
   },
   "pnpm": {
     "overrides": {

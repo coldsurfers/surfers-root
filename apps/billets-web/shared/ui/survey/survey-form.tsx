@@ -1,8 +1,11 @@
 'use client';
 
+import { apiClient } from '@/libs/openapi-client';
+import { useLocalStorage } from '@/libs/utils/utils.storage';
 import { Button, Text, TextArea, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useMutation } from '@tanstack/react-query';
 import { AnimatedText } from 'app/store/registration/(ui)/animated-text';
 import { motion } from 'framer-motion';
 import { forwardRef, useState } from 'react';
@@ -89,7 +92,9 @@ const FunnelIntro = ({ onClickCTA }: { onClickCTA: () => void }) => {
   );
 };
 
-const FunnelQuestionCommunity = ({ onClickCTA }: { onClickCTA: () => void }) => {
+const FunnelQuestionCommunity = ({
+  onClickCTA,
+}: { onClickCTA: (type: 'good' | 'bad') => void }) => {
   return (
     <>
       <AnimatedText
@@ -110,7 +115,7 @@ const FunnelQuestionCommunity = ({ onClickCTA }: { onClickCTA: () => void }) => 
           theme="border"
           onClick={(e) => {
             e.stopPropagation();
-            onClickCTA();
+            onClickCTA('good');
           }}
         >
           좋아요🎉
@@ -119,7 +124,7 @@ const FunnelQuestionCommunity = ({ onClickCTA }: { onClickCTA: () => void }) => 
           theme="border"
           onClick={(e) => {
             e.stopPropagation();
-            onClickCTA();
+            onClickCTA('bad');
           }}
         >
           별로예요🥲
@@ -129,7 +134,7 @@ const FunnelQuestionCommunity = ({ onClickCTA }: { onClickCTA: () => void }) => 
   );
 };
 
-const FunnelQuestionManiac = ({ onClickCTA }: { onClickCTA: () => void }) => {
+const FunnelQuestionManiac = ({ onClickCTA }: { onClickCTA: (type: 'good' | 'bad') => void }) => {
   return (
     <>
       <AnimatedText
@@ -150,7 +155,7 @@ const FunnelQuestionManiac = ({ onClickCTA }: { onClickCTA: () => void }) => {
           theme="border"
           onClick={(e) => {
             e.stopPropagation();
-            onClickCTA();
+            onClickCTA('good');
           }}
         >
           구매할 생각 있어요🎉
@@ -159,7 +164,7 @@ const FunnelQuestionManiac = ({ onClickCTA }: { onClickCTA: () => void }) => {
           theme="border"
           onClick={(e) => {
             e.stopPropagation();
-            onClickCTA();
+            onClickCTA('bad');
           }}
         >
           구매할 생각 없어요🥲
@@ -169,7 +174,7 @@ const FunnelQuestionManiac = ({ onClickCTA }: { onClickCTA: () => void }) => {
   );
 };
 
-const FunnelQuestionUI = ({ onClickCTA }: { onClickCTA: () => void }) => {
+const FunnelQuestionUI = ({ onClickCTA }: { onClickCTA: (type: 'good' | 'bad') => void }) => {
   return (
     <>
       <AnimatedText
@@ -190,7 +195,7 @@ const FunnelQuestionUI = ({ onClickCTA }: { onClickCTA: () => void }) => {
           theme="border"
           onClick={(e) => {
             e.stopPropagation();
-            onClickCTA();
+            onClickCTA('good');
           }}
         >
           좋아요🎉
@@ -199,7 +204,7 @@ const FunnelQuestionUI = ({ onClickCTA }: { onClickCTA: () => void }) => {
           theme="border"
           onClick={(e) => {
             e.stopPropagation();
-            onClickCTA();
+            onClickCTA('bad');
           }}
         >
           별로예요🥲
@@ -214,7 +219,8 @@ const StyledTextArea = styled(TextArea)`
   width: 100%;
 `;
 
-const FunnelUserVoice = ({ onClickCTA }: { onClickCTA: () => void }) => {
+const FunnelUserVoice = ({ onClickCTA }: { onClickCTA: (message: string) => void }) => {
+  const [message, setMessage] = useState('');
   return (
     <>
       <AnimatedText
@@ -223,13 +229,17 @@ const FunnelUserVoice = ({ onClickCTA }: { onClickCTA: () => void }) => {
         renderComponent={(text) => <StyledAnimTitle>{text}</StyledAnimTitle>}
       />
       <div style={{ height: '1rem' }} />
-      <StyledTextArea placeholder="의견이 없으시면, 아래버튼으로 종료할 수 있어요" />
+      <StyledTextArea
+        placeholder="의견이 없으시면, 아래버튼으로 종료할 수 있어요"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
       <div style={{ height: '1rem' }} />
       <Button
         theme="border"
         onClick={(e) => {
           e.stopPropagation();
-          onClickCTA();
+          onClickCTA(message);
         }}
       >
         제출하고, 마무리하기!
@@ -254,6 +264,12 @@ export const SurveyForm = forwardRef<
     'intro' | 'question-community' | 'question-maniac' | 'question-user-interface' | 'user-voice'
   >('intro');
 
+  const { mutate: sendUserVoice } = useMutation({
+    mutationFn: apiClient.mailer.sendUserVoice,
+  });
+
+  const [, setSurveyCompleted] = useLocalStorage<'true'>('@coldsurf-io/survey-completed');
+
   return (
     <MotionContainer
       ref={ref}
@@ -271,28 +287,47 @@ export const SurveyForm = forwardRef<
       )}
       {step === 'question-community' && (
         <FunnelQuestionCommunity
-          onClickCTA={() => {
+          onClickCTA={(goodOrBad) => {
+            sendUserVoice({
+              email: 'imcoldsurf@gmail.com',
+              message: `question-community: ${goodOrBad}`,
+            });
             setStep('question-maniac');
           }}
         />
       )}
       {step === 'question-maniac' && (
         <FunnelQuestionManiac
-          onClickCTA={() => {
+          onClickCTA={(goodOrBad) => {
+            sendUserVoice({
+              email: 'imcoldsurf@gmail.com',
+              message: `question-maniac: ${goodOrBad}`,
+            });
             setStep('question-user-interface');
           }}
         />
       )}
       {step === 'question-user-interface' && (
         <FunnelQuestionUI
-          onClickCTA={() => {
+          onClickCTA={(goodOrBad) => {
+            sendUserVoice({
+              email: 'imcoldsurf@gmail.com',
+              message: `question-user-interface: ${goodOrBad}`,
+            });
             setStep('user-voice');
           }}
         />
       )}
       {step === 'user-voice' && (
         <FunnelUserVoice
-          onClickCTA={() => {
+          onClickCTA={(message) => {
+            if (message.length) {
+              sendUserVoice({
+                email: 'imcoldsurf@gmail.com',
+                message: `question-user-voice: ${message}`,
+              });
+            }
+            setSurveyCompleted('true');
             onClose();
           }}
         />
