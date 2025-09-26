@@ -185,6 +185,12 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case '작은무대 극단가인':
+      alreadyExistingVenueId = 'bd58464e-d6ea-4ec8-9e0f-77be1d4dc580';
+      break;
+    case '재즈소사이어티 서울(서울브루어리 성수 5층)':
+      alreadyExistingVenueId = '69e8cf60-e0bb-4daa-b51a-7c6b57aef373';
+      break;
     case '레브뮤직스튜디오(Reve Music Stuido)':
       alreadyExistingVenueId = '3fd2a697-1c6c-4724-a1da-19b4960f9c4d';
       break;

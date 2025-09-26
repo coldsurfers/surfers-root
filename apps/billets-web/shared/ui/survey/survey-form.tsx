@@ -1,11 +1,11 @@
 'use client';
 
 import { apiClient } from '@/libs/openapi-client';
+import { AnimatedText } from '@/shared/ui';
 import { Button, Text, TextArea, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useMutation } from '@tanstack/react-query';
-import { AnimatedText } from 'app/store/registration/(ui)/animated-text';
 import { motion } from 'framer-motion';
 import { forwardRef, useState } from 'react';
 
