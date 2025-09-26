@@ -1,5 +1,6 @@
 'use client';
 
+import { useSurveyStore } from '@/features/survey/survey.store';
 import { apiClient } from '@/libs/openapi-client';
 import { AnimatedText } from '@/shared/ui';
 import { Button, Text, TextArea, media, semantics } from '@coldsurfers/ocean-road';
@@ -247,6 +248,7 @@ export const SurveyForm = forwardRef<
     onClose: () => void;
   }
 >(({ onClose }, ref) => {
+  const setSurveyCompleted = useSurveyStore((state) => state.setMiniSurveyCompleted);
   const [step, setStep] = useState<
     'intro' | 'question-community' | 'question-maniac' | 'question-user-interface' | 'user-voice'
   >('intro');
@@ -312,6 +314,7 @@ export const SurveyForm = forwardRef<
                 message: `question-user-voice: ${message}`,
               });
             }
+            setSurveyCompleted(true);
             onClose();
           }}
         />
