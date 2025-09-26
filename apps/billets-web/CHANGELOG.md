@@ -1,5 +1,13 @@
 # @coldsurfers/billets-web
 
+## 1.2.2
+
+### Patch Changes
+
+- [#545](https://github.com/coldsurfers/surfers-root/pull/545) [`95ce352`](https://github.com/coldsurfers/surfers-root/commit/95ce35282a5a928b81760c9944781d8516e936e7) Thanks [@yungblud](https://github.com/yungblud)! - Conditional rendering survey floating button with zustand store
+
+- [`d32222e`](https://github.com/coldsurfers/surfers-root/commit/d32222e57570526113104fee3a0244199bf83ee9) Thanks [@yungblud](https://github.com/yungblud)! - Promote animated-text to shared/ui
+
 ## 1.2.1
 
 ### Patch Changes
