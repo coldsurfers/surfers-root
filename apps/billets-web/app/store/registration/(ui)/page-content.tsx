@@ -1,10 +1,10 @@
 'use client';
 
 import { GlobalLink } from '@/shared/ui';
+import { AnimatedText } from '@/shared/ui';
 import { Button } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { AnimatePresence, motion } from 'framer-motion';
-import { AnimatedText } from './animated-text';
 
 const Spacing = styled.div`
   height: 2rem;

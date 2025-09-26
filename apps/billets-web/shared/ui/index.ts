@@ -5,3 +5,4 @@ export * from './login-side-bar';
 export * from './header-menu-item';
 export * from './venue-title-motion';
 export * from './survey';
+export * from './animated-text';
