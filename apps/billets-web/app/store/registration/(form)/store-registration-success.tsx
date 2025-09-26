@@ -1,9 +1,9 @@
 'use client';
 
 import { GlobalLink } from '@/shared/ui';
+import { AnimatedText } from '@/shared/ui';
 import { Button } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
-import { AnimatedText } from '../(ui)/animated-text';
 import { AnimatedForm } from './animated-form';
 
 const Spacing = styled.div`
