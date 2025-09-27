@@ -120,9 +120,6 @@ export const InfiniteCarousel = ({
         initial={{
           transform: `translateX(${initialRotatePercent}%)`,
         }}
-        style={{
-          transform: `translateX(${initialRotatePercent}%)`,
-        }}
         key={initialRotatePercent}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
