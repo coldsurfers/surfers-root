@@ -1,5 +1,11 @@
 # @coldsurfers/infinite-carousel
 
+## 1.0.9
+
+### Patch Changes
+
+- [#560](https://github.com/coldsurfers/surfers-root/pull/560) [`752df60`](https://github.com/coldsurfers/surfers-root/commit/752df6031505b47073747ae50c282558c8dabd33) Thanks [@yungblud](https://github.com/yungblud)! - Fixed capture event
+
 ## 1.0.8
 
 ### Patch Changes
