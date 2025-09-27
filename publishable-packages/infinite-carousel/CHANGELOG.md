@@ -1,5 +1,11 @@
 # @coldsurfers/infinite-carousel
 
+## 1.0.7
+
+### Patch Changes
+
+- [#556](https://github.com/coldsurfers/surfers-root/pull/556) [`431627d`](https://github.com/coldsurfers/surfers-root/commit/431627d640f57592ca780ed2c1458115703c9f46) Thanks [@yungblud](https://github.com/yungblud)! - Add touch minimum delta
+
 ## 1.0.6
 
 ### Patch Changes
