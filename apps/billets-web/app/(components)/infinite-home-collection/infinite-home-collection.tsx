@@ -148,6 +148,11 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
             itemWidthPercent: INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.LARGE,
             perPageItemCount: INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.LARGE,
           },
+          {
+            windowWidthLargerThan: breakpoints.small,
+            itemWidthPercent: INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.SMALL,
+            perPageItemCount: INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.SMALL,
+          },
         ]}
       />
     </Wrapper>
