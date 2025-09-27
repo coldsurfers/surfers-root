@@ -2,7 +2,9 @@
 
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
-import { type DetailedHTMLProps, type ImgHTMLAttributes, forwardRef, useState } from 'react';
+import { type ImgHTMLAttributes, forwardRef, useState } from 'react';
+
+type ImageWithFallbackProps = Pick<ImgHTMLAttributes<HTMLDivElement>, 'src' | 'alt' | 'onError'>;
 
 const StyledInfiniteHomeCollectionItemThumbnail = styled.div<{ $url: string }>`
   width: 100%;
@@ -20,10 +22,7 @@ const StyledInfiniteHomeCollectionItemThumbnail = styled.div<{ $url: string }>`
   background-position: center;
 `;
 
-const Thumbnail = forwardRef<
-  HTMLImageElement,
-  DetailedHTMLProps<ImgHTMLAttributes<HTMLDivElement>, HTMLDivElement>
->((props, ref) => {
+const Thumbnail = forwardRef<HTMLDivElement, ImageWithFallbackProps>((props, ref) => {
   return <StyledInfiniteHomeCollectionItemThumbnail ref={ref} {...props} $url={props.src ?? ''} />;
 });
 
@@ -45,11 +44,6 @@ const StyledInfiniteHomeCollectionItemThumbnailEmpty = styled.div`
 `;
 
 const MotionThumbnail = motion.create(Thumbnail);
-
-type ImageWithFallbackProps = Pick<
-  React.ImgHTMLAttributes<HTMLImageElement>,
-  'src' | 'alt' | 'onError'
->;
 
 export const InfiniteHomeCollectionItemThumbnail = ({ src, alt = '' }: ImageWithFallbackProps) => {
   const [isError, setIsError] = useState(false);
