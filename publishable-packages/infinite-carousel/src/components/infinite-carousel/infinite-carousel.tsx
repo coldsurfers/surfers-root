@@ -2,7 +2,7 @@ import { semantics } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { useAnimation } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { type TouchEventHandler, useCallback, useRef } from 'react';
+import { type PointerEventHandler, type TouchEventHandler, useCallback, useRef } from 'react';
 import { useInfiniteHomeCollection } from './infinite-carousel.hooks';
 import { InfiniteHomeCollectionItem } from './infinite-carousel.item';
 import {
@@ -40,7 +40,8 @@ export const InfiniteCarousel = ({
     initialRotatePercent,
   } = useInfiniteHomeCollection({ breakpoints, data });
 
-  const touchStartRef = useRef<number>(0);
+  const touchStartXRef = useRef<number | null>(null);
+  const pointerStarXtRef = useRef<number | null>(null);
 
   const controls = useAnimation();
 
@@ -95,24 +96,55 @@ export const InfiniteCarousel = ({
   );
 
   const onTouchStart = useCallback<TouchEventHandler<HTMLDivElement>>((e) => {
-    touchStartRef.current = e.nativeEvent.changedTouches[0].clientX;
+    touchStartXRef.current = e.nativeEvent.changedTouches[0].clientX;
   }, []);
 
   const onTouchEnd = useCallback<TouchEventHandler<HTMLDivElement>>(
     (e) => {
-      const touchStart = touchStartRef.current ?? 0;
-      const touchEnd = e.nativeEvent.changedTouches[0].clientX;
+      if (touchStartXRef.current == null) return;
 
-      const diff = Math.abs(touchStart - touchEnd);
+      const touchStartX = touchStartXRef.current;
+      const touchEndX = e.nativeEvent.changedTouches[0].clientX;
+
+      const diff = Math.abs(touchStartX - touchEndX);
       if (diff < 50) {
         return;
       }
-      const isPrev = touchStart < touchEnd;
+      const isPrev = touchStartX < touchEndX;
       if (isPrev) {
         runInfiniteAnimation('prev');
       } else {
         runInfiniteAnimation('next');
       }
+      touchStartXRef.current = 0;
+    },
+    [runInfiniteAnimation]
+  );
+
+  const onPointerDown = useCallback<PointerEventHandler<HTMLDivElement>>((e) => {
+    e.preventDefault();
+    e.currentTarget.setPointerCapture(e.pointerId);
+    pointerStarXtRef.current = e.clientX; // 시작 좌표 저장
+  }, []);
+
+  const onPointerUp = useCallback<PointerEventHandler<HTMLDivElement>>(
+    (e) => {
+      if (pointerStarXtRef.current == null) return;
+
+      const diff = Math.abs(e.clientX - pointerStarXtRef.current);
+
+      if (diff < 50) {
+        return;
+      }
+
+      const isPrev = pointerStarXtRef.current < e.clientX;
+      if (isPrev) {
+        runInfiniteAnimation('prev');
+      } else {
+        runInfiniteAnimation('next');
+      }
+
+      pointerStarXtRef.current = null; // 초기화
     },
     [runInfiniteAnimation]
   );
@@ -127,6 +159,8 @@ export const InfiniteCarousel = ({
         key={initialRotatePercent}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
+        onPointerDown={onPointerDown}
+        onPointerUp={onPointerUp}
       >
         {infiniteCarouselData.carouselItems.map((value, index) => {
           return (
