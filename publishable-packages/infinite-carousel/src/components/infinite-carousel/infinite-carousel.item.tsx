@@ -4,9 +4,9 @@ import {
   StyledInfiniteHomeCollectionItemThumbnailWrapper,
   StyledRecentListScrollContainerItem,
 } from './infinite-carousel.styled';
-import type { DataT, ItemRenderT } from './infinite-carousel.types';
+import type { BreakpointT, DataT, ItemRenderT } from './infinite-carousel.types';
 
-type Props = DataT & ItemRenderT;
+type Props = DataT & ItemRenderT & { breakpoints: BreakpointT[] };
 
 export const InfiniteHomeCollectionItem = ({
   posterSrc,
@@ -18,9 +18,10 @@ export const InfiniteHomeCollectionItem = ({
   renderDateDescription,
   renderVenueName,
   renderItemWrapper,
+  breakpoints,
 }: Props) => {
   return renderItemWrapper(
-    <StyledRecentListScrollContainerItem>
+    <StyledRecentListScrollContainerItem $breakpoints={breakpoints}>
       <StyledInfiniteHomeCollectionItem $isLoading={false}>
         <StyledInfiniteHomeCollectionItemThumbnailWrapper>
           {renderPoster(posterSrc)}
