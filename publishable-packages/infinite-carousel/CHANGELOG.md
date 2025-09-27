@@ -1,5 +1,11 @@
 # @coldsurfers/infinite-carousel
 
+## 1.0.8
+
+### Patch Changes
+
+- [#557](https://github.com/coldsurfers/surfers-root/pull/557) [`efb42c6`](https://github.com/coldsurfers/surfers-root/commit/efb42c6e60b82c3b8ac1d6c7456efb81139caddb) Thanks [@yungblud](https://github.com/yungblud)! - Enhance drag events
+
 ## 1.0.7
 
 ### Patch Changes
