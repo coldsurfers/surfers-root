@@ -914,6 +914,9 @@ importers:
       '@aws-sdk/s3-presigned-post':
         specifier: ^3.254.0
         version: 3.750.0
+      '@coldsurfers/shared-utils':
+        specifier: workspace:*
+        version: link:../../packages/shared-utils
       '@fastify/aws-lambda':
         specifier: 5.0.0
         version: 5.0.0

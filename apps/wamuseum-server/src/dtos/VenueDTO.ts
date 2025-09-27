@@ -1,3 +1,4 @@
+import { generateSlug } from '@coldsurfers/shared-utils';
 import type { Venue } from '@prisma/client';
 import type { Venue as VenueResolverType } from '../../gql/resolvers-types';
 import { prisma } from '../libs/db/db.utils';
@@ -16,6 +17,10 @@ export default class VenueDTO {
     if (!lat || !lng || !name || !geohash || !address) {
       throw Error('invalid props');
     }
+    const slug = await generateSlug(name, async (newSlug) => {
+      const existing = await this.findBySlug(newSlug);
+      return !!existing;
+    });
     const data = await prisma.venue.create({
       data: {
         lat,
@@ -23,6 +28,7 @@ export default class VenueDTO {
         name,
         geohash,
         address,
+        slug,
       },
     });
     return new VenueDTO(data);
@@ -87,6 +93,15 @@ export default class VenueDTO {
       },
     });
     return new VenueDTO(data.venue);
+  }
+
+  async findBySlug(slug: string) {
+    const data = await prisma.venue.findUnique({
+      where: {
+        slug,
+      },
+    });
+    return data ? new VenueDTO(data) : null;
   }
 
   serialize(): VenueResolverType {
