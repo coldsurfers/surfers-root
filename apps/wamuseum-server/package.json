@@ -21,7 +21,8 @@
     "prisma:generate": "pnpm prisma generate --schema ../../packages/prisma-schema/prisma/schema.prisma",
     "serverless:offline": "npx serverless offline --httpPort 3003",
     "serverless:deploy:dev": "node ./src/scripts/serverless-pre-build.mjs && npx serverless deploy --stage dev",
-    "serverless:deploy:prod": "node ./src/scripts/serverless-pre-build.mjs && npx serverless deploy --stage prod"
+    "serverless:deploy:prod": "node ./src/scripts/serverless-pre-build.mjs && npx serverless deploy --stage prod",
+    "install:sharp": "node ./src/scripts/install-sharp.mjs"
   },
   "dependencies": {
     "@apollo/server": "^4.10.0",
