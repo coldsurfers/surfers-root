@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import {
   type AnchorHTMLAttributes,
   type MouseEventHandler,
+  type PointerEventHandler,
   type PropsWithChildren,
   useCallback,
 } from 'react';
@@ -33,8 +34,19 @@ export function GlobalLink({
     },
     [onClick, pathname, setIsLoading, target, href]
   );
+  const onPointerDown = useCallback<PointerEventHandler<HTMLAnchorElement>>((e) => {
+    e.preventDefault();
+  }, []);
+
   return (
-    <Link href={href} target={target} onClick={handleClick} {...otherProps}>
+    <Link
+      href={href}
+      target={target}
+      onClick={handleClick}
+      {...otherProps}
+      // or draggable={false}
+      onPointerDown={onPointerDown}
+    >
       {children}
     </Link>
   );
