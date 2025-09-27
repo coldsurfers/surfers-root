@@ -1,5 +1,11 @@
 # @coldsurfers/wamuseum-client
 
+## 1.1.4
+
+### Patch Changes
+
+- [#547](https://github.com/coldsurfers/surfers-root/pull/547) [`e531873`](https://github.com/coldsurfers/surfers-root/commit/e531873f2909dea0ac7d79f42a3f78e5a5969c04) Thanks [@yungblud](https://github.com/yungblud)! - enhance address value validation before mutateCreateVenue
+
 ## 1.1.3
 
 ### Patch Changes
