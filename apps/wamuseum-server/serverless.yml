@@ -13,9 +13,57 @@ provider:
   deploymentBucket:
     name: ${env:SERVERLESS_DEPLOYMENT_BUCKET}
 
+# https://sabinadams.hashnode.dev/managing-lambda-size-with-multiple-prisma-clients
+layers:
+  prismaWamuseumServer:
+    path: .prisma-layer
+    description: 'Layer for Prisma Clients'
+    package:
+      patterns:
+        - '!nodejs/node_modules/.prisma/**/libquery_engine-*'
+        - 'nodejs/node_modules/.prisma/**/libquery_engine-rhel-openssl-3.0.x.so.node'
+        - 'nodejs/node_modules/@prisma/client/**'
+        - '!nodejs/node_modules/prisma/libquery_engine-darwin-arm64.dylib.node'
+        - '!nodejs/node_modules/prisma/libquery_engine-rhel-openssl-1.0.x.so.node'
+  nodeModulesWamuseumServerLight:
+    path: .node-modules-layer-wamuseum-server-light
+    description: 'Include all node_modules'
+    package:
+      patterns:
+        - '!nodejs/node_modules/@prisma/**'
+        - '!nodejs/node_modules/.prisma/**'
+        - '!nodejs/node_modules/prisma/**'
+        - '!nodejs/node_modules/@img/**'
+        - '!nodejs/node_modules/@graphql-codegen/**'
+        - '!nodejs/node_modules/@graphql-tools/**'
+        - '!nodejs/node_modules/@firebase/**'
+        - '!nodejs/node_modules/@babel/**'
+        - '!nodejs/node_modules/rxjs/**'
+        - '!nodejs/node_modules/@aws-sdk/**'
+        - '!nodejs/node_modules/@apollo/**'
+        - '!nodejs/node_modules/firebase-admin/**'
+        - '!nodejs/node_modules/web-streams-polyfill/**'
+  nodeModulesWamuseumServerHeavy:
+    path: .node-modules-layer-wamuseum-server-heavy
+    description: 'Include all node_modules'
+    package:
+      patterns:
+        - 'nodejs/node_modules/**'
+  sharpImgWamuseumServer:
+    path: .img-modules-layer
+    description: 'Include @img node_modules'
+    package:
+      patterns:
+        - 'nodejs/node_modules/@img/**'
+
 functions:
   api:
     handler: build/lambda.handler
+    layers:
+      - { Ref: PrismaWamuseumServerLambdaLayer }
+      - { Ref: NodeModulesWamuseumServerLightLambdaLayer }
+      - { Ref: NodeModulesWamuseumServerHeavyLambdaLayer }
+      - { Ref: SharpImgWamuseumServerLambdaLayer }
     events:
       - httpApi: # REST API configuration
           path: /
@@ -27,4 +75,12 @@ functions:
 plugins:
   - serverless-offline
   - serverless-dotenv-plugin
-  - serverless-plugin-monorepo
+
+package:
+  patterns:
+    - '!.**-layer/**'
+    - '!node_modules/**'
+    - '!package/**'
+    - '!src'
+    - '!seeds'
+    - '!.eslintcache'
