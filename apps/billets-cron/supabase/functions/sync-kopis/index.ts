@@ -185,6 +185,12 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case '소셜클럽 아워딜라잇':
+      alreadyExistingVenueId = 'e994c099-27bb-4b37-bb2f-ce0a2e7b4043';
+      break;
+    case '이어령 예술극장 (구. 석관동 예술극장)':
+      alreadyExistingVenueId = '1dd29719-8311-4ffb-8159-e535cfd49b7a';
+      break;
     case '작은무대 극단가인':
       alreadyExistingVenueId = 'bd58464e-d6ea-4ec8-9e0f-77be1d4dc580';
       break;
