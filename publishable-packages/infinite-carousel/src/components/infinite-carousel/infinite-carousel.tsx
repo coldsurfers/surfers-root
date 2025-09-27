@@ -122,8 +122,6 @@ export const InfiniteCarousel = ({
   );
 
   const onPointerDown = useCallback<PointerEventHandler<HTMLDivElement>>((e) => {
-    e.preventDefault();
-    e.currentTarget.setPointerCapture(e.pointerId);
     pointerStarXtRef.current = e.clientX; // 시작 좌표 저장
   }, []);
 
