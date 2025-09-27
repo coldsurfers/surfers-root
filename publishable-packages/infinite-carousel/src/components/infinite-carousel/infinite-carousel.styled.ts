@@ -91,6 +91,10 @@ export const StyledInfiniteHomeCollectionScrollContainerArrow = styled.span<{ $i
     width: 5%;
   `)}
 
+  ${media.large(css`
+    width: 2%;
+  `)}
+
   ${media.small(css`
     display: none;
   `)}
