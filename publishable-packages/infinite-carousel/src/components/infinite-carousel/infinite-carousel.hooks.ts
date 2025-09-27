@@ -71,9 +71,20 @@ export const useInfiniteHomeCollection = ({ breakpoints, data }: Props) => {
   }, [windowWidth, breakpoints]);
 
   const initialRotatePercent = useMemo(() => {
-    const sideBarWidth = windowWidth > oceanRoadBreakPoints['x-large'] ? 2 : 5;
+    const magicNumber = (() => {
+      if (windowWidth > oceanRoadBreakPoints['x-large']) {
+        // sidebar 2%
+        return 2;
+      }
+      if (windowWidth > oceanRoadBreakPoints.large) {
+        // sidebar 5%
+        return 5;
+      }
+      // sidebar display none if small breakpoint, else 2%
+      return 2;
+    })();
 
-    return -(perPageItemCount * itemWidthPercent) + sideBarWidth;
+    return -(perPageItemCount * itemWidthPercent) + magicNumber;
   }, [perPageItemCount, itemWidthPercent, windowWidth]);
 
   const flushNextPage = useCallback(() => {
