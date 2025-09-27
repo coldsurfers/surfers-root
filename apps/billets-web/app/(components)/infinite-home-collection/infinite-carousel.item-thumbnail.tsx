@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import { type DetailedHTMLProps, type ImgHTMLAttributes, forwardRef, useState } from 'react';
 
-const StyledInfiniteHomeCollectionItemThumbnail = styled.img`
+const StyledInfiniteHomeCollectionItemThumbnail = styled.div<{ $url: string }>`
   width: 100%;
   object-fit: cover;
   border-radius: 8px;
@@ -14,13 +14,17 @@ const StyledInfiniteHomeCollectionItemThumbnail = styled.img`
   left: 0;
   width: 100%;
   height: 100%;
+
+  background-image: url(${(props) => props.$url});
+  background-size: cover;
+  background-position: center;
 `;
 
 const Thumbnail = forwardRef<
   HTMLImageElement,
-  DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>
+  DetailedHTMLProps<ImgHTMLAttributes<HTMLDivElement>, HTMLDivElement>
 >((props, ref) => {
-  return <StyledInfiniteHomeCollectionItemThumbnail ref={ref} {...props} />;
+  return <StyledInfiniteHomeCollectionItemThumbnail ref={ref} {...props} $url={props.src ?? ''} />;
 });
 
 const StyledInfiniteHomeCollectionItemThumbnailEmpty = styled.div`
