@@ -1,3 +1,4 @@
+import { breakpoints as oceanRoadBreakPoints } from '@coldsurfers/ocean-road';
 import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { useWindowWidth } from '../../hooks';
@@ -69,6 +70,12 @@ export const useInfiniteHomeCollection = ({ breakpoints, data }: Props) => {
     return itemWidthPercent;
   }, [windowWidth, breakpoints]);
 
+  const initialRotatePercent = useMemo(() => {
+    const sideBarWidth = windowWidth > oceanRoadBreakPoints['x-large'] ? 2 : 5;
+
+    return -(perPageItemCount * itemWidthPercent) + sideBarWidth;
+  }, [perPageItemCount, itemWidthPercent, windowWidth]);
+
   const flushNextPage = useCallback(() => {
     flushSync(() => {
       setInfiniteData((prev) => {
@@ -103,12 +110,20 @@ export const useInfiniteHomeCollection = ({ breakpoints, data }: Props) => {
     () => ({
       perPageItemCount,
       itemWidthPercent,
+      initialRotatePercent,
       data: {
         carouselItems: infiniteData,
       },
       flushNextPage,
       flushPrevPage,
     }),
-    [perPageItemCount, itemWidthPercent, infiniteData, flushNextPage, flushPrevPage]
+    [
+      perPageItemCount,
+      itemWidthPercent,
+      infiniteData,
+      flushNextPage,
+      flushPrevPage,
+      initialRotatePercent,
+    ]
   );
 };
