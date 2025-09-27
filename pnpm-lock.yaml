@@ -1008,6 +1008,12 @@ importers:
       '@types/nodemailer-smtp-transport':
         specifier: ^2.7.5
         version: 2.7.8
+      fs-extra:
+        specifier: ^11.3.0
+        version: 11.3.0
+      node-fetch:
+        specifier: 2.7.0
+        version: 2.7.0(encoding@0.1.13)
       prisma:
         specifier: 5.21.1
         version: 5.21.1
@@ -1020,6 +1026,9 @@ importers:
       serverless-plugin-monorepo:
         specifier: 0.11.0
         version: 0.11.0
+      tar:
+        specifier: ^7.4.3
+        version: 7.4.3
       ts-node-dev:
         specifier: ^2.0.0
         version: 2.0.0(@types/node@20.12.0)(typescript@5.6.3)
