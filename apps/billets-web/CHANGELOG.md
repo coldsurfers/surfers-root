@@ -1,5 +1,14 @@
 # @coldsurfers/billets-web
 
+## 1.2.4
+
+### Patch Changes
+
+- [#554](https://github.com/coldsurfers/surfers-root/pull/554) [`2695937`](https://github.com/coldsurfers/surfers-root/commit/2695937bef69e8a0b2d0f1a98773426cd2083231) Thanks [@yungblud](https://github.com/yungblud)! - Updated carousel
+
+- Updated dependencies [[`431627d`](https://github.com/coldsurfers/surfers-root/commit/431627d640f57592ca780ed2c1458115703c9f46)]:
+  - @coldsurfers/infinite-carousel@1.0.7
+
 ## 1.2.3
 
 ### Patch Changes
