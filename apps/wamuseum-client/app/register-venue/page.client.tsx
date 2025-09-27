@@ -46,13 +46,16 @@ const RegisterVenueClientPage = () => {
               if (!result.y || !result.x || !result.place_name) {
                 return;
               }
+              const address = result.road_address_name?.length
+                ? result.road_address_name
+                : result.address_name;
               mutateCreateVenue({
                 variables: {
                   input: {
                     lat: +result.y,
                     lng: +result.x,
                     name: result.place_name,
-                    address: result.road_address_name ?? result.address_name ?? '',
+                    address: address ?? '',
                   },
                 },
                 onCompleted: () => {
