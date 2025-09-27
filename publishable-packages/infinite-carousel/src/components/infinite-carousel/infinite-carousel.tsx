@@ -103,6 +103,10 @@ export const InfiniteCarousel = ({
       const touchStart = touchStartRef.current ?? 0;
       const touchEnd = e.nativeEvent.changedTouches[0].clientX;
 
+      const diff = Math.abs(touchStart - touchEnd);
+      if (diff < 50) {
+        return;
+      }
       const isPrev = touchStart < touchEnd;
       if (isPrev) {
         runInfiniteAnimation('prev');
