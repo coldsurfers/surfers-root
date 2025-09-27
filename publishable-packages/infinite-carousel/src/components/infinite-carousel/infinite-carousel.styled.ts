@@ -2,7 +2,7 @@ import { Text, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
-import { INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT } from './infinite-carousel.constants';
+import type { BreakpointT } from './infinite-carousel.types';
 
 export const StyledInfiniteHomeCollectionScrollContainer = styled(motion.div)`
   position: relative;
@@ -91,8 +91,8 @@ export const StyledInfiniteHomeCollectionScrollContainerArrow = styled.span<{ $i
     width: 5%;
   `)}
 
-  ${media.large(css`
-    top: unset;
+  ${media.small(css`
+    display: none;
   `)}
 
   &:hover {
@@ -103,23 +103,32 @@ export const StyledInfiniteHomeCollectionScrollContainerArrow = styled.span<{ $i
   }
 `;
 
-export const StyledRecentListScrollContainerItem = styled.div`
-  width: ${INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.DEFAULT}%;
+export const StyledRecentListScrollContainerItem = styled.div<{ $breakpoints: BreakpointT[] }>`
   aspect-ratio: 1 / 1;
   padding-right: .4vw;
   padding-bottom: 88px;
 
   display: inline-block;
 
-  ${media['x-large'](css`
-    width: ${INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.X_LARGE}%;
-    padding-bottom: 128px;
-  `)}
+  /* 1) 기본(모바일) 스타일: 가장 작은 규칙 or 명시적 기본값 */
+  ${({ $breakpoints }) => {
+    const sorted = $breakpoints.sort((a, b) => b.windowWidthLargerThan - a.windowWidthLargerThan);
+    const base = sorted.at(-1)?.itemWidthPercent ?? 0;
+    return css`
+      width: ${base}%;
+    `;
+  }}
 
-  ${media.large(css`
-    width: ${INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.LARGE}%;
-    padding-right: .6vw;
-  `)}
+  ${({ $breakpoints }) =>
+    $breakpoints
+      .sort((a, b) => a.windowWidthLargerThan - b.windowWidthLargerThan)
+      .map(
+        (bp) => css`
+                  @media screen and (min-width: ${bp.windowWidthLargerThan}px) {
+                    width: ${bp.itemWidthPercent}%;
+                  }
+                `
+      )}
 `;
 
 export const StyledInfiniteHomeCollectionItemBottomWrapper = styled.div`

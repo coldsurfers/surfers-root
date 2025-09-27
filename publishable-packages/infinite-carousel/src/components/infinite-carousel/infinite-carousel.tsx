@@ -2,7 +2,7 @@ import { semantics } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { useAnimation } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useCallback } from 'react';
+import { type TouchEventHandler, useCallback, useRef } from 'react';
 import { useInfiniteHomeCollection } from './infinite-carousel.hooks';
 import { InfiniteHomeCollectionItem } from './infinite-carousel.item';
 import {
@@ -37,11 +37,12 @@ export const InfiniteCarousel = ({
     data: infiniteCarouselData,
     flushNextPage,
     flushPrevPage,
+    initialRotatePercent,
   } = useInfiniteHomeCollection({ breakpoints, data });
 
-  const controls = useAnimation();
+  const touchStartRef = useRef<number>(0);
 
-  const initialRotatePercent = -(perPageItemCount * itemWidthPercent) + 2;
+  const controls = useAnimation();
 
   const runInfiniteAnimation = useCallback(
     (type: 'prev' | 'next') => {
@@ -93,6 +94,25 @@ export const InfiniteCarousel = ({
     ]
   );
 
+  const onTouchStart = useCallback<TouchEventHandler<HTMLDivElement>>((e) => {
+    touchStartRef.current = e.nativeEvent.changedTouches[0].clientX;
+  }, []);
+
+  const onTouchEnd = useCallback<TouchEventHandler<HTMLDivElement>>(
+    (e) => {
+      const touchStart = touchStartRef.current ?? 0;
+      const touchEnd = e.nativeEvent.changedTouches[0].clientX;
+
+      const isPrev = touchStart < touchEnd;
+      if (isPrev) {
+        runInfiniteAnimation('prev');
+      } else {
+        runInfiniteAnimation('next');
+      }
+    },
+    [runInfiniteAnimation]
+  );
+
   return (
     <Wrapper>
       <StyledInfiniteHomeCollectionScrollContainer
@@ -100,6 +120,12 @@ export const InfiniteCarousel = ({
         initial={{
           transform: `translateX(${initialRotatePercent}%)`,
         }}
+        style={{
+          transform: `translateX(${initialRotatePercent}%)`,
+        }}
+        key={initialRotatePercent}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
       >
         {infiniteCarouselData.carouselItems.map((value, index) => {
           return (
@@ -111,6 +137,7 @@ export const InfiniteCarousel = ({
               renderVenueName={renderVenueName}
               key={`${value.title}-${index}`}
               renderItemWrapper={renderItemWrapper}
+              breakpoints={breakpoints}
             />
           );
         })}
