@@ -1,3 +1,14 @@
+'use client';
+
+import { PromoteActionText, PromoteBodyText, PromoteHeaderText, PromoteSubCopyText } from './ui';
+
 export default function TattooPage() {
-  return <div>TattooPage</div>;
+  return (
+    <>
+      <PromoteHeaderText />
+      <PromoteSubCopyText />
+      <PromoteBodyText />
+      <PromoteActionText />
+    </>
+  );
 }
