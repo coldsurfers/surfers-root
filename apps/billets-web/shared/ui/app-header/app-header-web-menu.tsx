@@ -4,7 +4,7 @@ import { APP_DOWNLOAD_WORDING } from '@/libs/constants';
 import { Button } from '@coldsurfers/ocean-road';
 import { APP_STORE_URL } from '@coldsurfers/shared-utils';
 import { ColorSchemeToggle } from 'app/(ui)';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import type { MouseEventHandler } from 'react';
 import { HEADER_MENU_ITEMS } from '../constants';
 import { GlobalLink } from '../global-link';
@@ -26,6 +26,7 @@ export const AppHeaderWebMenu = ({
   onClose: () => void;
 }) => {
   const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <WebMenuContainer>
@@ -40,7 +41,9 @@ export const AppHeaderWebMenu = ({
           item.link === '/browse' ? HeaderMenuContainerLink : HeaderMenuContainerGlobalLink;
         return (
           <Container key={item.link} href={item.link} onClick={onClick} target={item.target}>
-            <HeaderMenuItem isLoading={isLoading}>{item.title}</HeaderMenuItem>
+            <HeaderMenuItem isLoading={isLoading} isCurrent={pathname.includes(item.link)}>
+              {item.title}
+            </HeaderMenuItem>
           </Container>
         );
       })}

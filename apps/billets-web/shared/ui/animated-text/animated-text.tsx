@@ -35,14 +35,41 @@ const renderInnerText = (text: string, renderComponent?: (text: string) => React
   return renderComponent ? renderComponent(text) : text;
 };
 
+const splitWithEmoji = (textString: string) =>
+  [...new Intl.Segmenter().segment(textString)].map((x) => x.segment);
+
+const getPreset = ({
+  lineIndex,
+  index,
+  delay,
+}: { lineIndex: number; index: number; delay: number }) =>
+  ({
+    progressiveChars: {
+      duration: 0.25,
+      ease: 'linear',
+      stiffness: 50,
+      type: 'spring',
+      delay: 0.025 * (lineIndex + index + 1) + (delay ?? 0),
+    },
+    opacityParagraph: {
+      duration: 0.25,
+      ease: 'linear',
+      stiffness: 50,
+      type: 'spring',
+      delay: delay ?? 0,
+    },
+  }) as const;
+
 export const AnimatedText = ({
   text,
   delay,
   renderComponent,
+  preset = 'progressiveChars',
 }: {
   text: string;
   delay?: number;
   renderComponent?: (text: string) => React.ReactNode;
+  preset?: keyof ReturnType<typeof getPreset>;
 }) => {
   const textSplitByNewLine = text.split('\n');
   const isPresent = useIsPresent();
@@ -60,7 +87,7 @@ export const AnimatedText = ({
             lineIndex
           }`}
         >
-          {line.split('').map((text, index) => {
+          {splitWithEmoji(line).map((text, index) => {
             return (
               <StyledMotionText
                 key={`${text}-${lineIndex}-${
@@ -72,13 +99,7 @@ export const AnimatedText = ({
                 initial={{ opacity: 0, translateY: '-20%', translateX: '-10%' }}
                 animate={{ opacity: 1, translateY: 0, translateX: 0 }}
                 exit={{ opacity: 0, translateY: '-20%', translateX: '-10%' }}
-                transition={{
-                  duration: 0.25,
-                  ease: 'linear',
-                  stiffness: 50,
-                  type: 'spring',
-                  delay: 0.025 * (lineIndex + index + 1) + (delay ?? 0),
-                }}
+                transition={getPreset({ lineIndex, index, delay: delay ?? 0 })[preset]}
               >
                 {renderInnerText(text, renderComponent)}
               </StyledMotionText>

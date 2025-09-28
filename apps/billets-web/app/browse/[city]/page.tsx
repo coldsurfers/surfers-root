@@ -64,7 +64,7 @@ export default async function BrowseByCityPage(props: { params: Promise<{ city: 
   const params = await props.params;
   return (
     <ApiErrorBoundaryRegistry>
-      <RouteLoading>
+      <RouteLoading deps={[params]}>
         <PageInner params={await params} />
       </RouteLoading>
     </ApiErrorBoundaryRegistry>

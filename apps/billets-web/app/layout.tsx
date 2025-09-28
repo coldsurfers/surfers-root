@@ -15,7 +15,7 @@ import {
   RegistryProvider,
 } from '@/libs/registries';
 import { getQueryClient } from '@/libs/utils';
-import { RouteListener } from '@/shared/lib';
+import { NotFoundContextProvider, RouteListener } from '@/shared/lib';
 import { SERVICE_NAME } from '@coldsurfers/shared-utils';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import type { Metadata } from 'next';
@@ -160,7 +160,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             ),
           }}
         />
-        <RegistryProvider registries={[OceanRoadThemeRegistry, FirebaseRegistry]}>
+        <RegistryProvider
+          registries={[OceanRoadThemeRegistry, FirebaseRegistry, NotFoundContextProvider]}
+        >
           <GlobalErrorBoundaryRegistry>
             <QueryClientRegistry>
               <HydrationBoundary state={dehydratedState}>
