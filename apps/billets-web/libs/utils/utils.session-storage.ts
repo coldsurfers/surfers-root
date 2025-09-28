@@ -3,7 +3,9 @@ import { tryParse } from '@coldsurfers/shared-utils';
 export type SessionStorageItem =
   | '@coldsurf-io/prev-path'
   | '@coldsurf-io/current-path'
-  | '@coldsurf-io/auth-redirect-path';
+  | '@coldsurf-io/auth-redirect-path'
+  | '@coldsurf-io/user-voice-contact'
+  | '@coldsurf-io/user-voice-message';
 
 export const appSessionStorage =
   typeof window !== 'undefined'

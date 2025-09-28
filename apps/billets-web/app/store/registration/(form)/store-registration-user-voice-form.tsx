@@ -1,6 +1,7 @@
 'use client';
 
 import { apiClient } from '@/libs/openapi-client';
+import { appSessionStorage } from '@/libs/utils';
 import { Button, Spinner, TextArea } from '@coldsurfers/ocean-road';
 import { tryParse } from '@coldsurfers/shared-utils';
 import styled from '@emotion/styled';
@@ -9,7 +10,6 @@ import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { AnimatedForm } from './animated-form';
-import { FORM_STORAGE_KEY } from './constants';
 import type { StoreRegistrationContactFormType } from './types';
 
 const StyledTextArea = styled(TextArea)`
@@ -29,20 +29,20 @@ export const StoreRegistrationUserVoiceForm = () => {
   const { mutate: sendUserVoice, isPending } = useMutation({
     mutationFn: apiClient.mailer.sendUserVoice,
     onSuccess: () => {
-      sessionStorage.removeItem(FORM_STORAGE_KEY.CONTACT);
-      sessionStorage.removeItem(FORM_STORAGE_KEY.MESSAGE);
+      appSessionStorage?.remove('@coldsurf-io/user-voice-contact');
+      appSessionStorage?.remove('@coldsurf-io/user-voice-message');
       router.push('/store/registration/success');
     },
   });
 
   const prevStoredData = useMemo(() => {
-    return tryParse<StoreRegistrationContactFormType>(
-      sessionStorage.getItem(FORM_STORAGE_KEY.CONTACT) ?? ''
+    return appSessionStorage?.get<StoreRegistrationContactFormType>(
+      '@coldsurf-io/user-voice-contact'
     );
   }, []);
 
   const storedMessage = useMemo(() => {
-    return sessionStorage.getItem(FORM_STORAGE_KEY.MESSAGE);
+    return appSessionStorage?.get<string>('@coldsurf-io/user-voice-message');
   }, []);
 
   const { handleSubmit, register } = useForm<Form>({
@@ -73,7 +73,7 @@ export const StoreRegistrationUserVoiceForm = () => {
         {...register('message', {
           maxLength: 1000,
           onChange: (e) => {
-            sessionStorage.setItem(FORM_STORAGE_KEY.MESSAGE, e.target.value);
+            appSessionStorage?.set('@coldsurf-io/user-voice-message', e.target.value);
           },
         })}
       />
