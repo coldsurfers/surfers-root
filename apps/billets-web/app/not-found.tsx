@@ -9,10 +9,11 @@ import { AboutPageLayout } from './(ui)/about-page-layout';
 export default function NotFound() {
   const { setIsNotFound } = useNotFoundContext();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: useEffectOnce
   useEffect(() => {
     setIsNotFound(true);
     return () => setIsNotFound(false);
-  }, [setIsNotFound]);
+  }, []);
 
   return (
     <AboutPageLayout>
