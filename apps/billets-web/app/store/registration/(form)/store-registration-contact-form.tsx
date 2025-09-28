@@ -1,5 +1,6 @@
 'use client';
 
+import { appSessionStorage } from '@/libs/utils';
 import { Button, Text, TextInput, colors } from '@coldsurfers/ocean-road';
 import { tryParse } from '@coldsurfers/shared-utils';
 import styled from '@emotion/styled';
@@ -7,7 +8,6 @@ import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { AnimatedForm } from './animated-form';
-import { FORM_STORAGE_KEY } from './constants';
 import type { StoreRegistrationContactFormType } from './types';
 
 const StyledLabel = styled(Text)`
@@ -47,8 +47,8 @@ function formatPhone(value: string) {
 
 export const StoreRegistrationContactForm = () => {
   const storedData = useMemo(() => {
-    return tryParse<StoreRegistrationContactFormType>(
-      sessionStorage.getItem(FORM_STORAGE_KEY.CONTACT) ?? ''
+    return appSessionStorage?.get<StoreRegistrationContactFormType>(
+      '@coldsurf-io/user-voice-contact'
     );
   }, []);
 
@@ -67,7 +67,7 @@ export const StoreRegistrationContactForm = () => {
   const router = useRouter();
 
   const onSubmit = (data: StoreRegistrationContactFormType) => {
-    sessionStorage.setItem(FORM_STORAGE_KEY.CONTACT, JSON.stringify(data));
+    appSessionStorage?.set('@coldsurf-io/user-voice-contact', JSON.stringify(data));
     router.push('/store/registration/user-voice');
   };
 
