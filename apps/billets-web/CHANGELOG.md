@@ -1,5 +1,11 @@
 # @coldsurfers/billets-web
 
+## 1.2.5
+
+### Patch Changes
+
+- [#562](https://github.com/coldsurfers/surfers-root/pull/562) [`aed7c4a`](https://github.com/coldsurfers/surfers-root/commit/aed7c4a8bbbdcdbf1d28daafbfe7b215896fe88d) Thanks [@yungblud](https://github.com/yungblud)! - Implement new tattoo page
+
 ## 1.2.4
 
 ### Patch Changes
