@@ -1,4 +1,12 @@
-import type { Brand, MusicEvent, PerformingGroup, Place, WebSite, WithContext } from 'schema-dts';
+import type {
+  Brand,
+  MusicEvent,
+  PerformingGroup,
+  Place,
+  WebPage,
+  WebSite,
+  WithContext,
+} from 'schema-dts';
 
 type BaseData = {
   keywords: string[];
@@ -163,6 +171,14 @@ export class NextMetadataGenerator {
           url: string;
           events: CustomMusicEvent[];
         }
+      | {
+          type: 'WebPageAbout';
+          name: string;
+          url: string;
+          image: string;
+          sameAs: string[];
+          description: string;
+        }
   ) {
     switch (params.type) {
       case 'WebSite':
@@ -208,6 +224,16 @@ export class NextMetadataGenerator {
           url: params.url,
           event: params.events.map((event) => generateMusicEvent(event)),
         } satisfies WithContext<PerformingGroup>;
+      case 'WebPageAbout':
+        return {
+          '@context': 'https://schema.org',
+          name: params.name,
+          '@type': 'AboutPage',
+          url: params.url,
+          image: params.image,
+          sameAs: params.sameAs,
+          description: params.description,
+        } satisfies WithContext<WebPage>;
       default:
         return {};
     }
