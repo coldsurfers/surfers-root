@@ -31,6 +31,10 @@ export function generateMetadata() {
       '타투 아티스트 프로모션',
       '타투 아티스트 프로모션 플랫폼',
       SERVICE_NAME,
+      'Tattoo',
+      'Tattoo Promotion',
+      'Korean Tattoo Artist',
+      'Tattoo Artist',
     ],
   });
 }
