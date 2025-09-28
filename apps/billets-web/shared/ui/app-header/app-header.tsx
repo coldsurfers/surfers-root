@@ -1,6 +1,6 @@
 'use client';
 
-import { useIsLoggedIn } from '@/shared/lib';
+import { useIsLoggedIn, useNotFoundContext } from '@/shared/lib';
 import { breakpoints } from '@coldsurfers/ocean-road';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -18,6 +18,7 @@ export function AppHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { isLoading: isLoadingUser } = useIsLoggedIn();
+  const { isNotFound } = useNotFoundContext();
 
   useEffect(() => {
     let lastScrollTop = 0;
@@ -47,7 +48,7 @@ export function AppHeader() {
     };
   }, []);
 
-  if (isBlacklisted) {
+  if (isBlacklisted || isNotFound) {
     return null;
   }
 

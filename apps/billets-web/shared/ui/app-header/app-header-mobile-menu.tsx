@@ -5,7 +5,7 @@ import { usePreventScrollEffect } from '@/shared/lib';
 import { Button, IconButton } from '@coldsurfers/ocean-road';
 import { APP_STORE_URL } from '@coldsurfers/shared-utils';
 import { ColorSchemeToggle } from 'app/(ui)';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import type { MouseEventHandler } from 'react';
 import { HEADER_MENU_ITEMS } from '../constants';
 import { GlobalLink } from '../global-link';
@@ -46,6 +46,7 @@ export const AppHeaderMobileModalMenu = ({
   isLoading: boolean;
 }) => {
   const router = useRouter();
+  const pathname = usePathname();
 
   usePreventScrollEffect({
     shouldPrevent: isOpen,
@@ -66,7 +67,9 @@ export const AppHeaderMobileModalMenu = ({
               };
               return (
                 <GlobalLink key={item.link} href={item.link} target={item.target} onClick={onClick}>
-                  <HeaderMenuItem isLoading={isLoading}>{item.title}</HeaderMenuItem>
+                  <HeaderMenuItem isLoading={isLoading} isCurrent={pathname.includes(item.link)}>
+                    {item.title}
+                  </HeaderMenuItem>
                 </GlobalLink>
               );
             })}

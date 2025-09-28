@@ -1,10 +1,19 @@
 'use client';
 
+import { useNotFoundContext } from '@/shared/lib';
 import { Button, Text } from '@coldsurfers/ocean-road';
 import Link from 'next/link';
+import { useEffect } from 'react';
 import { AboutPageLayout } from './(ui)/about-page-layout';
 
 export default function NotFound() {
+  const { setIsNotFound } = useNotFoundContext();
+
+  useEffect(() => {
+    setIsNotFound(true);
+    return () => setIsNotFound(false);
+  }, [setIsNotFound]);
+
   return (
     <AboutPageLayout>
       <div

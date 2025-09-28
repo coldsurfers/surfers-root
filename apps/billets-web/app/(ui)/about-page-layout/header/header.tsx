@@ -3,6 +3,7 @@
 import { HeaderMenuItem } from '@/shared/ui';
 import { ColorSchemeToggle } from 'app/(ui)';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { menuItems } from '../constants';
 import {
   ColorSchemeToggleContainer,
@@ -24,6 +25,7 @@ export function Header({
   isMobileMenuOpen,
   onClickCloseMobileMenuIcon,
 }: HeaderProps) {
+  const pathname = usePathname();
   return (
     <StyledHeaderWrapper>
       <StyledHeader>
@@ -36,7 +38,7 @@ export function Header({
             .filter((item) => item.visible)
             .map((item) => (
               <Link key={item.link} href={item.link}>
-                <HeaderMenuItem>
+                <HeaderMenuItem isCurrent={pathname.includes(item.link)}>
                   <StyledMenuText as="span">{item.title}</StyledMenuText>
                 </HeaderMenuItem>
               </Link>

@@ -1,4 +1,5 @@
 import { Text, semantics } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 
@@ -18,9 +19,17 @@ export const StyledMobileMenuBackground = styled(motion.div)`
   padding-right: 16px;
 `;
 
-export const StyledMobileMenuText = styled(Text)`
+export const StyledMobileMenuText = styled(Text)<{ $isHighlighted?: boolean }>`
   font-size: 24px;
   border-bottom: 1px solid ${semantics.color.border[2]};
   padding-bottom: 16px;
-  color: ${semantics.color.foreground[1]};
+  color: ${semantics.color.foreground[4]};
+  opacity: 0.75;
+
+  ${(props) =>
+    props.$isHighlighted &&
+    css`
+      color: ${semantics.color.foreground[1]};
+      opacity: 1;
+    `}
 `;
