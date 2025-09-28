@@ -1,5 +1,15 @@
 # @coldsurfers/billets-web
 
+## 1.2.6
+
+### Patch Changes
+
+- [#564](https://github.com/coldsurfers/surfers-root/pull/564) [`b677761`](https://github.com/coldsurfers/surfers-root/commit/b67776103d8e893fbf4f5aa9a1a78ea0daf74b59) Thanks [@yungblud](https://github.com/yungblud)! - Enhance tattoo, store registration page seo
+
+- Updated dependencies [[`b677761`](https://github.com/coldsurfers/surfers-root/commit/b67776103d8e893fbf4f5aa9a1a78ea0daf74b59)]:
+  - @coldsurfers/shared-utils@1.1.3
+  - @coldsurfers/cloudinary-utils@1.0.2
+
 ## 1.2.5
 
 ### Patch Changes
