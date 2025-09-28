@@ -22,4 +22,5 @@ export const StyledMobileMenuText = styled(Text)`
   font-size: 24px;
   border-bottom: 1px solid ${semantics.color.border[2]};
   padding-bottom: 16px;
+  color: ${semantics.color.foreground[1]};
 `;
