@@ -117,19 +117,19 @@ export default async function sitemap() {
       priority: 0.8,
     },
     {
-      url: generateUrl('/privacy-policy'),
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: generateUrl('/terms-of-service'),
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
       url: generateUrl('/browse'),
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: generateUrl('/tattoo'),
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: generateUrl('/store/registration'),
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
