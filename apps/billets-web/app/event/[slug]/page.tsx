@@ -97,7 +97,7 @@ export async function generateMetadata({
     title: metaTitle,
     description: metaDescription,
     images: metaImages,
-    url: `https://billets.coldsurf.io${generateSlugHref(pageParams.slug)}`,
+    url: `${SITE_URL}${generateSlugHref(pageParams.slug)}`,
   };
 
   return metadataInstance.generateMetadata<Metadata>({

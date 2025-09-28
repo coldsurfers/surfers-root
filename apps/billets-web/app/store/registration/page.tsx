@@ -4,8 +4,6 @@ import { PageContent } from './(ui)';
 
 const visible = FEATURE_FLAGS.useStoreRegistrationFeature;
 
-export const dynamic = 'force-static';
-
 export default function StorePage() {
   if (!visible) {
     notFound();

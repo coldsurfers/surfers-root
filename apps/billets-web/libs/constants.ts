@@ -25,7 +25,7 @@ export const SITE_URL = (() => {
       return 'http://localhost:3000';
   }
 })();
-export const SITE_MAP_URL = 'https://coldsurf.io/sitemap.xml';
+export const SITE_MAP_URL = `${SITE_URL}/sitemap.xml`;
 export const COMMON_META_TITLE = `${SERVICE_NAME} - 당신 근처의 공연, 예술, 사운드`;
 export const COMMON_META_DESCRIPTION = '지금 이 순간, 당신 근처에서 벌어지는 공연들';
 
