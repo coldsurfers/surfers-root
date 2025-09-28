@@ -1,7 +1,6 @@
 'use client';
 
-import { AppHeader } from '@/shared/ui';
-import { LoginSideBar } from '@/shared/ui';
+import { AppHeader, LoginSideBar } from '@/shared/ui';
 import { usePathname } from 'next/navigation';
 import { type PropsWithChildren, useEffect } from 'react';
 import { AppFooter } from '../app-footer';

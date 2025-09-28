@@ -3,11 +3,13 @@
 import { ColorSchemeToggle } from 'app/(ui)';
 import { AnimatePresence, type Variants } from 'framer-motion';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { menuItems } from '../constants';
 import { StyledMobileMenuBackground, StyledMobileMenuText } from './mobile-menu.styled';
 import type { MobileMenuProps } from './mobile-menu.types';
 
 export function MobileMenu({ isOpen, onClickMenuItem }: MobileMenuProps) {
+  const pathname = usePathname();
   // Animation variants
   const menuVariants: Variants = {
     hidden: {
@@ -47,7 +49,9 @@ export function MobileMenu({ isOpen, onClickMenuItem }: MobileMenuProps) {
               return (
                 <li key={item.title} style={{ margin: '20px 0' }}>
                   <Link href={item.link} onClick={onClickMenuItem}>
-                    <StyledMobileMenuText as="h3">{item.title}</StyledMobileMenuText>
+                    <StyledMobileMenuText as="h3" $isHighlighted={pathname.includes(item.link)}>
+                      {item.title}
+                    </StyledMobileMenuText>
                   </Link>
                 </li>
               );
