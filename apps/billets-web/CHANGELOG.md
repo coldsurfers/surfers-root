@@ -1,5 +1,11 @@
 # @coldsurfers/billets-web
 
+## 1.2.7
+
+### Patch Changes
+
+- [`7bd6eac`](https://github.com/coldsurfers/surfers-root/commit/7bd6eac652a162275ffbb8847385d8e6eeebea3d) Thanks [@yungblud](https://github.com/yungblud)! - Fixed session storage ssr issue
+
 ## 1.2.6
 
 ### Patch Changes
