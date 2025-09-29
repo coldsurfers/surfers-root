@@ -3,6 +3,7 @@
 import { logEvent } from '@/features/firebase/firebase';
 import { apiClient, initialPageQuery } from '@/libs/openapi-client';
 import { generateSlugHref } from '@/libs/utils/utils.slug';
+import { useIsHydrated } from '@/shared/lib';
 import { GlobalLink, VenueTitleMotion } from '@/shared/ui';
 import type { OpenApiError } from '@coldsurfers/api-sdk';
 import { InfiniteCarousel } from '@coldsurfers/infinite-carousel';
@@ -37,6 +38,8 @@ type Props = {
 };
 
 export const InfiniteHomeCollection = ({ slug }: Props) => {
+  const isHydrated = useIsHydrated();
+
   const { data: serverData } = useSuspenseQuery<DataT, OpenApiError, MutableDataT>({
     queryKey: initialPageQuery.homeVenueCollection(slug).queryKey,
     queryFn: () => apiClient.venue.getVenueDetailBySlug(slug),
@@ -72,89 +75,94 @@ export const InfiniteHomeCollection = ({ slug }: Props) => {
           text={<InfiniteHomeCollectionTitle collectionTitle={collectionTitle} />}
         />
       </GlobalLink>
-      <InfiniteCarousel
-        data={infiniteCarouselData}
-        renderItemWrapper={(children, item) => {
-          const targetItem = carouselData.find(
-            (carouselItem) => carouselItem.data.title === item.title
-          );
-          return (
-            <GlobalLink
-              href={targetItem ? generateSlugHref(targetItem.data.slug) : ''}
-              onClick={() => {
-                if (targetItem) {
-                  logEvent({
-                    name: 'click_home_collection',
-                    params: {
-                      event_id: targetItem.data.id,
-                    },
-                  });
+      {isHydrated ? (
+        <InfiniteCarousel
+          data={infiniteCarouselData}
+          renderItemWrapper={(children, item) => {
+            const targetItem = carouselData.find(
+              (carouselItem) => carouselItem.data.title === item.title
+            );
+            return (
+              <GlobalLink
+                href={targetItem ? generateSlugHref(targetItem.data.slug) : ''}
+                onClick={() => {
+                  if (targetItem) {
+                    logEvent({
+                      name: 'click_home_collection',
+                      params: {
+                        event_id: targetItem.data.id,
+                      },
+                    });
+                  }
+                }}
+              >
+                {children}
+              </GlobalLink>
+            );
+          }}
+          renderPoster={(src) => {
+            return <InfiniteHomeCollectionItemThumbnail src={src} alt={src} />;
+          }}
+          renderTitle={(title) => {
+            return (
+              <VenueTitleMotion
+                text={
+                  <StyledInfiniteHomeCollectionItemTitle as="p">
+                    {title}
+                  </StyledInfiniteHomeCollectionItemTitle>
                 }
-              }}
-            >
-              {children}
-            </GlobalLink>
-          );
-        }}
-        renderPoster={(src) => {
-          return <InfiniteHomeCollectionItemThumbnail src={src} alt={src} />;
-        }}
-        renderTitle={(title) => {
-          return (
-            <VenueTitleMotion
-              text={
-                <StyledInfiniteHomeCollectionItemTitle as="p">
-                  {title}
-                </StyledInfiniteHomeCollectionItemTitle>
-              }
-            />
-          );
-        }}
-        renderDateDescription={(dateDescription) => {
-          return (
-            <VenueTitleMotion
-              text={
-                <StyledInfiniteHomeCollectionItemDescriptionText as="p">
-                  {dateDescription}
-                </StyledInfiniteHomeCollectionItemDescriptionText>
-              }
-            />
-          );
-        }}
-        renderVenueName={(venueName) => {
-          return (
-            <VenueTitleMotion
-              text={
-                <StyledInfiniteHomeCollectionItemDescriptionText as="p">
-                  {venueName}
-                </StyledInfiniteHomeCollectionItemDescriptionText>
-              }
-            />
-          );
-        }}
-        breakpoints={[
-          {
-            windowWidthLargerThan: breakpoints['x-large'],
-            itemWidthPercent: INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.DEFAULT,
-            perPageItemCount: INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.DEFAULT,
-          },
-          {
-            windowWidthLargerThan: breakpoints.large,
-            itemWidthPercent: INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.X_LARGE,
-            perPageItemCount: INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.X_LARGE,
-          },
-          {
-            windowWidthLargerThan: breakpoints.medium,
-            itemWidthPercent: INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.LARGE,
-            perPageItemCount: INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.LARGE,
-          },
-          {
-            windowWidthLargerThan: breakpoints.small,
-            itemWidthPercent: INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.SMALL,
-            perPageItemCount: INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.SMALL,
-          },
-        ]}
-      />
+              />
+            );
+          }}
+          renderDateDescription={(dateDescription) => {
+            return (
+              <VenueTitleMotion
+                text={
+                  <StyledInfiniteHomeCollectionItemDescriptionText as="p">
+                    {dateDescription}
+                  </StyledInfiniteHomeCollectionItemDescriptionText>
+                }
+              />
+            );
+          }}
+          renderVenueName={(venueName) => {
+            return (
+              <VenueTitleMotion
+                text={
+                  <StyledInfiniteHomeCollectionItemDescriptionText as="p">
+                    {venueName}
+                  </StyledInfiniteHomeCollectionItemDescriptionText>
+                }
+              />
+            );
+          }}
+          breakpoints={[
+            {
+              windowWidthLargerThan: breakpoints['x-large'],
+              itemWidthPercent: INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.DEFAULT,
+              perPageItemCount: INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.DEFAULT,
+            },
+            {
+              windowWidthLargerThan: breakpoints.large,
+              itemWidthPercent: INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.X_LARGE,
+              perPageItemCount: INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.X_LARGE,
+            },
+            {
+              windowWidthLargerThan: breakpoints.medium,
+              itemWidthPercent: INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.LARGE,
+              perPageItemCount: INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.LARGE,
+            },
+            {
+              windowWidthLargerThan: breakpoints.small,
+              itemWidthPercent: INFINITE_HOME_COLLECTION_ITEM_WIDTH_PERCENT.SMALL,
+              perPageItemCount: INFINITE_HOME_COLLECTION_PER_PAGE_ITEM_COUNT.SMALL,
+            },
+          ]}
+        />
+      ) : (
+        // Hydration 완료 전까지는 빈 공간 표시
+        <div style={{ height: '300px', width: '100%' }} />
+      )}
     </Wrapper>
   );
 };
