@@ -543,8 +543,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/cloudinary-utils
       '@coldsurfers/infinite-carousel':
-        specifier: 1.0.9
-        version: 1.0.9(@coldsurfers/ocean-road-design-tokens@1.10.3)(@coldsurfers/ocean-road@1.11.9(904b18ee881d76c92b61183f2ea39063))(@emotion/css@11.10.6)(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(@emotion/styled@11.10.6(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(@types/react@18.2.67)(react@19.0.0))(framer-motion@11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(lucide-react@0.469.0(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: 1.0.10
+        version: 1.0.10(@coldsurfers/ocean-road-design-tokens@1.10.3)(@coldsurfers/ocean-road@1.11.9(904b18ee881d76c92b61183f2ea39063))(@emotion/css@11.10.6)(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(@emotion/styled@11.10.6(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(@types/react@18.2.67)(react@19.0.0))(framer-motion@11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(lucide-react@0.469.0(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@coldsurfers/ocean-road':
         specifier: 1.11.9
         version: 1.11.9(904b18ee881d76c92b61183f2ea39063)
@@ -2893,8 +2893,8 @@ packages:
   '@clack/prompts@0.9.1':
     resolution: {integrity: sha512-JIpyaboYZeWYlyP0H+OoPPxd6nqueG/CmN6ixBiNFsIDHREevjIf0n0Ohh5gr5C8pEDknzgvz+pIJ8dMhzWIeg==}
 
-  '@coldsurfers/infinite-carousel@1.0.9':
-    resolution: {integrity: sha512-cAw8YVWWc+z1+iHe9SvkDNPDXDqBwWVIbPOu8RQKkM7l39n/ftVIDgKDe3lTRXXYGxtRQQSlIe/4t2MGh30q0w==, tarball: https://npm.pkg.github.com/download/@coldsurfers/infinite-carousel/1.0.9/7d1e64f2041433e779a26593c39804a46e2dfd24}
+  '@coldsurfers/infinite-carousel@1.0.10':
+    resolution: {integrity: sha512-wmTOPZLsG+421TT0d8SPljrvGnxti7y0aifuvQdMonpRVZK1s9bqtiPd6lXU9KqKiTCNkOgjUhSPC6oeU/Ot2A==, tarball: https://npm.pkg.github.com/download/@coldsurfers/infinite-carousel/1.0.10/8fa7231039fb4ed9e35cae2bd616dfe37be20146}
     peerDependencies:
       '@coldsurfers/ocean-road': ^1.11.6
       '@coldsurfers/ocean-road-design-tokens': ^1.10.3
@@ -16761,7 +16761,7 @@ snapshots:
       picocolors: 1.1.1
       sisteransi: 1.0.5
 
-  '@coldsurfers/infinite-carousel@1.0.9(@coldsurfers/ocean-road-design-tokens@1.10.3)(@coldsurfers/ocean-road@1.11.9(904b18ee881d76c92b61183f2ea39063))(@emotion/css@11.10.6)(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(@emotion/styled@11.10.6(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(@types/react@18.2.67)(react@19.0.0))(framer-motion@11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(lucide-react@0.469.0(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+  '@coldsurfers/infinite-carousel@1.0.10(@coldsurfers/ocean-road-design-tokens@1.10.3)(@coldsurfers/ocean-road@1.11.9(904b18ee881d76c92b61183f2ea39063))(@emotion/css@11.10.6)(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(@emotion/styled@11.10.6(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(@types/react@18.2.67)(react@19.0.0))(framer-motion@11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(lucide-react@0.469.0(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@coldsurfers/ocean-road': 1.11.9(904b18ee881d76c92b61183f2ea39063)
       '@coldsurfers/ocean-road-design-tokens': 1.10.3
