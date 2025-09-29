@@ -1,4 +1,5 @@
 // useWindowWidth.ts
+import { breakpoints } from '@coldsurfers/ocean-road';
 import { useSyncExternalStore } from 'react';
 
 type Listener = () => void;
@@ -33,7 +34,7 @@ if (typeof window !== 'undefined') {
  * 현재 윈도우 width를 외부 스토어처럼 구독합니다.
  * @param initialWidth SSR에서 사용할 초기값 (기본 0)
  */
-export function useWindowWidth(initialWidth = 0) {
+export function useWindowWidth(initialWidth?: number) {
   return useSyncExternalStore(
     // subscribe
     (callback) => {
@@ -43,6 +44,12 @@ export function useWindowWidth(initialWidth = 0) {
     // getSnapshot (클라이언트)
     () => width,
     // getServerSnapshot (SSR)
-    () => initialWidth
+    () => {
+      // SSR 시점에 window가 실제로 존재하면 그 값을 사용, 그렇지 않으면 기본값 사용
+      if (typeof window !== 'undefined' && window.innerWidth) {
+        return window.innerWidth;
+      }
+      return initialWidth ?? breakpoints['x-large']; // 적절한 기본값 (x-large breakpoint)
+    }
   );
 }

@@ -3,7 +3,8 @@ import { tryParse } from '@coldsurfers/shared-utils';
 export type StorageItem =
   | '@coldsurf-io/access-token'
   | '@coldsurf-io/refresh-token'
-  | '@coldsurf-io/theme';
+  | '@coldsurf-io/theme'
+  | '@coldsurf-io/survey-store';
 
 const storage =
   typeof window !== 'undefined'
