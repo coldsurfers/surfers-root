@@ -1,5 +1,11 @@
 # @coldsurfers/infinite-carousel
 
+## 1.0.10
+
+### Patch Changes
+
+- [#568](https://github.com/coldsurfers/surfers-root/pull/568) [`29ec490`](https://github.com/coldsurfers/surfers-root/commit/29ec49016bfdff6c83f958abbed3d0cefa1a93f7) Thanks [@yungblud](https://github.com/yungblud)! - Support window width with SSR
+
 ## 1.0.9
 
 ### Patch Changes

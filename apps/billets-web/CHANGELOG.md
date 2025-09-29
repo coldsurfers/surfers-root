@@ -1,5 +1,14 @@
 # @coldsurfers/billets-web
 
+## 1.2.8
+
+### Patch Changes
+
+- [#568](https://github.com/coldsurfers/surfers-root/pull/568) [`29ec490`](https://github.com/coldsurfers/surfers-root/commit/29ec49016bfdff6c83f958abbed3d0cefa1a93f7) Thanks [@yungblud](https://github.com/yungblud)! - Enhance home collection with SSR and CSR
+
+- Updated dependencies [[`29ec490`](https://github.com/coldsurfers/surfers-root/commit/29ec49016bfdff6c83f958abbed3d0cefa1a93f7)]:
+  - @coldsurfers/infinite-carousel@1.0.10
+
 ## 1.2.7
 
 ### Patch Changes
