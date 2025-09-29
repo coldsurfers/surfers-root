@@ -1,1 +1,1 @@
-export { useSurveyStore } from './survey.store';
+export { useSurveyStore, useHasSurveyHydrated } from './survey.store';
