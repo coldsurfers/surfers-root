@@ -5,3 +5,9 @@
 ```bash
 $ pnpm prisma migrate deploy
 ```
+
+## Pull from origin DB
+
+```bash
+$ pnpm prisma db pull
+```
