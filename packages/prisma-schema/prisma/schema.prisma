@@ -5,9 +5,10 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Event {
@@ -35,13 +36,13 @@ model User {
   passwordSalt       String?
   provider           String
   deactivatedAt      DateTime?
+  handle             String?                     @unique
   auth_token         AuthToken[]
   fcmTokens          UsersOnFCMTokens[]
   staffs             UsersOnStaffs[]
   subscribedArtists  UsersOnSubscribedArtists[]
   subscribedConcerts UsersOnSubscribedConcerts[]
   subscribedVenues   UsersOnSubscribedVenues[]
-  handle             String?                     @unique
 }
 
 model FCMToken {
@@ -74,15 +75,15 @@ model AuthToken {
 model Venue {
   id              String                    @id @default(uuid())
   name            String
-  slug            String?                   @unique
   lat             Float
   lng             Float
   geohash         String
   createdAt       DateTime                  @default(now())
   address         String
+  slug            String?                   @unique
+  memo            String?
   concerts        ConcertsOnVenues[]
   subscribedUsers UsersOnSubscribedVenues[]
-  memo            String?
 }
 
 model Promoter {
@@ -137,7 +138,6 @@ model EventCategory {
 model Concert {
   id              String                      @id @default(uuid())
   title           String
-  slug            String?                     @unique
   date            DateTime                    @db.Timestamptz(6)
   createdAt       DateTime                    @default(now())
   updatedAt       DateTime?
@@ -145,13 +145,14 @@ model Concert {
   isKOPIS         Boolean                     @default(false)
   locationCityId  String?
   eventCategoryId String?
+  slug            String?                     @unique
   eventCategory   EventCategory?              @relation(fields: [eventCategoryId], references: [id])
   locationCity    LocationCity?               @relation(fields: [locationCityId], references: [id])
   artists         ConcertsOnArtists[]
+  detailImages    ConcertsOnDetailImages[]
   posters         ConcertsOnPosters[]
   tickets         ConcertsOnTickets[]
   venues          ConcertsOnVenues[]
-  detailImages    ConcertsOnDetailImages[]
   kopisEvent      KOPISEvent?
   subscribedUsers UsersOnSubscribedConcerts[]
 
@@ -170,17 +171,17 @@ model Poster {
   imageURL    String?             @default("")
   createdAt   DateTime            @default(now())
   copyrightId String?
+  keyId       String?             @default("")
   concerts    ConcertsOnPosters[]
   copyright   Copyright?          @relation(fields: [copyrightId], references: [id])
-  keyId       String?             @default("")
 }
 
 model DetailImage {
   id        String                   @id @default(uuid())
   imageURL  String
   createdAt DateTime                 @default(now())
-  concerts  ConcertsOnDetailImages[]
   keyId     String?                  @default("")
+  concerts  ConcertsOnDetailImages[]
 }
 
 model TicketsOnPrices {
