@@ -26,7 +26,8 @@
     "deploy:coldsurf-server:prod": "node ./src/scripts/serverless-pre-build.mjs && npx serverless deploy --stage prod",
     "serverless:offline": "npx serverless offline --httpPort 3001",
     "serverless:package": "node ./src/scripts/serverless-pre-build.mjs && npx serverless package",
-    "watch": "tsup --watch --onSuccess 'node ./build/start-server.js'"
+    "watch": "tsup --watch --onSuccess 'node ./build/start-server.js'",
+    "supabase:gen": "npx supabase gen types typescript --project-id PROJECT_ID > src/lib/types/supabase-schema.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.726.1",
@@ -40,6 +41,7 @@
     "@img/sharp-libvips-linux-x64": "1.0.4",
     "@img/sharp-linux-x64": "0.33.5",
     "@prisma/client": "5.21.1",
+    "@supabase/supabase-js": "^2.58.0",
     "axios": "1.6.3",
     "crypto-js": "4.2.0",
     "date-fns": "4.1.0",
