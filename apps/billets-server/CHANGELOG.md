@@ -1,5 +1,11 @@
 # @coldsurfers/billets-server
 
+## 1.2.30
+
+### Patch Changes
+
+- [#572](https://github.com/coldsurfers/surfers-root/pull/572) [`8825b45`](https://github.com/coldsurfers/surfers-root/commit/8825b45c352b95227e7c9fe6c2d826872da175d7) Thanks [@yungblud](https://github.com/yungblud)! - update search controller with supabase rpc
+
 ## 1.2.29
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @coldsurfers/prisma-schema
 
+## 0.5.2
+
+### Patch Changes
+
+- [#573](https://github.com/coldsurfers/surfers-root/pull/573) [`baf5a06`](https://github.com/coldsurfers/surfers-root/commit/baf5a06ac06e4f3809cfa3a5c3d71e928c56f32e) Thanks [@yungblud](https://github.com/yungblud)! - add migrations
+
+- [#570](https://github.com/coldsurfers/surfers-root/pull/570) [`be7f988`](https://github.com/coldsurfers/surfers-root/commit/be7f988cc8c9f6ee22f7e05451e6b399d77dbf1d) Thanks [@yungblud](https://github.com/yungblud)! - Add prisma migrations
+
 ## 0.5.1
 
 ### Patch Changes
