@@ -40,6 +40,7 @@
     "@img/sharp-libvips-linux-x64": "1.0.4",
     "@img/sharp-linux-x64": "0.33.5",
     "@prisma/client": "5.21.1",
+    "@supabase/supabase-js": "^2.58.0",
     "axios": "1.6.3",
     "crypto-js": "4.2.0",
     "date-fns": "4.1.0",
