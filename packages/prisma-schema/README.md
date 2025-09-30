@@ -11,3 +11,9 @@ $ pnpm prisma migrate deploy
 ```bash
 $ pnpm prisma db pull
 ```
+
+## Rollback migration
+
+```bash
+$ pnpm prisma migrate --rolled-back MIGRATION_NAME
+```
