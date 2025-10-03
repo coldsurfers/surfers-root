@@ -1,54 +1,33 @@
-import type { SearchDTO } from '@/dtos/search.dto';
+import { type SearchDTO, SearchDTOSchema } from '@/dtos/search.dto';
 import { supabase } from '@/lib/supabase';
-import type { Json } from '@/lib/types/supabase-schema';
 import type { SearchRepository } from './search.repository';
 
 type SearchModel = SearchDTO;
 
-function castPosters(value: Json): {
-  id: string;
-  imageURL: string;
-}[] {
-  return value as {
-    id: string;
-    imageURL: string;
-  }[];
-}
-
-function castVenues(value: Json): {
-  id: string;
-  name: string;
-}[] {
-  return value as {
-    id: string;
-    name: string;
-  }[];
-}
-
 export class SearchRepositoryImpl implements SearchRepository {
   async searchManyByKeyword(keyword: string): Promise<SearchDTO[]> {
-    const { data, error } = await supabase.rpc('search_concerts_trgm', {
+    const { data, error } = await supabase.rpc('search_all_discriminated', {
       q: keyword,
       limit_input: 50,
-      offset_input: 0,
-      city_id_input: undefined,
     });
 
     if (error) {
       throw error;
     }
 
-    return data.map((item) => {
-      return this.toDTO({
-        type: 'concert',
-        date: new Date(item.date).toISOString(),
-        slug: item.slug,
-        title: item.title,
-        thumbnailImgUrl: castPosters(item.posters).at(0)?.imageURL ?? '',
-        venueTitle: castVenues(item.venues).at(0)?.name ?? '',
-        id: item.id,
-      });
-    });
+    const searchResult = data
+      .map((item) => {
+        const searchDTO = SearchDTOSchema.safeParse(item);
+        if (!searchDTO.success) {
+          console.error(searchDTO.error);
+          return null;
+        }
+        return searchDTO.data;
+      })
+      .filter((value) => value !== null)
+      .map((item) => this.toDTO(item));
+
+    return searchResult;
 
     // const artistData = await dbClient.artist.findMany({
     //   where: {

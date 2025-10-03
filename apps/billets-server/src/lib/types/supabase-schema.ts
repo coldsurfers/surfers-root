@@ -715,6 +715,21 @@ export type Database = {
         };
         Relationships: [];
       };
+      search_synonyms: {
+        Row: {
+          synonyms: string[];
+          term: string;
+        };
+        Insert: {
+          synonyms: string[];
+          term: string;
+        };
+        Update: {
+          synonyms?: string[];
+          term?: string;
+        };
+        Relationships: [];
+      };
       Staff: {
         Row: {
           created_at: string;
@@ -1069,6 +1084,10 @@ export type Database = {
       normalize_text: {
         Args: { input: string };
         Returns: string;
+      };
+      search_all_discriminated: {
+        Args: { limit_input?: number; q: string };
+        Returns: Json[];
       };
       search_concerts_trgm: {
         Args: {

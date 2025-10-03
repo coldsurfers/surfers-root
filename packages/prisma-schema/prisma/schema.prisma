@@ -355,3 +355,10 @@ enum platforms {
   ios
   android
 }
+
+model search_synonyms {
+  term     String   @id
+  synonyms String[]
+
+  @@ignore   // Prisma Client에서 완전히 무시
+}

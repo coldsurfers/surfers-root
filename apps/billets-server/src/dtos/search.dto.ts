@@ -21,6 +21,7 @@ export const SearchDTOSchema = z.discriminatedUnion('type', [
     venueTitle: z.string(),
     id: z.string(),
     slug: z.string().nullable(),
+    locationCityId: z.string(),
   }),
 ]);
 export type SearchDTO = z.infer<typeof SearchDTOSchema>;
