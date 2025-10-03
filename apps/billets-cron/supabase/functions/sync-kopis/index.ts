@@ -185,6 +185,9 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case '언더시티 (UNDER CITY)':
+      alreadyExistingVenueId = 'cce65e7e-e349-4263-8ba3-5c1956c39ac4';
+      break;
     case '2D Hall(이디홀)':
       alreadyExistingVenueId = '00650ef3-bb6c-4b78-9bf0-656177e88e58';
       break;
