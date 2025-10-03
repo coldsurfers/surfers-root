@@ -1,5 +1,15 @@
 # @coldsurfers/billets-web
 
+## 1.2.9
+
+### Patch Changes
+
+- [#575](https://github.com/coldsurfers/surfers-root/pull/575) [`350067e`](https://github.com/coldsurfers/surfers-root/commit/350067ebf86a320e8d3a1e5d0223ee4a4f9759af) Thanks [@yungblud](https://github.com/yungblud)! - fixed text colors
+
+- Updated dependencies [[`350067e`](https://github.com/coldsurfers/surfers-root/commit/350067ebf86a320e8d3a1e5d0223ee4a4f9759af)]:
+  - @coldsurfers/api-sdk@1.0.1
+  - @coldsurfers/openapi-client@1.0.3
+
 ## 1.2.8
 
 ### Patch Changes
