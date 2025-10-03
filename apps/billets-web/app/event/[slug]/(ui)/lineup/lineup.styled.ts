@@ -39,4 +39,6 @@ export const StyledLineupNameText = styled(Text)`
   margin-left: 1rem;
   font-weight: 600;
   font-size: 18px;
+
+  color: ${semantics.color.foreground[1]};
 `;

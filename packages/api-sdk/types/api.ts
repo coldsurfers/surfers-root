@@ -1350,6 +1350,7 @@ export interface paths {
                   /** Format: date-time */
                   date: string;
                   id: string;
+                  locationCityId: string;
                   slug: string | null;
                   thumbnailImgUrl: string;
                   title: string;

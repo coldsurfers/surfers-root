@@ -8,6 +8,8 @@ export const StyledArtistDetailEventListTitleText = styled(Text)`
 
   font-size: 28px;
 
+  color: ${semantics.color.foreground[1]};
+
   ${media.large(css`
     font-size: 20px;
   `)}
@@ -62,6 +64,8 @@ export const StyledArtistDetailEventListItemThumbnailEmptyText = styled(Text)`
 
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+
+  color: ${semantics.color.foreground[1]};
 `;
 
 export const StyledArtistDetailEventListItemDescriptionWrapper = styled.div`
@@ -74,6 +78,8 @@ export const StyledArtistDetailEventListItemTitle = styled(Text)`
   font-weight: bold;
   margin: unset;
   margin-bottom: 0.5rem;
+
+  color: ${semantics.color.foreground[1]};
 
   ${media.medium(css`
     font-size: 18px;
