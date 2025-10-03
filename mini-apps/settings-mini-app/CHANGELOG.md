@@ -1,5 +1,13 @@
 # @coldsurfers/settings-mini-app
 
+## 1.0.8
+
+### Patch Changes
+
+- Updated dependencies [[`350067e`](https://github.com/coldsurfers/surfers-root/commit/350067ebf86a320e8d3a1e5d0223ee4a4f9759af)]:
+  - @coldsurfers/api-sdk@1.0.1
+  - @coldsurfers/openapi-client@1.0.3
+
 ## 1.0.7
 
 ### Patch Changes

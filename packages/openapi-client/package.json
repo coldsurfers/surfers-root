@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/openapi-client",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "private": true,
   "main": "dist/index.js",
@@ -8,7 +8,11 @@
   "module": "dist/index.mjs",
   "source": "src/",
   "types": "dist/index.d.ts",
-  "files": ["src", "dist", "package.json"],
+  "files": [
+    "src",
+    "dist",
+    "package.json"
+  ],
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
