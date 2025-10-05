@@ -70,7 +70,6 @@
     "react-notion-x": "7.2.5",
     "react-tweet": "^3.2.2",
     "schema-dts": "1.1.2",
-    "slick-carousel": "^1.8.1",
     "ts-pattern": "5.4.0",
     "zod": "3.23.8",
     "zustand": "5.0.1"
