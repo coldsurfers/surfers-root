@@ -1,5 +1,15 @@
 # @coldsurfers/billets-app
 
+## 2.2.9
+
+### Patch Changes
+
+- Updated dependencies [[`6c01493`](https://github.com/coldsurfers/surfers-root/commit/6c0149357f0ca8c34d43e4a5b98476c5616adc03), [`06e6952`](https://github.com/coldsurfers/surfers-root/commit/06e69527a81dd299037bf58b6cbba8daa564f7bf)]:
+  - @coldsurfers/shared-utils@1.1.4
+  - @coldsurfers/ocean-road@1.11.10
+  - @coldsurfers/settings-mini-app@1.0.9
+  - @coldsurfers/react-native-esbuild-deploy@1.0.1
+
 ## 2.2.8
 
 ### Patch Changes
