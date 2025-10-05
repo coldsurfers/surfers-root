@@ -23,11 +23,7 @@
   "react-native": "src/index.ts",
   "source": "src/",
   "types": "dist/index.d.ts",
-  "files": [
-    "src",
-    "dist",
-    "package.json"
-  ],
+  "files": ["src", "dist", "package.json"],
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "rm -rf dist && tsdown && cp -R ./src/css ./dist",
@@ -60,7 +56,6 @@
     "react-dom": "19.0.0",
     "react-native-reanimated": "3.17.1",
     "react-native-svg": "15.11.1",
-    "react-spinners": "0.14.1",
     "rollup": "^3.20.7",
     "rollup-plugin-import-css": "^3.2.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
@@ -79,8 +74,7 @@
     "react": ">= 19.0.0",
     "react-dom": ">= 19.0.0",
     "react-native-reanimated": ">= 3.17.1",
-    "react-native-svg": "15.11.1",
-    "react-spinners": "0.14.1"
+    "react-native-svg": "15.11.1"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
