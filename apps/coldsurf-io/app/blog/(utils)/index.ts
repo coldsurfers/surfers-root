@@ -41,3 +41,14 @@ export const convertSeriesCategoryToTitle = (seriesCategory: SeriesCategory) => 
     .with('video', () => 'YOU MUST WATCH THIS')
     .exhaustive();
 };
+
+type ThrowErrorParams = {
+  type: 'invalid-series-category';
+  seriesCategory: string;
+};
+
+export const createBlogError = (params: ThrowErrorParams) => {
+  return match(params.type).with('invalid-series-category', () => {
+    return new Error(`invalid series category: ${params.seriesCategory}`);
+  });
+};

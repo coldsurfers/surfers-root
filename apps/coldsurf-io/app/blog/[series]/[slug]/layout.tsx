@@ -3,6 +3,7 @@ import { generateLogDetailMetadata } from 'app/blog/(metadata)';
 import { queryAllSeries, querySeriesItem } from 'app/blog/(notion)/query';
 import type { AppLocale } from 'app/blog/(types)/i18n';
 import { SeriesCategorySchema } from 'app/blog/(types)/series';
+import { createBlogError } from 'app/blog/(utils)';
 import type { Metadata } from 'next/types';
 import type { ReactNode } from 'react';
 
@@ -26,7 +27,10 @@ export async function generateMetadata(props: {
   const params = await props.params;
   const seriesCategoryValidation = SeriesCategorySchema.safeParse(params.series);
   if (!seriesCategoryValidation.success) {
-    throw new Error('invalid series category');
+    throw createBlogError({
+      type: 'invalid-series-category',
+      seriesCategory: params.series,
+    });
   }
   const page = await querySeriesItem({
     slug: params.slug,
@@ -47,7 +51,10 @@ export default async function SeriesSlugPageLayout(props: {
   const params = await props.params;
   const seriesCategoryValidation = SeriesCategorySchema.safeParse(params.series);
   if (!seriesCategoryValidation.success) {
-    throw new Error('invalid series category');
+    throw createBlogError({
+      type: 'invalid-series-category',
+      seriesCategory: params.series,
+    });
   }
   return <>{children}</>;
 }

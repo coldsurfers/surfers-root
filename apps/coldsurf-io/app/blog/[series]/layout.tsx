@@ -5,6 +5,7 @@ import { match } from 'ts-pattern';
 import { ALL_SERIES_CATEGORIES } from '../(constants)';
 import { generateLogListMetadata } from '../(metadata)';
 import { SeriesCategorySchema } from '../(types)/series';
+import { createBlogError } from '../(utils)';
 
 export const revalidate = 3600;
 export const dynamic = 'force-static';
@@ -23,7 +24,10 @@ export async function generateMetadata(props: {
   const params = await props.params;
   const seriesCategoryValidation = SeriesCategorySchema.safeParse(params.series);
   if (!seriesCategoryValidation.success) {
-    throw new Error('invalid series category');
+    throw createBlogError({
+      type: 'invalid-series-category',
+      seriesCategory: params.series,
+    });
   }
   const metaTitle = match(seriesCategoryValidation.data)
     .with('catholic', () => 'COLDSURF Blog: Article about Catholic')

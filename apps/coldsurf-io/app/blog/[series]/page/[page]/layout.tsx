@@ -1,5 +1,6 @@
 import { generateLogListMetadata } from 'app/blog/(metadata)';
 import { SeriesCategorySchema } from 'app/blog/(types)/series';
+import { createBlogError } from 'app/blog/(utils)';
 import type { Metadata } from 'next/types';
 import type { ReactNode } from 'react';
 import { match } from 'ts-pattern';
@@ -16,7 +17,10 @@ export async function generateStaticParams({
   const seriesParams = await params;
   const seriesCategoryValidation = SeriesCategorySchema.safeParse(seriesParams.series);
   if (!seriesCategoryValidation.success) {
-    throw new Error('invalid series category');
+    throw createBlogError({
+      type: 'invalid-series-category',
+      seriesCategory: seriesParams.series,
+    });
   }
   const seriesCategory = seriesCategoryValidation.data;
   const { totalPage } = await fetchGetSeries({
@@ -38,7 +42,10 @@ export async function generateMetadata({
   const layoutParams = await params;
   const seriesCategoryValidation = SeriesCategorySchema.safeParse(layoutParams.series);
   if (!seriesCategoryValidation.success) {
-    throw new Error('invalid series category');
+    throw createBlogError({
+      type: 'invalid-series-category',
+      seriesCategory: layoutParams.series,
+    });
   }
   const metaTitle = match(seriesCategoryValidation.data)
     .with('catholic', () => 'COLDSURF Blog: Article about Catholic')
@@ -70,7 +77,10 @@ export default async function BlogArticleListByPageLayout({
   const seriesParams = (await params).series;
   const seriesCategoryValidation = SeriesCategorySchema.safeParse(seriesParams);
   if (!seriesCategoryValidation.success) {
-    throw new Error('invalid series category');
+    throw createBlogError({
+      type: 'invalid-series-category',
+      seriesCategory: seriesParams,
+    });
   }
   return children;
 }
