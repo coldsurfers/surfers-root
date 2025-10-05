@@ -1,7 +1,7 @@
 import { GlobalErrorBoundaryRegistry } from '@/libs/registries';
 import { RouteLoading } from 'app/(ui)/route-loading';
 import { fetchGetSeries } from 'app/blog/(fetchers)';
-import type { SeriesCategory } from 'app/blog/(types)/series';
+import { SeriesCategorySchema } from 'app/blog/(types)/series';
 import { PageLayout } from '../../../(components)/page-layout';
 import { SeriesListAll } from '../../../(components)/series-list-all';
 
@@ -10,14 +10,17 @@ export default async function BlogArticleListByPage({
 }: {
   params: Promise<{
     page: string;
-    series: SeriesCategory;
+    series: string;
   }>;
 }) {
   const { page, series } = await params;
-
+  const seriesCategoryValidation = SeriesCategorySchema.safeParse(series);
+  if (!seriesCategoryValidation.success) {
+    throw new Error('invalid series category');
+  }
   const { postItems, totalPage } = await fetchGetSeries({
     appLocale: 'ko',
-    seriesCategory: series,
+    seriesCategory: seriesCategoryValidation.data,
     tag: undefined,
   });
   return (
@@ -28,7 +31,7 @@ export default async function BlogArticleListByPage({
             postItems={postItems}
             totalPage={totalPage}
             currentPage={Number(page)}
-            seriesCategory={series}
+            seriesCategory={seriesCategoryValidation.data}
           />
         </PageLayout>
       </RouteLoading>
