@@ -11,6 +11,7 @@
     "url": "git+https://github.com/coldsurfers/surfers-root"
   },
   "scripts": {
+    "postinstall": "pnpm next typegen",
     "build": "pnpm prisma:generate && next build",
     "create:env:ci": "pnpm ts-node ./libs/createDotEnv.ts",
     "check:type": "tsc --noEmit",

@@ -1,4 +1,3 @@
-import { COMMON_META_DESCRIPTION, COMMON_META_TITLE } from '@/libs/constants';
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next/types';
 import type { ReactNode } from 'react';
@@ -21,39 +20,32 @@ export function generateStaticParams() {
 export async function generateMetadata(props: {
   params: LayoutProps<'/blog/[series]'>['params'];
 }): Promise<Metadata> {
-  try {
-    const params = await props.params;
-    const seriesCategoryValidation = SeriesCategorySchema.safeParse(params.series);
-    if (!seriesCategoryValidation.success) {
-      throw new Error('invalid series category');
-    }
-    const metaTitle = match(seriesCategoryValidation.data)
-      .with('catholic', () => 'COLDSURF Blog: Article about Catholic')
-      .with('sound', () => 'COLDSURF Blog: Article about music')
-      .with('tech', () => 'COLDSURF Blog: Article about Software Development')
-      .with('text', () => 'COLDSURF Blog: Article about Books & Texts')
-      .with('video', () => 'COLDSURF Blog: Article about films and videos')
-      .exhaustive();
-
-    const metaDescription = match(seriesCategoryValidation.data)
-      .with('catholic', () => 'Article about Catholic')
-      .with('sound', () => 'Article about music')
-      .with('tech', () => 'Article about Software Development')
-      .with('text', () => 'Article about Books & Texts')
-      .with('video', () => 'Article about films and videos')
-      .exhaustive();
-
-    return generateLogListMetadata({
-      title: metaTitle,
-      description: metaDescription,
-      seriesCategory: seriesCategoryValidation.data,
-    });
-  } catch {
-    return generateLogListMetadata({
-      title: COMMON_META_TITLE,
-      description: COMMON_META_DESCRIPTION,
-    });
+  const params = await props.params;
+  const seriesCategoryValidation = SeriesCategorySchema.safeParse(params.series);
+  if (!seriesCategoryValidation.success) {
+    throw new Error('invalid series category');
   }
+  const metaTitle = match(seriesCategoryValidation.data)
+    .with('catholic', () => 'COLDSURF Blog: Article about Catholic')
+    .with('sound', () => 'COLDSURF Blog: Article about music')
+    .with('tech', () => 'COLDSURF Blog: Article about Software Development')
+    .with('text', () => 'COLDSURF Blog: Article about Books & Texts')
+    .with('video', () => 'COLDSURF Blog: Article about films and videos')
+    .exhaustive();
+
+  const metaDescription = match(seriesCategoryValidation.data)
+    .with('catholic', () => 'Article about Catholic')
+    .with('sound', () => 'Article about music')
+    .with('tech', () => 'Article about Software Development')
+    .with('text', () => 'Article about Books & Texts')
+    .with('video', () => 'Article about films and videos')
+    .exhaustive();
+
+  return generateLogListMetadata({
+    title: metaTitle,
+    description: metaDescription,
+    seriesCategory: seriesCategoryValidation.data,
+  });
 }
 
 export default async function SeriesPageLayout(props: {
