@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { db } from './db';
 
-const idToSlugJsonPath = path.resolve(__dirname, '../../../apps/billets-web/venue-id-to-slug.json');
+const idToSlugJsonPath = path.resolve(__dirname, '../../../apps/coldsurf-io/venue-id-to-slug.json');
 
 async function generateIdToSlug() {
   await db.$connect();

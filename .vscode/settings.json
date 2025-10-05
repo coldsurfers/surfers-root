@@ -35,7 +35,6 @@
     "billets-app",
     "ci",
     "wamuseum-client",
-    "billets-web",
     "prisma-schema",
     "surf-tree",
     "coldsurf-io",

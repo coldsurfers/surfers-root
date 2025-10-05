@@ -1,4 +1,4 @@
-# @coldsurfers/billets-web
+# @coldsurfers/coldsurf-io
 
 ## 1.2.9
 
