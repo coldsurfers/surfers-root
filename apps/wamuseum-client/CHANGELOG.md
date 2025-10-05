@@ -1,5 +1,14 @@
 # @coldsurfers/wamuseum-client
 
+## 1.1.5
+
+### Patch Changes
+
+- [#582](https://github.com/coldsurfers/surfers-root/pull/582) [`06e6952`](https://github.com/coldsurfers/surfers-root/commit/06e69527a81dd299037bf58b6cbba8daa564f7bf) Thanks [@yungblud](https://github.com/yungblud)! - Remove react-spinners
+
+- Updated dependencies [[`06e6952`](https://github.com/coldsurfers/surfers-root/commit/06e69527a81dd299037bf58b6cbba8daa564f7bf)]:
+  - @coldsurfers/ocean-road@1.11.10
+
 ## 1.1.4
 
 ### Patch Changes
