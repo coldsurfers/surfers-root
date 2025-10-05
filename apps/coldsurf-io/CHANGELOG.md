@@ -1,5 +1,11 @@
 # @coldsurfers/coldsurf-io
 
+## 1.2.12
+
+### Patch Changes
+
+- [#585](https://github.com/coldsurfers/surfers-root/pull/585) [`649f58b`](https://github.com/coldsurfers/surfers-root/commit/649f58bcf94467c84623c7fbb281c1824ff947aa) Thanks [@yungblud](https://github.com/yungblud)! - Fixed sentry files chunks import issue
+
 ## 1.2.11
 
 ### Patch Changes
