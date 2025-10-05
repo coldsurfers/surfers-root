@@ -653,12 +653,6 @@ importers:
       react-notion-x:
         specifier: 7.2.5
         version: 7.2.5(patch_hash=3b8bdd450d87f729b467c81e8b0a4c149e5a0ec65dfddc2b2071c6703840739d)(@babel/runtime@7.26.9)(@types/react@18.2.67)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      react-slick:
-        specifier: ^0.31.0
-        version: 0.31.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      react-spinners:
-        specifier: 0.14.1
-        version: 0.14.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react-tweet:
         specifier: ^3.2.2
         version: 3.2.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -844,9 +838,6 @@ importers:
       react-hook-form:
         specifier: 7.48.2
         version: 7.48.2(react@19.0.0)
-      react-spinners:
-        specifier: 0.14.1
-        version: 0.14.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       string-width:
         specifier: 4.2.3
         version: 4.2.3
@@ -1450,9 +1441,6 @@ importers:
       react-native-svg:
         specifier: 15.11.1
         version: 15.11.1(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
-      react-spinners:
-        specifier: 0.14.1
-        version: 0.14.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       rollup:
         specifier: ^3.20.7
         version: 3.29.5
@@ -7937,9 +7925,6 @@ packages:
   cjs-module-lexer@1.4.3:
     resolution: {integrity: sha512-9z8TZaGM1pfswYeXrUpzPrkx8UnWYdhJclsiYMm6x/w5+nN+8Tf/LnAgfLGQCm59qAOxU8WwHEq2vNwF6i4j+Q==}
 
-  classnames@2.5.1:
-    resolution: {integrity: sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==}
-
   clean-stack@2.2.0:
     resolution: {integrity: sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==}
     engines: {node: '>=6'}
@@ -10556,9 +10541,6 @@ packages:
     resolution: {integrity: sha512-rvm6hunfCcqegwYaG5T4yKJWxc9FXFgBVrcTZ4XfSVRwa5HA/Xs+vB/Eo9treYYHCeNM0nrSUr82V/M31Urc7A==}
     engines: {node: '>= 0.2.0'}
 
-  json2mq@0.2.0:
-    resolution: {integrity: sha512-SzoRg7ux5DWTII9J2qkrZrqV1gt+rTaoufMxEzXbS26Uid0NwaJd123HcoB80TgubEppxxIGdNxCx50fEoEWQA==}
-
   json5@1.0.2:
     resolution: {integrity: sha512-g1MWMLBiz8FKi1e4w0UyVL3w+iJceWAFBAaBnnGKOpNa5f8TLktkbre1+s6oICydWAm+HRUGTmI+//xv2hvXYA==}
     hasBin: true
@@ -12526,12 +12508,6 @@ packages:
     resolution: {integrity: sha512-Hwln1VNuGl/6bVwnd0Xdn1e84gT/8T9aYNL+HAKDArLCS7LWjwr7StE30IEYbIkx0Vi3vs+coQxe+SQDbGbbpA==}
     engines: {node: '>=0.10.0'}
 
-  react-slick@0.31.0:
-    resolution: {integrity: sha512-zo6VLT8wuSBJffg/TFPbzrw2dEnfZ/cUKmYsKByh3AgatRv29m2LoFbq5vRMa3R3A4wp4d8gwbJKO2fWZFaI3g==}
-    peerDependencies:
-      react: ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-      react-dom: ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-
   react-spinners@0.14.1:
     resolution: {integrity: sha512-2Izq+qgQ08HTofCVEdcAQCXFEYfqTDdfeDQJeo/HHQiQJD4imOicNLhkfN2eh1NYEWVOX4D9ok2lhuDB0z3Aag==}
     peerDependencies:
@@ -12722,9 +12698,6 @@ packages:
 
   reserved-words@0.1.2:
     resolution: {integrity: sha512-0S5SrIUJ9LfpbVl4Yzij6VipUdafHrOTzvmfazSw/jeZrZtQK303OPZW+obtkaw7jQlTQppy0UvZWm9872PbRw==}
-
-  resize-observer-polyfill@1.5.1:
-    resolution: {integrity: sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==}
 
   resolve-alpn@1.2.1:
     resolution: {integrity: sha512-0a1F4l73/ZFZOakJnQ3FvkJ2+gSTQWz/r2KE5OdDY0TxPm5h4GkqkWWfM47T7HsbnOtcJVEF4epCVy6u7Q3K+g==}
@@ -13374,9 +13347,6 @@ packages:
   strict-uri-encode@2.0.0:
     resolution: {integrity: sha512-QwiXZgpRcKkhTj2Scnn++4PKtWsH0kpzZ62L2R6c/LUVYv7hVnZqcg2+sMuT6R7Jusu1vviK/MFsu6kNJfWlEQ==}
     engines: {node: '>=4'}
-
-  string-convert@0.2.1:
-    resolution: {integrity: sha512-u/1tdPl4yQnPBjnVrmdLo9gtuLvELKsAoRapekWggdiQNvvvum+jYF329d84NAa660KQw7pB2n36KrIKVoXa3A==}
 
   string-env-interpolation@1.0.1:
     resolution: {integrity: sha512-78lwMoCcn0nNu8LszbP1UA7g55OeE4v7rCeWnM5B453rnNr4aq+5it3FEYtZrSEiMvHZOZ9Jlqb0OD0M2VInqg==}
@@ -23326,8 +23296,6 @@ snapshots:
 
   cjs-module-lexer@1.4.3: {}
 
-  classnames@2.5.1: {}
-
   clean-stack@2.2.0: {}
 
   cli-boxes@3.0.0: {}
@@ -26619,10 +26587,6 @@ snapshots:
       remedial: 1.0.8
       remove-trailing-spaces: 1.0.9
 
-  json2mq@0.2.0:
-    dependencies:
-      string-convert: 0.2.1
-
   json5@1.0.2:
     dependencies:
       minimist: 1.2.8
@@ -28887,15 +28851,6 @@ snapshots:
 
   react-refresh@0.4.3: {}
 
-  react-slick@0.31.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
-    dependencies:
-      classnames: 2.5.1
-      json2mq: 0.2.0
-      lodash.debounce: 4.0.8
-      react: 19.0.0
-      react-dom: 19.0.0(react@19.0.0)
-      resize-observer-polyfill: 1.5.1
-
   react-spinners@0.14.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       react: 19.0.0
@@ -29147,8 +29102,6 @@ snapshots:
   reselect@4.1.8: {}
 
   reserved-words@0.1.2: {}
-
-  resize-observer-polyfill@1.5.1: {}
 
   resolve-alpn@1.2.1: {}
 
@@ -29938,8 +29891,6 @@ snapshots:
       bare-events: 2.5.4
 
   strict-uri-encode@2.0.0: {}
-
-  string-convert@0.2.1: {}
 
   string-env-interpolation@1.0.1: {}
 

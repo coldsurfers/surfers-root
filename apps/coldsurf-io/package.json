@@ -2,9 +2,7 @@
   "name": "@coldsurfers/coldsurf-io",
   "version": "1.2.10",
   "private": true,
-  "files": [
-    "package.json"
-  ],
+  "files": ["package.json"],
   "bugs": {
     "url": "https://github.com/coldsurfers/surfers-root"
   },
@@ -70,8 +68,6 @@
     "react-hook-form": "7.48.2",
     "react-lite-youtube-embed": "2.4.0",
     "react-notion-x": "7.2.5",
-    "react-slick": "^0.31.0",
-    "react-spinners": "0.14.1",
     "react-tweet": "^3.2.2",
     "schema-dts": "1.1.2",
     "slick-carousel": "^1.8.1",
