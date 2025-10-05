@@ -10,7 +10,7 @@ apps의 구조에 대해 간략히 설명드릴게요.
 ```sh
 apps/                   # 애플리케이션들
 ├── billets-app/        # RN 모바일 앱 (COLDSURF 앱)
-├── billets-web/        # Nextjs 웹 앱 (COLDSURF 웹)
+├── coldsurf-io/        # Nextjs 웹 앱 (COLDSURF 웹)
 ├── billets-server/     # Fastify + Prisma를 활용한 서버
 ├── billets-cron/       # 데이터를 주입하기 위한 supabase functions
 ├── wamuseum-client/    # 어드민 Nextjs 클라이언트
