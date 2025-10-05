@@ -1,27 +1,31 @@
 import { SeriesListAll } from '../(components)';
 import { PageLayout } from '../(components)/page-layout';
 import { fetchGetSeries } from '../(fetchers)';
-import type { SeriesCategory } from '../(types)/series';
+import { SeriesCategorySchema } from '../(types)/series';
 import { convertSeriesCategoryToTitle } from '../(utils)';
 
 export default async function SeriesPage(props: {
   params: Promise<{
-    series: SeriesCategory;
+    series: string;
   }>;
 }) {
   const params = await props.params;
-  const series = params.series as SeriesCategory;
+  const seriesCategoryValidation = SeriesCategorySchema.safeParse(params.series);
+  if (!seriesCategoryValidation.success) {
+    throw new Error('invalid series category');
+  }
+  const seriesCategory = seriesCategoryValidation.data;
 
   const { postItems, totalPage } = await fetchGetSeries({
     appLocale: 'ko',
-    seriesCategory: series,
+    seriesCategory,
     tag: undefined,
   });
 
   return (
-    <PageLayout title={convertSeriesCategoryToTitle(series)}>
+    <PageLayout title={convertSeriesCategoryToTitle(seriesCategory)}>
       <SeriesListAll
-        seriesCategory={series}
+        seriesCategory={seriesCategory}
         postItems={postItems}
         totalPage={totalPage}
         currentPage={1}
