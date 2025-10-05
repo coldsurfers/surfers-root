@@ -1,5 +1,12 @@
 # @coldsurfers/db-migration
 
+## 1.0.7
+
+### Patch Changes
+
+- Updated dependencies [[`6c01493`](https://github.com/coldsurfers/surfers-root/commit/6c0149357f0ca8c34d43e4a5b98476c5616adc03)]:
+  - @coldsurfers/shared-utils@1.1.4
+
 ## 1.0.6
 
 ### Patch Changes

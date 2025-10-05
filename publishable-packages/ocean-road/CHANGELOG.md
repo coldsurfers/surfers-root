@@ -1,5 +1,11 @@
 # @coldsurfers/ocean-road
 
+## 1.11.10
+
+### Patch Changes
+
+- [#582](https://github.com/coldsurfers/surfers-root/pull/582) [`06e6952`](https://github.com/coldsurfers/surfers-root/commit/06e69527a81dd299037bf58b6cbba8daa564f7bf) Thanks [@yungblud](https://github.com/yungblud)! - Remove react-spinners
+
 ## 1.11.9
 
 ### Patch Changes

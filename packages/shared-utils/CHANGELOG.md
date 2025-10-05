@@ -1,5 +1,11 @@
 # @coldsurfers/shared-utils
 
+## 1.1.4
+
+### Patch Changes
+
+- [#580](https://github.com/coldsurfers/surfers-root/pull/580) [`6c01493`](https://github.com/coldsurfers/surfers-root/commit/6c0149357f0ca8c34d43e4a5b98476c5616adc03) Thanks [@yungblud](https://github.com/yungblud)! - Fixed page og image
+
 ## 1.1.3
 
 ### Patch Changes
