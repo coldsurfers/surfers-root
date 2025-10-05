@@ -5,6 +5,7 @@ import type { FetchGetSeriesItemSearchParams } from 'app/api/blog/series/[slug]/
 import { fetchGetSeriesItem } from 'app/blog/(fetchers)';
 import { LogDetailRenderer } from 'app/blog/(notion-render)/log-detail-renderer';
 import { SeriesCategorySchema } from 'app/blog/(types)/series';
+import { createBlogError } from 'app/blog/(utils)';
 
 const getSeriesItemStatic = cache(
   async (slug: string, searchParams: FetchGetSeriesItemSearchParams) => {
@@ -22,7 +23,10 @@ export default async function SeriesSlugPage(props: {
   const params = await props.params;
   const seriesCategoryValidation = SeriesCategorySchema.safeParse(params.series);
   if (!seriesCategoryValidation.success) {
-    throw new Error('invalid series category');
+    throw createBlogError({
+      type: 'invalid-series-category',
+      seriesCategory: params.series,
+    });
   }
   const initialData = await getSeriesItemStatic(params.slug, {
     seriesCategory: seriesCategoryValidation.data,

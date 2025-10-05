@@ -2,7 +2,7 @@ import { SeriesListAll } from '../(components)';
 import { PageLayout } from '../(components)/page-layout';
 import { fetchGetSeries } from '../(fetchers)';
 import { SeriesCategorySchema } from '../(types)/series';
-import { convertSeriesCategoryToTitle } from '../(utils)';
+import { convertSeriesCategoryToTitle, createBlogError } from '../(utils)';
 
 export default async function SeriesPage(props: {
   params: Promise<{
@@ -12,7 +12,10 @@ export default async function SeriesPage(props: {
   const params = await props.params;
   const seriesCategoryValidation = SeriesCategorySchema.safeParse(params.series);
   if (!seriesCategoryValidation.success) {
-    throw new Error('invalid series category');
+    throw createBlogError({
+      type: 'invalid-series-category',
+      seriesCategory: params.series,
+    });
   }
   const seriesCategory = seriesCategoryValidation.data;
 
