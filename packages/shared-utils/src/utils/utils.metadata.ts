@@ -43,6 +43,9 @@ type BaseData = {
   };
   openGraph?: {
     siteName: string;
+    images?: {
+      url: string;
+    }[];
   };
 };
 
@@ -119,6 +122,11 @@ export class NextMetadataGenerator {
 
   public generateMetadata<T>(additionalMetadata: T): T {
     const { icons, metadataBase, appLinks, keywords, twitter, openGraph } = this.baseData;
+    const defaultOgImages = [
+      {
+        url: 'https://coldsurf.io/icons/favicon.ico',
+      },
+    ];
     const value = {
       ...additionalMetadata,
       icons,
@@ -129,6 +137,7 @@ export class NextMetadataGenerator {
       twitter,
       openGraph: {
         siteName: openGraph?.siteName,
+        images: Array.isArray(openGraph?.images) ? openGraph.images : defaultOgImages,
         // @ts-ignore
         ...additionalMetadata.openGraph,
       },
