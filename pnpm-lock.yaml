@@ -547,10 +547,10 @@ importers:
         version: link:../../packages/cloudinary-utils
       '@coldsurfers/infinite-carousel':
         specifier: 1.0.10
-        version: 1.0.10(@coldsurfers/ocean-road-design-tokens@1.10.3)(@coldsurfers/ocean-road@1.11.10(77cf41c5ef17b4b2104bc2fefd84ac4c))(@emotion/css@11.13.5)(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.2.0))(@types/react@18.2.67)(react@19.2.0))(framer-motion@11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(lucide-react@0.469.0(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        version: 1.0.10(@coldsurfers/ocean-road-design-tokens@1.10.3)(@coldsurfers/ocean-road@1.11.10(30634bc5277259a03896d46e4d20dc44))(@emotion/css@11.13.5)(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.0.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.0.0))(@types/react@18.2.67)(react@19.0.0))(framer-motion@11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(lucide-react@0.469.0(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@coldsurfers/ocean-road':
         specifier: 1.11.10
-        version: 1.11.10(77cf41c5ef17b4b2104bc2fefd84ac4c)
+        version: 1.11.10(30634bc5277259a03896d46e4d20dc44)
       '@coldsurfers/ocean-road-design-tokens':
         specifier: 1.10.3
         version: 1.10.3
@@ -565,13 +565,13 @@ importers:
         version: 11.13.5
       '@emotion/react':
         specifier: 11.14.0
-        version: 11.14.0(@types/react@18.2.67)(react@19.2.0)
+        version: 11.14.0(@types/react@18.2.67)(react@19.0.0)
       '@emotion/styled':
         specifier: 11.14.1
-        version: 11.14.1(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.2.0))(@types/react@18.2.67)(react@19.2.0)
+        version: 11.14.1(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.0.0))(@types/react@18.2.67)(react@19.0.0)
       '@lukemorales/query-key-factory':
         specifier: 1.3.4
-        version: 1.3.4(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.59.16(react@19.2.0))
+        version: 1.3.4(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.59.16(react@19.0.0))
       '@notionhq/client':
         specifier: 2.2.14
         version: 2.2.14(encoding@0.1.13)
@@ -580,13 +580,13 @@ importers:
         version: 5.21.1(prisma@5.21.1)
       '@sentry/nextjs':
         specifier: ^9.38.0
-        version: 9.38.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(encoding@0.1.13)(next@15.5.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.85.0))(react@19.2.0)(webpack@5.98.0)
+        version: 9.38.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(encoding@0.1.13)(next@15.5.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0))(react@19.0.0)(webpack@5.98.0)
       '@tanstack/react-query':
         specifier: 5.59.16
-        version: 5.59.16(react@19.2.0)
+        version: 5.59.16(react@19.0.0)
       '@uidotdev/usehooks':
         specifier: ^2.4.1
-        version: 2.4.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        version: 2.4.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
@@ -598,7 +598,7 @@ importers:
         version: 11.1.0
       framer-motion:
         specifier: 11.11.13
-        version: 11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        version: 11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       html2pdf.js:
         specifier: ^0.10.2
         version: 0.10.2
@@ -613,22 +613,22 @@ importers:
         version: 1.7.5
       lucide-react:
         specifier: 0.469.0
-        version: 0.469.0(react@19.2.0)
+        version: 0.469.0(react@19.0.0)
       next:
         specifier: 15.5.4
-        version: 15.5.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.85.0)
+        version: 15.5.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0)
       notion-client:
         specifier: 7.1.5
         version: 7.1.5
       nuqs:
         specifier: ^2.5.1
-        version: 2.5.1(next@15.5.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.85.0))(react@19.2.0)
+        version: 2.5.1(next@15.5.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0))(react@19.0.0)
       openapi-fetch:
         specifier: 0.14.0
         version: 0.14.0
       openapi-react-query:
         specifier: 0.2.9
-        version: 0.2.9(@tanstack/react-query@5.59.16(react@19.2.0))(openapi-fetch@0.14.0)
+        version: 0.2.9(@tanstack/react-query@5.59.16(react@19.0.0))(openapi-fetch@0.14.0)
       prisma:
         specifier: 5.21.1
         version: 5.21.1
@@ -636,26 +636,26 @@ importers:
         specifier: 1.30.0
         version: 1.30.0
       react:
-        specifier: 19.2.0
-        version: 19.2.0
+        specifier: 19.0.0
+        version: 19.0.0
       react-dom:
-        specifier: 19.2.0
-        version: 19.2.0(react@19.2.0)
+        specifier: 19.0.0
+        version: 19.0.0(react@19.0.0)
       react-error-boundary:
         specifier: 5.0.0
-        version: 5.0.0(react@19.2.0)
+        version: 5.0.0(react@19.0.0)
       react-hook-form:
         specifier: 7.48.2
-        version: 7.48.2(react@19.2.0)
+        version: 7.48.2(react@19.0.0)
       react-lite-youtube-embed:
         specifier: 2.4.0
-        version: 2.4.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        version: 2.4.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react-notion-x:
         specifier: 7.2.5
-        version: 7.2.5(patch_hash=3b8bdd450d87f729b467c81e8b0a4c149e5a0ec65dfddc2b2071c6703840739d)(@babel/runtime@7.26.9)(@types/react@18.2.67)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        version: 7.2.5(patch_hash=3b8bdd450d87f729b467c81e8b0a4c149e5a0ec65dfddc2b2071c6703840739d)(@babel/runtime@7.26.9)(@types/react@18.2.67)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react-tweet:
         specifier: ^3.2.2
-        version: 3.2.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        version: 3.2.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       schema-dts:
         specifier: 1.1.2
         version: 1.1.2(typescript@5.6.3)
@@ -667,7 +667,7 @@ importers:
         version: 4.1.11
       zustand:
         specifier: 5.0.1
-        version: 5.0.1(@types/react@18.2.67)(react@19.2.0)(use-sync-external-store@1.5.0(react@19.2.0))
+        version: 5.0.1(@types/react@18.2.67)(react@19.0.0)(use-sync-external-store@1.5.0(react@19.0.0))
     devDependencies:
       '@biomejs/biome':
         specifier: 1.9.4
@@ -16991,17 +16991,17 @@ snapshots:
       picocolors: 1.1.1
       sisteransi: 1.0.5
 
-  '@coldsurfers/infinite-carousel@1.0.10(@coldsurfers/ocean-road-design-tokens@1.10.3)(@coldsurfers/ocean-road@1.11.10(77cf41c5ef17b4b2104bc2fefd84ac4c))(@emotion/css@11.13.5)(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.2.0))(@types/react@18.2.67)(react@19.2.0))(framer-motion@11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(lucide-react@0.469.0(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@coldsurfers/infinite-carousel@1.0.10(@coldsurfers/ocean-road-design-tokens@1.10.3)(@coldsurfers/ocean-road@1.11.10(30634bc5277259a03896d46e4d20dc44))(@emotion/css@11.13.5)(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.0.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.0.0))(@types/react@18.2.67)(react@19.0.0))(framer-motion@11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(lucide-react@0.469.0(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@coldsurfers/ocean-road': 1.11.10(77cf41c5ef17b4b2104bc2fefd84ac4c)
+      '@coldsurfers/ocean-road': 1.11.10(30634bc5277259a03896d46e4d20dc44)
       '@coldsurfers/ocean-road-design-tokens': 1.10.3
       '@emotion/css': 11.13.5
-      '@emotion/react': 11.14.0(@types/react@18.2.67)(react@19.2.0)
-      '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.2.0))(@types/react@18.2.67)(react@19.2.0)
-      framer-motion: 11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      lucide-react: 0.469.0(react@19.2.0)
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
+      '@emotion/react': 11.14.0(@types/react@18.2.67)(react@19.0.0)
+      '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.0.0))(@types/react@18.2.67)(react@19.0.0)
+      framer-motion: 11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      lucide-react: 0.469.0(react@19.0.0)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
 
   '@coldsurfers/ocean-road-design-tokens@1.10.3':
     dependencies:
@@ -17013,20 +17013,20 @@ snapshots:
       react-native: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0)
       react-native-safe-area-context: 5.3.0(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
 
-  '@coldsurfers/ocean-road@1.11.10(77cf41c5ef17b4b2104bc2fefd84ac4c)':
+  '@coldsurfers/ocean-road@1.11.10(30634bc5277259a03896d46e4d20dc44)':
     dependencies:
       '@coldsurfers/ocean-road-design-tokens': 1.10.3
       '@emotion/css': 11.13.5
-      '@emotion/native': 11.11.0(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.2.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.2.0))(react@19.2.0)
-      '@emotion/react': 11.14.0(@types/react@18.2.67)(react@19.2.0)
-      '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.2.0))(@types/react@18.2.67)(react@19.2.0)
-      framer-motion: 11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      lucide-react: 0.469.0(react@19.2.0)
-      lucide-react-native: 0.468.0(react-native-svg@15.11.2(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.2.0))(react@19.2.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.2.0))(react@19.2.0)
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
-      react-native-reanimated: 3.17.1(@babel/core@7.26.9)(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.2.0))(react@19.2.0)
-      react-native-svg: 15.11.2(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.2.0))(react@19.2.0)
+      '@emotion/native': 11.11.0(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
+      '@emotion/react': 11.14.0(@types/react@18.2.67)(react@19.0.0)
+      '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.0.0))(@types/react@18.2.67)(react@19.0.0)
+      framer-motion: 11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      lucide-react: 0.469.0(react@19.0.0)
+      lucide-react-native: 0.468.0(react-native-svg@15.11.2(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+      react-native-reanimated: 3.17.1(@babel/core@7.26.9)(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
+      react-native-svg: 15.11.2(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
 
   '@coldsurfers/ocean-road@1.11.6(707d1a640fc297aa6b340afab5510cad)':
     dependencies:
@@ -17301,14 +17301,6 @@ snapshots:
       - '@emotion/react'
       - react
 
-  '@emotion/native@11.11.0(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.2.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.2.0))(react@19.2.0)':
-    dependencies:
-      '@emotion/primitives-core': 11.13.2(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.2.0))(react@19.2.0)
-      react-native: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.2.0)
-    transitivePeerDependencies:
-      - '@emotion/react'
-      - react
-
   '@emotion/primitives-core@11.13.2(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@emotion/react': 11.10.6(@types/react@18.2.67)(react@19.0.0)
@@ -17320,12 +17312,6 @@ snapshots:
       '@emotion/react': 11.14.0(@types/react@18.2.67)(react@19.0.0)
       css-to-react-native: 3.2.0
       react: 19.0.0
-
-  '@emotion/primitives-core@11.13.2(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.2.0))(react@19.2.0)':
-    dependencies:
-      '@emotion/react': 11.14.0(@types/react@18.2.67)(react@19.2.0)
-      css-to-react-native: 3.2.0
-      react: 19.2.0
 
   '@emotion/react@11.10.6(@types/react@18.2.67)(react@19.0.0)':
     dependencies:
@@ -17354,22 +17340,6 @@ snapshots:
       '@emotion/weak-memoize': 0.4.0
       hoist-non-react-statics: 3.3.2
       react: 19.0.0
-    optionalDependencies:
-      '@types/react': 18.2.67
-    transitivePeerDependencies:
-      - supports-color
-
-  '@emotion/react@11.14.0(@types/react@18.2.67)(react@19.2.0)':
-    dependencies:
-      '@babel/runtime': 7.26.9
-      '@emotion/babel-plugin': 11.13.5
-      '@emotion/cache': 11.14.0
-      '@emotion/serialize': 1.3.3
-      '@emotion/use-insertion-effect-with-fallbacks': 1.2.0(react@19.2.0)
-      '@emotion/utils': 1.4.2
-      '@emotion/weak-memoize': 0.4.0
-      hoist-non-react-statics: 3.3.2
-      react: 19.2.0
     optionalDependencies:
       '@types/react': 18.2.67
     transitivePeerDependencies:
@@ -17430,30 +17400,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.2.0))(@types/react@18.2.67)(react@19.2.0)':
-    dependencies:
-      '@babel/runtime': 7.26.9
-      '@emotion/babel-plugin': 11.13.5
-      '@emotion/is-prop-valid': 1.3.1
-      '@emotion/react': 11.14.0(@types/react@18.2.67)(react@19.2.0)
-      '@emotion/serialize': 1.3.3
-      '@emotion/use-insertion-effect-with-fallbacks': 1.2.0(react@19.2.0)
-      '@emotion/utils': 1.4.2
-      react: 19.2.0
-    optionalDependencies:
-      '@types/react': 18.2.67
-    transitivePeerDependencies:
-      - supports-color
-
   '@emotion/unitless@0.10.0': {}
 
   '@emotion/use-insertion-effect-with-fallbacks@1.2.0(react@19.0.0)':
     dependencies:
       react: 19.0.0
-
-  '@emotion/use-insertion-effect-with-fallbacks@1.2.0(react@19.2.0)':
-    dependencies:
-      react: 19.2.0
 
   '@emotion/utils@1.4.2': {}
 
@@ -19859,11 +19810,6 @@ snapshots:
       '@tanstack/query-core': 5.59.16
       '@tanstack/react-query': 5.59.16(react@19.0.0)
 
-  '@lukemorales/query-key-factory@1.3.4(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.59.16(react@19.2.0))':
-    dependencies:
-      '@tanstack/query-core': 5.59.16
-      '@tanstack/react-query': 5.59.16(react@19.2.0)
-
   '@manypkg/find-root@1.1.0':
     dependencies:
       '@babel/runtime': 7.26.9
@@ -19880,10 +19826,10 @@ snapshots:
       globby: 11.1.0
       read-yaml-file: 1.1.0
 
-  '@matejmazur/react-katex@3.1.3(katex@0.16.21)(react@19.2.0)':
+  '@matejmazur/react-katex@3.1.3(katex@0.16.21)(react@19.0.0)':
     dependencies:
       katex: 0.16.21
-      react: 19.2.0
+      react: 19.0.0
 
   '@module-federation/error-codes@0.14.3': {}
 
@@ -21347,7 +21293,7 @@ snapshots:
 
   '@sentry/core@9.38.0': {}
 
-  '@sentry/nextjs@9.38.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(encoding@0.1.13)(next@15.5.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.85.0))(react@19.2.0)(webpack@5.98.0)':
+  '@sentry/nextjs@9.38.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(encoding@0.1.13)(next@15.5.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0))(react@19.0.0)(webpack@5.98.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/semantic-conventions': 1.36.0
@@ -21356,11 +21302,11 @@ snapshots:
       '@sentry/core': 9.38.0
       '@sentry/node': 9.38.0
       '@sentry/opentelemetry': 9.38.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.36.0)
-      '@sentry/react': 9.38.0(react@19.2.0)
+      '@sentry/react': 9.38.0(react@19.0.0)
       '@sentry/vercel-edge': 9.38.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))
       '@sentry/webpack-plugin': 3.5.0(encoding@0.1.13)(webpack@5.98.0)
       chalk: 3.0.0
-      next: 15.5.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.85.0)
+      next: 15.5.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0)
       resolve: 1.22.8
       rollup: 4.35.0
       stacktrace-parser: 0.1.11
@@ -21437,12 +21383,12 @@ snapshots:
       '@opentelemetry/semantic-conventions': 1.36.0
       '@sentry/core': 9.38.0
 
-  '@sentry/react@9.38.0(react@19.2.0)':
+  '@sentry/react@9.38.0(react@19.0.0)':
     dependencies:
       '@sentry/browser': 9.38.0
       '@sentry/core': 9.38.0
       hoist-non-react-statics: 3.3.2
-      react: 19.2.0
+      react: 19.0.0
 
   '@sentry/vercel-edge@9.38.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))':
     dependencies:
@@ -22380,11 +22326,6 @@ snapshots:
     dependencies:
       react: 19.0.0
       react-dom: 19.2.0(react@19.0.0)
-
-  '@uidotdev/usehooks@2.4.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
-    dependencies:
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
 
   '@webassemblyjs/ast@1.14.1':
     dependencies:
@@ -25232,14 +25173,6 @@ snapshots:
       react: 19.0.0
       react-dom: 19.2.0(react@19.0.0)
 
-  framer-motion@11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
-    dependencies:
-      tslib: 2.8.1
-    optionalDependencies:
-      '@emotion/is-prop-valid': 1.3.1
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
-
   fresh@0.5.2: {}
 
   fs-constants@1.0.0: {}
@@ -27143,19 +27076,9 @@ snapshots:
       react-native: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0)
       react-native-svg: 15.11.2(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0)
 
-  lucide-react-native@0.468.0(react-native-svg@15.11.2(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.2.0))(react@19.2.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.2.0))(react@19.2.0):
-    dependencies:
-      react: 19.2.0
-      react-native: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.2.0)
-      react-native-svg: 15.11.2(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.2.0))(react@19.2.0)
-
   lucide-react@0.469.0(react@19.0.0):
     dependencies:
       react: 19.0.0
-
-  lucide-react@0.469.0(react@19.2.0):
-    dependencies:
-      react: 19.2.0
 
   luxon@3.5.0: {}
 
@@ -27675,15 +27598,15 @@ snapshots:
       - '@babel/core'
       - babel-plugin-macros
 
-  next@15.5.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.85.0):
+  next@15.5.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0):
     dependencies:
       '@next/env': 15.5.4
       '@swc/helpers': 0.5.15
       caniuse-lite: 1.0.30001731
       postcss: 8.4.31
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
-      styled-jsx: 5.1.6(@babel/core@7.26.9)(react@19.2.0)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+      styled-jsx: 5.1.6(@babel/core@7.26.9)(react@19.0.0)
     optionalDependencies:
       '@next/swc-darwin-arm64': 15.5.4
       '@next/swc-darwin-x64': 15.5.4
@@ -27846,12 +27769,12 @@ snapshots:
 
   nullthrows@1.1.1: {}
 
-  nuqs@2.5.1(next@15.5.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.85.0))(react@19.2.0):
+  nuqs@2.5.1(next@15.5.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0))(react@19.0.0):
     dependencies:
       '@standard-schema/spec': 1.0.0
-      react: 19.2.0
+      react: 19.0.0
     optionalDependencies:
-      next: 15.5.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.85.0)
+      next: 15.5.4(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.0)
 
   ob1@0.81.1:
     dependencies:
@@ -27956,12 +27879,6 @@ snapshots:
   openapi-react-query@0.2.9(@tanstack/react-query@5.59.16(react@19.0.0))(openapi-fetch@0.14.0):
     dependencies:
       '@tanstack/react-query': 5.59.16(react@19.0.0)
-      openapi-fetch: 0.14.0
-      openapi-typescript-helpers: 0.0.15
-
-  openapi-react-query@0.2.9(@tanstack/react-query@5.59.16(react@19.2.0))(openapi-fetch@0.14.0):
-    dependencies:
-      '@tanstack/react-query': 5.59.16(react@19.2.0)
       openapi-fetch: 0.14.0
       openapi-typescript-helpers: 0.0.15
 
@@ -28730,20 +28647,10 @@ snapshots:
       react: 19.0.0
       scheduler: 0.27.0
 
-  react-dom@19.2.0(react@19.2.0):
-    dependencies:
-      react: 19.2.0
-      scheduler: 0.27.0
-
   react-error-boundary@5.0.0(react@19.0.0):
     dependencies:
       '@babel/runtime': 7.26.9
       react: 19.0.0
-
-  react-error-boundary@5.0.0(react@19.2.0):
-    dependencies:
-      '@babel/runtime': 7.26.9
-      react: 19.2.0
 
   react-fast-compare@3.2.2: {}
 
@@ -28759,26 +28666,22 @@ snapshots:
     dependencies:
       react: 19.0.0
 
-  react-hook-form@7.48.2(react@19.2.0):
+  react-hotkeys-hook@4.6.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
-      react: 19.2.0
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
 
-  react-hotkeys-hook@4.6.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
-    dependencies:
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
-
-  react-image@4.1.0(@babel/runtime@7.26.9)(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+  react-image@4.1.0(@babel/runtime@7.26.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       '@babel/runtime': 7.26.9
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
 
-  react-intersection-observer@6.4.2(react@19.2.0):
+  react-intersection-observer@6.4.2(react@19.0.0):
     dependencies:
       '@babel/runtime': 7.26.9
       invariant: 2.2.4
-      react: 19.2.0
+      react: 19.0.0
 
   react-is@16.13.1: {}
 
@@ -28788,11 +28691,11 @@ snapshots:
 
   react-is@19.0.0: {}
 
-  react-lazy-images@1.1.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+  react-lazy-images@1.1.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
-      react-intersection-observer: 6.4.2(react@19.2.0)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+      react-intersection-observer: 6.4.2(react@19.0.0)
       unionize: 2.2.0
 
   react-lifecycles-compat@3.0.4: {}
@@ -28802,17 +28705,12 @@ snapshots:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
 
-  react-lite-youtube-embed@2.4.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
-    dependencies:
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
-
-  react-modal@3.16.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+  react-modal@3.16.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       exenv: 1.2.2
       prop-types: 15.8.1
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
       react-lifecycles-compat: 3.0.4
       warning: 4.0.3
 
@@ -28891,11 +28789,6 @@ snapshots:
       react: 19.0.0
       react-native: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0)
 
-  react-native-is-edge-to-edge@1.1.6(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.2.0))(react@19.2.0):
-    dependencies:
-      react: 19.2.0
-      react-native: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.2.0)
-
   react-native-maps@1.22.6(react-native-web@0.19.13(encoding@0.1.13)(react-dom@19.2.0(react@19.0.0))(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0):
     dependencies:
       '@types/geojson': 7946.0.16
@@ -28949,26 +28842,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  react-native-reanimated@3.17.1(@babel/core@7.26.9)(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.2.0))(react@19.2.0):
-    dependencies:
-      '@babel/core': 7.26.9
-      '@babel/plugin-transform-arrow-functions': 7.25.9(@babel/core@7.26.9)
-      '@babel/plugin-transform-class-properties': 7.25.9(@babel/core@7.26.9)
-      '@babel/plugin-transform-classes': 7.25.9(@babel/core@7.26.9)
-      '@babel/plugin-transform-nullish-coalescing-operator': 7.26.6(@babel/core@7.26.9)
-      '@babel/plugin-transform-optional-chaining': 7.25.9(@babel/core@7.26.9)
-      '@babel/plugin-transform-shorthand-properties': 7.25.9(@babel/core@7.26.9)
-      '@babel/plugin-transform-template-literals': 7.26.8(@babel/core@7.26.9)
-      '@babel/plugin-transform-unicode-regex': 7.25.9(@babel/core@7.26.9)
-      '@babel/preset-typescript': 7.26.0(@babel/core@7.26.9)
-      convert-source-map: 2.0.0
-      invariant: 2.2.4
-      react: 19.2.0
-      react-native: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.2.0)
-      react-native-is-edge-to-edge: 1.1.6(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.2.0))(react@19.2.0)
-    transitivePeerDependencies:
-      - supports-color
-
   react-native-safe-area-context@5.3.0(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0))(react@19.0.0):
     dependencies:
       react: 19.0.0
@@ -29009,14 +28882,6 @@ snapshots:
       css-tree: 1.1.3
       react: 19.0.0
       react-native: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.0.0)
-      warn-once: 0.1.1
-
-  react-native-svg@15.11.2(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.2.0))(react@19.2.0):
-    dependencies:
-      css-select: 5.1.0
-      css-tree: 1.1.3
-      react: 19.2.0
-      react-native: 0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@react-native-community/cli-server-api@15.0.1)(@types/react@18.2.67)(react@19.2.0)
       warn-once: 0.1.1
 
   react-native-swipe-gestures@1.0.5: {}
@@ -29142,28 +29007,28 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  react-notion-x@7.2.5(patch_hash=3b8bdd450d87f729b467c81e8b0a4c149e5a0ec65dfddc2b2071c6703840739d)(@babel/runtime@7.26.9)(@types/react@18.2.67)(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+  react-notion-x@7.2.5(patch_hash=3b8bdd450d87f729b467c81e8b0a4c149e5a0ec65dfddc2b2071c6703840739d)(@babel/runtime@7.26.9)(@types/react@18.2.67)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       '@fisch0920/medium-zoom': 1.0.7
-      '@matejmazur/react-katex': 3.1.3(katex@0.16.21)(react@19.2.0)
+      '@matejmazur/react-katex': 3.1.3(katex@0.16.21)(react@19.0.0)
       katex: 0.16.21
       notion-types: 7.1.5
       notion-utils: 7.1.5
       prismjs: 1.30.0
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
       react-fast-compare: 3.2.2
-      react-hotkeys-hook: 4.6.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      react-image: 4.1.0(@babel/runtime@7.26.9)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      react-lazy-images: 1.1.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      react-modal: 3.16.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      react-hotkeys-hook: 4.6.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      react-image: 4.1.0(@babel/runtime@7.26.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      react-lazy-images: 1.1.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      react-modal: 3.16.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
     optionalDependencies:
-      react-pdf: 9.2.1(@types/react@18.2.67)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      react-pdf: 9.2.1(@types/react@18.2.67)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
     transitivePeerDependencies:
       - '@babel/runtime'
       - '@types/react'
 
-  react-pdf@9.2.1(@types/react@18.2.67)(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+  react-pdf@9.2.1(@types/react@18.2.67)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       clsx: 2.1.1
       dequal: 2.0.3
@@ -29171,8 +29036,8 @@ snapshots:
       make-event-props: 1.6.2
       merge-refs: 1.3.0(@types/react@18.2.67)
       pdfjs-dist: 4.8.69
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
       tiny-invariant: 1.3.3
       warning: 4.0.3
     optionalDependencies:
@@ -29199,13 +29064,13 @@ snapshots:
       react-is: 19.0.0
       scheduler: 0.25.0
 
-  react-tweet@3.2.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+  react-tweet@3.2.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       '@swc/helpers': 0.5.15
       clsx: 2.1.1
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
-      swr: 2.3.3(react@19.2.0)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+      swr: 2.3.3(react@19.0.0)
 
   react@19.0.0: {}
 
@@ -30359,13 +30224,6 @@ snapshots:
     optionalDependencies:
       '@babel/core': 7.26.9
 
-  styled-jsx@5.1.6(@babel/core@7.26.9)(react@19.2.0):
-    dependencies:
-      client-only: 0.0.1
-      react: 19.2.0
-    optionalDependencies:
-      '@babel/core': 7.26.9
-
   styleq@0.1.3:
     optional: true
 
@@ -30420,11 +30278,11 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  swr@2.3.3(react@19.2.0):
+  swr@2.3.3(react@19.0.0):
     dependencies:
       dequal: 2.0.3
-      react: 19.2.0
-      use-sync-external-store: 1.5.0(react@19.2.0)
+      react: 19.0.0
+      use-sync-external-store: 1.5.0(react@19.0.0)
 
   symbol-observable@4.0.0: {}
 
@@ -31079,10 +30937,6 @@ snapshots:
     dependencies:
       react: 19.0.0
 
-  use-sync-external-store@1.5.0(react@19.2.0):
-    dependencies:
-      react: 19.2.0
-
   utf8@3.0.0: {}
 
   util-deprecate@1.0.2: {}
@@ -31490,9 +31344,3 @@ snapshots:
       '@types/react': 18.2.67
       react: 19.0.0
       use-sync-external-store: 1.5.0(react@19.0.0)
-
-  zustand@5.0.1(@types/react@18.2.67)(react@19.2.0)(use-sync-external-store@1.5.0(react@19.2.0)):
-    optionalDependencies:
-      '@types/react': 18.2.67
-      react: 19.2.0
-      use-sync-external-store: 1.5.0(react@19.2.0)
