@@ -2,9 +2,7 @@
   "name": "@coldsurfers/coldsurf-io",
   "version": "1.2.12",
   "private": true,
-  "files": [
-    "package.json"
-  ],
+  "files": ["package.json"],
   "bugs": {
     "url": "https://github.com/coldsurfers/surfers-root"
   },
@@ -17,8 +15,8 @@
     "build": "pnpm prisma:generate && next build",
     "create:env:ci": "pnpm ts-node ./libs/createDotEnv.ts",
     "check:type": "tsc --noEmit",
-    "deploy:coldsurf-io:prod": "rm -rf .next && pnpm sst deploy --stage production",
-    "deploy:coldsurf-io:staging": "rm -rf .next && pnpm sst deploy --stage staging",
+    "deploy:coldsurf-io:prod": "rm -rf .next && APP_PLATFORM=production pnpm sst deploy --stage production",
+    "deploy:coldsurf-io:staging": "rm -rf .next && APP_PLATFORM=staging pnpm sst deploy --stage staging",
     "dev": "next dev",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
