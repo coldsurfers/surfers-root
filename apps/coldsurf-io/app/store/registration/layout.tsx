@@ -16,7 +16,6 @@ export function generateMetadata() {
     type: 'website',
     title,
     description,
-    images: [`${SITE_URL}/favicon.ico`],
     url: `${SITE_URL}/store/registration`,
   };
   return metadataInstance.generateMetadata<Metadata>({

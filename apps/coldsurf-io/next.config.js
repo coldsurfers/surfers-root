@@ -23,7 +23,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: staticServerHost,
+        hostname: staticServerHost ?? '',
         port: '',
       },
     ],
