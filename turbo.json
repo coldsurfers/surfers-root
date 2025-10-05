@@ -42,6 +42,10 @@
       "dependsOn": ["^build"],
       "cache": false
     },
+    "@coldsurfers/coldsurf-io#deploy:coldsurf-io:staging": {
+      "dependsOn": ["^build"],
+      "cache": false
+    },
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
@@ -72,6 +76,14 @@
         "build:packages",
         "build:ui",
         "@coldsurfers/coldsurf-io#deploy:coldsurf-io:prod"
+      ],
+      "cache": false
+    },
+    "deploy:coldsurf-io:staging": {
+      "dependsOn": [
+        "build:packages",
+        "build:ui",
+        "@coldsurfers/coldsurf-io#deploy:coldsurf-io:staging"
       ],
       "cache": false
     },
