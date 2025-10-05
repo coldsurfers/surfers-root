@@ -1,6 +1,6 @@
-import { Button, media, TextArea, TextInput } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
+import { Button, TextArea, TextInput, media } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export const StyledFormOuterContainer = styled.div`
   margin-top: 8rem;
@@ -8,7 +8,7 @@ export const StyledFormOuterContainer = styled.div`
     margin-left: 1rem;
     margin-right: 1rem;
   `)}
-`
+`;
 
 export const StyledSubmitFormContainer = styled.div`
   display: flex;
@@ -16,7 +16,7 @@ export const StyledSubmitFormContainer = styled.div`
   ${media.medium(css`
     flex-direction: column;
   `)}
-`
+`;
 
 export const StyledFormLeft = styled.div`
   flex: 0.4;
@@ -24,7 +24,7 @@ export const StyledFormLeft = styled.div`
   ${media.medium(css`
     flex: unset;
   `)}
-`
+`;
 
 export const StyledFormRight = styled.form`
   flex: 0.6;
@@ -35,14 +35,14 @@ export const StyledFormRight = styled.form`
   ${media.medium(css`
     margin-left: unset;
   `)}
-`
+`;
 
 export const StyledTextInput = styled(TextInput)`
   width: 100%;
-`
+`;
 export const StyledTextArea = styled(TextArea)`
   height: 15rem;
-`
+`;
 export const StyledSubmitButton = styled(Button)`
   margin-top: 2rem;
-`
+`;

@@ -1,2 +1,2 @@
-export * from './concert-list'
-export * from './navigation'
+export * from './concert-list';
+export * from './navigation';

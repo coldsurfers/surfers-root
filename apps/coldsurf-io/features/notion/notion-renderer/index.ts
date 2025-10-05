@@ -1,1 +1,1 @@
-export * from './notion-renderer'
+export * from './notion-renderer';

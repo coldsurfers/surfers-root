@@ -1,1 +1,1 @@
-export * from './api-error-boundary-registry'
+export * from './api-error-boundary-registry';

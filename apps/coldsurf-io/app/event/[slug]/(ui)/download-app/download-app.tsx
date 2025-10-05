@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { APP_STORE_URL } from '@/libs/constants'
-import Link from 'next/link'
-import { memo } from 'react'
+import { APP_STORE_URL } from '@/libs/constants';
+import Link from 'next/link';
+import { memo } from 'react';
 import {
   AppDownloadButton,
   StyledAppContentContainer,
@@ -13,7 +13,7 @@ import {
   StyledDownloadAppLeft,
   StyledDownloadAppLogo,
   StyledMapPinIcon,
-} from './download-app.styled'
+} from './download-app.styled';
 
 export const DownloadApp = memo(() => {
   return (
@@ -41,5 +41,5 @@ export const DownloadApp = memo(() => {
         </AppDownloadButton>
       </Link>
     </>
-  )
-})
+  );
+});

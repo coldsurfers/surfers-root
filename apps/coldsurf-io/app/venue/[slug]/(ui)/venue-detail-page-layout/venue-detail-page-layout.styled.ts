@@ -1,6 +1,6 @@
-import { media } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
+import { media } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export const StyledPageLayout = styled.div`
   padding-top: 172px;
@@ -10,4 +10,4 @@ export const StyledPageLayout = styled.div`
     padding-top: 78px;
     padding-bottom: 12px;
   `)}
-`
+`;

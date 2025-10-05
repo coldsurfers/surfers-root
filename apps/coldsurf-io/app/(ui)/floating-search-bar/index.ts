@@ -1,1 +1,1 @@
-export * from './floating-search-bar'
+export * from './floating-search-bar';

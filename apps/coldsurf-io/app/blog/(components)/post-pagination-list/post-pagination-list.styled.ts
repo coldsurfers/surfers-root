@@ -1,6 +1,6 @@
-import { media } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
+import { media } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export const StyledPostListContainer = styled.div`
   margin-top: 6.5rem;
@@ -8,4 +8,4 @@ export const StyledPostListContainer = styled.div`
   ${media.medium(css`
     margin-top: 2rem;
   `)}
-`
+`;

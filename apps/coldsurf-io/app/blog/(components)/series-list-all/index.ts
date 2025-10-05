@@ -1,1 +1,1 @@
-export * from './series-list-all'
+export * from './series-list-all';

@@ -1,1 +1,1 @@
-export * from './global-error-boundary-registry'
+export * from './global-error-boundary-registry';

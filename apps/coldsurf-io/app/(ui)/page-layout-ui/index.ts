@@ -1,1 +1,1 @@
-export * from './page-layout-ui'
+export * from './page-layout-ui';

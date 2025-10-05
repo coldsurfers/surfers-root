@@ -1,1 +1,1 @@
-export * from './common-ui-store'
+export * from './common-ui-store';

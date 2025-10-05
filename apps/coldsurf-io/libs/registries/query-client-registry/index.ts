@@ -1,1 +1,1 @@
-export * from './query-client-registry'
+export * from './query-client-registry';

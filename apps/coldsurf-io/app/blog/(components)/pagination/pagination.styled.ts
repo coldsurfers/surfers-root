@@ -1,6 +1,6 @@
-import { semantics } from '@coldsurfers/ocean-road'
-import styled from '@emotion/styled'
-import { MoveLeft, MoveRight } from 'lucide-react'
+import { semantics } from '@coldsurfers/ocean-road';
+import styled from '@emotion/styled';
+import { MoveLeft, MoveRight } from 'lucide-react';
 
 export const PageMoveButton = styled.button`
   background: initial;
@@ -11,17 +11,17 @@ export const PageMoveButton = styled.button`
   width: 54px;
   height: 54px;
   margin-left: 1rem;
-`
+`;
 
 export const MoveLeftIcon = styled(MoveLeft)`
   color: ${semantics.color.foreground[1]};
-`
+`;
 export const MoveRightIcon = styled(MoveRight)`
   color: ${semantics.color.foreground[1]};
-`
+`;
 
 export const StyledPaginationContainer = styled.div`
   display: flex;
   margin-top: 2rem;
   margin-bottom: 5rem;
-`
+`;

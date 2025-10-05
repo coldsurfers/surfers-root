@@ -1,6 +1,6 @@
-import { media, Text } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
+import { Text, media } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export const StyledTitleText = styled(Text)`
   font-size: 28px;
@@ -8,4 +8,4 @@ export const StyledTitleText = styled(Text)`
   ${media.large(css`
     font-size: 20px;
   `)}
-`
+`;

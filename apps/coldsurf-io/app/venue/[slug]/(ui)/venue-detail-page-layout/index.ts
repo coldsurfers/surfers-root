@@ -1,1 +1,1 @@
-export * from './venue-detail-page-layout'
+export * from './venue-detail-page-layout';

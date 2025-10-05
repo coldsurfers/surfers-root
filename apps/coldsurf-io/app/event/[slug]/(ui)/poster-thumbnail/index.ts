@@ -1,1 +1,1 @@
-export * from './poster-thumbnail'
+export * from './poster-thumbnail';

@@ -1,1 +1,1 @@
-export * from './pdf.utils'
+export * from './pdf.utils';

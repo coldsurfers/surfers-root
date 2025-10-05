@@ -1,1 +1,1 @@
-export * from './link-store'
+export * from './link-store';

@@ -1,1 +1,1 @@
-export * from './route-loading'
+export * from './route-loading';

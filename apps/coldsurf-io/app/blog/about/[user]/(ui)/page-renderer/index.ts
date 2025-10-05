@@ -1,1 +1,1 @@
-export * from './page-renderer'
+export * from './page-renderer';

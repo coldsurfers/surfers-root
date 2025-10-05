@@ -1,6 +1,6 @@
-import { media, semantics, Text } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
+import { Text, media, semantics } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export const StyledTicketCTAContainer = styled.div`
   display: flex;
@@ -18,14 +18,14 @@ export const StyledTicketCTAContainer = styled.div`
       margin-top: 0.5rem;
     `)}
   }
-`
+`;
 
 export const StyledTicketCTALeft = styled.div`
   display: flex;
   flex-direction: column-reverse;
   flex: 1;
   justify-content: center;
-`
+`;
 
 export const StyledTicketSellerText = styled(Text)`
   margin: unset;
@@ -36,4 +36,4 @@ export const StyledTicketSellerText = styled(Text)`
   ${media.medium(css`
     font-size: 18px;
   `)}
-`
+`;

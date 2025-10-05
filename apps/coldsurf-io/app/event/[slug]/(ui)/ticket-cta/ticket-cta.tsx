@@ -1,16 +1,16 @@
-'use client'
+'use client';
 
-import { memo } from 'react'
-import { TicketCtaItem } from './ticket-cta-item'
+import { memo } from 'react';
+import { TicketCtaItem } from './ticket-cta-item';
 
 export const TicketCta = memo(
   ({
     tickets,
   }: {
     tickets: {
-      seller: string
-      sellingURL: string
-    }[]
+      seller: string;
+      sellingURL: string;
+    }[];
   }) => {
     return (
       <>
@@ -18,6 +18,6 @@ export const TicketCta = memo(
           <TicketCtaItem key={ticketPromotion.sellingURL} {...ticketPromotion} />
         ))}
       </>
-    )
-  },
-)
+    );
+  }
+);

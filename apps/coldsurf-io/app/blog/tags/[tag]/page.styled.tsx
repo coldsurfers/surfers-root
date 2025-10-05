@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import styled from '@emotion/styled'
-import { Paragraph } from './(ui)/paragraph'
+import styled from '@emotion/styled';
+import { Paragraph } from './(ui)/paragraph';
 
 export const StyledTagDetailPageLoadingWrapper = styled.div`
   position: absolute;
@@ -12,5 +12,5 @@ export const StyledTagDetailPageLoadingWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`
-export const StyledTagDetailPageTitle = styled(Paragraph)``
+`;
+export const StyledTagDetailPageTitle = styled(Paragraph)``;

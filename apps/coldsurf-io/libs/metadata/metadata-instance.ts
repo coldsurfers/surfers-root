@@ -1,5 +1,5 @@
-import { NextMetadataGenerator, SERVICE_NAME } from '@coldsurfers/shared-utils'
-import { APP_STORE_ID, APP_STORE_URL, SITE_URL } from '../constants'
+import { NextMetadataGenerator, SERVICE_NAME } from '@coldsurfers/shared-utils';
+import { APP_STORE_ID, APP_STORE_URL, SITE_URL } from '../constants';
 
 export const metadataInstance = new NextMetadataGenerator({
   baseData: {
@@ -45,4 +45,4 @@ export const metadataInstance = new NextMetadataGenerator({
       siteName: SERVICE_NAME,
     },
   },
-})
+});

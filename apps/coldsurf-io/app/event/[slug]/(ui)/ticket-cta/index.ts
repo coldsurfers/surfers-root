@@ -1,1 +1,1 @@
-export * from './ticket-cta'
+export * from './ticket-cta';

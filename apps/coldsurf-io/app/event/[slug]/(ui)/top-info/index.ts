@@ -1,1 +1,1 @@
-export * from './top-info'
+export * from './top-info';

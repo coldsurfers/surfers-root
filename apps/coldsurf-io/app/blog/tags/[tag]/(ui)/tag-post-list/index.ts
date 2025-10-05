@@ -1,1 +1,1 @@
-export * from './tag-post-list'
+export * from './tag-post-list';

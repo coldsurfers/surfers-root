@@ -1,1 +1,1 @@
-export * from './firebase-registry'
+export * from './firebase-registry';

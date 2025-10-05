@@ -1,33 +1,33 @@
-'use client'
+'use client';
 
-import { Spinner } from '@coldsurfers/ocean-road'
-import { useEffect, useRef } from 'react'
-import { StyledLoadMoreContainer } from './concert-list.styled'
+import { Spinner } from '@coldsurfers/ocean-road';
+import { useEffect, useRef } from 'react';
+import { StyledLoadMoreContainer } from './concert-list.styled';
 
 export function ConcertListLoadMore({ onLoadMore }: { onLoadMore: () => void }) {
-  const loadMoreRef = useRef<HTMLDivElement | null>(null)
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          onLoadMore()
+          onLoadMore();
         }
-      })
-    })
-    const refToObserve = loadMoreRef.current
+      });
+    });
+    const refToObserve = loadMoreRef.current;
     if (refToObserve) {
-      intersectionObserver.observe(refToObserve)
+      intersectionObserver.observe(refToObserve);
     }
 
     return () => {
       if (refToObserve) {
-        intersectionObserver.unobserve(refToObserve)
+        intersectionObserver.unobserve(refToObserve);
       }
-    }
-  }, [onLoadMore])
+    };
+  }, [onLoadMore]);
   return (
     <StyledLoadMoreContainer ref={loadMoreRef}>
       <Spinner />
     </StyledLoadMoreContainer>
-  )
+  );
 }

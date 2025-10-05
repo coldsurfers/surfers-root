@@ -1,1 +1,1 @@
-export * from './image-modal'
+export * from './image-modal';

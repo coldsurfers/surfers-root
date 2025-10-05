@@ -1,5 +1,5 @@
 // app/fonts.ts
-import localFont from 'next/font/local'
+import localFont from 'next/font/local';
 
 export const pretendard = localFont({
   src: [
@@ -30,4 +30,4 @@ export const pretendard = localFont({
     },
   ],
   variable: '--font-pretendard',
-})
+});

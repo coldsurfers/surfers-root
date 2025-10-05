@@ -1,7 +1,7 @@
-import { media, semantics, Text } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
-import { Info } from 'lucide-react'
+import { Text, media, semantics } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { Info } from 'lucide-react';
 
 export const StyledArtistDetailTopContainer = styled.section`
   display: flex;
@@ -10,12 +10,12 @@ export const StyledArtistDetailTopContainer = styled.section`
   ${media.medium(css`
     flex-direction: column-reverse;
   `)}
-`
+`;
 
 export const StyledArtistDetailTopLeft = styled.div`
   flex: 0.5;
   display: flex;
-`
+`;
 
 export const StyledArtistDetailTopRight = styled.div`
   flex: 0.5;
@@ -23,7 +23,7 @@ export const StyledArtistDetailTopRight = styled.div`
   ${media.medium(css`
     margin-bottom: 1rem;
   `)}
-`
+`;
 
 export const StyledArtistThumbnailWrapper = styled.div`
   max-width: calc(405px + 37.5vw);
@@ -39,7 +39,7 @@ export const StyledArtistThumbnailWrapper = styled.div`
   ${media.medium(css`
     transform: none;
   `)}
-`
+`;
 
 export const StyledArtistThumbnail = styled.img`
   width: 100%;
@@ -49,24 +49,24 @@ export const StyledArtistThumbnail = styled.img`
 
   cursor: pointer;
   user-select: none;
-`
+`;
 
 export const StyledInfoIcon = styled(Info)`
   margin-left: auto;
   cursor: pointer;
-`
+`;
 
 export const StyledContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-`
+`;
 
 export const StyledArtistTopDescriptionWrapper = styled.div`
   margin-top: auto;
   display: flex;
   flex-direction: column;
-`
+`;
 
 export const StyledArtistTopSectionTitleText = styled(Text)`
   font-size: 28px;
@@ -75,7 +75,7 @@ export const StyledArtistTopSectionTitleText = styled(Text)`
   ${media.medium(css`
     font-size: 24px;
   `)};
-`
+`;
 
 export const StyledArtistNameText = styled(Text)`
   font-size: 64px;
@@ -83,4 +83,4 @@ export const StyledArtistNameText = styled(Text)`
   ${media.large(css`
     font-size: 36px;
   `)}
-`
+`;

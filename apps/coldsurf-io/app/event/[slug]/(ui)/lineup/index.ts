@@ -1,1 +1,1 @@
-export * from './lineup'
+export * from './lineup';

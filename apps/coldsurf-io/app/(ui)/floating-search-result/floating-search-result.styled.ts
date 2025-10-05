@@ -1,6 +1,6 @@
-import { breakpoints, media, semantics } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
+import { breakpoints, media, semantics } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export const SearchResultWrapper = styled.div`
   background-color: ${semantics.color.background[2]};
@@ -33,4 +33,4 @@ export const SearchResultWrapper = styled.div`
   ${media.small(css`
     width: calc(100vw - 2rem);
   `)}
-`
+`;

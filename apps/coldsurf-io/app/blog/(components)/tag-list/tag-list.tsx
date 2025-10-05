@@ -1,15 +1,15 @@
-import Link from 'next/link'
-import { TagItem } from '../tag-item'
-import { StyledSectionTagList } from './tag-list.styled'
+import Link from 'next/link';
+import { TagItem } from '../tag-item';
+import { StyledSectionTagList } from './tag-list.styled';
 
 export const TagList = ({
   tags,
 }: {
   tags: {
-    id: string
-    name: string
-    color: string
-  }[]
+    id: string;
+    name: string;
+    color: string;
+  }[];
 }) => {
   return (
     <StyledSectionTagList>
@@ -19,5 +19,5 @@ export const TagList = ({
         </Link>
       ))}
     </StyledSectionTagList>
-  )
-}
+  );
+};

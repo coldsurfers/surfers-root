@@ -1,7 +1,7 @@
-import { media, Text } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
-import { Ticket } from 'lucide-react'
+import { Text, media } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { Ticket } from 'lucide-react';
 
 export const StyledWrapper = styled.div`
   flex: 1;
@@ -12,14 +12,14 @@ export const StyledWrapper = styled.div`
   ${media.small(css`
     align-items: flex-start;
   `)}
-`
+`;
 
 export const TopWrapper = styled.div`
   display: flex;
   align-items: center;
 
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-`
+`;
 
 export const TicketIcon = styled(Ticket)`
   width: 2.5rem;
@@ -29,7 +29,7 @@ export const TicketIcon = styled(Ticket)`
   ${media.small(css`
     display: none;
   `)}
-`
+`;
 
 export const StyledHomeMainTitleWrapper = styled.div`
   display: flex;
@@ -39,7 +39,7 @@ export const StyledHomeMainTitleWrapper = styled.div`
     flex-direction: column;
     margin-bottom: 1.25rem;
   `)}
-`
+`;
 
 export const StyledHomeMainTitle = styled(Text)`
   font-weight: 800;
@@ -63,7 +63,7 @@ export const StyledHomeMainTitle = styled(Text)`
   ${media.small(css`
     margin: unset;
   `)}
-`
+`;
 
 export const StyledHomeSubTitle = styled(StyledHomeMainTitle)`
   font-weight: 500;
@@ -83,4 +83,4 @@ export const StyledHomeSubTitle = styled(StyledHomeMainTitle)`
   ${media.small(css`
     margin-bottom: 1.25rem;
   `)}
-`
+`;

@@ -1,6 +1,6 @@
-import { media, semantics, Text } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
+import { Text, media, semantics } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export const StyledFigure = styled.figure`
   width: 100%;
@@ -12,7 +12,7 @@ export const StyledFigure = styled.figure`
     aspect-ratio: unset;
     /* aspect-ratio: 4 / 3; */
   `)}
-`
+`;
 
 export const StyledImage = styled.img`
   width: 100%;
@@ -21,7 +21,7 @@ export const StyledImage = styled.img`
   object-position: 50%;
   background-color: ${semantics.color.background[4]};
   border-radius: 1rem;
-`
+`;
 
 export const StyledFigcaption = styled.figcaption`
   text-align: center;
@@ -29,7 +29,7 @@ export const StyledFigcaption = styled.figcaption`
   margin: unset;
   padding: 1rem;
   border-radius: 1rem;
-`
+`;
 
 export const StyledFigcaptionText = styled(Text)`
   color: ${semantics.color.foreground[3]};
@@ -40,4 +40,4 @@ export const StyledFigcaptionText = styled(Text)`
   ${media.medium(css`
     font-size: 12px;
   `)}
-`
+`;

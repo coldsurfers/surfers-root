@@ -1,1 +1,1 @@
-export * from './floating-search-result'
+export * from './floating-search-result';

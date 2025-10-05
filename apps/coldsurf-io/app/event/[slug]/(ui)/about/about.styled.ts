@@ -1,5 +1,5 @@
-import { Button } from '@coldsurfers/ocean-road'
-import styled from '@emotion/styled'
+import { Button } from '@coldsurfers/ocean-road';
+import styled from '@emotion/styled';
 
 export const StyledAboutContainer = styled.div<{ $isFolded: boolean }>`
   display: flex;
@@ -14,7 +14,7 @@ export const StyledAboutContainer = styled.div<{ $isFolded: boolean }>`
   border-bottom-left-radius: ${(props) => (!props.$isFolded ? '12px' : '0px')};
   border-bottom-right-radius: ${(props) => (!props.$isFolded ? '12px' : '0px')};
   position: relative;
-`
+`;
 
 export const StyledAboutShowMoreGradation = styled.div`
   background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8));
@@ -24,16 +24,16 @@ export const StyledAboutShowMoreGradation = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-`
+`;
 
 export const StyledAboutImage = styled.img`
   width: 100%;
 
   height: 100%;
   object-fit: cover;
-`
+`;
 
 export const StyledAboutButton = styled(Button)`
   margin-top: 1rem;
   width: 100%;
-`
+`;

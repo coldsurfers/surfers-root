@@ -1,1 +1,1 @@
-export * from './metadata-instance'
+export * from './metadata-instance';

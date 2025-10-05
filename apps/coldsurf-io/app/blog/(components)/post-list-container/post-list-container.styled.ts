@@ -1,6 +1,6 @@
-import { media } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
+import { media } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export const StyledPostsContainer = styled.div`
   display: grid;
@@ -13,4 +13,4 @@ export const StyledPostsContainer = styled.div`
     flex-wrap: wrap;
     gap: 1rem;
   `)}
-`
+`;

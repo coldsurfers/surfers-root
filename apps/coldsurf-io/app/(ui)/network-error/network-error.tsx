@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { Button } from '@coldsurfers/ocean-road'
-import { memo } from 'react'
-import { StyledErrorContainer, StyledErrorText } from './network-error.styled'
+import { Button } from '@coldsurfers/ocean-road';
+import { memo } from 'react';
+import { StyledErrorContainer, StyledErrorText } from './network-error.styled';
 
 export const NetworkError = memo(({ onClickRetry }: { onClickRetry: () => void }) => {
   return (
@@ -10,5 +10,5 @@ export const NetworkError = memo(({ onClickRetry }: { onClickRetry: () => void }
       <StyledErrorText as="h1">네트워크 에러가 발생했어요 🗯</StyledErrorText>
       <Button onClick={onClickRetry}>다시 시도하기</Button>
     </StyledErrorContainer>
-  )
-})
+  );
+});

@@ -1,1 +1,1 @@
-export * from './venue'
+export * from './venue';

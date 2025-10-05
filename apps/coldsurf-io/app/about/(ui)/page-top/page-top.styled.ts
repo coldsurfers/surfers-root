@@ -1,7 +1,7 @@
-import { media, semantics, Text } from '@coldsurfers/ocean-road'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
-import { motion } from 'framer-motion'
+import { Text, media, semantics } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { motion } from 'framer-motion';
 
 export const StyledTopTitleText = styled(Text)`
   font-size: 64px;
@@ -20,7 +20,7 @@ export const StyledTopTitleText = styled(Text)`
   ${media.small(css`
     font-size: 40px;
   `)}
-`
+`;
 
 export const StyledNormalText = styled(Text)`
   font-size: 22px;
@@ -41,7 +41,7 @@ export const StyledNormalText = styled(Text)`
   ${media.small(css`
     font-size: 16px;
   `)}
-`
+`;
 
 export const SectionDivider = styled.section<{ $topSpace?: boolean }>`
   margin-top: ${(props) => (props.$topSpace ? '12rem' : '4rem')};
@@ -69,14 +69,14 @@ export const SectionDivider = styled.section<{ $topSpace?: boolean }>`
     margin-left: 1rem;
     margin-right: 1rem;
   `)}
-`
+`;
 
-export const StyledMotionDiv = styled(motion.div)``
+export const StyledMotionDiv = styled(motion.div)``;
 
 export const StyledFigure = styled.figure`
   margin: unset;
   margin-bottom: 4rem;
-`
+`;
 
 export const StyledSectionImage = styled.img`
   border-radius: 8px;
@@ -88,9 +88,9 @@ export const StyledSectionImage = styled.img`
   aspect-ratio: 16 / 9;
   object-fit: cover;
   object-position: 50%;
-`
+`;
 
 export const StyledFigCaption = styled.figcaption`
   color: ${semantics.color.foreground[3]};
   font-size: 12px;
-`
+`;

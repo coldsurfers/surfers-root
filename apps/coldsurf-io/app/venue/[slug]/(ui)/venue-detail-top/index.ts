@@ -1,1 +1,1 @@
-export * from './venue-detail-top'
+export * from './venue-detail-top';

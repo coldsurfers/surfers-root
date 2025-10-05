@@ -1,1 +1,1 @@
-export * from './post-pagination-list'
+export * from './post-pagination-list';
