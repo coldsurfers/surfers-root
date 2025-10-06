@@ -9,7 +9,7 @@ const projectRoot = __dirname;
  * Metro configuration
  * https://reactnative.dev/docs/metro
  *
- * @type {import('metro-config').MetroConfig}
+ * @type {import('@react-native/metro-config').MetroConfig}
  */
 const config = {
   watchFolders: [workspaceRoot],
@@ -18,22 +18,28 @@ const config = {
     getTransformOptions: async () => ({
       transform: {
         experimentalImportSupport: false,
-        inlineRequires: true,
+        inlineRequires: false,
       },
     }),
   },
   server: {
     port: 8081,
   },
-  nodeModulesPaths: [
-    path.resolve(projectRoot, 'node_modules'),
-    path.resolve(workspaceRoot, 'node_modules'),
-  ],
   resolver: {
     nodeModulesPaths: [
       path.resolve(projectRoot, 'node_modules'),
       path.resolve(workspaceRoot, 'node_modules'),
     ],
+    resolveRequest: (context, moduleName, platform) => {
+      // https://github.com/pmndrs/zustand/discussions/1967#discussioncomment-13471821
+      // zustand import.meta issue
+      if (moduleName.includes('zustand')) {
+        const result = require.resolve(moduleName); // gets CommonJS version
+        return context.resolveRequest(context, result, platform);
+      }
+      // otherwise chain to the standard Metro resolver.
+      return context.resolveRequest(context, moduleName, platform);
+    },
   },
 };
 
