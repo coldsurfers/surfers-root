@@ -98,8 +98,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/shared-utils
       '@d11/react-native-fast-image':
-        specifier: 8.10.0
-        version: 8.10.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
+        specifier: 8.12.0
+        version: 8.12.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
       '@emotion/native':
         specifier: 11.11.0
         version: 11.11.0(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
@@ -215,8 +215,8 @@ importers:
         specifier: ^3.7.0
         version: 3.7.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))
       react-native-maps:
-        specifier: 1.22.6
-        version: 1.22.6(react-native-web@0.19.13(encoding@0.1.13)(react-dom@19.2.0(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
+        specifier: 1.26.14
+        version: 1.26.14(react-native-web@0.19.13(encoding@0.1.13)(react-dom@19.2.0(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
       react-native-mmkv:
         specifier: 3.3.3
         version: 3.3.3(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
@@ -3013,6 +3013,12 @@ packages:
 
   '@d11/react-native-fast-image@8.10.0':
     resolution: {integrity: sha512-ga/UzBReOA1vhXNAickvJbBzAWH3Rg1hu/ZJnKn+SfRFoWvq+X0xOiARHMVR8lkm6MV9ZQSE3vgoKmmVgthNoQ==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+
+  '@d11/react-native-fast-image@8.12.0':
+    resolution: {integrity: sha512-KxrxDa6/kS3B622K9MK3pwifjqiOEDfuCIwjDXYL1daNJ3fpBxl4VWiKPdYN5dFl01kWC5TXXxK1cD2eO/sFNw==}
     peerDependencies:
       react: '*'
       react-native: '*'
@@ -12486,9 +12492,9 @@ packages:
       react: '*'
       react-native: '*'
 
-  react-native-maps@1.22.6:
-    resolution: {integrity: sha512-4aYR+wvxFpYAisSHUtUACt7pVmemdZb/06WUfCjltS1Ag6056EmWxgQd9zwujGpEZf+3j1/O/sWgGAPk6xXy2Q==}
-    engines: {node: '>=18'}
+  react-native-maps@1.26.14:
+    resolution: {integrity: sha512-ao4FMa3Iuie8fZuj7SG9LN8D9MEdu3gPm+9UfEEK2L1z+FXtGZTzTdByOsj4KRMGU5SGguFlHpV8aL1Sq5FKnA==}
+    engines: {node: '>= 20.19.4'}
     peerDependencies:
       react: '>= 18.3.1'
       react-native: '>= 0.76.0'
@@ -17311,6 +17317,11 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.9
 
   '@d11/react-native-fast-image@8.10.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      react: 19.1.0
+      react-native: 0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0)
+
+  '@d11/react-native-fast-image@8.12.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)':
     dependencies:
       react: 19.1.0
       react-native: 0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0)
@@ -23043,7 +23054,7 @@ snapshots:
 
   axios@1.6.3:
     dependencies:
-      follow-redirects: 1.15.9(debug@4.4.1)
+      follow-redirects: 1.15.9(debug@4.3.7)
       form-data: 4.0.2
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -28989,7 +29000,7 @@ snapshots:
       react: 19.2.0
       react-native: 0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.2.0)
 
-  react-native-maps@1.22.6(react-native-web@0.19.13(encoding@0.1.13)(react-dom@19.2.0(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0):
+  react-native-maps@1.26.14(react-native-web@0.19.13(encoding@0.1.13)(react-dom@19.2.0(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0):
     dependencies:
       '@types/geojson': 7946.0.16
       react: 19.1.0

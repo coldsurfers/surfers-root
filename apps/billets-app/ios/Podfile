@@ -50,9 +50,9 @@ target 'FstvlLifeApp' do
   # For extensions without React dependencies
   pod 'react-native-config/Extension', :path => '../../../node_modules/react-native-config'
 
-  pod 'react-native-maps', :path => '../../../node_modules/react-native-maps'
-  pod 'react-native-google-maps', :path => '../../../node_modules/react-native-maps'
-  pod 'react-native-maps-generated', :path => '../../../node_modules/react-native-maps'
+  rn_maps_path = '../../../node_modules/react-native-maps'
+
+  pod 'react-native-maps/Google', :path => rn_maps_path
 
   ENVFILES = {
     'Debug' => '$(PODS_ROOT)/../../.env.development',
