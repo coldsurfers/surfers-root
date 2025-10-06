@@ -13,11 +13,7 @@
   "module": "dist/index.mjs",
   "source": "src/",
   "types": "dist/index.d.ts",
-  "files": [
-    "src",
-    "dist",
-    "package.json"
-  ],
+  "files": ["src", "dist", "package.json"],
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "rm -rf dist && tsdown",
@@ -35,7 +31,7 @@
     }
   },
   "devDependencies": {
-    "react": "19.0.0",
+    "react": "19.1.0",
     "react-dom": "19.0.0",
     "@biomejs/biome": "1.9.4",
     "@coldsurfers/ocean-road": "1.11.6",
@@ -43,7 +39,7 @@
     "@emotion/css": "11.10.6",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
-    "typescript": "5.6.3",
+    "typescript": "5.8.3",
     "tsdown": "^0.11.9",
     "framer-motion": "11.11.13",
     "lucide-react": "0.469.0"

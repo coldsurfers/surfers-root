@@ -9,19 +9,14 @@
     "url": "git+https://github.com/coldsurfers/surfers-root"
   },
   "main": "dist/css/variables.css",
-  "files": [
-    "src",
-    "dist",
-    "tokens",
-    "package.json"
-  ],
+  "files": ["src", "dist", "tokens", "package.json"],
   "license": "MIT",
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "prettier": "*",
     "style-dictionary": "^3.7.2",
     "ts-node": "^10.9.1",
-    "typescript": "5.6.3"
+    "typescript": "5.8.3"
   },
   "dependencies": {
     "open-color": "^1.9.1"
