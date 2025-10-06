@@ -1,43 +1,40 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config')
-const exclusionList = require('metro-config/src/defaults/exclusionList')
-const { getMetroTools, getMetroAndroidAssetsResolutionFix } = require('react-native-monorepo-tools')
+const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 
-const monorepoMetroTools = getMetroTools()
+const path = require('node:path');
 
-const androidAssetsResolutionFix = getMetroAndroidAssetsResolutionFix()
+const workspaceRoot = path.resolve(__dirname, '../..');
+const projectRoot = __dirname;
 
 /**
  * Metro configuration
  * https://reactnative.dev/docs/metro
  *
- * @type {import('@react-native/metro-config').MetroConfig}
+ * @type {import('metro-config').MetroConfig}
  */
 const config = {
+  watchFolders: [workspaceRoot],
   transformer: {
-    // Apply the Android assets resolution fix to the public path...
-    publicPath: androidAssetsResolutionFix.publicPath,
+    unstable_allowRequireContext: true,
     getTransformOptions: async () => ({
       transform: {
         experimentalImportSupport: false,
-        inlineRequires: false,
+        inlineRequires: true,
       },
     }),
   },
   server: {
-    // ...and to the server middleware.
-    enhanceMiddleware: (middleware) => {
-      return androidAssetsResolutionFix.applyMiddleware(middleware)
-    },
+    port: 8081,
   },
-  // Add additional Yarn workspace package roots to the module map.
-  // This allows importing importing from all the project's packages.
-  watchFolders: monorepoMetroTools.watchFolders,
+  nodeModulesPaths: [
+    path.resolve(projectRoot, 'node_modules'),
+    path.resolve(workspaceRoot, 'node_modules'),
+  ],
   resolver: {
-    // Ensure we resolve nohoist libraries from this directory.
-    blockList: exclusionList(monorepoMetroTools.blockList),
-    extraNodeModules: monorepoMetroTools.extraNodeModules,
+    nodeModulesPaths: [
+      path.resolve(projectRoot, 'node_modules'),
+      path.resolve(workspaceRoot, 'node_modules'),
+    ],
   },
-}
+};
 
-module.exports = mergeConfig(getDefaultConfig(__dirname), config)
+module.exports = mergeConfig(getDefaultConfig(__dirname), config);
