@@ -1,5 +1,11 @@
 # @coldsurfers/settings-mini-app
 
+## 1.0.10
+
+### Patch Changes
+
+- [#587](https://github.com/coldsurfers/surfers-root/pull/587) [`37c5a5e`](https://github.com/coldsurfers/surfers-root/commit/37c5a5efea53c7567f86717838cc6ff1c04a9a10) Thanks [@yungblud](https://github.com/yungblud)! - Fix query client provider
+
 ## 1.0.9
 
 ### Patch Changes
