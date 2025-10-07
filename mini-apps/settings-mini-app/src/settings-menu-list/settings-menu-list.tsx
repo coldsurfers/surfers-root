@@ -1,6 +1,6 @@
 import { useColorScheme } from '@coldsurfers/ocean-road/native';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useCallback, useContext, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Alert, FlatList, type ListRenderItem, View } from 'react-native';
 import { getBuildNumber, getVersion } from 'react-native-device-info';
 import { apiClient } from '../api-client';

@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config')
-const exclusionList = require('metro-config/src/defaults/exclusionList')
-const { getMetroTools, getMetroAndroidAssetsResolutionFix } = require('react-native-monorepo-tools')
+const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 
-const monorepoMetroTools = getMetroTools()
+const path = require('node:path');
 
-const androidAssetsResolutionFix = getMetroAndroidAssetsResolutionFix()
+const workspaceRoot = path.resolve(__dirname, '../..');
+const projectRoot = __dirname;
 
 /**
  * Metro configuration
@@ -14,9 +12,9 @@ const androidAssetsResolutionFix = getMetroAndroidAssetsResolutionFix()
  * @type {import('@react-native/metro-config').MetroConfig}
  */
 const config = {
+  watchFolders: [workspaceRoot],
   transformer: {
-    // Apply the Android assets resolution fix to the public path...
-    publicPath: androidAssetsResolutionFix.publicPath,
+    unstable_allowRequireContext: true,
     getTransformOptions: async () => ({
       transform: {
         experimentalImportSupport: false,
@@ -25,19 +23,24 @@ const config = {
     }),
   },
   server: {
-    // ...and to the server middleware.
-    enhanceMiddleware: (middleware) => {
-      return androidAssetsResolutionFix.applyMiddleware(middleware)
+    port: 8081,
+  },
+  resolver: {
+    nodeModulesPaths: [
+      path.resolve(projectRoot, 'node_modules'),
+      path.resolve(workspaceRoot, 'node_modules'),
+    ],
+    resolveRequest: (context, moduleName, platform) => {
+      // https://github.com/pmndrs/zustand/discussions/1967#discussioncomment-13471821
+      // zustand import.meta issue
+      if (moduleName.includes('zustand')) {
+        const result = require.resolve(moduleName); // gets CommonJS version
+        return context.resolveRequest(context, result, platform);
+      }
+      // otherwise chain to the standard Metro resolver.
+      return context.resolveRequest(context, moduleName, platform);
     },
   },
-  // Add additional Yarn workspace package roots to the module map.
-  // This allows importing importing from all the project's packages.
-  watchFolders: monorepoMetroTools.watchFolders,
-  resolver: {
-    // Ensure we resolve nohoist libraries from this directory.
-    blockList: exclusionList(monorepoMetroTools.blockList),
-    extraNodeModules: monorepoMetroTools.extraNodeModules,
-  },
-}
+};
 
-module.exports = mergeConfig(getDefaultConfig(__dirname), config)
+module.exports = mergeConfig(getDefaultConfig(__dirname), config);

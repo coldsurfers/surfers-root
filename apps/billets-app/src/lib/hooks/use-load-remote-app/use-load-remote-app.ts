@@ -1,23 +1,23 @@
 import { apiClient } from '@/lib/api/openapi-client';
 import { REMOTE_APPS, REMOTE_APP_BUNDLE_HOST_URL } from '@/lib/constants';
-import { Script, ScriptManager } from '@callstack/repack/client';
 import { loadAsyncScript } from '@coldsurfers/react-native-esbuild-deploy';
 import type { SettingsScreenProps } from '@coldsurfers/settings-mini-app';
 import { useQuery } from '@tanstack/react-query';
 import { type FC, useEffect, useMemo, useState } from 'react';
 import { InteractionManager } from 'react-native';
+// import { Script, ScriptManager } from '@callstack/repack/client';
 
 const isDevMode = __DEV__;
 
 if (isDevMode) {
-  ScriptManager.shared.addResolver(async (scriptId, caller) => {
-    if (isDevMode) {
-      return {
-        url: Script.getDevServerURL(scriptId),
-        cache: false,
-      };
-    }
-  });
+  // ScriptManager.shared.addResolver(async (scriptId, caller) => {
+  //   if (isDevMode) {
+  //     return {
+  //       url: Script.getDevServerURL(scriptId),
+  //       cache: false,
+  //     };
+  //   }
+  // });
 }
 
 type RemoteAppRegistry = {
@@ -50,7 +50,8 @@ export const useLoadRemoteApp = <TApp extends RemoteAppRegistry['type']>(remoteA
     queryFn: async () => {
       if (isDevMode) {
         if (remoteApp.appName === 'settings') {
-          const SettingsApp = await import('@coldsurfers/settings-mini-app');
+          // if repack, use await import
+          const SettingsApp = require('@coldsurfers/settings-mini-app');
           return SettingsApp.default;
         }
         return null;

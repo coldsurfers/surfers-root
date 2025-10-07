@@ -13,6 +13,7 @@ export const GOOGLE_SIGNIN_OPTIONS = {
 export const API_BASE_URL = (() => {
   return match(Config.PLATFORM)
     .with('development', () => 'https://dev.api.billets.coldsurf.io')
+    .with('staging', () => 'https://dev.api.billets.coldsurf.io')
     .otherwise(() => 'https://api.billets.coldsurf.io');
 })();
 
