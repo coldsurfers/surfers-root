@@ -10,6 +10,9 @@ overrides:
   '@types/react-dom': 18.2.22
 
 patchedDependencies:
+  react-native-maps@1.26.14:
+    hash: 58ee86ba635bf8c8276ddcebe25ae02990935835b8b6c1c6ed891a558d29d8aa
+    path: patches/react-native-maps@1.26.14.patch
   react-notion-x@7.2.5:
     hash: 3b8bdd450d87f729b467c81e8b0a4c149e5a0ec65dfddc2b2071c6703840739d
     path: patches/react-notion-x@7.2.5.patch
@@ -133,6 +136,9 @@ importers:
       '@react-native-firebase/app':
         specifier: 23.4.0
         version: 23.4.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
+      '@react-native-firebase/auth':
+        specifier: 23.4.0
+        version: 23.4.0(@react-native-firebase/app@23.4.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))
       '@react-native-firebase/crashlytics':
         specifier: 23.4.0
         version: 23.4.0(@react-native-firebase/app@23.4.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))
@@ -140,8 +146,8 @@ importers:
         specifier: 23.4.0
         version: 23.4.0(@react-native-firebase/app@23.4.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))
       '@react-native-google-signin/google-signin':
-        specifier: ^8.0.0
-        version: 8.2.2(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
+        specifier: ^16.0.0
+        version: 16.0.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
       '@react-navigation/bottom-tabs':
         specifier: ^6.5.11
         version: 6.6.1(@react-navigation/native@6.1.18(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))(react-native-safe-area-context@5.6.1(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))(react-native-screens@4.16.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
@@ -194,8 +200,8 @@ importers:
         specifier: ^1.1289.0
         version: 1.1309.1(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
       react-native-config:
-        specifier: 1.5.3
-        version: 1.5.3
+        specifier: 1.5.9
+        version: 1.5.9
       react-native-device-info:
         specifier: 14.0.2
         version: 14.0.2(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))
@@ -216,7 +222,7 @@ importers:
         version: 3.7.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))
       react-native-maps:
         specifier: 1.26.14
-        version: 1.26.14(react-native-web@0.19.13(encoding@0.1.13)(react-dom@19.2.0(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
+        version: 1.26.14(patch_hash=58ee86ba635bf8c8276ddcebe25ae02990935835b8b6c1c6ed891a558d29d8aa)(react-native-web@0.19.13(encoding@0.1.13)(react-dom@19.2.0(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
       react-native-mmkv:
         specifier: 3.3.3
         version: 3.3.3(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
@@ -5793,6 +5799,15 @@ packages:
       expo:
         optional: true
 
+  '@react-native-firebase/auth@23.4.0':
+    resolution: {integrity: sha512-oDvNr5F9/3mAi7DiO5+9X/WSmFwtwIC4hfG+TigX65McgllUor5bRbCy+esGd6RGMm36pwglDvbCzUMMK740bw==}
+    peerDependencies:
+      '@react-native-firebase/app': 23.4.0
+      expo: '>=47.0.0'
+    peerDependenciesMeta:
+      expo:
+        optional: true
+
   '@react-native-firebase/crashlytics@23.4.0':
     resolution: {integrity: sha512-R8NHA43S+Gy7IS9xmYU7ILo4crkD/L/d4GIDIZTdWJoL6OmPN52EoSBdgXW9ssDVBlNfEfQqmACp+KThTVEzXQ==}
     peerDependencies:
@@ -5811,14 +5826,14 @@ packages:
       expo:
         optional: true
 
-  '@react-native-google-signin/google-signin@8.2.2':
-    resolution: {integrity: sha512-y56SDxupkN4nvIsmvnq11OqDMLJKTihbwT4dUtnPZ+FCOO4uX62zCpCyXub5o7/N12Ei8KCHC2umd8OHpMdRFg==}
+  '@react-native-google-signin/google-signin@16.0.0':
+    resolution: {integrity: sha512-jVuzPo8odREekFc0b4RK3YsqCvedtLIM2P6NSszFr9cYyhKrUNikffPapL6LmkL9qkb8K6pDeb5CXg4qALOc0g==}
     peerDependencies:
-      '@expo/config-plugins': ^4.1.0
+      expo: '>=52.0.40'
       react: '*'
       react-native: '*'
     peerDependenciesMeta:
-      '@expo/config-plugins':
+      expo:
         optional: true
 
   '@react-native/assets-registry@0.81.4':
@@ -12498,8 +12513,8 @@ packages:
   react-native-calendars@1.1309.1:
     resolution: {integrity: sha512-ZUvdKkagOVAI2B0/bVVKBaCMCCFsbxtgOLdBCKETz5K4FadL6C+69josMFoJv1OIeVFNyhRO9w1BW1qxglzYpw==}
 
-  react-native-config@1.5.3:
-    resolution: {integrity: sha512-3D05Abgk5DfDw9w258EzXvX5AkU7eqj3u9H0H0L4gUga4nYg/zuupcrpGbpF4QeXBcJ84jjs6g8JaEP6VBT7Pg==}
+  react-native-config@1.5.9:
+    resolution: {integrity: sha512-j6EZ+zgcNW21POGDOdE/A42lt9ZZbQvpAfY8rMn/LCWneb+UcxN8DCq1tXcHUW4Yu4adAlDvpuw1WFqj4DR3hw==}
     peerDependencies:
       react-native-windows: '>=0.61'
     peerDependenciesMeta:
@@ -21040,6 +21055,11 @@ snapshots:
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
 
+  '@react-native-firebase/auth@23.4.0(@react-native-firebase/app@23.4.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))':
+    dependencies:
+      '@react-native-firebase/app': 23.4.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
+      plist: 3.1.0
+
   '@react-native-firebase/crashlytics@23.4.0(@react-native-firebase/app@23.4.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))':
     dependencies:
       '@react-native-firebase/app': 23.4.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
@@ -21049,7 +21069,7 @@ snapshots:
     dependencies:
       '@react-native-firebase/app': 23.4.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
 
-  '@react-native-google-signin/google-signin@8.2.2(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)':
+  '@react-native-google-signin/google-signin@16.0.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)':
     dependencies:
       react: 19.1.0
       react-native: 0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0)
@@ -29247,7 +29267,14 @@ snapshots:
       - react
       - react-native
 
-  react-native-config@1.5.3: {}
+  react-native-config@1.5.9:
+    dependencies:
+      '@babel/core': 7.26.9
+      '@babel/preset-env': 7.26.9(@babel/core@7.26.9)
+      '@babel/preset-react': 7.26.3(@babel/core@7.26.9)
+      babel-jest: 29.7.0(@babel/core@7.26.9)
+    transitivePeerDependencies:
+      - supports-color
 
   react-native-device-info@14.0.2(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0)):
     dependencies:
@@ -29319,7 +29346,7 @@ snapshots:
       react: 19.2.0
       react-native: 0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.2(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.2.0)
 
-  react-native-maps@1.26.14(react-native-web@0.19.13(encoding@0.1.13)(react-dom@19.2.0(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0):
+  react-native-maps@1.26.14(patch_hash=58ee86ba635bf8c8276ddcebe25ae02990935835b8b6c1c6ed891a558d29d8aa)(react-native-web@0.19.13(encoding@0.1.13)(react-dom@19.2.0(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0):
     dependencies:
       '@types/geojson': 7946.0.16
       react: 19.1.0

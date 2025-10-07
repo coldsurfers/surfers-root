@@ -164,4 +164,7 @@ dependencies {
     }
 
     implementation 'androidx.appcompat:appcompat:1.4.2'
+
+    // https://github.com/lugg/react-native-config/issues/848
+    // implementation project(':react-native-config')
 }

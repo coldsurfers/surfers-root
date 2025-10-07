@@ -10,8 +10,6 @@ buildscript {
         targetSdkVersion = 36
         ndkVersion = "27.1.12297006"
         kotlinVersion = "2.1.20"
-        // https://react-native-google-signin.github.io/docs/setting-up/android#2-update-gradle-files
-        googlePlayServicesAuthVersion = "20.7.0"
     }
     repositories {
         google()
