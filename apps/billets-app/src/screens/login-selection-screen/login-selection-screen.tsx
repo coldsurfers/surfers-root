@@ -15,6 +15,7 @@ import color from '@coldsurfers/ocean-road-design-tokens/dist/js/color/variables
 import { Button, Spinner } from '@coldsurfers/ocean-road/native';
 import { decodeJwt } from '@coldsurfers/shared-utils';
 import appleAuth from '@invertase/react-native-apple-authentication';
+import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useMutation } from '@tanstack/react-query';
 import React, { useCallback, useContext } from 'react';
@@ -83,19 +84,34 @@ export const _LoginSelectionScreen = () => {
 
   const onPressGoogleLogin = useCallback(async () => {
     try {
+      // if user has signed in before sign in
+      await GoogleSignin.signOut();
+      await GoogleSignin.revokeAccess();
+    } catch {}
+    try {
+      // check device has play services
       await GoogleSignin.hasPlayServices();
-      const user = await GoogleSignin.signIn();
-      const {
-        user: { email },
-      } = user;
-      if (!user.idToken) {
+      const signInResponse = await GoogleSignin.signIn();
+      if (signInResponse.type === 'cancelled') {
+        return;
+      }
+      const { user } = signInResponse.data;
+      const tokens = await GoogleSignin.getTokens();
+
+      // use firebase id token because on android, idToken is always null
+      const credential = auth.GoogleAuthProvider.credential(null, tokens.accessToken);
+      const firebaseUser = await auth().signInWithCredential(credential);
+      const firebaseIdToken = await firebaseUser.user.getIdToken();
+
+      const { email } = user;
+      if (!firebaseIdToken) {
         return;
       }
       mutateSignIn(
         {
           provider: 'google',
           email,
-          token: user.idToken,
+          token: firebaseIdToken,
           platform: Platform.select({
             ios: 'ios',
             android: 'android',
