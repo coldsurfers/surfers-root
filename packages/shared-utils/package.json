@@ -14,11 +14,7 @@
   "module": "dist/index.js",
   "source": "src/",
   "types": "dist/index.d.ts",
-  "files": [
-    "src",
-    "dist",
-    "package.json"
-  ],
+  "files": ["src", "dist", "package.json"],
   "scripts": {
     "build": "rm -rf dist && tsc",
     "check": "biome check .",
@@ -41,7 +37,7 @@
     "prettier": "^3.2.4",
     "release-it": "17.2.1",
     "schema-dts": "1.1.2",
-    "typescript": "5.6.3",
+    "typescript": "5.8.3",
     "zod": "3.23.8"
   },
   "peerDependencies": {
