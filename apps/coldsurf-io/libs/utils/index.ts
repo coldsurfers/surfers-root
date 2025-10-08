@@ -4,3 +4,4 @@ export * from './utils.price';
 export * from './utils.query-client';
 export * from './utils.tickets';
 export * from './utils.session-storage';
+export * from './utils.cookie';
