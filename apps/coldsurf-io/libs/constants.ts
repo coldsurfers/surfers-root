@@ -16,14 +16,7 @@ export const SITE_URL = (() => {
   if (process.env.NODE_ENV === 'development') {
     return 'http://localhost:3000';
   }
-  switch (process.env.APP_PLATFORM) {
-    case 'production':
-      return 'https://coldsurf.io';
-    case 'staging':
-      return 'https://staging.coldsurf.io';
-    default:
-      return 'http://localhost:3000';
-  }
+  return process.env.SITE_URL ?? 'https://coldsurf.io';
 })();
 export const SITE_MAP_URL = `${SITE_URL}/sitemap.xml`;
 export const COMMON_META_TITLE = `${SERVICE_NAME} - 당신 근처의 공연, 예술, 사운드`;
