@@ -54,7 +54,7 @@ export const createSlug = (valueToSlugify: string) => {
   return slug;
 };
 
-export const createSlugHashTag = (valueToSlugify: string) => {
+export const createSlugHashtag = (valueToSlugify: string) => {
   const slug = slugify(preprocess(`${valueToSlugify}`), {
     replacement: '_', // 공백을 "_"로 변환
     lower: true, // 소문자로 변환
