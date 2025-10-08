@@ -1,22 +1,18 @@
-import {
-  COMMON_META_DESCRIPTION,
-  COMMON_META_TITLE,
-  GLOBAL_TIME_ZONE,
-  SITE_URL,
-} from '@/libs/constants';
+import { ShareButton } from '@/features';
+import { GLOBAL_TIME_ZONE, SITE_URL } from '@/libs/constants';
 import { metadataInstance } from '@/libs/metadata';
-import { apiClient, initialPageQuery } from '@/libs/openapi-client';
+import { initialPageQuery } from '@/libs/openapi-client';
 import { ApiErrorBoundaryRegistry } from '@/libs/registries';
 import { getQueryClient } from '@/libs/utils';
 import { generateSlugHref } from '@/libs/utils/utils.slug';
-import { SERVICE_NAME } from '@coldsurfers/shared-utils';
+import { createSlugHashtag } from '@coldsurfers/shared-utils';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { RouteLoading } from 'app/(ui)';
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
-import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import {
+  About,
   DownloadApp,
   Lineup,
   PageLayout,
@@ -25,93 +21,11 @@ import {
   TopInfo,
   Venue,
 } from './(ui)';
-import { About } from './(ui)/about';
-
-async function getEventMetadata(slug: string) {
-  if (!slug) {
-    return null;
-  }
-  try {
-    const eventDetailData = await apiClient.event.getEventDetailBySlug(slug);
-    if (!eventDetailData) {
-      return null;
-    }
-    if (eventDetailData.type !== 'concert') {
-      return null;
-    }
-    return {
-      eventDetail: eventDetailData.data,
-    };
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
-}
-
-export const dynamic = 'force-dynamic';
-
-export async function generateMetadata({
-  params,
-}: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const pageParams = await params;
-  const slug = decodeURIComponent(pageParams.slug);
-  const meta = await getEventMetadata(slug);
-  if (!meta) {
-    return {
-      title: COMMON_META_TITLE,
-      description: COMMON_META_DESCRIPTION,
-    };
-  }
-  const { venues, artists, ticketPromotion, posters, title, date, tickets } = meta.eventDetail;
-
-  const zonedDate = toZonedTime(new Date(date), GLOBAL_TIME_ZONE);
-  const formattedDate = format(zonedDate, 'EEE, MMM d');
-  const venueTitle = venues.at(0)?.name ?? '';
-  const artistNamesString = artists.map((artist) => artist.name).join('\n');
-
-  const metaTitle = `${title} - ${formattedDate}, ${venueTitle} | ${SERVICE_NAME} 공연 정보`;
-  const metaDescription = `${formattedDate}에 ${venueTitle}에서 열리는 ${title}.\n\n출연: ${artistNamesString}\n\n${SERVICE_NAME}에서 공연 정보를 확인하고 티켓 구매처로 연결됩니다.`;
-
-  const metaOther = {
-    'product:brand': ticketPromotion?.sellerName ?? '',
-    'product:availability': 'in stock',
-    'product:condition': 'new',
-    'product:price:amount': ticketPromotion?.price?.price ?? 0,
-    'product:price:currency': ticketPromotion?.price?.currency ?? 'USD',
-  };
-  const metaKeywords = [
-    venueTitle,
-    ...artists.map((artist) => artist.name),
-    title,
-    ...tickets.map((ticket) => ticket.sellerName),
-  ];
-  const metaImages = posters.map((poster) => {
-    return {
-      alt: poster.url,
-      url: poster.url,
-    };
-  });
-
-  const openGraph: Metadata['openGraph'] = {
-    type: 'website',
-    title: metaTitle,
-    description: metaDescription,
-    images: metaImages,
-    url: `${SITE_URL}${generateSlugHref(pageParams.slug)}`,
-  };
-
-  return metadataInstance.generateMetadata<Metadata>({
-    title: metaTitle,
-    description: metaDescription,
-    other: metaOther,
-    keywords: metaKeywords,
-    openGraph,
-  });
-}
+import { generateEventDetailMetadata } from './(utils)';
 
 async function PageInner({ params }: { params: { slug: string } }) {
-  const meta = await getEventMetadata(params.slug);
-  if (!meta) {
+  const eventDetailMetadata = await generateEventDetailMetadata(params.slug);
+  if (!eventDetailMetadata || !eventDetailMetadata.eventDetailData) {
     return redirect('/404');
   }
   const queryClient = getQueryClient();
@@ -129,7 +43,8 @@ async function PageInner({ params }: { params: { slug: string } }) {
     tickets,
     detailImages,
     id: eventId,
-  } = meta.eventDetail;
+  } = eventDetailMetadata.eventDetailData;
+  const { description: metaDescription } = eventDetailMetadata;
   // eslint-disable-next-line prettier/prettier
   const posterUrl = isKOPIS ? (posters.at(0)?.url ?? '') : (artists.at(0)?.thumbUrl ?? '');
   // eslint-disable-next-line prettier/prettier
@@ -149,8 +64,16 @@ async function PageInner({ params }: { params: { slug: string } }) {
     slug: mainVenue?.slug ?? '',
   };
 
-  const artistNamesString = artists.map((artist) => artist.name).join('\n');
-  const metaDescription = `${venueTitle} presents\n\n${title} on ${formattedDate}.\n\n${artistNamesString}\n\nGet your tickets now!`;
+  const metaDescriptionForTwitter = (() => {
+    let metaString = `${venueTitle}에서 주최하는\n${title}.`;
+    if (artists.length > 0) {
+      const artistNamesString = artists.map((artist) => artist.name).join('\n');
+      metaString += `\n${artistNamesString}`;
+    }
+    const formattedDateString = format(zonedDate, 'yyyy년 MM월 dd일 hh시 mm분 a');
+    metaString += `\n${formattedDateString}에 만나요!`;
+    return metaString;
+  })();
 
   const concertDate = new Date(date);
 
@@ -164,6 +87,27 @@ async function PageInner({ params }: { params: { slug: string } }) {
             alt={title}
             copyright={posterCopyright}
             eventId={eventId}
+            shareButtonsAccessory={
+              <>
+                <ShareButton
+                  type="twitter"
+                  text={metaDescriptionForTwitter}
+                  url={`${SITE_URL}${generateSlugHref(params.slug)}`}
+                  hashtags={[
+                    createSlugHashtag(title),
+                    createSlugHashtag(venueTitle),
+                    'COLDSURF',
+                    '공연',
+                  ]}
+                  via="COLDSURF_IO"
+                />
+                <ShareButton
+                  type="facebook"
+                  quote={metaDescription}
+                  url={`${SITE_URL}${generateSlugHref(params.slug)}`}
+                />
+              </>
+            }
           />
         }
         topInfo={
