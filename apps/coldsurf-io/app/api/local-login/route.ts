@@ -1,4 +1,5 @@
 import { COOKIE_ACCESS_TOKEN_KEY, COOKIE_REFRESH_TOKEN_KEY } from '@/libs/constants';
+import { createCommonCookieOptions } from '@/libs/utils';
 import { cookies } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
 
@@ -9,22 +10,20 @@ export async function POST(request: NextRequest) {
   const { accessToken, refreshToken } = body;
 
   const responseCookie = cookieStore
-    .set(COOKIE_ACCESS_TOKEN_KEY, accessToken, {
-      httpOnly: true,
-      secure: true,
-      maxAge: 60 * 60 * 24 * 7, // 1 week
-      sameSite: 'strict',
-      path: '/',
-      domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
-    })
-    .set(COOKIE_REFRESH_TOKEN_KEY, refreshToken, {
-      httpOnly: true,
-      secure: true,
-      maxAge: 60 * 60 * 24 * 7, // 4 weeks
-      sameSite: 'strict',
-      path: '/',
-      domain: process.env.NODE_ENV === 'development' ? undefined : '.coldsurf.io',
-    })
+    .set(
+      COOKIE_ACCESS_TOKEN_KEY,
+      accessToken,
+      createCommonCookieOptions({
+        maxAge: 60 * 60 * 24 * 7, // 1 week
+      })
+    )
+    .set(
+      COOKIE_REFRESH_TOKEN_KEY,
+      refreshToken,
+      createCommonCookieOptions({
+        maxAge: 60 * 60 * 24 * 7, // 4 weeks
+      })
+    )
     .toString();
 
   if (accessToken && refreshToken) {

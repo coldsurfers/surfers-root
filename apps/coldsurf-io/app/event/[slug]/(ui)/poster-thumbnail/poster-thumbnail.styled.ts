@@ -36,9 +36,13 @@ export const StyledPosterThumbnailEmptyText = styled(Text)`
   padding-right: 1rem;
 `;
 
-export const StyledInfoIcon = styled(Info)`
-  margin-left: auto;
-  cursor: pointer;
+export const StyledShareButtonsAccessoryLayout = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 0.5rem;
+  margin-top: 0.75rem;
 `;
 
 export const StyledContentWrapper = styled.div`
