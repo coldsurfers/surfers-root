@@ -5,26 +5,30 @@ import { isEmptySource } from '@/libs/utils/utils.image';
 import { featureFlags } from '@/shared/constants';
 import type { components } from '@coldsurfers/api-sdk';
 import { ImageModal } from 'app/(ui)';
-import { useCallback, useMemo, useState } from 'react';
+import { type ReactNode, useCallback, useMemo, useState } from 'react';
 import {
   StyledContentWrapper,
-  StyledInfoIcon,
   StyledPosterThumbnail,
   StyledPosterThumbnailEmpty,
   StyledPosterThumbnailEmptyText,
+  StyledShareButtonsAccessoryLayout,
 } from './poster-thumbnail.styled';
+
+type PosterThumbnailProps = {
+  src: string;
+  alt?: string;
+  copyright?: components['schemas']['CopyrightDTOSchema'];
+  eventId: string;
+  shareButtonsAccessory?: ReactNode;
+};
 
 export function PosterThumbnail({
   src,
   alt,
   copyright,
   eventId,
-}: {
-  src: string;
-  alt?: string;
-  copyright?: components['schemas']['CopyrightDTOSchema'];
-  eventId: string;
-}) {
+  shareButtonsAccessory,
+}: PosterThumbnailProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const source = useMemo(() => {
     if (isEmptySource(src)) return '';
@@ -42,12 +46,12 @@ export function PosterThumbnail({
       <StyledContentWrapper>
         <StyledPosterThumbnail src={source} alt={alt} onClick={openModal} />
         {featureFlags.useSubscribeButton && (
-          <FixedSubscribeEventButtonLayout customBottom={44}>
+          <FixedSubscribeEventButtonLayout customBottom={12}>
             <SubscribeEventButton eventId={eventId} />
           </FixedSubscribeEventButtonLayout>
         )}
-        <StyledInfoIcon onClick={openModal} />
       </StyledContentWrapper>
+      <StyledShareButtonsAccessoryLayout>{shareButtonsAccessory}</StyledShareButtonsAccessoryLayout>
       <ImageModal
         visible={isModalOpen}
         src={imageModalSource}
