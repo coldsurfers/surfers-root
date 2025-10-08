@@ -17,10 +17,15 @@ export async function generateStaticParams({
   const seriesParams = await params;
   const seriesCategoryValidation = SeriesCategorySchema.safeParse(seriesParams.series);
   if (!seriesCategoryValidation.success) {
-    throw createBlogError({
-      type: 'invalid-series-category',
-      seriesCategory: seriesParams.series,
-    });
+    throw createBlogError(
+      {
+        type: 'invalid-series-category',
+        seriesCategory: seriesParams.series,
+      },
+      {
+        withSentryCapture: true,
+      }
+    );
   }
   const seriesCategory = seriesCategoryValidation.data;
   const { totalPage } = await fetchGetSeries({
@@ -42,10 +47,15 @@ export async function generateMetadata({
   const layoutParams = await params;
   const seriesCategoryValidation = SeriesCategorySchema.safeParse(layoutParams.series);
   if (!seriesCategoryValidation.success) {
-    throw createBlogError({
-      type: 'invalid-series-category',
-      seriesCategory: layoutParams.series,
-    });
+    throw createBlogError(
+      {
+        type: 'invalid-series-category',
+        seriesCategory: layoutParams.series,
+      },
+      {
+        withSentryCapture: true,
+      }
+    );
   }
   const metaTitle = match(seriesCategoryValidation.data)
     .with('catholic', () => 'COLDSURF Blog: Article about Catholic')
@@ -77,10 +87,15 @@ export default async function BlogArticleListByPageLayout({
   const seriesParams = (await params).series;
   const seriesCategoryValidation = SeriesCategorySchema.safeParse(seriesParams);
   if (!seriesCategoryValidation.success) {
-    throw createBlogError({
-      type: 'invalid-series-category',
-      seriesCategory: seriesParams,
-    });
+    throw createBlogError(
+      {
+        type: 'invalid-series-category',
+        seriesCategory: seriesParams,
+      },
+      {
+        withSentryCapture: true,
+      }
+    );
   }
   return children;
 }
