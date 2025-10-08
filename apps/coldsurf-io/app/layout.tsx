@@ -161,7 +161,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         />
         <RegistryProvider registries={[FirebaseRegistry, NotFoundContextProvider]}>
           <GlobalErrorBoundaryRegistry>
-            <OceanRoadThemeRegistry defaultColorScheme={cookieTheme as ColorScheme}>
+            <OceanRoadThemeRegistry cookieColorScheme={cookieTheme as ColorScheme}>
               <QueryClientRegistry>
                 <HydrationBoundary state={dehydratedState}>
                   <NuqsAdapter>
