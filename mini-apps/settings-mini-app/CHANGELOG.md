@@ -1,5 +1,12 @@
 # @coldsurfers/settings-mini-app
 
+## 1.0.11
+
+### Patch Changes
+
+- Updated dependencies [[`b0ffaed`](https://github.com/coldsurfers/surfers-root/commit/b0ffaeded1c27602e2ba2599f96fb84e912ef41c)]:
+  - @coldsurfers/shared-utils@1.1.5
+
 ## 1.0.10
 
 ### Patch Changes
