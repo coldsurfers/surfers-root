@@ -17,10 +17,15 @@ export default async function BlogArticleListByPage({
   const { page, series } = await params;
   const seriesCategoryValidation = SeriesCategorySchema.safeParse(series);
   if (!seriesCategoryValidation.success) {
-    throw createBlogError({
-      type: 'invalid-series-category',
-      seriesCategory: series,
-    });
+    throw createBlogError(
+      {
+        type: 'invalid-series-category',
+        seriesCategory: series,
+      },
+      {
+        withSentryCapture: true,
+      }
+    );
   }
   const { postItems, totalPage } = await fetchGetSeries({
     appLocale: 'ko',

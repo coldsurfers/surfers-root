@@ -12,10 +12,15 @@ export default async function SeriesPage(props: {
   const params = await props.params;
   const seriesCategoryValidation = SeriesCategorySchema.safeParse(params.series);
   if (!seriesCategoryValidation.success) {
-    throw createBlogError({
-      type: 'invalid-series-category',
-      seriesCategory: params.series,
-    });
+    throw createBlogError(
+      {
+        type: 'invalid-series-category',
+        seriesCategory: params.series,
+      },
+      {
+        withSentryCapture: true,
+      }
+    );
   }
   const seriesCategory = seriesCategoryValidation.data;
 

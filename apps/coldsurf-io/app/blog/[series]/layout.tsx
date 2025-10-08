@@ -24,10 +24,15 @@ export async function generateMetadata(props: {
   const params = await props.params;
   const seriesCategoryValidation = SeriesCategorySchema.safeParse(params.series);
   if (!seriesCategoryValidation.success) {
-    throw createBlogError({
-      type: 'invalid-series-category',
-      seriesCategory: params.series,
-    });
+    throw createBlogError(
+      {
+        type: 'invalid-series-category',
+        seriesCategory: params.series,
+      },
+      {
+        withSentryCapture: true,
+      }
+    );
   }
   const metaTitle = match(seriesCategoryValidation.data)
     .with('catholic', () => 'COLDSURF Blog: Article about Catholic')
