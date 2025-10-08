@@ -123,14 +123,17 @@ export const ShareButton = forwardRef<HTMLImageElement, Props>((props, ref) => {
         shareTwitter(props);
       })
       .with({ type: 'facebook' }, (props) => {
-        console.log('props', props);
         shareFacebook(props);
       })
       .with({ type: 'copy-link' }, (props) => {
-        navigator.clipboard.writeText(props.url);
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(props.url);
+        }
       })
       .with({ type: 'more' }, async (props) => {
-        await navigator.share(props);
+        if (navigator.share) {
+          await navigator.share(props);
+        }
       })
       .exhaustive();
   }, [props]);
