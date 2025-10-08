@@ -1,5 +1,11 @@
 # @coldsurfers/shared-utils
 
+## 1.1.5
+
+### Patch Changes
+
+- [#590](https://github.com/coldsurfers/surfers-root/pull/590) [`b0ffaed`](https://github.com/coldsurfers/surfers-root/commit/b0ffaeded1c27602e2ba2599f96fb84e912ef41c) Thanks [@yungblud](https://github.com/yungblud)! - add createSlugHashTag function
+
 ## 1.1.4
 
 ### Patch Changes

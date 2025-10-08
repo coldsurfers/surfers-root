@@ -1,5 +1,15 @@
 # @coldsurfers/coldsurf-io
 
+## 1.2.13
+
+### Patch Changes
+
+- [#590](https://github.com/coldsurfers/surfers-root/pull/590) [`b0ffaed`](https://github.com/coldsurfers/surfers-root/commit/b0ffaeded1c27602e2ba2599f96fb84e912ef41c) Thanks [@yungblud](https://github.com/yungblud)! - 공유하기 버튼 feature 및 테마 관련 개선
+
+- Updated dependencies [[`b0ffaed`](https://github.com/coldsurfers/surfers-root/commit/b0ffaeded1c27602e2ba2599f96fb84e912ef41c)]:
+  - @coldsurfers/shared-utils@1.1.5
+  - @coldsurfers/cloudinary-utils@1.0.4
+
 ## 1.2.12
 
 ### Patch Changes
