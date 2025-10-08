@@ -44,7 +44,7 @@ async function PageInner({ params }: { params: { slug: string } }) {
     detailImages,
     id: eventId,
   } = eventDetailMetadata.eventDetailData;
-  const { description: metaDescription } = eventDetailMetadata;
+  const { description: metaDescription, title: metaTitle } = eventDetailMetadata;
   // eslint-disable-next-line prettier/prettier
   const posterUrl = isKOPIS ? (posters.at(0)?.url ?? '') : (artists.at(0)?.thumbUrl ?? '');
   // eslint-disable-next-line prettier/prettier
@@ -105,6 +105,7 @@ async function PageInner({ params }: { params: { slug: string } }) {
                 />
                 <ShareButton type="facebook" quote={metaDescription} url={pageUrl} />
                 <ShareButton type="copy-link" url={pageUrl} />
+                <ShareButton type="more" title={metaTitle} text={metaDescription} url={pageUrl} />
               </>
             }
           />

@@ -2,12 +2,12 @@
 
 import { semantics, useColorScheme } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
-import { Check as CheckIcon, Link2 as Link2Icon } from 'lucide-react';
+import { Check as CheckIcon, Link2 as Link2Icon, Share as ShareIcon } from 'lucide-react';
 import { forwardRef, useCallback, useMemo, useRef, useState } from 'react';
 import { match } from 'ts-pattern';
 import { shareFacebook, shareTwitter } from './share.utils';
 
-type ShareButtonType = 'twitter' | 'facebook' | 'copy-link';
+type ShareButtonType = 'twitter' | 'facebook' | 'copy-link' | 'more';
 
 type ShareTwitterParams = Parameters<typeof shareTwitter>[0];
 type ShareFacebookParams = Parameters<typeof shareFacebook>[0];
@@ -25,7 +25,11 @@ interface CopyLinkShareProps {
   url: string;
 }
 
-type Props = TwitterShareProps | FacebookShareProps | CopyLinkShareProps;
+interface MoreShareProps extends ShareData {
+  type: 'more';
+}
+
+type Props = TwitterShareProps | FacebookShareProps | CopyLinkShareProps | MoreShareProps;
 
 const StyledShareButtonWrapper = styled.div<{ $type: ShareButtonType }>`
   width: 2.25rem;
@@ -36,6 +40,7 @@ const StyledShareButtonWrapper = styled.div<{ $type: ShareButtonType }>`
       .with('twitter', () => '0.5rem')
       .with('facebook', () => '0.25rem')
       .with('copy-link', () => '0.25rem')
+      .with('more', () => '0.25rem')
       .exhaustive();
   }};
   border-radius: 50%;
@@ -56,6 +61,7 @@ const StyledShareButton = styled.img<{ $type: ShareButtonType }>`
       .with('twitter', () => '80%')
       .with('facebook', () => '100%')
       .with('copy-link', () => '100%')
+      .with('more', () => '100%')
       .exhaustive();
   }};
   height: ${({ $type }) => {
@@ -63,6 +69,7 @@ const StyledShareButton = styled.img<{ $type: ShareButtonType }>`
       .with('twitter', () => '80%')
       .with('facebook', () => '100%')
       .with('copy-link', () => '100%')
+      .with('more', () => '100%')
       .exhaustive();
   }};
   border-radius: ${({ $type }) => {
@@ -70,6 +77,7 @@ const StyledShareButton = styled.img<{ $type: ShareButtonType }>`
       .with('twitter', () => '0%')
       .with('facebook', () => '50%')
       .with('copy-link', () => '100%')
+      .with('more', () => '100%')
       .exhaustive();
   }};
 `;
@@ -121,6 +129,9 @@ export const ShareButton = forwardRef<HTMLImageElement, Props>((props, ref) => {
       .with({ type: 'copy-link' }, (props) => {
         navigator.clipboard.writeText(props.url);
       })
+      .with({ type: 'more' }, async (props) => {
+        await navigator.share(props);
+      })
       .exhaustive();
   }, [props]);
 
@@ -147,6 +158,13 @@ export const ShareButton = forwardRef<HTMLImageElement, Props>((props, ref) => {
     })
     .with({ type: 'copy-link' }, () => {
       return <CopyLinkIcon onClick={onClick} />;
+    })
+    .with({ type: 'more' }, () => {
+      return (
+        <StyledShareButtonWrapper $type="more" onClick={onClick}>
+          <ShareIcon />
+        </StyledShareButtonWrapper>
+      );
     })
     .exhaustive();
 });
