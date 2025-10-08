@@ -2,11 +2,12 @@
 
 import { semantics, useColorScheme } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
-import { forwardRef, useCallback, useMemo } from 'react';
+import { Check as CheckIcon, Link2 as Link2Icon, Share as ShareIcon } from 'lucide-react';
+import { forwardRef, useCallback, useMemo, useRef, useState } from 'react';
 import { match } from 'ts-pattern';
 import { shareFacebook, shareTwitter } from './share.utils';
 
-type ShareButtonType = 'twitter' | 'facebook';
+type ShareButtonType = 'twitter' | 'facebook' | 'copy-link' | 'more';
 
 type ShareTwitterParams = Parameters<typeof shareTwitter>[0];
 type ShareFacebookParams = Parameters<typeof shareFacebook>[0];
@@ -19,16 +20,27 @@ interface FacebookShareProps extends ShareFacebookParams {
   type: 'facebook';
 }
 
-type Props = TwitterShareProps | FacebookShareProps;
+interface CopyLinkShareProps {
+  type: 'copy-link';
+  url: string;
+}
+
+interface MoreShareProps extends ShareData {
+  type: 'more';
+}
+
+type Props = TwitterShareProps | FacebookShareProps | CopyLinkShareProps | MoreShareProps;
 
 const StyledShareButtonWrapper = styled.div<{ $type: ShareButtonType }>`
   width: 2.25rem;
   height: 2.25rem;
-  background-color: ${semantics.color.background[1]};
+  background-color: ${semantics.color.background[3]};
   padding: ${({ $type }) => {
     return match($type)
       .with('twitter', () => '0.5rem')
       .with('facebook', () => '0.25rem')
+      .with('copy-link', () => '0.25rem')
+      .with('more', () => '0.25rem')
       .exhaustive();
   }};
   border-radius: 50%;
@@ -48,22 +60,58 @@ const StyledShareButton = styled.img<{ $type: ShareButtonType }>`
     return match($type)
       .with('twitter', () => '80%')
       .with('facebook', () => '100%')
+      .with('copy-link', () => '100%')
+      .with('more', () => '100%')
       .exhaustive();
   }};
   height: ${({ $type }) => {
     return match($type)
       .with('twitter', () => '80%')
       .with('facebook', () => '100%')
+      .with('copy-link', () => '100%')
+      .with('more', () => '100%')
       .exhaustive();
   }};
   border-radius: ${({ $type }) => {
     return match($type)
       .with('twitter', () => '0%')
       .with('facebook', () => '50%')
+      .with('copy-link', () => '100%')
+      .with('more', () => '100%')
       .exhaustive();
   }};
-  background-color: ${semantics.color.background[1]};
 `;
+
+const CopyLinkIcon = ({
+  onClick,
+}: {
+  onClick: () => void;
+}) => {
+  const [checked, setChecked] = useState(false);
+
+  const timeoutId = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation();
+      onClick();
+      setChecked(true);
+      if (timeoutId.current) {
+        clearTimeout(timeoutId.current);
+      }
+      timeoutId.current = setTimeout(() => {
+        setChecked(false);
+      }, 2500);
+    },
+    [onClick]
+  );
+
+  return (
+    <StyledShareButtonWrapper $type="copy-link" onClick={handleClick}>
+      {checked ? <CheckIcon /> : <Link2Icon />}
+    </StyledShareButtonWrapper>
+  );
+};
 
 export const ShareButton = forwardRef<HTMLImageElement, Props>((props, ref) => {
   const { theme } = useColorScheme();
@@ -75,8 +123,17 @@ export const ShareButton = forwardRef<HTMLImageElement, Props>((props, ref) => {
         shareTwitter(props);
       })
       .with({ type: 'facebook' }, (props) => {
-        console.log('props', props);
         shareFacebook(props);
+      })
+      .with({ type: 'copy-link' }, (props) => {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(props.url);
+        }
+      })
+      .with({ type: 'more' }, async (props) => {
+        if (navigator.share) {
+          await navigator.share(props);
+        }
       })
       .exhaustive();
   }, [props]);
@@ -94,9 +151,23 @@ export const ShareButton = forwardRef<HTMLImageElement, Props>((props, ref) => {
     };
   }, [isLightMode]);
 
-  return (
-    <StyledShareButtonWrapper $type={props.type} onClick={onClick}>
-      <StyledShareButton ref={ref} src={imageSource[props.type]} $type={props.type} />
-    </StyledShareButtonWrapper>
-  );
+  return match(props)
+    .with({ type: 'twitter' }, { type: 'facebook' }, (props) => {
+      return (
+        <StyledShareButtonWrapper $type={props.type} onClick={onClick}>
+          <StyledShareButton ref={ref} src={imageSource[props.type]} $type={props.type} />
+        </StyledShareButtonWrapper>
+      );
+    })
+    .with({ type: 'copy-link' }, () => {
+      return <CopyLinkIcon onClick={onClick} />;
+    })
+    .with({ type: 'more' }, () => {
+      return (
+        <StyledShareButtonWrapper $type="more" onClick={onClick}>
+          <ShareIcon />
+        </StyledShareButtonWrapper>
+      );
+    })
+    .exhaustive();
 });

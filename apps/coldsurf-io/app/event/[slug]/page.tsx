@@ -44,13 +44,15 @@ async function PageInner({ params }: { params: { slug: string } }) {
     detailImages,
     id: eventId,
   } = eventDetailMetadata.eventDetailData;
-  const { description: metaDescription } = eventDetailMetadata;
+  const { description: metaDescription, title: metaTitle } = eventDetailMetadata;
   // eslint-disable-next-line prettier/prettier
   const posterUrl = isKOPIS ? (posters.at(0)?.url ?? '') : (artists.at(0)?.thumbUrl ?? '');
   // eslint-disable-next-line prettier/prettier
   const posterCopyright = isKOPIS ? undefined : (artists.at(0)?.thumbCopyright ?? undefined);
   const mainVenue = venues.at(0);
   const venueTitle = mainVenue?.name ?? '';
+
+  const pageUrl = `${SITE_URL}${generateSlugHref(params.slug)}`;
 
   const zonedDate = toZonedTime(date ? new Date(date) : new Date(), GLOBAL_TIME_ZONE);
   const formattedDate = format(zonedDate, 'MMM dd, hh:mm a');
@@ -92,7 +94,7 @@ async function PageInner({ params }: { params: { slug: string } }) {
                 <ShareButton
                   type="twitter"
                   text={metaDescriptionForTwitter}
-                  url={`${SITE_URL}${generateSlugHref(params.slug)}`}
+                  url={pageUrl}
                   hashtags={[
                     createSlugHashtag(title),
                     createSlugHashtag(venueTitle),
@@ -101,11 +103,9 @@ async function PageInner({ params }: { params: { slug: string } }) {
                   ]}
                   via="COLDSURF_IO"
                 />
-                <ShareButton
-                  type="facebook"
-                  quote={metaDescription}
-                  url={`${SITE_URL}${generateSlugHref(params.slug)}`}
-                />
+                <ShareButton type="facebook" quote={metaDescription} url={pageUrl} />
+                <ShareButton type="copy-link" url={pageUrl} />
+                <ShareButton type="more" title={metaTitle} text={metaDescription} url={pageUrl} />
               </>
             }
           />
@@ -149,7 +149,7 @@ async function PageInner({ params }: { params: { slug: string } }) {
               endDate: concertDate.toISOString(),
               startDate: concertDate.toISOString(),
               name: title,
-              url: `${SITE_URL}${generateSlugHref(params.slug)}`,
+              url: pageUrl,
               venue: {
                 address: mainVenue?.address ?? '',
                 latitude: mainVenue?.lat ?? 0,
