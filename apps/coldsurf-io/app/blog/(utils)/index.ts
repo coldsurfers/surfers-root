@@ -1,3 +1,4 @@
+import { captureException } from '@sentry/nextjs';
 import { match } from 'ts-pattern';
 import type { SeriesCategory } from '../(types)/series';
 
@@ -47,8 +48,23 @@ type ThrowErrorParams = {
   seriesCategory: string;
 };
 
-export const createBlogError = (params: ThrowErrorParams) => {
-  return match(params.type).with('invalid-series-category', () => {
-    return new Error(`invalid series category: ${params.seriesCategory}`);
-  });
+export const createBlogError = (
+  params: ThrowErrorParams,
+  {
+    withSentryCapture = false,
+  }: {
+    withSentryCapture?: boolean;
+  }
+) => {
+  const error = match(params.type)
+    .with('invalid-series-category', () => {
+      return new Error(`invalid series category: ${params.seriesCategory}`);
+    })
+    .exhaustive();
+
+  if (withSentryCapture) {
+    captureException(error);
+  }
+
+  return error;
 };

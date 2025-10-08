@@ -27,10 +27,15 @@ export async function generateMetadata(props: {
   const params = await props.params;
   const seriesCategoryValidation = SeriesCategorySchema.safeParse(params.series);
   if (!seriesCategoryValidation.success) {
-    throw createBlogError({
-      type: 'invalid-series-category',
-      seriesCategory: params.series,
-    });
+    throw createBlogError(
+      {
+        type: 'invalid-series-category',
+        seriesCategory: params.series,
+      },
+      {
+        withSentryCapture: true,
+      }
+    );
   }
   const page = await querySeriesItem({
     slug: params.slug,
@@ -51,10 +56,15 @@ export default async function SeriesSlugPageLayout(props: {
   const params = await props.params;
   const seriesCategoryValidation = SeriesCategorySchema.safeParse(params.series);
   if (!seriesCategoryValidation.success) {
-    throw createBlogError({
-      type: 'invalid-series-category',
-      seriesCategory: params.series,
-    });
+    throw createBlogError(
+      {
+        type: 'invalid-series-category',
+        seriesCategory: params.series,
+      },
+      {
+        withSentryCapture: true,
+      }
+    );
   }
   return <>{children}</>;
 }
