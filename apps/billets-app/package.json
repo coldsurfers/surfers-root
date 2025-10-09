@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-app",
-  "version": "2.4.0-alpha.0",
+  "version": "2.4.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -21,7 +21,14 @@
     "reset:android:build": "rm -rf android/app/.cxx android/app/build android/build android/app/production/release android/app/release"
   },
   "jest": {
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
     "preset": "react-native"
   },
   "dependencies": {
