@@ -99,7 +99,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 19
-        versionName "2.3.0"
+        versionName "2.4.0"
 
         // https://github.com/lugg/react-native-config/blob/55382e687afc0a561868cc65b7ee28b3a456eec3/README.md?plain=1#L141
         resValue "string", "build_config_package", "com.fstvllife.android"
