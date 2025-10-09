@@ -13,6 +13,7 @@ declare module 'react-native-config' {
     HOT_UPDATER_SUPABASE_URL?: string;
     REMOTE_BUNDLE_HOST_URL?: string;
     REMOTE_APP_SETTINGS_PATH?: string;
+    API_BASE_URL?: string;
   }
 
   export const Config: NativeConfig;
