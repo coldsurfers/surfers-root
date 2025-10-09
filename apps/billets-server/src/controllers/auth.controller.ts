@@ -22,6 +22,7 @@ import type {
 } from '@/dtos/email-auth-request.dto';
 import type { ErrorResponseDTO } from '@/dtos/error-response.dto';
 import log from '@/lib/log';
+import { getGoogleOAuthAudienceClientId } from '@/lib/utils/utils.google-auth';
 import { type JwtPayload, generateAuthToken } from '@/lib/utils/utils.jwt';
 import { verifyAppleIdToken } from '@/lib/verifyAppleToken';
 import { AuthTokenRepositoryImpl } from '@/repositories/auth-token.repository.impl';
@@ -118,11 +119,7 @@ export const signinHandler = async (
           });
         }
         if (value === 'google') {
-          const audience = match(platform)
-            .with('ios', () => process.env.GOOGLE_OAUTH_WEB_IOS_CLIENT_ID)
-            .with('android', () => process.env.GOOGLE_OAUTH_CLIENT_ID)
-            .with('web', () => process.env.GOOGLE_OAUTH_WEB_CLIENT_ID)
-            .exhaustive();
+          const audience = getGoogleOAuthAudienceClientId(platform);
 
           await googleOAuth2Client.verifyIdToken({
             idToken: token,
@@ -274,11 +271,7 @@ export const signupHandler = async (
           return rep.status(400).send();
         }
         if (value === 'google') {
-          const audience = match(platform)
-            .with('ios', () => process.env.GOOGLE_OAUTH_WEB_IOS_CLIENT_ID)
-            .with('android', () => process.env.GOOGLE_OAUTH_CLIENT_ID)
-            .with('web', () => process.env.GOOGLE_OAUTH_WEB_CLIENT_ID)
-            .exhaustive();
+          const audience = getGoogleOAuthAudienceClientId(platform);
 
           await googleOAuth2Client.verifyIdToken({
             idToken: token,
