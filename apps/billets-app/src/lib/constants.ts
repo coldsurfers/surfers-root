@@ -10,12 +10,7 @@ export const GOOGLE_SIGNIN_OPTIONS = {
   iosClientId: Config.GOOGLE_SIGNIN_WEB_IOS_CLIENT_ID ?? '',
 };
 
-export const API_BASE_URL = (() => {
-  return match(Config.PLATFORM)
-    .with('development', () => 'https://dev.api.billets.coldsurf.io')
-    .with('staging', () => 'https://dev.api.billets.coldsurf.io')
-    .otherwise(() => 'https://api.billets.coldsurf.io');
-})();
+export const API_BASE_URL = Config.API_BASE_URL ?? '';
 
 export const KOPIS_COPYRIGHT_TEXT =
   '출처: (재)예술경영지원센터 공연예술통합전산망(www.kopis.or.kr)';

@@ -6,11 +6,7 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "source": "src/",
-  "files": [
-    "src",
-    "dist",
-    "package.json"
-  ],
+  "files": ["src", "dist", "package.json"],
   "exports": {
     ".": {
       "import": "./dist/index.mjs",

@@ -83,19 +83,30 @@ export const _LoginSelectionScreen = () => {
 
   const onPressGoogleLogin = useCallback(async () => {
     try {
+      // if user has signed in before sign in
+      await GoogleSignin.signOut();
+      await GoogleSignin.revokeAccess();
+    } catch {}
+    try {
+      // check device has play services
       await GoogleSignin.hasPlayServices();
-      const user = await GoogleSignin.signIn();
-      const {
-        user: { email },
-      } = user;
-      if (!user.idToken) {
+      const signInResponse = await GoogleSignin.signIn();
+      if (signInResponse.type === 'cancelled') {
         return;
       }
+      const { user, idToken } = signInResponse.data;
+
+      const { email } = user;
+      if (!idToken) {
+        // @TODO: add throw error or capture error
+        return;
+      }
+
       mutateSignIn(
         {
           provider: 'google',
           email,
-          token: user.idToken,
+          token: idToken,
           platform: Platform.select({
             ios: 'ios',
             android: 'android',

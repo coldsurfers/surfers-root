@@ -14,11 +14,7 @@
   "module": "dist/index.js",
   "source": "src/",
   "types": "dist/index.d.ts",
-  "files": [
-    "src",
-    "dist",
-    "package.json"
-  ],
+  "files": ["src", "dist", "package.json"],
   "scripts": {
     "build": "rm -rf dist && tsc",
     "check": "biome check .",

@@ -32,7 +32,6 @@ local.properties
 *.hprof
 .cxx/
 *.keystore
-!debug.keystore
 .kotlin/
 
 # node.js
@@ -45,8 +44,6 @@ yarn-error.log
 buck-out/
 \.buckd/
 *.keystore
-!debug.keystore
-!release.keystore
 
 # fastlane
 #
@@ -90,8 +87,6 @@ ios/tmp.xcconfig
 .env.production
 .env
 .env.staging
-
-release.keystore
 
 android/pc-api-**.json
 android/app/google-services*.json
