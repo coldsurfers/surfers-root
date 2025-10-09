@@ -17,7 +17,8 @@
     "start": "react-native start",
     "start:android": "PLATFORM=android react-native start",
     "start:ios": "PLATFORM=ios react-native start",
-    "test": "jest"
+    "test": "jest",
+    "reset:android:build": "rm -rf android/app/.cxx android/app/build android/build android/app/production/release android/app/release"
   },
   "jest": {
     "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
