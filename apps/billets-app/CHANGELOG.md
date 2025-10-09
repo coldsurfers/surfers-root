@@ -1,5 +1,11 @@
 # @coldsurfers/billets-app
 
+## 2.4.0
+
+### Minor Changes
+
+- [#588](https://github.com/coldsurfers/surfers-root/pull/588) [`e561f7f`](https://github.com/coldsurfers/surfers-root/commit/e561f7f6eebaaef054881843d895c34a38d47780) Thanks [@yungblud](https://github.com/yungblud)! - RN version 0.81.4 for android
+
 ## 2.3.1
 
 ### Patch Changes
