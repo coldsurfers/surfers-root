@@ -139,9 +139,6 @@ importers:
       '@react-native-firebase/app':
         specifier: 23.4.0
         version: 23.4.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
-      '@react-native-firebase/auth':
-        specifier: 23.4.0
-        version: 23.4.0(@react-native-firebase/app@23.4.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))
       '@react-native-firebase/crashlytics':
         specifier: 23.4.0
         version: 23.4.0(@react-native-firebase/app@23.4.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))
@@ -5798,15 +5795,6 @@ packages:
       expo: '>=47.0.0'
       react: '*'
       react-native: '*'
-    peerDependenciesMeta:
-      expo:
-        optional: true
-
-  '@react-native-firebase/auth@23.4.0':
-    resolution: {integrity: sha512-oDvNr5F9/3mAi7DiO5+9X/WSmFwtwIC4hfG+TigX65McgllUor5bRbCy+esGd6RGMm36pwglDvbCzUMMK740bw==}
-    peerDependencies:
-      '@react-native-firebase/app': 23.4.0
-      expo: '>=47.0.0'
     peerDependenciesMeta:
       expo:
         optional: true
@@ -21054,11 +21042,6 @@ snapshots:
       react-native: 0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
-
-  '@react-native-firebase/auth@23.4.0(@react-native-firebase/app@23.4.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))':
-    dependencies:
-      '@react-native-firebase/app': 23.4.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
-      plist: 3.1.0
 
   '@react-native-firebase/crashlytics@23.4.0(@react-native-firebase/app@23.4.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))':
     dependencies:
