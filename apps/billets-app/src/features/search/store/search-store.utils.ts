@@ -10,7 +10,8 @@ export const getSearchFilterUIValue = (filter: SearchStoreLocationFilterType) =>
 };
 
 export const getViewMode = (snapIndex: SearchStoreSnapIndex) => {
-  if (snapIndex >= FULLY_EXPANDED_SNAP_INDEX) {
+  // for snap index is -1 (maybe default state, so we should render list mode)
+  if (snapIndex >= FULLY_EXPANDED_SNAP_INDEX || snapIndex < 0) {
     return 'list';
   }
   return 'map';

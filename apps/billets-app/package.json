@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-app",
-  "version": "2.3.1",
+  "version": "2.4.0-alpha.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -17,17 +17,11 @@
     "start": "react-native start",
     "start:android": "PLATFORM=android react-native start",
     "start:ios": "PLATFORM=ios react-native start",
-    "test": "jest"
+    "test": "jest",
+    "reset:android:build": "rm -rf android/app/.cxx android/app/build android/build android/app/production/release android/app/release"
   },
   "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
     "preset": "react-native"
   },
   "dependencies": {
@@ -53,7 +47,7 @@
     "@react-native-firebase/app": "23.4.0",
     "@react-native-firebase/crashlytics": "23.4.0",
     "@react-native-firebase/messaging": "23.4.0",
-    "@react-native-google-signin/google-signin": "^8.0.0",
+    "@react-native-google-signin/google-signin": "^16.0.0",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
@@ -71,7 +65,7 @@
     "react-native": "0.81.4",
     "react-native-bootsplash": "6.2.6",
     "react-native-calendars": "^1.1289.0",
-    "react-native-config": "1.5.3",
+    "react-native-config": "1.5.9",
     "react-native-device-info": "14.0.2",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "2.28.0",

@@ -98,8 +98,11 @@ android {
         applicationId "com.fstvllife.android"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 19
-        versionName "2.3.0"
+        versionCode 20
+        versionName "2.4.0"
+
+        // https://github.com/lugg/react-native-config/blob/55382e687afc0a561868cc65b7ee28b3a456eec3/README.md?plain=1#L141
+        resValue "string", "build_config_package", "com.fstvllife.android"
     }
 
     flavorDimensions "env" // 플레이버 구분 기준 추가
@@ -122,10 +125,10 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file(DEBUG_KEYSTORE_FILE_NAME)
+            storePassword DEBUG_KEYSTORE_STORE_PASSWORD
+            keyAlias DEBUG_KEYSTORE_ALIAS
+            keyPassword DEBUG_KEYSTORE_KEY_PASSWORD
         }
         release {
             storeFile file(RELEASE_KEYSTORE_FILE_NAME)

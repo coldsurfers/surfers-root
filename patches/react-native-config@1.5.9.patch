@@ -1,0 +1,57 @@
+diff --git a/android/build.gradle b/android/build.gradle
+index d3bdb078490bdc37fd3806ae159f6d240641b4ae..db4b57a784280de230c59a294a5c64876870caca 100644
+--- a/android/build.gradle
++++ b/android/build.gradle
+@@ -9,7 +9,14 @@ buildscript {
+     }
+ }
+ 
++def isNewArchitectureEnabled() {
++  return project.hasProperty("newArchEnabled") && (project.newArchEnabled == "true" || project.newArchEnabled == true)
++}
++
+ apply plugin: 'com.android.library'
++if (isNewArchitectureEnabled()) {
++    apply plugin: 'com.facebook.react'
++}
+ 
+ def safeExtGet(prop, fallback) {
+     rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+@@ -44,12 +51,23 @@ android {
+         targetSdkVersion rootProject.ext.targetSdkVersion
+         versionCode 1
+         versionName "1.0"
++
++        buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
++
++        ndk {
++            abiFilters(*reactNativeArchitectures())
++        }
+     }
+     lintOptions {
+         abortOnError false
+     }
+ }
+ 
++def reactNativeArchitectures() {
++    def value = project.getProperties().get("reactNativeArchitectures")
++    return value ? value.split(",") : ["armeabi-v7a", "x86", "x86_64", "arm64-v8a"]
++}
++
+ repositories {
+     mavenCentral()
+ }
+diff --git a/src/NativeRNCConfig.ts b/src/NativeRNCConfig.ts
+index 09baa717eee2a995fe7dc0de4a7df17c82c633d2..3f77e201f92f12b04050fa78578053f070071ee5 100644
+--- a/src/NativeRNCConfig.ts
++++ b/src/NativeRNCConfig.ts
+@@ -4,7 +4,8 @@ import { TurboModuleRegistry } from 'react-native';
+ export interface Spec extends TurboModule {
+   // Synchronous getters (supported on Windows TurboModules)
+   getAll(): { [key: string]: string };
+-  get(key: string): string;
++  // it's overriding react-native method, so we're not using it
++  // get(key: string): string;
+   // Optional Composition info hook
+   compositionInfo?(): string;
+ }
