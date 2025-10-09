@@ -67,7 +67,8 @@
   "pnpm": {
     "patchedDependencies": {
       "react-notion-x@7.2.5": "patches/react-notion-x@7.2.5.patch",
-      "react-native-maps@1.26.14": "patches/react-native-maps@1.26.14.patch"
+      "react-native-maps@1.26.14": "patches/react-native-maps@1.26.14.patch",
+      "react-native-config@1.5.9": "patches/react-native-config@1.5.9.patch"
     }
   }
 }
