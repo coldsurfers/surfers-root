@@ -53,3 +53,13 @@ export const createSlug = (valueToSlugify: string) => {
   });
   return slug;
 };
+
+export const createSlugHashtag = (valueToSlugify: string) => {
+  const slug = slugify(preprocess(`${valueToSlugify}`), {
+    replacement: '_', // 공백을 "_"로 변환
+    lower: true, // 소문자로 변환
+    strict: false, // 특수 문자 제거
+    remove: /[[\]*+~.()'"?!:@,<>〈〉]/g, // 특정 특수문자 제거
+  });
+  return slug;
+};

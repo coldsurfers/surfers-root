@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/settings-mini-app",
-  "version": "1.0.10-alpha.0",
+  "version": "1.0.11",
   "private": true,
   "description": "",
   "main": "src/index.ts",

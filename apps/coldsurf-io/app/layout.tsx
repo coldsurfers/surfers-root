@@ -16,6 +16,7 @@ import {
 } from '@/libs/registries';
 import { getQueryClient } from '@/libs/utils';
 import { NotFoundContextProvider, RouteListener } from '@/shared/lib';
+import type { ColorScheme } from '@coldsurfers/ocean-road';
 import { SERVICE_NAME } from '@coldsurfers/shared-utils';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import type { Metadata } from 'next';
@@ -158,18 +159,18 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             ),
           }}
         />
-        <RegistryProvider
-          registries={[OceanRoadThemeRegistry, FirebaseRegistry, NotFoundContextProvider]}
-        >
+        <RegistryProvider registries={[FirebaseRegistry, NotFoundContextProvider]}>
           <GlobalErrorBoundaryRegistry>
-            <QueryClientRegistry>
-              <HydrationBoundary state={dehydratedState}>
-                <NuqsAdapter>
-                  <AppLayout>{children}</AppLayout>
-                </NuqsAdapter>
-                <RouteListener />
-              </HydrationBoundary>
-            </QueryClientRegistry>
+            <OceanRoadThemeRegistry cookieColorScheme={cookieTheme as ColorScheme}>
+              <QueryClientRegistry>
+                <HydrationBoundary state={dehydratedState}>
+                  <NuqsAdapter>
+                    <AppLayout>{children}</AppLayout>
+                  </NuqsAdapter>
+                  <RouteListener />
+                </HydrationBoundary>
+              </QueryClientRegistry>
+            </OceanRoadThemeRegistry>
           </GlobalErrorBoundaryRegistry>
         </RegistryProvider>
       </body>
