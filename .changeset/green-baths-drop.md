@@ -2,4 +2,4 @@
 '@coldsurfers/billets-app': minor
 ---
 
-RN version 0.81.4
+RN version 0.81.4 for android
