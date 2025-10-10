@@ -162,7 +162,8 @@ const ScreenInner = () => {
       <ShareBottomSheet
         ref={shareSheetRef}
         shareViewRef={shareViewRef}
-        attributionURL={`https://coldsurf.io/event/${eventData.data.slug}`}
+        attributionURL={`https://coldsurf.io/event/${encodeURIComponent(eventData.data.slug ?? '')}`}
+        text={`${eventData.data.venues.at(0)?.name}에서 주최하는\n${eventData.data.title}.\n${format(new Date(eventData.data.date), 'yyyy년 MM월 dd일 hh시 mm분 a')}에 만나요!`}
         shareView={
           <View
             ref={shareViewRef}

@@ -300,8 +300,8 @@
 	<false/>
   <key>LSApplicationQueriesSchemes</key>
   <array>
-    <!-- Instagram -->
     <string>instagram</string>
+	<string>twitter</string>
   </array>
 </dict>
 </plist>

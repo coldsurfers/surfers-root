@@ -11,16 +11,17 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import { type ReactNode, forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { shareMore } from '../share.utils';
+import { shareInstagram, shareMore, shareTwitter } from '../share.utils';
 
 type Props = {
   shareView: ReactNode;
   shareViewRef: React.RefObject<View>;
   attributionURL?: string;
+  text?: string;
 };
 
 export const ShareBottomSheet = forwardRef<BottomSheetModal, Props>(
-  ({ shareView, shareViewRef, attributionURL }, ref) => {
+  ({ shareView, shareViewRef, attributionURL, text }, ref) => {
     const { bottom: bottomInset } = useSafeAreaInsets();
     const { semantics } = useColorScheme();
     const [isCopied, setIsCopied] = useState(false);
@@ -102,6 +103,42 @@ export const ShareBottomSheet = forwardRef<BottomSheetModal, Props>(
                 />
                 <Text style={{ color: semantics.foreground[1], marginTop: 8, fontSize: 14 }}>
                   링크 복사
+                </Text>
+              </View>
+              <View style={{ alignItems: 'center' }}>
+                <IconButton
+                  onPress={withHapticPress(() => shareInstagram(shareViewRef, { attributionURL }))}
+                  icon={'Instagram'}
+                  size="lg"
+                  strokeWidth={2.5}
+                  color={semantics.foreground[1]}
+                  style={{
+                    backgroundColor: semantics.background[2],
+                    width: 48,
+                    height: 48,
+                  }}
+                  fill={'transparent'}
+                />
+                <Text style={{ color: semantics.foreground[1], marginTop: 8, fontSize: 14 }}>
+                  스토리
+                </Text>
+              </View>
+              <View style={{ alignItems: 'center' }}>
+                <IconButton
+                  onPress={withHapticPress(() => shareTwitter({ attributionURL, text }))}
+                  icon={'Twitter'}
+                  size="lg"
+                  strokeWidth={2.5}
+                  color={semantics.foreground[1]}
+                  style={{
+                    backgroundColor: semantics.background[2],
+                    width: 48,
+                    height: 48,
+                  }}
+                  fill={'transparent'}
+                />
+                <Text style={{ color: semantics.foreground[1], marginTop: 8, fontSize: 14 }}>
+                  X
                 </Text>
               </View>
               <View style={{ alignItems: 'center' }}>

@@ -12,6 +12,15 @@ const isInstagramInstalled = async () => {
   return result.isInstalled;
 };
 
+const isTwitterInstalled = async () => {
+  if (Platform.OS === 'ios') {
+    const canOpen = await Linking.canOpenURL('twitter://');
+    return canOpen;
+  }
+  const result = await Share.isPackageInstalled('com.twitter.android');
+  return result.isInstalled;
+};
+
 export const shareInstagram = async (
   captureViewRef: Parameters<typeof captureRef>[0],
   {
@@ -48,6 +57,38 @@ export const shareMore = async ({ url }: { url: string }) => {
     await Share.open({
       url,
     });
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const shareTwitter = async ({
+  attributionURL,
+  text,
+}: { attributionURL?: string; text?: string }) => {
+  try {
+    const tweetText = text ? encodeURIComponent(text) : '';
+    const tweetUrl = attributionURL ? `&url=${encodeURIComponent(attributionURL)}` : '';
+    const twitterIntent = `https://twitter.com/intent/tweet?text=${tweetText}${tweetUrl}&via=COLDSURF_IO`;
+    await Linking.openURL(twitterIntent);
+  } catch (e) {
+    console.error(e);
+    // encoding issue가 있어서, intent로 안될때에 대비하여
+    await shareTwitterFallback({ attributionURL });
+  }
+};
+
+const shareTwitterFallback = async ({ attributionURL }: { attributionURL?: string }) => {
+  try {
+    const isInstalled = await isTwitterInstalled();
+
+    if (isInstalled) {
+      await Share.shareSingle({
+        social: Social.Twitter,
+        message: 'COLDSURF에서 열기',
+        url: attributionURL,
+      });
+    }
   } catch (e) {
     console.error(e);
   }
