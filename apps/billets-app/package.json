@@ -89,6 +89,7 @@
     "react-native-share": "^12.2.0",
     "react-native-store-review": "^0.4.3",
     "react-native-svg": "15.13.0",
+    "react-native-view-shot": "^4.0.3",
     "react-native-webview": "^11.26.1",
     "react-native-worklets": "^0.6.0",
     "semver": "^7.7.1",
