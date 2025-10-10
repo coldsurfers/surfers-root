@@ -14,6 +14,7 @@ declare module 'react-native-config' {
     REMOTE_BUNDLE_HOST_URL?: string;
     REMOTE_APP_SETTINGS_PATH?: string;
     API_BASE_URL?: string;
+    META_DEVELOPER_APP_ID?: string;
   }
 
   export const Config: NativeConfig;
