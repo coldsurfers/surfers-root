@@ -1,4 +1,5 @@
 import { Linking, Platform } from 'react-native';
+import Config from 'react-native-config';
 import Share, { Social } from 'react-native-share';
 import { captureRef } from 'react-native-view-shot';
 
@@ -11,7 +12,14 @@ const isInstagramInstalled = async () => {
   return result.isInstalled;
 };
 
-export const shareInstagram = async (captureViewRef: Parameters<typeof captureRef>[0]) => {
+export const shareInstagram = async (
+  captureViewRef: Parameters<typeof captureRef>[0],
+  {
+    attributionURL,
+  }: {
+    attributionURL?: string;
+  }
+) => {
   try {
     const isInstagramAvailable = await isInstagramInstalled();
     if (!isInstagramAvailable) {
@@ -25,7 +33,10 @@ export const shareInstagram = async (captureViewRef: Parameters<typeof captureRe
     await Share.shareSingle({
       stickerImage: uri,
       social: Social.InstagramStories,
-      appId: '',
+      appId: Config.META_DEVELOPER_APP_ID ?? '',
+      attributionURL,
+      linkUrl: attributionURL,
+      linkText: 'COLDSURF에서 열기',
     });
   } catch (e) {
     console.error(e);

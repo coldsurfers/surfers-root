@@ -2,7 +2,7 @@ import { colors } from '@coldsurfers/ocean-road';
 import { IconButton } from '@coldsurfers/ocean-road/native';
 
 type Props = {
-  onPress: () => void;
+  onPress?: () => void;
 };
 
 export const ShareButton = ({ onPress }: Props) => {

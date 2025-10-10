@@ -3,7 +3,7 @@ import { useMeQuery } from '@/features/auth/hooks/useMeQuery';
 import { ShareButton } from '@/features/share/ui';
 import { ConcertSubscribeButton } from '@/features/subscribe';
 import { useSubscribedConcert } from '@/features/subscribe/hooks/useSubscribedConcert';
-import { CONCERT_DETAIL_LIST_HEADER_HEIGHT } from '@/lib';
+import { CONCERT_DETAIL_LIST_HEADER_HEIGHT, withHapticPress } from '@/lib';
 import commonStyles from '@/lib/common-styles';
 import { colors } from '@coldsurfers/ocean-road';
 import { useColorScheme } from '@coldsurfers/ocean-road/native';
@@ -42,6 +42,7 @@ interface ConcertDetailSectionListProps {
   onPressSubscribe: (
     params: { isLoggedIn: false } | { isLoggedIn: true; concertId: string; isSubscribed: boolean }
   ) => void;
+  onPressShare?: () => void;
 }
 
 export const ConcertDetailSectionList = ({
@@ -51,6 +52,7 @@ export const ConcertDetailSectionList = ({
   onPressVenueMap,
   onPressVenueProfile,
   onPressSubscribe,
+  onPressShare,
 }: ConcertDetailSectionListProps) => {
   const { sections, thumbnails } = useConcertDetail({
     id,
@@ -228,10 +230,6 @@ export const ConcertDetailSectionList = ({
     });
   }, [id, isSubscribed, meData, onPressSubscribe]);
 
-  const handlePressShare = useCallback(() => {
-    // @TODO: open share bottom sheet
-  }, []);
-
   return (
     <>
       <Animated.SectionList
@@ -289,7 +287,7 @@ export const ConcertDetailSectionList = ({
                 onPress={handlePressSubscribe}
                 isSubscribed={!!isSubscribed}
               />
-              <ShareButton onPress={handlePressShare} />
+              <ShareButton onPress={withHapticPress(() => onPressShare?.())} />
             </View>
           </>
         }
