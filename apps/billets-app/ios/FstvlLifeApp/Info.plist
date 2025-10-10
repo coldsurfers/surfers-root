@@ -298,5 +298,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+  <key>LSApplicationQueriesSchemes</key>
+  <array>
+    <!-- Instagram -->
+    <string>instagram</string>
+  </array>
 </dict>
 </plist>
