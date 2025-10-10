@@ -23,6 +23,7 @@ export const ConcertDetailShareBottomSheet = forwardRef<BottomSheetModal, Props>
         text={metaDescription}
         shareView={
           <ConcertDetailShareView
+            ref={shareViewRef}
             thumbnailUrl={thumbnails.at(0) ?? ''}
             title={eventData.data.title}
             venue={eventData.data.venues.at(0)?.name ?? ''}

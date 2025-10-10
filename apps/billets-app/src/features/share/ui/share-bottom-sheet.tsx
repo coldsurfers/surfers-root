@@ -8,8 +8,17 @@ import {
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import Clipboard from '@react-native-clipboard/clipboard';
-import { type ReactNode, forwardRef, useCallback, useEffect, useRef, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import type { icons } from 'lucide-react-native';
+import {
+  type ReactNode,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { FlatList, type ListRenderItem, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { shareInstagram, shareMore, shareTwitter } from '../share.utils';
 
@@ -43,6 +52,59 @@ export const ShareBottomSheet = forwardRef<BottomSheetModal, Props>(
       return <BottomSheetBackdrop {...props} appearsOnIndex={0} disappearsOnIndex={-1} />;
     }, []);
 
+    const shareButtonData = useMemo<
+      {
+        icon: keyof typeof icons;
+        text: string;
+        onPress: () => void;
+      }[]
+    >(() => {
+      return [
+        {
+          icon: isCopied ? 'Check' : 'Link2',
+          text: '링크 복사',
+          onPress: withHapticPress(onPressCopyLink),
+        },
+        {
+          icon: 'Instagram',
+          text: '스토리',
+          onPress: withHapticPress(() => shareInstagram(shareViewRef, { attributionURL })),
+        },
+        {
+          icon: 'Twitter',
+          text: 'X',
+          onPress: withHapticPress(() => shareTwitter({ attributionURL, text })),
+        },
+        {
+          icon: 'Ellipsis',
+          text: '더보기',
+          onPress: withHapticPress(() => shareMore({ url: attributionURL ?? '' })),
+        },
+      ];
+    }, [onPressCopyLink, attributionURL, text, shareViewRef, isCopied]);
+
+    const renderItem = useCallback<ListRenderItem<(typeof shareButtonData)[number]>>(
+      (info) => {
+        return (
+          <View style={styles.shareButtonWrapper}>
+            <IconButton
+              onPress={info.item.onPress}
+              icon={info.item.icon}
+              size="lg"
+              strokeWidth={2.5}
+              color={semantics.foreground[1]}
+              style={[styles.shareIconButton, { backgroundColor: semantics.background[2] }]}
+              fill={'transparent'}
+            />
+            <Text style={[styles.shareIconButtonText, { color: semantics.foreground[1] }]}>
+              {info.item.text}
+            </Text>
+          </View>
+        );
+      },
+      [semantics.background[2], semantics.foreground[1]]
+    );
+
     useEffect(() => {
       return () => {
         if (timeoutId.current) {
@@ -70,65 +132,21 @@ export const ShareBottomSheet = forwardRef<BottomSheetModal, Props>(
               backgroundColor: semantics.background[3],
             }}
           >
-            <View style={styles.shareViewWrapper}>{shareView}</View>
-            <View style={[styles.shareButtons, { borderTopColor: semantics.border[1] }]}>
-              <View style={styles.shareButtonWrapper}>
-                <IconButton
-                  onPress={withHapticPress(onPressCopyLink)}
-                  icon={isCopied ? 'Check' : 'Link2'}
-                  size="lg"
-                  strokeWidth={2.5}
-                  color={semantics.foreground[1]}
-                  style={[styles.shareIconButton, { backgroundColor: semantics.background[2] }]}
-                  fill={'transparent'}
-                />
-                <Text style={[styles.shareIconButtonText, { color: semantics.foreground[1] }]}>
-                  링크 복사
-                </Text>
-              </View>
-              <View style={styles.shareButtonWrapper}>
-                <IconButton
-                  onPress={withHapticPress(() => shareInstagram(shareViewRef, { attributionURL }))}
-                  icon={'Instagram'}
-                  size="lg"
-                  strokeWidth={2.5}
-                  color={semantics.foreground[1]}
-                  style={[styles.shareIconButton, { backgroundColor: semantics.background[2] }]}
-                  fill={'transparent'}
-                />
-                <Text style={[styles.shareIconButtonText, { color: semantics.foreground[1] }]}>
-                  스토리
-                </Text>
-              </View>
-              <View style={styles.shareButtonWrapper}>
-                <IconButton
-                  onPress={withHapticPress(() => shareTwitter({ attributionURL, text }))}
-                  icon={'Twitter'}
-                  size="lg"
-                  strokeWidth={2.5}
-                  color={semantics.foreground[1]}
-                  style={[styles.shareIconButton, { backgroundColor: semantics.background[2] }]}
-                  fill={'transparent'}
-                />
-                <Text style={[styles.shareIconButtonText, { color: semantics.foreground[1] }]}>
-                  X
-                </Text>
-              </View>
-              <View style={styles.shareButtonWrapper}>
-                <IconButton
-                  onPress={withHapticPress(() => shareMore({ url: attributionURL ?? '' }))}
-                  icon={'Ellipsis'}
-                  size="lg"
-                  strokeWidth={2.5}
-                  color={semantics.foreground[1]}
-                  style={[styles.shareIconButton, { backgroundColor: semantics.background[2] }]}
-                  fill={'transparent'}
-                />
-                <Text style={[styles.shareIconButtonText, { color: semantics.foreground[1] }]}>
-                  더보기
-                </Text>
-              </View>
+            <View
+              style={[
+                styles.shareViewWrapper,
+                { borderBottomWidth: 1, borderBottomColor: semantics.border[1] },
+              ]}
+            >
+              {shareView}
             </View>
+            <FlatList
+              horizontal
+              data={shareButtonData}
+              keyExtractor={(item) => `${item.text}`}
+              renderItem={renderItem}
+              contentContainerStyle={styles.shareButtons}
+            />
           </BottomSheetView>
         </BottomSheetModal>
       </BottomSheetModalProvider>
@@ -143,18 +161,18 @@ const styles = StyleSheet.create({
   },
   shareViewWrapper: {
     alignItems: 'center',
+    paddingBottom: 36,
   },
   shareButtons: {
-    flexDirection: 'row',
-    gap: 18,
     marginTop: 12,
     alignItems: 'center',
-    borderTopWidth: 1,
+    width: '100%',
     paddingHorizontal: 24,
     paddingVertical: 12,
   },
   shareButtonWrapper: {
     alignItems: 'center',
+    marginRight: 18,
   },
   shareIconButton: {
     width: 48,
