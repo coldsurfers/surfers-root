@@ -3206,6 +3206,34 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
+  - RNShare (12.2.0):
+    - boost
+    - DoubleConversion
+    - fast_float
+    - fmt
+    - glog
+    - hermes-engine
+    - RCT-Folly
+    - RCT-Folly/Fabric
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - SocketRocket
+    - Yoga
   - RNStoreReview (0.4.3):
     - boost
     - DoubleConversion
@@ -3501,6 +3529,7 @@ DEPENDENCIES:
   - RNReactNativeHapticFeedback (from `../../../node_modules/react-native-haptic-feedback`)
   - RNReanimated (from `../../../node_modules/react-native-reanimated`)
   - RNScreens (from `../../../node_modules/react-native-screens`)
+  - RNShare (from `../../../node_modules/react-native-share`)
   - RNStoreReview (from `../../../node_modules/react-native-store-review`)
   - RNSVG (from `../../../node_modules/react-native-svg`)
   - RNWorklets (from `../../../node_modules/react-native-worklets`)
@@ -3744,6 +3773,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../../../node_modules/react-native-screens"
+  RNShare:
+    :path: "../../../node_modules/react-native-share"
   RNStoreReview:
     :path: "../../../node_modules/react-native-store-review"
   RNSVG:
@@ -3882,6 +3913,7 @@ SPEC CHECKSUMS:
   RNReactNativeHapticFeedback: 43c09eb41d8321be2e1375cb87ae734e58f677b0
   RNReanimated: 08bf5e1c128e547f0b8b342b6246d6f2a0dff3f0
   RNScreens: 871305075ddf1291411b051d86da9e0d9289de02
+  RNShare: 0143fe7bef072afa768c706d4db9da4857406abe
   RNStoreReview: c453bbdd02d3ca6f392a6a76ec920120258fafa1
   RNSVG: eb89274c113e61716163564ce319f60fa4427984
   RNWorklets: 2c0725ee5b7fd4eca6ac0bb5e2a3d4d26a6f6471
