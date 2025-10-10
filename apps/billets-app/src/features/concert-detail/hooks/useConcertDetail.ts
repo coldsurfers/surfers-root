@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { useMemo } from 'react';
 import type { ConcertDetailSectionListSections } from '../components/concert-detail-section-list/concert-detail-section-list.types';
 import { useConcertDetailQuery } from './useConcertDetailQuery';
@@ -129,11 +130,24 @@ export const useConcertDetail = ({
 
   const tickets = useMemo(() => eventData.data.tickets, [eventData.data.tickets]);
 
+  const metaDescription = useMemo(
+    () =>
+      `${eventData.data.venues.at(0)?.name}에서 주최하는\n${eventData.data.title}.\n${format(new Date(eventData.data.date), 'yyyy년 MM월 dd일 hh시 mm분 a')}에 만나요!`,
+    [eventData.data.date, eventData.data.title, eventData.data.venues]
+  );
+
+  const httpLink = useMemo(
+    () => `https://coldsurf.io/event/${encodeURIComponent(eventData.data.slug ?? '')}`,
+    [eventData.data.slug]
+  );
+
   return {
     eventData,
     sections,
     thumbnails,
+    metaDescription,
     mainVenue,
     tickets,
+    httpLink,
   };
 };

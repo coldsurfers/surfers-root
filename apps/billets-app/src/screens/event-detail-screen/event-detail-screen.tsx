@@ -2,6 +2,7 @@ import {
   ConcertDetailSectionList,
   ConcertDetailVenueMapBottomSheet,
 } from '@/features/concert-detail';
+import { ConcertDetailShareBottomSheet } from '@/features/concert-detail/components/concert-detail-share-bottom-sheet';
 import { TicketListBottomSheet } from '@/features/concert-detail/components/ticket-list-bottom-sheet/ticket-list-bottom-sheet';
 import { useToggleSubscribeConcert } from '@/features/subscribe/hooks/useToggleSubscribeConcert';
 import { useEffectOnce, useFirebaseAnalytics, useStoreReview } from '@/lib';
@@ -43,6 +44,7 @@ const ScreenInner = () => {
   const { params } = useEventDetailScreenRoute();
   const { requestReview } = useStoreReview();
   const ticketSheetRef = useRef<BottomSheetModal>(null);
+  const shareSheetRef = useRef<BottomSheetModal>(null);
 
   const toggleSubscribeConcert = useToggleSubscribeConcert();
 
@@ -119,6 +121,7 @@ const ScreenInner = () => {
   );
 
   const handlePressBackdrop = () => ticketSheetRef.current?.close();
+  const handlePressShare = () => shareSheetRef.current?.present();
 
   return (
     <EventDetailScreenLayout>
@@ -131,6 +134,7 @@ const ScreenInner = () => {
             onPressVenueMap={handlePressVenueMap}
             onPressVenueProfile={handlePressVenueProfile}
             onPressSubscribe={onPressSubscribe}
+            onPressShare={handlePressShare}
           />
         </Suspense>
       </View>
@@ -146,6 +150,9 @@ const ScreenInner = () => {
           eventId={params.eventId}
           onPressBackdrop={handlePressBackdrop}
         />
+      </Suspense>
+      <Suspense>
+        <ConcertDetailShareBottomSheet ref={shareSheetRef} eventId={params.eventId} />
       </Suspense>
     </EventDetailScreenLayout>
   );

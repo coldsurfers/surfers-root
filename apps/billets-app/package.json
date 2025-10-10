@@ -1,6 +1,6 @@
 {
   "name": "@coldsurfers/billets-app",
-  "version": "2.4.0",
+  "version": "2.5.0-alpha.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -21,14 +21,7 @@
     "reset:android:build": "rm -rf android/app/.cxx android/app/build android/build android/app/production/release android/app/release"
   },
   "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
     "preset": "react-native"
   },
   "dependencies": {
@@ -86,8 +79,10 @@
     "react-native-reanimated": "4.1.2",
     "react-native-safe-area-context": "^5.5.2",
     "react-native-screens": "4.16.0",
+    "react-native-share": "^12.2.0",
     "react-native-store-review": "^0.4.3",
     "react-native-svg": "15.13.0",
+    "react-native-view-shot": "^4.0.3",
     "react-native-webview": "^11.26.1",
     "react-native-worklets": "^0.6.0",
     "semver": "^7.7.1",
