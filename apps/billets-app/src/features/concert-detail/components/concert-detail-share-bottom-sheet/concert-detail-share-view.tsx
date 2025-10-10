@@ -2,7 +2,7 @@ import { Text, useColorScheme } from '@coldsurfers/ocean-road/native';
 import FastImage from '@d11/react-native-fast-image';
 import { format } from 'date-fns';
 import { forwardRef } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 type Props = {
   thumbnailUrl: string;
@@ -18,58 +18,19 @@ export const ConcertDetailShareView = forwardRef<View, Props>(
       <View
         ref={ref}
         collapsable={false}
-        style={{
-          paddingVertical: 18,
-          backgroundColor: semantics.background[2],
-          borderRadius: 18,
-          width: 250,
-          alignItems: 'center',
-        }}
+        style={[styles.container, { backgroundColor: semantics.background[2] }]}
       >
         <FastImage
           source={{ uri: thumbnailUrl }}
           resizeMode="contain"
-          style={{
-            width: 200,
-            height: 200,
-            borderRadius: 100,
-            backgroundColor: semantics.background[1],
-          }}
+          style={[styles.thumbnail, { backgroundColor: semantics.background[1] }]}
         />
-        <View style={{ alignItems: 'flex-start', width: '100%' }}>
-          <Text
-            style={{
-              fontWeight: 'bold',
-              color: semantics.foreground[1],
-              fontSize: 16,
-              marginTop: 12,
-              paddingHorizontal: 12,
-              textAlign: 'left',
-            }}
-          >
-            {title}
-          </Text>
-          <Text
-            style={{
-              fontWeight: '600',
-              color: semantics.foreground[4],
-              fontSize: 14,
-              paddingHorizontal: 12,
-              textAlign: 'left',
-            }}
-          >
+        <View style={styles.contentWrapper}>
+          <Text style={[styles.title, { color: semantics.foreground[1] }]}>{title}</Text>
+          <Text style={[styles.venue, { color: semantics.foreground[4] }]}>
             {venue} ({format(new Date(date), 'MMM dd, hh:mm a')})
           </Text>
-          <Text
-            style={{
-              fontWeight: '600',
-              color: semantics.foreground[2],
-              fontSize: 14,
-              marginTop: 8,
-              paddingHorizontal: 12,
-              textAlign: 'left',
-            }}
-          >
+          <Text style={[styles.description, { color: semantics.foreground[2] }]}>
             shared by COLDSURF
           </Text>
         </View>
@@ -77,3 +38,41 @@ export const ConcertDetailShareView = forwardRef<View, Props>(
     );
   }
 );
+
+const styles = StyleSheet.create({
+  container: {
+    paddingVertical: 18,
+    borderRadius: 18,
+    width: 250,
+    alignItems: 'center',
+  },
+  thumbnail: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+  },
+  contentWrapper: {
+    alignItems: 'flex-start',
+    width: '100%',
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginTop: 12,
+    paddingHorizontal: 12,
+    textAlign: 'left',
+  },
+  venue: {
+    fontWeight: '600',
+    fontSize: 14,
+    paddingHorizontal: 12,
+    textAlign: 'left',
+  },
+  description: {
+    fontWeight: '600',
+    fontSize: 14,
+    marginTop: 8,
+    paddingHorizontal: 12,
+    textAlign: 'left',
+  },
+});
