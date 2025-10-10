@@ -64,7 +64,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>56</string>
+	<string>71</string>
 	<key>GADApplicationIdentifier</key>
 	<string>$(GOOGLE_MOBILE_ADS_IOS_APP_ID)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
