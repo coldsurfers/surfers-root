@@ -1,5 +1,6 @@
 /* eslint-disable no-case-declarations */
 import { useMeQuery } from '@/features/auth/hooks/useMeQuery';
+import { ShareButton } from '@/features/share/ui';
 import { ConcertSubscribeButton } from '@/features/subscribe';
 import { useSubscribedConcert } from '@/features/subscribe/hooks/useSubscribedConcert';
 import { CONCERT_DETAIL_LIST_HEADER_HEIGHT } from '@/lib';
@@ -227,6 +228,10 @@ export const ConcertDetailSectionList = ({
     });
   }, [id, isSubscribed, meData, onPressSubscribe]);
 
+  const handlePressShare = useCallback(() => {
+    // @TODO: open share bottom sheet
+  }, []);
+
   return (
     <>
       <Animated.SectionList
@@ -284,6 +289,7 @@ export const ConcertDetailSectionList = ({
                 onPress={handlePressSubscribe}
                 isSubscribed={!!isSubscribed}
               />
+              <ShareButton onPress={handlePressShare} />
             </View>
           </>
         }
@@ -310,5 +316,11 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     ...commonStyles.shadowBox,
   },
-  subscribeButtonPosition: { position: 'absolute', right: 12, bottom: 12 },
+  subscribeButtonPosition: {
+    position: 'absolute',
+    right: 12,
+    bottom: 12,
+    flexDirection: 'row',
+    gap: 8,
+  },
 });
