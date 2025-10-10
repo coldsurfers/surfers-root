@@ -5,6 +5,8 @@ import { Linking } from 'react-native';
 
 const NAVIGATION_IDS = ['home', 'my', 'search', 'event-detail', 'artist-detail', 'venue-detail'];
 
+const APP_LINK_PREFIX = 'coldsurf://';
+
 function buildDeepLinkFromNotificationData(
   data: FirebaseMessagingTypes.RemoteMessage['data']
 ): string | null {
@@ -17,7 +19,7 @@ function buildDeepLinkFromNotificationData(
     console.warn('Unverified navigationId', navigationId);
     return null;
   }
-  const prefix = 'billets://';
+  const prefix = APP_LINK_PREFIX;
   if (navigationId === 'home') {
     return `${prefix}home`;
   }
@@ -57,7 +59,7 @@ function buildDeepLinkFromNotificationData(
 }
 
 export const deepLinking: LinkingOptions<MainStackNavigationParamList> = {
-  prefixes: ['billets://', 'https://coldsurf.io'],
+  prefixes: [APP_LINK_PREFIX, 'https://coldsurf.io'],
   config: {
     initialRouteName: 'MainTabNavigation',
     screens: {
