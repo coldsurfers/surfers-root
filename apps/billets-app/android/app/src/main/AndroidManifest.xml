@@ -58,8 +58,8 @@
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
         <data android:scheme="https" />
-        <data android:host="billets.coldsurf.io" />
-        <data android:pathPattern="/concert-detail/.*" />
+        <data android:host="coldsurf.io" />
+        <data android:pathPattern="/event/.*" />
       </intent-filter>
     </activity>
   </application>

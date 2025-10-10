@@ -57,7 +57,7 @@ function buildDeepLinkFromNotificationData(
 }
 
 export const deepLinking: LinkingOptions<MainStackNavigationParamList> = {
-  prefixes: ['billets://', 'https://billets.coldsurf.io'],
+  prefixes: ['billets://', 'https://coldsurf.io'],
   config: {
     initialRouteName: 'MainTabNavigation',
     screens: {
