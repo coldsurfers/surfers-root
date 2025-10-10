@@ -2,19 +2,16 @@ import {
   ConcertDetailSectionList,
   ConcertDetailVenueMapBottomSheet,
 } from '@/features/concert-detail';
+import { ConcertDetailShareBottomSheet } from '@/features/concert-detail/components/concert-detail-share-bottom-sheet';
 import { TicketListBottomSheet } from '@/features/concert-detail/components/ticket-list-bottom-sheet/ticket-list-bottom-sheet';
-import { useConcertDetail } from '@/features/concert-detail/hooks/useConcertDetail';
-import { ShareBottomSheet } from '@/features/share/ui';
 import { useToggleSubscribeConcert } from '@/features/subscribe/hooks/useToggleSubscribeConcert';
 import { useEffectOnce, useFirebaseAnalytics, useStoreReview } from '@/lib';
 import commonStyles from '@/lib/common-styles';
 import { concertDetailCountForStoreReviewStorage } from '@/lib/storage';
 import { NAVIGATION_HEADER_HEIGHT } from '@/ui';
 import { colors } from '@coldsurfers/ocean-road';
-import { Spinner, Text, useColorScheme } from '@coldsurfers/ocean-road/native';
-import FastImage from '@d11/react-native-fast-image';
+import { Spinner, useColorScheme } from '@coldsurfers/ocean-road/native';
 import type { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { format } from 'date-fns';
 import React, { type PropsWithChildren, Suspense, useCallback, useRef } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import {
@@ -48,11 +45,6 @@ const ScreenInner = () => {
   const { requestReview } = useStoreReview();
   const ticketSheetRef = useRef<BottomSheetModal>(null);
   const shareSheetRef = useRef<BottomSheetModal>(null);
-  const shareViewRef = useRef<View>(null);
-
-  const { thumbnails, eventData } = useConcertDetail({
-    id: params.eventId,
-  });
 
   const toggleSubscribeConcert = useToggleSubscribeConcert();
 
@@ -159,74 +151,9 @@ const ScreenInner = () => {
           onPressBackdrop={handlePressBackdrop}
         />
       </Suspense>
-      <ShareBottomSheet
-        ref={shareSheetRef}
-        shareViewRef={shareViewRef}
-        attributionURL={`https://coldsurf.io/event/${encodeURIComponent(eventData.data.slug ?? '')}`}
-        text={`${eventData.data.venues.at(0)?.name}에서 주최하는\n${eventData.data.title}.\n${format(new Date(eventData.data.date), 'yyyy년 MM월 dd일 hh시 mm분 a')}에 만나요!`}
-        shareView={
-          <View
-            ref={shareViewRef}
-            collapsable={false}
-            style={{
-              paddingVertical: 18,
-              backgroundColor: semantics.background[2],
-              borderRadius: 18,
-              width: 250,
-              alignItems: 'center',
-            }}
-          >
-            <FastImage
-              source={{ uri: thumbnails.at(0) ?? '' }}
-              resizeMode="contain"
-              style={{
-                width: 200,
-                height: 200,
-                borderRadius: 100,
-                backgroundColor: semantics.background[1],
-              }}
-            />
-            <View style={{ alignItems: 'flex-start', width: '100%' }}>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  color: semantics.foreground[1],
-                  fontSize: 16,
-                  marginTop: 12,
-                  paddingHorizontal: 12,
-                  textAlign: 'left',
-                }}
-              >
-                {eventData.data.title}
-              </Text>
-              <Text
-                style={{
-                  fontWeight: '600',
-                  color: semantics.foreground[4],
-                  fontSize: 14,
-                  paddingHorizontal: 12,
-                  textAlign: 'left',
-                }}
-              >
-                {eventData.data.venues.at(0)?.name} (
-                {format(new Date(eventData.data.date), 'MMM dd, hh:mm a')})
-              </Text>
-              <Text
-                style={{
-                  fontWeight: '600',
-                  color: semantics.foreground[2],
-                  fontSize: 14,
-                  marginTop: 8,
-                  paddingHorizontal: 12,
-                  textAlign: 'left',
-                }}
-              >
-                shared by COLDSURF
-              </Text>
-            </View>
-          </View>
-        }
-      />
+      <Suspense>
+        <ConcertDetailShareBottomSheet ref={shareSheetRef} eventId={params.eventId} />
+      </Suspense>
     </EventDetailScreenLayout>
   );
 };
