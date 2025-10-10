@@ -169,7 +169,7 @@ const ScreenInner = () => {
             collapsable={false}
             style={{
               paddingVertical: 18,
-              backgroundColor: semantics.background[3],
+              backgroundColor: semantics.background[2],
               borderRadius: 18,
               width: 250,
               alignItems: 'center',
@@ -182,7 +182,7 @@ const ScreenInner = () => {
                 width: 200,
                 height: 200,
                 borderRadius: 100,
-                backgroundColor: semantics.background[2],
+                backgroundColor: semantics.background[1],
               }}
             />
             <View style={{ alignItems: 'flex-start', width: '100%' }}>
@@ -220,7 +220,7 @@ const ScreenInner = () => {
                   textAlign: 'left',
                 }}
               >
-                COLDSURF
+                shared by COLDSURF
               </Text>
             </View>
           </View>

@@ -42,3 +42,13 @@ export const shareInstagram = async (
     console.error(e);
   }
 };
+
+export const shareMore = async ({ url }: { url: string }) => {
+  try {
+    await Share.open({
+      url,
+    });
+  } catch (e) {
+    console.error(e);
+  }
+};
