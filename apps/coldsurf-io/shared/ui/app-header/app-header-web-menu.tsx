@@ -41,7 +41,13 @@ export const AppHeaderWebMenu = ({
           item.link === '/browse' ? HeaderMenuContainerLink : HeaderMenuContainerGlobalLink;
         return (
           <Container key={item.link} href={item.link} onClick={onClick} target={item.target}>
-            <HeaderMenuItem isLoading={isLoading} isCurrent={pathname.includes(item.link)}>
+            <HeaderMenuItem
+              isLoading={isLoading}
+              isCurrent={
+                pathname.includes(item.link) ||
+                item.subPaths.some((subPath) => pathname.includes(subPath))
+              }
+            >
               {item.title}
             </HeaderMenuItem>
           </Container>

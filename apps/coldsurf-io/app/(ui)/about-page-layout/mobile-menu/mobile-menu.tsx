@@ -45,17 +45,19 @@ export function MobileMenu({ isOpen, onClickMenuItem }: MobileMenuProps) {
           variants={menuVariants}
         >
           <ul style={{ listStyleType: 'none', padding: 0 }}>
-            {menuItems.map((item) => {
-              return (
-                <li key={item.title} style={{ margin: '20px 0' }}>
-                  <Link href={item.link} onClick={onClickMenuItem}>
-                    <StyledMobileMenuText as="h3" $isHighlighted={pathname.includes(item.link)}>
-                      {item.title}
-                    </StyledMobileMenuText>
-                  </Link>
-                </li>
-              );
-            })}
+            {menuItems
+              .filter((item) => item.visible)
+              .map((item) => {
+                return (
+                  <li key={item.title} style={{ margin: '20px 0' }}>
+                    <Link href={item.link} onClick={onClickMenuItem}>
+                      <StyledMobileMenuText as="h3" $isHighlighted={pathname.includes(item.link)}>
+                        {item.title}
+                      </StyledMobileMenuText>
+                    </Link>
+                  </li>
+                );
+              })}
           </ul>
           <ColorSchemeToggle />
         </StyledMobileMenuBackground>

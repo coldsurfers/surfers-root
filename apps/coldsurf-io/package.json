@@ -93,9 +93,10 @@
   "featureFlags": {
     "useSubscribeButton": true,
     "useProfileFeature": true,
-    "useStoreRegistrationFeature": true,
+    "useStoreRegistrationFeature": false,
     "useSurveyFeature": true,
-    "useTattooFeature": true
+    "useTattooFeature": false,
+    "useWorkWithUsFeature": true
   },
   "pnpm": {
     "overrides": {
