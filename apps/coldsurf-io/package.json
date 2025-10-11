@@ -1,8 +1,10 @@
 {
   "name": "@coldsurfers/coldsurf-io",
-  "version": "1.2.13",
+  "version": "1.2.14",
   "private": true,
-  "files": ["package.json"],
+  "files": [
+    "package.json"
+  ],
   "bugs": {
     "url": "https://github.com/coldsurfers/surfers-root"
   },
