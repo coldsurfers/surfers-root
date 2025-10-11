@@ -25,7 +25,7 @@ export function AppHeader() {
   const { isLoading: isLoadingUser } = useIsLoggedIn();
   const { isNotFound } = useNotFoundContext();
 
-  const isVisible = !isCurrentPathDefaultHeader || isNotFound;
+  const isVisible = isCurrentPathDefaultHeader && !isNotFound;
 
   useEffect(() => {
     let lastScrollTop = 0;
