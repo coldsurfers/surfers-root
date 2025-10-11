@@ -260,8 +260,16 @@ export const PartnersContactForm = ({ onSuccess }: Props) => {
           maxLength={1000}
           {...register('message', {
             maxLength: 1000,
+            required: true,
           })}
+          required
+          isError={!!errors.message}
         />
+        {errors.message && (
+          <Text as="p" style={{ color: colors.oc.red[7].value }}>
+            {errors.message.message || '설명에 대한 부분을 작성해주세요'}
+          </Text>
+        )}
         <StyledTextInput
           label="인스타그램 프로필"
           {...register('instagram')}

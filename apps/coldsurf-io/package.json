@@ -34,7 +34,7 @@
     "@coldsurfers/api-sdk": "workspace:*",
     "@coldsurfers/cloudinary-utils": "workspace:*",
     "@coldsurfers/infinite-carousel": "1.0.10",
-    "@coldsurfers/ocean-road": "1.11.10",
+    "@coldsurfers/ocean-road": "1.12.0-alpha.2",
     "@coldsurfers/ocean-road-design-tokens": "1.10.3",
     "@coldsurfers/openapi-client": "workspace:*",
     "@coldsurfers/shared-utils": "workspace:*",
