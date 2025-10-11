@@ -466,4 +466,4 @@ export const querySeriesItem = cache(
   }
 );
 
-export const queryTags = queryProperties('tags', false);
+export const queryTags = (isOfficialBlog?: boolean) => queryProperties('tags', isOfficialBlog);

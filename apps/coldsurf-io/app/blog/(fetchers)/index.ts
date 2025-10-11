@@ -140,8 +140,8 @@ export const fetchGetResume = async (_filters: { locale: AppLocale }) => {
   return json;
 };
 
-export const fetchGetTags = cache(async () => {
-  const response = await fetch(`${BASE_URL}/api/blog/tags`, {
+export const fetchGetTags = cache(async ({ isOfficialBlog }: { isOfficialBlog?: boolean }) => {
+  const response = await fetch(`${BASE_URL}/api/blog/tags?isOfficialBlog=${isOfficialBlog}`, {
     method: 'GET',
   });
   const json = (await response.json()) as {
