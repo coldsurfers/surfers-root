@@ -66,11 +66,17 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod';
+import {
+  PartnerContactFormDTOSchema,
+  PartnerContactFormRoleDTOSchema,
+  SendPartnerContactFormResponseDTOSchema,
+} from './dtos/partner.dto';
 import { RemoteAppManifestDTOSchema } from './dtos/remote-app-manifest.dto';
 import {
   GetUserProfileByHandleParamsDTOSchema,
   UserProfileDTOSchema,
 } from './dtos/user-profile.dto';
+import partnerRoute from './routes/partner.route';
 
 dotenv.config();
 
@@ -226,6 +232,9 @@ app.register(fastifySwagger, {
       RemoteAppManifestDTOSchema,
       GetVenueBySlugDTOSchema,
       SendUserVoiceBodyDTOSchema,
+      PartnerContactFormRoleDTOSchema,
+      PartnerContactFormDTOSchema,
+      SendPartnerContactFormResponseDTOSchema,
     },
   }),
   // You can also create transform with custom skiplist of endpoints that should not be included in the specification:
@@ -264,5 +273,6 @@ app.register(eventRoute, { prefix: '/v1/event' });
 app.register(imageRoute, { prefix: '/v1/image' });
 app.register(eventCategoryRoute, { prefix: '/v1/event-category' });
 app.register(appRoute, { prefix: '/v1/app' });
+app.register(partnerRoute, { prefix: '/v1/partner' });
 
 console.log('Hello, this is billets-server');
