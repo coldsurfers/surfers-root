@@ -13,14 +13,18 @@ import {
   StyledPostTitleText,
 } from './post-item.styled';
 
-export const PostItem = memo((props: SeriesItem) => {
+export const PostItem = memo((props: SeriesItem & { isOfficialBlog?: boolean }) => {
   const platformHref = useMemo(
-    () => generateSeriesHref({ seriesCategory: props.seriesCategory }),
-    [props.seriesCategory]
+    () =>
+      generateSeriesHref({
+        seriesCategory: props.seriesCategory,
+        isOfficialBlog: props.isOfficialBlog,
+      }),
+    [props.seriesCategory, props.isOfficialBlog]
   );
   const postHref = useMemo(
-    () => generateSeriesItemHref(props.seriesCategory, props.slug),
-    [props.seriesCategory, props.slug]
+    () => generateSeriesItemHref(props.seriesCategory, props.slug, props.isOfficialBlog),
+    [props.seriesCategory, props.slug, props.isOfficialBlog]
   );
 
   return (

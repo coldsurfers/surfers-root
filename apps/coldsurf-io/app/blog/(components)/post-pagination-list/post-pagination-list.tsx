@@ -7,30 +7,30 @@ import { PostItem } from '../post-item';
 import { PostListContainer } from '../post-list-container';
 import { StyledPostListContainer } from './post-pagination-list.styled';
 
-type PostListProps = { postItems: SeriesItem[]; page: number };
+type PostListProps = { postItems: SeriesItem[]; page: number; isOfficialBlog?: boolean };
 
-export const PostPaginationList = memo(({ postItems, page }: PostListProps) => {
+export const PostPaginationList = memo(({ postItems, page, isOfficialBlog }: PostListProps) => {
   const offset = useMemo(() => (page - 1) * PAGINATION_PER_PAGE, [page]);
 
   return (
     <StyledPostListContainer>
       <PostListContainer>
         {postItems.slice(offset, offset + PAGINATION_PER_LINE).map((post) => (
-          <PostItem key={post.id} {...post} />
+          <PostItem key={post.id} {...post} isOfficialBlog={isOfficialBlog} />
         ))}
       </PostListContainer>
       <PostListContainer>
         {postItems
           .slice(offset + PAGINATION_PER_LINE, offset + PAGINATION_PER_LINE * 2)
           .map((post) => (
-            <PostItem key={post.id} {...post} />
+            <PostItem key={post.id} {...post} isOfficialBlog={isOfficialBlog} />
           ))}
       </PostListContainer>
       <PostListContainer>
         {postItems
           .slice(offset + PAGINATION_PER_LINE * 2, offset + PAGINATION_PER_LINE * 3)
           .map((post) => (
-            <PostItem key={post.id} {...post} />
+            <PostItem key={post.id} {...post} isOfficialBlog={isOfficialBlog} />
           ))}
       </PostListContainer>
     </StyledPostListContainer>

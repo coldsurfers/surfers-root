@@ -1,16 +1,16 @@
-import { SeriesListAll } from '../(components)';
-import { PageLayout } from '../(components)/page-layout';
-import { fetchGetSeries } from '../(fetchers)';
-import { SeriesCategorySchema } from '../(types)/series';
-import { convertSeriesCategoryToTitle, createBlogError } from '../(utils)';
+import { SeriesListAll } from 'app/blog/(components)';
+import { PageLayout } from 'app/blog/(components)/page-layout';
+import { fetchGetSeries } from 'app/blog/(fetchers)';
+import { OfficialBlogSeriesCategorySchema } from 'app/blog/(types)/series';
+import { convertSeriesCategoryToTitle, createBlogError } from 'app/blog/(utils)';
 
-export default async function SeriesPage(props: {
+export default async function OfficialBlogSeriesPage(props: {
   params: Promise<{
     series: string;
   }>;
 }) {
   const params = await props.params;
-  const seriesCategoryValidation = SeriesCategorySchema.safeParse(params.series);
+  const seriesCategoryValidation = OfficialBlogSeriesCategorySchema.safeParse(params.series);
   if (!seriesCategoryValidation.success) {
     throw createBlogError(
       {
@@ -28,17 +28,16 @@ export default async function SeriesPage(props: {
     appLocale: 'ko',
     seriesCategory,
     tag: undefined,
-    isOfficialBlog: false,
+    isOfficialBlog: true,
   });
-
   return (
-    <PageLayout title={convertSeriesCategoryToTitle(seriesCategory)}>
+    <PageLayout title={convertSeriesCategoryToTitle(seriesCategory)} isOfficialBlog>
       <SeriesListAll
         seriesCategory={seriesCategory}
         postItems={postItems}
         totalPage={totalPage}
         currentPage={1}
-        isOfficialBlog={false}
+        isOfficialBlog
       />
     </PageLayout>
   );

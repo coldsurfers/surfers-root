@@ -1,11 +1,10 @@
-import { Suspense, cache } from 'react';
-
-import { GlobalErrorBoundaryRegistry } from '@/libs/registries/global-error-boundary-registry';
+import { GlobalErrorBoundaryRegistry } from '@/libs/registries';
 import type { FetchGetSeriesItemSearchParams } from 'app/api/blog/series/[slug]/types';
 import { fetchGetSeriesItem } from 'app/blog/(fetchers)';
 import { LogDetailRenderer } from 'app/blog/(notion-render)/log-detail-renderer';
-import { SeriesCategorySchema } from 'app/blog/(types)/series';
+import { OfficialBlogSeriesCategorySchema, SeriesCategorySchema } from 'app/blog/(types)/series';
 import { createBlogError } from 'app/blog/(utils)';
+import { Suspense, cache } from 'react';
 
 const getSeriesItemStatic = cache(
   async (slug: string, searchParams: FetchGetSeriesItemSearchParams) => {
@@ -14,14 +13,14 @@ const getSeriesItemStatic = cache(
   }
 );
 
-export default async function SeriesSlugPage(props: {
+export default async function OfficialBlogSeriesSlugPage(props: {
   params: Promise<{
     slug: string;
     series: string;
   }>;
 }) {
   const params = await props.params;
-  const seriesCategoryValidation = SeriesCategorySchema.safeParse(params.series);
+  const seriesCategoryValidation = OfficialBlogSeriesCategorySchema.safeParse(params.series);
   if (!seriesCategoryValidation.success) {
     throw createBlogError(
       {
@@ -36,7 +35,7 @@ export default async function SeriesSlugPage(props: {
   const initialData = await getSeriesItemStatic(params.slug, {
     seriesCategory: seriesCategoryValidation.data,
     appLocale: 'ko',
-    isOfficialBlog: false,
+    isOfficialBlog: true,
   });
 
   return (
@@ -46,7 +45,7 @@ export default async function SeriesSlugPage(props: {
           slug={params.slug}
           seriesCategory={seriesCategoryValidation.data}
           initialData={initialData}
-          isOfficialBlog={false}
+          isOfficialBlog
         />
       </Suspense>
     </GlobalErrorBoundaryRegistry>
