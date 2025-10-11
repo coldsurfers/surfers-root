@@ -1,5 +1,11 @@
 # @coldsurfers/coldsurf-io
 
+## 1.3.0
+
+### Minor Changes
+
+- [#601](https://github.com/coldsurfers/surfers-root/pull/601) [`9663a8c`](https://github.com/coldsurfers/surfers-root/commit/9663a8c88098e7e924103643b5c9f4aa704d9682) Thanks [@yungblud](https://github.com/yungblud)! - Official Blog
+
 ## 1.2.15
 
 ### Patch Changes
