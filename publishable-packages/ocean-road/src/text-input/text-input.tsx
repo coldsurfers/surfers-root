@@ -8,7 +8,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     return (
       <>
         {label && (
-          <Label htmlFor={inputProps.id} style={labelStyle}>
+          <Label htmlFor={inputProps.id} style={labelStyle} required={required}>
             {label}
           </Label>
         )}

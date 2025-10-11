@@ -8,7 +8,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     return (
       <>
         {label && (
-          <Label htmlFor={props.id} style={labelStyle}>
+          <Label htmlFor={props.id} style={labelStyle} required={required}>
             {label}
           </Label>
         )}
