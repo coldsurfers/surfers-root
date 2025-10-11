@@ -3,7 +3,6 @@
 import { AnimatedText } from '@/shared/ui';
 import { Text, semantics } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
-import { AnimatePresence } from 'framer-motion';
 
 const StyledWrapper = styled.div`
   text-align: center;
@@ -34,17 +33,15 @@ const text =
 export const PartnersIntro = () => {
   return (
     <StyledWrapper>
-      <AnimatePresence>
-        <AnimatedText
-          text={text}
-          renderComponent={(text) => <AnimatedMessageText as="p">{text}</AnimatedMessageText>}
-        />
-        <AnimatedText
-          text={'from COLDSURF, Paul'}
-          renderComponent={(text) => <AnimatedProfileText as="p">{text}</AnimatedProfileText>}
-          delay={0.25}
-        />
-      </AnimatePresence>
+      <AnimatedText
+        text={text}
+        renderComponent={(text) => <AnimatedMessageText as="p">{text}</AnimatedMessageText>}
+      />
+      <AnimatedText
+        text={'from COLDSURF, Paul'}
+        renderComponent={(text) => <AnimatedProfileText as="p">{text}</AnimatedProfileText>}
+        delay={0.25}
+      />
     </StyledWrapper>
   );
 };

@@ -17,11 +17,11 @@ const EachContent = styled.div`
 `;
 
 type Props = {
-  leftContent: ReactNode;
-  rightContent: ReactNode;
+  topContent: ReactNode;
+  bottomContent: ReactNode;
 };
 
-export const PartnersPageLayout = ({ leftContent, rightContent }: Props) => {
+export const PartnersPageLayout = ({ topContent, bottomContent }: Props) => {
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -30,8 +30,8 @@ export const PartnersPageLayout = ({ leftContent, rightContent }: Props) => {
 
   return (
     <Layout>
-      <EachContent>{leftContent}</EachContent>
-      <EachContent>{rightContent}</EachContent>
+      <EachContent>{topContent}</EachContent>
+      <EachContent>{bottomContent}</EachContent>
     </Layout>
   );
 };

@@ -10,21 +10,22 @@ const Spacing = styled.div`
   height: 1.25rem;
 `;
 
-export const StoreRegistrationSuccess = () => {
+type Props = {
+  title: string;
+  message: string;
+};
+
+export const AnimatedFormSuccess = ({ title, message }: Props) => {
   return (
     <AnimatedForm
-      title="신청해 주셔서 감사합니다."
+      title={title}
       onSubmit={() => {
         //
       }}
       alignCenter
     >
       <Spacing />
-      <AnimatedText
-        text={
-          '입력해주신 내용을 바탕으로 빠른 시일 내에 연락드릴게요.\n신청해주셔서 다시 한번 감사합니다.'
-        }
-      />
+      <AnimatedText text={message} />
       <GlobalLink
         href="/"
         style={{

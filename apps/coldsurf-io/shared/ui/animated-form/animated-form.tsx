@@ -35,9 +35,15 @@ export const AnimatedForm = ({
   return (
     <StyledAnimatedForm
       initial={{ opacity: 0, translateX: '-10%' }}
-      animate={{ opacity: 1, translateX: 0 }}
-      exit={{ opacity: 0, translateX: '-10%' }}
-      transition={{ duration: 0.125, type: 'spring', stiffness: 100, delay: delay ?? 0.125 }}
+      animate={{
+        opacity: 1,
+        translateX: 0,
+        transition: {
+          delay: delay ?? 0,
+        },
+      }}
+      exit={{ opacity: 0, transition: { delay: 0 } }}
+      transition={{ duration: 0.125, type: 'spring', stiffness: 100 }}
       onSubmit={onSubmit}
       $alignCenter={alignCenter}
     >
