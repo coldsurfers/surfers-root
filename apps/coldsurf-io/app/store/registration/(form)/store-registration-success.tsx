@@ -2,9 +2,9 @@
 
 import { GlobalLink } from '@/shared/ui';
 import { AnimatedText } from '@/shared/ui';
+import { AnimatedForm } from '@/shared/ui/animated-form';
 import { Button } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
-import { AnimatedForm } from './animated-form';
 
 const Spacing = styled.div`
   height: 1.25rem;
@@ -17,7 +17,6 @@ export const StoreRegistrationSuccess = () => {
       onSubmit={() => {
         //
       }}
-      maxWidth={550}
       alignCenter
     >
       <Spacing />

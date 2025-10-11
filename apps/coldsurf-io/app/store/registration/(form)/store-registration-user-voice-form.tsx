@@ -2,14 +2,13 @@
 
 import { apiClient } from '@/libs/openapi-client';
 import { appSessionStorage } from '@/libs/utils';
+import { AnimatedForm } from '@/shared/ui/animated-form';
 import { Button, Spinner, TextArea } from '@coldsurfers/ocean-road';
-import { tryParse } from '@coldsurfers/shared-utils';
 import styled from '@emotion/styled';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { AnimatedForm } from './animated-form';
 import type { StoreRegistrationContactFormType } from './types';
 
 const StyledTextArea = styled(TextArea)`
