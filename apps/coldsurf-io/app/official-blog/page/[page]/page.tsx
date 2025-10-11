@@ -20,7 +20,7 @@ export default async function OfficialBlogArticleListByPage({
   return (
     <GlobalErrorBoundaryRegistry>
       <RouteLoading deps={[page]}>
-        <PageLayout>
+        <PageLayout isOfficialBlog>
           <SeriesListAll
             postItems={allPostItems}
             seriesCategory={null}

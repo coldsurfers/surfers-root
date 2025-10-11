@@ -14,14 +14,21 @@ import {
 } from './post-item.styled';
 
 export const PostItem = memo((props: SeriesItem & { isOfficialBlog?: boolean }) => {
-  const platformHref = useMemo(
-    () =>
-      generateSeriesHref({
+  const platformHref = useMemo(() => {
+    if (props.seriesCategory) {
+      return generateSeriesHref({
         seriesCategory: props.seriesCategory,
         isOfficialBlog: props.isOfficialBlog,
-      }),
-    [props.seriesCategory, props.isOfficialBlog]
-  );
+      });
+    }
+    if (props.officialBlogSeriesCategory) {
+      return generateSeriesHref({
+        seriesCategory: props.officialBlogSeriesCategory,
+        isOfficialBlog: props.isOfficialBlog,
+      });
+    }
+    return '#';
+  }, [props.seriesCategory, props.officialBlogSeriesCategory, props.isOfficialBlog]);
   const postHref = useMemo(() => {
     if (props.seriesCategory) {
       return generateSeriesItemHref(props.seriesCategory, props.slug, props.isOfficialBlog);
@@ -49,7 +56,9 @@ export const PostItem = memo((props: SeriesItem & { isOfficialBlog?: boolean }) 
         />
       </Link>
       <Link href={platformHref}>
-        <StyledPostPlatformText as="p">{props.seriesCategory}</StyledPostPlatformText>
+        <StyledPostPlatformText as="p">
+          {props.seriesCategory || props.officialBlogSeriesCategory}
+        </StyledPostPlatformText>
       </Link>
       <Link href={postHref}>
         <StyledPostTitleText as="h2">

@@ -260,7 +260,7 @@ export const LogDetailRenderer = ({
     <>
       <PageLayout title={pageTitle?.at(0)?.plain_text} isOfficialBlog={isOfficialBlog}>
         <article style={{ marginTop: '2rem' }}>
-          <TagList tags={tags} />
+          <TagList tags={tags} isOfficialBlog={isOfficialBlog} />
           <AppLocalesWrapper>
             {otherLangs.map((lang, index) => (
               <div

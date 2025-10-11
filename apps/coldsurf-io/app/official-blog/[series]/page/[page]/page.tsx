@@ -36,13 +36,13 @@ export default async function BlogArticleListByPage({
   return (
     <GlobalErrorBoundaryRegistry>
       <RouteLoading deps={[page]}>
-        <PageLayout>
+        <PageLayout isOfficialBlog>
           <SeriesListAll
             postItems={postItems}
             totalPage={totalPage}
             currentPage={Number(page)}
             seriesCategory={seriesCategoryValidation.data}
-            isOfficialBlog={false}
+            isOfficialBlog
           />
         </PageLayout>
       </RouteLoading>
