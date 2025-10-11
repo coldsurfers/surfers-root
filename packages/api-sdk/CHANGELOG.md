@@ -1,5 +1,11 @@
 # @coldsurfers/api-sdk
 
+## 1.1.0
+
+### Minor Changes
+
+- [#598](https://github.com/coldsurfers/surfers-root/pull/598) [`6a6e94c`](https://github.com/coldsurfers/surfers-root/commit/6a6e94c8051cecfbaa55eadce75ed4711bac6580) Thanks [@yungblud](https://github.com/yungblud)! - add partner domain
+
 ## 1.0.1
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @coldsurfers/native-auth
 
+## 1.0.4
+
+### Patch Changes
+
+- Updated dependencies [[`6a6e94c`](https://github.com/coldsurfers/surfers-root/commit/6a6e94c8051cecfbaa55eadce75ed4711bac6580)]:
+  - @coldsurfers/api-sdk@1.1.0
+
 ## 1.0.3
 
 ### Patch Changes

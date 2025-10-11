@@ -1,7 +1,7 @@
 {
   "name": "@coldsurfers/prisma-schema",
   "private": true,
-  "version": "0.5.3",
+  "version": "0.6.0",
   "repository": "https://github.com/coldsurfers/surfers-common",
   "license": "MIT",
   "author": "yungblud <killi8n@gmail.com>",
