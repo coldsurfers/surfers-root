@@ -1,5 +1,11 @@
 # @coldsurfers/coldsurf-io
 
+## 1.2.15
+
+### Patch Changes
+
+- [#600](https://github.com/coldsurfers/surfers-root/pull/600) [`a18767d`](https://github.com/coldsurfers/surfers-root/commit/a18767d5f8586e38cac0657f50a69c8eab290d93) Thanks [@yungblud](https://github.com/yungblud)! - Update api routes for official blog (pre-deploy)
+
 ## 1.2.14
 
 ### Patch Changes
