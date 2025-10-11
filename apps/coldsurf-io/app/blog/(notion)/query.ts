@@ -275,7 +275,13 @@ export const querySeries = cache(
     seriesCategory,
     lang,
     tag,
-  }: { seriesCategory: SeriesCategory; lang: AppLocale; tag?: string }) => {
+    isOfficialBlog,
+  }: {
+    seriesCategory: SeriesCategory;
+    lang: AppLocale;
+    tag?: string;
+    isOfficialBlog: boolean;
+  }) => {
     const filter: QueryDatabaseParameters['filter'] = {
       and: [
         {
@@ -306,6 +312,14 @@ export const querySeries = cache(
         },
       });
     }
+    if (isOfficialBlog) {
+      filter.and.push({
+        property: 'platform',
+        multi_select: {
+          contains: 'official-blog',
+        },
+      });
+    }
     const result = await notionInstance.databases.query({
       database_id: notionDatabaseIds.blog ?? '',
       sorts: [
@@ -316,7 +330,6 @@ export const querySeries = cache(
       ],
       filter,
     });
-
     return parseSeriesItems(result);
   }
 );

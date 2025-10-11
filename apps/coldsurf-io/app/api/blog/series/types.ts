@@ -6,5 +6,6 @@ export const FetchGetSeriesSearchParamsSchema = z.object({
   seriesCategory: SeriesCategorySchema,
   appLocale: AppLocaleSchema,
   tag: z.string().optional(),
+  isOfficialBlog: z.boolean().optional(),
 });
 export type FetchGetSeriesSearchParams = z.infer<typeof FetchGetSeriesSearchParamsSchema>;

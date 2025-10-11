@@ -8,6 +8,8 @@ export const ALL_SERIES_CATEGORIES: SeriesCategory[] = [
   'video',
 ];
 
+export const ALL_SERIES_CATEGORIES_WITH_OFFICIAL_BLOG: SeriesCategory[] = ['news'];
+
 export const PAGINATION_PER_LINE = 3;
 export const PAGINATION_PER_PAGE = 9;
 
