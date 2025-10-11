@@ -7,9 +7,11 @@ export const SeriesCategorySchema = z.union([
   z.literal('text'),
   z.literal('sound'),
   z.literal('tech'),
-  z.literal('news'),
 ]);
 export type SeriesCategory = z.infer<typeof SeriesCategorySchema>;
+
+export const OfficialBlogSeriesCategorySchema = z.union([z.literal('news')]);
+export type OfficialBlogSeriesCategory = z.infer<typeof OfficialBlogSeriesCategorySchema>;
 
 export const SeriesItemSchema = z.object({
   id: z.string(),
@@ -21,7 +23,7 @@ export const SeriesItemSchema = z.object({
   status: z.string(),
   writer: z.object({}), // PartialUserObjectResponse
   lang: AppLocaleSchema,
-  seriesCategory: SeriesCategorySchema,
+  seriesCategory: z.union([SeriesCategorySchema, OfficialBlogSeriesCategorySchema]),
   thumbnailUrl: z.string().nullable(),
 });
 export type SeriesItem = z.infer<typeof SeriesItemSchema>;

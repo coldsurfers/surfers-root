@@ -1,18 +1,20 @@
 import { match } from 'ts-pattern';
-import type { SeriesCategory } from '../(types)/series';
+import type { OfficialBlogSeriesCategory, SeriesCategory } from '../(types)/series';
 
 export const generateSeriesHref = ({
   seriesCategory,
   query,
+  isOfficialBlog,
 }: {
-  seriesCategory?: SeriesCategory;
+  seriesCategory?: SeriesCategory | OfficialBlogSeriesCategory;
   query?: { page: number };
+  isOfficialBlog?: boolean;
 }): string => {
   let url = '';
   if (!seriesCategory) {
-    url = '/blog';
+    url = isOfficialBlog ? '/official-blog' : '/blog';
   } else {
-    url = `/blog/${seriesCategory}`;
+    url = isOfficialBlog ? `/official-blog/${seriesCategory}` : `/blog/${seriesCategory}`;
   }
 
   if (query?.page) {
@@ -22,9 +24,15 @@ export const generateSeriesHref = ({
   return url;
 };
 
-export const generateSeriesItemHref = (seriesCategory: SeriesCategory, slug: string) => {
+export const generateSeriesItemHref = (
+  seriesCategory: SeriesCategory | OfficialBlogSeriesCategory,
+  slug: string,
+  isOfficialBlog?: boolean
+) => {
   return {
-    pathname: `/blog/${seriesCategory}/${slug}`,
+    pathname: isOfficialBlog
+      ? `/official-blog/${seriesCategory}/${slug}`
+      : `/blog/${seriesCategory}/${slug}`,
     params: {
       series: seriesCategory,
       slug,

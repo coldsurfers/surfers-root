@@ -1,4 +1,4 @@
-import type { SeriesCategory } from '../(types)/series';
+import type { OfficialBlogSeriesCategory, SeriesCategory } from '../(types)/series';
 
 export const ALL_SERIES_CATEGORIES: SeriesCategory[] = [
   'catholic',
@@ -8,7 +8,7 @@ export const ALL_SERIES_CATEGORIES: SeriesCategory[] = [
   'video',
 ];
 
-export const ALL_SERIES_CATEGORIES_WITH_OFFICIAL_BLOG: SeriesCategory[] = ['news'];
+export const ALL_SERIES_CATEGORIES_WITH_OFFICIAL_BLOG: OfficialBlogSeriesCategory[] = ['news'];
 
 export const PAGINATION_PER_LINE = 3;
 export const PAGINATION_PER_PAGE = 9;

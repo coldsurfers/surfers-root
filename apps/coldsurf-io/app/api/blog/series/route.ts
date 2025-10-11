@@ -15,11 +15,20 @@ export async function GET(request: NextRequest) {
   if (!searchParamsValidation.success) {
     return NextResponse.json({ error: 'search params is not valid' }, { status: 409 });
   }
+  if (searchParamsValidation.data.isOfficialBlog) {
+    const response = await querySeries({
+      seriesCategory: searchParamsValidation.data.seriesCategory,
+      lang: searchParamsValidation.data.appLocale,
+      tag: searchParamsValidation.data.tag,
+      isOfficialBlog: true,
+    });
+    return NextResponse.json(response, { status: 200 });
+  }
   const response = await querySeries({
     seriesCategory: searchParamsValidation.data.seriesCategory,
     lang: searchParamsValidation.data.appLocale,
     tag: searchParamsValidation.data.tag,
-    isOfficialBlog: Boolean(searchParamsValidation.data.isOfficialBlog),
+    isOfficialBlog: false,
   });
   return NextResponse.json(response, { status: 200 });
 }

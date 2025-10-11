@@ -12,7 +12,7 @@ import { TagList } from '../(components)/tag-list/tag-list';
 import type { fetchGetSeriesItem } from '../(fetchers)';
 import { queryKeyFactory } from '../(react-query)/react-query.key-factory';
 import type { AppLocale } from '../(types)/i18n';
-import type { SeriesCategory } from '../(types)/series';
+import type { OfficialBlogSeriesCategory, SeriesCategory } from '../(types)/series';
 import { NotionRenderer } from './notion-renderer';
 
 const APP_LOCALES_TO_DISPLAY_NAMES: Record<AppLocale, string> = {
@@ -130,18 +130,34 @@ export const LogDetailRenderer = ({
   slug,
   seriesCategory,
   initialData,
-}: {
-  slug: string;
-  seriesCategory: SeriesCategory;
-  initialData: Awaited<ReturnType<typeof fetchGetSeriesItem>>;
-}) => {
+  isOfficialBlog,
+}:
+  | {
+      isOfficialBlog: true;
+      slug: string;
+      seriesCategory: OfficialBlogSeriesCategory;
+      initialData: Awaited<ReturnType<typeof fetchGetSeriesItem>>;
+    }
+  | {
+      isOfficialBlog: false;
+      slug: string;
+      seriesCategory: SeriesCategory;
+      initialData: Awaited<ReturnType<typeof fetchGetSeriesItem>>;
+    }) => {
   const [locale, setLocale] = useState<AppLocale>('ko');
   const queryClient = useQueryClient();
   const { data } = useSuspenseQuery({
-    ...queryKeyFactory.series.item(slug, {
-      appLocale: locale,
-      seriesCategory,
-    }),
+    ...(isOfficialBlog
+      ? queryKeyFactory.series.item(slug, {
+          appLocale: locale,
+          seriesCategory,
+          isOfficialBlog: true,
+        })
+      : queryKeyFactory.series.item(slug, {
+          appLocale: locale,
+          seriesCategory,
+          isOfficialBlog: false,
+        })),
     initialData,
     initialDataUpdatedAt: Date.now(), // 중요: 바로 갓 받아온 것으로 표시
     staleTime: Number.POSITIVE_INFINITY, // 신선 → 리마운트시 refetch 안 함
@@ -207,10 +223,17 @@ export const LogDetailRenderer = ({
 
   const onClickOtherLang = useCallback(
     async (lang: AppLocale) => {
-      const { queryKey: nextKey, queryFn } = queryKeyFactory.series.item(slug, {
-        appLocale: lang,
-        seriesCategory,
-      });
+      const { queryKey: nextKey, queryFn } = isOfficialBlog
+        ? queryKeyFactory.series.item(slug, {
+            appLocale: lang,
+            seriesCategory,
+            isOfficialBlog: true,
+          })
+        : queryKeyFactory.series.item(slug, {
+            appLocale: lang,
+            seriesCategory,
+            isOfficialBlog: false,
+          });
 
       // 1) 캐시에 이미 데이터가 있는지 확인
       const hasCache = queryClient.getQueryData(nextKey) != null;
@@ -230,12 +253,12 @@ export const LogDetailRenderer = ({
       // 3) 언어 상태 변경 → 클라 컴포넌트 내부의 useSuspenseQuery가 nextKey로 읽음
       setLocale(lang);
     },
-    [queryClient, slug, seriesCategory]
+    [queryClient, slug, seriesCategory, isOfficialBlog]
   );
 
   return (
     <>
-      <PageLayout title={pageTitle?.at(0)?.plain_text}>
+      <PageLayout title={pageTitle?.at(0)?.plain_text} isOfficialBlog={isOfficialBlog}>
         <article style={{ marginTop: '2rem' }}>
           <TagList tags={tags} />
           <AppLocalesWrapper>

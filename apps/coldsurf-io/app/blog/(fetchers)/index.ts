@@ -71,9 +71,13 @@ export const fetchGetSeriesItem = async (
   slug: string,
   searchParams: FetchGetSeriesItemSearchParams
 ) => {
-  const { seriesCategory, appLocale } = searchParams;
+  const { seriesCategory, appLocale, isOfficialBlog } = searchParams;
 
-  const url = `${BASE_URL}/api/blog/series/${slug}?seriesCategory=${seriesCategory}&appLocale=${appLocale}`;
+  const urlSearchParams = new URLSearchParams();
+  urlSearchParams.set('seriesCategory', seriesCategory);
+  urlSearchParams.set('appLocale', appLocale);
+  urlSearchParams.set('isOfficialBlog', isOfficialBlog ? 'true' : 'false');
+  const url = `${BASE_URL}/api/blog/series/${slug}?${urlSearchParams.toString()}`;
   const response = await fetch(url, {
     method: 'GET',
   });
@@ -152,17 +156,23 @@ export const fetchGetTags = cache(async () => {
 
 export const fetchGetSeriesListAllStatic = cache(
   async ({ tag, isOfficialBlog }: { tag?: string; isOfficialBlog?: boolean }) => {
-    const categories = isOfficialBlog
-      ? ALL_SERIES_CATEGORIES_WITH_OFFICIAL_BLOG
-      : ALL_SERIES_CATEGORIES;
-    const promises = categories.map(async (seriesCategory) => {
-      return await fetchGetSeries({
-        seriesCategory,
-        appLocale: 'ko',
-        tag,
-        isOfficialBlog,
-      });
-    });
+    const promises = isOfficialBlog
+      ? ALL_SERIES_CATEGORIES_WITH_OFFICIAL_BLOG.map(async (seriesCategory) => {
+          return await fetchGetSeries({
+            seriesCategory,
+            appLocale: 'ko',
+            tag,
+            isOfficialBlog: true,
+          });
+        })
+      : ALL_SERIES_CATEGORIES.map(async (seriesCategory) => {
+          return await fetchGetSeries({
+            seriesCategory,
+            appLocale: 'ko',
+            tag,
+            isOfficialBlog: false,
+          });
+        });
     const response = await Promise.all(promises);
     const allPostItems = response
       .flatMap((value) => value.postItems)

@@ -9,7 +9,7 @@ import type {
 import { cache } from 'react';
 import { match } from 'ts-pattern';
 import type { AppLocale } from '../(types)/i18n';
-import type { SeriesCategory } from '../(types)/series';
+import type { OfficialBlogSeriesCategory, SeriesCategory } from '../(types)/series';
 import notionInstance, { notionDatabaseIds } from './notionInstance';
 
 export const queryProperties = (propertyName: 'tags') =>
@@ -276,12 +276,19 @@ export const querySeries = cache(
     lang,
     tag,
     isOfficialBlog,
-  }: {
-    seriesCategory: SeriesCategory;
-    lang: AppLocale;
-    tag?: string;
-    isOfficialBlog: boolean;
-  }) => {
+  }:
+    | {
+        isOfficialBlog: false;
+        seriesCategory: SeriesCategory;
+        lang: AppLocale;
+        tag?: string;
+      }
+    | {
+        isOfficialBlog: true;
+        seriesCategory: OfficialBlogSeriesCategory;
+        lang: AppLocale;
+        tag?: string;
+      }) => {
     const filter: QueryDatabaseParameters['filter'] = {
       and: [
         {
@@ -339,39 +346,61 @@ export const querySeriesItem = cache(
     slug,
     lang,
     seriesCategory,
-  }: { slug: string; lang: AppLocale; seriesCategory: SeriesCategory }) => {
+    isOfficialBlog,
+  }:
+    | {
+        slug: string;
+        lang: AppLocale;
+        seriesCategory: OfficialBlogSeriesCategory;
+        isOfficialBlog: true;
+      }
+    | {
+        isOfficialBlog: false;
+        seriesCategory: SeriesCategory;
+        lang: AppLocale;
+        slug: string;
+      }) => {
+    const filter: QueryDatabaseParameters['filter'] = {
+      and: [
+        {
+          property: 'Slug',
+          formula: {
+            string: {
+              equals: slug,
+            },
+          },
+        },
+        {
+          property: 'Status',
+          status: {
+            equals: 'Published',
+          },
+        },
+        {
+          property: 'SeriesCategory',
+          multi_select: {
+            contains: seriesCategory,
+          },
+        },
+        {
+          property: 'lang',
+          multi_select: {
+            contains: lang,
+          },
+        },
+      ],
+    };
+    if (isOfficialBlog) {
+      filter.and.push({
+        property: 'platform',
+        multi_select: {
+          contains: 'official-blog',
+        },
+      });
+    }
     const res = await notionInstance.databases.query({
       database_id: notionDatabaseIds.blog ?? '',
-      filter: {
-        and: [
-          {
-            property: 'Slug',
-            formula: {
-              string: {
-                equals: slug,
-              },
-            },
-          },
-          {
-            property: 'Status',
-            status: {
-              equals: 'Published',
-            },
-          },
-          {
-            property: 'SeriesCategory',
-            multi_select: {
-              contains: seriesCategory,
-            },
-          },
-          {
-            property: 'lang',
-            multi_select: {
-              contains: lang,
-            },
-          },
-        ],
-      },
+      filter,
     });
     if (res.results.length) {
       return res.results[0] as PageObjectResponse;
