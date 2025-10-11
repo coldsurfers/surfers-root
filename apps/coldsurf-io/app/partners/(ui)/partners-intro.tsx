@@ -1,7 +1,8 @@
 'use client';
 
 import { AnimatedText } from '@/shared/ui';
-import { Text, semantics } from '@coldsurfers/ocean-road';
+import { Text, media, semantics } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 const StyledWrapper = styled.div`
@@ -17,6 +18,10 @@ const AnimatedMessageText = styled(Text)`
   font-weight: 550;
   color: ${semantics.color.foreground[1]};
   margin: unset;
+
+  ${media.small(css`
+    font-size: 1.15rem;
+  `)};
 `;
 
 const AnimatedProfileText = styled(Text)`
@@ -25,6 +30,10 @@ const AnimatedProfileText = styled(Text)`
   color: ${semantics.color.foreground[3]};
   margin: unset;
   margin-top: 0.5rem;
+
+  ${media.small(css`
+    font-size: 1rem;
+  `)};
 `;
 
 const text =
@@ -36,11 +45,13 @@ export const PartnersIntro = () => {
       <AnimatedText
         text={text}
         renderComponent={(text) => <AnimatedMessageText as="p">{text}</AnimatedMessageText>}
+        alignCenter
       />
       <AnimatedText
         text={'from COLDSURF, Paul'}
         renderComponent={(text) => <AnimatedProfileText as="p">{text}</AnimatedProfileText>}
         delay={0.25}
+        alignCenter
       />
     </StyledWrapper>
   );

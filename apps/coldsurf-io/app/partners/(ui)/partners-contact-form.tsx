@@ -35,13 +35,16 @@ const StyledSelect = styled.select`
   padding-bottom: 0.5rem;
 
   font-size: 1.25rem;
-  color: ${semantics.color.foreground[1]};
 
-  appearance: none;
+  color: ${semantics.color.foreground[1]};
+  /* text-size-adjust: 100%; */
+  /* -webkit-text-size-adjust: 100%; iOS Safari 대응 */
+
+  /* appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   text-indent: 1px;
-  text-overflow: '';
+  text-overflow: ''; */
 
   &:invalid {
     color: ${semantics.color.foreground[4]};

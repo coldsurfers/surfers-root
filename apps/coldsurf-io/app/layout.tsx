@@ -62,6 +62,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
     <html lang="en" className={cookieTheme ? `${cookieTheme}` : ''}>
       <head>
         <meta name="naver-site-verification" content="9d79fd58f37f9330e72dddbb8ad64f08cbd6e11e" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
       </head>
       <body className={pretendard.className}>
         {/* do not use this theme control */}

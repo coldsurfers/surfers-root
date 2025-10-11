@@ -18,9 +18,11 @@ const StyledMotionText = styled(MotionText)`
   `)}
 `;
 
-const Line = styled.div`
+const Line = styled.div<{ $alignCenter?: boolean }>`
   display: flex;
   align-items: center;
+
+  justify-content: ${({ $alignCenter }) => ($alignCenter ? 'center' : 'unset')};
 
   flex-wrap: wrap;
 `;
@@ -65,11 +67,13 @@ export const AnimatedText = ({
   delay,
   renderComponent,
   preset = 'progressiveChars',
+  alignCenter = false,
 }: {
   text: string;
   delay?: number;
   renderComponent?: (text: string) => React.ReactNode;
   preset?: keyof ReturnType<typeof getPreset>;
+  alignCenter?: boolean;
 }) => {
   const textSplitByNewLine = text.split('\n');
   const isPresent = useIsPresent();
@@ -86,6 +90,7 @@ export const AnimatedText = ({
             // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
             lineIndex
           }`}
+          $alignCenter={alignCenter}
         >
           {splitWithEmoji(line).map((text, index) => {
             return (
