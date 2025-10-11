@@ -18,10 +18,15 @@ export const PostItem = memo((props: SeriesItem) => {
     () => generateSeriesHref({ seriesCategory: props.seriesCategory }),
     [props.seriesCategory]
   );
-  const postHref = useMemo(
-    () => generateSeriesItemHref(props.seriesCategory, props.slug),
-    [props.seriesCategory, props.slug]
-  );
+  const postHref = useMemo(() => {
+    if (props.seriesCategory) {
+      return generateSeriesItemHref(props.seriesCategory, props.slug, false);
+    }
+    if (props.officialBlogSeriesCategory) {
+      return generateSeriesItemHref(props.officialBlogSeriesCategory, props.slug, false);
+    }
+    return '#';
+  }, [props.seriesCategory, props.officialBlogSeriesCategory, props.slug]);
 
   return (
     <StyledPostItemContainer>
