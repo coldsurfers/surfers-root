@@ -23,6 +23,7 @@ export default async function BlogArticleListByPage({
             seriesCategory={null}
             totalPage={totalPage}
             currentPage={Number(page)}
+            isOfficialBlog={false}
           />
         </PageLayout>
       </RouteLoading>

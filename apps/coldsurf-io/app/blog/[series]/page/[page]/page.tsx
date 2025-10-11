@@ -42,6 +42,7 @@ export default async function BlogArticleListByPage({
             totalPage={totalPage}
             currentPage={Number(page)}
             seriesCategory={seriesCategoryValidation.data}
+            isOfficialBlog={false}
           />
         </PageLayout>
       </RouteLoading>
