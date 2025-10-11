@@ -4,7 +4,8 @@ import { queryTags } from 'app/blog/(notion)/query';
 import { TagPostList } from './(ui)';
 
 export async function generateStaticParams() {
-  const allTags = await queryTags();
+  const isOfficialBlog = false;
+  const allTags = await queryTags(isOfficialBlog)();
   const params = allTags.map((tag) => {
     return {
       tag: tag.name,
