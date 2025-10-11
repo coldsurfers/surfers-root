@@ -14,7 +14,7 @@ export const TagPostList = memo(({ tag, postItems, isOfficialBlog }: TagPostList
       <div style={{ marginTop: '6.5rem' }} />
       <PostListContainer>
         {postItems.map((post) => (
-          <PostItem key={post.id} {...post} />
+          <PostItem key={post.id} {...post} isOfficialBlog={isOfficialBlog} />
         ))}
       </PostListContainer>
     </PageLayout>

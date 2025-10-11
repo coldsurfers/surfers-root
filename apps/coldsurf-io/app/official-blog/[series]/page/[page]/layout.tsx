@@ -2,7 +2,6 @@ import { fetchGetSeries } from 'app/blog/(fetchers)';
 import { generateLogListMetadata } from 'app/blog/(metadata)';
 import { OfficialBlogSeriesCategorySchema } from 'app/blog/(types)/series';
 import { createBlogError } from 'app/blog/(utils)';
-import { redirect } from 'next/navigation';
 import type { Metadata } from 'next/types';
 import type { ReactNode } from 'react';
 import { match } from 'ts-pattern';
