@@ -1,7 +1,10 @@
 import { SITE_URL } from '@/libs/constants';
 import { connectDbClient, dbClient, disconnectDbClient } from '@/libs/db/db.client';
 import { cache } from 'react';
-import { ALL_SERIES_CATEGORIES } from './blog/(constants)';
+import {
+  ALL_SERIES_CATEGORIES,
+  ALL_SERIES_CATEGORIES_WITH_OFFICIAL_BLOG,
+} from './blog/(constants)';
 import { queryAllSeries, queryTags } from './blog/(notion)/query';
 
 const generateUrl = (subPath: string) => {
@@ -41,13 +44,14 @@ const findAllEventCategories = cache(async () => {
 const generateBlogSitemaps = cache(async () => {
   const allSeries = await queryAllSeries({
     lang: 'ko',
+    isOfficialBlog: true,
   });
   const allSeriesItemsValues = allSeries.map((value) => ({
     slug: value.slug,
-    seriesCategory: value.seriesCategory,
+    seriesCategory: value.officialBlogSeriesCategory,
     lastModified: value.lastEditedTime,
   }));
-  const isOfficialBlog = false;
+  const isOfficialBlog = true;
   const allTags = await queryTags(isOfficialBlog)();
   const allTagsByLocales = allTags.flatMap((tag) => {
     return {
@@ -56,9 +60,9 @@ const generateBlogSitemaps = cache(async () => {
     };
   });
 
-  const allSeriesEntry = ALL_SERIES_CATEGORIES.map((series) => {
+  const allSeriesEntry = ALL_SERIES_CATEGORIES_WITH_OFFICIAL_BLOG.map((series) => {
     return {
-      url: generateUrl(`/blog/${series}`),
+      url: generateUrl(`/official-blog/${series}`),
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
@@ -67,7 +71,7 @@ const generateBlogSitemaps = cache(async () => {
 
   const allSeriesItemsEntry = allSeriesItemsValues.map(({ slug, seriesCategory, lastModified }) => {
     return {
-      url: generateUrl(`/blog/${seriesCategory ?? ''}/${slug}`),
+      url: generateUrl(`/official-blog/${seriesCategory ?? ''}/${slug}`),
       lastModified,
       changeFrequency: 'weekly',
       priority: 0.8,
@@ -76,7 +80,7 @@ const generateBlogSitemaps = cache(async () => {
 
   const allTagsEntry = allTagsByLocales.map(({ tag }) => {
     return {
-      url: generateUrl(`/blog/tags/${tag}`),
+      url: generateUrl(`/official-blog/tags/${tag}`),
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
@@ -85,7 +89,7 @@ const generateBlogSitemaps = cache(async () => {
 
   return [
     {
-      url: generateUrl('/blog'),
+      url: generateUrl('/official-blog'),
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
@@ -93,7 +97,7 @@ const generateBlogSitemaps = cache(async () => {
     ...allSeriesEntry,
     ...allSeriesItemsEntry,
     {
-      url: generateUrl('/blog/tags'),
+      url: generateUrl('/official-blog/tags'),
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
