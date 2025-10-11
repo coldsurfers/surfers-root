@@ -65,10 +65,10 @@ const resume = createQueryKeys('resumes', {
 
 const tags = createQueryKeys('tags', {
   all: null,
-  list: {
-    queryKey: ['list'],
-    queryFn: () => fetchGetTags(),
-  },
+  list: (isOfficialBlog: boolean) => ({
+    queryKey: ['list', { isOfficialBlog }],
+    queryFn: () => fetchGetTags({ isOfficialBlog }),
+  }),
 });
 
 export const queryKeyFactory = mergeQueryKeys(users, resume, series, tags);

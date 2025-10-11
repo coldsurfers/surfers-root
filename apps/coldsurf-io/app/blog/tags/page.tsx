@@ -6,7 +6,7 @@ export const dynamic = 'force-static';
 export const revalidate = 3600;
 
 export default async function TagsPage() {
-  const data = await fetchGetTags();
+  const data = await fetchGetTags({ isOfficialBlog: false });
 
   return (
     <GlobalErrorBoundaryRegistry>

@@ -47,7 +47,8 @@ const generateBlogSitemaps = cache(async () => {
     seriesCategory: value.seriesCategory,
     lastModified: value.lastEditedTime,
   }));
-  const allTags = await queryTags();
+  const isOfficialBlog = false;
+  const allTags = await queryTags(isOfficialBlog)();
   const allTagsByLocales = allTags.flatMap((tag) => {
     return {
       tag: tag.name,
