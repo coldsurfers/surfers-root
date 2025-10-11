@@ -22,10 +22,19 @@ export const PostItem = memo((props: SeriesItem & { isOfficialBlog?: boolean }) 
       }),
     [props.seriesCategory, props.isOfficialBlog]
   );
-  const postHref = useMemo(
-    () => generateSeriesItemHref(props.seriesCategory, props.slug, props.isOfficialBlog),
-    [props.seriesCategory, props.slug, props.isOfficialBlog]
-  );
+  const postHref = useMemo(() => {
+    if (props.seriesCategory) {
+      return generateSeriesItemHref(props.seriesCategory, props.slug, props.isOfficialBlog);
+    }
+    if (props.officialBlogSeriesCategory) {
+      return generateSeriesItemHref(
+        props.officialBlogSeriesCategory,
+        props.slug,
+        props.isOfficialBlog
+      );
+    }
+    return '#';
+  }, [props.seriesCategory, props.officialBlogSeriesCategory, props.slug, props.isOfficialBlog]);
 
   return (
     <StyledPostItemContainer>
