@@ -1140,7 +1140,55 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['SendEmailResponseDTOSchema'];
+            'application/json': components['schemas']['SendPartnerContactFormResponseDTOSchema'];
+          };
+        };
+        /** @description Default Response */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['ErrorResponseDTOSchema'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/partner/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['PartnerContactFormDTOSchema'];
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SendPartnerContactFormResponseDTOSchema'];
           };
         };
         /** @description Default Response */
@@ -2777,6 +2825,20 @@ export interface components {
       name: string;
       uiName: string;
     };
+    PartnerContactFormDTOSchema: {
+      company?: string;
+      email: string;
+      facebookLink?: string;
+      id?: string;
+      instagramLink?: string;
+      message: string;
+      name: string;
+      phone?: string;
+      role: components['schemas']['PartnerContactFormRoleDTOSchema'];
+      twitterLink?: string;
+      websiteLink?: string;
+    };
+    PartnerContactFormRoleDTOSchema: 'venue-owner' | 'event-promoter' | 'artist' | 'other';
     PosterDetailDTOSchema: {
       copyright: components['schemas']['CopyrightDTOSchema'] | null;
       /** Format: uuid */
@@ -2809,6 +2871,9 @@ export interface components {
       email: string;
     };
     SendEmailResponseDTOSchema: {
+      success: boolean;
+    };
+    SendPartnerContactFormResponseDTOSchema: {
       success: boolean;
     };
     SendUserVoiceBodyDTOSchema: {

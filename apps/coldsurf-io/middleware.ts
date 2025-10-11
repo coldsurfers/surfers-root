@@ -15,7 +15,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/browse/seoul', request.url));
   }
 
-  // /event/[event-id] 패턴으로 올 경우 대비
+  // 레거시: /event/[event-id] 패턴으로 올 경우 대비
   // UUID 패턴만 매칭 (대소문자 허용)
   const legacyEventPagePathMatch = pathname.match(
     /^\/event\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/
@@ -34,7 +34,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/404', request.url));
   }
 
-  // /venue/[venue-id] 패턴으로 올 경우 대비
+  // 레거시: /venue/[venue-id] 패턴으로 올 경우 대비
   // UUID 패턴만 매칭 (대소문자 허용)
   const legacyVenuePagePathMatch = pathname.match(
     /^\/venue\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/
@@ -50,6 +50,18 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(newUrl, 301); // 301 (영구 리디렉션)
     }
     return NextResponse.redirect(new URL('/404', request.url));
+  }
+
+  // 레거시: /tattoo 패턴으로 올 경우 대비, 추후 타투 구좌가 생기면 풀면 됨
+  const legacyTattooPagePathMatch = pathname.startsWith('/tattoo');
+  if (legacyTattooPagePathMatch) {
+    return NextResponse.redirect(new URL('/partners', request.url));
+  }
+
+  // 레거시: /store/registration 패턴으로 올 경우 대비, 추후 입점 페이지가 생기면 풀면 됨
+  const legacyStoreRegistrationPagePathMatch = pathname.startsWith('/store/registration');
+  if (legacyStoreRegistrationPagePathMatch) {
+    return NextResponse.redirect(new URL('/partners', request.url));
   }
 
   // 로그인 페이지에 접근 했지만, 이미 로그인 된 경우 '/' 로 리다이렉트

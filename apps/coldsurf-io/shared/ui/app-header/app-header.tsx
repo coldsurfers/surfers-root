@@ -3,22 +3,29 @@
 import { useIsLoggedIn, useNotFoundContext } from '@/shared/lib';
 import { breakpoints } from '@coldsurfers/ocean-road';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { HEADER_MENU_ITEMS } from '../constants';
 import { AppHeaderLogo } from './app-header-logo';
 import { AppHeaderMobileMenuOpener, AppHeaderMobileModalMenu } from './app-header-mobile-menu';
 import { AppHeaderWebMenu } from './app-header-web-menu';
 import { HeaderContainer } from './app-header.styled';
 
-const blacklist = ['/about', '/store'] as const;
-
 export function AppHeader() {
   const pathname = usePathname();
-  const isBlacklisted = blacklist.some((blacklistedPath) => pathname.includes(blacklistedPath));
+  const isCurrentPathDefaultHeader = useMemo(() => {
+    const targetMenu = HEADER_MENU_ITEMS.find((item) => pathname.includes(item.link));
+    if (targetMenu) {
+      return targetMenu.isDefaultHeader;
+    }
+    return true;
+  }, [pathname]);
   const [animation, setAnimation] = useState<'show' | 'hide'>('show');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { isLoading: isLoadingUser } = useIsLoggedIn();
   const { isNotFound } = useNotFoundContext();
+
+  const isVisible = isCurrentPathDefaultHeader && !isNotFound;
 
   useEffect(() => {
     let lastScrollTop = 0;
@@ -48,7 +55,7 @@ export function AppHeader() {
     };
   }, []);
 
-  if (isBlacklisted || isNotFound) {
+  if (!isVisible) {
     return null;
   }
 

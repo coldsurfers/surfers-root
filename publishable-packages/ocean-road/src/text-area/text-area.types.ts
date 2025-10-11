@@ -7,4 +7,5 @@ export type TextAreaProps = DetailedHTMLProps<
   label?: string;
   labelStyle?: CSSProperties;
   noResize?: boolean;
+  isError?: boolean;
 };

@@ -1,13 +1,12 @@
 'use client';
 
 import { appSessionStorage } from '@/libs/utils';
+import { AnimatedForm } from '@/shared/ui/animated-form';
 import { Button, Text, TextInput, colors } from '@coldsurfers/ocean-road';
-import { tryParse } from '@coldsurfers/shared-utils';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { AnimatedForm } from './animated-form';
 import type { StoreRegistrationContactFormType } from './types';
 
 const StyledLabel = styled(Text)`

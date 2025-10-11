@@ -651,6 +651,19 @@ export const getApiClient = (baseFetchClient: FetchClient) => {
         return response.data;
       },
     },
+    partner: {
+      sendPartnerContactForm: async (
+        body: components['schemas']['PartnerContactFormDTOSchema']
+      ) => {
+        const response = await baseFetchClient.POST('/v1/partner/', {
+          body,
+        });
+        if (response.error) {
+          throw new OpenApiError(response.error);
+        }
+        return response.data;
+      },
+    },
   } as const;
   return apiClient;
 };

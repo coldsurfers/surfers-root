@@ -1,5 +1,5 @@
+import { captureException } from '@/libs/utils/utils.sentry';
 import { match } from 'ts-pattern';
-import { captureException } from './utils.sentry';
 
 type ThrowErrorParams = {
   type: 'invalid-series-category';

@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Text } from '../text/text';
 import { colors, semantics } from '../tokens';
 
 export const StyledTextInputContainer = styled.input<{ $isError: boolean }>`
@@ -15,8 +14,4 @@ export const StyledTextInputContainer = styled.input<{ $isError: boolean }>`
     outline: none;
     box-shadow: none;
   }
-`;
-
-export const StylesRequiredLabelMark = styled(Text)`
-  color: ${colors.oc.red[7].value};
 `;
