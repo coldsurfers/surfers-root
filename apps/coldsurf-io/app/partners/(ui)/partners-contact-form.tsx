@@ -88,6 +88,7 @@ type PartnersContactFormType = {
   instagram: string;
   twitter: string;
   facebook: string;
+  role: 'venue-owner' | 'event-promoter' | 'artist' | 'other';
 };
 
 export const PartnersContactForm = () => {
@@ -102,13 +103,20 @@ export const PartnersContactForm = () => {
   const router = useRouter();
 
   const onSubmit = (data: PartnersContactFormType) => {
-    router.push('/store/registration/user-voice');
+    console.log(data);
+    // router.push('/store/registration/user-voice');
   };
 
   return (
     <AnimatedForm onSubmit={handleSubmit(onSubmit)} title="같이 협업하고 싶으신가요?" delay={1.5}>
       {/* @ts-ignore */}
-      <StyledSelect as="select" required name="role" id="role">
+      <StyledSelect
+        required
+        {...register('role', {
+          required: true,
+        })}
+        defaultValue=""
+      >
         <option disabled selected value="">
           어떤 분이신가요?
         </option>
@@ -130,7 +138,7 @@ export const PartnersContactForm = () => {
       />
       {errors.name && (
         <Text as="p" style={{ color: colors.oc.red[7].value }}>
-          {errors.name.message}
+          {errors.name.message || '이름을 입력해주세요'}
         </Text>
       )}
       <StyledTextInput
