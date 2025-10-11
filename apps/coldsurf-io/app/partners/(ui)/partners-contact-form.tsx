@@ -1,8 +1,9 @@
 'use client';
 
-import type { apiClient } from '@/libs/openapi-client';
+import { apiClient } from '@/libs/openapi-client';
+import { captureException } from '@/libs/utils/utils.sentry';
 import { AnimatedForm } from '@/shared/ui/animated-form';
-import type { OpenApiError } from '@coldsurfers/api-sdk';
+import type { OpenApiError, components } from '@coldsurfers/api-sdk';
 import {
   Button,
   Spinner,
@@ -88,18 +89,7 @@ function formatPhone(value: string) {
   }
 }
 
-type PartnersContactFormType = {
-  name: string;
-  email: string;
-  company: string;
-  phone: string;
-  website: string;
-  message: string;
-  instagram: string;
-  twitter: string;
-  facebook: string;
-  role: 'venue-owner' | 'event-promoter' | 'artist' | 'other';
-};
+type PartnersContactFormType = components['schemas']['PartnerContactFormDTOSchema'];
 
 type Props = {
   onSuccess?: () => void;
@@ -116,22 +106,14 @@ export const PartnersContactForm = ({ onSuccess }: Props) => {
   });
 
   const { isPending, mutate: sendPartnersContactForm } = useMutation<
-    Awaited<ReturnType<typeof apiClient.mailer.sendUserVoice>>,
+    Awaited<ReturnType<typeof apiClient.partner.sendPartnerContactForm>>,
     OpenApiError,
-    Parameters<typeof apiClient.mailer.sendUserVoice>[0]
+    Parameters<typeof apiClient.partner.sendPartnerContactForm>[0]
   >({
-    mutationFn: () => {
-      // @TODO: implement new partners api
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            success: true,
-          });
-        }, 3000);
-      });
-    },
-    onSuccess: () => {
-      onSuccess?.();
+    mutationFn: (variables) => apiClient.partner.sendPartnerContactForm(variables),
+    onSuccess,
+    onError: (error) => {
+      captureException(error);
     },
   });
 
@@ -248,9 +230,9 @@ export const PartnersContactForm = ({ onSuccess }: Props) => {
         )}
         <StyledTextInput
           label="웹사이트"
-          {...register('website')}
-          id="website"
-          name="website"
+          {...register('websiteLink')}
+          id="websiteLink"
+          name="websiteLink"
           placeholder="보유하신 웹사이트가 있다면 알려주세요"
         />
         <StyledTextArea
@@ -272,23 +254,23 @@ export const PartnersContactForm = ({ onSuccess }: Props) => {
         )}
         <StyledTextInput
           label="인스타그램 프로필"
-          {...register('instagram')}
-          id="instagram"
-          name="instagram"
+          {...register('instagramLink')}
+          id="instagramLink"
+          name="instagramLink"
           placeholder="공유해주실 인스타그램 프로필이 있다면 알려주세요"
         />
         <StyledTextInput
           label="트위터 프로필"
-          {...register('twitter')}
-          id="twitter"
-          name="twitter"
+          {...register('twitterLink')}
+          id="twitterLink"
+          name="twitterLink"
           placeholder="공유해주실 트위터 프로필이 있다면 알려주세요"
         />
         <StyledTextInput
           label="페이스북 프로필"
-          {...register('facebook')}
-          id="facebook"
-          name="facebook"
+          {...register('facebookLink')}
+          id="facebookLink"
+          name="facebookLink"
           placeholder="공유해주실 페이스북 프로필이 있다면 알려주세요"
         />
         <StyledButton type="submit">제출하기</StyledButton>
