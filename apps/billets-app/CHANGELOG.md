@@ -1,5 +1,11 @@
 # @coldsurfers/billets-app
 
+## 2.5.0
+
+### Minor Changes
+
+- [#596](https://github.com/coldsurfers/surfers-root/pull/596) [`b5cab63`](https://github.com/coldsurfers/surfers-root/commit/b5cab6302e0e534c63ac81d36742befaf53cb66d) Thanks [@yungblud](https://github.com/yungblud)! - 공유하기 기능 추가
+
 ## 2.4.0
 
 ### Minor Changes
