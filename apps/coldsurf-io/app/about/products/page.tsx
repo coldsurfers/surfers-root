@@ -1,6 +1,8 @@
 import { COMMON_META_DESCRIPTION } from '@/libs/constants';
+import { featureFlags } from '@/shared/constants';
 import { SERVICE_NAME } from '@coldsurfers/shared-utils';
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { ProductCard, ProductCardBottomSheet } from './(components)';
 import { ProductCardListLayout, TopTitle } from './(ui)';
 
@@ -10,6 +12,9 @@ export const metadata: Metadata = {
 };
 
 export default function ProductsPage() {
+  if (!featureFlags.useProductsPageFeature) {
+    notFound();
+  }
   return (
     <>
       <TopTitle />
