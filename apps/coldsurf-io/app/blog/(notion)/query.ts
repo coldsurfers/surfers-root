@@ -9,29 +9,45 @@ import type {
 import { cache } from 'react';
 import { match } from 'ts-pattern';
 import type { AppLocale } from '../(types)/i18n';
-import type { SeriesCategory } from '../(types)/series';
+import type { OfficialBlogSeriesCategory, SeriesCategory } from '../(types)/series';
 import notionInstance, { notionDatabaseIds } from './notionInstance';
 
-export const queryProperties = (propertyName: 'tags') =>
+export const queryProperties = (propertyName: 'tags', isOfficialBlog?: boolean) =>
   cache(async () => {
+    const filter: QueryDatabaseParameters['filter'] = {
+      and: [
+        {
+          property: 'Status',
+          status: {
+            equals: 'Published',
+          },
+        },
+      ],
+    };
+    if (isOfficialBlog) {
+      filter.and.push({
+        property: 'platform',
+        multi_select: {
+          contains: 'official-blog',
+        },
+      });
+      filter.and.push({
+        property: 'OfficialBlogSeriesCategory',
+        multi_select: {
+          is_not_empty: true,
+        },
+      });
+    } else {
+      filter.and.push({
+        property: 'SeriesCategory',
+        multi_select: {
+          is_not_empty: true,
+        },
+      });
+    }
     const response = await notionInstance.databases.query({
       database_id: notionDatabaseIds.blog ?? '',
-      filter: {
-        and: [
-          {
-            property: 'Status',
-            status: {
-              equals: 'Published',
-            },
-          },
-          {
-            property: 'SeriesCategory',
-            multi_select: {
-              is_not_empty: true,
-            },
-          },
-        ],
-      },
+      filter,
     });
     return match(propertyName)
       .with('tags', () => {
@@ -233,49 +249,8 @@ function parseSeriesItems(result: QueryDatabaseResponse) {
   return seriesItems;
 }
 
-export const queryAllSeries = cache(async ({ lang }: { lang: AppLocale }) => {
-  const filter: QueryDatabaseParameters['filter'] = {
-    and: [
-      {
-        property: 'Status',
-        status: {
-          equals: 'Published',
-        },
-      },
-      {
-        property: 'SeriesCategory',
-        multi_select: {
-          is_not_empty: true,
-        },
-      },
-      {
-        property: 'lang',
-        multi_select: {
-          contains: lang,
-        },
-      },
-    ],
-  };
-
-  const result = await notionInstance.databases.query({
-    database_id: notionDatabaseIds.blog ?? '',
-    sorts: [
-      {
-        property: 'Publish date',
-        direction: 'descending',
-      },
-    ],
-    filter,
-  });
-  return parseSeriesItems(result);
-});
-
-export const querySeries = cache(
-  async ({
-    seriesCategory,
-    lang,
-    tag,
-  }: { seriesCategory: SeriesCategory; lang: AppLocale; tag?: string }) => {
+export const queryAllSeries = cache(
+  async ({ lang, isOfficialBlog }: { lang: AppLocale; isOfficialBlog?: boolean }) => {
     const filter: QueryDatabaseParameters['filter'] = {
       and: [
         {
@@ -285,9 +260,75 @@ export const querySeries = cache(
           },
         },
         {
-          property: 'SeriesCategory',
+          property: 'lang',
           multi_select: {
-            contains: seriesCategory,
+            contains: lang,
+          },
+        },
+      ],
+    };
+
+    if (isOfficialBlog) {
+      filter.and.push({
+        property: 'platform',
+        multi_select: {
+          contains: 'official-blog',
+        },
+      });
+      filter.and.push({
+        property: 'OfficialBlogSeriesCategory',
+        multi_select: {
+          is_not_empty: true,
+        },
+      });
+    } else {
+      filter.and.push({
+        property: 'SeriesCategory',
+        multi_select: {
+          is_not_empty: true,
+        },
+      });
+    }
+
+    const result = await notionInstance.databases.query({
+      database_id: notionDatabaseIds.blog ?? '',
+      sorts: [
+        {
+          property: 'Publish date',
+          direction: 'descending',
+        },
+      ],
+      filter,
+    });
+    return parseSeriesItems(result);
+  }
+);
+
+export const querySeries = cache(
+  async ({
+    seriesCategory,
+    lang,
+    tag,
+    isOfficialBlog,
+  }:
+    | {
+        isOfficialBlog: false;
+        seriesCategory: SeriesCategory;
+        lang: AppLocale;
+        tag?: string;
+      }
+    | {
+        isOfficialBlog: true;
+        seriesCategory: OfficialBlogSeriesCategory;
+        lang: AppLocale;
+        tag?: string;
+      }) => {
+    const filter: QueryDatabaseParameters['filter'] = {
+      and: [
+        {
+          property: 'Status',
+          status: {
+            equals: 'Published',
           },
         },
         {
@@ -306,6 +347,27 @@ export const querySeries = cache(
         },
       });
     }
+    if (isOfficialBlog) {
+      filter.and.push({
+        property: 'platform',
+        multi_select: {
+          contains: 'official-blog',
+        },
+      });
+      filter.and.push({
+        property: 'OfficialBlogSeriesCategory',
+        multi_select: {
+          contains: seriesCategory,
+        },
+      });
+    } else {
+      filter.and.push({
+        property: 'SeriesCategory',
+        multi_select: {
+          contains: seriesCategory,
+        },
+      });
+    }
     const result = await notionInstance.databases.query({
       database_id: notionDatabaseIds.blog ?? '',
       sorts: [
@@ -316,7 +378,6 @@ export const querySeries = cache(
       ],
       filter,
     });
-
     return parseSeriesItems(result);
   }
 );
@@ -326,39 +387,68 @@ export const querySeriesItem = cache(
     slug,
     lang,
     seriesCategory,
-  }: { slug: string; lang: AppLocale; seriesCategory: SeriesCategory }) => {
+    isOfficialBlog,
+  }:
+    | {
+        slug: string;
+        lang: AppLocale;
+        seriesCategory: OfficialBlogSeriesCategory;
+        isOfficialBlog: true;
+      }
+    | {
+        isOfficialBlog: false;
+        seriesCategory: SeriesCategory;
+        lang: AppLocale;
+        slug: string;
+      }) => {
+    const filter: QueryDatabaseParameters['filter'] = {
+      and: [
+        {
+          property: 'Slug',
+          formula: {
+            string: {
+              equals: slug,
+            },
+          },
+        },
+        {
+          property: 'Status',
+          status: {
+            equals: 'Published',
+          },
+        },
+        {
+          property: 'lang',
+          multi_select: {
+            contains: lang,
+          },
+        },
+      ],
+    };
+    if (isOfficialBlog) {
+      filter.and.push({
+        property: 'platform',
+        multi_select: {
+          contains: 'official-blog',
+        },
+      });
+      filter.and.push({
+        property: 'OfficialBlogSeriesCategory',
+        multi_select: {
+          contains: seriesCategory,
+        },
+      });
+    } else {
+      filter.and.push({
+        property: 'SeriesCategory',
+        multi_select: {
+          contains: seriesCategory,
+        },
+      });
+    }
     const res = await notionInstance.databases.query({
       database_id: notionDatabaseIds.blog ?? '',
-      filter: {
-        and: [
-          {
-            property: 'Slug',
-            formula: {
-              string: {
-                equals: slug,
-              },
-            },
-          },
-          {
-            property: 'Status',
-            status: {
-              equals: 'Published',
-            },
-          },
-          {
-            property: 'SeriesCategory',
-            multi_select: {
-              contains: seriesCategory,
-            },
-          },
-          {
-            property: 'lang',
-            multi_select: {
-              contains: lang,
-            },
-          },
-        ],
-      },
+      filter,
     });
     if (res.results.length) {
       return res.results[0] as PageObjectResponse;
@@ -367,4 +457,4 @@ export const querySeriesItem = cache(
   }
 );
 
-export const queryTags = queryProperties('tags');
+export const queryTags = queryProperties('tags', false);

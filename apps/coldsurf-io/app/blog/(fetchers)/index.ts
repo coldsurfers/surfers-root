@@ -6,7 +6,12 @@ import type { FetchGetSeriesItemSearchParams } from 'app/api/blog/series/[slug]/
 import type { FetchGetSeriesSearchParams } from 'app/api/blog/series/types';
 import type { ExtendedRecordMap } from 'notion-types';
 import { cache } from 'react';
-import { ALL_SERIES_CATEGORIES, PAGINATION_PER_PAGE, TEMP_FIXED_APP_LOCALE } from '../(constants)';
+import {
+  ALL_SERIES_CATEGORIES,
+  ALL_SERIES_CATEGORIES_WITH_OFFICIAL_BLOG,
+  PAGINATION_PER_PAGE,
+  TEMP_FIXED_APP_LOCALE,
+} from '../(constants)';
 import type { AppLocale } from '../(types)/i18n';
 import { type SeriesItem, SeriesItemSchema } from '../(types)/series';
 
@@ -21,11 +26,18 @@ export const fetchGetSeries = cache(
     totalPage: number;
   }> => {
     try {
-      const { seriesCategory, tag } = params;
-      let url = `${BASE_URL}/api/blog/series?seriesCategory=${seriesCategory}&appLocale=${TEMP_FIXED_APP_LOCALE}`;
+      const { seriesCategory, tag, isOfficialBlog } = params;
+      const searchParams = new URLSearchParams();
+      searchParams.set('seriesCategory', seriesCategory);
+      searchParams.set('appLocale', TEMP_FIXED_APP_LOCALE);
       if (tag) {
-        url += `&tag=${tag}`;
+        searchParams.set('tag', tag);
       }
+      if (isOfficialBlog) {
+        searchParams.set('isOfficialBlog', 'true');
+      }
+      const url = `${BASE_URL}/api/blog/series?${searchParams.toString()}`;
+
       const response = await fetch(url, {
         method: 'GET',
       });
@@ -59,9 +71,13 @@ export const fetchGetSeriesItem = async (
   slug: string,
   searchParams: FetchGetSeriesItemSearchParams
 ) => {
-  const { seriesCategory, appLocale } = searchParams;
+  const { seriesCategory, appLocale, isOfficialBlog } = searchParams;
 
-  const url = `${BASE_URL}/api/blog/series/${slug}?seriesCategory=${seriesCategory}&appLocale=${appLocale}`;
+  const urlSearchParams = new URLSearchParams();
+  urlSearchParams.set('seriesCategory', seriesCategory);
+  urlSearchParams.set('appLocale', appLocale);
+  urlSearchParams.set('isOfficialBlog', isOfficialBlog ? 'true' : 'false');
+  const url = `${BASE_URL}/api/blog/series/${slug}?${urlSearchParams.toString()}`;
   const response = await fetch(url, {
     method: 'GET',
   });
@@ -138,21 +154,33 @@ export const fetchGetTags = cache(async () => {
   return json;
 });
 
-export const fetchGetSeriesListAllStatic = cache(async ({ tag }: { tag?: string }) => {
-  const promises = ALL_SERIES_CATEGORIES.map(async (seriesCategory) => {
-    return await fetchGetSeries({
-      seriesCategory,
-      appLocale: 'ko',
-      tag,
-    });
-  });
-  const response = await Promise.all(promises);
-  const allPostItems = response
-    .flatMap((value) => value.postItems)
-    .filter((value) => value !== null)
-    .sort((a, b) => new Date(b.createdTime).getTime() - new Date(a.createdTime).getTime());
-  return {
-    allPostItems,
-    totalPage: Math.ceil(allPostItems.length / PAGINATION_PER_PAGE),
-  };
-});
+export const fetchGetSeriesListAllStatic = cache(
+  async ({ tag, isOfficialBlog }: { tag?: string; isOfficialBlog?: boolean }) => {
+    const promises = isOfficialBlog
+      ? ALL_SERIES_CATEGORIES_WITH_OFFICIAL_BLOG.map(async (seriesCategory) => {
+          return await fetchGetSeries({
+            seriesCategory,
+            appLocale: 'ko',
+            tag,
+            isOfficialBlog: true,
+          });
+        })
+      : ALL_SERIES_CATEGORIES.map(async (seriesCategory) => {
+          return await fetchGetSeries({
+            seriesCategory,
+            appLocale: 'ko',
+            tag,
+            isOfficialBlog: false,
+          });
+        });
+    const response = await Promise.all(promises);
+    const allPostItems = response
+      .flatMap((value) => value.postItems)
+      .filter((value) => value !== null)
+      .sort((a, b) => new Date(b.createdTime).getTime() - new Date(a.createdTime).getTime());
+    return {
+      allPostItems,
+      totalPage: Math.ceil(allPostItems.length / PAGINATION_PER_PAGE),
+    };
+  }
+);

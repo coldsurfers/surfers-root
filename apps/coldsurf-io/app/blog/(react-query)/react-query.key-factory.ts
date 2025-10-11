@@ -1,7 +1,7 @@
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
 import type { FetchGetSeriesItemSearchParams } from 'app/api/blog/series/[slug]/types';
 import type { FetchGetSeriesSearchParams } from 'app/api/blog/series/types';
-import { ALL_SERIES_CATEGORIES } from '../(constants)';
+import { ALL_SERIES_CATEGORIES, ALL_SERIES_CATEGORIES_WITH_OFFICIAL_BLOG } from '../(constants)';
 import {
   fetchGetResume,
   fetchGetSeries,
@@ -13,16 +13,26 @@ import type { AppLocale } from '../(types)/i18n';
 
 const series = createQueryKeys('series', {
   all: ['series'],
-  listAll: (appLocale: AppLocale, tag?: string) => ({
+  listAll: (appLocale: AppLocale, tag?: string, isOfficialBlog?: boolean) => ({
     queryKey: ['series', 'listAll', { appLocale, tag }],
     queryFn: async () => {
-      const promises = ALL_SERIES_CATEGORIES.map(async (seriesCategory) => {
-        return await fetchGetSeries({
-          seriesCategory,
-          appLocale,
-          tag,
-        });
-      });
+      const promises = isOfficialBlog
+        ? ALL_SERIES_CATEGORIES_WITH_OFFICIAL_BLOG.map(async (seriesCategory) => {
+            return await fetchGetSeries({
+              seriesCategory,
+              appLocale,
+              tag,
+              isOfficialBlog: true,
+            });
+          })
+        : ALL_SERIES_CATEGORIES.map(async (seriesCategory) => {
+            return await fetchGetSeries({
+              seriesCategory,
+              appLocale,
+              tag,
+              isOfficialBlog: false,
+            });
+          });
       const response = await Promise.all(promises);
       return response;
     },

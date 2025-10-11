@@ -41,6 +41,7 @@ export async function generateMetadata(props: {
     slug: params.slug,
     lang: TEMP_FIXED_APP_LOCALE,
     seriesCategory: seriesCategoryValidation.data,
+    isOfficialBlog: false,
   });
   return generateLogDetailMetadata(page, {
     slug: params.slug,

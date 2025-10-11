@@ -13,6 +13,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   const seriesCategoryParam = searchParams.get('seriesCategory');
   const appLocaleParam = searchParams.get('appLocale');
   const searchParamsValidation = FetchGetSeriesItemSearchParamsSchema.safeParse({
+    isOfficialBlog: searchParams.get('isOfficialBlog') === 'true',
     seriesCategory: seriesCategoryParam,
     appLocale: appLocaleParam,
   });
@@ -20,11 +21,19 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     return NextResponse.json({ error: 'search params is strange' }, { status: 409 });
   }
   const slug = (await params).slug;
-  const page = await querySeriesItem({
-    slug,
-    lang: searchParamsValidation.data.appLocale,
-    seriesCategory: searchParamsValidation.data.seriesCategory,
-  });
+  const page = searchParamsValidation.data.isOfficialBlog
+    ? await querySeriesItem({
+        slug,
+        lang: searchParamsValidation.data.appLocale,
+        seriesCategory: searchParamsValidation.data.seriesCategory,
+        isOfficialBlog: true,
+      })
+    : await querySeriesItem({
+        slug,
+        lang: searchParamsValidation.data.appLocale,
+        seriesCategory: searchParamsValidation.data.seriesCategory,
+        isOfficialBlog: false,
+      });
   if (!page) {
     return NextResponse.json({ message: 'page not found' }, { status: 404 });
   }
