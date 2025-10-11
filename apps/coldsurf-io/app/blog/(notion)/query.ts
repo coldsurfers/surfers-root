@@ -227,6 +227,14 @@ function parseSeriesItems(result: QueryDatabaseResponse) {
       }
       return _seriesCategory.multi_select.at(0)?.name;
     })();
+    const officialBlogSeriesCategory = (() => {
+      const _post = post as PageObjectResponse;
+      const _officialBlogSeriesCategory = _post.properties.OfficialBlogSeriesCategory;
+      if (_officialBlogSeriesCategory.type !== 'multi_select') {
+        return null;
+      }
+      return _officialBlogSeriesCategory.multi_select.at(0)?.name;
+    })();
     return {
       id: post.id,
       createdTime,
@@ -242,6 +250,7 @@ function parseSeriesItems(result: QueryDatabaseResponse) {
       writer,
       lang,
       seriesCategory,
+      officialBlogSeriesCategory,
       thumbnailUrl,
     };
   });
