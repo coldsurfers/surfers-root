@@ -46,6 +46,9 @@ export function AppFooter() {
           <FooterText as="p">Products</FooterText>
         </GlobalLink>
       )}
+      <GlobalLink href="/blog">
+        <FooterText as="p">주인장의 소회</FooterText>
+      </GlobalLink>
     </Container>
   );
 }
