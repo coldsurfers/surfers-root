@@ -26,6 +26,12 @@ export const queryProperties = (propertyName: 'tags', isOfficialBlog?: boolean) 
     };
     if (isOfficialBlog) {
       filter.and.push({
+        property: 'platform',
+        multi_select: {
+          contains: 'official-blog',
+        },
+      });
+      filter.and.push({
         property: 'OfficialBlogSeriesCategory',
         multi_select: {
           is_not_empty: true,
@@ -263,6 +269,12 @@ export const queryAllSeries = cache(
     };
 
     if (isOfficialBlog) {
+      filter.and.push({
+        property: 'platform',
+        multi_select: {
+          contains: 'official-blog',
+        },
+      });
       filter.and.push({
         property: 'OfficialBlogSeriesCategory',
         multi_select: {
