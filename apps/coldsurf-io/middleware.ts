@@ -53,13 +53,13 @@ export function middleware(request: NextRequest) {
   }
 
   // 레거시: /tattoo 패턴으로 올 경우 대비, 추후 타투 구좌가 생기면 풀면 됨
-  const legacyTattooPagePathMatch = pathname.match(/^\/tattoo$/);
+  const legacyTattooPagePathMatch = pathname.startsWith('/tattoo');
   if (legacyTattooPagePathMatch) {
     return NextResponse.redirect(new URL('/partners', request.url));
   }
 
   // 레거시: /store/registration 패턴으로 올 경우 대비, 추후 입점 페이지가 생기면 풀면 됨
-  const legacyStoreRegistrationPagePathMatch = pathname.match(/^\/store\/registration$/);
+  const legacyStoreRegistrationPagePathMatch = pathname.startsWith('/store/registration');
   if (legacyStoreRegistrationPagePathMatch) {
     return NextResponse.redirect(new URL('/partners', request.url));
   }
