@@ -36,6 +36,7 @@ export default async function SeriesSlugPage(props: {
   const initialData = await getSeriesItemStatic(params.slug, {
     seriesCategory: seriesCategoryValidation.data,
     appLocale: 'ko',
+    isOfficialBlog: false,
   });
 
   return (
@@ -45,6 +46,7 @@ export default async function SeriesSlugPage(props: {
           slug={params.slug}
           seriesCategory={seriesCategoryValidation.data}
           initialData={initialData}
+          isOfficialBlog={false}
         />
       </Suspense>
     </GlobalErrorBoundaryRegistry>

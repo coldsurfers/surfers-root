@@ -32,6 +32,7 @@ export async function generateStaticParams({
     appLocale: 'ko',
     seriesCategory,
     tag: undefined,
+    isOfficialBlog: false,
   });
   return Array.from({ length: totalPage }, (_, index) => ({
     page: `${index + 1}`,

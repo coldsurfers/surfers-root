@@ -28,6 +28,7 @@ export default async function SeriesPage(props: {
     appLocale: 'ko',
     seriesCategory,
     tag: undefined,
+    isOfficialBlog: false,
   });
 
   return (

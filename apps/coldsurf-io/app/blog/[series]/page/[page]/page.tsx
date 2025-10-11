@@ -31,6 +31,7 @@ export default async function BlogArticleListByPage({
     appLocale: 'ko',
     seriesCategory: seriesCategoryValidation.data,
     tag: undefined,
+    isOfficialBlog: false,
   });
   return (
     <GlobalErrorBoundaryRegistry>
