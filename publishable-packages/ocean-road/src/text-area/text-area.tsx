@@ -4,7 +4,7 @@ import { StyledTextAreaContainer } from './text-area.styled';
 import type { TextAreaProps } from './text-area.types';
 
 export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ label, labelStyle, noResize = true, required, ...props }, ref) => {
+  ({ label, labelStyle, noResize = true, isError, required, ...props }, ref) => {
     return (
       <>
         {label && (
@@ -15,6 +15,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         <StyledTextAreaContainer
           ref={ref}
           {...props}
+          $isError={!!isError}
           style={{
             ...props.style,
             resize: noResize ? 'none' : 'vertical',
