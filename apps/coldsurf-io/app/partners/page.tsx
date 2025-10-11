@@ -1,3 +1,7 @@
+import { PartnersContactForm, PartnersIntro, PartnersPageLayout } from './(ui)';
+
 export default function PartnersPage() {
-  return <div>PartnersPage</div>;
+  return (
+    <PartnersPageLayout leftContent={<PartnersIntro />} rightContent={<PartnersContactForm />} />
+  );
 }
