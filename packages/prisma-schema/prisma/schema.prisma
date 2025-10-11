@@ -5,9 +5,9 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  directUrl         = env("DIRECT_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
@@ -360,5 +360,20 @@ model search_synonyms {
   term     String   @id
   synonyms String[]
 
-  @@ignore   // Prisma Client에서 완전히 무시
+  @@ignore // Prisma Client에서 완전히 무시
+}
+
+model PartnerContactForm {
+  id            String   @id @default(uuid())
+  name          String
+  email         String
+  company       String?
+  phone         String?
+  websiteLink   String?
+  message       String
+  instagramLink String?
+  twitterLink   String?
+  facebookLink  String?
+  createdAt     DateTime @default(now())
+  role          String
 }
