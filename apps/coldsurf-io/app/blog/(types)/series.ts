@@ -23,7 +23,8 @@ export const SeriesItemSchema = z.object({
   status: z.string(),
   writer: z.object({}), // PartialUserObjectResponse
   lang: AppLocaleSchema,
-  seriesCategory: z.union([SeriesCategorySchema, OfficialBlogSeriesCategorySchema]),
+  seriesCategory: SeriesCategorySchema.optional(),
+  officialBlogSeriesCategory: OfficialBlogSeriesCategorySchema.optional(),
   thumbnailUrl: z.string().nullable(),
 });
 export type SeriesItem = z.infer<typeof SeriesItemSchema>;
