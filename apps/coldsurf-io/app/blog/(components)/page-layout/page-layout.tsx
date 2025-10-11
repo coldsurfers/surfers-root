@@ -9,19 +9,23 @@ import { BigTitle, BigTitleWrapper, StyledPageLayoutContainer } from './page-lay
 export const PageLayout = ({
   children,
   title,
+  isOfficialBlog,
 }: PropsWithChildren<{
   title?: string;
+  isOfficialBlog?: boolean;
 }>) => {
   const pathname = usePathname();
   return (
     <StyledPageLayoutContainer>
       <BigTitleWrapper>
-        <Link href="/blog" style={{ width: 'auto' }}>
-          <BigTitle as="h1">{title ?? 'The COLDSURF Blog'}</BigTitle>
+        <Link href={isOfficialBlog ? '/official-blog' : '/blog'} style={{ width: 'auto' }}>
+          <BigTitle as="h1">
+            {title ?? (isOfficialBlog ? 'COLDSURF BLOG' : '주인장의 소회')}
+          </BigTitle>
         </Link>
       </BigTitleWrapper>
       {process.env.NODE_ENV === 'development' && pathname === '/blog/about/paul' ? null : (
-        <Header />
+        <Header isOfficialBlog={isOfficialBlog} />
       )}
       {children}
     </StyledPageLayoutContainer>

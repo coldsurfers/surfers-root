@@ -4,17 +4,22 @@ import { StyledSectionTagList } from './tag-list.styled';
 
 export const TagList = ({
   tags,
+  isOfficialBlog,
 }: {
   tags: {
     id: string;
     name: string;
     color: string;
   }[];
+  isOfficialBlog?: boolean;
 }) => {
   return (
     <StyledSectionTagList>
       {tags.map((tag) => (
-        <Link key={tag.name} href={`/blog/tags/${tag.name}`}>
+        <Link
+          key={tag.name}
+          href={`/${isOfficialBlog ? 'official-blog' : 'blog'}/tags/${tag.name}`}
+        >
           <TagItem {...tag} />
         </Link>
       ))}

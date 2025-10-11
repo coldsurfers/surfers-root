@@ -5,7 +5,7 @@ import type {
   UserObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints';
 import type { Metadata } from 'next/types';
-import type { SeriesCategory } from '../(types)/series';
+import type { OfficialBlogSeriesCategory, SeriesCategory } from '../(types)/series';
 
 export const metadataInstance = new NextMetadataGenerator({
   baseData: {
@@ -39,7 +39,7 @@ export const generateLogDetailMetadata = (
   options: {
     // locale: (typeof routing.locales)[number]
     slug: string;
-    seriesCategory: SeriesCategory;
+    seriesCategory: SeriesCategory | OfficialBlogSeriesCategory;
   }
 ) => {
   if (!page) {
@@ -144,7 +144,7 @@ export const generateLogListMetadata = ({
 }: {
   title: string;
   description: string;
-  seriesCategory?: SeriesCategory;
+  seriesCategory?: SeriesCategory | OfficialBlogSeriesCategory;
 }) => {
   const metaTitle = title;
   const metaDescription = description;

@@ -29,5 +29,5 @@ export function generateMetadata(): Metadata {
 }
 
 export default function OfficialBlogLayout({ children }: { children: ReactNode }) {
-  return <div>{children}</div>;
+  return children;
 }

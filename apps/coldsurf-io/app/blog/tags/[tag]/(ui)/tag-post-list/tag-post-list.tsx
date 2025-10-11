@@ -6,15 +6,15 @@ import { PostListContainer } from 'app/blog/(components)/post-list-container';
 import type { SeriesItem } from 'app/blog/(types)/series';
 import { memo } from 'react';
 
-type TagPostListProps = { tag: string; postItems: SeriesItem[] };
+type TagPostListProps = { tag: string; postItems: SeriesItem[]; isOfficialBlog?: boolean };
 
-export const TagPostList = memo(({ tag, postItems }: TagPostListProps) => {
+export const TagPostList = memo(({ tag, postItems, isOfficialBlog }: TagPostListProps) => {
   return (
-    <PageLayout title={`#${tag}`}>
+    <PageLayout title={`#${tag}`} isOfficialBlog={isOfficialBlog}>
       <div style={{ marginTop: '6.5rem' }} />
       <PostListContainer>
         {postItems.map((post) => (
-          <PostItem key={post.id} {...post} />
+          <PostItem key={post.id} {...post} isOfficialBlog={isOfficialBlog} />
         ))}
       </PostListContainer>
     </PageLayout>

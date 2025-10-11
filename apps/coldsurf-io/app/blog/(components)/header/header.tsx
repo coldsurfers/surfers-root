@@ -21,7 +21,11 @@ const HeaderBadge = memo(
   }
 );
 
-export const Header = () => {
+type Props = {
+  isOfficialBlog?: boolean;
+};
+
+export const Header = ({ isOfficialBlog }: Props) => {
   const pathname = usePathname();
   const params = useParams();
   const seriesParam = useMemo(() => {
@@ -35,6 +39,9 @@ export const Header = () => {
       isActive: boolean;
     }[]
   >(() => {
+    if (isOfficialBlog) {
+      return [{ href: '/official-blog/news', title: 'NEWS', isActive: seriesParam === 'news' }];
+    }
     return [
       {
         href: '/blog/catholic',
@@ -67,7 +74,7 @@ export const Header = () => {
         isActive: pathname.startsWith('/about'),
       },
     ];
-  }, [pathname, seriesParam]);
+  }, [pathname, seriesParam, isOfficialBlog]);
 
   return (
     <StyledHeaderBigContainer>

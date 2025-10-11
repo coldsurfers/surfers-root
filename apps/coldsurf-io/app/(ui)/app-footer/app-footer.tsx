@@ -1,5 +1,6 @@
 'use client';
 
+import { featureFlags } from '@/shared/constants';
 import { GlobalLink } from '@/shared/ui/global-link/global-link';
 import { Text, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
@@ -40,8 +41,13 @@ export function AppFooter() {
       <GlobalLink href="/terms-of-service">
         <FooterText as="p">Terms of Service</FooterText>
       </GlobalLink>
-      <GlobalLink href="/about/products">
-        <FooterText as="p">Products</FooterText>
+      {featureFlags.useProductsPageFeature && (
+        <GlobalLink href="/about/products">
+          <FooterText as="p">Products</FooterText>
+        </GlobalLink>
+      )}
+      <GlobalLink href="/blog">
+        <FooterText as="p">주인장의 소회</FooterText>
       </GlobalLink>
     </Container>
   );

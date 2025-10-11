@@ -1,10 +1,10 @@
 import { GlobalErrorBoundaryRegistry } from '@/libs/registries';
 import { RouteLoading } from 'app/(ui)/route-loading';
+import { PageLayout } from 'app/blog/(components)/page-layout';
+import { SeriesListAll } from 'app/blog/(components)/series-list-all';
 import { fetchGetSeries } from 'app/blog/(fetchers)';
-import { SeriesCategorySchema } from 'app/blog/(types)/series';
+import { OfficialBlogSeriesCategorySchema } from 'app/blog/(types)/series';
 import { createBlogError } from 'app/blog/(utils)';
-import { PageLayout } from '../../../(components)/page-layout';
-import { SeriesListAll } from '../../../(components)/series-list-all';
 
 export default async function BlogArticleListByPage({
   params,
@@ -15,7 +15,7 @@ export default async function BlogArticleListByPage({
   }>;
 }) {
   const { page, series } = await params;
-  const seriesCategoryValidation = SeriesCategorySchema.safeParse(series);
+  const seriesCategoryValidation = OfficialBlogSeriesCategorySchema.safeParse(series);
   if (!seriesCategoryValidation.success) {
     throw createBlogError(
       {
@@ -31,18 +31,18 @@ export default async function BlogArticleListByPage({
     appLocale: 'ko',
     seriesCategory: seriesCategoryValidation.data,
     tag: undefined,
-    isOfficialBlog: false,
+    isOfficialBlog: true,
   });
   return (
     <GlobalErrorBoundaryRegistry>
       <RouteLoading deps={[page]}>
-        <PageLayout>
+        <PageLayout isOfficialBlog>
           <SeriesListAll
             postItems={postItems}
             totalPage={totalPage}
             currentPage={Number(page)}
             seriesCategory={seriesCategoryValidation.data}
-            isOfficialBlog={false}
+            isOfficialBlog
           />
         </PageLayout>
       </RouteLoading>

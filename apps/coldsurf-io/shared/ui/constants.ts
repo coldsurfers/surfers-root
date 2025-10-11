@@ -8,7 +8,7 @@ export const HEADER_MENU_ITEMS = [
     target: undefined,
     visible: true,
     isDefaultHeader: true,
-    subPaths: ['/event'],
+    subPaths: ['/event', '/venue'],
   },
   {
     link: '/tattoo',
@@ -43,8 +43,8 @@ export const HEADER_MENU_ITEMS = [
     subPaths: [],
   },
   {
-    link: '/blog',
-    title: '블로그',
+    link: '/official-blog',
+    title: '공식 블로그',
     target: undefined,
     visible: true,
     isDefaultHeader: true,

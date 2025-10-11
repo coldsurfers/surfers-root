@@ -19,8 +19,9 @@ export const SITE_URL = (() => {
   return process.env.SITE_URL ?? 'https://coldsurf.io';
 })();
 export const SITE_MAP_URL = `${SITE_URL}/sitemap.xml`;
-export const COMMON_META_TITLE = `${SERVICE_NAME} - 당신 근처의 공연, 예술, 사운드`;
-export const COMMON_META_DESCRIPTION = '지금 이 순간, 당신 근처에서 벌어지는 공연들';
+export const COMMON_META_TITLE = `${SERVICE_NAME} - 다방면 문화 예술 서포트 플랫폼`;
+export const COMMON_META_DESCRIPTION =
+  '문화 예술에 목마른 이를 위한 다방면 문화예술 서포트 플랫폼, COLDSURF';
 
 export const APP_STORE_ID = '1632802589';
 export const APP_STORE_URL = `https://itunes.apple.com/app/id${APP_STORE_ID}`;

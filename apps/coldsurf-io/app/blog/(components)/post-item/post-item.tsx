@@ -13,20 +13,35 @@ import {
   StyledPostTitleText,
 } from './post-item.styled';
 
-export const PostItem = memo((props: SeriesItem) => {
-  const platformHref = useMemo(
-    () => generateSeriesHref({ seriesCategory: props.seriesCategory }),
-    [props.seriesCategory]
-  );
-  const postHref = useMemo(() => {
+export const PostItem = memo((props: SeriesItem & { isOfficialBlog?: boolean }) => {
+  const platformHref = useMemo(() => {
     if (props.seriesCategory) {
-      return generateSeriesItemHref(props.seriesCategory, props.slug, false);
+      return generateSeriesHref({
+        seriesCategory: props.seriesCategory,
+        isOfficialBlog: props.isOfficialBlog,
+      });
     }
     if (props.officialBlogSeriesCategory) {
-      return generateSeriesItemHref(props.officialBlogSeriesCategory, props.slug, false);
+      return generateSeriesHref({
+        seriesCategory: props.officialBlogSeriesCategory,
+        isOfficialBlog: props.isOfficialBlog,
+      });
     }
     return '#';
-  }, [props.seriesCategory, props.officialBlogSeriesCategory, props.slug]);
+  }, [props.seriesCategory, props.officialBlogSeriesCategory, props.isOfficialBlog]);
+  const postHref = useMemo(() => {
+    if (props.seriesCategory) {
+      return generateSeriesItemHref(props.seriesCategory, props.slug, props.isOfficialBlog);
+    }
+    if (props.officialBlogSeriesCategory) {
+      return generateSeriesItemHref(
+        props.officialBlogSeriesCategory,
+        props.slug,
+        props.isOfficialBlog
+      );
+    }
+    return '#';
+  }, [props.seriesCategory, props.officialBlogSeriesCategory, props.slug, props.isOfficialBlog]);
 
   return (
     <StyledPostItemContainer>
@@ -41,7 +56,9 @@ export const PostItem = memo((props: SeriesItem) => {
         />
       </Link>
       <Link href={platformHref}>
-        <StyledPostPlatformText as="p">{props.seriesCategory}</StyledPostPlatformText>
+        <StyledPostPlatformText as="p">
+          {props.seriesCategory || props.officialBlogSeriesCategory}
+        </StyledPostPlatformText>
       </Link>
       <Link href={postHref}>
         <StyledPostTitleText as="h2">

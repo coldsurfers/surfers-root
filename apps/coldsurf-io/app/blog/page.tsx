@@ -16,6 +16,7 @@ export default async function RootPage() {
             totalPage={totalPage}
             currentPage={1}
             seriesCategory={null}
+            isOfficialBlog={false}
           />
         </PageLayout>
       </RouteLoading>
