@@ -40,7 +40,10 @@ export const Header = ({ isOfficialBlog }: Props) => {
     }[]
   >(() => {
     if (isOfficialBlog) {
-      return [{ href: '/official-blog/news', title: 'NEWS', isActive: seriesParam === 'news' }];
+      return [
+        { href: '/official-blog/news', title: 'NEWS', isActive: seriesParam === 'news' },
+        { href: '/official-blog/culture', title: 'CULTURE', isActive: seriesParam === 'culture' },
+      ];
     }
     return [
       {

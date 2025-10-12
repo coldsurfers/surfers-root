@@ -50,5 +50,6 @@ export const convertSeriesCategoryToTitle = (
     .with('text', () => 'YOU MUST READ THIS')
     .with('video', () => 'YOU MUST WATCH THIS')
     .with('news', () => 'COLDSURF BLOG: NEWS')
+    .with('culture', () => 'COLDSURF BLOG: CULTURE')
     .exhaustive();
 };

@@ -4,7 +4,7 @@ import { PageLayout } from 'app/blog/(components)/page-layout';
 import { SeriesListAll } from 'app/blog/(components)/series-list-all';
 import { fetchGetSeries } from 'app/blog/(fetchers)';
 import { OfficialBlogSeriesCategorySchema } from 'app/blog/(types)/series';
-import { createBlogError } from 'app/blog/(utils)';
+import { convertSeriesCategoryToTitle, createBlogError } from 'app/blog/(utils)';
 
 export default async function BlogArticleListByPage({
   params,
@@ -36,7 +36,10 @@ export default async function BlogArticleListByPage({
   return (
     <GlobalErrorBoundaryRegistry>
       <RouteLoading deps={[page]}>
-        <PageLayout isOfficialBlog>
+        <PageLayout
+          title={convertSeriesCategoryToTitle(seriesCategoryValidation.data)}
+          isOfficialBlog
+        >
           <SeriesListAll
             postItems={postItems}
             totalPage={totalPage}

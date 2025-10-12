@@ -58,12 +58,15 @@ export async function generateMetadata({
       }
     );
   }
+  // @TODO: 동일 패턴 하나로 util화
   const metaTitle = match(seriesCategoryValidation.data)
     .with('news', () => 'COLDSURF Blog: NEWS')
+    .with('culture', () => 'COLDSURF Blog: CULTURE')
     .exhaustive();
 
   const metaDescription = match(seriesCategoryValidation.data)
     .with('news', () => 'Article about news')
+    .with('culture', () => 'Article about culture')
     .exhaustive();
 
   return generateLogListMetadata({

@@ -10,7 +10,7 @@ export const SeriesCategorySchema = z.union([
 ]);
 export type SeriesCategory = z.infer<typeof SeriesCategorySchema>;
 
-export const OfficialBlogSeriesCategorySchema = z.union([z.literal('news')]);
+export const OfficialBlogSeriesCategorySchema = z.union([z.literal('news'), z.literal('culture')]);
 export type OfficialBlogSeriesCategory = z.infer<typeof OfficialBlogSeriesCategorySchema>;
 
 export const SeriesItemSchema = z.object({

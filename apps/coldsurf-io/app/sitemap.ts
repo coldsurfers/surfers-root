@@ -1,10 +1,7 @@
 import { SITE_URL } from '@/libs/constants';
 import { connectDbClient, dbClient, disconnectDbClient } from '@/libs/db/db.client';
 import { cache } from 'react';
-import {
-  ALL_SERIES_CATEGORIES,
-  ALL_SERIES_CATEGORIES_WITH_OFFICIAL_BLOG,
-} from './blog/(constants)';
+import { ALL_SERIES_CATEGORIES_WITH_OFFICIAL_BLOG } from './blog/(constants)';
 import { queryAllSeries, queryTags } from './blog/(notion)/query';
 
 const generateUrl = (subPath: string) => {

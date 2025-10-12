@@ -8,7 +8,11 @@ export const ALL_SERIES_CATEGORIES: SeriesCategory[] = [
   'video',
 ];
 
-export const ALL_SERIES_CATEGORIES_WITH_OFFICIAL_BLOG: OfficialBlogSeriesCategory[] = ['news'];
+// @TODO: 응집도 with blog/(types)/series.ts
+export const ALL_SERIES_CATEGORIES_WITH_OFFICIAL_BLOG: OfficialBlogSeriesCategory[] = [
+  'news',
+  'culture',
+];
 
 export const PAGINATION_PER_LINE = 3;
 export const PAGINATION_PER_PAGE = 9;
