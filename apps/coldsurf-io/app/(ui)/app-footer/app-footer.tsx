@@ -20,22 +20,31 @@ const FooterContainer = styled.footer`
   margin-top: 15rem;
 `;
 
-const FooterTopContainer = styled.div`
+const FooterInnerContainer = styled.div`
+  max-width: ${APP_CONTAINER_MAX_WIDTH}px;
+  min-width: ${APP_CONTAINER_MAX_WIDTH}px;
+  margin: 0 auto;
+
+  ${media['xx-large'](css`
+    margin-left: 1rem;
+    margin-right: 1rem;
+    min-width: unset;
+  `)}
+`;
+
+const FooterTopContainer = styled(FooterInnerContainer)`
   display: flex;
   align-items: flex-start;
   padding-bottom: 1.5rem;
 
   ${media.medium(css`
     flex-direction: column;
-    margin-left: 1rem;
-    margin-right: 1rem;
   `)}
 `;
 
-const FooterBottomContainer = styled.div`
-  max-width: ${APP_CONTAINER_MAX_WIDTH}px;
-  min-width: ${APP_CONTAINER_MAX_WIDTH}px;
-  margin: 0 auto;
+const FooterMiddleContainer = styled(FooterInnerContainer)``;
+
+const FooterBottomContainer = styled(FooterInnerContainer)`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -45,12 +54,6 @@ const FooterBottomContainer = styled.div`
   padding-bottom: 1.5rem;
 
   border-top: 1px solid ${semantics.color.border[2]};
-
-  ${media['xx-large'](css`
-    margin-left: 1rem;
-    margin-right: 1rem;
-    min-width: unset;
-  `)}
 
   ${media.medium(css`
     flex-direction: column;
@@ -191,12 +194,14 @@ export function AppFooter() {
           </Link>
         </StyledTopFooterMenuContainer>
       </FooterTopContainer>
-      <Link href={APP_STORE_URL} target="_blank" style={{ width: 'fit-content' }}>
-        <StyledAppStoreButton>
-          <StyledAppStoreLogo brand="apple" />
-          <StyledAppStoreText as="p">iOS</StyledAppStoreText>
-        </StyledAppStoreButton>
-      </Link>
+      <FooterMiddleContainer>
+        <Link href={APP_STORE_URL} target="_blank" style={{ width: 'fit-content' }}>
+          <StyledAppStoreButton>
+            <StyledAppStoreLogo brand="apple" />
+            <StyledAppStoreText as="p">iOS</StyledAppStoreText>
+          </StyledAppStoreButton>
+        </Link>
+      </FooterMiddleContainer>
       <FooterBottomContainer>
         <Text as="p" style={{ fontWeight: 'bold', margin: 'unset' }}>
           &copy; 2025 COLDSURF, Inc.
