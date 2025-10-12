@@ -8,8 +8,8 @@ import styled from '@emotion/styled';
 import { APP_CONTAINER_MAX_WIDTH } from '../constants';
 
 const Container = styled.div`
-  width: 100%;
   max-width: ${APP_CONTAINER_MAX_WIDTH}px;
+  min-width: ${APP_CONTAINER_MAX_WIDTH}px;
   margin: 0 auto;
   height: 15rem;
   display: flex;
@@ -17,10 +17,14 @@ const Container = styled.div`
   gap: 1rem;
 
   margin-top: 15rem;
+  padding-top: 2rem;
 
-  ${media.large(css`
-    padding-left: 1rem;
-    padding-right: 1rem;
+  border-top: 1px solid ${semantics.color.border[2]};
+
+  ${media['xx-large'](css`
+    margin-left: 1rem;
+    margin-right: 1rem;
+    min-width: unset;
   `)}
 
   ${media.medium(css`
