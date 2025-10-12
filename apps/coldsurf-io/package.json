@@ -2,9 +2,7 @@
   "name": "@coldsurfers/coldsurf-io",
   "version": "1.3.3",
   "private": true,
-  "files": [
-    "package.json"
-  ],
+  "files": ["package.json"],
   "bugs": {
     "url": "https://github.com/coldsurfers/surfers-root"
   },
@@ -97,7 +95,7 @@
     "useSubscribeButton": true,
     "useProfileFeature": true,
     "useStoreRegistrationFeature": false,
-    "useSurveyFeature": true,
+    "useSurveyFeature": false,
     "useTattooFeature": false,
     "useWorkWithUsFeature": true,
     "useProductsPageFeature": false
