@@ -1,5 +1,11 @@
 # @coldsurfers/coldsurf-io
 
+## 1.3.4
+
+### Patch Changes
+
+- [#610](https://github.com/coldsurfers/surfers-root/pull/610) [`2ddad46`](https://github.com/coldsurfers/surfers-root/commit/2ddad46d970c22f73601c7c7ec8bbe100f1e6dc2) Thanks [@yungblud](https://github.com/yungblud)! - Enhnace Footer
+
 ## 1.3.3
 
 ### Patch Changes
