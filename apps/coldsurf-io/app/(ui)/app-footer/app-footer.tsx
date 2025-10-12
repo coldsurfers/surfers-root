@@ -111,7 +111,7 @@ const StyledSNSLogo = ({ social }: { social: 'instagram' | 'x' }) => {
     .exhaustive();
 
   return (
-    <Link href={href} target="_blank">
+    <Link href={href} target="_blank" rel="noopener noreferrer">
       <StyledSNSIcon social={social} />
     </Link>
   );
@@ -195,7 +195,12 @@ export function AppFooter() {
         </StyledTopFooterMenuContainer>
       </FooterTopContainer>
       <FooterMiddleContainer>
-        <Link href={APP_STORE_URL} target="_blank" style={{ width: 'fit-content' }}>
+        <Link
+          href={APP_STORE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ width: 'fit-content' }}
+        >
           <StyledAppStoreButton>
             <StyledAppStoreLogo brand="apple" />
             <StyledAppStoreText as="p">iOS</StyledAppStoreText>
