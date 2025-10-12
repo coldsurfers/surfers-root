@@ -14,14 +14,6 @@ export const StyledDownloadAppLeft = styled.div`
   flex-direction: column;
 `;
 
-export const StyledDownloadAppLogo = styled.div`
-  background-image: url('/logo.png');
-  background-size: cover;
-  background-position: 50%;
-  width: 100px;
-  height: 100px;
-`;
-
 export const StyledAppContentContainer = styled.div`
   display: flex;
   align-items: center;
