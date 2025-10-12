@@ -29,6 +29,7 @@ const FooterInnerContainer = styled.div`
     margin-left: 1rem;
     margin-right: 1rem;
     min-width: unset;
+    max-width: 100%;
   `)}
 `;
 
@@ -159,6 +160,7 @@ const StyledTopFooterMenuContainer = styled.div`
 
   ${media.medium(css`
     margin-left: unset;
+    padding-right: unset;
   `)}
 `;
 
