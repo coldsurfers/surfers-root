@@ -5,8 +5,12 @@ import { GlobalLink } from '@/shared/ui/global-link/global-link';
 import { Text, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { APP_CONTAINER_MAX_WIDTH } from '../constants';
+
 const Container = styled.div`
   width: 100%;
+  max-width: ${APP_CONTAINER_MAX_WIDTH}px;
+  margin: 0 auto;
   height: 15rem;
   display: flex;
   flex-direction: column;
