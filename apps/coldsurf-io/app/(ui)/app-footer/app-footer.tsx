@@ -13,7 +13,7 @@ const Container = styled.div`
   margin: 0 auto;
   height: 15rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 1rem;
 
   margin-top: 15rem;
@@ -33,26 +33,35 @@ const FooterText = styled(Text)`
   color: ${semantics.color.foreground[1]};
 `;
 
+const StyledLinksContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin-left: auto;
+`;
+
 export function AppFooter() {
   return (
     <Container>
       <Text as="p" style={{ fontWeight: 'bold', margin: 'unset' }}>
         &copy; 2025 COLDSURF, Inc.
       </Text>
-      <GlobalLink href="/privacy-policy">
-        <FooterText as="p">Privacy Policy</FooterText>
-      </GlobalLink>
-      <GlobalLink href="/terms-of-service">
-        <FooterText as="p">Terms of Service</FooterText>
-      </GlobalLink>
-      {featureFlags.useProductsPageFeature && (
-        <GlobalLink href="/about/products">
-          <FooterText as="p">Products</FooterText>
+      <StyledLinksContainer>
+        <GlobalLink href="/privacy-policy">
+          <FooterText as="p">개인정보 처리방침</FooterText>
         </GlobalLink>
-      )}
-      <GlobalLink href="/blog">
-        <FooterText as="p">주인장의 소회</FooterText>
-      </GlobalLink>
+        <GlobalLink href="/terms-of-service">
+          <FooterText as="p">이용약관</FooterText>
+        </GlobalLink>
+        {featureFlags.useProductsPageFeature && (
+          <GlobalLink href="/about/products">
+            <FooterText as="p">Products</FooterText>
+          </GlobalLink>
+        )}
+        <GlobalLink href="/blog">
+          <FooterText as="p">주인장의 소회</FooterText>
+        </GlobalLink>
+      </StyledLinksContainer>
     </Container>
   );
 }
