@@ -3,13 +3,12 @@
 import { SNS_LINKS } from '@/libs/constants';
 import { featureFlags } from '@/shared/constants';
 import { GlobalLink } from '@/shared/ui/global-link/global-link';
+import { SNSIcon } from '@/shared/ui/sns-icon';
 import { Text, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { match } from 'ts-pattern';
-import InstaLogo from '../../../public/icons/sns/instagram/logo.svg';
-import XLogo from '../../../public/icons/sns/x/x.svg';
 import { APP_CONTAINER_MAX_WIDTH } from '../constants';
 
 const Container = styled.footer`
@@ -70,9 +69,7 @@ const StyledSNSLinksContainer = styled.div`
   `)}
 `;
 
-const createStyledInstaLogo = (
-  logoSvgComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement> & { title?: string }>
-) => styled(logoSvgComponent)`
+const StyledSNSIcon = styled(SNSIcon)`
   width: 1.5rem;
   height: 1.5rem;
   color: ${semantics.color.foreground[1]};
@@ -91,14 +88,9 @@ const StyledSNSLogo = ({ social }: { social: 'instagram' | 'x' }) => {
     .with('x', () => SNS_LINKS.X)
     .exhaustive();
 
-  const Component = match(social)
-    .with('instagram', () => createStyledInstaLogo(InstaLogo))
-    .with('x', () => createStyledInstaLogo(XLogo))
-    .exhaustive();
-
   return (
     <Link href={href} target="_blank">
-      <Component />
+      <StyledSNSIcon social={social} />
     </Link>
   );
 };
