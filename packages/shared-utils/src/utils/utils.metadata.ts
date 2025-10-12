@@ -43,6 +43,8 @@ type BaseData = {
   };
   openGraph?: {
     siteName: string;
+    title: string;
+    description: string;
     images?: {
       url: string;
     }[];
