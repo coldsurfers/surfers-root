@@ -1,5 +1,11 @@
 # @coldsurfers/shared-utils
 
+## 1.1.6
+
+### Patch Changes
+
+- [#606](https://github.com/coldsurfers/surfers-root/pull/606) [`f0cfcb9`](https://github.com/coldsurfers/surfers-root/commit/f0cfcb96d5b499b7ea198f307b1bc405c9393d01) Thanks [@yungblud](https://github.com/yungblud)! - Update open graph types
+
 ## 1.1.5
 
 ### Patch Changes
