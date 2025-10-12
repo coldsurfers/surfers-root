@@ -140,6 +140,8 @@ export class NextMetadataGenerator {
       openGraph: {
         siteName: openGraph?.siteName,
         images: Array.isArray(openGraph?.images) ? openGraph.images : defaultOgImages,
+        title: openGraph?.title,
+        description: openGraph?.description,
         // @ts-ignore
         ...additionalMetadata.openGraph,
       },
