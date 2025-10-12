@@ -1,5 +1,11 @@
 # @coldsurfers/coldsurf-io
 
+## 1.3.1
+
+### Patch Changes
+
+- [#604](https://github.com/coldsurfers/surfers-root/pull/604) [`4306a92`](https://github.com/coldsurfers/surfers-root/commit/4306a924f33e80ac20d4d4e9511cdec2f0bc6693) Thanks [@yungblud](https://github.com/yungblud)! - Add culture official blog category
+
 ## 1.3.0
 
 ### Minor Changes
