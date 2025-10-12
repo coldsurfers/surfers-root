@@ -1,4 +1,6 @@
+import { SLOGAN } from '@/libs/constants';
 import { ApiErrorBoundaryRegistry } from '@/libs/registries';
+import { SERVICE_NAME } from '@coldsurfers/shared-utils';
 import { LandingImage, LandingSection, LandingText, LandingYoutube } from './(ui)';
 
 function PageInner() {
@@ -47,9 +49,7 @@ function PageInner() {
       <LandingSection reversed>
         <LandingText
           bigTitle={'COLDSURF의\n다음 발걸음'}
-          smallTitle={
-            '우리는 Linktree처럼 아티스트를 지원하고, Reverb처럼 중고 악기 거래 생태계를 만들고자 합니다. 예술과 공연을 넘어, 창작과 문화 전반으로 영역을 확장해 나갈 것입니다.'
-          }
+          smallTitle={`${SERVICE_NAME}는 공연·타투·예술을 잇는\n다방면 문화예술 플랫폼입니다.\n${SLOGAN}.\n위의 슬로건과 함께 예술과 서브컬처가 만나는\n다양한 새로운 무대를 지원하기 위해 노력하겠습니다.`}
         />
         <LandingImage
           imageUrls={[

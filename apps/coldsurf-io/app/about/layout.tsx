@@ -8,7 +8,7 @@ export const dynamic = 'force-static';
 
 export async function generateMetadata(): Promise<Metadata> {
   return metadataInstance.generateMetadata<Metadata>({
-    title: `Story and Mission | About ${SERVICE_NAME}`,
+    title: `Mission | ${SERVICE_NAME}`,
   });
 }
 
