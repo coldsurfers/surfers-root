@@ -30,11 +30,6 @@ export const metadata: Metadata = {
   ...metadataInstance.generateMetadata<Metadata>({
     title: COMMON_META_TITLE,
     description: COMMON_META_DESCRIPTION,
-    openGraph: {
-      siteName: SERVICE_NAME,
-      title: COMMON_META_TITLE,
-      description: COMMON_META_DESCRIPTION,
-    },
   }),
 };
 

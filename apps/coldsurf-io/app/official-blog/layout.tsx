@@ -13,8 +13,8 @@ export const generateStaticParams = async () => {
 };
 
 export function generateMetadata(): Metadata {
-  const title = `Official Blog | ${SERVICE_NAME}`;
-  const description = 'COLDSURF의 최신 소식';
+  const title = `OFFICIAL BLOG, ${SERVICE_NAME}`;
+  const description = `${SERVICE_NAME}의 최신 소식`;
   return metadataInstance.generateMetadata<Metadata>({
     title,
     description,
@@ -23,7 +23,6 @@ export function generateMetadata(): Metadata {
       title,
       description,
       url: `${SITE_URL}/official-blog`,
-      siteName: SERVICE_NAME,
     },
   });
 }

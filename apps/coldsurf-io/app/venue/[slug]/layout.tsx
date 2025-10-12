@@ -29,7 +29,6 @@ export const generateMetadata = async ({
     title,
     description,
     openGraph: {
-      siteName: SERVICE_NAME,
       title,
       description,
     },

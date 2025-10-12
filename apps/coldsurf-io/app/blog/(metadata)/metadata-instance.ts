@@ -1,38 +1,12 @@
 import { SITE_URL } from '@/libs/constants';
-import { NextMetadataGenerator, SERVICE_NAME } from '@coldsurfers/shared-utils';
+import { metadataInstance } from '@/libs/metadata';
+import { SERVICE_NAME } from '@coldsurfers/shared-utils';
 import type {
   PageObjectResponse,
   UserObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints';
 import type { Metadata } from 'next/types';
 import type { OfficialBlogSeriesCategory, SeriesCategory } from '../(types)/series';
-
-export const metadataInstance = new NextMetadataGenerator({
-  baseData: {
-    keywords: [
-      `${SERVICE_NAME}`,
-      'ColdSurf',
-      'coldsurf',
-      'Blog',
-      'Articles',
-      'Corporate Blog',
-      'Development',
-      'Software Development',
-      'Film',
-      'Culture',
-      'Books',
-    ],
-    icons: {
-      icon: '/icons/favicon.ico',
-      shortcut: '/icons/favicon.ico',
-      apple: '/icons/favicon.ico',
-    },
-    metadataBase: new URL(SITE_URL),
-    openGraph: {
-      siteName: 'COLDSURF Blog',
-    },
-  },
-});
 
 export const generateLogDetailMetadata = (
   page: PageObjectResponse | null,
@@ -44,7 +18,7 @@ export const generateLogDetailMetadata = (
 ) => {
   if (!page) {
     return {
-      title: 'Blog, ColdSurf',
+      title: `BLOG, ${SERVICE_NAME}`,
     };
   }
 
@@ -57,7 +31,7 @@ export const generateLogDetailMetadata = (
 
   if (!pageTitle) {
     return {
-      title: 'Blog, ColdSurf',
+      title: `BLOG, ${SERVICE_NAME}`,
     };
   }
 
@@ -107,15 +81,14 @@ export const generateLogDetailMetadata = (
   })();
 
   const metadata: Metadata = metadataInstance.generateMetadata<Metadata>({
-    title: `${pageTitle} | Blog, ColdSurf`,
+    title: `${pageTitle} | BLOG, ${SERVICE_NAME}`,
     description: `${pageTitle}`,
     authors,
     openGraph: {
       type: 'article',
-      siteName: 'COLDSURF Blog',
       publishedTime: publishDate?.toISOString(),
       authors: writers,
-      url: `${SITE_URL}/blog/${options.seriesCategory}/${options.slug}`,
+      url: `${SITE_URL}/official-blog/${options.seriesCategory}/${options.slug}`,
       title: pageTitle,
       description: `${pageTitle}`,
       images: [
@@ -126,9 +99,9 @@ export const generateLogDetailMetadata = (
     },
     keywords: tags.map((tag) => tag.name),
     alternates: {
-      canonical: `${SITE_URL}/blog/${options.seriesCategory}/${options.slug}`,
+      canonical: `${SITE_URL}/official-blog/${options.seriesCategory}/${options.slug}`,
       languages: {
-        ko: `${SITE_URL}/blog/${options.seriesCategory}/${options.slug}`,
+        ko: `${SITE_URL}/official-blog/${options.seriesCategory}/${options.slug}`,
       },
     },
   });
@@ -156,13 +129,13 @@ export const generateLogListMetadata = ({
       title: metaTitle,
       description: metaDescription,
       type: 'website',
-      url: seriesCategory ? `${SITE_URL}/blog/${seriesCategory}` : undefined,
+      url: seriesCategory ? `${SITE_URL}/official-blog/${seriesCategory}` : undefined,
     },
     alternates: {
-      canonical: seriesCategory ? `${SITE_URL}/blog/${seriesCategory}` : undefined,
+      canonical: seriesCategory ? `${SITE_URL}/official-blog/${seriesCategory}` : undefined,
       languages: seriesCategory
         ? {
-            ko: `${SITE_URL}/blog/${seriesCategory}`,
+            ko: `${SITE_URL}/official-blog/${seriesCategory}`,
           }
         : undefined,
     },

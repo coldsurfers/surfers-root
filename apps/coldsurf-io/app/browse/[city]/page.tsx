@@ -19,7 +19,6 @@ export async function generateMetadata({
   if (!validation.isValid) {
     const openGraph: Metadata['openGraph'] = {
       title: COMMON_META_TITLE,
-      description: COMMON_META_DESCRIPTION,
     };
     return metadataInstance.generateMetadata<Metadata>({
       title: COMMON_META_TITLE,
@@ -29,7 +28,6 @@ export async function generateMetadata({
   }
   const openGraph: Metadata['openGraph'] = {
     title: `${validation.data.uiName}의 라이브 공연, 전시, 사운드 - ${SERVICE_NAME}`,
-    description: COMMON_META_DESCRIPTION,
   };
   return metadataInstance.generateMetadata<Metadata>({
     title: `${validation.data.uiName}의 라이브 공연, 전시, 사운드 - ${SERVICE_NAME}`,
