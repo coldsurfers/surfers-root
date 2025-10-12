@@ -41,19 +41,6 @@ export const HeaderTitle = styled(Text)`
   `)}
 `;
 
-export const HeaderLogo = styled.img`
-  border-radius: 50%;
-  margin-right: 12px;
-
-  width: 42px;
-  height: 42px;
-
-  ${media.large(css`
-    width: 36px;
-    height: 36px;
-  `)}
-`;
-
 export const HeaderMenuContainerGlobalLink = styled(GlobalLink)`
   background-color: transparent;
   border: none;

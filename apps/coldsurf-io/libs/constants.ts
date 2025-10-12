@@ -18,9 +18,11 @@ export const SITE_URL = (() => {
   }
   return process.env.SITE_URL ?? 'https://coldsurf.io';
 })();
+
+export const SLOGAN = 'Alternative is the New Mainstream';
 export const SITE_MAP_URL = `${SITE_URL}/sitemap.xml`;
-export const COMMON_META_TITLE = `${SERVICE_NAME} | Alternative is the New Mainstream. 공연에서 타투까지, 예술의 흐름을 잇다.`;
-export const COMMON_META_DESCRIPTION = `${SERVICE_NAME}는 공연·타투·예술을 잇는 다방면 문화예술 플랫폼입니다. Alternative is the new mainstream. 예술과 서브컬처가 만나는 새로운 무대를 만듭니다.`;
+export const COMMON_META_TITLE = `${SERVICE_NAME} | ${SLOGAN}. 공연에서 타투까지, 예술의 흐름을 잇다.`;
+export const COMMON_META_DESCRIPTION = `${SERVICE_NAME}는 공연·타투·예술을 잇는 다방면 문화예술 플랫폼입니다. ${SLOGAN}. 예술과 서브컬처가 만나는 새로운 무대를 만듭니다.`;
 export const COMMON_OG_DESCRIPTION =
   '주류를 넘어, 새로운 문화의 흐름을 만듭니다. COLDSURF - 공연에서 타투까지, 예술의 흐름을 잇다.';
 export const PRIVATE_BLOG_SERVICE_NAME = '주인장의 소회';
@@ -42,3 +44,8 @@ export const COOKIE_REFRESH_TOKEN_KEY = '@coldsurf-io/cookie-refresh-token';
 export const COOKIE_THEME = '@coldsurf-io/cookie-theme';
 
 export const FEATURE_FLAGS = pkg.featureFlags;
+
+export const SNS_LINKS = {
+  INSTAGRAM: 'https://www.instagram.com/coldsurf.io',
+  X: 'https://x.com/coldsurf_io',
+} as const;

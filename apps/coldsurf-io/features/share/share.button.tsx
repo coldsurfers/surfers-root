@@ -1,9 +1,10 @@
 'use client';
 
-import { semantics, useColorScheme } from '@coldsurfers/ocean-road';
+import { SNSIcon } from '@/shared/ui/sns-icon';
+import { semantics } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { Check as CheckIcon, Link2 as Link2Icon, Share as ShareIcon } from 'lucide-react';
-import { forwardRef, useCallback, useMemo, useRef, useState } from 'react';
+import { forwardRef, useCallback, useRef, useState } from 'react';
 import { match } from 'ts-pattern';
 import { shareFacebook, shareTwitter } from './share.utils';
 
@@ -55,31 +56,11 @@ const StyledShareButtonWrapper = styled.div<{ $type: ShareButtonType }>`
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 `;
 
-const StyledShareButton = styled.img<{ $type: ShareButtonType }>`
-  width: ${({ $type }) => {
-    return match($type)
-      .with('twitter', () => '80%')
-      .with('facebook', () => '100%')
-      .with('copy-link', () => '100%')
-      .with('more', () => '100%')
-      .exhaustive();
-  }};
-  height: ${({ $type }) => {
-    return match($type)
-      .with('twitter', () => '80%')
-      .with('facebook', () => '100%')
-      .with('copy-link', () => '100%')
-      .with('more', () => '100%')
-      .exhaustive();
-  }};
-  border-radius: ${({ $type }) => {
-    return match($type)
-      .with('twitter', () => '0%')
-      .with('facebook', () => '50%')
-      .with('copy-link', () => '100%')
-      .with('more', () => '100%')
-      .exhaustive();
-  }};
+const StyledSNSIcon = styled(SNSIcon)`
+  width: 100%;
+  height: 100%;
+  color: ${semantics.color.foreground[1]};
+  fill: ${semantics.color.foreground[1]};
 `;
 
 const CopyLinkIcon = ({
@@ -113,10 +94,7 @@ const CopyLinkIcon = ({
   );
 };
 
-export const ShareButton = forwardRef<HTMLImageElement, Props>((props, ref) => {
-  const { theme } = useColorScheme();
-  const isLightMode = theme.name === 'lightMode';
-
+export const ShareButton = forwardRef<HTMLImageElement, Props>((props) => {
   const onClick = useCallback(() => {
     match(props)
       .with({ type: 'twitter' }, (props) => {
@@ -138,24 +116,11 @@ export const ShareButton = forwardRef<HTMLImageElement, Props>((props, ref) => {
       .exhaustive();
   }, [props]);
 
-  const imageSource = useMemo<{ twitter: string; facebook: string }>(() => {
-    const twitterImageSource = isLightMode
-      ? '/icons/sns/x/logo-black.png'
-      : '/icons/sns/x/logo-white.png';
-    const facebookImageSource = isLightMode
-      ? '/icons/sns/facebook/Facebook_Logo_Primary.png'
-      : '/icons/sns/facebook/Facebook_Logo_Secondary.png';
-    return {
-      twitter: twitterImageSource,
-      facebook: facebookImageSource,
-    };
-  }, [isLightMode]);
-
   return match(props)
     .with({ type: 'twitter' }, { type: 'facebook' }, (props) => {
       return (
         <StyledShareButtonWrapper $type={props.type} onClick={onClick}>
-          <StyledShareButton ref={ref} src={imageSource[props.type]} $type={props.type} />
+          <StyledSNSIcon social={props.type === 'twitter' ? 'x' : 'facebook'} />
         </StyledShareButtonWrapper>
       );
     })

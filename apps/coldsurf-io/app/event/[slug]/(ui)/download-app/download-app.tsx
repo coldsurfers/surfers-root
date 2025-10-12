@@ -1,6 +1,10 @@
 'use client';
 
 import { APP_STORE_URL } from '@/libs/constants';
+import { AppLogo } from '@/shared/ui/app-logo';
+import { media } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import Link from 'next/link';
 import { memo } from 'react';
 import {
@@ -11,9 +15,18 @@ import {
   StyledBellIcon,
   StyledDownloadAppContainer,
   StyledDownloadAppLeft,
-  StyledDownloadAppLogo,
   StyledMapPinIcon,
 } from './download-app.styled';
+
+const StyledDownloadAppLogo = styled(AppLogo)`
+  width: 100px;
+  height: 100px;
+
+  ${media.medium(css`
+    width: 80px;
+    height: 80px;
+  `)}
+`;
 
 export const DownloadApp = memo(() => {
   return (
@@ -33,7 +46,7 @@ export const DownloadApp = memo(() => {
             <StyledAppText as="p">{'이벤트를 검색 할 수 있어요'}</StyledAppText>
           </StyledAppContentContainer>
         </StyledDownloadAppLeft>
-        <StyledDownloadAppLogo />
+        <StyledDownloadAppLogo type="round" />
       </StyledDownloadAppContainer>
       <Link href={APP_STORE_URL} target="_blank">
         <AppDownloadButton>

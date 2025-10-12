@@ -29,6 +29,7 @@ const venueSlugs = [
   '롯데콘서트홀',
   '인스파이어-아레나',
   '현대카드-언더스테이지',
+  '스카이아트홀',
 ].sort(() => Math.random() - 0.5);
 
 async function PageInner() {
