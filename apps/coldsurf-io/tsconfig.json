@@ -24,7 +24,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "libs/createDotEnv.ts"
+    "libs/createDotEnv.ts",
+    "libs/types/*.d.ts"
   ],
   "exclude": ["node_modules", "sst.config.ts", "legacy.sst.config.ts", ".sst"]
 }

@@ -42,3 +42,8 @@ export const COOKIE_REFRESH_TOKEN_KEY = '@coldsurf-io/cookie-refresh-token';
 export const COOKIE_THEME = '@coldsurf-io/cookie-theme';
 
 export const FEATURE_FLAGS = pkg.featureFlags;
+
+export const SNS_LINKS = {
+  INSTAGRAM: 'https://www.instagram.com/coldsurf.io',
+  X: 'https://x.com/coldsurf_io',
+} as const;

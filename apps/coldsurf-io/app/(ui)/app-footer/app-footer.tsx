@@ -1,23 +1,29 @@
 'use client';
 
+import { SNS_LINKS } from '@/libs/constants';
 import { featureFlags } from '@/shared/constants';
 import { GlobalLink } from '@/shared/ui/global-link/global-link';
 import { Text, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import Link from 'next/link';
+import { match } from 'ts-pattern';
+import InstaLogo from '../../../public/icons/sns/instagram/logo.svg';
+import XLogo from '../../../public/icons/sns/x/x.svg';
 import { APP_CONTAINER_MAX_WIDTH } from '../constants';
 
-const Container = styled.div`
+const Container = styled.footer`
   max-width: ${APP_CONTAINER_MAX_WIDTH}px;
   min-width: ${APP_CONTAINER_MAX_WIDTH}px;
   margin: 0 auto;
-  height: 15rem;
   display: flex;
   flex-direction: row;
+  align-items: center;
   gap: 1rem;
 
   margin-top: 15rem;
-  padding-top: 2rem;
+  padding-top: 1.5rem;
+  padding-bottom: 15rem;
 
   border-top: 1px solid ${semantics.color.border[2]};
 
@@ -29,6 +35,8 @@ const Container = styled.div`
 
   ${media.medium(css`
     margin-top: 12.5rem;
+    flex-direction: column;
+    align-items: flex-start;
   `)}
 `;
 
@@ -42,7 +50,58 @@ const StyledLinksContainer = styled.div`
   flex-direction: row;
   gap: 1rem;
   margin-left: auto;
+
+  ${media.medium(css`
+    flex-direction: column;
+    margin-left: unset;
+    margin-top: 1.5rem;
+  `)}
 `;
+
+const StyledSNSLinksContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin-left: 2.5rem;
+
+  ${media.medium(css`
+    margin-left: unset;
+    margin-top: 1.5rem;
+  `)}
+`;
+
+const createStyledInstaLogo = (
+  logoSvgComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement> & { title?: string }>
+) => styled(logoSvgComponent)`
+  width: 1.5rem;
+  height: 1.5rem;
+  color: ${semantics.color.foreground[1]};
+  fill: ${semantics.color.foreground[1]};
+  cursor: pointer;
+
+  ${media.medium(css`
+    width: 1.25rem;
+    height: 1.25rem;
+  `)}
+`;
+
+const StyledSNSLogo = ({ social }: { social: 'instagram' | 'x' }) => {
+  const href = match(social)
+    .with('instagram', () => SNS_LINKS.INSTAGRAM)
+    .with('x', () => SNS_LINKS.X)
+    .exhaustive();
+
+  const Component = match(social)
+    .with('instagram', () => createStyledInstaLogo(InstaLogo))
+    .with('x', () => createStyledInstaLogo(XLogo))
+    .exhaustive();
+
+  return (
+    <Link href={href} target="_blank">
+      <Component />
+    </Link>
+  );
+};
 
 export function AppFooter() {
   return (
@@ -66,6 +125,10 @@ export function AppFooter() {
           <FooterText as="p">주인장의 소회</FooterText>
         </GlobalLink>
       </StyledLinksContainer>
+      <StyledSNSLinksContainer>
+        <StyledSNSLogo social="instagram" />
+        <StyledSNSLogo social="x" />
+      </StyledSNSLinksContainer>
     </Container>
   );
 }
