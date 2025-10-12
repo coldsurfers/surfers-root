@@ -28,9 +28,6 @@ export const metadataInstance = new NextMetadataGenerator({
       apple: '/icons/favicon.ico',
     },
     metadataBase: new URL(SITE_URL),
-    openGraph: {
-      siteName: 'COLDSURF Blog',
-    },
   },
 });
 

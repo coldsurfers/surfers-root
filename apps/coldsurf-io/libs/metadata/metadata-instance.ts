@@ -1,5 +1,5 @@
 import { NextMetadataGenerator, SERVICE_NAME } from '@coldsurfers/shared-utils';
-import { APP_STORE_ID, APP_STORE_URL, SITE_URL } from '../constants';
+import { APP_STORE_ID, APP_STORE_URL, COMMON_META_TITLE, SITE_URL } from '../constants';
 
 export const metadataInstance = new NextMetadataGenerator({
   baseData: {
@@ -43,6 +43,8 @@ export const metadataInstance = new NextMetadataGenerator({
     },
     openGraph: {
       siteName: SERVICE_NAME,
+      description: '',
+      title: COMMON_META_TITLE,
     },
   },
 });
