@@ -1,5 +1,12 @@
 # @coldsurfers/wamuseum-server
 
+## 1.0.9
+
+### Patch Changes
+
+- Updated dependencies [[`f0cfcb9`](https://github.com/coldsurfers/surfers-root/commit/f0cfcb96d5b499b7ea198f307b1bc405c9393d01)]:
+  - @coldsurfers/shared-utils@1.1.6
+
 ## 1.0.8
 
 ### Patch Changes

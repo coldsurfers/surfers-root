@@ -1,5 +1,13 @@
 # @coldsurfers/coldsurf-io
 
+## 1.3.2
+
+### Patch Changes
+
+- Updated dependencies [[`f0cfcb9`](https://github.com/coldsurfers/surfers-root/commit/f0cfcb96d5b499b7ea198f307b1bc405c9393d01)]:
+  - @coldsurfers/shared-utils@1.1.6
+  - @coldsurfers/cloudinary-utils@1.0.5
+
 ## 1.3.1
 
 ### Patch Changes
