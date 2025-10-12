@@ -2,8 +2,8 @@
 
 import styled from '@emotion/styled';
 
-const StyledAppLogo = styled.div<{ $circle?: boolean }>`
-  background-image: url('/logo.png');
+const StyledAppLogo = styled.div<{ $circle?: boolean; $transparent?: boolean }>`
+  background-image: ${({ $transparent }) => ($transparent ? 'url("/icons/app-logo/app-logo-transparent.png")' : 'url("/logo.png")')};
   background-size: cover;
   background-position: 50%;;
   border-radius: ${({ $circle }) => ($circle ? '50%' : '12px')};
@@ -11,8 +11,9 @@ const StyledAppLogo = styled.div<{ $circle?: boolean }>`
 
 interface Props {
   type?: 'round' | 'square';
+  transparent?: boolean;
 }
 
-export const AppLogo = ({ type = 'round', ...otherProps }: Props) => {
-  return <StyledAppLogo $circle={type === 'round'} {...otherProps} />;
+export const AppLogo = ({ type = 'round', transparent = false, ...otherProps }: Props) => {
+  return <StyledAppLogo $circle={type === 'round'} $transparent={transparent} {...otherProps} />;
 };

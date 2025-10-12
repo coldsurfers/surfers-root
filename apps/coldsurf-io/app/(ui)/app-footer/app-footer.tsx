@@ -2,6 +2,7 @@
 
 import { SNS_LINKS } from '@/libs/constants';
 import { featureFlags } from '@/shared/constants';
+import { AppLogo } from '@/shared/ui/app-logo';
 import { BrandIcon } from '@/shared/ui/brand-icon';
 import { GlobalLink } from '@/shared/ui/global-link/global-link';
 import { SNSIcon } from '@/shared/ui/sns-icon';
@@ -21,8 +22,14 @@ const FooterContainer = styled.footer`
 
 const FooterTopContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  align-items: flex-start;
   padding-bottom: 1.5rem;
+
+  ${media.medium(css`
+    flex-direction: column;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  `)}
 `;
 
 const FooterBottomContainer = styled.div`
@@ -46,7 +53,6 @@ const FooterBottomContainer = styled.div`
   `)}
 
   ${media.medium(css`
-    margin-top: 12.5rem;
     flex-direction: column;
     align-items: flex-start;
   `)}
@@ -118,6 +124,7 @@ const StyledAppStoreButton = styled(Button)`
   justify-content: center;
   gap: 0.5rem;
   width: fit-content;
+  margin-bottom: 1.5rem;
 `;
 
 const StyledAppStoreLogo = styled(BrandIcon)`
@@ -134,17 +141,62 @@ const StyledAppStoreText = styled(Text)`
   margin: unset;
 `;
 
+const StyledAppLogo = styled(AppLogo)`
+  width: 5rem;
+  height: 5rem;
+
+  ${media.medium(css`
+    margin-left: -1rem;
+  `)}
+`;
+
+const StyledTopFooterMenuContainer = styled.div`
+  margin-left: auto;
+  padding-right: 22rem;
+
+  ${media.medium(css`
+    margin-left: unset;
+  `)}
+`;
+
+const StyledTopFooterMenuText = styled(Text)`
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: ${semantics.color.foreground[1]};
+  margin: unset;
+  flex: 1;
+`;
+
+const StyledTopFooterSubMenuText = styled(Text)`
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: ${semantics.color.foreground[3]};
+  margin: unset;
+  flex: 1;
+  margin-top: 0.5rem;
+`;
+
 export function AppFooter() {
   return (
     <FooterContainer>
       <FooterTopContainer>
-        <Link href={APP_STORE_URL} target="_blank" style={{ width: 'fit-content' }}>
-          <StyledAppStoreButton>
-            <StyledAppStoreLogo brand="apple" />
-            <StyledAppStoreText as="p">iOS</StyledAppStoreText>
-          </StyledAppStoreButton>
-        </Link>
+        <StyledAppLogo type="round" transparent />
+        <StyledTopFooterMenuContainer>
+          <StyledTopFooterMenuText as="p">About</StyledTopFooterMenuText>
+          <Link href="/about/story">
+            <StyledTopFooterSubMenuText as="p">Story</StyledTopFooterSubMenuText>
+          </Link>
+          <Link href="/about">
+            <StyledTopFooterSubMenuText as="p">Mission</StyledTopFooterSubMenuText>
+          </Link>
+        </StyledTopFooterMenuContainer>
       </FooterTopContainer>
+      <Link href={APP_STORE_URL} target="_blank" style={{ width: 'fit-content' }}>
+        <StyledAppStoreButton>
+          <StyledAppStoreLogo brand="apple" />
+          <StyledAppStoreText as="p">iOS</StyledAppStoreText>
+        </StyledAppStoreButton>
+      </Link>
       <FooterBottomContainer>
         <Text as="p" style={{ fontWeight: 'bold', margin: 'unset' }}>
           &copy; 2025 COLDSURF, Inc.

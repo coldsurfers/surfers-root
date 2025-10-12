@@ -2,6 +2,8 @@
 
 import { APP_STORE_URL } from '@/libs/constants';
 import { AppLogo } from '@/shared/ui/app-logo';
+import { media } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { memo } from 'react';
@@ -19,6 +21,11 @@ import {
 const StyledDownloadAppLogo = styled(AppLogo)`
   width: 100px;
   height: 100px;
+
+  ${media.medium(css`
+    width: 80px;
+    height: 80px;
+  `)}
 `;
 
 export const DownloadApp = memo(() => {
