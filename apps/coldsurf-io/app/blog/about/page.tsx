@@ -1,11 +1,11 @@
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 
 import { SITE_URL } from '@/libs/constants';
+import { metadataInstance } from '@/libs/metadata';
 import { getQueryClient } from '@/libs/utils/utils.query-client';
 import type { Metadata } from 'next/types';
 import { NotionAPI } from 'notion-client';
 import { PageLayout } from '../(components)/page-layout';
-import { metadataInstance } from '../(metadata)/metadata-instance';
 import { NotionRenderer } from '../(notion-render)/notion-renderer';
 import { queryKeyFactory } from '../(react-query)/react-query.key-factory';
 import { StyledAboutPageInnerLayout, StyledWritersPageHeader } from './page.styled';

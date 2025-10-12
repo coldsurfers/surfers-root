@@ -1,32 +1,30 @@
 import { NextMetadataGenerator, SERVICE_NAME } from '@coldsurfers/shared-utils';
-import { APP_STORE_ID, APP_STORE_URL, COMMON_META_TITLE, SITE_URL } from '../constants';
+import {
+  APP_STORE_ID,
+  APP_STORE_URL,
+  COMMON_META_TITLE,
+  COMMON_OG_DESCRIPTION,
+  SITE_URL,
+} from '../constants';
 
 export const metadataInstance = new NextMetadataGenerator({
   baseData: {
     keywords: [
-      SERVICE_NAME,
-      'Tickets',
       '공연',
-      '티켓',
-      '내한공연',
-      '공연알림',
-      '공연검색',
-      '인디밴드',
-      '페스티벌',
-      '락공연',
-      '해리스타일스공연',
-      '외국내한',
-      '티켓팅',
-      '티켓',
-      '인터파크티켓',
-      '예스24티켓',
-      '예스24라이브',
-      'dice',
-      'ticket',
-      'songkick',
-      'Festival',
-      'Rock Festival',
-      'Concert',
+      '타투',
+      '예술',
+      '문화예술 플랫폼',
+      '대체문화',
+      '서브컬처',
+      '인디',
+      'underground',
+      'alternative',
+      'artist',
+      'tattoo',
+      'concert',
+      'art scene',
+      'cultural support',
+      'indie artist',
     ],
     icons: {
       icon: '/icons/favicon.ico',
@@ -43,8 +41,8 @@ export const metadataInstance = new NextMetadataGenerator({
     },
     openGraph: {
       siteName: SERVICE_NAME,
-      description: '',
       title: COMMON_META_TITLE,
+      description: COMMON_OG_DESCRIPTION,
     },
   },
 });

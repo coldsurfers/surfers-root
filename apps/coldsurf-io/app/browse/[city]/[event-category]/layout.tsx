@@ -25,7 +25,6 @@ export async function generateMetadata({
   if (!cityValidation.isValid) {
     const openGraph: Metadata['openGraph'] = {
       title: COMMON_META_TITLE,
-      description: COMMON_META_DESCRIPTION,
     };
     return metadataInstance.generateMetadata<Metadata>({
       title: COMMON_META_TITLE,
@@ -39,7 +38,6 @@ export async function generateMetadata({
   if (!eventCategoryValidation.isValid) {
     const openGraph: Metadata['openGraph'] = {
       title: COMMON_META_TITLE,
-      description: COMMON_META_DESCRIPTION,
     };
     return metadataInstance.generateMetadata<Metadata>({
       title: COMMON_META_TITLE,
@@ -51,7 +49,6 @@ export async function generateMetadata({
   const title = `${cityValidation.data.uiName} 근처의 ${eventCategoryUIName} 공연 | ${SERVICE_NAME}`;
   const openGraph: Metadata['openGraph'] = {
     title,
-    description: COMMON_META_DESCRIPTION,
     type: 'website',
   };
   return metadataInstance.generateMetadata<Metadata>({
