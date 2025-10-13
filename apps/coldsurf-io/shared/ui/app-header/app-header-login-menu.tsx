@@ -1,5 +1,7 @@
 'use client';
 
+// @TODO: remove this file
+
 import { apiClient } from '@/libs/openapi-client';
 import { authUtils } from '@/libs/utils/utils.auth';
 import { useIsLoggedIn } from '@/shared/lib';

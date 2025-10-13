@@ -1,4 +1,10 @@
 import { FEATURE_FLAGS } from '@/libs/constants';
+import {
+  BookOpen as BookOpenIcon,
+  HeartHandshake as HeartHandshakeIcon,
+  Rss as RssIcon,
+  Ticket as TicketIcon,
+} from 'lucide-react';
 
 export const APP_HEADER_HEIGHT = '100px';
 export const HEADER_MENU_ITEMS = [
@@ -9,6 +15,7 @@ export const HEADER_MENU_ITEMS = [
     visible: true,
     isDefaultHeader: true,
     subPaths: ['/event', '/venue'],
+    icon: TicketIcon,
   },
   {
     link: '/tattoo',
@@ -17,6 +24,7 @@ export const HEADER_MENU_ITEMS = [
     visible: FEATURE_FLAGS.useTattooFeature,
     isDefaultHeader: false,
     subPaths: [],
+    icon: TicketIcon,
   },
   {
     link: '/store/registration',
@@ -25,6 +33,7 @@ export const HEADER_MENU_ITEMS = [
     visible: FEATURE_FLAGS.useStoreRegistrationFeature,
     isDefaultHeader: false,
     subPaths: [],
+    icon: TicketIcon,
   },
   {
     link: '/partners',
@@ -33,14 +42,16 @@ export const HEADER_MENU_ITEMS = [
     visible: FEATURE_FLAGS.useWorkWithUsFeature,
     isDefaultHeader: false,
     subPaths: [],
+    icon: HeartHandshakeIcon,
   },
   {
     link: '/about',
     title: '소개',
     target: undefined,
-    visible: true,
+    visible: false,
     isDefaultHeader: false,
     subPaths: [],
+    icon: BookOpenIcon,
   },
   {
     link: '/official-blog',
@@ -49,5 +60,6 @@ export const HEADER_MENU_ITEMS = [
     visible: true,
     isDefaultHeader: true,
     subPaths: [],
+    icon: RssIcon,
   },
 ] as const;

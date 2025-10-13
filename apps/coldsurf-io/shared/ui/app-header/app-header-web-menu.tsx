@@ -9,13 +9,13 @@ import type { MouseEventHandler } from 'react';
 import { HEADER_MENU_ITEMS } from '../constants';
 import { GlobalLink } from '../global-link';
 import { HeaderMenuItem } from '../header-menu-item';
-import { AppHeaderLoginMenu } from './app-header-login-menu';
 import { AppHeaderMyPageMenu } from './app-header-my-page-menu';
 import { AppHeaderSearchUI } from './app-header.search-ui';
 import {
   HeaderMenuContainerGlobalLink,
   HeaderMenuContainerLink,
   WebMenuContainer,
+  createStyledIcon,
 } from './app-header.styled';
 
 export const AppHeaderWebMenu = ({
@@ -39,6 +39,7 @@ export const AppHeaderWebMenu = ({
         };
         const Container =
           item.link === '/browse' ? HeaderMenuContainerLink : HeaderMenuContainerGlobalLink;
+        const Icon = createStyledIcon(item.icon);
         return (
           <Container key={item.link} href={item.link} onClick={onClick} target={item.target}>
             <HeaderMenuItem
@@ -47,6 +48,7 @@ export const AppHeaderWebMenu = ({
                 pathname.includes(item.link) ||
                 item.subPaths.some((subPath) => pathname.includes(subPath))
               }
+              icon={<Icon />}
             >
               {item.title}
             </HeaderMenuItem>
@@ -54,7 +56,6 @@ export const AppHeaderWebMenu = ({
         );
       })}
       <AppHeaderMyPageMenu onClick={onClose} />
-      <AppHeaderLoginMenu onClickMobileLogout={onClose} />
       <AppHeaderSearchUI />
       <GlobalLink href={APP_STORE_URL} target="_blank">
         <Button theme="border">{APP_DOWNLOAD_WORDING}</Button>

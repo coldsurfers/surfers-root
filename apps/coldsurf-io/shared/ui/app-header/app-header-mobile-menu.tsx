@@ -10,7 +10,6 @@ import type { MouseEventHandler } from 'react';
 import { HEADER_MENU_ITEMS } from '../constants';
 import { GlobalLink } from '../global-link';
 import { HeaderMenuItem } from '../header-menu-item';
-import { AppHeaderLoginMenu } from './app-header-login-menu';
 import { AppHeaderMyPageMenu } from './app-header-my-page-menu';
 import { AppHeaderSearchUI } from './app-header.search-ui';
 import {
@@ -19,6 +18,7 @@ import {
   ModalContainer,
   ModalContent,
   ModalPaper,
+  createStyledIcon,
 } from './app-header.styled';
 
 export const AppHeaderMobileMenuOpener = ({
@@ -65,16 +65,20 @@ export const AppHeaderMobileModalMenu = ({
                   router.push('/browse/seoul');
                 }
               };
+              const Icon = createStyledIcon(item.icon);
               return (
                 <GlobalLink key={item.link} href={item.link} target={item.target} onClick={onClick}>
-                  <HeaderMenuItem isLoading={isLoading} isCurrent={pathname.includes(item.link)}>
+                  <HeaderMenuItem
+                    isLoading={isLoading}
+                    isCurrent={pathname.includes(item.link)}
+                    icon={<Icon />}
+                  >
                     {item.title}
                   </HeaderMenuItem>
                 </GlobalLink>
               );
             })}
             <AppHeaderMyPageMenu onClick={onClose} />
-            <AppHeaderLoginMenu onClickMobileLogout={onClose} />
             <GlobalLink href={APP_STORE_URL} onClick={onClose} style={{ margin: '0 auto' }}>
               <Button theme="border">{APP_DOWNLOAD_WORDING}</Button>
             </GlobalLink>

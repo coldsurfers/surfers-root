@@ -6,7 +6,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { AlignRight, Search as SearchIcon } from 'lucide-react';
 import Link from 'next/link';
-import { APP_HEADER_HEIGHT } from '../constants';
+import { APP_HEADER_HEIGHT, type HEADER_MENU_ITEMS } from '../constants';
 import { GlobalLink } from '../global-link';
 
 export const HeaderContainer = styled.header<{ $animation: 'show' | 'hide' }>`
@@ -26,7 +26,7 @@ export const HeaderContainer = styled.header<{ $animation: 'show' | 'hide' }>`
   transition: all 0.3s ease-in-out;
   transform: translateY(${({ $animation }) => ($animation === 'show' ? '0' : '-100%')});
 
-  ${media.large(css`
+  ${media['x-large'](css`
     padding: 0 16px;
   `)}
 `;
@@ -36,7 +36,7 @@ export const HeaderTitle = styled(Text)`
   font-weight: 800;
   color: ${semantics.color.foreground[1]};
 
-  ${media.large(css`
+  ${media['x-large'](css`
     font-size: 24px;
   `)}
 `;
@@ -52,7 +52,7 @@ export const HeaderMenuContainerLink = styled(Link)`
   border: none;
   cursor: pointer;
 
-  ${media.large(css`
+  ${media['x-large'](css`
     padding: 0;
   `)}
 `;
@@ -62,7 +62,7 @@ export const HeaderMenuContainerButton = styled.div`
   border: none;
   cursor: pointer;
 
-  ${media.large(css`
+  ${media['x-large'](css`
     padding: 0;
   `)}
 `;
@@ -72,7 +72,7 @@ export const WebMenuContainer = styled.div`
   flex-direction: row;
   align-items: center;
 
-  ${media.large(css`
+  ${media['x-large'](css`
     display: none;
   `)}
 `;
@@ -80,7 +80,7 @@ export const WebMenuContainer = styled.div`
 export const MobileMenuContainer = styled.div`
   display: none;
 
-  ${media.large(css`
+  ${media['x-large'](css`
     display: flex;
   `)}
 `;
@@ -139,7 +139,13 @@ export const SearchIconWrapper = styled(IconButton)`
 
   cursor: pointer;
 
-  ${media.large(css`
+  ${media['x-large'](css`
     margin-right: 0.5rem;
   `)}
+`;
+
+export const createStyledIcon = (icon: (typeof HEADER_MENU_ITEMS)[number]['icon']) => styled(icon)`
+  width: 20px;
+  height: 20px;
+  color: ${semantics.color.foreground[1]};
 `;
