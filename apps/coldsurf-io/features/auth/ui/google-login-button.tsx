@@ -1,7 +1,8 @@
 'use client';
 
 import { appSessionStorage } from '@/libs/utils';
-import { Button, colors } from '@coldsurfers/ocean-road';
+import { BrandIcon } from '@/shared/ui/brand-icon';
+import { Button, semantics } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { useCallback } from 'react';
@@ -9,11 +10,17 @@ import { useCallback } from 'react';
 const SocialLoginButton = styled(Button)`
   width: 100%;
   margin-top: 0.5rem;
-  background-color: ${colors.oc.white.value};
+  background-color: ${semantics.color.background[5]};
 
-  span {
-    color: ${colors.oc.black.value} !important;
-  }
+  color: ${semantics.color.foreground[1]} !important;
+  font-size: 16px;
+`;
+
+const StyledGoogleIcon = styled(BrandIcon)`
+  width: 16px;
+  height: 16px;
+  fill: ${semantics.color.foreground[1]};
+  margin-right: 0.5rem;
 `;
 
 interface Props {
@@ -33,7 +40,10 @@ export const GoogleLoginButton = ({ isFromLoginPage = false }: Props) => {
 
   return (
     <Link href={'/api/auth/google'} onClick={onClick} style={{ width: '100%' }}>
-      <SocialLoginButton type="button">구글로 계속하기</SocialLoginButton>
+      <SocialLoginButton type="button" theme="border">
+        <StyledGoogleIcon brand="google" />
+        구글로 계속하기
+      </SocialLoginButton>
     </Link>
   );
 };
