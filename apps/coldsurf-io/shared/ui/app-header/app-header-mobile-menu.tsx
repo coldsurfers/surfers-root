@@ -1,7 +1,7 @@
 'use client';
 
 import { APP_DOWNLOAD_WORDING } from '@/libs/constants';
-import { usePreventScrollEffect } from '@/shared/lib';
+import { useIsLoggedIn, usePreventScrollEffect } from '@/shared/lib';
 import { Button, IconButton } from '@coldsurfers/ocean-road';
 import { APP_STORE_URL } from '@coldsurfers/shared-utils';
 import { ColorSchemeToggle } from 'app/(ui)';
@@ -10,6 +10,7 @@ import type { MouseEventHandler } from 'react';
 import { HEADER_MENU_ITEMS } from '../constants';
 import { GlobalLink } from '../global-link';
 import { HeaderMenuItem } from '../header-menu-item';
+import { AppHeaderLoginMenu } from './app-header-login-menu';
 import { AppHeaderMyPageMenu } from './app-header-my-page-menu';
 import { AppHeaderSearchUI } from './app-header.search-ui';
 import {
@@ -47,6 +48,7 @@ export const AppHeaderMobileModalMenu = ({
 }) => {
   const router = useRouter();
   const pathname = usePathname();
+  const { isLoggedIn } = useIsLoggedIn();
 
   usePreventScrollEffect({
     shouldPrevent: isOpen,
@@ -78,6 +80,7 @@ export const AppHeaderMobileModalMenu = ({
                 </GlobalLink>
               );
             })}
+            {!isLoggedIn && <AppHeaderLoginMenu onClickMobileLogout={onClose} />}
             <AppHeaderMyPageMenu onClick={onClose} />
             <GlobalLink href={APP_STORE_URL} onClick={onClose} style={{ margin: '0 auto' }}>
               <Button theme="border">{APP_DOWNLOAD_WORDING}</Button>
