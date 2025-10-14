@@ -1,10 +1,11 @@
 'use client';
 
 import { useIsLoggedIn } from '@/shared/lib';
+import { useLogout } from '@/shared/lib/use-logout';
 import { semantics } from '@coldsurfers/ocean-road';
 import styled from '@emotion/styled';
 import { ImageModal } from 'app/(ui)';
-import { Bolt } from 'lucide-react';
+import { LogOut as LogOutIcon } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
 import { match } from 'ts-pattern';
 import {
@@ -20,7 +21,7 @@ import {
   StyledInfoIcon,
 } from './profile-detail-top.styled';
 
-const StyledSettingsIcon = styled(Bolt)`
+const StyledLogOutIcon = styled(LogOutIcon)`
   width: 24px;
   height: 24px;
 
@@ -53,6 +54,16 @@ export function ProfileDetailTop({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { user } = useIsLoggedIn();
+  const { logout, isLogoutPending } = useLogout({
+    onSuccess: () => {},
+  });
+
+  const onClickLogout = useCallback(() => {
+    if (isLogoutPending) {
+      return;
+    }
+    logout();
+  }, [logout, isLogoutPending]);
 
   const isMyProfile = useMemo(() => {
     return match(profileKind)
@@ -80,7 +91,7 @@ export function ProfileDetailTop({
               {title}
               {isMyProfile && (
                 <span>
-                  <StyledSettingsIcon strokeWidth={2} />
+                  <StyledLogOutIcon strokeWidth={2} onClick={onClickLogout} />
                 </span>
               )}
             </StyledArtistNameText>

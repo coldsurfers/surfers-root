@@ -11,19 +11,7 @@ export const AppHeaderLoginMenu = ({
 }: {
   onClickMobileLogout: () => void;
 }) => {
-  // const queryClient = useQueryClient();
   const pathname = usePathname();
-
-  // const { isPending: isLogoutPending } = useMutation({
-  //   mutationFn: () => authUtils.localLogout(),
-  //   onSuccess: () => {
-  //     queryClient.removeQueries({ queryKey: apiClient.user.queryKeys.me });
-  //     onClickMobileLogout();
-  //   },
-  //   onError: (error) => {
-  //     console.error(error);
-  //   },
-  // });
 
   const LoginIcon = createStyledIcon(KeySquareIcon);
 

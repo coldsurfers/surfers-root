@@ -7,11 +7,21 @@ import { useMemo } from 'react';
 
 export const useIsLoggedIn = () => {
   const { data: userData, isLoading: isLoadingUser } = useQuery<
-    Awaited<ReturnType<typeof apiClient.user.getMe>>,
+    Awaited<ReturnType<typeof apiClient.user.getMe>> | null,
     OpenApiError
   >({
     queryKey: apiClient.user.queryKeys.me,
-    queryFn: () => apiClient.user.getMe(),
+    queryFn: async () => {
+      try {
+        const data = await apiClient.user.getMe();
+        return data;
+      } catch (e) {
+        if (process.env.NODE_ENV === 'development') {
+          console.error('server error', e);
+        }
+        return null;
+      }
+    },
   });
 
   const isLoggedIn = useMemo(() => {
