@@ -21,7 +21,7 @@ export const UserProfileDetailEventList = ({ handle }: Props) => {
 
   return (
     <ProfileDetailEventList
-      title={'찜한 공연'}
+      title={'창꼬에 담은 공연'}
       data={userProfile.subscribedEvents.map((event) => {
         const thumbUrl = event.data.mainPoster?.url ? `${event.data.mainPoster.url}` : '';
         return {

@@ -6,7 +6,6 @@ import {
   SITE_URL,
 } from '@/libs/constants';
 import { metadataInstance } from '@/libs/metadata';
-import { apiClient } from '@/libs/openapi-client';
 import {
   FirebaseRegistry,
   GlobalErrorBoundaryRegistry,
@@ -14,17 +13,18 @@ import {
   QueryClientRegistry,
   RegistryProvider,
 } from '@/libs/registries';
-import { getQueryClient } from '@/libs/utils';
+import { PrefetchQueriesRegistry } from '@/libs/registries/prefetch-queries-registry';
 import { NotFoundContextProvider, RouteListener } from '@/shared/lib';
 import type { ColorScheme } from '@coldsurfers/ocean-road';
 import { SERVICE_NAME } from '@coldsurfers/shared-utils';
-import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import type { ReactNode } from 'react';
 import { pretendard } from '../libs/font';
 import { AppLayout } from './(ui)';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   ...metadataInstance.generateMetadata<Metadata>({
@@ -34,24 +34,8 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const queryClient = getQueryClient();
   const cookieStore = await cookies();
   const cookieTheme = cookieStore.get(COOKIE_THEME)?.value ?? '';
-
-  try {
-    // do not use prefetchQuery, because it will not cause error if server side error is occurred. So catch phrase won't be executed.
-    await queryClient.prefetchQuery({
-      queryKey: apiClient.user.queryKeys.me,
-      queryFn: () => apiClient.user.getMe(),
-    });
-  } catch {
-    // if not logged in, set query data to null (for not csr fetch again)
-    // await queryClient.setQueryData(apiClient.user.queryKeys.me, null, {
-    //   updatedAt: Date.now(),
-    // });
-  }
-
-  const dehydratedState = JSON.parse(JSON.stringify(dehydrate(queryClient)));
 
   return (
     <html lang="en" className={cookieTheme ? `${cookieTheme}` : ''}>
@@ -140,7 +124,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                 logo: `${SITE_URL}/favicon.ico`,
                 url: SITE_URL,
                 name: SERVICE_NAME,
-                sameAs: [APP_STORE_URL, 'https://coldsurf.io', 'https://blog.coldsurf.io'],
+                sameAs: [APP_STORE_URL],
               })
             ),
           }}
@@ -162,12 +146,12 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <GlobalErrorBoundaryRegistry>
             <OceanRoadThemeRegistry cookieColorScheme={cookieTheme as ColorScheme}>
               <QueryClientRegistry>
-                <HydrationBoundary state={dehydratedState}>
-                  <NuqsAdapter>
+                <NuqsAdapter>
+                  <PrefetchQueriesRegistry>
                     <AppLayout>{children}</AppLayout>
-                  </NuqsAdapter>
-                  <RouteListener />
-                </HydrationBoundary>
+                  </PrefetchQueriesRegistry>
+                </NuqsAdapter>
+                <RouteListener />
               </QueryClientRegistry>
             </OceanRoadThemeRegistry>
           </GlobalErrorBoundaryRegistry>

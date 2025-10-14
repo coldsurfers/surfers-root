@@ -1,7 +1,6 @@
 'use client';
 
 import { GoogleLoginButton } from '@/features/auth';
-import { COMMON_META_TITLE } from '@/libs/constants';
 import { apiClient } from '@/libs/openapi-client';
 import { authUtils } from '@/libs/utils/utils.auth';
 import type { OpenApiError } from '@coldsurfers/api-sdk';
@@ -34,11 +33,11 @@ const FormLayout = styled.div`
 `;
 
 const Title = styled(Text)`
-  font-size: 32px;
+  font-size: 42px;
 `;
 
 const SubTitle = styled(Text)`
-  font-size: 16px;
+  font-size: 1.5rem;
   line-height: 1.5;
   color: ${semantics.color.foreground[2]};
 `;
@@ -179,8 +178,10 @@ export const LoginForm = () => {
   return (
     <>
       <FormLayout>
-        <Title as="h1">Welcome back</Title>
-        <SubTitle as="p">{COMMON_META_TITLE}</SubTitle>
+        <Title as="h1">Log in / Sign up</Title>
+        <SubTitle as="p">
+          {'Alternative is the New Mainstream\n공연에서 타투까지, 예술의 흐름을 잇다'}
+        </SubTitle>
         {USE_EMAIL_LOGIN && emailLoginServerError && (
           <ErrorCard>
             <InfoIconUI />

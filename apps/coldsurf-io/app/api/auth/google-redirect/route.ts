@@ -1,11 +1,10 @@
-import { SITE_URL } from '@/libs/constants';
+import { GOOGLE_REDIRECT_URI, SITE_URL } from '@/libs/constants';
 import { apiClient } from '@/libs/openapi-client';
 import { type NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const code = searchParams.get('code') as string;
-  const redirect_uri = process.env.GOOGLE_REDIRECT_URI ?? '';
   const client_id = process.env.GOOGLE_CLIENT_ID ?? '';
   const client_secret = process.env.GOOGLE_CLIENT_SECRET ?? '';
 
@@ -25,7 +24,7 @@ export async function GET(req: NextRequest) {
         code,
         client_id,
         client_secret,
-        redirect_uri,
+        redirect_uri: GOOGLE_REDIRECT_URI,
         grant_type: 'authorization_code',
       }),
     });

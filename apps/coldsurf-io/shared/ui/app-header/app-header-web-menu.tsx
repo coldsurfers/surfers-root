@@ -1,6 +1,7 @@
 'use client';
 
 import { APP_DOWNLOAD_WORDING } from '@/libs/constants';
+import { useIsLoggedIn } from '@/shared/lib';
 import { Button } from '@coldsurfers/ocean-road';
 import { APP_STORE_URL } from '@coldsurfers/shared-utils';
 import { ColorSchemeToggle } from 'app/(ui)';
@@ -16,17 +17,18 @@ import {
   HeaderMenuContainerGlobalLink,
   HeaderMenuContainerLink,
   WebMenuContainer,
+  createStyledIcon,
 } from './app-header.styled';
 
 export const AppHeaderWebMenu = ({
-  isLoading,
   onClose,
 }: {
-  isLoading: boolean;
   onClose: () => void;
 }) => {
   const router = useRouter();
   const pathname = usePathname();
+
+  const { isLoggedIn } = useIsLoggedIn();
 
   return (
     <WebMenuContainer>
@@ -39,22 +41,23 @@ export const AppHeaderWebMenu = ({
         };
         const Container =
           item.link === '/browse' ? HeaderMenuContainerLink : HeaderMenuContainerGlobalLink;
+        const Icon = createStyledIcon(item.icon);
         return (
           <Container key={item.link} href={item.link} onClick={onClick} target={item.target}>
             <HeaderMenuItem
-              isLoading={isLoading}
               isCurrent={
                 pathname.includes(item.link) ||
                 item.subPaths.some((subPath) => pathname.includes(subPath))
               }
+              icon={<Icon />}
             >
               {item.title}
             </HeaderMenuItem>
           </Container>
         );
       })}
+      {!isLoggedIn && <AppHeaderLoginMenu onClickMobileLogout={onClose} />}
       <AppHeaderMyPageMenu onClick={onClose} />
-      <AppHeaderLoginMenu onClickMobileLogout={onClose} />
       <AppHeaderSearchUI />
       <GlobalLink href={APP_STORE_URL} target="_blank">
         <Button theme="border">{APP_DOWNLOAD_WORDING}</Button>

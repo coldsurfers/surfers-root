@@ -16,6 +16,10 @@ export const StyledMenuItem = styled.div<{ $isHighlighted?: boolean }>`
 
   align-self: flex-start;
 
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
   ${(props) =>
     props.$isHighlighted &&
     css`
@@ -47,7 +51,8 @@ export const HeaderMenuItem = ({
   children,
   isLoading,
   isCurrent = false,
-}: PropsWithChildren<{ isLoading?: boolean; isCurrent?: boolean }>) => {
+  icon,
+}: PropsWithChildren<{ isLoading?: boolean; isCurrent?: boolean; icon?: React.ReactNode }>) => {
   if (isLoading) {
     return <AppHeaderMenuTextSkeleton />;
   }
@@ -59,6 +64,7 @@ export const HeaderMenuItem = ({
       }}
       $isHighlighted={isCurrent}
     >
+      {icon}
       {typeof children === 'string' ? (
         <StyledMenuText as="span">{children}</StyledMenuText>
       ) : (
