@@ -1,6 +1,7 @@
 'use client';
 
 import { APP_DOWNLOAD_WORDING } from '@/libs/constants';
+import { useIsLoggedIn } from '@/shared/lib';
 import { Button } from '@coldsurfers/ocean-road';
 import { APP_STORE_URL } from '@coldsurfers/shared-utils';
 import { ColorSchemeToggle } from 'app/(ui)';
@@ -9,6 +10,7 @@ import type { MouseEventHandler } from 'react';
 import { HEADER_MENU_ITEMS } from '../constants';
 import { GlobalLink } from '../global-link';
 import { HeaderMenuItem } from '../header-menu-item';
+import { AppHeaderLoginMenu } from './app-header-login-menu';
 import { AppHeaderMyPageMenu } from './app-header-my-page-menu';
 import { AppHeaderSearchUI } from './app-header.search-ui';
 import {
@@ -19,14 +21,14 @@ import {
 } from './app-header.styled';
 
 export const AppHeaderWebMenu = ({
-  isLoading,
   onClose,
 }: {
-  isLoading: boolean;
   onClose: () => void;
 }) => {
   const router = useRouter();
   const pathname = usePathname();
+
+  const { isLoggedIn } = useIsLoggedIn();
 
   return (
     <WebMenuContainer>
@@ -43,7 +45,6 @@ export const AppHeaderWebMenu = ({
         return (
           <Container key={item.link} href={item.link} onClick={onClick} target={item.target}>
             <HeaderMenuItem
-              isLoading={isLoading}
               isCurrent={
                 pathname.includes(item.link) ||
                 item.subPaths.some((subPath) => pathname.includes(subPath))
@@ -55,6 +56,7 @@ export const AppHeaderWebMenu = ({
           </Container>
         );
       })}
+      {!isLoggedIn && <AppHeaderLoginMenu onClickMobileLogout={onClose} />}
       <AppHeaderMyPageMenu onClick={onClose} />
       <AppHeaderSearchUI />
       <GlobalLink href={APP_STORE_URL} target="_blank">

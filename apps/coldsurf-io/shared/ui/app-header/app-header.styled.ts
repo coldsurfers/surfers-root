@@ -4,9 +4,9 @@ import { GLOBAL_Z_INDEX } from '@/libs/constants';
 import { IconButton, Text, media, semantics } from '@coldsurfers/ocean-road';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { AlignRight, Search as SearchIcon } from 'lucide-react';
+import { AlignRight, type LucideIcon, Search as SearchIcon } from 'lucide-react';
 import Link from 'next/link';
-import { APP_HEADER_HEIGHT, type HEADER_MENU_ITEMS } from '../constants';
+import { APP_HEADER_HEIGHT } from '../constants';
 import { GlobalLink } from '../global-link';
 
 export const HeaderContainer = styled.header<{ $animation: 'show' | 'hide' }>`
@@ -144,7 +144,7 @@ export const SearchIconWrapper = styled(IconButton)`
   `)}
 `;
 
-export const createStyledIcon = (icon: (typeof HEADER_MENU_ITEMS)[number]['icon']) => styled(icon)`
+export const createStyledIcon = (icon: LucideIcon) => styled(icon)`
   width: 20px;
   height: 20px;
   color: ${semantics.color.foreground[1]};

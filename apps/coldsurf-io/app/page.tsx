@@ -8,8 +8,6 @@ import { InfiniteHomeCollection } from './(components)/infinite-home-collection'
 import { PageLayout, PageTop } from './(ui)';
 import { RouteLoading } from './(ui)/route-loading/route-loading';
 
-export const dynamic = 'force-static';
-
 const getVenueDetailBySlug = cache(async (slug: string) => {
   return await apiClient.venue.getVenueDetailBySlug(slug);
 });
