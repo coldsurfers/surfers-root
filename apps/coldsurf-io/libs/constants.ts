@@ -1,14 +1,13 @@
 import { SERVICE_NAME } from '@coldsurfers/shared-utils';
+import { match } from 'ts-pattern';
 import pkg from '../package.json';
 
 export const API_BASE_URL = (() => {
   switch (process.env.APP_PLATFORM) {
     case 'production':
       return 'https://api.billets.coldsurf.io';
-    case 'staging':
-      return 'https://dev.api.billets.coldsurf.io';
     default:
-      return 'http://localhost:3001';
+      return 'https://dev.api.billets.coldsurf.io';
   }
 })();
 
@@ -49,3 +48,9 @@ export const SNS_LINKS = {
   INSTAGRAM: 'https://www.instagram.com/coldsurf.io',
   X: 'https://x.com/coldsurf_io',
 } as const;
+
+export const GOOGLE_REDIRECT_URI = (() => {
+  return match(process.env.APP_PLATFORM)
+    .with('staging', () => `${process.env.STAGING_URI}${process.env.GOOGLE_REDIRECT_PATH}`)
+    .otherwise(() => `${process.env.SITE_URL}${process.env.GOOGLE_REDIRECT_PATH}`);
+})();
