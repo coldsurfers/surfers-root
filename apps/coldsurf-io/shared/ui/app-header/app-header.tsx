@@ -63,7 +63,7 @@ export function AppHeader() {
     <>
       <HeaderContainer $animation={animation}>
         <AppHeaderLogo />
-        <AppHeaderWebMenu onClose={() => setIsModalOpen(false)} isLoading={isLoadingUser} />
+        <AppHeaderWebMenu onClose={() => setIsModalOpen(false)} />
         <AppHeaderMobileMenuOpener onClick={() => setIsModalOpen(true)} />
       </HeaderContainer>
       <AppHeaderMobileModalMenu

@@ -13,7 +13,9 @@ export const PrefetchQueriesRegistry = async ({ children }: PropsWithChildren) =
         const response = await apiClient.user.getMe();
         return response;
       } catch (e) {
-        console.error('server error', e);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('server error', e);
+        }
         // do not return undefined, for fill the prefetched valid data
         // maybe most of errors would be 401 Unauthorized
         return null;
