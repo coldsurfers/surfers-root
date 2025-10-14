@@ -185,6 +185,15 @@ async function connectEventCategory(
 async function findVenue(venue: string) {
   let alreadyExistingVenueId = null;
   switch (venue) {
+    case 'ASSA 아트홀':
+      alreadyExistingVenueId = '99e622c3-5547-4ad2-9f96-78ac4c30577a';
+      break;
+    case '어브 스튜디오(Aube Studio)':
+      alreadyExistingVenueId = 'e23ec80c-9bfa-4fc0-801e-895a47468c34';
+      break;
+    case '피아올라홀(피아올라스튜디오)':
+      alreadyExistingVenueId = 'a7abe6dc-e5b7-4445-b426-c0cb1a8c5d1b';
+      break;
     case '언더시티 (UNDER CITY)':
       alreadyExistingVenueId = 'cce65e7e-e349-4263-8ba3-5c1956c39ac4';
       break;
