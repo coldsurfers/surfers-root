@@ -140,7 +140,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                 logo: `${SITE_URL}/favicon.ico`,
                 url: SITE_URL,
                 name: SERVICE_NAME,
-                sameAs: [APP_STORE_URL, 'https://coldsurf.io', 'https://blog.coldsurf.io'],
+                sameAs: [APP_STORE_URL],
               })
             ),
           }}
