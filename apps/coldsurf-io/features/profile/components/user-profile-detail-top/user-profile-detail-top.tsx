@@ -21,7 +21,7 @@ export const UserProfileDetailTop = ({ handle }: Props) => {
   return (
     <ProfileDetailTop
       profileKind="User"
-      title={`${userProfile.handle}의 문화창꼬`}
+      title={`${userProfile.handle}`}
       thumbUrl={''}
       imgModalThumbUrl={''}
       thumbCopyright={undefined}

@@ -21,5 +21,6 @@ export const useIsLoggedIn = () => {
   return {
     isLoggedIn,
     isLoading: isLoadingUser,
+    user: userData,
   };
 };
