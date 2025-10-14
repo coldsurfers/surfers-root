@@ -12,10 +12,9 @@ export const API_BASE_URL = (() => {
 })();
 
 export const SITE_URL = (() => {
-  if (process.env.NODE_ENV === 'development') {
-    return 'http://localhost:3000';
-  }
-  return process.env.SITE_URL ?? 'https://coldsurf.io';
+  return match(process.env.APP_PLATFORM)
+    .with('staging', () => `${process.env.STAGING_URI}`)
+    .otherwise(() => `${process.env.SITE_URL}`);
 })();
 
 export const SLOGAN = 'Alternative is the New Mainstream';
