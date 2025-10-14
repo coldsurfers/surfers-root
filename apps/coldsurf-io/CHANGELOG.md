@@ -1,5 +1,11 @@
 # @coldsurfers/coldsurf-io
 
+## 1.4.0
+
+### Minor Changes
+
+- [#612](https://github.com/coldsurfers/surfers-root/pull/612) [`7c4c8d9`](https://github.com/coldsurfers/surfers-root/commit/7c4c8d9d4551590aa368e0973a1eca01214ab59f) Thanks [@yungblud](https://github.com/yungblud)! - Implement Barrack
+
 ## 1.3.4
 
 ### Patch Changes
