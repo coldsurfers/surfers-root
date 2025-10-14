@@ -24,8 +24,6 @@ import type { ReactNode } from 'react';
 import { pretendard } from '../libs/font';
 import { AppLayout } from './(ui)';
 
-export const dynamic = 'force-dynamic';
-
 export const metadata: Metadata = {
   ...metadataInstance.generateMetadata<Metadata>({
     title: COMMON_META_TITLE,

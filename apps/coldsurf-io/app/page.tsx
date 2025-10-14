@@ -8,6 +8,9 @@ import { InfiniteHomeCollection } from './(components)/infinite-home-collection'
 import { PageLayout, PageTop } from './(ui)';
 import { RouteLoading } from './(ui)/route-loading/route-loading';
 
+// layout이 아닌 page에 두어야 함. layout에 두게 되면, 모든 페이지 force-dynamic 처리됨.
+export const dynamic = 'force-dynamic';
+
 const getVenueDetailBySlug = cache(async (slug: string) => {
   return await apiClient.venue.getVenueDetailBySlug(slug);
 });
