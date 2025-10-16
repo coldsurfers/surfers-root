@@ -9,7 +9,7 @@ import {
 import { GlobalSuspenseFallback } from '@/ui/global-suspense-fallback';
 import { colors } from '@coldsurfers/ocean-road';
 import { Button, Spinner, Text, useColorScheme } from '@coldsurfers/ocean-road/native';
-import { Star } from 'lucide-react-native';
+import { ChevronRight } from 'lucide-react-native';
 import React, { Suspense, useCallback, useMemo } from 'react';
 import { Pressable, SectionList, type SectionListRenderItem, StyleSheet, View } from 'react-native';
 import { match } from 'ts-pattern';
@@ -45,7 +45,7 @@ const SuspenseMyScreen = () => {
                 return null;
               })
               .with('saved', () => {
-                return <Star color={semantics.foreground[1]} />;
+                return null;
               })
               .otherwise(() => null)}
           </View>
@@ -56,6 +56,7 @@ const SuspenseMyScreen = () => {
             <Pressable
               onPress={info.section.moreAddOn.onPress}
               style={styles.sectionHeaderMoreAddOnButton}
+              hitSlop={20}
             >
               <Text
                 style={[
@@ -65,6 +66,7 @@ const SuspenseMyScreen = () => {
               >
                 {info.section.moreAddOn.uiText}
               </Text>
+              <ChevronRight color={semantics.foreground[1]} strokeWidth={2.5} size={16} />
             </Pressable>
           )}
         </View>
@@ -130,11 +132,20 @@ const SuspenseMyScreen = () => {
       },
       {
         title: 'saved',
-        uiTitle: 'Following',
+        uiTitle: '창꼬에 담은 공연',
         data: [{ title: user.email.split('@')[0], onPress: () => {} }],
+        moreAddOn: {
+          uiText: '더보기',
+          onPress: () => {
+            navigation.navigate('SubscribedStackNavigation', {
+              screen: 'SubscribedConcertListScreen',
+              params: {},
+            });
+          },
+        },
       },
     ];
-  }, [user]);
+  }, [user, navigation]);
 
   if (isLoading && !meError) {
     return <GlobalSuspenseFallback />;
@@ -212,6 +223,8 @@ const styles = StyleSheet.create({
   },
   sectionHeaderMoreAddOnButton: {
     marginLeft: 'auto',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   sectionHeaderMoreAddOnButtonText: {
     fontWeight: 'bold',
