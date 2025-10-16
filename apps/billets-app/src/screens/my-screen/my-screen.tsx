@@ -8,14 +8,8 @@ import {
 } from '@/ui';
 import { GlobalSuspenseFallback } from '@/ui/global-suspense-fallback';
 import { colors } from '@coldsurfers/ocean-road';
-import {
-  Button,
-  ProfileThumbnail,
-  Spinner,
-  Text,
-  useColorScheme,
-} from '@coldsurfers/ocean-road/native';
-import { CircleUserRound, Star } from 'lucide-react-native';
+import { Button, Spinner, Text, useColorScheme } from '@coldsurfers/ocean-road/native';
+import { Star } from 'lucide-react-native';
 import React, { Suspense, useCallback, useMemo } from 'react';
 import { Pressable, SectionList, type SectionListRenderItem, StyleSheet, View } from 'react-native';
 import { match } from 'ts-pattern';
@@ -48,14 +42,14 @@ const SuspenseMyScreen = () => {
           <View style={{ marginRight: 4 }}>
             {match(info.section.title)
               .with('profile', () => {
-                return <CircleUserRound color={semantics.foreground[1]} />;
+                return null;
               })
               .with('saved', () => {
                 return <Star color={semantics.foreground[1]} />;
               })
               .otherwise(() => null)}
           </View>
-          <Text style={[styles.sectionHeaderText, { color: semantics.foreground[1] }]}>
+          <Text style={[styles.sectionHeaderText, { color: semantics.foreground[3] }]}>
             {info.section.uiTitle}
           </Text>
           {info.section.moreAddOn && (
@@ -91,7 +85,6 @@ const SuspenseMyScreen = () => {
         .with('profile', () => {
           return (
             <Pressable onPress={info.item.onPress} style={styles.profileItem}>
-              <ProfileThumbnail type="circle" size="md" emptyBgText={info.item.title.at(0) ?? ''} />
               <Text
                 style={[
                   styles.profileItemText,
@@ -132,8 +125,8 @@ const SuspenseMyScreen = () => {
     return [
       {
         title: 'profile',
-        uiTitle: '마이 프로필',
-        data: [{ title: user.email.split('@')[0], onPress: () => {} }],
+        uiTitle: '문화창꼬',
+        data: [{ title: user.handle ?? '', onPress: () => {} }],
       },
       {
         title: 'saved',
@@ -186,13 +179,13 @@ const styles = StyleSheet.create({
   item: {
     paddingVertical: 4,
   },
-  itemText: { fontWeight: '700', fontSize: 18 },
+  itemText: { fontWeight: '700', fontSize: 24 },
   sectionList: {},
   profileItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 8,
     paddingHorizontal: 16,
+    marginBottom: 24,
   },
   profileItemTextWrapper: {
     width: 50,
@@ -204,7 +197,6 @@ const styles = StyleSheet.create({
   },
   profileItemText: {
     paddingVertical: 4,
-    marginLeft: 8,
   },
   accountItem: {
     backgroundColor: colors.oc.gray[6].value,
@@ -214,7 +206,6 @@ const styles = StyleSheet.create({
     color: colors.oc.white.value,
   },
   sectionHeader: {
-    paddingVertical: 8,
     paddingHorizontal: 16,
     flexDirection: 'row',
     alignItems: 'center',

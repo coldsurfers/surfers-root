@@ -36,7 +36,6 @@ export const MyStackNavigation = () => {
                 {...props}
                 options={{
                   ...props.options,
-                  title: '프로필',
                   headerBackVisible: false,
                   headerRight: () => (
                     <TouchableOpacity
