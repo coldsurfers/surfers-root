@@ -37,7 +37,7 @@ export const MainTabNavigation = () => {
       <Tab.Screen
         options={{
           header: () => null,
-          tabBarLabel: 'MY',
+          tabBarLabel: '나의 창꼬',
         }}
         name="MyStackNavigation"
         component={MyStackNavigation}

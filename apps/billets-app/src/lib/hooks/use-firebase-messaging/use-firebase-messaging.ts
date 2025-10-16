@@ -12,8 +12,14 @@ export function useFirebaseMessaging() {
   }, []);
 
   const getFCMToken = useCallback(async () => {
-    const fcmToken = await messaging().getToken();
-    return fcmToken;
+    try {
+      const fcmToken = await messaging().getToken();
+      return fcmToken;
+    } catch (e) {
+      // 시뮬레이터에서는 에러가 남
+      console.error(e);
+      return null;
+    }
   }, []);
 
   const subscribeTopic = useCallback(async (topic: TopicType) => {
