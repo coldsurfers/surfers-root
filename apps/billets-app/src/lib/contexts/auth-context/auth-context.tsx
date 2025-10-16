@@ -44,7 +44,9 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
       try {
         mmkvInstance.set(mmkvKeys.authToken, JSON.stringify(authToken));
         const fcmToken = await getFCMToken();
-        await mutateSaveFcmTokenAsync(fcmToken);
+        if (fcmToken) {
+          await mutateSaveFcmTokenAsync(fcmToken);
+        }
         await queryClient.resetQueries();
         logEvent({
           name: 'login',
