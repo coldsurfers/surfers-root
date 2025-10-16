@@ -1,5 +1,11 @@
 # @coldsurfers/billets-app
 
+## 2.5.3
+
+### Patch Changes
+
+- [#614](https://github.com/coldsurfers/surfers-root/pull/614) [`4687095`](https://github.com/coldsurfers/surfers-root/commit/46870959bc5ac575c5230c5442e9232c90ebe044) Thanks [@yungblud](https://github.com/yungblud)! - Update my barrack
+
 ## 2.5.2
 
 ### Patch Changes
