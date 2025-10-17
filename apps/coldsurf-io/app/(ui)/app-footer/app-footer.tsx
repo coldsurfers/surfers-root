@@ -155,12 +155,12 @@ const StyledAppLogo = styled(AppLogo)`
 `;
 
 const StyledTopFooterMenuContainer = styled.div`
-  margin-left: auto;
-  padding-right: 22rem;
+  margin-left: 8rem;
 
   ${media.medium(css`
     margin-left: unset;
     padding-right: unset;
+    margin-top: 2rem;
   `)}
 `;
 
@@ -186,6 +186,7 @@ export function AppFooter() {
     <FooterContainer>
       <FooterTopContainer>
         <StyledAppLogo type="round" transparent />
+        <div style={{ flex: 1 }} />
         <StyledTopFooterMenuContainer>
           <StyledTopFooterMenuText as="p">About</StyledTopFooterMenuText>
           <Link href="/about/story">
@@ -193,6 +194,12 @@ export function AppFooter() {
           </Link>
           <Link href="/about">
             <StyledTopFooterSubMenuText as="p">Mission</StyledTopFooterSubMenuText>
+          </Link>
+        </StyledTopFooterMenuContainer>
+        <StyledTopFooterMenuContainer>
+          <StyledTopFooterMenuText as="p">Support</StyledTopFooterMenuText>
+          <Link href="https://ko-fi.com/coldsurf" target="_blank" rel="noopener noreferrer">
+            <StyledTopFooterSubMenuText as="p">Buy me a coffee</StyledTopFooterSubMenuText>
           </Link>
         </StyledTopFooterMenuContainer>
       </FooterTopContainer>
