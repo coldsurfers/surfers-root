@@ -8,7 +8,6 @@ export const StyledPosterThumbnail = styled.img`
   object-position: 50%;
   width: 100%;
   aspect-ratio: 1 / 1;
-  cursor: pointer;
   user-select: none;
   background: ${semantics.color.background[3]};
 `;
