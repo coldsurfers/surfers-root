@@ -2,7 +2,8 @@
 
 import { appSessionStorage } from '@/libs/utils';
 import { BrandIcon } from '@/shared/ui/brand-icon';
-import { Button, semantics } from '@coldsurfers/ocean-road';
+import { Button, media, semantics } from '@coldsurfers/ocean-road';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { useCallback } from 'react';
@@ -14,6 +15,10 @@ const SocialLoginButton = styled(Button)`
 
   color: ${semantics.color.foreground[1]} !important;
   font-size: 16px;
+
+  ${media.small(css`
+    font-size: 14px;
+  `)}
 `;
 
 const StyledGoogleIcon = styled(BrandIcon)`
