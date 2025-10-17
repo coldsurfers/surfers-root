@@ -1,5 +1,11 @@
 # @coldsurfers/coldsurf-io
 
+## 1.4.1
+
+### Patch Changes
+
+- [#616](https://github.com/coldsurfers/surfers-root/pull/616) [`7728e47`](https://github.com/coldsurfers/surfers-root/commit/7728e47ce1fa1e634850c62f30c13c4f2e5210f2) Thanks [@yungblud](https://github.com/yungblud)! - Add buy me a coffee footer menu
+
 ## 1.4.0
 
 ### Minor Changes
