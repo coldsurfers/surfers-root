@@ -17,7 +17,9 @@ export const SearchDTOSchema = z.discriminatedUnion('type', [
     type: z.literal('concert'),
     title: z.string(),
     thumbnailImgUrl: z.string(),
-    date: z.string().datetime(),
+    // 실제 값은 2025-10-18T09:00:00+00:00 과 같은 값 -> coerce date로 변환하면 2025-10-18T09:00:00Z 로 변환됨
+    // strict하게 z.string().datetime()으로 하면 zodError
+    date: z.coerce.date(),
     venueTitle: z.string(),
     id: z.string(),
     slug: z.string().nullable(),
