@@ -1,5 +1,11 @@
 # @coldsurfers/billets-server
 
+## 1.3.2
+
+### Patch Changes
+
+- [#621](https://github.com/coldsurfers/surfers-root/pull/621) [`048578e`](https://github.com/coldsurfers/surfers-root/commit/048578eeb289c695d9197f62597821eb5bf3e528) Thanks [@yungblud](https://github.com/yungblud)! - enhance search performance
+
 ## 1.3.1
 
 ### Patch Changes
