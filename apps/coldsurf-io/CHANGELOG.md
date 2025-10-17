@@ -1,5 +1,11 @@
 # @coldsurfers/coldsurf-io
 
+## 1.4.2
+
+### Patch Changes
+
+- [#619](https://github.com/coldsurfers/surfers-root/pull/619) [`10c330f`](https://github.com/coldsurfers/surfers-root/commit/10c330fd4fbf164beed0a95731b08f7c2fab6a77) Thanks [@yungblud](https://github.com/yungblud)! - 로그인 폼 문구 수정
+
 ## 1.4.1
 
 ### Patch Changes
