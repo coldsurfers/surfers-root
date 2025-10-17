@@ -59,6 +59,10 @@ const SubTitle = styled(Text)`
     margin-top: 0.75rem;
     margin-bottom: 1rem;
     text-align: center;
+
+    ${media.small(css`
+      font-size: 1.25rem;
+    `)}
 `;
 
 export const LoginSideBar = () => {
@@ -124,8 +128,7 @@ export const LoginSideBar = () => {
               <X color={semantics.color.foreground[1]} />
             </div>
             <Title as="h1">Log in / Sign up</Title>
-            <SubTitle as="h2">{COMMON_META_TITLE}</SubTitle>
-            <SubTitle as="h3">{COMMON_META_DESCRIPTION}</SubTitle>
+            <SubTitle as="h2">{'1초만에 가입하고 내 창꼬 만들기'}</SubTitle>
             <GoogleLoginButton />
           </ModalContainer>
         </>

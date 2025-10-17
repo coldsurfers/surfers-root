@@ -5,7 +5,7 @@ import { isEmptySource } from '@/libs/utils/utils.image';
 import { featureFlags } from '@/shared/constants';
 import type { components } from '@coldsurfers/api-sdk';
 import { ImageModal } from 'app/(ui)';
-import { type ReactNode, useCallback, useMemo, useState } from 'react';
+import { type ReactNode, useMemo, useState } from 'react';
 import {
   StyledContentWrapper,
   StyledPosterThumbnail,
@@ -38,13 +38,10 @@ export function PosterThumbnail({
     if (isEmptySource(src)) return '';
     return `${src}`;
   }, [src]);
-  const openModal = useCallback(() => {
-    setIsModalOpen(true);
-  }, []);
   return source ? (
     <>
       <StyledContentWrapper>
-        <StyledPosterThumbnail src={source} alt={alt} onClick={openModal} />
+        <StyledPosterThumbnail src={source} alt={alt} />
         {featureFlags.useSubscribeButton && (
           <FixedSubscribeEventButtonLayout customBottom={12}>
             <SubscribeEventButton eventId={eventId} />

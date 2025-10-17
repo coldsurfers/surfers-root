@@ -34,12 +34,22 @@ const FormLayout = styled.div`
 
 const Title = styled(Text)`
   font-size: 42px;
+
+  ${media.small(css`
+    font-size: 32px;
+  `)}
 `;
 
 const SubTitle = styled(Text)`
   font-size: 1.5rem;
   line-height: 1.5;
+  font-weight: 600;
   color: ${semantics.color.foreground[2]};
+
+
+  ${media.small(css`
+    font-size: 1.25rem;
+  `)}
 `;
 
 const Form = styled.form`
@@ -179,9 +189,7 @@ export const LoginForm = () => {
     <>
       <FormLayout>
         <Title as="h1">Log in / Sign up</Title>
-        <SubTitle as="p">
-          {'Alternative is the New Mainstream\n공연에서 타투까지, 예술의 흐름을 잇다'}
-        </SubTitle>
+        <SubTitle as="p">{'1초만에 가입하고 내 창꼬 만들기'}</SubTitle>
         {USE_EMAIL_LOGIN && emailLoginServerError && (
           <ErrorCard>
             <InfoIconUI />
