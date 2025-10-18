@@ -1,5 +1,6 @@
 import color from '@coldsurfers/ocean-road-design-tokens/dist/js/color/variables';
 import styled, { css } from '@emotion/native';
+import { icons as Icons } from 'lucide-react-native';
 import type { ButtonTheme } from '../../button/button.types';
 import { getButtonBackgroundColor, getButtonForegroundColor } from '../../button/button.utils';
 import { colors } from '../../tokens';
@@ -58,3 +59,35 @@ export const StyledButtonText = styled(Text)<{ colorTheme: ButtonTheme; size: 'm
     }
   }};
 `;
+
+const iconSize = (size: 'lg' | 'md' | 'sm') => {
+  switch (size) {
+    case 'lg':
+      return 18;
+    case 'md':
+      return 16;
+    default:
+      return 14;
+  }
+};
+
+export const createStyledIconNative = (
+  icon: keyof typeof Icons,
+  size: 'lg' | 'md' | 'sm',
+  position: 'left' | 'right'
+) => {
+  const TargetIcon = styled(Icons[icon])`
+      color: ${colors.oc.white.value};
+    `;
+
+  return (
+    <TargetIcon
+      size={iconSize(size)}
+      strokeWidth={3}
+      style={{
+        marginLeft: position === 'right' ? 4 : undefined,
+        marginRight: position === 'left' ? 4 : undefined,
+      }}
+    />
+  );
+};
