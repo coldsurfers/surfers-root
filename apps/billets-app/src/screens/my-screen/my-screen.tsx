@@ -2,7 +2,7 @@ import { useMeQuery } from '@/features/auth/hooks/useMeQuery';
 import { useShowBottomTabBar } from '@/lib';
 import {
   CommonScreenLayout,
-  MyScreenLandingLayout,
+  MyScreenLoginForm,
   SubscribeInfoMe,
   SubscribedConcertListSkeleton,
 } from '@/ui';
@@ -27,13 +27,6 @@ const SuspenseMyScreen = () => {
   const { semantics } = useColorScheme();
 
   useShowBottomTabBar();
-
-  const onPressLoginButton = useCallback(() => {
-    navigation.navigate('LoginStackNavigation', {
-      screen: 'LoginSelectionScreen',
-      params: {},
-    });
-  }, [navigation]);
 
   const renderSectionHeader = useCallback(
     (info: { section: MyScreenSettingSectionListSectionT }) => {
@@ -166,7 +159,7 @@ const SuspenseMyScreen = () => {
       />
     </CommonScreenLayout>
   ) : (
-    <MyScreenLandingLayout onPressLoginButton={onPressLoginButton} />
+    <MyScreenLoginForm />
   );
 };
 
