@@ -2,8 +2,8 @@ import type { AppUpdateInfoDTO } from '@/dtos/app-update-info.dto';
 
 const HARD_CODED_APP_UPDATE_INFO: AppUpdateInfoDTO = {
   ios: {
-    forceUpdate: false,
-    latestVersion: '2.5.3',
+    forceUpdate: true,
+    latestVersion: '2.5.4',
     updateType: 'ota',
   },
   android: {
