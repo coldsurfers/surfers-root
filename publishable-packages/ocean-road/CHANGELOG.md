@@ -1,5 +1,11 @@
 # @coldsurfers/ocean-road
 
+## 1.12.1
+
+### Patch Changes
+
+- [#622](https://github.com/coldsurfers/surfers-root/pull/622) [`a5cc5ac`](https://github.com/coldsurfers/surfers-root/commit/a5cc5ac2dc9f84ee505fca4283d79a654f59464c) Thanks [@yungblud](https://github.com/yungblud)! - Button leftIcon, rightIcon
+
 ## 1.12.0
 
 ### Minor Changes
