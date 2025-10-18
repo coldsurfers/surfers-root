@@ -9,6 +9,7 @@ module.exports = {
         root: ['.'],
         alias: {
           react: '../../node_modules/react',
+          '@coldsurfers/ocean-road/native': './node_modules/@coldsurfers/ocean-road/src/native',
           '@coldsurfers/ocean-road-extension/native':
             '../../node_modules/@coldsurfers/ocean-road-extension/src/native',
           '@coldsurfers/openapi-client/native': '../../packages/openapi-client/src/native/index.ts',

@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@coldsurfers/api-sdk": "workspace:*",
-    "@coldsurfers/ocean-road": "1.12.1-alpha.3",
+    "@coldsurfers/ocean-road": "1.12.1-alpha.5",
     "@coldsurfers/ocean-road-design-tokens": "1.10.3",
     "@coldsurfers/ocean-road-extension": "1.0.1",
     "@coldsurfers/openapi-client": "workspace:*",
