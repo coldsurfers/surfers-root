@@ -116,3 +116,8 @@ export const createStyledIcon = (
     />
   );
 };
+
+export const StyledIconWrapper = styled.div<{ $position: 'left' | 'right' }>`
+  margin-right: ${({ $position }) => ($position === 'left' ? '4px' : '0px')};
+  margin-left: ${({ $position }) => ($position === 'right' ? '4px' : '0px')};
+`;
