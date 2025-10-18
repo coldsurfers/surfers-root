@@ -10,6 +10,11 @@ export const VenueDetailTopTitleText = styled(Text)`
   `)}
 `;
 
+export const VenueDetailTopSubTitleText = styled(Text)`
+  font-size: 28px;
+  font-style: italic;
+`;
+
 export const VenueDetailMemoText = styled(Text)`
   font-size: 28px;
   font-style: italic;
@@ -38,4 +43,9 @@ export const VenueDetailMemoText = styled(Text)`
       font-size: 1.25rem;
     }
   `)}
+`;
+
+export const VenueDetailTopTopLine = styled.div`
+  display: flex;
+  align-items: center;
 `;
