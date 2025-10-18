@@ -206,6 +206,17 @@ export const SearchScreen = () => {
     }
   }, [initialize, latitude, longitude, selectedLocationFilter, setLocationConcerts]);
 
+  useFocusEffect(
+    useCallback(() => {
+      if (viewMode === 'list') {
+        bottomSheetRef.current?.expand();
+      }
+      if (viewMode === 'map') {
+        bottomSheetRef.current?.collapse();
+      }
+    }, [viewMode])
+  );
+
   // Animated position
   const animatedPosition = useSharedValue(0);
 
@@ -299,7 +310,7 @@ export const SearchScreen = () => {
             <SearchBottomList {...bottomListProps} />
           ) : (
             <Pressable
-              onPress={() => bottomSheetRef.current?.snapToIndex(FULLY_EXPANDED_SNAP_INDEX)}
+              onPress={() => bottomSheetRef.current?.expand()}
               style={[
                 styles.guideBox,
                 {
