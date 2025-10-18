@@ -1,9 +1,8 @@
 import { apiClient } from '@/lib/api/openapi-client';
 import { Spinner, useColorScheme } from '@coldsurfers/ocean-road/native';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
-import { Suspense, useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { FlatList, type ListRenderItem, StyleSheet, View } from 'react-native';
-import { ConcertListItem } from '../concert-list-item';
 import { SubscribedConcertListItem } from '../subscribed-concert-list-item';
 import { subscribedConcertListStyles } from './subscribed-concert-list.styles';
 
@@ -51,26 +50,13 @@ export function SubscribedConcertList({
   const renderItem = useCallback<ListRenderItem<(typeof listData)[number]>>(
     ({ item, index }) => {
       return (
-        <Suspense
-          fallback={
-            <ConcertListItem.Skeleton
-              size={horizontal ? 'small' : 'large'}
-              style={
-                !horizontal && {
-                  paddingLeft: index % 2 === 0 ? 0 : 6,
-                  paddingRight: index % 2 === 0 ? 6 : 0,
-                }
-              }
-            />
-          }
-        >
-          <SubscribedConcertListItem
-            index={index}
-            data={item}
-            onPress={onPressItem}
-            size={horizontal ? 'small' : 'large'}
-          />
-        </Suspense>
+        <SubscribedConcertListItem
+          index={index}
+          data={item}
+          onPress={onPressItem}
+          size={horizontal ? 'small' : 'large'}
+          horizontal={horizontal}
+        />
       );
     },
     [horizontal, onPressItem]
