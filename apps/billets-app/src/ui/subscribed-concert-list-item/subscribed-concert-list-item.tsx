@@ -1,6 +1,6 @@
 import { apiClient } from '@/lib/api/openapi-client';
 import type { components } from '@/types/api';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { ConcertListItem } from '../concert-list-item';
 
 export function SubscribedConcertListItem({
@@ -8,16 +8,33 @@ export function SubscribedConcertListItem({
   onPress,
   size = 'small',
   index,
+  horizontal,
 }: {
   data: components['schemas']['EventSubscribeDTOSchema'];
   onPress: (concertId: string) => void;
   size?: 'small' | 'large';
   index: number;
+  horizontal?: boolean;
 }) {
-  const { data: eventDetailData } = useSuspenseQuery({
+  const { data: eventDetailData, isLoading } = useQuery({
     queryKey: apiClient.event.queryKeys.detail(data.eventId),
     queryFn: () => apiClient.event.getEventDetail(data.eventId),
   });
+
+  if (isLoading) {
+    return (
+      <ConcertListItem.Skeleton
+        size={horizontal ? 'small' : 'large'}
+        style={
+          !horizontal && {
+            paddingLeft: index % 2 === 0 ? 0 : 6,
+            paddingRight: index % 2 === 0 ? 6 : 0,
+          }
+        }
+      />
+    );
+  }
+
   if (!eventDetailData || eventDetailData.type !== 'concert') {
     return null;
   }
@@ -26,6 +43,7 @@ export function SubscribedConcertListItem({
   if (!mainPoster || !mainVenue) {
     return null;
   }
+
   return (
     <ConcertListItem
       data={{

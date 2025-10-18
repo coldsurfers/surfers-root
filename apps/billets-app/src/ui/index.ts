@@ -13,7 +13,7 @@ export * from './geolocation-permission-alert-modal';
 export * from './horizontal-concert-item';
 export * from './location-selector';
 export * from './location-selector-modal';
-export * from './my-screen-landing-layout';
+export * from './my-screen-login-form';
 export * from './navigation-header';
 export * from './search-bottom-keyword-result-list';
 export * from './search-bottom-keyword-result-list-empty';

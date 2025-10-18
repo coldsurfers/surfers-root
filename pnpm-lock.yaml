@@ -83,8 +83,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/api-sdk
       '@coldsurfers/ocean-road':
-        specifier: 1.11.6
-        version: 1.11.6(862eed9e289b92953dc35565a8d454f6)
+        specifier: 1.12.1-alpha.5
+        version: 1.12.1-alpha.5(69d7acdf2859ac19f9f825cff3fe0d91)
       '@coldsurfers/ocean-road-design-tokens':
         specifier: 1.10.3
         version: 1.10.3
@@ -1060,8 +1060,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/navigation-utils
       '@coldsurfers/ocean-road':
-        specifier: 1.11.6
-        version: 1.11.6(3d767a2a2aa7fad845bbacebdf750b89)
+        specifier: 1.12.1-alpha.5
+        version: 1.12.1-alpha.5(42636c874aa6674d028e160b3ce57d2a)
       '@coldsurfers/ocean-road-design-tokens':
         specifier: 1.10.3
         version: 1.10.3
@@ -1503,8 +1503,8 @@ importers:
         specifier: 1.9.4
         version: 1.9.4
       '@coldsurfers/ocean-road':
-        specifier: 1.11.6
-        version: 1.11.6(3d767a2a2aa7fad845bbacebdf750b89)
+        specifier: 1.12.1-alpha.5
+        version: 1.12.1-alpha.5(42636c874aa6674d028e160b3ce57d2a)
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -2945,6 +2945,22 @@ packages:
 
   '@coldsurfers/ocean-road@1.12.0':
     resolution: {integrity: sha512-GlbPpnDo1CVJ0erTS8WGJbZy+ZRtR3JXNmPCcz1Nh8hX166cmYpdpkPZiv8e2AjnotaQV/hRouC9xY2gCoDtAw==, tarball: https://npm.pkg.github.com/download/@coldsurfers/ocean-road/1.12.0/e8d6e4de3f24e85201deff45de481daf81536324}
+    peerDependencies:
+      '@coldsurfers/ocean-road-design-tokens': ^1.10.3
+      '@emotion/css': 11.10.6
+      '@emotion/native': 11.11.0
+      '@emotion/react': 11.10.6
+      '@emotion/styled': 11.10.6
+      framer-motion: 11.11.13
+      lucide-react: 0.469.0
+      lucide-react-native: 0.468.0
+      react: '>= 19.0.0'
+      react-dom: '>= 19.0.0'
+      react-native-reanimated: '>= 3.17.1'
+      react-native-svg: 15.11.1
+
+  '@coldsurfers/ocean-road@1.12.1-alpha.5':
+    resolution: {integrity: sha512-c3k5g3XvOuVO+t+cQHXIBCAa1X6uWP25QMYuhjbDjwHnwR9H83vyVu4Pt3Noxrp31VGPPruF6sRwGsCnqbJBHA==, tarball: https://npm.pkg.github.com/download/@coldsurfers/ocean-road/1.12.1-alpha.5/99f7db05ba85f0496973b9b3a561d0ef6c636a9f}
     peerDependencies:
       '@coldsurfers/ocean-road-design-tokens': ^1.10.3
       '@emotion/css': 11.10.6
@@ -17348,38 +17364,6 @@ snapshots:
       react-native-svg: 15.13.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.2(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
       react-spinners: 0.14.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
 
-  '@coldsurfers/ocean-road@1.11.6(3d767a2a2aa7fad845bbacebdf750b89)':
-    dependencies:
-      '@coldsurfers/ocean-road-design-tokens': 1.10.3
-      '@emotion/css': 11.13.5
-      '@emotion/native': 11.11.0(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.2(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
-      '@emotion/react': 11.14.0(@types/react@18.2.67)(react@19.1.0)
-      '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.1.0))(@types/react@18.2.67)(react@19.1.0)
-      framer-motion: 11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.2.0(react@19.1.0))(react@19.1.0)
-      lucide-react: 0.469.0(react@19.1.0)
-      lucide-react-native: 0.468.0(react-native-svg@15.13.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.2(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.2(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
-      react: 19.1.0
-      react-dom: 19.2.0(react@19.1.0)
-      react-native-reanimated: 4.1.2(@babel/core@7.26.9)(react-native-worklets@0.6.0(@babel/core@7.26.9)(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.2(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.2(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
-      react-native-svg: 15.13.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.2(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
-      react-spinners: 0.14.1(react-dom@19.2.0(react@19.1.0))(react@19.1.0)
-
-  '@coldsurfers/ocean-road@1.11.6(862eed9e289b92953dc35565a8d454f6)':
-    dependencies:
-      '@coldsurfers/ocean-road-design-tokens': 1.10.3
-      '@emotion/css': 11.13.5
-      '@emotion/native': 11.11.0(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
-      '@emotion/react': 11.10.6(@types/react@18.2.67)(react@19.1.0)
-      '@emotion/styled': 11.14.1(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.1.0))(@types/react@18.2.67)(react@19.1.0)
-      framer-motion: 11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.2.0(react@19.1.0))(react@19.1.0)
-      lucide-react: 0.469.0(react@19.1.0)
-      lucide-react-native: 0.468.0(react-native-svg@15.13.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
-      react: 19.1.0
-      react-dom: 19.2.0(react@19.1.0)
-      react-native-reanimated: 4.1.2(@babel/core@7.26.9)(react-native-worklets@0.6.0(@babel/core@7.26.9)(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
-      react-native-svg: 15.13.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
-      react-spinners: 0.14.1(react-dom@19.2.0(react@19.1.0))(react@19.1.0)
-
   '@coldsurfers/ocean-road@1.11.6(acf7a020481e6173f31e2267094adf0f)':
     dependencies:
       '@coldsurfers/ocean-road-design-tokens': 1.10.3
@@ -17410,6 +17394,36 @@ snapshots:
       react-dom: 19.1.0(react@19.1.0)
       react-native-reanimated: 4.1.2(@babel/core@7.26.9)(react-native-worklets@0.6.0(@babel/core@7.26.9)(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.2(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.2(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
       react-native-svg: 15.13.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.2(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
+
+  '@coldsurfers/ocean-road@1.12.1-alpha.5(42636c874aa6674d028e160b3ce57d2a)':
+    dependencies:
+      '@coldsurfers/ocean-road-design-tokens': 1.10.3
+      '@emotion/css': 11.13.5
+      '@emotion/native': 11.11.0(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.2(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
+      '@emotion/react': 11.14.0(@types/react@18.2.67)(react@19.1.0)
+      '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@18.2.67)(react@19.1.0))(@types/react@18.2.67)(react@19.1.0)
+      framer-motion: 11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.2.0(react@19.1.0))(react@19.1.0)
+      lucide-react: 0.469.0(react@19.1.0)
+      lucide-react-native: 0.468.0(react-native-svg@15.13.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.2(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.2(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
+      react: 19.1.0
+      react-dom: 19.2.0(react@19.1.0)
+      react-native-reanimated: 4.1.2(@babel/core@7.26.9)(react-native-worklets@0.6.0(@babel/core@7.26.9)(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.2(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.2(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
+      react-native-svg: 15.13.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.2(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
+
+  '@coldsurfers/ocean-road@1.12.1-alpha.5(69d7acdf2859ac19f9f825cff3fe0d91)':
+    dependencies:
+      '@coldsurfers/ocean-road-design-tokens': 1.10.3
+      '@emotion/css': 11.13.5
+      '@emotion/native': 11.11.0(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
+      '@emotion/react': 11.10.6(@types/react@18.2.67)(react@19.1.0)
+      '@emotion/styled': 11.14.1(@emotion/react@11.10.6(@types/react@18.2.67)(react@19.1.0))(@types/react@18.2.67)(react@19.1.0)
+      framer-motion: 11.11.13(@emotion/is-prop-valid@1.3.1)(react-dom@19.2.0(react@19.1.0))(react@19.1.0)
+      lucide-react: 0.469.0(react@19.1.0)
+      lucide-react-native: 0.468.0(react-native-svg@15.13.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
+      react: 19.1.0
+      react-dom: 19.2.0(react@19.1.0)
+      react-native-reanimated: 4.1.2(@babel/core@7.26.9)(react-native-worklets@0.6.0(@babel/core@7.26.9)(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
+      react-native-svg: 15.13.0(react-native@0.81.4(@babel/core@7.26.9)(@react-native-community/cli@20.0.0(typescript@5.8.3))(@react-native/metro-config@0.81.4(@babel/core@7.26.9))(@types/react@18.2.67)(react@19.1.0))(react@19.1.0)
 
   '@commitlint/cli@17.8.1':
     dependencies:

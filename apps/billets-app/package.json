@@ -21,19 +21,12 @@
     "reset:android:build": "rm -rf android/app/.cxx android/app/build android/build android/app/production/release android/app/release"
   },
   "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
     "preset": "react-native"
   },
   "dependencies": {
     "@coldsurfers/api-sdk": "workspace:*",
-    "@coldsurfers/ocean-road": "1.11.6",
+    "@coldsurfers/ocean-road": "1.12.1-alpha.5",
     "@coldsurfers/ocean-road-design-tokens": "1.10.3",
     "@coldsurfers/ocean-road-extension": "1.0.1",
     "@coldsurfers/openapi-client": "workspace:*",
