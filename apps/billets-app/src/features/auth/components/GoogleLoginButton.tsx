@@ -4,7 +4,7 @@ import { GoogleLogo } from '@/lib/icons';
 import { withHapticPress } from '@/lib/with-haptic-press';
 import { useMyScreenNavigation } from '@coldsurfers/navigation-utils';
 import { colors } from '@coldsurfers/ocean-road';
-import { Button, Spinner, useColorScheme } from '@coldsurfers/ocean-road/native';
+import { Button, Spinner } from '@coldsurfers/ocean-road/native';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useCallback, useContext } from 'react';
 import { Alert, Platform, StyleSheet } from 'react-native';
@@ -29,7 +29,6 @@ GoogleSignin.configure({
 });
 
 export const GoogleLoginButton = () => {
-  const { semantics } = useColorScheme();
   const { show } = useContext(ToastVisibleContext);
   const { navigate } = useMyScreenNavigation();
 
@@ -117,7 +116,7 @@ export const GoogleLoginButton = () => {
   return (
     <>
       <Button
-        leftIcon={<GoogleLogo width={16} height={16} fill={semantics.background[1]} />}
+        leftIcon={<GoogleLogo width={16} height={16} fill={colors.oc.white.value} />}
         style={[
           styles.loginButton,
           {
@@ -136,10 +135,8 @@ export const GoogleLoginButton = () => {
 const styles = StyleSheet.create({
   loginButton: {
     backgroundColor: colors.oc.cyan[8].value,
-    marginTop: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 170,
   },
 });

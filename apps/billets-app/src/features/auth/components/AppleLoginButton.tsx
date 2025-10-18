@@ -3,7 +3,7 @@ import { AppleLogo } from '@/lib/icons';
 import { withHapticPress } from '@/lib/with-haptic-press';
 import { useMyScreenNavigation } from '@/screens';
 import { colors } from '@coldsurfers/ocean-road';
-import { Button, Spinner, useColorScheme } from '@coldsurfers/ocean-road/native';
+import { Button, Spinner } from '@coldsurfers/ocean-road/native';
 import { decodeJwt } from '@coldsurfers/shared-utils';
 import appleAuth from '@invertase/react-native-apple-authentication';
 import { useCallback, useContext } from 'react';
@@ -11,7 +11,6 @@ import { Alert, Platform, StyleSheet } from 'react-native';
 import { useSignIn } from '../hooks/useSignIn';
 
 export const AppleLoginButton = () => {
-  const { semantics } = useColorScheme();
   const { navigate } = useMyScreenNavigation();
   const { show } = useContext(ToastVisibleContext);
 
@@ -110,7 +109,7 @@ export const AppleLoginButton = () => {
   return (
     <>
       <Button
-        leftIcon={<AppleLogo width={16} height={16} fill={semantics.background[1]} />}
+        leftIcon={<AppleLogo width={16} height={16} fill={colors.oc.white.value} />}
         style={[
           styles.loginButton,
           {
@@ -129,10 +128,8 @@ export const AppleLoginButton = () => {
 const styles = StyleSheet.create({
   loginButton: {
     backgroundColor: colors.oc.cyan[8].value,
-    marginTop: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 170,
   },
 });
